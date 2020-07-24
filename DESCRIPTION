@@ -1,0 +1,53 @@
+Type: Package
+Package: SomaDataIO
+Title: SomaData Input/Output Package
+Version: 4.0.0.9000
+Authors@R: 
+    c(person(given = "Stu",
+             family = "Field",
+             role = c("aut", "cre"),
+             email = "sfield@somalogic.com"),
+      person(given = "SomaLogic, Inc.",
+             role = c("cph", "fnd")))
+Description: The SomaDataIO package loads the SomaLogic, Inc.
+    proprietary data file, called an ADAT file ('*.adat'). It also
+    provides auxiliary functions for extracting and manipulating relevant
+    information from an ADAT, as well as exporting a modified ADAT to
+    file.
+License: MIT + file LICENSE
+URL: www.somalogic.com
+Depends:
+    R (>= 3.6.0)
+Imports:
+    assertthat,
+    cli (>= 1.0.1),
+    crayon (>= 1.3.4),
+    devtools (>= 2.0.1),
+    dplyr (>= 0.8.5),
+    magrittr (>= 1.5.0),
+    methods,
+    purrr (>= 0.2.4),
+    readr (>= 1.2.0),
+    stringr (>= 1.3.1),
+    tibble (>= 2.0.1),
+    tidyr (>= 1.0.2),
+    tidyselect,
+    usethis (>= 1.6.0),
+    utils
+Suggests:
+    Biobase,
+    ggplot2,
+    knitr,
+    rmarkdown (>= 1.10),
+    testthat (>= 2.1.0),
+    spelling
+VignetteBuilder: 
+    knitr
+Copyright: SomaLogic, Inc. 2020
+Encoding: UTF-8
+Language: en-US
+LazyData: true
+LazyLoad: true
+Roxygen: list(markdown = TRUE)
+X-CRAN-COMMENT: Legal disclaimer see file LICENSE.md
+RoxygenNote: 7.1.0

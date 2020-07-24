@@ -1,0 +1,186 @@
+---
+title: "Getting Started"
+output:
+  rmarkdown::html_vignette:
+    fig_caption: yes
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+library(SomaDataIO)
+library(purrr)
+library(tibble)
+library(ggplot2)
+library(stringr)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+set.seed(101)
+```
+
+
+-------------------------
+
+# SomaDataIO
+
+The `SomaDataIO` package loads the SomaLogic, Inc. proprietary 
+data file, called an ADAT file ("\*.adat"). It also provides auxiliary 
+functions for extracting and manipulating relevant information from an 
+ADAT, as well as exporting a modified ADAT to file.
+
+
+-------------------------
+
+## Main Features
+
+* Loading data
+    + Import a text file in the `*.adat` format into an `R` session
+      as a `soma_adat` object.
+* Manipulating data
+    + Subset, reorder, and list various fields of a `soma_adat` object.
+* Exporting data
+    + Write out a `soma_adat` object as a `*.adat` text file.
+
+
+----------------------
+
+
+## Load an ADAT
+```{r adat}
+f <- system.file("sample", "sample.adat",
+                 package = "SomaDataIO", mustWork = TRUE)
+my_adat <- read_adat(f)
+is.soma_adat(my_adat)
+
+my_adat                      # print
+
+print(my_adat, show_header = TRUE)  # if simply wish to see Header info, no features
+```
+
+
+## Attributes contain feature information
+```{r atts}
+attributes(my_adat)$Col.Meta
+```
+
+
+## Manipulate a `soma_adat` Object
+```{r features}
+getFeatures(my_adat) %>% head(20)     # first 20 features
+getFeatures(my_adat) %>% length()     # how many features
+getFeatures(my_adat, n = TRUE)        # the `n` argument; no. features
+```
+
+
+## Write out a `soma_adat`
+```{r write}
+is.intact.attributes(my_adat)         # attributes MUST be intact to write
+
+fout <- tempfile(fileext = ".adat")   # random file name
+write_adat(my_adat, file = fout)
+```
+
+
+# Typical Analysis
+## Load data
+```{r load}
+data <- read_adat(f)
+dim(data)
+
+train <- dplyr::filter(data, TimePoint == "Young")
+table(train$SampleGroup)    # M vs F
+```
+
+## Subset Features starting with `MMP`
+```{r mmps}
+mmps <- my_adat %>% 
+  getFeatureData() %>% 
+  filter(grepl("^MMP", Target))
+
+# feature data info
+mmps  
+```
+
+## Generate list of `t-tests`
+```{r t_tests}
+t_tests <- mmps$AptName %>% 
+  purrr::set_names(., .) %>% 
+  purrr::map(~ {
+    sprintf("%s ~ SampleGroup", .x) %>% 
+      as.formula() %>% 
+      t.test(data = data)
+  })
+```
+
+## Re-order by `p-value`
+```{r p_values}
+idx <- t_tests %>% 
+  purrr::map("p.value") %>% 
+  stringr::str_order()
+idx
+
+t_tests %<>% magrittr::extract(idx)
+t_tests %>% head() %>% purrr::map("p.value")
+```
+
+## Visualize with `ggplot2()`
+```{r ggplot_boxes, fig.width = 9, fig.height = 8}
+targets <- as.list(mmps$AptName) %>%
+  purrr::set_names(mmps$TargetFullName)
+df <- data %>% 
+  dplyr::select(SampleGroup, all_of(mmps$AptName)) %>% 
+  dplyr::rename(!!! targets) %>% 
+  tidyr::pivot_longer(-SampleGroup, names_to = "Feature", values_to = "RFU") %>% 
+  tibble::as_tibble()
+df
+
+df %>% 
+  ggplot(aes(x = SampleGroup, y = log10(RFU), colour = SampleGroup)) +
+  geom_boxplot(alpha = 0.5) +
+  facet_wrap(~ Feature)
+```
+
+
+
+-----------------------------
+
+
+## MIT LICENSE
+
+SomaDataIO™
+
+Copyright © 2020 SomaLogic, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of the SomaDataIO software and associated documentation files
+(the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge,
+publish, distribute, sub-license, and/or sell copies of the Software,
+and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions outlined below.  Further,
+SomaDataIO and SomaLogic are trademarks owned by SomaLogic, Inc.  No
+license is hereby granted to these trademarks other than for purposes
+of identifying the origin or source of the Software.
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDER(S) BE LIABLE FOR
+ANY CLAIM, DAMAGES, WHETHER DIRECT OR INDIRECT, OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+IN THE SOFTWARE.
+
+
+-----------------------------
+
+Created by [Rmarkdown](https://github.com/rstudio/rmarkdown)
+(v`r utils::packageVersion("rmarkdown")`) and `r R.version$version.string`.
+

@@ -1,0 +1,9 @@
+^data-raw$
+^docs$
+^README\.Rmd$
+^_pkgdown\.yml$
+^codecov\.yml$
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.lintr$
+^LICENSE\.md$

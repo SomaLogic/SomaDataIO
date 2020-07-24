@@ -1,0 +1,7 @@
+# ignore all RStudio project related files
+\.DS_Store
+.Rproj.user
+^r\\.Rproj$
+.Rhistory
+.RData
+inst/doc
