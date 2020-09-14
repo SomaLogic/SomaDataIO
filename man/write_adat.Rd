@@ -7,7 +7,7 @@
 write_adat(x, file)
 }
 \arguments{
-\item{x}{An object of class \code{soma_adat}. Both \code{\link[=is.soma_adat]{is.soma_adat()}} and
+\item{x}{An object of class \code{"soma_adat"}. Both \code{\link[=is.soma_adat]{is.soma_adat()}} and
 \code{\link[=is.intact.attributes]{is.intact.attributes()}} must be \code{TRUE}.}
 
 \item{file}{Character. File path where the object should be written.
@@ -25,9 +25,8 @@ end of line (EOL) characters (\verb{"\r\n"}).
 The EOL is currently \verb{"\n"} which is commonly used in POSIX systems,
 like MacOS and Linux.
 The EOL affects the format of the resulting file, particularly
-calculating a checksum (if desired). ADATs written via other systems may
-result in differing EOLs (and thus checksum). EOL encoding for operating
-systems is below:\cr
+calculating a checksum, therefore ADATs written via other systems may
+result in differing EOLs. EOL encoding for operating systems is below:\cr
 \tabular{llc}{
 Symbol \tab Platform    \tab Character \cr
 LF     \tab Linux       \tab \verb{"\n"} \cr
@@ -36,7 +35,7 @@ CRLF   \tab DOS/Windows \tab \verb{"\r\n"}
 }
 }
 \seealso{
-\code{\link[=read_adat]{read_adat()}}, \code{\link[=write_tsv]{write_tsv()}}, \code{\link[=is.intact.attributes]{is.intact.attributes()}}.
+\code{\link[=write_tsv]{write_tsv()}}, \code{\link[=is.intact.attributes]{is.intact.attributes()}}.
 
 Other IO: 
 \code{\link{read_adat}()}

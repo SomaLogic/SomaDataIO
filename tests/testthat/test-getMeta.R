@@ -1,24 +1,24 @@
 
 test_that("getMeta S3 `soma_adat` method", {
-  meta <- getMeta(sample.adat)
+  meta <- getMeta(example_data)
   expect_is(meta, "character")
-  expect_length(meta, 15)
+  expect_length(meta, 34)
   expect_true(sum(is.apt(meta)) == 0)
 })
 
 test_that("getMeta `n` argumnt works", {
-  expect_equal(getMeta(sample.adat, n = TRUE), 15)
+  expect_equal(getMeta(example_data, n = TRUE), 34)
 })
 
 test_that("getMeta S3 'character' method", {
-  meta <- names(sample.adat) %>% getMeta()
+  meta <- names(example_data) %>% getMeta()
   expect_is(meta, "character")
-  expect_length(meta, 15)
+  expect_length(meta, 34)
   expect_true(sum(is.apt(meta)) == 0)
 })
 
 test_that("getMeta S3 default method kicks in", {
-  x <- factor(head(names(sample.adat)))
+  x <- factor(head(names(example_data)))
   expect_error(getMeta(x),                # factor
                "Couldn't find a S3 method for this object: factor",
                class = "error")

@@ -34,7 +34,7 @@ If any of the above they are altered or missing, \code{FALSE} is returned.
 }
 \examples{
 # checking attributes
-my_adat <- sample.adat
+my_adat <- example_data
 is.intact.attributes(my_adat)           # TRUE
 is.intact.attributes(my_adat[, -303])   # doesn't break atts; TRUE
 attributes(my_adat)$Col.Meta <- NULL    # break attributes

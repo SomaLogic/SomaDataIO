@@ -52,20 +52,19 @@ rename.soma_adat <- function(.data, ...) {
 }
 
 #' @export
-ungroup.tr_data <- function(x, ...) {
-  addClass(NextMethod(), "tr_data")
-}
-
-#' @export
 left_join.soma_adat <- function(x, y, by = NULL, copy = FALSE,
                                 suffix = c(".x", ".y"), ...) {
   atts <- attributes(x)
-  x %<>% tibble::rownames_to_column()
-  x <- NextMethod()
-  x %>%
-    tibble::column_to_rownames() %>%
-    structure(class = atts$class) %>%   # ensure same class returned
-    addAttributes(atts)
+  # don't maintain rownames if they're implicit
+  if ( is.na(.row_names_info(x, type = 0L)[1L]) ) {
+    x <- NextMethod()
+  } else {
+    x %<>% tibble::rownames_to_column()
+    x <- NextMethod()
+    x %<>% tibble::column_to_rownames()
+  }
+  structure(x, class = atts$class) %>%   # ensure same class returned
+    addAttributes(atts)                  # add back original atts
 }
 
 #' @export
@@ -90,7 +89,8 @@ anti_join.soma_adat <-  function(x, y, by = NULL, copy = FALSE, ...) {
 semi_join.soma_adat <- anti_join.soma_adat
 
 #' @export
-sample_frac.soma_adat <- function(tbl, size = 1, replace = FALSE, weight = NULL, .env, ...) {
+sample_frac.soma_adat <- function(tbl, size = 1, replace = FALSE,
+                                  weight = NULL, .env, ...) {
   atts <- attributes(tbl)
   tbl <- tbl %>%    # duplicate rownames are inevitable if replace = TRUE
     tibble::rownames_to_column("rn")    # must fix them
@@ -103,7 +103,8 @@ sample_frac.soma_adat <- function(tbl, size = 1, replace = FALSE, weight = NULL,
 }
 
 #' @export
-sample_n.soma_adat <- function(tbl, size, replace = FALSE, weight = NULL, .env, ...) {
+sample_n.soma_adat <- function(tbl, size, replace = FALSE,
+                               weight = NULL, .env, ...) {
   atts <- attributes(tbl)
   tbl <- tbl %>%    # duplicate rownames are inevitable if replace = TRUE
     tibble::rownames_to_column("rn")    # must fix them

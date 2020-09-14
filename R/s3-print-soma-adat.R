@@ -5,8 +5,7 @@
 #' parsed from the object attributes, if possible (see examples), followed
 #' by a dispatch to the `tibble` print method.
 #'
-#' @param x Object of class `soma_adat` used in the
-#' S3 generic \code{\link{print}}.
+#' @param x A `soma_adat` class object to [print()].
 #' @param show_header Logical. Should all the `Header Data` information
 #' be displayed instead of the data frame (`tibble`) object?
 #' @importFrom cli symbol rule

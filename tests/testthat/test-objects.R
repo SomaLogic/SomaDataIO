@@ -1,38 +1,48 @@
 
 # Testing ----
 test_that("Sample objects are created properly", {
-  expect_is(sample.adat, "soma_adat")
+  expect_is(example_data, "soma_adat")
   expect_is(ex_target_names, "list")
-  expect_length(ex_features, 1129)
-  expect_length(ex_target_names, 1129)
-  expect_equal(dim(ex_feature_table), c(1129, 16))
+  expect_length(ex_features, 5284)
+  expect_length(ex_target_names, 5284)
+  expect_equal(dim(ex_feature_table), c(5284, 22))
   expect_named(ex_feature_table, c("AptName",
                                    "SeqId",
+                                   "SeqIdVersion",
                                    "SomaId",
-                                   "Target",
                                    "TargetFullName",
+                                   "Target",
                                    "UniProt",
                                    "EntrezGeneID",
                                    "EntrezGeneSymbol",
                                    "Organism",
                                    "Units",
                                    "Type",
-                                   "CalReference",
                                    "Dilution",
+                                   "PlateScale_Reference",
+                                   "CalReference",
+                                   "Cal_Example_Adat_Set001",
                                    "ColCheck",
-                                   "Cal.Set.A",
+                                   "CalQcRatio_Example_Adat_Set001_170255",
+                                   "QcReference_170255",
+                                   "Cal_Example_Adat_Set002",
+                                   "CalQcRatio_Example_Adat_Set002_170255",
                                    "Dilution2"))
   expect_is(ex_feature_table, "tbl_df")
-  expect_equal(ex_features, getAptamers(sample.adat))
+  expect_equal(ex_features, getAptamers(example_data))
   expect_named(ex_target_names, ex_features)
   expect_equal(ex_target_names %>% unlist() %>% unname(),
                ex_feature_table$TargetFullName)
-  meta <- c("PlateId", "SlideId", "Subarray",
-            "SampleId", "SampleType", "SampleMatrix",
-            #"Barcode", "Barcode2d", "SampleNotes",
-            "TimePoint", "SampleGroup", "SiteId",
-            "Subject_ID", "HybControlNormScale", "RowCheck",
-            "NormScale_40", "NormScale_0_005", "NormScale_1")
-  expect_equal(getMeta(sample.adat), meta)
-  expect_equal(dim(sample.adat), c(20, 1144))
+  meta <- c("PlateId", "PlateRunDate", "ScannerID", "PlatePosition",
+            "SlideId", "Subarray", "SampleId", "SampleType",
+            "PercentDilution", "SampleMatrix", "Barcode", "Barcode2d",
+            "SampleName", "SampleNotes", "AliquotingNotes",
+            "SampleDescription", "AssayNotes", "TimePoint",
+            "ExtIdentifier", "SsfExtId", "SampleGroup", "SiteId",
+            "TubeUniqueID", "CLI", "HybControlNormScale", "RowCheck",
+            "NormScale_20", "NormScale_0_005", "NormScale_0_5",
+            "ANMLFractionUsed_20", "ANMLFractionUsed_0_005",
+            "ANMLFractionUsed_0_5", "Age", "Sex")
+  expect_equal(getMeta(example_data), meta)
+  expect_equal(dim(example_data), c(192, 5318))
 })

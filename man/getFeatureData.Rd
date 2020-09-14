@@ -2,7 +2,7 @@
 % Please edit documentation in R/getFeatureData.R
 \name{getFeatureData}
 \alias{getFeatureData}
-\title{Get Feature Data (tibble)}
+\title{Get Feature Data}
 \usage{
 getFeatureData(adat)
 }
@@ -18,21 +18,29 @@ corresponding to the features in the ADAT, which can be retrieved using
 }
 \description{
 Uses the Column Meta data (meta data that appears above the protein
-measurements in the adat file) from the intact attributes of an ADAT and
-compiles them into a \code{tibble} (\code{\link[=tibble]{tibble()}}) object for simple
-manipulation and indexing. The Feature names of the ADAT become the
-first column named \code{AptName}.
+measurements in the ADAT file) from the intact attributes of a \code{soma_adat}
+object and compiles them into a \code{tibble} (\code{\link[=tibble]{tibble()}}) object for simple
+manipulation and indexing. The feature names of the ADAT become the
+first column named \code{AptName}, which represents the key index between the
+annotations table and \code{soma_adat} from which it comes.
+This generates a "lookup table" that can be used for simple manipulation
+and indexing of analyte annotation information.
 }
 \examples{
 # Attribute check
-is.intact.attributes(sample.adat)   # must be TRUE
+is.intact.attributes(example_data)   # must be TRUE
 
-# Get feature table
-tbl <- getFeatureData(sample.adat)
-head(tbl)                    # First few rows of the data.frame
-table(tbl$Dilution)          # Print number of features in each dilution.
-choose5 <- sample(1:nrow(tbl), 5)  # Get 5 random rows (features)
-tbl[ choose5, ]              # Print feature data for these 5
+tbl <- getFeatureData(example_data)
+tbl
+
+# Use `dplyr::group_by()`
+dplyr::tally(dplyr::group_by(tbl, Dilution))     # Print summary by dilution
+
+# Columns containing "Target"
+tbl \%>\% dplyr::select(dplyr::contains("Target"))
+
+# Rows of "Target" starting with MMP
+tbl \%>\% dplyr::filter(stringr::str_detect(Target, "^MMP"))
 }
 \seealso{
 \code{\link[=getFeatures]{getFeatures()}}

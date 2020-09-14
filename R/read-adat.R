@@ -25,7 +25,7 @@
 #' @author Stu Field
 #' @seealso [read_delim()]
 #' @examples
-#' f <- system.file("sample", "sample.adat", package = "SomaDataIO",
+#' f <- system.file("example", "example_data.adat", package = "SomaDataIO",
 #'                  mustWork = TRUE)
 #' my_adat <- read_adat(f)
 #' is.soma_adat(my_adat)
@@ -44,7 +44,7 @@
 #' @importFrom utils head
 #' @importFrom usethis ui_warn ui_done
 #' @importFrom stringr str_split str_replace str_trim
-#' @importFrom readr read_delim read_lines  cols
+#' @importFrom readr read_delim read_lines cols
 #' @export read_adat
 read_adat <- function(file, debug = FALSE, verbose = getOption("verbose"), ...) {
 
@@ -146,7 +146,7 @@ read_adat <- function(file, debug = FALSE, verbose = getOption("verbose"), ...) 
 
 #' Test for Object type "soma_adat"
 #'
-#' [is.soma_adat()] checks if an object is of class `soma_adat`.
+#' [is.soma_adat()] checks whether an object is of class `soma_adat`.
 #' See [inherits()].
 #' @rdname read_adat
 #' @order 2

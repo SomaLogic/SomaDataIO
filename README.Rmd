@@ -7,21 +7,33 @@ output: github_document
 
 
 ```{r setup, echo = FALSE, message = FALSE}
+options(width = 100)
 library(SomaDataIO)
+library(magrittr)
 library(ggplot2)
 library(dplyr)
+library(tidyr)
+library(purrr)
+set.seed(1)   # set seet for ggplot jitter below; Git doesn't trigger every time
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-"
 )
-coverage <- "https://img.shields.io/badge/coverage-99-success.svg?style=flat&logo=codecov"
+coverage <- paste0("https://img.shields.io/badge/coverage-",
+                   80, "-success.svg?style=flat&logo=codecov")
+ver <- desc::desc_get_version(".")
+ver <- paste0("https://img.shields.io/badge/Version-", ver,
+              "-success.svg?style=flat&logo=github")
+#knitr::knit_exit()
 ```
 
 
-# The R `SomaDataIO` Package from SomaLogic, Inc.
+# The `SomaDataIO` R Package from SomaLogic, Inc.
 
 <!-- badges: start -->
+![GitHub version](`r ver`)
+[![CRAN badge](https://img.shields.io/badge/CRAN-No-red.svg)](https://cran.r-project.org)
 ![cover](`r coverage`)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://choosealicense.com/licenses/mit/)
 <!-- badges: end -->
@@ -45,63 +57,94 @@ contributed packages from the Comprehensive R Archive Network (CRAN).
 
 ## Installation
 
-1. Download the file `SomaDataIO_0.0.1.tar.gz`.
+The easiest way to install `SomaDataIO` is to install directly from GitHub:
 
-2. Ensure that the following package dependencies are pre-installed;
-from the `R >= 3.6.0` console:
+```{r install, eval = FALSE}
+devtools::install_github("SomaLogic/SomaDataIO")
+```
 
-    ```{r pkgs, eval = FALSE}
-    install.packages(c("magrittr", "devtools", "readr", "purrr", "usethis", "tidyr",
-                       "dplyr", "tibble", "cli", "crayon", "stringr"))
-    ```
+Alternatively you may clone the repository and install manually:
 
-3. Install via one of these methods:
-    i. From the R console:
-        ```{r install, eval = FALSE}
-        install.packages("SomaDataIO_0.0.1.tar.gz", repos = NULL, type = "source")
-        ```
-    i. From a command-line terminal (Linux/Mac):
-    
-        ```bash
-        R --vanilla CMD INSTALL SomaDataIO_0.0.1.tar.gz
-        ```
-
-4. **NOTE:** The `Biobase` package is *suggested*, being required by only 
-one function. `Biobase` must be installed separately from `Bioconductor`
-by entering the following from the `R` console:
-
-    ```{r, eval = FALSE}
-    if (!requireNamespace("BiocManager", quietly = TRUE)) {
-      install.packages("BiocManager")
-    }
-    BiocManager::install("Biobase")
-    ```
-
-    Information about Bioconductor can be found here: 
-  [https://bioconductor.org/install/](https://bioconductor.org/install/)
+```bash
+git clone https://github.com/SomaLogic/SomaDataIO.git SomaDataIO
+R --vanilla CMD INSTALL SomaDataIO
+```
 
 
-5. Upon *successful* installation:
-    i. To load the package:
-        ```{r load_somadataio, eval = FALSE}
-        library(SomaDataIO)
-        ```
-    i. For an index of available commands:
-        ```{r help, eval = FALSE}
-        library(help = SomaDataIO)
-        ``` 
+#### Package Dependencies
+The `SomaDataIO` package was intentionally developed to run slightly behind
+the bleeding edge of The Comprehensive R Archive Network (`CRAN`).
+This allows lead time to identify and fix bugs as well 
+as simplifying software life-cycle.
+This may change in the future, however for the time being, the dependencies
+below represent the development environment in which `SomaDataIO` was 
+designed to operate. If you run into any unexpected behavior, please
+ensure that the following package dependencies are pre-installed:
+
+* `R (v3.6.3)`
+* `magrittr (v1.5)`
+* `devtools (v2.3.0)`
+* `readr (v1.3.1)`
+* `purrr (v0.3.4)`
+* `usethis (v1.6.0)`
+* `tidyr (v1.0.2)`
+* `dplyr (v0.8.5)`
+* `tibble (v3.0.1)`
+* `cli (v2.0.2)`
+* `crayon (v1.3.4)`
+* `stringr (v1.4.0)`
+
+
+#### Biobase
+The `Biobase` package is *suggested*, being required by only 
+two functions, `pivotExpressionSet()` and `adat2eset()`. `Biobase` must be 
+installed separately from `Bioconductor` by entering the 
+following from the `R` console:
+
+```{r biobase, eval = FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE)) {
+  install.packages("BiocManager")
+}
+BiocManager::install("Biobase")
+```
+
+Information about Bioconductor can be found here: [https://bioconductor.org/install/](https://bioconductor.org/install/)
+
+
+#### Loading
+Upon *successful* installation, load the SomaDataIO as normal:
+```{r load-somadataio, eval = FALSE}
+library(SomaDataIO)
+```
+
+For an index of available commands:
+```{r help, eval = FALSE}
+library(help = SomaDataIO)
+``` 
+
+
+#### Internal Objects
+The `SomaDataIO` package comes with 4 internal objects available
+to users to run canned examples (or analyses). They can be accessed once
+`SomaDataIO` has been attached via `library()`. They are:
+
+* `example_data`
+* `ex_features`
+* `ex_feature_data`
+* `ex_target_names`
+* See `?SomaDataObjects`
+
 
 ---------------------
 
 
 
-
-## Main Features
+## Main Features (I/O)
 
 * Loading data (Import)
     + Import a text file in the `*.adat` format into an `R` session
       as a `soma_adat` object.
-* Manipulating data
+* Wrangling data (manipulation)
     + Subset, reorder, and list various fields of a `soma_adat` object.
 * Exporting data (Output)
     + Write out a `soma_adat` object as a `*.adat` text file.
@@ -110,41 +153,104 @@ by entering the following from the `R` console:
 ----------------------
 
 
-## Load an ADAT
-```{r read_adat}
+### Loading an ADAT
+```{r read-adat}
 # Sample file name
-f <- system.file("sample", "sample.adat",
-                 package = "SomaDataIO", mustWork = TRUE)
+f <- system.file("example", "example_data.adat", package = "SomaDataIO", mustWork = TRUE)
 my_adat <- read_adat(f)
 is.soma_adat(my_adat)
 
-# S3 print method -> tibble
+# S3 print method forwards -> tibble
 my_adat
 
 print(my_adat, show_header = TRUE)  # if simply wish to see Header info, no features
+
+# S3 summary method
+# View Target and summary statistics
+seqs <- tail(names(my_adat), 3)
+summary(my_adat[, seqs])
+
+# Summarize by Sex
+my_adat[, seqs] %>%
+  split(my_adat$Sex) %>%
+  lapply(summary)
 ```
 
 
-## Attributes contain feature information
+### Wrangling 
+#### Attributes Contain File and Feature Information
 ```{r atts}
+names(attributes(my_adat))
+
+# The `Col.Meta` attribute contains 
+# target annotation information
 attributes(my_adat)$Col.Meta
 ```
 
+#### Feature Data
+The `getFeatureData()` function creates a lookup table that links the feature
+names in the `soma_adat` object to the annotation data in `Col.Meta` via the
+common key, `AptName`, in column 1:
 
-## Manipulate a `soma_adat` Object
-```{r features}
-getFeatures(my_adat) %>% head(20)     # first 20 features
+```{r annotations}
+getFeatureData(my_adat)
+```
+
+
+#### Features (`seq.xxxx.xx`)
+```{r feats}
+getFeatures(my_adat) %>% head(20)     # first 20 features; see AptName above
 getFeatures(my_adat) %>% length()     # how many features
 getFeatures(my_adat, n = TRUE)        # the `n` argument; no. features
 ```
 
+#### Clinical Data
+```{r meta}
+getMeta(my_adat)             # clinical meta data for each sample
+getMeta(my_adat, n = TRUE)   # also an `n` argument
+```
 
-## Write out a `soma_adat`
+#### Math Generics
+You may perform basic mathematical transformations on the feature data *only*
+with special `soma_adat` S3 methods (see `?MathGenerics`):
+```{r math-generics}
+head(my_adat$seq.2429.27)
+
+logData <- log10(my_adat)    # a typical log10() transform
+head(logData$seq.2429.27)
+
+roundData <- round(my_adat)
+head(roundData$seq.2429.27)
+
+sqData <- sqrt(my_adat)
+head(sqData$seq.2429.27)
+```
+
+#### Full Complement of `dplyr` S3 Methods
+The `soma_adat` also comes with numerous class specific methods to the most
+popular `dplyr` generics that make working with `soma_adat` objects simpler
+for those familiar with this standard toolkit:
+
+```{r dplyr}
+dim(my_adat)
+males <- dplyr::filter(my_adat, Sex == "M")
+dim(males)
+
+males %>% 
+  dplyr::select(SampleType, SampleMatrix, starts_with("NormScale"))
+```
+
+#### Methods `soma_adat`
+```{r methods}
+# see full complement of `soma_adat` methods
+methods(class = "soma_adat")
+```
+
+### Writing a `soma_adat`
 ```{r write}
-is.intact.attributes(my_adat)         # attributes MUST be intact to write
+is.intact.attributes(my_adat)     # attributes MUST be intact to write to file
 
-fout <- tempfile(fileext = ".adat")   # random file name
-write_adat(my_adat, file = fout)
+write_adat(my_adat, file = tempfile("my-adat-", fileext = ".adat"))
 ```
 
 
@@ -152,63 +258,253 @@ write_adat(my_adat, file = fout)
 -----------------
 
 
-# A Typical Analysis
-## Load data
-```{r load}
-data <- read_adat(f)
-dim(data)
+# Typical Analyses
 
-train <- dplyr::filter(data, TimePoint == "Young")
-table(train$SampleGroup)    # M vs F
-```
+Although it is beyond the scope of the `SomaDataIO` package, below are 3 
+sample analyses that typical users/clients would perform on SomaLogic data.
+They are not intended to be a definitive guide in statistical 
+analysis and existing packages do exist in the `R` universe that perform parts
+or extensions of these techniques. Many variations of the workflows below 
+exist, however the framework highlights how one could perform standard
+*preliminary* analyses on SomaLogic data for:
 
-## Subset Features starting with `MMP`
-```{r mmps}
-mmps <- my_adat %>% 
-  getFeatureData() %>% 
-  filter(grepl("^MMP", Target))
+* Two-group differential expression (*t*-test)
+* Binary classification (logistic regression)
+* Linear regression
 
-# feature data info
-mmps  
-```
+#### Data Preparation
+```{r data-prep}
+# `example_data` comes with SomaDataIO
+dim(example_data)
+table(example_data$SampleType)
 
-## Generate list of `t-tests`
-```{r t_tests}
-t_tests <- mmps$AptName %>% 
-  purrr::set_names(., .) %>% 
-  purrr::map(~ {
-    sprintf("%s ~ SampleGroup", .x) %>% 
-      as.formula() %>% 
-      t.test(data = data)
+is_seq <- function(.x) grepl("^seq\\.[0-9]{4}", .x) # regex for features
+
+# Prepare data set for analysis
+cleanData <- example_data %>%
+  filter(SampleType == "Sample") %>%                # rm control samples
+  tidyr::drop_na(Sex) %>%                           # rm NAs if present
+  log10() %>%                                       # log10-transform (Math Generic)
+  mutate(Group = as.numeric(factor(Sex)) - 1) %>%   # map Sex -> 0/1
+  mutate_if(is_seq(names(.)), ~ {                   # mutate features only
+    .x %>% subtract(mean(.)) %>% divide_by(sd(.))   # center & scale features
   })
+table(cleanData$Sex)
+table(cleanData$Group)    # F = 0; M = 1
 ```
 
-## Re-order by `p-value`
-```{r p_values}
-idx <- t_tests %>% 
-  purrr::map("p.value") %>% 
-  stringr::str_order()
-idx
+## Compare Two Groups (M/F) via t-test
+#### Get annotations via `getFeatureData()`:
 
-t_tests %<>% magrittr::extract(idx)
-t_tests %>% head() %>% purrr::map("p.value")
+```{r get-anno}
+t_tests <- getFeatureData(cleanData) %>% 
+  select(AptName, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt)
+
+# Feature data info:
+#   Subset via dplyr::filter(t_tests, ...) here to 
+#   restrict analysis to only certain analytes
+t_tests
 ```
 
-## Visualize with `ggplot2()`
-```{r ggplot_boxes, fig.width = 9, fig.height = 8}
-targets <- as.list(mmps$AptName) %>%
-  purrr::set_names(mmps$TargetFullName)   # create SeqId -> target map
-df <- data %>% 
-  dplyr::select(SampleGroup, all_of(mmps$AptName)) %>% 
-  dplyr::rename(!!! targets) %>% 
-  tidyr::pivot_longer(-SampleGroup, names_to = "Feature", values_to = "RFU") %>% 
-  tibble::as_tibble()
-df
+#### Calculate `t-tests`
+Use a "list columns" approach via nested tibble object using `dplyr`, `purrr`,
+and `stats::t.test()`
 
-df %>% 
-  ggplot(aes(x = SampleGroup, y = log10(RFU), colour = SampleGroup)) +
-  geom_boxplot(alpha = 0.5) +
-  facet_wrap(~Feature)
+```{r t-tests}
+t_tests <- t_tests %>% 
+  dplyr::mutate(
+    formula = map(AptName, ~ as.formula(paste(.x, "~ Sex"))), # create formula
+    t_test  = purrr::map(formula, ~ stats::t.test(.x, data = cleanData)),  # fit t-tests
+    t_stat  = purrr::map_dbl(t_test, "statistic"),            # pull out t-statistic
+    p.value = purrr::map_dbl(t_test, "p.value"),              # pull out p-values
+    fdr     = stats::p.adjust(p.value, method = "BH")         # FDR for multiple testing
+  ) %>%
+  dplyr::arrange(p.value) %>%                   # re-order by `p-value`
+  dplyr::mutate(rank = dplyr::row_number())     # add numeric ranks
+
+# View analysis tibble
+t_tests
+```
+
+#### Visualize with `ggplot2()`
+Create a plotting tibble in the "long" format for `ggplot2`:
+
+```{r ggplot-data}
+target_map <- head(t_tests, 12) %>%     # mapping table
+  select(AptName, Target)               # SeqId -> Target
+
+plot_tbl <- example_data %>%
+  filter(SampleType == "Sample") %>%          # rm control samples
+  drop_na(Sex) %>%                            # rm NAs if present
+  log10() %>%                                 # log10-transform for plotting
+  select(Sex, target_map$AptName) %>%         # top 12 analytes
+  pivot_longer(cols = -Sex, names_to = "AptName", values_to = "RFU") %>% 
+  dplyr::left_join(target_map) %>%
+  # order factor levels by 't_tests' rank to order plots below
+  mutate(Target = factor(Target, levels = target_map$Target))
+
+plot_tbl
+```
+
+```{r ggplot-boxes, fig.width = 10, fig.height = 10}
+plot_tbl %>%
+  ggplot(aes(x = Sex, y = RFU, fill = Sex)) +
+  geom_boxplot(alpha = 0.5, outlier.shape = NA) +
+  scale_fill_manual(values = c("#24135F", "#00A499")) +
+  geom_jitter(shape = 16, width = 0.1, alpha = 0.5) +
+  facet_wrap(~ Target) +
+  ggtitle("Boxplots of Top Analytes by t-test") +
+  labs(y = "log10(RFU)") +
+  theme(plot.title = element_text(size = 21, face = "bold"),
+        axis.title.x = element_text(size = 14),
+        axis.title.y = element_text(size = 14),
+        legend.position = "top"
+  )
+```
+
+
+## Logistic Regression
+#### Predict Sex
+
+```{r logreg-tbl}
+set.seed(3)                  # seed resulting in 50/50 class balance
+idx   <- sample(1:nrow(cleanData), size = nrow(cleanData) - 50)  # hold-out
+train <- cleanData[idx, ]
+test  <- cleanData[-idx, ]
+
+# assert no overlap
+assertthat::assert_that(
+  identical(intersect(rownames(train), rownames(test)), character(0))
+)
+
+LR_tbl <- getFeatureData(train) %>%
+  select(AptName, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt) %>%
+  mutate(
+    formula  = map(AptName, ~ as.formula(paste("Group ~", .x))),  # create formula
+    model    = map(formula, ~ stats::glm(.x, data = train, family = "binomial", model = FALSE)),  # fit glm()
+    beta_hat = map_dbl(model, ~ coef(.x)[2L]),      # pull out coef Beta
+    p.value  = map2_dbl(model, AptName, ~ {
+      summary(.x)$coefficients[.y, "Pr(>|z|)"] }),  # pull out p-values
+    fdr      = p.adjust(p.value, method = "BH")     # FDR correction multiple testing
+  ) %>%
+  arrange(p.value) %>%            # re-order by `p-value`
+  mutate(rank = row_number())     # add numeric ranks
+
+LR_tbl
+```
+
+
+#### Fit Model | Calculate Performance
+Next, select features for the model fit. We have a good idea of reasonable `Sex`
+markers from prior knowledge (`CGA*`), and fortunately many of these are highly
+ranked in `LR_tbl`. Below we fit a 4-marker logistic regression model from 
+cherry-picked gender-related features:
+
+```{r fit-logreg}
+# AptName is index key between `LR_tbl` and `train`
+feats <- LR_tbl$AptName[c(1, 3, 5, 7)]
+form  <- as.formula(paste("Group ~", paste(feats, collapse = "+")))
+fit   <- glm(form, data = train, family = "binomial", model = FALSE)
+pred  <- tibble(
+  true_class = test$Sex,                                         # orig class label
+  pred       = predict(fit, newdata = test, type = "response"),  # prob. 'Male'
+  pred_class = ifelse(pred < 0.5, "F", "M"),                     # class label
+)
+conf <- table(pred$true_class, pred$pred_class, dnn = list("Actual", "Predicted"))
+tp   <- conf[2, 2]
+tn   <- conf[1, 1]
+fp   <- conf[1, 2]
+fn   <- conf[2, 1]
+
+# Confusion matrix
+conf
+
+# Classification metrics
+tibble(Sensitivity = tp / (tp + fn),
+       Specificity = tn / (tn + fp),
+       Accuracy    = (tp + tn) / sum(conf),
+       PPV         = tp / (tp + fp),
+       NPV         = tn / (tn + fn)
+)
+```
+
+
+## Linear Regression
+We use the same `cleanData`, `train`, and `test` data objects from the
+logistic regression analysis above.
+
+#### Predict Age
+```{r linreg-tbl}
+LinR_tbl <- getFeatureData(train) %>%               # `train` from above
+  select(AptName, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt) %>%
+  mutate(
+    formula = map(AptName, ~ as.formula(paste("Age ~", .x, collapse = " + "))),
+    model   = map(formula, ~ lm(.x, data = train, model = FALSE)),  # fit linear models
+    slope   = map_dbl(model, ~ coef(.x)[2L]),       # pull out B_1
+    p.value = map2_dbl(model, AptName, ~ {
+      summary(.x)$coefficients[.y, "Pr(>|t|)"] }),  # pull out p-values
+    fdr     = p.adjust(p.value, method = "BH")      # FDR for multiple testing
+  ) %>%
+  arrange(p.value) %>%           # re-order by `p-value`
+  mutate(rank = row_number())    # add numeric ranks
+
+LinR_tbl
+```
+
+
+#### Fit Model | Calculate Performance
+Fit an 8-marker model with the top 8 features from `LinR_tbl`:
+
+```{r linreg-fit}
+feats <- head(LinR_tbl$AptName, 8)
+form  <- as.formula(paste("Age ~", paste(feats, collapse = "+")))
+fit   <- lm(form, data = train, model = FALSE)
+n     <- nrow(test)
+p     <- length(feats)
+
+# Results
+res   <- tibble(
+  true_age   = test$Age,
+  pred_age   = predict(fit, newdata = test),
+  pred_error = pred_age - true_age
+)
+
+# Lin's Concordance Correl. Coef.
+# Accounts for location + scale shifts
+linCCC <- function(x, y) {
+  stopifnot(length(x) == length(y))
+  a <- 2 * cor(x, y) * sd(x) * sd(y)
+  b <- var(x) + var(y) + (mean(x) - mean(y))^2
+  a / b
+}
+
+# Regression metrics
+tibble(
+  rss  = sum(res$pred_error^2),                 # residual sum of squares
+  tss  = sum((test$Age - mean(test$Age))^2),    # total sum of squares
+  rsq  = 1 - (rss / tss),                       # R-squared
+  rsqadj = max(0, 1 - (1 - rsq) * (n - 1) / (n - p - 1)), # Adjusted R-squared
+  R2   = stats::cor(res$true_age, res$pred_age)^2,        # R-squared Pearson approx.
+  MAE  = mean(abs(res$pred_error)),             # Mean Absolute Error
+  RMSE = sqrt(mean(res$pred_error^2)),          # Root Mean Squared Error
+  CCC  = linCCC(res$true_age, res$pred_age)     # Lin's CCC
+)
+```
+
+#### Visualize Concordance
+```{r linreg-plot, fig.width = 7, fig.height = 7}
+lims <- range(res$true_age, res$pred_age)
+res %>%
+  ggplot(aes(x = true_age, y = pred_age)) +
+  geom_point(colour = "#24135F", alpha = 0.5, size = 4) +
+  expand_limits(x = lims, y = lims) +                # make square
+  geom_abline(slope = 1, colour = "black") +         # add unit line
+  geom_rug(colour = "#286d9b", size = 0.2) +
+  labs(y = "Predicted Age", x = "Actual Age") +
+  ggtitle("Concordance in Predicted vs. Actual Age") +
+  theme(plot.title = element_text(size = 21, face = "bold"),
+        axis.title.x = element_text(size = 14),
+        axis.title.y = element_text(size = 14))
 ```
 
 

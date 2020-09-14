@@ -27,7 +27,7 @@ BiocManager::install("Biobase")
 }
 }
 \examples{
-eSet <- adat2eSet(sample.adat)
+eSet <- adat2eSet(example_data)
 class(eSet)
 eSet
 

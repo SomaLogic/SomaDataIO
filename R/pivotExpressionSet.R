@@ -22,7 +22,6 @@
 #' @importFrom tibble rownames_to_column as_tibble
 #' @importFrom tidyr pivot_longer
 #' @importFrom dplyr arrange left_join select everything
-#' @importFrom stringr str_glue
 #' @export pivotExpressionSet
 pivotExpressionSet <- function(eSet) {
 

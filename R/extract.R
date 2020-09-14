@@ -1,8 +1,8 @@
 #' Extract method for class `soma_adat`
 #'
-#' Redirect of the generic \code{`[`} extract function that keeps
-#' the attributes intact *and* subsets the `Col.Meta` so that it
-#' is consistent with the new object.
+#' Redirect of the generic [Extract()] extract function that
+#' keeps the `soma_adat` attributes intact *and* subsets the
+#'  `Col.Meta` so that it is consistent with the new object.
 #' @rdname read_adat
 #' @order 3
 #' @inheritParams base::`[`
@@ -77,8 +77,8 @@
 #' (e.g. `SampleGroup`). Partial matching is not allowed.
 #' @noRd
 #' @param i Numeric index or Character for the column desired.
-#' @param exact Ignored with a warning.
 #' @param j Error. Do not use i,j syntax for `[[`, use `[` instead.
+#' @param exact Ignored with a warning.
 #' @importFrom usethis ui_stop ui_warn
 #' @export
 `[[.soma_adat` <- function(x, i, j, ..., exact = TRUE) {

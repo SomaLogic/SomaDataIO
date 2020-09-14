@@ -1,35 +1,34 @@
 #' Diff Two ADAT Objects
 #'
 #' Diff tool for the differences between two `soma_adat` objects.
-#' When diffs of the table *values* are interrogated, \bold{only}
+#' When diffs of the table *values* are interrogated, **only**
 #' the intersect of the column meta data or feature data is considered
 #'
 #' @param adat1 First `soma_adat` object.
 #' @param adat2 Second `soma_adat` object.
 #' @param tolerance Tolerance for the difference between 
 #' numeric vectors (i.e. SOMAmer/feature data). Passed 
-#' eventually to \code{\link[base]{all.equal}}.
-#' @return `NULL` invisibly.
-#' @note Diffs of the *intersect* of column names are considered.
+#' eventually to [are_equal()].
+#' @note Diffs of the column *intersect* names are considered.
 #' @author Stu Field
 #' @examples
-#' diffAdats(sample.adat, sample.adat)
+#' diffAdats(example_data, example_data)
 #'
 #' # remove random column
 #' set.seed(1)
-#' diffAdats(sample.adat, sample.adat[, -sample(1:ncol(sample.adat), 1)])
+#' diffAdats(example_data, example_data[, -sample(1:ncol(example_data), 1)])
 #'
 #' # change TimePoint randomely
-#' diffAdats(sample.adat, dplyr::mutate(sample.adat, TimePoint = sample(TimePoint)))
+#' diffAdats(example_data, dplyr::mutate(example_data, TimePoint = sample(TimePoint)))
 #'
 #' # remove Females
-#' males  <- dplyr::filter(sample.adat, SampleGroup == "M")
-#' mydiff <- diffAdats(sample.adat, males)      # ALL columns will now differ
+#' males  <- dplyr::filter(example_data, SampleGroup == "M")
+#' mydiff <- diffAdats(example_data, males)      # ALL columns will now differ
 #' @importFrom stringr str_glue str_pad
 #' @importFrom purrr walk
 #' @importFrom assertthat are_equal
 #' @importFrom usethis ui_stop ui_done ui_value
-#' @seealso \code{\link[assertthat]{are_equal}}
+#' @seealso [are_equal()]
 #' @export diffAdats
 diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
 

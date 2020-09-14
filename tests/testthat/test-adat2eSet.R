@@ -1,20 +1,25 @@
 
 suppressPackageStartupMessages(library(Biobase))
 
-sub_adat <- sample.adat[1:10, c(1:5, 25:27)]
+sub_adat <- example_data[1:10, c(1:5, 35:37)]
 
 test_that("adat2eset unit test", {
   eSet <- adat2eSet(sub_adat)
-  expect_is(eSet, "ExpressionSet")
+  expect_s4_class(eSet, "ExpressionSet")
   expect_is(eSet@assayData$exprs, "matrix")
   expect_equal(dim(eSet@assayData$exprs), c(3, 10))
   expect_is(eSet@experimentData@other, "list")
   expect_equal(eSet@experimentData@url, "www.somalogic.com")
-  expect_equal(eSet@experimentData@title, "SL-01-999")
+  expect_equal(eSet@experimentData@title, "Example Adat Set001, Example Adat Set002")
   expect_equal(eSet@experimentData@lab, "SomaLogic, Inc.")
-  expect_equal(eSet@experimentData@title, "SL-01-999")
   expect_equal(eSet@experimentData@other$Version, "1.2")
-  expect_equal(eSet@experimentData@other$ExpDate, "2014-10-21")
+  expect_equal(eSet@experimentData@other$ExpDate, "2020-06-18, 2020-07-20")
+  expect_equal(eSet@experimentData@other$AssaySite, "SW")
+  expect_equal(eSet@experimentData@other$AssayVersion, "V4")
+  expect_equal(eSet@experimentData@other$AssayRobot, "Fluent 1 L-307")
+  expect_equal(eSet@experimentData@other$StudyMatrix, "EDTA Plasma")
+  expect_equal(eSet@experimentData@other$CreatedBy, "PharmaServices")
+  expect_equal(eSet@experimentData@other$CalibratorId, "170261")
   expect_equal(eSet@experimentData@title, eSet@experimentData@other$Title)
   ad <- getFeatureData(sub_adat) %>% data.frame() %>%
     tibble::column_to_rownames("AptName")
