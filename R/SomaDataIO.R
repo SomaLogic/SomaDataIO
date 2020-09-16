@@ -9,21 +9,21 @@
 
 #' @name SomaDataIO-package
 #'
-#' @details To load an ADAT file into the global workspace, call
-#' `read_adat("path/to/file.adat")`. This function parses the main data
-#' table into a `data.frame` and assigns the remaining data from the
-#' `"*.adat"` file as object `attributes`, call `attributes(adat)`.
-#' The other functions in the package are designed to make extracting data
-#' from and manipulating the newly created `soma_adat` object convenient.
+#' @details Load an ADAT file into the global workspace with a call
+#' to [read_adat()]. This function parses the main data
+#' table into a `data.frame` object and assigns the remaining data from
+#' the file as object `attributes`, i.e. call `attributes(adat)`.
+#' Other functions in the package are designed to make extracting,
+#' manipulating, and wrangling data in the newly created `soma_adat` 
+#' object more convenient.
 #'
 #' Those familiar with micro-array data analysis and associated packages, e.g.
 #' \pkg{Biobase}, will notice that the feature data (proteins) are arranged as
-#' columns and the samples (arrays) are the rows of the data frame. This is the
-#' inverse of typical micro-array data. This conflict can be easily solved
-#' using the transpose function, `t()`, which is part of the
-#' "package:base" in a standard R installation. In addition, those familiar
-#' with the standard `ExpressionSet` object, available from
-#' `Bioconductor`, might find the functions [adat2eSet()] and
+#' columns and the samples (arrays) are the rows. This is the
+#' transpose of typical micro-array data. This conflict can be easily solved
+#' using the transpose function, [t()], which is part of the `base` R.
+#' In addition, those familiar with the standard `ExpressionSet` object,
+#' available from `Bioconductor`, might find the functions [adat2eSet()] and
 #' [pivotExpressionSet()] particularly useful.
 #' @examples
 #' # For a listing of all SomaDataIO functions

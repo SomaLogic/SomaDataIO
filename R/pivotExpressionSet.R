@@ -1,21 +1,22 @@
 #' Convert to Long Format
 #'
-#' Utility function that converts an `"ExpressionSet"` object
-#' from the "wide" data format to the "long" format [pivot_longer()].
+#' Utility to convert an `"ExpressionSet"` object
+#' from the "wide" data format to the "long" format via [pivot_longer()].
+#' The \pkg{Biobase} package is required for this function.
 #'
 #' @param eSet An `ExpressionSet` class object, created using [adat2eSet()].
-#' @return An `tibble` class consisting of the long format
+#' @return A `tibble` consisting of the long format
 #' conversion of an `ExpressionSet` object.
 #' @author Stu Field
-#' @seealso [adat2eSet()], \pkg{Biobase}
+#' @seealso [adat2eSet()]
 #' @examples
-#' # subet into a reduced ADAT object
-#' # 5 clinical variables and 3 features
-#' # 10 samples
-#' sub_adat <- sample.adat[1:10, c(1:5, 25:27)]
-#' ex_set <- adat2eSet(sub_adat)
+#' # subet into a reduced mini-ADAT object
+#' # 10 samples (rows)
+#' # 5 clinical variables and 3 features (cols)
+#' sub_adat <- example_data[1:10, c(1:5, 35:37)]
+#' ex_set   <- adat2eSet(sub_adat)
 #'
-#' # convert to long format
+#' # convert ExpressionSet object to long format
 #' adat_long <- pivotExpressionSet(ex_set)
 #' @importFrom usethis ui_stop
 #' @importFrom tibble rownames_to_column as_tibble
@@ -47,5 +48,5 @@ pivotExpressionSet <- function(eSet) {
     dplyr::arrange(array_id) %>%                    # order by sample/array
     dplyr::select(array_id, feature, dplyr::everything()) %>%  # re-order
     dplyr::select(-value, dplyr::everything()) %>%  # move 'value' to end
-    tibble::as_tibble()                             # conver to tibble
+    tibble::as_tibble()                             # convert to tibble
 }

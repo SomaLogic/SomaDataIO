@@ -7,21 +7,20 @@
 adat2eSet(adat)
 }
 \arguments{
-\item{adat}{A \code{soma_adat} class object as read into the R environment using
-\code{\link[=read_adat]{read_adat()}} to convert to Bioconductor ExpressionSet object.}
+\item{adat}{A \code{soma_adat} class object as read into the R
+environment using \code{\link[=read_adat]{read_adat()}}.}
 }
 \value{
-An object of class \code{ExpressionSet}.
+A Bioconductor object of class \code{ExpressionSet}.
 }
 \description{
-Utility function that converts a SomaLogic "soma_adat" object to an
-"ExpressionSet" object via the \pkg{Biobase} package (download from
-\code{"Bioconductor"}).
+Utility to convert a SomaLogic \code{soma_adat} object to an
+\code{ExpressionSet} object via the \pkg{Biobase} package
+(download from \code{"Bioconductor"}).
 }
 \details{
-This function requires the \pkg{Biobase} package and must be installed from
-\code{Bioconductor}. To obtain \pkg{Biobase}, type the following at the R
-console:\preformatted{if (!requireNamespace("BiocManager", quietly = TRUE)) \{
+The \pkg{Biobase} package is required and must be installed from
+\code{Bioconductor} via the following at the R console:\preformatted{if (!requireNamespace("BiocManager", quietly = TRUE)) \{
   install.packages("BiocManager")
 \}
 BiocManager::install("Biobase")
@@ -30,12 +29,16 @@ BiocManager::install("Biobase")
 \examples{
 eSet <- adat2eSet(sample.adat)
 class(eSet)
+eSet
+
 ft <- Biobase::exprs(eSet)
 head(ft[, 1:10], 10)
-eSet
 }
 \references{
 https://bioconductor.org/install/
+}
+\seealso{
+\code{\link[=pivotExpressionSet]{pivotExpressionSet()}}
 }
 \author{
 Stu Field
