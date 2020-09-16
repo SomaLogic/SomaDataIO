@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 ![GitHub
-version](https://img.shields.io/badge/Version-4.0.0.9999-success.svg?style=flat&logo=github)
+version](https://img.shields.io/badge/Version-5.0.0-success.svg?style=flat&logo=github)
 [![CRAN
 badge](https://img.shields.io/badge/CRAN-No-red.svg)](https://cran.r-project.org)
 ![cover](https://img.shields.io/badge/coverage-80-success.svg?style=flat&logo=codecov)
@@ -449,7 +449,7 @@ males %>%
 #> ═══════════════════════════════════════════════════════════════════════════════════════════
 ```
 
-#### Methods `soma_adat`
+#### Available S3 Methods `soma_adat`
 
 ``` r
 # see full complement of `soma_adat` methods

@@ -6,12 +6,12 @@ getAptamers.default <- function(x, n, rm.controls) {
   )
 }
 getAptamers.data.frame <- function(x, n = FALSE, rm.controls = FALSE) {
-  getAptamers(names(x), n, rm.controls)
+  getAptamers(names(x), n = n, rm.controls = rm.controls)
 }
 getAptamers.soma_adat <- getAptamers.data.frame
 getAptamers.list <- getAptamers.data.frame
 getAptamers.matrix <- function(x, n = FALSE, rm.controls = FALSE) {
-  getAptamers(colnames(x), n, rm.controls)
+  getAptamers(colnames(x), n = n, rm.controls = rm.controls)
 }
 getAptamers.character <- function(x, n = FALSE, rm.controls = FALSE) {
   lgl <- is.seq(x)

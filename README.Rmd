@@ -240,7 +240,7 @@ males %>%
   dplyr::select(SampleType, SampleMatrix, starts_with("NormScale"))
 ```
 
-#### Methods `soma_adat`
+#### Available S3 Methods `soma_adat`
 ```{r methods}
 # see full complement of `soma_adat` methods
 methods(class = "soma_adat")
