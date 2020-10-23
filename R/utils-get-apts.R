@@ -1,38 +1,30 @@
 
-getAptamers <- function(x, n = FALSE, rm.controls = FALSE) UseMethod("getAptamers")
-getAptamers.default <- function(x, ...) {
+getAptamers <- function(x, n, rm.controls) UseMethod("getAptamers")
+getAptamers.default <- function(x, n, rm.controls) {
   usethis::ui_stop(
     "Couldn't find a S3 method for this class object: {class(x)}."
   )
 }
-getAptamers.data.frame <- function(x, ...) {
-  names(x) %>% getAptamers(...)
+getAptamers.data.frame <- function(x, n = FALSE, rm.controls = FALSE) {
+  getAptamers(names(x), n = n, rm.controls = rm.controls)
 }
 getAptamers.soma_adat <- getAptamers.data.frame
 getAptamers.list <- getAptamers.data.frame
-getAptamers.matrix <- function(x, ...) {
-   getAptamers(colnames(x), ...)
+getAptamers.matrix <- function(x, n = FALSE, rm.controls = FALSE) {
+  getAptamers(colnames(x), n = n, rm.controls = rm.controls)
 }
-#' @importFrom stringr str_subset
-#' @noRd
-getAptamers.character <- function(x, ...) {
-  vec <- stringr::str_subset(x, regexSeqId())
-  processOutput(vec, ...)
-}
-processOutput <- function(vec, rm.controls = FALSE, n = FALSE) {
+getAptamers.character <- function(x, n = FALSE, rm.controls = FALSE) {
+  lgl <- is.seq(x)
   if ( rm.controls ) {
-    vec %<>% stripControls()
+    lgl <- lgl & !x %in% .getControls()
   }
   if ( n ) {
-    length(vec)
+    sum(lgl)
   } else {
-    vec
+    x[lgl]
   }
 }
-stripControls <- function(x) {
-  crtls <- paste0("seq.", c(seq_NonBiotin, seq_NonHuman,
-                            seq_Spuriomer, seq_HybControlElution)) %>%
+.getControls <- function() {
+  paste0("seq.", c(seq_NonBiotin, seq_NonHuman, seq_Spuriomer, seq_HybControlElution)) %>%
     stringr::str_replace("-", ".")
-  x[ !x %in% crtls ]
 }
-

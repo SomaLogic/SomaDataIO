@@ -1,10 +1,13 @@
-#' Get Feature Data (tibble)
+#' Get Feature Data
 #'
 #' Uses the Column Meta data (meta data that appears above the protein
-#' measurements in the adat file) from the intact attributes of an ADAT and
-#' compiles them into a `tibble` ([tibble()]) object for simple 
-#' manipulation and indexing. The Feature names of the ADAT become the 
-#' first column named `AptName`.
+#' measurements in the ADAT file) from the intact attributes of a `soma_adat`
+#' object and compiles them into a `tibble` ([tibble()]) object for simple
+#' manipulation and indexing. The feature names of the ADAT become the
+#' first column named `AptName`, which represents the key index between the
+#' annotations table and `soma_adat` from which it comes.
+#' This generates a "lookup table" that can be used for simple manipulation
+#' and indexing of analyte annotation information.
 #'
 #' @param adat An ADAT with intact attributes (i.e. has not been modified thus
 #' stripping original attributes), typically created using [read_adat()].
@@ -16,36 +19,44 @@
 #' @seealso [getFeatures()]
 #' @examples
 #' # Attribute check
-#' is.intact.attributes(sample.adat)   # must be TRUE
+#' is.intact.attributes(example_data)   # must be TRUE
 #'
-#' # Get feature table
-#' tbl <- getFeatureData(sample.adat)
-#' head(tbl)                    # First few rows of the data.frame
-#' table(tbl$Dilution)          # Print number of features in each dilution.
-#' choose5 <- sample(1:nrow(tbl), 5)  # Get 5 random rows (features)
-#' tbl[ choose5, ]              # Print feature data for these 5
-#' @importFrom usethis ui_stop
-#' @importFrom tibble as_tibble
+#' tbl <- getFeatureData(example_data)
+#' tbl
+#'
+#' # Use `dplyr::group_by()`
+#' dplyr::tally(dplyr::group_by(tbl, Dilution))     # Print summary by dilution
+#'
+#' # Columns containing "Target"
+#' tbl %>% dplyr::select(dplyr::contains("Target"))
+#'
+#' # Rows of "Target" starting with MMP
+#' tbl %>% dplyr::filter(stringr::str_detect(Target, "^MMP"))
+#' @importFrom usethis ui_stop ui_warn
+#' @importFrom tibble as_tibble tibble
+#' @importFrom purrr map_if map_int
+#' @importFrom dplyr ungroup left_join
 #' @export getFeatureData
 getFeatureData <- function(adat) {
   stopifnot(is.intact.attributes(adat))
-  apt_data <- attributes(adat)$Col.Meta %>% tibble::as_tibble()
-  names(apt_data) %<>% cleanNames()
-  if ( "Dilution" %in% names(apt_data) ) {
-    apt_data %<>%
-      dplyr::mutate(Dilution2 = stringr::str_remove_all(Dilution, 
-                                                 "%$|Mix ") %>% as.numeric / 100)
+  colmeta <- attributes(adat)$Col.Meta %>% dplyr::ungroup()
+  L <- purrr::map_int(colmeta, length)
+  if ( !all(L == L[1L]) ) {
+    usethis::ui_warn("Unequal lengths in column meta data")
+    max <- max(L)
+    colmeta %<>%
+      purrr::map_if(L < max, ~ c(.x, rep(NA, max - length(.x))))
   }
-  apt_data %<>%
-    dplyr::mutate(AptName = getAptamers(adat)) %>%
-    dplyr::select(AptName, dplyr::everything())
-  if ( !isTRUE(all.equal(apt_data$AptName %>% getSeqId(TRUE), 
-                         apt_data$SeqId %>% getSeqId(TRUE))))
-    usethis::ui_stop(
-      "Feature ordering inconsistent in `AptName` vs \\
-      `SeqId` during `getFeatureData()` call."
+  if ( !inherits(colmeta, "tbl_df") ) {
+    colmeta %<>% tibble::as_tibble()
+  }
+  tbl <- tibble::tibble(AptName = getFeatures(adat),
+                        SeqId   = getSeqId(AptName, TRUE))
+  if ( nrow(tbl) != nrow(colmeta) ) {
+    usethis::ui_warn(
+      "Features inconsistent between `AptName` vs `SeqId` in `getFeatureData()`.
+      Merging annotations based on features of `adat`."
     )
-  apt_data %<>% makeNumeric()
-  apt_data$Dilution %<>% as.character()
-  apt_data
+  }
+  dplyr::left_join(tbl, colmeta, by = "SeqId")
 }

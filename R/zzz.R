@@ -39,5 +39,5 @@
       ),
     "\n",
     cli::rule(line = 2, col = crayon::magenta)
-    )
+  )
 }

@@ -3,45 +3,43 @@
 #' This is the S3 group generic method to apply mathematical functions
 #' to the RFU data of `soma_adat` objects.
 #' The clinical meta data is *not* transformed and remains in
-#' the returned object. Typical generic functions include:\cr
-#' \itemize{
-#'   \item log
-#'   \item abs
-#'   \item sign
-#'   \item floor
-#'   \item sqrt
-#'   \item exp
-#'   \item See [groupGeneric()] (*Math*) for full listing
-#' }
+#' the returned object. Typical generic functions include:
+#'   * `log()`
+#'   * `abs()`
+#'   * `sign()`
+#'   * `floor()`
+#'   * `sqrt()`
+#'   * `exp()`
+#'   * See [groupGeneric()] (\emph{Math}) for full listing
 #' @name MathGenerics
 #' @param x The `soma_adat` class object to perform the transformation.
 #' @param ... Additional arguments passed to the various group generics
 #' as appropriate.
-#' @return A `soma_adat` object with the same dimensions of the input 
+#' @return A `soma_adat` object with the same dimensions of the input
 #' object with the feature columns transformed by the specified generic.
 #' @author Stu Field
 #' @seealso [groupGeneric()]
 #' @examples
-#' sample.adat$ACY1.3343.1.4
+#' example_data$seq.3343.1
 #'
 #' # log-transformation
-#' a <- log(sample.adat)
-#' a$ACY1.3343.1.4
-#' b <- log10(sample.adat)
-#' b$ACY1.3343.1.4
-#' isTRUE(all.equal(b, log(sample.adat, base = 10)))
+#' a <- log(example_data)
+#' a$seq.3343.1
+#' b <- log10(example_data)
+#' b$seq.3343.1
+#' isTRUE(all.equal(b, log(example_data, base = 10)))
 #'
 #' # floor
-#' c <- floor(sample.adat)
-#' c$ACY1.3343.1.4
+#' c <- floor(example_data)
+#' c$seq.3343.1
 #'
 #' # square-root
-#' d <- sqrt(sample.adat)
-#' d$ACY1.3343.1.4
+#' d <- sqrt(example_data)
+#' d$seq.3343.1
 #'
 #' # rounding
-#' e <- round(sample.adat)
-#' e$ACY1.3343.1.4
+#' e <- round(example_data)
+#' e$seq.3343.1
 #' @importFrom usethis ui_stop
 #' @export
 Math.soma_adat <- function(x, ...) {

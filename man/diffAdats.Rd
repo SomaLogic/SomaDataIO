@@ -13,35 +13,32 @@ diffAdats(adat1, adat2, tolerance = 1e-06)
 
 \item{tolerance}{Tolerance for the difference between
 numeric vectors (i.e. SOMAmer/feature data). Passed
-eventually to \code{\link[base]{all.equal}}.}
-}
-\value{
-\code{NULL} invisibly.
+eventually to \code{\link[=are_equal]{are_equal()}}.}
 }
 \description{
 Diff tool for the differences between two \code{soma_adat} objects.
-When diffs of the table \emph{values} are interrogated, \bold{only}
+When diffs of the table \emph{values} are interrogated, \strong{only}
 the intersect of the column meta data or feature data is considered
 }
 \note{
-Diffs of the \emph{intersect} of column names are considered.
+Diffs of the column \emph{intersect} names are considered.
 }
 \examples{
-diffAdats(sample.adat, sample.adat)
+diffAdats(example_data, example_data)
 
 # remove random column
 set.seed(1)
-diffAdats(sample.adat, sample.adat[, -sample(1:ncol(sample.adat), 1)])
+diffAdats(example_data, example_data[, -sample(1:ncol(example_data), 1)])
 
 # change TimePoint randomely
-diffAdats(sample.adat, dplyr::mutate(sample.adat, TimePoint = sample(TimePoint)))
+diffAdats(example_data, dplyr::mutate(example_data, TimePoint = sample(TimePoint)))
 
 # remove Females
-males  <- dplyr::filter(sample.adat, SampleGroup == "M")
-mydiff <- diffAdats(sample.adat, males)      # ALL columns will now differ
+males  <- dplyr::filter(example_data, SampleGroup == "M")
+mydiff <- diffAdats(example_data, males)      # ALL columns will now differ
 }
 \seealso{
-\code{\link[assertthat]{are_equal}}
+\code{\link[=are_equal]{are_equal()}}
 }
 \author{
 Stu Field

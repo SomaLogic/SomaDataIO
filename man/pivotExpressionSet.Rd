@@ -10,25 +10,26 @@ pivotExpressionSet(eSet)
 \item{eSet}{An \code{ExpressionSet} class object, created using \code{\link[=adat2eSet]{adat2eSet()}}.}
 }
 \value{
-An \code{tibble} class consisting of the long format
+A \code{tibble} consisting of the long format
 conversion of an \code{ExpressionSet} object.
 }
 \description{
-Utility function that converts an \code{"ExpressionSet"} object
-from the "wide" data format to the "long" format \code{\link[=pivot_longer]{pivot_longer()}}.
+Utility to convert an \code{"ExpressionSet"} object
+from the "wide" data format to the "long" format via \code{\link[=pivot_longer]{pivot_longer()}}.
+The \pkg{Biobase} package is required for this function.
 }
 \examples{
-# subet into a reduced ADAT object
-# 5 clinical variables and 3 features
-# 10 samples
-sub_adat <- sample.adat[1:10, c(1:5, 25:27)]
-ex_set <- adat2eSet(sub_adat)
+# subet into a reduced mini-ADAT object
+# 10 samples (rows)
+# 5 clinical variables and 3 features (cols)
+sub_adat <- example_data[1:10, c(1:5, 35:37)]
+ex_set   <- adat2eSet(sub_adat)
 
-# convert to long format
+# convert ExpressionSet object to long format
 adat_long <- pivotExpressionSet(ex_set)
 }
 \seealso{
-\code{\link[=adat2eSet]{adat2eSet()}}, \pkg{Biobase}
+\code{\link[=adat2eSet]{adat2eSet()}}
 }
 \author{
 Stu Field

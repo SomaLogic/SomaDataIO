@@ -7,28 +7,27 @@
 getMeta(x, n = FALSE)
 }
 \arguments{
-\item{x}{A \code{soma_adat} object created using \code{\link[=read_adat]{read_adat()}}.
-Alternatively, can be a \code{matrix} class object with column names
-corresponding to feature names, or a character vector of features.}
+\item{x}{Usually a \code{soma_adat} class object created using \code{\link[=read_adat]{read_adat()}}.}
 
-\item{n}{Logical. Return the number of meta data field names rather
-than a vector string of meta data fields?}
+\item{n}{Logical. Return an integer corresponding to the \emph{length}
+of the returned string?}
 }
 \value{
-A character vector of adat meta data names or,
-an integer number, the length of the meta data names.
+A character vector of ADAT meta data names
+or an integer number corresponding to the length of the
+feature names (if \code{n = TRUE}).
 }
 \description{
 Return a character vector of field names of the meta data
 for an ADAT, or \code{soma.data} object.
 }
 \examples{
-meta.vec <- getMeta(sample.adat)
+meta.vec <- getMeta(example_data)
 head(meta.vec, 20)
-getMeta(sample.adat, n = TRUE)
+getMeta(example_data, n = TRUE)
 
 # test data.frame and character S3 methods
-identical(getMeta(sample.adat), getMeta(names(sample.adat))) # TRUE
+identical(getMeta(example_data), getMeta(names(example_data))) # TRUE
 }
 \author{
 Stu Field

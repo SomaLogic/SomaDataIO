@@ -3,63 +3,59 @@
 #' Return a character vector of field names of the meta data
 #' for an ADAT, or `soma.data` object.
 #'
-#' @param x A `soma_adat` object created using [read_adat()].
-#' Alternatively, can be a `matrix` class object with column names
-#' corresponding to feature names, or a character vector of features.
-#' @param n Logical. Return the number of meta data field names rather
-#' than a vector string of meta data fields?
-#' @return A character vector of adat meta data names or,
-#' an integer number, the length of the meta data names.
+#' @inheritParams getFeatures
+#' @return A character vector of ADAT meta data names
+#' or an integer number corresponding to the length of the
+#' feature names (if `n = TRUE`).
 #' @author Stu Field
 #' @examples
-#' meta.vec <- getMeta(sample.adat)
+#' meta.vec <- getMeta(example_data)
 #' head(meta.vec, 20)
-#' getMeta(sample.adat, n = TRUE)
+#' getMeta(example_data, n = TRUE)
 #'
 #' # test data.frame and character S3 methods
-#' identical(getMeta(sample.adat), getMeta(names(sample.adat))) # TRUE
+#' identical(getMeta(example_data), getMeta(names(example_data))) # TRUE
 #' @importFrom usethis ui_stop
 #' @export
 getMeta <- function(x, n = FALSE) UseMethod("getMeta")
 
-#' S3 getMeta default method
 #' @noRd
 #' @export
-getMeta.default <- function(x, ...) {
+getMeta.default <- function(x, n) {
   usethis::ui_stop(
     "Couldn't find a S3 method for this object: {class(x)}."
   )
 }
 
-#' S3 getMeta method for data.frame
 #' @noRd
 #' @export
-getMeta.data.frame <- function(x, ...) {
-  names(x) %>% getMeta(...)
+getMeta.data.frame <- function(x, n = FALSE) {
+  getMeta(names(x), n = n)
 }
 
-#' S3 getMeta method for soma_adat
 #' @noRd
 #' @export
 getMeta.soma_adat <- getMeta.data.frame
 
-#' S3 getMeta method for list
 #' @noRd
 #' @export
 getMeta.list <- getMeta.data.frame
+
+#' S3 getMeta method for matrix
+#' @noRd
+#' @export
+getMeta.matrix <- function(x, n = FALSE) {
+  getMeta(colnames(x), n = n)
+}
 
 #' S3 getMeta method for character
 #' @noRd
 #' @export
 getMeta.character <- function(x, n = FALSE) {
-  y <- setdiff(x, get_features(x))
-  if (n) length(y) else y
+  lgl <- !is.seq(x)
+  if ( n ) {
+    sum(lgl)
+  } else {
+    x[lgl]
+  }
 }
-
-#' S3 getMeta method for matrix
-#' @noRd
-#' @export
-getMeta.matrix <- function(x, ...) {
-  colnames(x) %>% getMeta(...)
-}
-

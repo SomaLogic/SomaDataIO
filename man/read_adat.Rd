@@ -17,7 +17,7 @@ is.soma_adat(x)
 
 \method{print}{soma_adat}(x, show_header = FALSE, ...)
 
-\method{summary}{soma_adat}(object, apt.data, digits = max(3L, getOption("digits") - 3L), ...)
+\method{summary}{soma_adat}(object, ft.data, digits = max(3L, getOption("digits") - 3L), ...)
 }
 \arguments{
 \item{file}{Character. The elaborated path and file name of the \verb{*.adat}
@@ -34,8 +34,7 @@ to the global variable defined in \code{\link[=getOption]{getOption()}}.}
 \code{\link[=read_delim]{read_delim()}}, or  additional arguments passed to either
 other S3 print or summary methods as required by those generics.}
 
-\item{x}{Object of class \code{soma_adat} used in the
-S3 generic \code{\link{print}}.}
+\item{x}{A \code{soma_adat} class object to \code{\link[=print]{print()}}.}
 
 \item{i}{
     indices specifying elements to extract or replace.  Indices are
@@ -95,17 +94,13 @@ be displayed instead of the data frame (\code{tibble}) object?}
 \item{object}{Object of class \code{soma_adat} used in
 the S3 generic \code{\link[=summary]{summary()}}.}
 
-\item{apt.data}{An optional object, the result of a call to
-\code{getAptData}, from which Target names can be extracted.
-If \code{NULL} (default), and the attributes of \code{object} are intact,
-Target names are extracted from the "Col.Meta" of the attributes.
-If neither of these options are available, the search path is interrogated
-for \code{adat_data}, where it may find \code{apt_data}, which is used to
-extract Target names. If none of the above options are available,
-the "Target" row of the S3 \code{\link[=summary]{summary()}} method is left blank.}
+\item{ft.data}{If \code{NULL} (default), and the attributes of \code{object} are
+intact, \code{Target} names are extracted from the "Col.Meta" of the attributes.
+Alternatively, the result of a call to \code{\link[=getFeatureData]{getFeatureData()}}, from which
+\code{Target} names can be extracted. If neither of the above options are
+available, the "Target" row of the S3 \code{\link[=summary]{summary()}} method is left blank.}
 
-\item{digits}{Integer. Used for number formatting
-with \code{\link[=signif]{signif()}}.}
+\item{digits}{Integer. Used for number formatting with \code{\link[=signif]{signif()}}.}
 }
 \value{
 A \code{data.frame}-like object of class \code{soma_adat}
@@ -122,12 +117,12 @@ The parse and load a \verb{*.adat} file as a \code{data.frame}-like object into
 an R workspace environment. The class of the returned object is
 a \code{soma_adat} object.
 
-\code{\link[=is.soma_adat]{is.soma_adat()}} checks if an object is of class \code{soma_adat}.
+\code{\link[=is.soma_adat]{is.soma_adat()}} checks whether an object is of class \code{soma_adat}.
 See \code{\link[=inherits]{inherits()}}.
 
-Redirect of the generic \code{`[`} extract function that keeps
-the attributes intact \emph{and} subsets the \code{Col.Meta} so that it
-is consistent with the new object.
+Redirect of the generic \code{\link[=Extract]{Extract()}} extract function that
+keeps the \code{soma_adat} attributes intact \emph{and} subsets the
+\code{Col.Meta} so that it is consistent with the new object.
 }
 \section{Methods (by generic)}{
 \itemize{
@@ -135,23 +130,25 @@ is consistent with the new object.
 parsed from the object attributes, if possible (see examples), followed
 by a dispatch to the \code{tibble} print method.
 
-\item \code{summary}: The associated S3 generic summary method (\code{\link[=summary]{summary()}}) returns
+\item \code{summary}: An associated S3 generic summary method (\code{\link[=summary]{summary()}}) returns
 the following for each column of the ADAT object containing SOMAmer data
 (clinical meta data is excluded):
 \itemize{
-\item{Target (if available)}
-\item{Minimum value}
-\item{1st Quantile}
-\item{Median}
-\item{Mean}
-\item{3rd Quantile}
-\item{Maximum value}
-\item{Standard deviation}
+\item Target (if available via \code{ft.data})
+\item Minimum value
+\item 1st Quantile
+\item Median
+\item Mean
+\item 3rd Quantile
+\item Maximum value
+\item Standard deviation
+\item Median absolute deviation (\code{\link[=mad]{mad()}})
+\item Interquartile range (\code{\link[=IQR]{IQR()}})
 }
 }}
 
 \examples{
-f <- system.file("sample", "sample.adat", package = "SomaDataIO",
+f <- system.file("example", "example_data.adat", package = "SomaDataIO",
                  mustWork = TRUE)
 my_adat <- read_adat(f)
 is.soma_adat(my_adat)
@@ -169,18 +166,16 @@ read_adat(fout)
 
 # S3 summary method
 # MMP analytes
-mmps <- c("seq.2579.17", "seq.2788.55", "seq.2789.26",
-          "seq.2838.53", "seq.2954.56", "seq.3743.1",
-          "seq.4160.49", "seq.4496.60", "seq.4924.32",
-          "seq.4925.54", "seq.5002.76", "seq.5268.49")
+mmps <- c("seq.15419.15", "seq.2579.17", "seq.2788.55",
+          "seq.2789.26",  "seq.2838.53", "seq.4160.49",
+          "seq.4496.60",  "seq.4924.32", "seq.4925.54",
+          "seq.5002.76",  "seq.5268.49", "seq.6425.87",
+          "seq.8479.4",   "seq.9172.69", "seq.9719.145")
 summary(my_adat[, mmps])  # summary of MMPs
 
-# Alternatively pass apt.data for Target info
-\dontrun{
-ad <- apt_data                 # internal SomaLogic use
-ad <- ex_somamer_table         # if using SomaDataIO
-summary(my_adat[, mmps], apt.data = ad)
-}
+# Alternatively pass `ft.data` for Target info
+ft <- getFeatureData(my_adat)
+summary(my_adat[, mmps], ft.data = ft)
 
 }
 \seealso{

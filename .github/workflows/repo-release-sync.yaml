@@ -1,0 +1,29 @@
+# This is a basic workflow to sync release branch to public repository.
+
+name: Public Repo Sync
+
+# Triggers the workflow on push to the release branch
+on:
+  push:
+    branches: [ release ]
+
+# Job run
+jobs:
+  repo-sync:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: repo-sync
+      env:
+        ssh_private_key: ${{ secrets.SSH_PRIVATE_SOMADATAIO_KEY }}
+      run: |
+        date > generated.txt
+        mkdir ~/.ssh
+        echo "$ssh_private_key" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git remote add destination git@github.com:SomaLogic/SomaDataIO.git
+        git push destination "$GITHUB_REF":master -f

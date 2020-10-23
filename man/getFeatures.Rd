@@ -4,19 +4,17 @@
 \alias{getFeatures}
 \title{Get Features}
 \usage{
-getFeatures(adat, rm.controls = FALSE, n = FALSE)
+getFeatures(x, n = FALSE, rm.controls = FALSE)
 }
 \arguments{
-\item{adat}{An ADAT object created using \code{\link[=read_adat]{read_adat()}}.
-Alternatively, can be a "matrix" object with column names
-corresponding to feature names, or a character vector of features}
+\item{x}{Usually a \code{soma_adat} class object created using \code{\link[=read_adat]{read_adat()}}.}
 
-\item{rm.controls}{Logical. Should all control and
-non-human features (e.g. "NonHuman", "NonBiotins",
-"Spuriomers") be removed from the returned value?}
+\item{n}{Logical. Return an integer corresponding to the \emph{length}
+of the returned string?}
 
-\item{n}{Logical. Return the number of features rather
-than a vector string of features.}
+\item{rm.controls}{Logical. Should all control and non-human analytes
+(e.g. \code{HybControls}, \code{Non-Human}, \code{Non-Biotin}, \code{Spuriomer}) be removed
+from the returned value?}
 }
 \value{
 A character vector of ADAT feature ("analyte") names
@@ -24,16 +22,23 @@ or an integer number corresponding to the length of the
 feature names (if \code{n = TRUE}).
 }
 \description{
-Return the feature names (i.e. the column names for the
-feature data) from a ADAT data frame, matrix, or character vector.
+Return the feature names (i.e. the column names for the feature data)
+from a \code{soma_adat}, data frame, matrix, list, or character
+vector. S3 methods exist for these classes.
 }
 \examples{
-apts <- getFeatures(sample.adat)
+apts <- getFeatures(example_data)
 head(apts)
-getFeatures(sample.adat, TRUE)
-getFeatures(sample.adat, n = TRUE)
-bb <- getFeatures(names(sample.adat))
+
+getFeatures(example_data, TRUE)
+getFeatures(example_data, n = TRUE)
+bb <- getFeatures(names(example_data))
 identical(apts, bb)
+
+# Control Analytes
+crtl <- setdiff(apts, getFeatures(example_data, rm.controls = TRUE))
+
+getFeatureData(example_data) \%>\% filter(AptName \%in\% crtl)
 }
 \seealso{
 \code{\link[=regex]{regex()}}, \code{\link[=grep]{grep()}}

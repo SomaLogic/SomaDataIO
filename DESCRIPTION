@@ -1,7 +1,7 @@
 Type: Package
 Package: SomaDataIO
 Title: SomaData Input/Output Package
-Version: 4.0.0.9000
+Version: 5.0.0
 Authors@R: 
     c(person(given = "Stu",
              family = "Field",
@@ -28,6 +28,7 @@ Imports:
     methods,
     purrr (>= 0.2.4),
     readr (>= 1.2.0),
+    rlang,
     stringr (>= 1.3.1),
     tibble (>= 2.0.1),
     tidyr (>= 1.0.2),

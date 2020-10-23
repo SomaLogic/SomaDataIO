@@ -11,10 +11,6 @@ vignette: >
 
 ```{r setup, include = FALSE}
 library(SomaDataIO)
-library(purrr)
-library(tibble)
-library(ggplot2)
-library(stringr)
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -27,127 +23,35 @@ set.seed(101)
 
 # SomaDataIO
 
-The `SomaDataIO` package loads the SomaLogic, Inc. proprietary 
-data file, called an ADAT file ("\*.adat"). It also provides auxiliary 
-functions for extracting and manipulating relevant information from an 
-ADAT, as well as exporting a modified ADAT to file.
+This document accompanies the R package `SomaDataIO`, which loads the 
+SomaLogic, Inc. proprietary data file called an `*.adat`.
+The package provides auxiliary functions for extracting relevant information 
+from the ADAT object once in the R environment.
+Basic familiarity with the R environment is assumed, as is the ability to install
+contributed packages from the Comprehensive R Archive Network (CRAN).
 
 
 -------------------------
 
-## Main Features
 
-* Loading data
+## Main Features (I/O)
+
+* Loading data (Import)
     + Import a text file in the `*.adat` format into an `R` session
       as a `soma_adat` object.
-* Manipulating data
+* Wrangling data (manipulation)
     + Subset, reorder, and list various fields of a `soma_adat` object.
-* Exporting data
+* Exporting data (Output)
     + Write out a `soma_adat` object as a `*.adat` text file.
 
 
 ----------------------
 
+## TBD: Complete Later
 
-## Load an ADAT
-```{r adat}
-f <- system.file("sample", "sample.adat",
-                 package = "SomaDataIO", mustWork = TRUE)
-my_adat <- read_adat(f)
-is.soma_adat(my_adat)
+## See `README`
 
-my_adat                      # print
-
-print(my_adat, show_header = TRUE)  # if simply wish to see Header info, no features
-```
-
-
-## Attributes contain feature information
-```{r atts}
-attributes(my_adat)$Col.Meta
-```
-
-
-## Manipulate a `soma_adat` Object
-```{r features}
-getFeatures(my_adat) %>% head(20)     # first 20 features
-getFeatures(my_adat) %>% length()     # how many features
-getFeatures(my_adat, n = TRUE)        # the `n` argument; no. features
-```
-
-
-## Write out a `soma_adat`
-```{r write}
-is.intact.attributes(my_adat)         # attributes MUST be intact to write
-
-fout <- tempfile(fileext = ".adat")   # random file name
-write_adat(my_adat, file = fout)
-```
-
-
-# Typical Analysis
-## Load data
-```{r load}
-data <- read_adat(f)
-dim(data)
-
-train <- dplyr::filter(data, TimePoint == "Young")
-table(train$SampleGroup)    # M vs F
-```
-
-## Subset Features starting with `MMP`
-```{r mmps}
-mmps <- my_adat %>% 
-  getFeatureData() %>% 
-  filter(grepl("^MMP", Target))
-
-# feature data info
-mmps  
-```
-
-## Generate list of `t-tests`
-```{r t_tests}
-t_tests <- mmps$AptName %>% 
-  purrr::set_names(., .) %>% 
-  purrr::map(~ {
-    sprintf("%s ~ SampleGroup", .x) %>% 
-      as.formula() %>% 
-      t.test(data = data)
-  })
-```
-
-## Re-order by `p-value`
-```{r p_values}
-idx <- t_tests %>% 
-  purrr::map("p.value") %>% 
-  stringr::str_order()
-idx
-
-t_tests %<>% magrittr::extract(idx)
-t_tests %>% head() %>% purrr::map("p.value")
-```
-
-## Visualize with `ggplot2()`
-```{r ggplot_boxes, fig.width = 9, fig.height = 8}
-targets <- as.list(mmps$AptName) %>%
-  purrr::set_names(mmps$TargetFullName)
-df <- data %>% 
-  dplyr::select(SampleGroup, all_of(mmps$AptName)) %>% 
-  dplyr::rename(!!! targets) %>% 
-  tidyr::pivot_longer(-SampleGroup, names_to = "Feature", values_to = "RFU") %>% 
-  tibble::as_tibble()
-df
-
-df %>% 
-  ggplot(aes(x = SampleGroup, y = log10(RFU), colour = SampleGroup)) +
-  geom_boxplot(alpha = 0.5) +
-  facet_wrap(~ Feature)
-```
-
-
-
------------------------------
-
+---------------------
 
 ## MIT LICENSE
 
