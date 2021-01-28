@@ -1,10 +1,10 @@
 #' Extract method for class `soma_adat`
 #'
-#' Redirect of the generic [Extract()] extract function that
-#' keeps the `soma_adat` attributes intact *and* subsets the
-#'  `Col.Meta` so that it is consistent with the new object.
+#' Subsetting a `soma_adat` object class relies heavily on the S3 (`[`) method
+#' of the generic [Extract()] function that keeps the `soma_adat` attributes
+#' intact *and* subsets the `Col.Meta` so that it is consistent with the new object.
 #' @rdname read_adat
-#' @order 3
+#' @order 4
 #' @inheritParams base::`[`
 #' @export
 `[.soma_adat` <- function(x, i, j, drop = TRUE) {
@@ -46,15 +46,6 @@
   .data
 }
 
-#'  [`[`] assignment for class `soma_adat`.
-#' @noRd
-#' @export
-`[<-.soma_adat` <- function(x, i, j, ..., value) {
-  anames <- names(attributes(x))
-  .data  <- NextMethod()
-  attributes(.data) <- attributes(.data)[anames]   # re-order back to original
-  .data
-}
 
 #' Partial matching is not allowed for class `soma_adat`.
 #' @noRd
@@ -93,3 +84,28 @@
   }
   return(`$.soma_adat`(x, i))
 }
+
+
+
+# Assignment methods ----
+
+
+#' [`[`] assignment for class `soma_adat`.
+#' @noRd
+#' @export
+`[<-.soma_adat` <- function(x, i, j, ..., value) {
+  anames <- names(attributes(x))
+  .data  <- NextMethod()
+  attributes(.data) <- attributes(.data)[anames]   # re-order back to original
+  .data
+}
+
+#' [`$`] assignment for class `soma_adat`.
+#' @noRd
+#' @export
+`$<-.soma_adat` <- `[<-.soma_adat`
+
+#' [`[[`] assignment for class `soma_adat`.
+#' @noRd
+#' @export
+`[[<-.soma_adat` <- `[<-.soma_adat`

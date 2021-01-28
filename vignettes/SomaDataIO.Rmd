@@ -1,10 +1,8 @@
 ---
-title: "Getting Started"
-output:
-  rmarkdown::html_vignette:
-    fig_caption: yes
+title: "Introduction to SomaDataIO"
+output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Introduction to SomaDataIO}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -19,9 +17,6 @@ set.seed(101)
 ```
 
 
--------------------------
-
-# SomaDataIO
 
 This document accompanies the R package `SomaDataIO`, which loads the 
 SomaLogic, Inc. proprietary data file called an `*.adat`.
@@ -31,7 +26,7 @@ Basic familiarity with the R environment is assumed, as is the ability to instal
 contributed packages from the Comprehensive R Archive Network (CRAN).
 
 
--------------------------
+-------------------
 
 
 ## Main Features (I/O)

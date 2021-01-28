@@ -9,10 +9,12 @@ arrange.soma_adat <- function(.data, ...) {
   atts <- attributes(.data)
   .data %<>% tibble::rownames_to_column()
   .data <- NextMethod()
-  .data %>%
+  .data <- .data %>%
     tibble::column_to_rownames() %>%
     addClass("soma_adat") %>%
     addAttributes(atts)
+  attributes(.data) <- attributes(.data)[names(atts)]   # orig order
+  .data
 }
 
 #' @export
@@ -20,10 +22,12 @@ mutate.soma_adat <- function(.data, ...) {
   atts <- attributes(.data)
   .data %<>% tibble::rownames_to_column()
   .data <- NextMethod()
-  .data %>%
+  .data <- .data %>%
     tibble::column_to_rownames() %>%
     addClass("soma_adat") %>%
     addAttributes(atts)
+  attributes(.data) <- attributes(.data)[names(atts)]   # orig order
+  .data
 }
 
 #' @method filter soma_adat
@@ -32,23 +36,38 @@ filter.soma_adat <- function(.data, ...) {
   atts <- attributes(.data)
   .data %<>% tibble::rownames_to_column()
   .data <- NextMethod()
-  .data %>%
+  .data <- .data %>%
     tibble::column_to_rownames() %>%
     addClass("soma_adat") %>%
     addAttributes(atts)
+  attributes(.data) <- attributes(.data)[names(atts)]   # orig order
+  .data
 }
 
 #' @export
 select.soma_adat <- function(.data, ...) {
+  nms   <- names(attributes(.data))
   .data <- NextMethod()
-  .data %>%
+  .data <- .data %>%
     addClass("soma_adat") %>%
     syncColMeta()
+  attributes(.data) <- attributes(.data)[nms]   # orig order
+  .data
 }
 
 #' @export
 rename.soma_adat <- function(.data, ...) {
-  addClass(NextMethod(), "soma_adat")
+  nms   <- names(attributes(.data))
+  .data <- NextMethod()
+  .data <- addClass(.data, "soma_adat")
+  attributes(.data) <- attributes(.data)[nms]   # orig order
+  .data
+}
+
+#' @export
+ungroup.soma_adat <- function(x, ...) {
+  .data <- NextMethod()
+  structure(.data, class = c("soma_adat", "data.frame"))
 }
 
 #' @export
@@ -63,8 +82,10 @@ left_join.soma_adat <- function(x, y, by = NULL, copy = FALSE,
     x <- NextMethod()
     x %<>% tibble::column_to_rownames()
   }
-  structure(x, class = atts$class) %>%   # ensure same class returned
-    addAttributes(atts)                  # add back original atts
+  x <- structure(x, class = atts$class) %>%   # ensure same class returned
+    addAttributes(atts)                       # add back original atts
+  attributes(x) <- attributes(x)[names(atts)]   # orig order
+  x
 }
 
 #' @export
@@ -92,42 +113,30 @@ semi_join.soma_adat <- anti_join.soma_adat
 sample_frac.soma_adat <- function(tbl, size = 1, replace = FALSE,
                                   weight = NULL, .env, ...) {
   atts <- attributes(tbl)
-  tbl <- tbl %>%    # duplicate rownames are inevitable if replace = TRUE
-    tibble::rownames_to_column("rn")    # must fix them
+  tbl <- tbl %>%    # duplicate rownames can occur if replace = TRUE
+    tibble::rownames_to_column("rn")
   tbl <- NextMethod()
-  tbl %>%
-    dplyr::mutate(rn = remap_dupes(rn)) %>%
+  tbl <- tbl %>%
+    dplyr::mutate(rn = make.unique(rn, "-")) %>%  # fix them here
     tibble::column_to_rownames("rn") %>%
     addClass("soma_adat") %>%
     addAttributes(atts)
+  attributes(tbl) <- attributes(tbl)[names(atts)]   # orig order
+  tbl
 }
 
 #' @export
 sample_n.soma_adat <- function(tbl, size, replace = FALSE,
                                weight = NULL, .env, ...) {
   atts <- attributes(tbl)
-  tbl <- tbl %>%    # duplicate rownames are inevitable if replace = TRUE
-    tibble::rownames_to_column("rn")    # must fix them
+  tbl <- tbl %>%    # duplicate rownames can occur if replace = TRUE
+    tibble::rownames_to_column("rn")
   tbl <- NextMethod()
-  tbl %>%
-    dplyr::mutate(rn = remap_dupes(rn)) %>%
+  tbl <- tbl %>%
+    dplyr::mutate(rn = make.unique(rn, "-")) %>%  # fix them here
     tibble::column_to_rownames("rn") %>%
     addClass("soma_adat") %>%
     addAttributes(atts)
-}
-
-#' Internal remapping for duplidated rownames following resampling.
-#' Adds "-*" to the suffix for duplicates
-#' @keywords internal
-#' @noRd
-remap_dupes <- function(x) {
-  if ( any(duplicated(x)) ) {
-    for ( i in unique(x) ) {
-      L <- sum(x %in% i)
-      if ( L > 1 ) {
-        x[ x %in% i ] <- paste0(x[ x %in% i ], c("", paste0("-", 2:L)))
-      }
-    }
-  }
-  return(x)
+  attributes(tbl) <- attributes(tbl)[names(atts)]   # orig order
+  tbl
 }

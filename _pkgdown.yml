@@ -4,7 +4,7 @@ template:
     ganalytics: UA-000000-01
 
 home:
-  strip_header: true
+  strip_header: false 
   links:
   - text: Report a bug
     href: https://github.com/SomaLogic/SomaDataIO/issues (update!)
