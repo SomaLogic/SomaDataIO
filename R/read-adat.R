@@ -14,7 +14,7 @@
 #' mode, printing relevant diagnostic call information to the console. Defaults
 #' to the global variable defined in [getOption()].
 #' @param ... Additional arguments passed ultimately to
-#' [read_delim()], or  additional arguments passed to either
+#' [read_delim()], or additional arguments passed to either
 #' other S3 print or summary methods as required by those generics.
 #' @return A `data.frame`-like object of class `soma_adat`
 #' consisting of SomaLogic RFU (feature) data and clinical meta data as
@@ -34,7 +34,7 @@
 #' my_adat                             # redirect uses `tibble` method
 #' print(my_adat, show_header = TRUE)  # show the header info; no RFU data
 #'
-#' # S3 write method
+#' # write ADAT to file
 #' fout <- tempfile(fileext = ".adat")
 #' write_adat(my_adat, file = fout)
 #'
@@ -45,7 +45,7 @@
 #' @importFrom usethis ui_warn ui_done
 #' @importFrom stringr str_split str_replace str_trim
 #' @importFrom readr read_delim read_lines cols
-#' @export read_adat
+#' @export
 read_adat <- function(file, debug = FALSE, verbose = getOption("verbose"), ...) {
 
   stopifnot(file.exists(path.expand(file)))
@@ -57,7 +57,7 @@ read_adat <- function(file, debug = FALSE, verbose = getOption("verbose"), ...) 
       readr::read_lines(n_max = 200) %>%
       stringr::str_split("\t") %>%
       parseCheck()
-      return(parse_out)
+    return(parse_out)
   }
   # nocov end
 
@@ -140,8 +140,18 @@ read_adat <- function(file, debug = FALSE, verbose = getOption("verbose"), ...) 
             file.specs  = header_data$file.specs,
             row.meta    = header_data$row.meta,
             class       = c("soma_adat", "data.frame")
-            )   # one day a tibble?
+            )
 }
+
+
+#' Alias to `read.adat`
+#'
+#' [read.adat()] is a convenient alias for [read_adat()] designed to enable
+#' backward compatibility to older versions of `SomaDataIO`.
+#' @rdname read_adat
+#' @order 2
+#' @export
+read.adat <- read_adat
 
 
 #' Test for Object type "soma_adat"
@@ -149,7 +159,7 @@ read_adat <- function(file, debug = FALSE, verbose = getOption("verbose"), ...) 
 #' [is.soma_adat()] checks whether an object is of class `soma_adat`.
 #' See [inherits()].
 #' @rdname read_adat
-#' @order 2
+#' @order 3
 #' @return A logical indicating whether `x` inherits from class `soma_adat`.
-#' @export is.soma_adat
+#' @export
 is.soma_adat <- function(x) inherits(x, "soma_adat")

@@ -3,6 +3,7 @@
 %   R/s3-print-soma-adat.R, R/s3-summary-soma-adat.R
 \name{read_adat}
 \alias{read_adat}
+\alias{read.adat}
 \alias{is.soma_adat}
 \alias{[.soma_adat}
 \alias{print.soma_adat}
@@ -10,6 +11,8 @@
 \title{Read (Load) SomaLogic ADATs}
 \usage{
 read_adat(file, debug = FALSE, verbose = getOption("verbose"), ...)
+
+read.adat(file, debug = FALSE, verbose = getOption("verbose"), ...)
 
 is.soma_adat(x)
 
@@ -31,7 +34,7 @@ mode, printing relevant diagnostic call information to the console. Defaults
 to the global variable defined in \code{\link[=getOption]{getOption()}}.}
 
 \item{...}{Additional arguments passed ultimately to
-\code{\link[=read_delim]{read_delim()}}, or  additional arguments passed to either
+\code{\link[=read_delim]{read_delim()}}, or additional arguments passed to either
 other S3 print or summary methods as required by those generics.}
 
 \item{x}{A \code{soma_adat} class object to \code{\link[=print]{print()}}.}
@@ -117,12 +120,15 @@ The parse and load a \verb{*.adat} file as a \code{data.frame}-like object into
 an R workspace environment. The class of the returned object is
 a \code{soma_adat} object.
 
+\code{\link[=read.adat]{read.adat()}} is a convenient alias for \code{\link[=read_adat]{read_adat()}} designed to enable
+backward compatibility to older versions of \code{SomaDataIO}.
+
 \code{\link[=is.soma_adat]{is.soma_adat()}} checks whether an object is of class \code{soma_adat}.
 See \code{\link[=inherits]{inherits()}}.
 
-Redirect of the generic \code{\link[=Extract]{Extract()}} extract function that
-keeps the \code{soma_adat} attributes intact \emph{and} subsets the
-\code{Col.Meta} so that it is consistent with the new object.
+Subsetting a \code{soma_adat} object class relies heavily on the S3 (\code{[}) method
+of the generic \code{\link[=Extract]{Extract()}} function that keeps the \code{soma_adat} attributes
+intact \emph{and} subsets the \code{Col.Meta} so that it is consistent with the new object.
 }
 \section{Methods (by generic)}{
 \itemize{
@@ -157,7 +163,7 @@ is.soma_adat(my_adat)
 my_adat                             # redirect uses `tibble` method
 print(my_adat, show_header = TRUE)  # show the header info; no RFU data
 
-# S3 write method
+# write ADAT to file
 fout <- tempfile(fileext = ".adat")
 write_adat(my_adat, file = fout)
 
