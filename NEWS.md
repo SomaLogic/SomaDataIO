@@ -1,5 +1,7 @@
 # SomaDataIO (development version)
 
+* Added new `readAnnotations()` function to parse SomaLogic annotations files
+
 # SomaDataIO 5.1.0
 
 * New `set_rn()` drop-in replacement for `magrittr::set_rownames()`

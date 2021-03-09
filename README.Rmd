@@ -13,7 +13,7 @@ library(ggplot2)
 library(dplyr)
 library(tidyr)
 library(purrr)
-set.seed(1)   # set seet for ggplot jitter below; Git doesn't trigger every time
+set.seed(1)   # set seed for ggplot() jitter below so Git doesn't trigger every time
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -108,6 +108,7 @@ ensure that the following package dependencies are pre-installed:
 * `magrittr (v2.0.1)`
 * `purrr (v0.3.4)`
 * `readr (v1.4.0)`
+* `readxl (v1.3.1)`
 * `rlang (v0.4.11)`
 * `stringr (v1.4.0)`
 * `tidyr (v1.1.3)`

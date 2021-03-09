@@ -37,6 +37,7 @@ Suggests:
     crayon,
     ggplot2,
     knitr,
+    readxl (>= 1.3.1),
     rmarkdown,
     spelling,
     testthat,

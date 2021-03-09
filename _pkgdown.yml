@@ -51,6 +51,13 @@ reference:
     - MathGenerics
     - diffAdats
 
+  - title: Transform Between SomaScan Versions
+    desc: >
+      Functionality required to convert between SomaScan versions,
+      e.g. v4.1 -> v4.0, sometimes referred to as "lifting".
+    contents:
+    - readAnnotations
+
   - title: Expression Data
     desc: >
       Functions to convert objects to those familiar with `expression` data.
