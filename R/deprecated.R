@@ -1,8 +1,8 @@
 #' Deprecated function(s) of the `SomaDataIO` package
 #'
-#' These functions are provided for compatibility with 
-#' older versions of the `SomaDataIO` package. 
-#' They may eventually be completely removed, so 
+#' These functions are provided for compatibility with
+#' older versions of the `SomaDataIO` package.
+#' They may eventually be completely removed, so
 #' please re-code your scripts accordingly as soon as possible.
 #'
 #' \tabular{rl}{
@@ -15,26 +15,29 @@
 #' @name SomaDataIO-deprecated
 #' @docType package
 #' @author Stu Field
-#' @param ... A simple pass-through to the replacement function.
+#' @param ... A simple pass-through to a replacement alternative if available.
 #' @aliases meltExpressionSet getSomamers getSomamerData
 #' @export meltExpressionSet getSomamers getSomamerData
+#' @importFrom lifecycle deprecate_stop deprecate_warn
 NULL
-
 
 #' @noRd
 meltExpressionSet <- function(...) {
-  .Deprecated("pivotExpressionSet", package = "SomaDataIO")
+  deprecate_warn("5.0.0", "SomaDataIO::meltExpressionSet()",
+                 "pivotExpressionSet()")
   pivotExpressionSet(...)
 }
 
 #' @noRd
 getSomamers <- function(...) {
-  .Deprecated("getFeatures", package = "SomaDataIO")
+  deprecate_warn("5.0.0", "SomaDataIO::getSomamers()",
+                 "getFeatures()")
   getFeatures(...)
 }
 
 #' @noRd
 getSomamerData <- function(...) {
-  .Deprecated("getFeatureData", package = "SomaDataIO")
+  deprecate_warn("5.0.0", "SomaDataIO::getSomamerData()",
+                 "getFeatureData()")
   getFeatureData(...)
 }

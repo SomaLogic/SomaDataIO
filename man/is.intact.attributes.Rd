@@ -4,22 +4,20 @@
 \alias{is.intact.attributes}
 \title{Are Attributes Intact?}
 \usage{
-is.intact.attributes(adat, verbose = getOption("verbose"))
+is.intact.attributes(adat, verbose = interactive())
 }
 \arguments{
 \item{adat}{A \code{soma_adat} object to query.}
 
 \item{verbose}{Logical. Should the function call be run in \emph{verbose}
-mode, printing relevant diagnostic call information to the console. Defaults
-to the global variable defined in \code{\link[=getOption]{getOption()}}.}
+mode, printing relevant diagnostic call information to the console.}
 }
 \value{
-For \code{is.intact.attributes}: \code{TRUE} if attributes are intact,
-otherwise \code{FALSE}.
+Logical. \code{TRUE} if all checks pass, otherwise \code{FALSE}.
 }
 \description{
-\code{is.intact.attributes} uses a series of checks to determine
-if a "soma_adat" object has a complete
+This function runs a series of checks to determine
+if a \code{"soma_adat"} object has a complete
 set of attributes. If not, this indicates that the object has
 been modified since the initial \code{\link[=read_adat]{read_adat()}} call.
 Checks for the presence of both "Header.Meta" and "Col.Meta" in the
@@ -37,8 +35,8 @@ If any of the above they are altered or missing, \code{FALSE} is returned.
 my_adat <- example_data
 is.intact.attributes(my_adat)           # TRUE
 is.intact.attributes(my_adat[, -303])   # doesn't break atts; TRUE
-attributes(my_adat)$Col.Meta <- NULL    # break attributes
-is.intact.attributes(my_adat, verbose = TRUE) # FALSE
+attributes(my_adat)$Col.Meta$Target <- NULL    # break attributes
+is.intact.attributes(my_adat, verbose = TRUE)  # FALSE (Target missing)
 }
 \seealso{
 \code{\link[=attributes]{attributes()}}

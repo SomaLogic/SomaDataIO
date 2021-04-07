@@ -2,33 +2,41 @@
 % Please edit documentation in R/getMeta.R
 \name{getMeta}
 \alias{getMeta}
-\title{Get Meta Data Field Names}
+\title{Get Meta Data Names}
 \usage{
 getMeta(x, n = FALSE)
 }
 \arguments{
-\item{x}{Usually a \code{soma_adat} class object created using \code{\link[=read_adat]{read_adat()}}.}
+\item{x}{Typically a \code{soma_adat} class object created using \code{\link[=read_adat]{read_adat()}}.
+Alternatively, a character vector with elements containing \code{SeqIds}
+corresponding to analyte features.}
 
 \item{n}{Logical. Return an integer corresponding to the \emph{length}
-of the returned string?}
+of the features?}
 }
 \value{
-A character vector of ADAT meta data names
-or an integer number corresponding to the length of the
-feature names (if \code{n = TRUE}).
+Either a character vector of ADAT meta data names or
+an integer number the length of the meta data names (if \code{n = TRUE}).
 }
 \description{
-Return a character vector of field names of the meta data
-for an ADAT, or \code{soma.data} object.
+Return a character vector of string names of \emph{non}-feature
+columns/variables.
 }
 \examples{
-meta.vec <- getMeta(example_data)
-head(meta.vec, 20)
+mvec <- getMeta(example_data)
+head(mvec, 10)
 getMeta(example_data, n = TRUE)
 
 # test data.frame and character S3 methods
 identical(getMeta(example_data), getMeta(names(example_data))) # TRUE
 }
+\seealso{
+\code{\link[=is.apt]{is.apt()}}
+
+Other get*: 
+\code{\link{getFeatures}()}
+}
 \author{
 Stu Field
 }
+\concept{get*}

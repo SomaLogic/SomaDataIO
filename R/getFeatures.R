@@ -1,34 +1,118 @@
 #' Get Features
 #'
-#' Return the feature names (i.e. the column names for the feature data)
-#' from a `soma_adat`, data frame, matrix, list, or character
-#' vector. S3 methods exist for these classes.
+#' Return the feature names (i.e. the column names for
+#' SOMAmer reagent analytes) from a `soma_adat`, data frame,
+#' matrix, list, or character vector. S3 methods exist for these classes.
 #'
-#' @param x Usually a `soma_adat` class object created using [read_adat()].
+#' @family get*
+#' @param x Typically a `soma_adat` class object created using [read_adat()].
+#' Alternatively, a character vector with elements containing `SeqIds`
+#' corresponding to analyte features.
 #' @param n Logical. Return an integer corresponding to the *length*
-#' of the returned string?
+#' of the features?
 #' @param rm.controls Logical. Should all control and non-human analytes
 #' (e.g. `HybControls`, `Non-Human`, `Non-Biotin`, `Spuriomer`) be removed
 #' from the returned value?
-#' @return A character vector of ADAT feature ("analyte") names
-#' or an integer number corresponding to the length of the
-#' feature names (if `n = TRUE`).
+#' @return A character vector of ADAT feature ("analyte") names.
+#' If `n = TRUE`, an integer corresponding to the length of the
+#' feature names.
 #' @author Stu Field
-#' @seealso [regex()], [grep()]
+#' @seealso [is.apt()]
 #' @examples
 #' apts <- getFeatures(example_data)
 #' head(apts)
-#'
-#' getFeatures(example_data, TRUE)
 #' getFeatures(example_data, n = TRUE)
+#'
+#' # vector string
 #' bb <- getFeatures(names(example_data))
-#' identical(apts, bb)
+#' all.equal(apts, bb)
 #'
-#' # Control Analytes
-#' crtl <- setdiff(apts, getFeatures(example_data, rm.controls = TRUE))
-#'
-#' getFeatureData(example_data) %>% filter(AptName %in% crtl)
-#' @export getFeatures
-getFeatures <- function(x, n = FALSE, rm.controls = FALSE) {
-  getAptamers(x, n, rm.controls)
+#' # create some control sequences
+#' #           Spuriomer      HybControl
+#' apts2 <- c("seq.2053.2", "seq.2171.12", head(apts))
+#' apts2
+#' no_crtl <- getFeatures(apts2, rm.controls = TRUE)
+#' no_crtl
+#' setdiff(apts2, no_crtl)
+#' @export
+getFeatures <- function(x, n = FALSE, rm.controls = FALSE) UseMethod("getFeatures")
+
+#' @importFrom usethis ui_stop
+#' @noRd
+#' @export
+getFeatures.default <- function(x, n, rm.controls) {
+  usethis::ui_stop(
+    "Couldn't find a S3 method for this class object: {ui_value(class(x))}."
+  )
 }
+
+#' @noRd
+#' @export
+getFeatures.data.frame <- function(x, n = FALSE, rm.controls = FALSE) {
+  getFeatures(names(x), n = n, rm.controls = rm.controls)
+}
+
+#' @noRd
+#' @export
+getFeatures.soma_adat <- getFeatures.data.frame
+
+#' @noRd
+#' @export
+getFeatures.list <- getFeatures.data.frame
+
+#' @noRd
+#' @export
+getFeatures.matrix <- function(x, n = FALSE, rm.controls = FALSE) {
+  getFeatures(colnames(x), n = n, rm.controls = rm.controls)
+}
+
+#' @noRd
+#' @export
+getFeatures.character <- function(x, n = FALSE, rm.controls = FALSE) {
+  lgl <- is.apt(x)
+  if ( rm.controls ) {
+    lgl <- lgl & !x %in% .getControls()
+  }
+  if ( n ) {
+    sum(lgl)
+  } else {
+    x[lgl]
+  }
+}
+
+#' Get Control Analytes (internal)
+#'
+#' @importFrom stringr str_replace
+#' @keywords internal
+#' @noRd
+.getControls <- function() {
+  paste0("seq.", c(seq_NonBiotin, seq_NonHuman, seq_Spuriomer, seq_HybControlElution)) %>%
+    stringr::str_replace("-", ".")
+}
+
+
+# Standard SeqIds for Control Analytes
+seq_HybControlElution <- c(
+  "2171-12", "2178-55", "2194-91",
+  "2229-54", "2249-25", "2273-34",
+  "2288-7", "2305-52", "2312-13",
+  "2359-65", "2430-52", "2513-7"
+)
+seq_Spuriomer <- c(
+  "2052-1", "2053-2", "2054-3", "2055-4",
+  "2056-5", "2057-6", "2058-7", "2060-9",
+  "2061-10", "4666-193", "4666-194", "4666-195",
+  "4666-199", "4666-200", "4666-202", "4666-205",
+  "4666-206", "4666-212", "4666-213", "4666-214"
+)
+seq_NonBiotin <- c(
+  "3525-1", "3525-2", "3525-3",
+  "3525-4", "4666-218", "4666-219",
+  "4666-220", "4666-222", "4666-223", "4666-224")
+seq_NonHuman <- c(
+  "16535-61", "3507-1", "3512-72", "3650-8", "3717-23",
+  "3721-5", "3724-64", "3742-78", "3849-56", "4584-5",
+  "8443-9", "8444-3", "8444-46", "8445-184", "8445-54",
+  "8449-103", "8449-124", "8471-53", "8481-26", "8481-44",
+  "8482-39", "8483-5")
+seq_NonCleavable <- c("4666-225", "4666-230", "4666-232", "4666-236")

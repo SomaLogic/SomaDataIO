@@ -2,6 +2,6 @@
 \.DS_Store
 .Rproj.user
 ^r\\.Rproj$
-.Rhistory
-.RData
+\.Rhistory
+\.RData
 inst/doc

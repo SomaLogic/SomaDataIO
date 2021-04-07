@@ -28,11 +28,12 @@
 #' @importFrom assertthat assert_that
 #' @importFrom usethis ui_stop ui_warn ui_done ui_path
 #' @importFrom purrr walk iwalk
+#' @importFrom tidyselect everything
 #' @importFrom dplyr mutate select
 #' @importFrom readr write_tsv write_lines
 #' @importFrom stringr str_detect
-#' @seealso [write_tsv()], [is.intact.attributes()].
-#' @export write_adat
+#' @seealso [read_adat()], [write_tsv()], [is.intact.attributes()]
+#' @export
 write_adat <- function(x, file) {
 
   if ( missing(file) ) {
@@ -43,12 +44,12 @@ write_adat <- function(x, file) {
 
   if ( !stringr::str_detect(file, "\\.adat$") ) {
     usethis::ui_warn(
-      "File extension is not `*.adat` ('{file}'). \\
+      "File extension is not `*.adat` ({ui_path(file)}). \\
       Are you sure this is the correct file extension?"
     )
   }
 
-  apts <- .getfeat(x)
+  apts <- getFeatures(x)
   atts <- prepHeaderMeta(x)
   attributes(x) <- atts
 
@@ -62,19 +63,20 @@ write_adat <- function(x, file) {
 
   # open connection
   f  <- file(file, open = "wb")
+  on.exit(close(f))
   HM <- atts$Header.Meta      # Header Meta; rename for convenience
 
   purrr::walk(names(HM), function(i) {
-    readr::write_lines(paste0("^", i), path = f, append = TRUE)
+    readr::write_lines(paste0("^", i), file = f, append = TRUE)
     if ( i == "TABLE_BEGIN" ) return(NULL)
     purrr::iwalk(HM[[i]], ~ {
       paste0("!", .y, "\t", paste0(.x, collapse = "\t")) %>%
-        readr::write_lines(path = f, append = TRUE)
+        readr::write_lines(file = f, append = TRUE)
       })
   })
 
   # write Col Meta
-  meta_names  <- .getmeta(x)
+  meta_names  <- getMeta(x)
   length_meta <- length(meta_names)
 
   purrr::iwalk(atts$Col.Meta, ~ {
@@ -82,7 +84,7 @@ write_adat <- function(x, file) {
            .y, "\t",                               # name
            paste(.x, collapse = "\t")              # Col.Meta
           ) %>%
-          readr::write_lines(path = f, append = TRUE)
+          readr::write_lines(file = f, append = TRUE)
   })
 
   # Write out header row
@@ -100,20 +102,56 @@ write_adat <- function(x, file) {
 
     tabs      <- stringr::str_dup("\t", length(apts) - 1)
     metanames <- paste(meta_names, collapse = "\t")
-    readr::write_lines(paste0(metanames, "\t\t", tabs), path = f, append = TRUE)
+    readr::write_lines(paste0(metanames, "\t\t", tabs), file = f, append = TRUE)
 
-    df <- x %>%
-      dplyr::mutate(blank_col = NA_character_) %>%   # add mystery column
-      dplyr::select(meta_names, blank_col, dplyr::everything())
+    df <- dplyr::mutate(x, blank_col = NA_character_) %>%   # add mystery column
+      dplyr::select(meta_names, blank_col, everything())
 
     # write meta & feature data to file
     df[, apts] <- apply(df[, apts], 2, function(.x) sprintf("%0.1f", .x))
 
     # change 4000 -> 4e3 scientific mode; SampleUniqueID
-    readr::write_tsv(x = df, path = f, na = "", append = TRUE)
+    readr::write_tsv(x = df, file = f, na = "", append = TRUE)
   }
-
-  close(f)
   usethis::ui_done("ADAT written to: {usethis::ui_path(file)}")
   invisible(x)
+}
+
+
+#' Check ADAT prior to Writing
+#'
+#' @param adat A `soma_adat` class object.
+#' @importFrom usethis ui_stop ui_done ui_warn
+#' @keywords internal
+#' @noRd
+checkADAT <- function(adat) {
+  atts <- attributes(adat)
+  apts <- getFeatures(adat)
+  meta <- getMeta(adat)
+  if ( !isTRUE(all.equal(cleanNames(meta),
+                         cleanNames(atts$Header.Meta$ROW_DATA$Name))) ) {
+    usethis::ui_stop(
+      "Meta data mismatch between `Header Meta` and ADAT meta data. \\
+      Check `attributes(ADAT)$Header.Meta$ROW_DATA$Name`."
+    )
+  }
+  if ( length(apts) != nrow(atts$Col.Meta) ) {
+    usethis::ui_stop(
+      "Number of aptamers in ADAT does not match No. aptamers in Col.Meta!"
+    )
+  }
+  if ( setequal(getSeqId(apts), atts$Col.Meta$SeqId) ) {
+    if ( !identical(getSeqId(apts), atts$Col.Meta$SeqId) ) {
+      usethis::ui_stop(
+        "ADAT features are out of sync with rows in Col.Meta!
+        You may need to run `syncColMeta()` to re-sync the Col.Meta, \\
+        then try again."
+      )
+    }
+  }
+  if ( nrow(adat) == 0 ) {
+    usethis::ui_warn("ADAT has no rows! Writing just header and column meta data")
+  }
+  usethis::ui_done("ADAT passed checks and traps")
+  invisible(NULL)
 }

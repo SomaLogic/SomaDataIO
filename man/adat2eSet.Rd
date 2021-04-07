@@ -23,7 +23,7 @@ The \pkg{Biobase} package is required and must be installed from
 \code{Bioconductor} via the following at the R console:\preformatted{if (!requireNamespace("BiocManager", quietly = TRUE)) \{
   install.packages("BiocManager")
 \}
-BiocManager::install("Biobase")
+BiocManager::install("Biobase", version = "3.13")
 }
 }
 \examples{
@@ -35,7 +35,7 @@ ft <- Biobase::exprs(eSet)
 head(ft[, 1:10], 10)
 }
 \references{
-https://bioconductor.org/install/
+\url{https://bioconductor.org/install/}
 }
 \seealso{
 \code{\link[=pivotExpressionSet]{pivotExpressionSet()}}

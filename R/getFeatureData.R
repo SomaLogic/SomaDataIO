@@ -36,7 +36,7 @@
 #' @importFrom tibble as_tibble tibble
 #' @importFrom purrr map_if map_int
 #' @importFrom dplyr ungroup left_join
-#' @export getFeatureData
+#' @export
 getFeatureData <- function(adat) {
   stopifnot(is.intact.attributes(adat))
   colmeta <- attributes(adat)$Col.Meta %>% dplyr::ungroup()
@@ -50,6 +50,9 @@ getFeatureData <- function(adat) {
   if ( !inherits(colmeta, "tbl_df") ) {
     colmeta %<>% tibble::as_tibble()
   }
+  # We want to ensure `AptName` is an index
+  # that can be used in the ADAT it comes from
+  # AptName is the column that links AptData -> ADAT
   tbl <- tibble::tibble(AptName = getFeatures(adat),
                         SeqId   = getSeqId(AptName, TRUE))
   if ( nrow(tbl) != nrow(colmeta) ) {

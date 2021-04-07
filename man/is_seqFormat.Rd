@@ -2,7 +2,7 @@
 % Please edit documentation in R/is-seqFormat.R
 \name{is_seqFormat}
 \alias{is_seqFormat}
-\title{Test AptName Format}
+\title{Test \code{AptName} Format}
 \usage{
 is_seqFormat(x)
 }
@@ -14,7 +14,7 @@ A logical indicating whether \code{x} contains \code{AptNames} consistent
 with the new format, beginning with a \code{seq.} prefix.
 }
 \description{
-Test whether an object contains the new \code{AptName} format, \code{seq.XXXX.XX}.
+Test whether an object is in the new \code{seq.XXXX.XX} format.
 }
 \examples{
 # character S3 method

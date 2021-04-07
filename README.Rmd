@@ -67,35 +67,41 @@ Alternatively you may clone the repository and install manually:
 
 ```bash
 git clone https://github.com/SomaLogic/SomaDataIO.git SomaDataIO
-R --vanilla CMD INSTALL SomaDataIO
+R CMD INSTALL --use-vanilla --resave-data SomaDataIO
 ```
 
 
 #### Package Dependencies
+
 The `SomaDataIO` package was intentionally developed to run slightly behind
 the bleeding edge of The Comprehensive R Archive Network (`CRAN`).
 This allows lead time to identify and fix bugs as well 
 as simplifying software life-cycle.
 This may change in the future, however for the time being, the dependencies
-below represent the development environment in which `SomaDataIO` was 
-designed to operate. If you run into any unexpected behavior, please
+below represent the environment in which `SomaDataIO` was developed.
+If you run into any unexpected behavior, please
 ensure that the following package dependencies are pre-installed:
 
-* `R (v3.6.3)`
-* `magrittr (v1.5)`
-* `devtools (v2.3.0)`
-* `readr (v1.3.1)`
+* `R (>= 4.0.0)`
+* `dplyr (v1.0.6)`
+* `assertthat (v0.2.1)`
+* `lifecycle (v1.0.0)`
+* `magrittr (v2.0.1)`
+* `devtools (v2.4.1)`
+* `readr (v1.4.0)`
+* `rlang (v0.4.11)`
 * `purrr (v0.3.4)`
-* `usethis (v1.6.0)`
-* `tidyr (v1.0.2)`
-* `dplyr (v0.8.5)`
-* `tibble (v3.0.1)`
-* `cli (v2.0.2)`
-* `crayon (v1.3.4)`
+* `usethis (v2.0.1)`
+* `tidyr (v1.1.3)`
+* `tidyselect (v1.1.1)`
+* `tibble (v3.2.1)`
+* `cli (v2.5.0)`
+* `crayon (v1.4.1)`
 * `stringr (v1.4.0)`
 
 
 #### Biobase
+
 The `Biobase` package is *suggested*, being required by only 
 two functions, `pivotExpressionSet()` and `adat2eset()`. `Biobase` must be 
 installed separately from `Bioconductor` by entering the 
@@ -105,13 +111,14 @@ following from the `R` console:
 if (!requireNamespace("BiocManager", quietly = TRUE)) {
   install.packages("BiocManager")
 }
-BiocManager::install("Biobase")
+BiocManager::install("Biobase", version = "3.13")
 ```
 
 Information about Bioconductor can be found here: [https://bioconductor.org/install/](https://bioconductor.org/install/)
 
 
 #### Loading
+
 Upon *successful* installation, load the SomaDataIO as normal:
 ```{r load-somadataio, eval = FALSE}
 library(SomaDataIO)
@@ -124,6 +131,7 @@ library(help = SomaDataIO)
 
 
 #### Internal Objects
+
 The `SomaDataIO` package comes with 4 internal objects available
 to users to run canned examples (or analyses). They can be accessed once
 `SomaDataIO` has been attached via `library()`. They are:

@@ -27,15 +27,16 @@ Diffs of the column \emph{intersect} names are considered.
 diffAdats(example_data, example_data)
 
 # remove random column
-set.seed(1)
-diffAdats(example_data, example_data[, -sample(1:ncol(example_data), 1)])
+rm <- withr::with_seed(123, sample(1:ncol(example_data), 1))
+diffAdats(example_data, example_data[, -rm])
 
-# change TimePoint randomely
-diffAdats(example_data, dplyr::mutate(example_data, TimePoint = sample(TimePoint)))
+# change Subarray randomly
+diffAdats(example_data, dplyr::mutate(example_data, Subarray = sample(Subarray)))
 
-# remove Females
-males  <- dplyr::filter(example_data, SampleGroup == "M")
-mydiff <- diffAdats(example_data, males)      # ALL columns will now differ
+# modify 2 RFUs randomly
+new <- example_data
+new[5, c(rm, rm + 1)] <- 999
+diffAdats(example_data, new)
 }
 \seealso{
 \code{\link[=are_equal]{are_equal()}}

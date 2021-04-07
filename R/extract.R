@@ -27,20 +27,20 @@
     return(NextMethod())
   }
 
-  apts <- get_features(names(x))
+  apts <- getFeatures(x)
 
   if ( is.character(j) ) {
-    k <- match(j[j %in% apts], apts)              # Character case
+    # Character case
+    k <- match(j[j %in% apts], apts)
   } else if ( is.numeric(j) | is.logical(j) ) {
-                                                  # Integer/Logical case
+    # Integer/Logical case
     # this is tricky
     # must figure out which numeric indices are feature data; which meta data
-    k <- get_features(names(x)[j]) %>%
-      match(., apts)
+    k <- getFeatures(names(x)[j]) %>% match(apts)
   }
 
   # Update the attributes -> Col.Meta information
-  atts$Col.Meta <- atts$Col.Meta[k, ] # assume apts same order as Col.Meta (should be ok)
+  atts$Col.Meta <- atts$Col.Meta[k, ]
   .data <- addAttributes(NextMethod(), atts)
   attributes(.data) <- attributes(.data)[names(atts)]   # orig order
   .data

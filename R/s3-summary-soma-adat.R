@@ -4,7 +4,7 @@
 #' An associated S3 generic summary method ([summary()]) returns
 #' the following for each column of the ADAT object containing SOMAmer data
 #' (clinical meta data is excluded):
-#'   * Target (if available via `ft.data`)
+#'   * Target (if available)
 #'   * Minimum value
 #'   * 1st Quantile
 #'   * Median
@@ -18,27 +18,32 @@
 #' the S3 generic [summary()].
 #' @param ft.data If `NULL` (default), and the attributes of `object` are
 #' intact, `Target` names are extracted from the "Col.Meta" of the attributes.
-#' Alternatively, the result of a call to [getFeatureData()], from which
-#' `Target` names can be extracted. If neither of the above options are
+#' Alternatively, the result of a call to [getFeatureData()], from
+#' which Target names can be extracted. If neither of the above options are
 #' available, the "Target" row of the S3 [summary()] method is left blank.
 #' @param digits Integer. Used for number formatting with [signif()].
 #' @examples
 #' # S3 summary method
-#' # MMP analytes
-#' mmps <- c("seq.15419.15", "seq.2579.17", "seq.2788.55",
-#'           "seq.2789.26",  "seq.2838.53", "seq.4160.49",
-#'           "seq.4496.60",  "seq.4924.32", "seq.4925.54",
-#'           "seq.5002.76",  "seq.5268.49", "seq.6425.87",
-#'           "seq.8479.4",   "seq.9172.69", "seq.9719.145")
-#' summary(my_adat[, mmps])  # summary of MMPs
+#' # MMP (4) analytes
+#' mmps <- c("seq.2579.17", "seq.2788.55", "seq.2789.26", "seq.4925.54")
+#' summary(my_adat[, mmps])
+#'
+#' # Summarize by group
+#' my_adat[, mmps] %>%
+#'   split(my_adat$Sex) %>%
+#'   lapply(summary)
 #'
 #' # Alternatively pass `ft.data` for Target info
-#' ft <- getFeatureData(my_adat)
-#' summary(my_adat[, mmps], ft.data = ft)
+#' # Obtained from `getFeatureData()`
+#' tbl <- attributes(my_adat)$Col.Meta
+#' tbl$AptName <- sub("-", ".", paste0("seq.", tbl$SeqId))
+#' summary(my_adat[, mmps], ft.data = tbl)
 #'
 #' @importFrom stats IQR mad sd
+#' @importFrom purrr map map2_df walk
+#' @importFrom rlang set_names
 #' @importFrom stringr str_pad
-#' @importFrom purrr map map2_df set_names
+#' @importFrom utils capture.output
 #' @export
 summary.soma_adat <- function(object, ft.data,
                               digits = max(3L, getOption("digits") - 3L), ...) {
@@ -53,7 +58,7 @@ summary.soma_adat <- function(object, ft.data,
   labs <- c("Target", "Min", "1Q", "Median", "Mean", "3Q",
             "Max", "sd", "MAD", "IQR") %>%
     stringr::str_pad(width = 6, side = "right")
-  nm   <- names(object) %>% get_features()
+  nm   <- getFeatures(object)
   vals <- dplyr::select(object, nm) %>%
     purrr::map(function(.x) {
       vec <- .x[!is.na(.x)]         # rm NaN/NA; outside b/c summary()
@@ -62,16 +67,16 @@ summary.soma_adat <- function(object, ft.data,
     })
 
   # lookup table
-  tbl  <- as.list(ad$Target) %>% purrr::set_names(ad$AptName)
+  tbl  <- as.list(ad$Target) %>% rlang::set_names(ad$AptName)
   tgts <- names(vals) %>%
-    purrr::set_names() %>%
-    purrr::map(~ ifelse(is.null(tbl[[.x]]), "", tbl[[.x]]))  # if NULL -> ""
+    rlang::set_names() %>%
+    lapply(function(.x) ifelse(is.null(tbl[[.x]]), "", tbl[[.x]]))  # if NULL -> ""
 
   purrr::map2_df(
     tgts, vals, ~ paste(labs, ":", stringr::str_pad(c(.x, .y), width = 10,
                                                     side = "right"))
     ) %>%
-    structure(class = c("adat_summary", class(.)))
+    addClass("adat_summary")
 }
 
 #' @noRd

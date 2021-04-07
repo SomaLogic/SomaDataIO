@@ -10,7 +10,7 @@
 #' if (!requireNamespace("BiocManager", quietly = TRUE)) {
 #'   install.packages("BiocManager")
 #' }
-#' BiocManager::install("Biobase")
+#' BiocManager::install("Biobase", version = "3.13")
 #' ```
 #'
 #' @param adat A `soma_adat` class object as read into the R
@@ -18,7 +18,7 @@
 #' @return A Bioconductor object of class `ExpressionSet`.
 #' @author Stu Field
 #' @seealso [pivotExpressionSet()]
-#' @references https://bioconductor.org/install/
+#' @references \url{https://bioconductor.org/install/}
 #' @examples
 #' eSet <- adat2eSet(example_data)
 #' class(eSet)
@@ -27,10 +27,9 @@
 #' ft <- Biobase::exprs(eSet)
 #' head(ft[, 1:10], 10)
 #' @importFrom utils sessionInfo
-#' @importFrom tibble column_to_rownames
 #' @importFrom usethis ui_stop
 #' @importFrom methods validObject new
-#' @export adat2eSet
+#' @export
 adat2eSet <- function(adat) {
 
   if ( !requireNamespace("Biobase", quietly = TRUE) ) {
@@ -44,8 +43,7 @@ adat2eSet <- function(adat) {
   atts        <- attributes(adat)
   apts        <- getFeatures(adat)
   lst         <- list()
-  lst$fdata   <- getFeatureData(adat) %>% data.frame() %>%
-    tibble::column_to_rownames("AptName")
+  lst$fdata   <- getFeatureData(adat) %>% data.frame() %>% col2rn("AptName")
   class(adat) <- "data.frame"
   lst$pdata   <- adat[, setdiff(names(adat), apts)]
   lst$header  <- atts$Header.Meta$HEADER
@@ -80,9 +78,10 @@ adat2eSet <- function(adat) {
   Biobase::experimentData(eset) <- experimentData
 
   if ( !validObject(eset) ) {
-    stop("The `ExpressionSet` object was created but is invalid.", call. = FALSE)
+    usethis::ui_stop(
+      "The `ExpressionSet` object was created but is invalid."
+    )
   }
 
-  return(eset)
-
+  eset
 }

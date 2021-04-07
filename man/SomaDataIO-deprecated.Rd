@@ -8,7 +8,7 @@
 \alias{getSomamerData}
 \title{Deprecated function(s) of the \code{SomaDataIO} package}
 \arguments{
-\item{...}{A simple pass-through to the replacement function.}
+\item{...}{A simple pass-through to a replacement alternative if available.}
 }
 \description{
 These functions are provided for compatibility with

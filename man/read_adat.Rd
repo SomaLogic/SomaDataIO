@@ -30,8 +30,7 @@ file to be loaded into an R workspace.}
 fails to load, particularly out-of-spec, poorly modified, or legacy ADATs.}
 
 \item{verbose}{Logical. Should the function call be run in \emph{verbose}
-mode, printing relevant diagnostic call information to the console. Defaults
-to the global variable defined in \code{\link[=getOption]{getOption()}}.}
+mode, printing relevant diagnostic call information to the console.}
 
 \item{...}{Additional arguments passed ultimately to
 \code{\link[=read_delim]{read_delim()}}, or additional arguments passed to either
@@ -99,8 +98,8 @@ the S3 generic \code{\link[=summary]{summary()}}.}
 
 \item{ft.data}{If \code{NULL} (default), and the attributes of \code{object} are
 intact, \code{Target} names are extracted from the "Col.Meta" of the attributes.
-Alternatively, the result of a call to \code{\link[=getFeatureData]{getFeatureData()}}, from which
-\code{Target} names can be extracted. If neither of the above options are
+Alternatively, the result of a call to \code{\link[=getFeatureData]{getFeatureData()}}, from
+which Target names can be extracted. If neither of the above options are
 available, the "Target" row of the S3 \code{\link[=summary]{summary()}} method is left blank.}
 
 \item{digits}{Integer. Used for number formatting with \code{\link[=signif]{signif()}}.}
@@ -140,7 +139,7 @@ by a dispatch to the \code{tibble} print method.
 the following for each column of the ADAT object containing SOMAmer data
 (clinical meta data is excluded):
 \itemize{
-\item Target (if available via \code{ft.data})
+\item Target (if available)
 \item Minimum value
 \item 1st Quantile
 \item Median
@@ -171,23 +170,27 @@ write_adat(my_adat, file = fout)
 read_adat(fout)
 
 # S3 summary method
-# MMP analytes
-mmps <- c("seq.15419.15", "seq.2579.17", "seq.2788.55",
-          "seq.2789.26",  "seq.2838.53", "seq.4160.49",
-          "seq.4496.60",  "seq.4924.32", "seq.4925.54",
-          "seq.5002.76",  "seq.5268.49", "seq.6425.87",
-          "seq.8479.4",   "seq.9172.69", "seq.9719.145")
-summary(my_adat[, mmps])  # summary of MMPs
+# MMP (4) analytes
+mmps <- c("seq.2579.17", "seq.2788.55", "seq.2789.26", "seq.4925.54")
+summary(my_adat[, mmps])
+
+# Summarize by group
+my_adat[, mmps] \%>\%
+  split(my_adat$Sex) \%>\%
+  lapply(summary)
 
 # Alternatively pass `ft.data` for Target info
-ft <- getFeatureData(my_adat)
-summary(my_adat[, mmps], ft.data = ft)
+# Obtained from `getFeatureData()`
+tbl <- attributes(my_adat)$Col.Meta
+tbl$AptName <- sub("-", ".", paste0("seq.", tbl$SeqId))
+summary(my_adat[, mmps], ft.data = tbl)
 
 }
 \seealso{
 \code{\link[=read_delim]{read_delim()}}
 
 Other IO: 
+\code{\link{parseHeader}()},
 \code{\link{write_adat}()}
 }
 \author{

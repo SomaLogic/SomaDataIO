@@ -29,7 +29,7 @@ test_that("Sample objects are created properly", {
                                    "CalQcRatio_Example_Adat_Set002_170255",
                                    "Dilution2"))
   expect_is(ex_feature_table, "tbl_df")
-  expect_equal(ex_features, getAptamers(example_data))
+  expect_equal(ex_features, getFeatures(example_data))
   expect_named(ex_target_names, ex_features)
   expect_equal(ex_target_names %>% unlist() %>% unname(),
                ex_feature_table$TargetFullName)

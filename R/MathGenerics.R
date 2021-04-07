@@ -40,10 +40,11 @@
 #' # rounding
 #' e <- round(example_data)
 #' e$seq.3343.1
-#' @importFrom usethis ui_stop
+#' @importFrom usethis ui_stop ui_value
 #' @export
 Math.soma_adat <- function(x, ...) {
-  .apts   <- get_features(names(x))
+  .apts   <- getFeatures(x)
+  class   <- class(x)
   mode_ok <- vapply(x[, .apts], function(.x)
                     is.numeric(.x) || is.complex(.x), NA)
   if ( all(mode_ok) ) {
@@ -51,24 +52,25 @@ Math.soma_adat <- function(x, ...) {
   } else {
     usethis::ui_stop(
       "Non-numeric variable(s) in `soma_adat` object \\
-      where RFU values should be: {names(x[, .apts])[ !mode_ok ]}."
-      )
+      where RFU values should be: {ui_value(names(x[, .apts])[ !mode_ok ])}."
+    )
   }
-  return(x)
+  structure(x, class = class)
 }
 
 #' @importFrom stringr str_glue
+#' @importFrom lifecycle deprecate_warn
 #' @method Math soma.adat
 #' @export
 Math.soma.adat <- function(x, ...) {
   .msg <- stringr::str_glue(
-    "The 'soma.adat' class is now 'soma_adat' (31 JAN 2019). \\
+    "The {ui_value('soma.adat')} class is now {ui_value('soma_adat')}. \\
     This math generic `{.Generic}` will be deprecated.
     Please either:
-    1) Re-class with x %<>% addClass('soma_adat')
-    2) Re-call 'read_adat(file)' to pick up the new 'soma_adat' class."
+      1) Re-class with x %<>% addClass('soma_adat')
+      2) Re-call 'read_adat(file)' to pick up the new 'soma_adat' class."
   )
-  .Deprecated(msg = .msg, package = "SomaDataIO")
+  deprecate_warn("2019-01-31", "SomaRead::Math.soma.adat()", details = .msg)
   class(x) <- c("soma_adat", "data.frame")
   do.call(.Generic, list(x = x, ...))
 }

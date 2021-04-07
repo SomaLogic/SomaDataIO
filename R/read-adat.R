@@ -11,8 +11,7 @@
 #' @param debug Logical. Used for debugging and development of an ADAT that
 #' fails to load, particularly out-of-spec, poorly modified, or legacy ADATs.
 #' @param verbose Logical. Should the function call be run in *verbose*
-#' mode, printing relevant diagnostic call information to the console. Defaults
-#' to the global variable defined in [getOption()].
+#' mode, printing relevant diagnostic call information to the console.
 #' @param ... Additional arguments passed ultimately to
 #' [read_delim()], or additional arguments passed to either
 #' other S3 print or summary methods as required by those generics.
@@ -115,14 +114,14 @@ read_adat <- function(file, debug = FALSE, verbose = getOption("verbose"), ...) 
   # Catch dimension issues ----
   catchDims(rfu_dat, ncols)
 
-  # Select and add names
-  rfu_dat <- rfu_dat %>%
-    dplyr::select(1:ncols) %>%  # trim possible trailing tabs in rfu_dat table
-    purrr::set_names(c(row_meta, apt_names))
+  # trim possible trailing tabs in rfu_dat table
+  # convert tibble -> strip "spec_tbl_df" class
+  rfu_dat <- tibble::as_tibble(rfu_dat)[, 1:ncols] %>%
+    rlang::set_names(c(row_meta, apt_names))
 
   # remove ghost column if NOT old adat
   if ( "blank_col" %in% names(rfu_dat) ) {
-    rfu_dat %<>% dplyr::select(which(names(.) != "blank_col"))
+    rfu_dat <- rfu_dat[, which(names(rfu_dat) != "blank_col")]
   }
 
   if ( verbose ) {
@@ -132,6 +131,7 @@ read_adat <- function(file, debug = FALSE, verbose = getOption("verbose"), ...) 
   # reorder atts here to keep with default data.frame class order
   attributes(rfu_dat) <- attributes(rfu_dat)[c("names", "class",
                                                "row.names", "spec")]
+
   # Create `soma_adat` ----
   structure(rfu_dat,
             row.names   = genRowNames(rfu_dat),
@@ -140,7 +140,7 @@ read_adat <- function(file, debug = FALSE, verbose = getOption("verbose"), ...) 
             file.specs  = header_data$file.specs,
             row.meta    = header_data$row.meta,
             class       = c("soma_adat", "data.frame")
-            )
+            )   # one day a tibble?
 }
 
 

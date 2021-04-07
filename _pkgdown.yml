@@ -1,7 +1,9 @@
 template:
   params:
-    bootswatch: cerulean
-    ganalytics: UA-000000-01
+    docsearch:
+      api_key: fbd8d79ed49f21fc9ca7b2cf601a3f5b
+      index_name: pkgdown
+    ganalytics: UA-115082821-1
 
 home:
   strip_header: false 
@@ -12,60 +14,34 @@ home:
     href: http://www.somalogic.com
   - text: The tidyverse
     href: https://www.tidyverse.org
-  - text: R for Data Science
-    href: https://r4ds.had.co.nz/
-
-navbar:
-  type: inverse
-  left:
-  - icon: fa-home fa-lg
-    href: index.html
-  - text: Reference
-    href: reference/index.html
-  - text: Get Started
-    href: articles/SomaDataIO.html
-  - text: News
-    menu:
-    - text: "Release Notes"
-      href: news/index.html
-    - text: "------------------"
-    - text: "Links"
-    - text: "------------------"
-    - text: "The Tidyverse"
-      href: https://www.tidyverse.org
-    - text: "R for Data Science"
-      href: https://r4ds.had.co.nz/
-  right:
-  - icon: fa-github fa-lg
-    href: https://github.com/somalogic/somadataio
 
 development:
   mode: devel
-  #version_label: default   # grey
-  version_label: info     # blue
+  version_label: default   # grey
+  #version_label: info     # blue
   #version_label: danger   # red
+
+articles:
+  - title: Getting Started
+    navbar: ~
+    contents:
+    - SomaDataIO
 
 reference:
   - title: Load an ADAT
     desc: Load RFU (feature) data loaded into (and out of) an R session.
     contents:
-    - read.adat
+    - read_adat
     - is.intact.attributes
     - MathGenerics
     - SampleObjects
-
-  - title: Write
-    desc: Exporting internal `soma_adat` and `stat.table` objects to text file.
-    contents:
-    - write
 
   - title: ADAT Manipulation
     desc: Functions that allow filtering and subset selection of ADAT objects.
     contents:
     - filter
     - diffAdats
-    - starts_with("^get[FM]")
-    - revertAptNames
+    - starts_with("^get")
     - is_seqFormat
 
   - title: Expression Data

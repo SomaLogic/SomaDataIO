@@ -1,7 +1,7 @@
 #' Are Attributes Intact?
 #'
-#' `is.intact.attributes` uses a series of checks to determine
-#' if a "soma_adat" object has a complete
+#' This function runs a series of checks to determine
+#' if a `"soma_adat"` object has a complete
 #' set of attributes. If not, this indicates that the object has
 #' been modified since the initial [read_adat()] call.
 #' Checks for the presence of both "Header.Meta" and "Col.Meta" in the
@@ -16,55 +16,61 @@
 #'
 #' @inheritParams read_adat
 #' @param adat A `soma_adat` object to query.
-#' @return For `is.intact.attributes`: `TRUE` if attributes are intact,
-#' otherwise `FALSE`.
+#' @return Logical. `TRUE` if all checks pass, otherwise `FALSE`.
 #' @seealso [attributes()]
 #' @examples
 #' # checking attributes
 #' my_adat <- example_data
 #' is.intact.attributes(my_adat)           # TRUE
 #' is.intact.attributes(my_adat[, -303])   # doesn't break atts; TRUE
-#' attributes(my_adat)$Col.Meta <- NULL    # break attributes
-#' is.intact.attributes(my_adat, verbose = TRUE) # FALSE
-#' @importFrom usethis ui_oops
-#' @export is.intact.attributes
-is.intact.attributes <- function(adat, verbose = getOption("verbose")) {
+#' attributes(my_adat)$Col.Meta$Target <- NULL    # break attributes
+#' is.intact.attributes(my_adat, verbose = TRUE)  # FALSE (Target missing)
+#' @importFrom usethis ui_oops ui_value
+#' @export
+is.intact.attributes <- function(adat, verbose = interactive()) {
 
   atts <- attributes(adat)
   col_meta_checks <- c("SeqId", "Dilution", "Target", "Units")
 
-  if ( length(atts) <= 3 ) {
+  if ( !is.soma_adat(adat) ) {
     if ( verbose ) {
       usethis::ui_oops(
-        "Attributes has only 3 entries: {paste(names(atts), collapse = ', ')}"
+        "The object is not a `soma_adat` class object: {ui_value(class(adat))}"
       )
     }
-    return(FALSE)
+    FALSE
+  } else if ( length(atts) <= 3 ) {
+    if ( verbose ) {
+      usethis::ui_oops(
+        "Attributes has only 3 entries: {ui_value(names(atts))}"
+      )
+    }
+    FALSE
   } else if ( !all(c("Header.Meta", "Col.Meta") %in% names(atts)) ) {
     if ( verbose ) {
       usethis::ui_oops("Header.Meta and/or Col.Meta missing from attributes.")
     }
-    return(FALSE)
+    FALSE
   } else if ( !all(c("HEADER", "COL_DATA", "ROW_DATA") %in% names(atts$Header.Meta)) ) {
     if ( verbose ) {
-      diff <- setdiff(c("HEADER", "COL_DATA", "ROW_DATA"), names(atts$Header.Meta))
-      usethis::ui_oops("Header.Meta missing: {paste(diff, collapse = ', ')}")
+      diff <- setdiff(c("HEADER", "COL_DATA", "ROW_DATA"), names(atts$Header.Meta)) # nolint
+      usethis::ui_oops("Header.Meta missing: {ui_value(diff)}")
     }
-    return(FALSE)
+    FALSE
   } else if ( !all(col_meta_checks %in% names(atts$Col.Meta)) ) {
     if ( verbose ) {
-      diff <- setdiff(col_meta_checks, names(atts$Co.Meta))
-      usethis::ui_oops("Col.Meta is missing: {paste(diff, collapse = ', ')}")
+      diff <- setdiff(col_meta_checks, names(atts$Col.Meta))
+      usethis::ui_oops("Col.Meta is missing: {ui_value(diff)}")
     }
-    return(FALSE)
+    FALSE
   } else if ( !inherits(atts$Col.Meta, "tbl_df") ) {
     if ( verbose ) {
       usethis::ui_oops(
-        "Col.Meta is not a tibble! -> {class(atts$Col.Meta)}"
+        "Col.Meta is not a tibble! -> {ui_value(class(atts$Col.Meta))}"
       )
     }
-    return(FALSE)
+    FALSE
   } else {
-    return(TRUE)  # Everything looks good!
+    TRUE  # Everything looks good!
   }
 }

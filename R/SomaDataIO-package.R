@@ -1,7 +1,4 @@
 
-#' @importFrom dplyr anti_join mutate select rename arrange full_join
-#' @importFrom dplyr inner_join left_join right_join semi_join ungroup
-#' @importFrom purrr map_df set_names
 #' @importFrom tidyselect all_of
 #' @keywords internal package
 "_PACKAGE"

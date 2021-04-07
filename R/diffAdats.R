@@ -6,8 +6,8 @@
 #'
 #' @param adat1 First `soma_adat` object.
 #' @param adat2 Second `soma_adat` object.
-#' @param tolerance Tolerance for the difference between 
-#' numeric vectors (i.e. SOMAmer/feature data). Passed 
+#' @param tolerance Tolerance for the difference between
+#' numeric vectors (i.e. SOMAmer/feature data). Passed
 #' eventually to [are_equal()].
 #' @note Diffs of the column *intersect* names are considered.
 #' @author Stu Field
@@ -15,21 +15,22 @@
 #' diffAdats(example_data, example_data)
 #'
 #' # remove random column
-#' set.seed(1)
-#' diffAdats(example_data, example_data[, -sample(1:ncol(example_data), 1)])
+#' rm <- withr::with_seed(123, sample(1:ncol(example_data), 1))
+#' diffAdats(example_data, example_data[, -rm])
 #'
-#' # change TimePoint randomely
-#' diffAdats(example_data, dplyr::mutate(example_data, TimePoint = sample(TimePoint)))
+#' # change Subarray randomly
+#' diffAdats(example_data, dplyr::mutate(example_data, Subarray = sample(Subarray)))
 #'
-#' # remove Females
-#' males  <- dplyr::filter(example_data, SampleGroup == "M")
-#' mydiff <- diffAdats(example_data, males)      # ALL columns will now differ
+#' # modify 2 RFUs randomly
+#' new <- example_data
+#' new[5, c(rm, rm + 1)] <- 999
+#' diffAdats(example_data, new)
 #' @importFrom stringr str_glue str_pad
 #' @importFrom purrr walk
 #' @importFrom assertthat are_equal
 #' @importFrom usethis ui_stop ui_done ui_value
 #' @seealso [are_equal()]
-#' @export diffAdats
+#' @export
 diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
 
   if ( !(inherits(adat1, "data.frame") & inherits(adat2, "data.frame")) ) {
@@ -49,7 +50,7 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
 
   # Attribute names ----
   mark <- are_equal(names(attributes(adat1)), names(attributes(adat2)))
-  msg  <- stringr::str_pad("Attribute names are identical", width = pad, "right")
+  msg  <- stringr::str_pad("Attribute names are identical", width = pad, "right") # nolint
   usethis::ui_todo("{msg} {map_mark(mark)}")
 
   # Attributes ----
@@ -71,11 +72,11 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
     msg  <- stringr::str_pad("  ADATs have same # of columns", width = pad, "right")
     usethis::ui_todo("{msg} {map_mark(mark)}")
 
-    mark <- are_equal(length(.getfeat(adat1)), length(.getfeat(adat2)))
+    mark <- are_equal(getFeatures(adat1, n = TRUE), getFeatures(adat2, n = TRUE))
     msg  <- stringr::str_pad("  ADATs have same # of features", width = pad, "right")
     usethis::ui_todo("{msg} {map_mark(mark)}")
 
-    mark <- are_equal(length(.getmeta(adat1)), length(.getmeta(adat2)))
+    mark <- are_equal(getMeta(adat1, n = TRUE), getMeta(adat2, n = TRUE))
     msg  <- stringr::str_pad("  ADATs have same # of meta data", width = pad, "right")
     usethis::ui_todo("{msg} {map_mark(mark)}")
   }
@@ -86,21 +87,21 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
   usethis::ui_todo("{msg} {map_mark(mark)}")
 
   # Adat feature names ----
-  same_ft_names <- are_equal(.getfeat(adat1), .getfeat(adat2))
+  same_ft_names <- are_equal(getFeatures(adat1), getFeatures(adat2))
   msg <- stringr::str_pad("ADATs contain identical Features", width = pad, "right")
   usethis::ui_todo("{msg} {map_mark(same_ft_names)}")
 
   # Adat meta names ----
-  same_meta_names <- are_equal(.getmeta(adat1), .getmeta(adat2))
+  same_meta_names <- are_equal(getMeta(adat1), getMeta(adat2))
   msg <- stringr::str_pad("ADATs contain same Meta Fields", width = pad, "right")
   usethis::ui_todo("{msg} {map_mark(same_meta_names)}")
 
   if ( !(same_meta_names & same_ft_names) ) {
     ipad    <- 20   # internal padding
-    apts1_2 <- setdiff(.getfeat(adat1), .getfeat(adat2))
-    apts2_1 <- setdiff(.getfeat(adat2), .getfeat(adat1))
-    meta1_2 <- setdiff(.getmeta(adat1), .getmeta(adat2))
-    meta2_1 <- setdiff(.getmeta(adat2), .getmeta(adat1))
+    apts1_2 <- setdiff(getFeatures(adat1), getFeatures(adat2))
+    apts2_1 <- setdiff(getFeatures(adat2), getFeatures(adat1))
+    meta1_2 <- setdiff(getMeta(adat1), getMeta(adat2))
+    meta2_1 <- setdiff(getMeta(adat2), getMeta(adat1))
 
     if ( length(apts1_2) > 0 ) {
       stringr::str_glue(
@@ -171,18 +172,18 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
 .diffAdatColumns <- function(x, y, meta = FALSE, tolerance) {
 
   type <- ifelse(meta, "Meta", "Feature")
-  .fun <- switch(type, Meta = .getmeta, Feature = .getfeat)
+  .fun <- switch(type, Meta = getMeta, Feature = getFeatures)
   cols <- intersect(.fun(x), .fun(y))
 
   test_lgl <- purrr::map2_lgl(x[, cols], y[, cols], ~ {
      if ( meta ) {
-       assertthat::are_equal(as.character(.x), as.character(.y), check.names = FALSE)
+       assertthat::are_equal(.x, .y, check.names = FALSE)
      } else {
        assertthat::are_equal(.x, .y, tolerance = tolerance)
      }
   })
 
-  msg <- stringr::str_pad(sprintf("All %s data is identical", type), 35, "right")
+  msg <- stringr::str_pad(sprintf("All %s data is identical", type), 35, "right") # nolint
 
   # `test_lgl` is a logical vector
   if ( all(test_lgl, na.rm = TRUE) ) {

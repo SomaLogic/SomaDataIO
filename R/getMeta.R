@@ -1,29 +1,30 @@
-#' Get Meta Data Field Names
+#' Get Meta Data Names
 #'
-#' Return a character vector of field names of the meta data
-#' for an ADAT, or `soma.data` object.
+#' Return a character vector of string names of *non*-feature
+#' columns/variables.
 #'
+#' @family get*
 #' @inheritParams getFeatures
-#' @return A character vector of ADAT meta data names
-#' or an integer number corresponding to the length of the
-#' feature names (if `n = TRUE`).
+#' @return Either a character vector of ADAT meta data names or
+#' an integer number the length of the meta data names (if `n = TRUE`).
 #' @author Stu Field
+#' @seealso [is.apt()]
 #' @examples
-#' meta.vec <- getMeta(example_data)
-#' head(meta.vec, 20)
+#' mvec <- getMeta(example_data)
+#' head(mvec, 10)
 #' getMeta(example_data, n = TRUE)
 #'
 #' # test data.frame and character S3 methods
 #' identical(getMeta(example_data), getMeta(names(example_data))) # TRUE
-#' @importFrom usethis ui_stop
 #' @export
 getMeta <- function(x, n = FALSE) UseMethod("getMeta")
 
+#' @importFrom usethis ui_stop ui_value
 #' @noRd
 #' @export
 getMeta.default <- function(x, n) {
   usethis::ui_stop(
-    "Couldn't find a S3 method for this object: {class(x)}."
+    "Couldn't find a S3 method for this class object: {ui_value(class(x))}."
   )
 }
 
@@ -41,18 +42,16 @@ getMeta.soma_adat <- getMeta.data.frame
 #' @export
 getMeta.list <- getMeta.data.frame
 
-#' S3 getMeta method for matrix
 #' @noRd
 #' @export
 getMeta.matrix <- function(x, n = FALSE) {
   getMeta(colnames(x), n = n)
 }
 
-#' S3 getMeta method for character
 #' @noRd
 #' @export
 getMeta.character <- function(x, n = FALSE) {
-  lgl <- !is.seq(x)
+  lgl <- !is.apt(x)
   if ( n ) {
     sum(lgl)
   } else {

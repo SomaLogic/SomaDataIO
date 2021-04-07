@@ -17,13 +17,13 @@
 print.soma_adat <- function(x, show_header = FALSE, ...) {
 
   attsTRUE    <- is.intact.attributes(x)
-  col_f       <- if ( attsTRUE ) crayon::green else crayon::red    # nolint
+  col_f       <- if ( attsTRUE ) crayon::green else crayon::red            # nolint
   atts_symbol <- if ( attsTRUE ) cli::symbol$tick else cli::symbol$cross   # nolint
   writeLines(cli::rule(crayon::bold("Attributes"), line_col = crayon::blue))
   stringr::str_glue("     {x} {col_f(atts_symbol)}",
                     x = stringr::str_pad("Intact", 20, "right")) %>%
     writeLines()
-  apts <- get_features(names(x))
+  apts <- getFeatures(x)
   meta <- setdiff(names(x), apts)
 
   writeLines(cli::rule(crayon::bold("Dimensions"), line_col = crayon::blue))
@@ -97,11 +97,9 @@ print.soma_adat <- function(x, show_header = FALSE, ...) {
     # this is the default behavior
     cli::rule(crayon::bold("Tibble"), line_col = crayon::blue) %>%
       writeLines()
-    rnms <- ifelse(is.na(.row_names_info(x, type = 0L)[1L]), NA, "row_names")
-    print(tibble::as_tibble(x, rownames = rnms))
+    print(tibble::as_tibble(x, rownames = ifelse(has_rn(x), "row_names", NA)))
   }
 
   writeLines(cli::rule(line = 2, line_col = crayon::green))
   invisible(x)
 }
-

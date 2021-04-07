@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 ![GitHub
-version](https://img.shields.io/badge/Version-5.0.0-success.svg?style=flat&logo=github)
+version](https://img.shields.io/badge/Version-5.0.0.9000-success.svg?style=flat&logo=github)
 [![CRAN
 badge](https://img.shields.io/badge/CRAN-No-red.svg)](https://cran.r-project.org)
 ![cover](https://img.shields.io/badge/coverage-80-success.svg?style=flat&logo=codecov)
@@ -14,7 +14,7 @@ badge](https://img.shields.io/badge/CRAN-No-red.svg)](https://cran.r-project.org
 MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://choosealicense.com/licenses/mit/)
 <!-- badges: end -->
 
------
+------------------------------------------------------------------------
 
 ## Overview
 
@@ -25,7 +25,7 @@ the ADAT object once in the R environment. Basic familiarity with the R
 environment is assumed, as is the ability to install contributed
 packages from the Comprehensive R Archive Network (CRAN).
 
------
+------------------------------------------------------------------------
 
 ## Installation
 
@@ -40,7 +40,7 @@ Alternatively you may clone the repository and install manually:
 
 ``` bash
 git clone https://github.com/SomaLogic/SomaDataIO.git SomaDataIO
-R --vanilla CMD INSTALL SomaDataIO
+R CMD INSTALL --use-vanilla --resave-data SomaDataIO
 ```
 
 #### Package Dependencies
@@ -49,23 +49,27 @@ The `SomaDataIO` package was intentionally developed to run slightly
 behind the bleeding edge of The Comprehensive R Archive Network
 (`CRAN`). This allows lead time to identify and fix bugs as well as
 simplifying software life-cycle. This may change in the future, however
-for the time being, the dependencies below represent the development
-environment in which `SomaDataIO` was designed to operate. If you run
-into any unexpected behavior, please ensure that the following package
-dependencies are pre-installed:
+for the time being, the dependencies below represent the environment in
+which `SomaDataIO` was developed. If you run into any unexpected
+behavior, please ensure that the following package dependencies are
+pre-installed:
 
-  - `R (v3.6.3)`
-  - `magrittr (v1.5)`
-  - `devtools (v2.3.0)`
-  - `readr (v1.3.1)`
-  - `purrr (v0.3.4)`
-  - `usethis (v1.6.0)`
-  - `tidyr (v1.0.2)`
-  - `dplyr (v0.8.5)`
-  - `tibble (v3.0.1)`
-  - `cli (v2.0.2)`
-  - `crayon (v1.3.4)`
-  - `stringr (v1.4.0)`
+-   `R (>= 4.0.0)`
+-   `dplyr (v1.0.6)`
+-   `assertthat (v0.2.1)`
+-   `lifecycle (v1.0.0)`
+-   `magrittr (v2.0.1)`
+-   `devtools (v2.4.1)`
+-   `readr (v1.4.0)`
+-   `rlang (v0.4.11)`
+-   `purrr (v0.3.4)`
+-   `usethis (v2.0.1)`
+-   `tidyr (v1.1.3)`
+-   `tidyselect (v1.1.1)`
+-   `tibble (v3.2.1)`
+-   `cli (v2.5.0)`
+-   `crayon (v1.4.1)`
+-   `stringr (v1.4.0)`
 
 #### Biobase
 
@@ -78,7 +82,7 @@ the `R` console:
 if (!requireNamespace("BiocManager", quietly = TRUE)) {
   install.packages("BiocManager")
 }
-BiocManager::install("Biobase")
+BiocManager::install("Biobase", version = "3.13")
 ```
 
 Information about Bioconductor can be found here:
@@ -104,26 +108,26 @@ The `SomaDataIO` package comes with 4 internal objects available to
 users to run canned examples (or analyses). They can be accessed once
 `SomaDataIO` has been attached via `library()`. They are:
 
-  - `example_data`
-  - `ex_features`
-  - `ex_feature_data`
-  - `ex_target_names`
-  - See `?SomaDataObjects`
+-   `example_data`
+-   `ex_features`
+-   `ex_feature_data`
+-   `ex_target_names`
+-   See `?SomaDataObjects`
 
------
+------------------------------------------------------------------------
 
 ## Main Features (I/O)
 
-  - Loading data (Import)
-      - Import a text file in the `*.adat` format into an `R` session as
+-   Loading data (Import)
+    -   Import a text file in the `*.adat` format into an `R` session as
         a `soma_adat` object.
-  - Wrangling data (manipulation)
-      - Subset, reorder, and list various fields of a `soma_adat`
+-   Wrangling data (manipulation)
+    -   Subset, reorder, and list various fields of a `soma_adat`
         object.
-  - Exporting data (Output)
-      - Write out a `soma_adat` object as a `*.adat` text file.
+-   Exporting data (Output)
+    -   Write out a `soma_adat` object as a `*.adat` text file.
 
------
+------------------------------------------------------------------------
 
 ### Loading an ADAT
 
@@ -136,33 +140,33 @@ is.soma_adat(my_adat)
 
 # S3 print method forwards -> tibble
 my_adat
-#> ── Attributes ─────────────────────────────────────────────────────────────────────────────
+#> ── Attributes ──────────────────────────────────────────────────────────────────────────────────────
 #>      Intact               ✓
-#> ── Dimensions ─────────────────────────────────────────────────────────────────────────────
+#> ── Dimensions ──────────────────────────────────────────────────────────────────────────────────────
 #>      Rows                 192
 #>      Columns              5318
 #>      Clinical Data        34
 #>      Features             5284
-#> ── Column Meta ────────────────────────────────────────────────────────────────────────────
+#> ── Column Meta ─────────────────────────────────────────────────────────────────────────────────────
 #>       SeqId            |   UniProt            |   Type                      |   ColCheck                                |   Dilution2
 #>       SeqIdVersion     |   EntrezGeneID       |   Dilution                  |   CalQcRatio_Example_Adat_Set001_170255   |            
 #>       SomaId           |   EntrezGeneSymbol   |   PlateScale_Reference      |   QcReference_170255                      |            
 #>       TargetFullName   |   Organism           |   CalReference              |   Cal_Example_Adat_Set002                 |            
 #>       Target           |   Units              |   Cal_Example_Adat_Set001   |   CalQcRatio_Example_Adat_Set002_170255   |            
-#> ── Tibble ─────────────────────────────────────────────────────────────────────────────────
+#> ── Tibble ──────────────────────────────────────────────────────────────────────────────────────────
 #> # A tibble: 192 x 5,319
-#>    row_names PlateId PlateRunDate ScannerID PlatePosition SlideId Subarray SampleId SampleType
-#>    <chr>     <chr>   <date>       <chr>     <chr>           <dbl>    <dbl>    <dbl> <chr>     
-#>  1 25849580… Exampl… 2020-06-18   SG152144… H9            2.58e11        3        1 Sample    
-#>  2 25849580… Exampl… 2020-06-18   SG152144… H8            2.58e11        7        2 Sample    
-#>  3 25849580… Exampl… 2020-06-18   SG152144… H7            2.58e11        8        3 Sample    
-#>  4 25849580… Exampl… 2020-06-18   SG152144… H6            2.58e11        4        4 Sample    
-#>  5 25849580… Exampl… 2020-06-18   SG152144… H5            2.58e11        4        5 Sample    
-#>  6 25849580… Exampl… 2020-06-18   SG152144… H4            2.58e11        8        6 Sample    
-#>  7 25849580… Exampl… 2020-06-18   SG152144… H3            2.58e11        3        7 Sample    
-#>  8 25849580… Exampl… 2020-06-18   SG152144… H2            2.58e11        8        8 Sample    
-#>  9 25849580… Exampl… 2020-06-18   SG152144… H12           2.58e11        8        9 Sample    
-#> 10 25849580… Exampl… 2020-06-18   SG152144… H11           2.58e11        3   170261 Calibrator
+#>    row_names   PlateId    PlateRunDate ScannerID PlatePosition  SlideId Subarray SampleId SampleType
+#>    <chr>       <chr>      <date>       <chr>     <chr>            <dbl>    <dbl>    <dbl> <chr>     
+#>  1 2584958000… Example A… 2020-06-18   SG152144… H9             2.58e11        3        1 Sample    
+#>  2 2584958000… Example A… 2020-06-18   SG152144… H8             2.58e11        7        2 Sample    
+#>  3 2584958000… Example A… 2020-06-18   SG152144… H7             2.58e11        8        3 Sample    
+#>  4 2584958000… Example A… 2020-06-18   SG152144… H6             2.58e11        4        4 Sample    
+#>  5 2584958000… Example A… 2020-06-18   SG152144… H5             2.58e11        4        5 Sample    
+#>  6 2584958000… Example A… 2020-06-18   SG152144… H4             2.58e11        8        6 Sample    
+#>  7 2584958000… Example A… 2020-06-18   SG152144… H3             2.58e11        3        7 Sample    
+#>  8 2584958000… Example A… 2020-06-18   SG152144… H2             2.58e11        8        8 Sample    
+#>  9 2584958000… Example A… 2020-06-18   SG152144… H12            2.58e11        8        9 Sample    
+#> 10 2584958000… Example A… 2020-06-18   SG152144… H11            2.58e11        3   170261 Calibrator
 #> # … with 182 more rows, and 5,310 more variables: PercentDilution <dbl>, SampleMatrix <chr>,
 #> #   Barcode <lgl>, Barcode2d <lgl>, SampleName <lgl>, SampleNotes <lgl>, AliquotingNotes <lgl>,
 #> #   SampleDescription <chr>, AssayNotes <lgl>, TimePoint <lgl>, ExtIdentifier <lgl>,
@@ -188,23 +192,23 @@ my_adat
 #> #   seq.10370.21 <dbl>, seq.10372.18 <dbl>, seq.10390.21 <dbl>, seq.10391.1 <dbl>,
 #> #   seq.10396.6 <dbl>, seq.10416.79 <dbl>, seq.10418.36 <dbl>, seq.10419.1 <dbl>,
 #> #   seq.10424.31 <dbl>, seq.10425.3 <dbl>, seq.10426.21 <dbl>, seq.10427.2 <dbl>, …
-#> ═══════════════════════════════════════════════════════════════════════════════════════════
+#> ════════════════════════════════════════════════════════════════════════════════════════════════════
 
 print(my_adat, show_header = TRUE)  # if simply wish to see Header info, no features
-#> ── Attributes ─────────────────────────────────────────────────────────────────────────────
+#> ── Attributes ──────────────────────────────────────────────────────────────────────────────────────
 #>      Intact               ✓
-#> ── Dimensions ─────────────────────────────────────────────────────────────────────────────
+#> ── Dimensions ──────────────────────────────────────────────────────────────────────────────────────
 #>      Rows                 192
 #>      Columns              5318
 #>      Clinical Data        34
 #>      Features             5284
-#> ── Column Meta ────────────────────────────────────────────────────────────────────────────
+#> ── Column Meta ─────────────────────────────────────────────────────────────────────────────────────
 #>       SeqId            |   UniProt            |   Type                      |   ColCheck                                |   Dilution2
 #>       SeqIdVersion     |   EntrezGeneID       |   Dilution                  |   CalQcRatio_Example_Adat_Set001_170255   |            
 #>       SomaId           |   EntrezGeneSymbol   |   PlateScale_Reference      |   QcReference_170255                      |            
 #>       TargetFullName   |   Organism           |   CalReference              |   Cal_Example_Adat_Set002                 |            
 #>       Target           |   Units              |   Cal_Example_Adat_Set001   |   CalQcRatio_Example_Adat_Set002_170255   |            
-#> ── Header Data ────────────────────────────────────────────────────────────────────────────
+#> ── Header Data ─────────────────────────────────────────────────────────────────────────────────────
 #>      AdatId                                      >     GID-1234-56-789-abcdef     
 #>      Version                                     >     1.2     
 #>      AssayType                                   >     PharmaServices     
@@ -240,7 +244,7 @@ print(my_adat, show_header = TRUE)  # if simply wish to see Header info, no feat
 #>      CalPlateTailPercent_Example_Adat_Set002     >     2.6     
 #>      PlateTailPercent_Example_Adat_Set002        >     4.2     
 #>      PlateTailTest_Example_Adat_Set002           >     PASS     
-#> ═══════════════════════════════════════════════════════════════════════════════════════════
+#> ════════════════════════════════════════════════════════════════════════════════════════════════════
 
 # S3 summary method
 # View Target and summary statistics
@@ -302,18 +306,18 @@ names(attributes(my_adat))
 # target annotation information
 attributes(my_adat)$Col.Meta
 #> # A tibble: 5,284 x 21
-#>    SeqId SeqIdVersion SomaId TargetFullName Target UniProt EntrezGeneID EntrezGeneSymbol Organism
-#>    <chr>        <dbl> <chr>  <chr>          <chr>  <chr>   <chr>        <chr>            <chr>   
-#>  1 1000…            3 SL019… Beta-crystall… CRBB2  P43320  "1415"       "CRYBB2"         Human   
-#>  2 1000…            3 SL002… RAF proto-onc… c-Raf  P04049  "5894"       "RAF1"           Human   
-#>  3 1000…            3 SL019… Zinc finger p… ZNF41  P51814  "7592"       "ZNF41"          Human   
-#>  4 1000…            3 SL019… ETS domain-co… ELK1   P19419  "2002"       "ELK1"           Human   
-#>  5 1000…            3 SL019… Guanylyl cycl… GUC1A  P43080  "2978"       "GUCA1A"         Human   
-#>  6 1001…            3 SL019… Inositol poly… OCRL   Q01968  "4952"       "OCRL"           Human   
-#>  7 1001…            3 SL014… SAM pointed d… SPDEF  O95238  "25803"      "SPDEF"          Human   
-#>  8 1001…            3 SL025… Fc_MOUSE       Fc_MO… Q99LC4  ""           ""               Mouse   
-#>  9 1001…            3 SL007… Zinc finger p… SLUG   O43623  "6591"       "SNAI2"          Human   
-#> 10 1001…            3 SL014… Voltage-gated… KCAB2  Q13303  "8514"       "KCNAB2"         Human   
+#>    SeqId  SeqIdVersion SomaId TargetFullName   Target UniProt EntrezGeneID EntrezGeneSymbol Organism
+#>    <chr>         <dbl> <chr>  <chr>            <chr>  <chr>   <chr>        <chr>            <chr>   
+#>  1 10000…            3 SL019… Beta-crystallin… CRBB2  P43320  "1415"       "CRYBB2"         Human   
+#>  2 10001…            3 SL002… RAF proto-oncog… c-Raf  P04049  "5894"       "RAF1"           Human   
+#>  3 10003…            3 SL019… Zinc finger pro… ZNF41  P51814  "7592"       "ZNF41"          Human   
+#>  4 10006…            3 SL019… ETS domain-cont… ELK1   P19419  "2002"       "ELK1"           Human   
+#>  5 10008…            3 SL019… Guanylyl cyclas… GUC1A  P43080  "2978"       "GUCA1A"         Human   
+#>  6 10011…            3 SL019… Inositol polyph… OCRL   Q01968  "4952"       "OCRL"           Human   
+#>  7 10012…            3 SL014… SAM pointed dom… SPDEF  O95238  "25803"      "SPDEF"          Human   
+#>  8 10013…            3 SL025… Fc_MOUSE         Fc_MO… Q99LC4  ""           ""               Mouse   
+#>  9 10014…            3 SL007… Zinc finger pro… SLUG   O43623  "6591"       "SNAI2"          Human   
+#> 10 10015…            3 SL014… Voltage-gated p… KCAB2  Q13303  "8514"       "KCNAB2"         Human   
 #> # … with 5,274 more rows, and 12 more variables: Units <chr>, Type <chr>, Dilution <chr>,
 #> #   PlateScale_Reference <dbl>, CalReference <dbl>, Cal_Example_Adat_Set001 <dbl>, ColCheck <chr>,
 #> #   CalQcRatio_Example_Adat_Set001_170255 <dbl>, QcReference_170255 <dbl>,
@@ -329,18 +333,18 @@ feature names in the `soma_adat` object to the annotation data in
 ``` r
 getFeatureData(my_adat)
 #> # A tibble: 5,284 x 22
-#>    AptName SeqId SeqIdVersion SomaId TargetFullName Target UniProt EntrezGeneID EntrezGeneSymbol
-#>    <chr>   <chr>        <dbl> <chr>  <chr>          <chr>  <chr>   <chr>        <chr>           
-#>  1 seq.10… 1000…            3 SL019… Beta-crystall… CRBB2  P43320  "1415"       "CRYBB2"        
-#>  2 seq.10… 1000…            3 SL002… RAF proto-onc… c-Raf  P04049  "5894"       "RAF1"          
-#>  3 seq.10… 1000…            3 SL019… Zinc finger p… ZNF41  P51814  "7592"       "ZNF41"         
-#>  4 seq.10… 1000…            3 SL019… ETS domain-co… ELK1   P19419  "2002"       "ELK1"          
-#>  5 seq.10… 1000…            3 SL019… Guanylyl cycl… GUC1A  P43080  "2978"       "GUCA1A"        
-#>  6 seq.10… 1001…            3 SL019… Inositol poly… OCRL   Q01968  "4952"       "OCRL"          
-#>  7 seq.10… 1001…            3 SL014… SAM pointed d… SPDEF  O95238  "25803"      "SPDEF"         
-#>  8 seq.10… 1001…            3 SL025… Fc_MOUSE       Fc_MO… Q99LC4  ""           ""              
-#>  9 seq.10… 1001…            3 SL007… Zinc finger p… SLUG   O43623  "6591"       "SNAI2"         
-#> 10 seq.10… 1001…            3 SL014… Voltage-gated… KCAB2  Q13303  "8514"       "KCNAB2"        
+#>    AptName  SeqId  SeqIdVersion SomaId TargetFullName   Target UniProt EntrezGeneID EntrezGeneSymbol
+#>    <chr>    <chr>         <dbl> <chr>  <chr>            <chr>  <chr>   <chr>        <chr>           
+#>  1 seq.100… 10000…            3 SL019… Beta-crystallin… CRBB2  P43320  "1415"       "CRYBB2"        
+#>  2 seq.100… 10001…            3 SL002… RAF proto-oncog… c-Raf  P04049  "5894"       "RAF1"          
+#>  3 seq.100… 10003…            3 SL019… Zinc finger pro… ZNF41  P51814  "7592"       "ZNF41"         
+#>  4 seq.100… 10006…            3 SL019… ETS domain-cont… ELK1   P19419  "2002"       "ELK1"          
+#>  5 seq.100… 10008…            3 SL019… Guanylyl cyclas… GUC1A  P43080  "2978"       "GUCA1A"        
+#>  6 seq.100… 10011…            3 SL019… Inositol polyph… OCRL   Q01968  "4952"       "OCRL"          
+#>  7 seq.100… 10012…            3 SL014… SAM pointed dom… SPDEF  O95238  "25803"      "SPDEF"         
+#>  8 seq.100… 10013…            3 SL025… Fc_MOUSE         Fc_MO… Q99LC4  ""           ""              
+#>  9 seq.100… 10014…            3 SL007… Zinc finger pro… SLUG   O43623  "6591"       "SNAI2"         
+#> 10 seq.100… 10015…            3 SL014… Voltage-gated p… KCAB2  Q13303  "8514"       "KCNAB2"        
 #> # … with 5,274 more rows, and 13 more variables: Organism <chr>, Units <chr>, Type <chr>,
 #> #   Dilution <chr>, PlateScale_Reference <dbl>, CalReference <dbl>, Cal_Example_Adat_Set001 <dbl>,
 #> #   ColCheck <chr>, CalQcRatio_Example_Adat_Set001_170255 <dbl>, QcReference_170255 <dbl>,
@@ -418,20 +422,20 @@ dim(males)
 
 males %>% 
   dplyr::select(SampleType, SampleMatrix, starts_with("NormScale"))
-#> ── Attributes ─────────────────────────────────────────────────────────────────────────────
+#> ── Attributes ──────────────────────────────────────────────────────────────────────────────────────
 #>      Intact               ✓
-#> ── Dimensions ─────────────────────────────────────────────────────────────────────────────
+#> ── Dimensions ──────────────────────────────────────────────────────────────────────────────────────
 #>      Rows                 85
 #>      Columns              5
 #>      Clinical Data        5
 #>      Features             0
-#> ── Column Meta ────────────────────────────────────────────────────────────────────────────
+#> ── Column Meta ─────────────────────────────────────────────────────────────────────────────────────
 #>       SeqId            |   UniProt            |   Type                      |   ColCheck                                |   Dilution2
 #>       SeqIdVersion     |   EntrezGeneID       |   Dilution                  |   CalQcRatio_Example_Adat_Set001_170255   |            
 #>       SomaId           |   EntrezGeneSymbol   |   PlateScale_Reference      |   QcReference_170255                      |            
 #>       TargetFullName   |   Organism           |   CalReference              |   Cal_Example_Adat_Set002                 |            
 #>       Target           |   Units              |   Cal_Example_Adat_Set001   |   CalQcRatio_Example_Adat_Set002_170255   |            
-#> ── Tibble ─────────────────────────────────────────────────────────────────────────────────
+#> ── Tibble ──────────────────────────────────────────────────────────────────────────────────────────
 #> # A tibble: 85 x 6
 #>    row_names      SampleType SampleMatrix NormScale_20 NormScale_0_005 NormScale_0_5
 #>    <chr>          <chr>      <chr>               <dbl>           <dbl>         <dbl>
@@ -446,7 +450,7 @@ males %>%
 #>  9 258495800008_4 Sample     Plasma-PPT          0.991           0.979         0.920
 #> 10 258495800006_6 Sample     Plasma-PPT          0.862           0.964         0.999
 #> # … with 75 more rows
-#> ═══════════════════════════════════════════════════════════════════════════════════════════
+#> ════════════════════════════════════════════════════════════════════════════════════════════════════
 ```
 
 #### Available S3 Methods `soma_adat`
@@ -454,10 +458,11 @@ males %>%
 ``` r
 # see full complement of `soma_adat` methods
 methods(class = "soma_adat")
-#>  [1] [            [[           [<-          $            anti_join    arrange      filter      
-#>  [8] full_join    getMeta      inner_join   is_seqFormat left_join    Math         mutate      
-#> [15] print        rename       right_join   sample_frac  sample_n     select       semi_join   
-#> [22] summary     
+#>  [1] [            [[           [[<-         [<-          $            $<-          anti_join   
+#>  [8] arrange      count        filter       full_join    getFeatures  getMeta      group_by    
+#> [15] inner_join   is_seqFormat left_join    Math         mutate       print        rename      
+#> [22] right_join   sample_frac  sample_n     select       semi_join    separate     slice_sample
+#> [29] slice        summary      ungroup      unite       
 #> see '?methods' for accessing help and source code
 ```
 
@@ -469,10 +474,10 @@ is.intact.attributes(my_adat)     # attributes MUST be intact to write to file
 
 write_adat(my_adat, file = tempfile("my-adat-", fileext = ".adat"))
 #> ✓ ADAT passed checks and traps
-#> ✓ ADAT written to: '/var/folders/rh/hw387cn94f9431b9pdqjx1ss223hd0/T/RtmpsW127d/my-adat-11745366b5ad1.adat'
+#> ✓ ADAT written to: '/var/folders/rh/hw387cn94f9431b9pdqjx1ss223hd0/T/RtmplzicI3/my-adat-198c4d7f9bba.adat'
 ```
 
------
+------------------------------------------------------------------------
 
 # Typical Analyses
 
@@ -484,9 +489,9 @@ parts or extensions of these techniques. Many variations of the
 workflows below exist, however the framework highlights how one could
 perform standard *preliminary* analyses on SomaLogic data for:
 
-  - Two-group differential expression (*t*-test)
-  - Binary classification (logistic regression)
-  - Linear regression
+-   Two-group differential expression (*t*-test)
+-   Binary classification (logistic regression)
+-   Linear regression
 
 #### Data Preparation
 
@@ -683,7 +688,7 @@ LR_tbl
 #> # … with 5,274 more rows
 ```
 
-#### Fit Model | Calculate Performance
+#### Fit Model \| Calculate Performance
 
 Next, select features for the model fit. We have a good idea of
 reasonable `Sex` markers from prior knowledge (`CGA*`), and fortunately
@@ -764,7 +769,7 @@ LinR_tbl
 #> # … with 5,274 more rows
 ```
 
-#### Fit Model | Calculate Performance
+#### Fit Model \| Calculate Performance
 
 Fit an 8-marker model with the top 8 features from `LinR_tbl`:
 
@@ -827,16 +832,16 @@ res %>%
 
 ![](man/figures/README-linreg-plot-1.png)<!-- -->
 
------
+------------------------------------------------------------------------
 
 ## MIT LICENSE
 
-  - See [LICENSE](LICENSE.md)
-  - The MIT License:
-      - <https://choosealicense.com/licenses/mit/>
-      - [https://tldrlegal.com/license/mit-license/](https://tldrlegal.com/license/mit-license)
+-   See [LICENSE](LICENSE.md)
+-   The MIT License:
+    -   <https://choosealicense.com/licenses/mit/>
+    -   [https://tldrlegal.com/license/mit-license/](https://tldrlegal.com/license/mit-license)
 
------
+------------------------------------------------------------------------
 
-Created by [Rmarkdown](https://github.com/rstudio/rmarkdown) (v2.1) and
-R version 3.6.3 (2020-02-29).
+Created by [Rmarkdown](https://github.com/rstudio/rmarkdown) (v2.8) and
+R version 4.1.0 (2021-05-18).

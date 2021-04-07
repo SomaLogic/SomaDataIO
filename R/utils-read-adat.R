@@ -187,8 +187,8 @@ catchDims <- function(x, y) {
     header$file.specs$col.meta.shift,
     header$file.specs$data.begin,
     header$file.specs$old.adat,
-    length(.getmeta(rfu)),
-    length(.getfeat(rfu)),
+    getMeta(rfu, n = TRUE),
+    getFeatures(rfu, n = TRUE),
     paste(dim(rfu), collapse = " x "),
     paste(dim(data.frame(header$Col.Meta)), collapse = " x ")
   ) %>% crayon::red()

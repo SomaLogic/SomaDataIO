@@ -3,23 +3,70 @@
 # Do not edit by hand ...
 
 addAttributes <- function(data, new.atts) {
+  stopifnot(inherits(new.atts, "list"))
   if ( is.null(dim(data)) ) {
     usethis::ui_warn(
       "Subsetting changed the shape of the object. \\
-      Should be a `data.frame` but is class `{class(data)}`."
+      Should be a `data.frame` but is class {ui_value(class(data))}."
     )
   }
-  stopifnot(inherits(new.atts, "list"))
   attrs <- setdiff(names(new.atts), names(attributes(data)))
   for ( i in attrs ) {
     attributes(data)[[i]] <- new.atts[[i]]
   }
-  return(data)
+  data
 }
 
 addClass <- function(x, class) {
   new_class <- unique(c(class, class(x)))
   structure(x, class = new_class)
+}
+
+catchRunawayTabs <- function(x) {
+  if ( grepl("^\\^.*[\t]{250,}$", x) ) {
+    usethis::ui_oops("Possible runaway tabs!")
+    usethis::ui_stop(
+      "Invalid ADAT! Empty tabs filling out the entire header block."
+    )
+  }
+  invisible(NULL)
+}
+
+cleanNames <- function(x) {
+  stringr::str_squish(x) %>%        # zap internal whitespace/leading/trailing
+    stringr::str_replace_all("[^A-Za-z0-9_]", ".") %>%  # zap non-alphanum (keep '_')
+    stringr::str_replace_all("\\.{2,}", ".") %>% # zap multiple dots
+    stringr::str_remove_all("^\\.|\\.$") %>%     # zap leading/trailing dots
+    stringr::str_replace_all("^Hyb[.]Scale", "HybControlNormScale") %>%
+    stringr::str_replace_all("^Med[.]Scale", "NormScale")
+}
+
+convertColMeta <- function(x) {
+
+  # conversion fails if un-equal length columns; we want this as catch
+  tbl <- tibble::as_tibble(x) %>%
+    rlang::set_names(cleanNames)
+
+  if ( "Dilution" %in% names(tbl) ) {
+    tbl <- tbl %>%
+      dplyr::mutate(
+        Dilution2 = stringr::str_remove_all(Dilution, "%$|Mix ") %>%
+          as.numeric() / 100
+        )
+  }
+
+  # this chunk stolen from SomaPlyr::makeNumeric()
+  safe_num    <- purrr::quietly(as.numeric)
+  convert_num <- function(.x) {
+    y   <- safe_num(.x)$warnings
+    lgl <- !isTRUE(y == "NAs introduced by coercion") # warning not tripped?
+    lgl && !inherits(.x, c("factor", "integer"))      # don't touch integers/factors
+  }
+
+  tbl %>%
+    dplyr::mutate_if(convert_num, as.numeric) %>%
+    dplyr::mutate(Dilution = as.character(Dilution),    # keep character
+                  SeqId    = getSeqId(SeqId, TRUE))     # rm versions; safety
 }
 
 genRowNames <- function(adat) {
@@ -57,141 +104,6 @@ genRowNames <- function(adat) {
   adat_rn
 }
 
-catchRunawayTabs <- function(x) {
-  if ( grepl("^\\^.*[\t]{250,}$", x) ) {
-    message("* Possible runaway tabs!")
-    usethis::ui_stop(
-      "Invalid ADAT! Empty tabs filling out the entire header block."
-    )
-  }
-}
-
-cleanNames <- function(x) {
-  stringr::str_trim(x) %>%                      # rm leading/trailing whitespace
-  stringr::str_squish() %>%                     # rm internal whitespace
-  stringr::str_replace_all("[^A-Za-z0-9_]", ".") %>%  # zap non-alphanum names (keep '_')
-  stringr::str_replace_all("\\.{2,}", ".") %>%  # zap multiple dots
-  stringr::str_remove_all("^\\.|\\.$") %>%      # zap leading/trailing dots
-  stringr::str_replace_all("^Hyb[.]Scale", "HybControlNormScale") %>%
-  stringr::str_replace_all("^Med[.]Scale", "NormScale")
-}
-
-convertColMeta <- function(x) {
-
-  # conversion fails if un-equal length columns; we want this as catch
-  tbl <- tibble::as_tibble(x) %>%
-    purrr::set_names(cleanNames)
-
-  if ( "Dilution" %in% names(tbl) ) {
-    tbl <- tbl %>%
-      dplyr::mutate(
-        Dilution2 = stringr::str_remove_all(Dilution, "%$|Mix ") %>%
-          as.numeric() / 100
-        )
-  }
-
-  # this chunk stolen from SomaPlyr::makeNumeric()
-  safe_num    <- purrr::quietly(as.numeric)
-  convert_num <- function(.x) {
-    y   <- safe_num(.x)$warnings
-    lgl <- !isTRUE(y == "NAs introduced by coercion") # warning not tripped?
-    lgl && !inherits(.x, c("factor", "integer"))      # don't touch integers/factors
-  }
-
-  tbl %>%
-    dplyr::mutate_if(convert_num, as.numeric) %>%
-    dplyr::mutate(Dilution = as.character(Dilution),    # keep character
-                  SeqId    = getSeqId(SeqId, TRUE))     # rm versions; safety
-}
-
-checkADAT <- function(adat) {
-  atts <- attributes(adat)
-  apts <- .getfeat(adat)
-  meta <- .getmeta(adat)
-  if ( !isTRUE(all.equal(cleanNames(meta),
-                         cleanNames(atts$Header.Meta$ROW_DATA$Name))) ) {
-    usethis::ui_stop(
-      "Meta data mismatch between `Header Meta` and ADAT meta data. \\
-      Check `attributes(ADAT)$Header.Meta$ROW_DATA$Name`."
-    )
-  }
-  if ( length(apts) != nrow(as.data.frame(atts$Col.Meta)) ) {
-    usethis::ui_stop(
-      "Number of aptamers in ADAT does not match No. aptamers in Col.Meta!"
-    )
-  }
-  if ( nrow(adat) == 0 ) {
-    usethis::ui_warn("ADAT has no rows! Writing just header and column meta data")
-  }
-  usethis::ui_done("ADAT passed checks and traps")
-  invisible(NULL)
-}
-
-.diffAdatColumns <- function(x, y, meta = FALSE, tolerance) {
-
-  type <- ifelse(meta, "Meta", "Feature")
-  .fun <- switch(type, Meta = .getmeta, Feature = .getfeat)
-  cols <- intersect(.fun(x), .fun(y))
-
-  test_lgl <- purrr::map2_lgl(x[, cols], y[, cols], ~ {
-     if ( meta ) {
-       assertthat::are_equal(as.character(.x), as.character(.y), check.names = FALSE)
-     } else {
-       assertthat::are_equal(.x, .y, tolerance = tolerance)
-     }
-  })
-
-  msg <- stringr::str_pad(sprintf("All %s data is identical", type), 35, "right") # nolint
-
-  # `test_lgl` is a logical vector
-  if ( all(test_lgl, na.rm = TRUE) ) {
-    usethis::ui_todo("{msg} {crayon::green(cli::symbol$tick)}")
-    invisible(NULL)
-  } else {
-    usethis::ui_todo("{msg} {crayon::red(cli::symbol$cross)}")
-    vec <- purrr::keep(test_lgl, !test_lgl) %>% names()
-    stringr::str_pad("    No. fields that differ ", 37, "right") %>%
-      paste(length(vec)) %>% writeLines()
-    cli::rule(sprintf("%s data diffs", type), line_col = crayon::magenta) %>%
-      writeLines()
-    print(usethis::ui_value(vec))
-    invisible(NULL)
-  }
-}
-
-regexSeqId <- function() {
-  #   SeqId-------Clone---------Version
-  "[0-9]{4,5}[-.][0-9]{1,3}([._][0-9]{1,3})?$|^SL[0-9]{6}$"
-}
-
-getSeqId <- function(x, trim.version = FALSE) {
-  x         <- stringr::str_trim(x)   # zap trailing/leading whitespace
-  match_mat <- stringr::str_locate(x, regexSeqId())
-  args <- list(string = x,
-               start  = match_mat[, "start"],
-               end    = match_mat[, "end"])
-  seqId <- purrr::pmap_chr(args, stringr::str_sub) %>%
-    stringr::str_replace("\\.", "-") %>%
-    stringr::str_replace("\\.", "_")
-
-  if ( trim.version ) {
-    stringr::str_split(seqId, "_") %>% purrr::map_chr(1L)
-  } else {
-    seqId
-  }
-}
-
-get_features <- function(x) {
-  if ( inherits(x, c("soma_adat", "data.frame")) ) {
-    usethis::ui_stop(
-      "You've passed a `data.frame` to `get_features()` ... \\
-      you must pass `names(df)` instead."
-    )
-  }
-  assertthat::assert_that(is.null(dim(x)))
-  x[is.seq(x)]
-}
-
 getAdatVersion <- function(x) {
 
   vidx <- grep("^Version$|^AdatVersion$", names(x$HEADER))
@@ -219,7 +131,7 @@ getAdatVersion <- function(x) {
       "Fix java ADAT writer! Version cannot be `1.01` (set = 1.0.1)"
     )
   }
-  return(version)
+  version
 }
 
 parseCheck <- function(all.tokens, verbose = TRUE) {
@@ -231,20 +143,17 @@ parseCheck <- function(all.tokens, verbose = TRUE) {
     )
   }
 
-  # -----------------------#
+  # ----------------------- #
   # check if necessary pieces
   # of header present
-  # -----------------------#
+  # ----------------------- #
   firsts     <- purrr::map_chr(all.tokens, head, n = 1)
   chk_string <- c("^HEADER", "^ROW_DATA", "^COL_DATA", "^TABLE_BEGIN")
   if ( any(!chk_string %in% firsts) ) {
     usethis::ui_stop(
-      stringr::str_glue(
-        "The following *landmark* tokens is absent from \\
-        the ADAT header: {ui_value(df)}",
-        df = paste(setdiff(chk_string, firsts), collapse = ", ")
-        )
-      )
+      "The following *landmark* tokens is absent from \\
+      the ADAT header: {ui_value(setdiff(chk_string, firsts))}",
+    )
   }
 
   # trailing tabs
@@ -256,12 +165,11 @@ parseCheck <- function(all.tokens, verbose = TRUE) {
     writeLines(cli::rule(crayon::bold("Tail"), line_col = crayon::blue))
     print(utils::tail(tab_test, 10))
     cat("\n")
-    message(
-      stringr::str_glue(
-        "This does not appear to be a valid ADAT
-        One possibility is that there are empty tabs filling out the entire header block
-        Are there empty strings indicated above?")
-      )
+    usethis::ui_oops(
+      "This does not appear to be a valid ADAT
+      One possibility is that there are empty tabs filling \\
+      out the entire header block.
+      Are there empty strings indicated above?")
     cat("\n")
   }
 
@@ -277,9 +185,9 @@ parseCheck <- function(all.tokens, verbose = TRUE) {
 
   if ( col_meta_shift != length(row_meta) + 1 ) {
     usethis::ui_stop(
-      "The Col.Meta shift `{col_meta_shift}` does not match the \\
-      length stated in ^ROW_DATA row `{length(row_meta) + 1}` -- \\
-      visually inspect ADAT"
+      "The Col.Meta shift {ui_value(col_meta_shift)} does not match the \\
+      length stated in ^ROW_DATA row {ui_value(length(row_meta) + 1)} -- \\
+      visually inspect ADAT."
     )
   }
 
@@ -291,32 +199,30 @@ parseCheck <- function(all.tokens, verbose = TRUE) {
   if ( verbose ) {
     writeLines(cli::rule(crayon::bold("Parsing Diagnostics"),
                          line_col = crayon::blue))
-    c1 <- c(
-      "*  Table Begin",
-      "*  Col.Meta Start",
-      "*  Col.Meta Shift",
-      "*  Header Row",
-      "*  Rows of the Col Meta") %>%
-      format()
-    c2 <- c(
+    c1 <- list(
+      "Table Begin",
+      "Col.Meta Start",
+      "Col.Meta Shift",
+      "Header Row",
+      "Rows of the Col Meta") %>% stringr::str_pad(width = 25, "right")
+    c2 <- list(
       table_begin,
       which_col_meta_start,
       col_meta_shift,
       which_header_row,
-      Reduce(paste, which_col_meta_rows)
+      which_col_meta_rows
     )
-    paste0(
-      c1, stringr::str_dup(" ", 4),
-      crayon::green(cli::symbol$pointer), "  ",
-      c2) %>%
-      writeLines()
+    purrr::walk2(c1, c2, ~ usethis::ui_todo("{.x} {ui_value(.y)}"))
 
     # --- Col Meta --- #
     spaces <- stringr::str_dup(" ", 3)
     writeLines(
-      cli::rule(crayon::bold("Col Meta"),
-                line_col = crayon::blue,
-                right = stringr::str_glue("{length(col_meta)}")))
+      cli::rule(
+        crayon::bold("Col Meta"),
+        line_col = crayon::blue,
+        right = length(col_meta)
+      )
+    )
 
     col_print <- col_meta
     L         <- length(col_meta)
@@ -336,14 +242,17 @@ parseCheck <- function(all.tokens, verbose = TRUE) {
       col_print[[3L]],
       spaces, crayon::cyan(" | "), spaces,
       col_print[[4L]]
-    ) %>%
+      ) %>%
       writeLines()
 
     # --- Row Meta --- #
     writeLines(
-      cli::rule(crayon::bold("Row Meta"),
-                line_col = crayon::blue,
-                right = stringr::str_glue("{length(row_meta)}")))
+      cli::rule(
+        crayon::bold("Row Meta"),
+        line_col = crayon::blue,
+        right = length(row_meta)
+      )
+    )
 
     row_print <- row_meta
     L         <- length(row_meta)
@@ -362,15 +271,15 @@ parseCheck <- function(all.tokens, verbose = TRUE) {
       row_print[[3L]],
       spaces, crayon::cyan(" | "), spaces,
       row_print[[4L]]
-    ) %>%
+      ) %>%
       writeLines()
   }
 
 
   if ( which_header_row >= length(all.tokens) ) {
-    message("No feature/RFU data ... Col.Meta only ADAT")
+    usethis::ui_oops("No feature/RFU data ... Col.Meta only ADAT")
     writeLines(cli::rule("Done", line = 2, line_col = crayon::green))
-    return()
+    return(invisible(NULL))
   }
 
   # col meta names from Col.Meta block
@@ -381,23 +290,24 @@ parseCheck <- function(all.tokens, verbose = TRUE) {
 
   if ( any(duplicated(col_meta2)) ) {
     writeLines(
-      cli::rule(crayon::bold("Duplicated Col.Meta names"),
-                line_col = crayon::blue,
-                right = crayon::red("!")))
-    message("Duplicated Col.Meta names in col meta block")
-    writeLines(
-      stringr::str_glue(
-        "Potential over-write scenario for entry: \\
-        {paste(col_meta2[duplicated(col_meta2)], collapse = ', '}"
+      cli::rule(
+        crayon::bold("Duplicated Col.Meta names"),
+        line_col = crayon::blue,
+        right = crayon::red("!")
       )
+    )
+    usethis::ui_oops("Duplicated Col.Meta names in col meta block")
+    usethis::ui_oops(
+      "Potential over-write scenario for entry: \\
+      {ui_value(col_meta2[duplicated(col_meta2))]}"
     )
   }
 
   # check col meta match
   if ( !setequal(col_meta, col_meta2) ) {
-    message("*  Mismatch between `^COL_DATA` in header and `Col.Meta` block:")
-    message(stringr::str_glue("*  In Header  : {col_meta}"))
-    message(stringr::str_glue("*  In Col.Meta: {col_meta2}"))
+    usethis::ui_oops("Mismatch between `^COL_DATA` in header and `Col.Meta` block:")
+    usethis::ui_todo("  In Header:   {ui_value(col_meta)}")
+    usethis::ui_todo("  In Col.Meta: {ui_value(col_meta2)}")
     usethis::ui_stop("Stopping check early.")
   }
 
@@ -410,10 +320,9 @@ parseCheck <- function(all.tokens, verbose = TRUE) {
       )
     usethis::ui_stop(
       "Meta data mismatch between `Header Meta` vs `meta data` \\
-      in table ... ADAT line: {which_header_row}\n"
+      in table ... ADAT line: {ui_value(which_header_row)}\n"
     )
   }
-
 
   # ------------------------------------------------ #
   # check lengths of each row
@@ -429,19 +338,22 @@ parseCheck <- function(all.tokens, verbose = TRUE) {
   # if tabs are wrong it won't be
   if ( !all(data_lengths == data_lengths[1]) ) {
     writeLines(
-      cli::rule(crayon::bold("Possible Tabs Problem"),
-                line_col = crayon::blue,
-                right = crayon::red("!")))
-    message("All Token lengths:")
+      cli::rule(
+        crayon::bold("Possible Tabs Problem"),
+        line_col = crayon::blue,
+        right = crayon::red("!")
+      )
+    )
+    usethis::ui_todo("All Token lengths:")
     print(token_lengths)
-    message("Data Block Token lengths:")
+    usethis::ui_todo("Data Block Token lengths:")
     print(data_lengths)
     tab <- table(data_lengths)
     names(dimnames(tab)) <- "Table of Lengths:"
     print(tab)
     usethis::ui_warn(
-      "* Token length is inconsistent for data matrix block
-      Check for trailing/missing tabs in the main block of the Adat
+      "Token length is inconsistent for data matrix block.
+      Check for trailing/missing tabs in the main block of the Adat.
       One (or more) of the above is different from the rest."
     )
   }
@@ -454,25 +366,18 @@ parseCheck <- function(all.tokens, verbose = TRUE) {
   header_length <- length(all.tokens[[ which_header_row ]])
   if ( (table_width - header_length) > 10 ) {
     writeLines(
-      cli::rule(crayon::bold("Problem with tabs in Header (blank) row"),
-                line_col = crayon::blue,
-                right = crayon::red("!")))
-    c1 <- c("*  Should be", "*  Currently is") %>%
-        format()
-    paste0(
-      c1, stringr::str_dup(" ", 5),
-      crayon::green(cli::symbol$pointer), "  ",
-      c(table_width, header_length)
-    ) %>%
-      writeLines()
-    # print(all.tokens[[ which_header_row ]])   # nolint
-    message(
-      stringr::str_glue(
-        "* Length of the header row is incorrect
-        * Does not match the width of the data table
-        * Likely a tabs problem"
+      cli::rule(
+        crayon::bold("Problem with tabs in Header (blank) row"),
+        line_col = crayon::blue,
+        right = crayon::red("!")
       )
     )
+    usethis::ui_todo("Should be:    {ui_value(table_width)}")
+    usethis::ui_todo("Currently is: {ui_value(header_length)}")
+    # print(all.tokens[[ which_header_row ]])   # nolint
+    usethis::ui_oops("Length of the header row is incorrect")
+    usethis::ui_oops("Does not match the width of the data table")
+    usethis::ui_oops("Likely a tabs problem ...")
   }
 
   # check for empty strings
@@ -486,143 +391,32 @@ parseCheck <- function(all.tokens, verbose = TRUE) {
       cli::rule(crayon::bold("Empty Strings Detected in Col.Meta"),
                 line_col = crayon::blue,
                 right = crayon::red("!"))
-      )
-    message(
-      stringr::str_glue(
-        "Visually inspect the following Col.Meta rows:\n {rr}",
-        rr = paste0(col_meta2[string_gaps], collapse = "\n  ")
-        )
-      )
-    message(
-      stringr::str_glue(
-        "They may be missing in:
-        -  Spuriomers
-        -  HybControls
-        Strings may be missing in SOMAmers \\
-        without a EntrezGeneSymbol (e.g. a family)
-        This is a non-critical bug ..."
-        )
-      )
+    )
+    usethis::ui_todo(
+      "Visually inspect the following Col.Meta rows: \\
+      {ui_value(col_meta2[string_gaps])}"
+    )
+    usethis::ui_info(
+      "  They may be missing in: {ui_value(c('Spuriomers', 'HybControls'))}"
+    )
+    usethis::ui_todo(
+      "Strings may be missing in SOMAmers \\
+      without a EntrezGeneSymbol (e.g. a family)"
+    )
+    usethis::ui_todo("This is a non-critical bug ...")
   }
   cat("\n")
   writeLines(cli::rule("Done", line = 2, line_col = crayon::green))
 }
 
-parseHeader <- function(file) {
-
-  line <- 0
-  ret  <- c("Header.Meta", "Col.Meta", "file.specs") %>%
-    purrr::set_names() %>%
-    purrr::map(~list())
-
-  repeat {
-    row_data <- readr::read_lines(file, n_max = 1L, skip = line)
-
-    # if end of file reached before feature data = empty adat
-    if ( ret$file.specs$EmptyAdat <- length(row_data) == 0 ) {
-      break
-    }
-
-    line <- line + 1
-    # print(line)
-    catchRunawayTabs(row_data)            # catch for runaway tabs
-
-    if ( grepl("Checksum", row_data) ) {
-      ret$Header.Meta$Checksum <- stringr::str_split(row_data,
-                                                     pattern = "\t")[[1L]][2L]
-      next
-    } else if ( row_data == "^HEADER" ) {
-      section <- "HEADER"
-      next
-    } else if ( row_data == "^COL_DATA" ) {
-      section <- "COL_DATA"
-      next
-    } else if ( row_data == "^ROW_DATA" ) {
-      section <- "ROW_DATA"
-      next
-    } else if ( row_data == "^TABLE_BEGIN" ) {
-      section <- "Col.Meta"
-      ret$file.specs$table.begin    <- line
-      ret$file.specs$col.meta.start <- line + 1
-      next
-    } else if ( grepl("^\\^[A-Z]", row_data) ) {
-      section    <- "Free.Form"
-      free_field <- stringr::str_split(row_data, pattern = "\t")[[1L]][1L]
-      free_field <- substr(free_field, 2, nchar(free_field))
-      next
-    }
-    # print(section)
-
-    tokens <- stringr::str_split(row_data, pattern = "\t")[[1L]]
-    # print(tokens)
-
-    if ( section == "HEADER" && length(tokens) == 1 && tokens == "" ) {
-      usethis::ui_warn(
-        "Blank row(s) detected in `Header` section ... they will be skipped."
-      )
-      next
-    }
-
-    # are 1st 2 entries empty strings? Col.Meta section
-    first_alnum <- stringr::str_which(tokens, "[[:alnum:]]")[1L]
-
-    # If first alpha-num is once again at 1 | 2 position, break out of Col.Meta section
-    # This only happens once, when Col.Meta section has been completed
-    if ( section == "Col.Meta" && first_alnum <= 2 ) {
-      section <- "DATA_TABLE"
-    }
-
-    # Trim leading/trailing empty strings from vector
-    # But treat the Col.Meta section specially
-    tokens %<>% trim_empty(ifelse(section == "Col.Meta", "left", "right"))
-
-    # zap (!), non-alphanum, double dots etc.
-    tokens[1L] <- stringr::str_remove_all(tokens[1L], "^[^A-Za-z]")
-    # print(tokens[1])
-
-    if ( section == "HEADER" ) {
-      cur.header <- tokens[1L]
-      ret$Header.Meta[[section]][[cur.header]] <- list()
-      ret$Header.Meta[[section]][[cur.header]] <- tokens[-1]
-    } else if ( section == "COL_DATA" ) {
-      ret$Header.Meta[[section]][[tokens[1L]]]  <- tokens[-1]
-    } else if ( section == "ROW_DATA" ) {
-      ret$Header.Meta[[section]][[tokens[1L]]]  <- tokens[-1]
-    } else if ( section == "Free.Form" ) {
-      cur.header <- tokens[1L]
-      ret$Header.Meta[[free_field]][[cur.header]] <- list()
-      ret$Header.Meta[[free_field]][[cur.header]] <- tokens[-1]
-    } else if ( section == "Col.Meta" ) {
-      ret[[section]][[tokens[1L]]]  <- tokens[-1]
-      ret$file.specs$col.meta.shift <- first_alnum
-    } else if ( section == "DATA_TABLE" ) {
-      # if at end of Col.Meta section, break loop & stop reading file
-      # first check that all lengths Col.Meta are equal (or as_tibble will fail)
-      if ( diff(range(purrr::map_dbl(ret$Col.Meta, length))) != 0 ) {
-        usethis::ui_stop(
-          "Col.Meta lengths unequal! The Col.Meta block in not square.
-          There may be trailing tabs in the Col.Meta section."
-        )
-      }
-      ret$file.specs$data.begin   <- line
-      ret$row.meta                <- tokens
-      ret$Header.Meta$TABLE_BEGIN <- basename(file)  # append file name to header & break
-      break
-    }
-  }
-  # TRUE if old adat version
-  ret$file.specs$old.adat <- getAdatVersion(ret$Header.Meta) < "1.0.0"
-  return(ret)
-}
-
 syncColMeta <- function(data) {
   col_meta <- attributes(data)$Col.Meta
-  ft       <- get_features(names(data))
+  ft       <- getFeatures(data)
 
   # if all features have new format
   # no need to use slower regex matching
   if ( all(grepl("^seq[.]", ft)) ) {
-    new_seq <- stringr::str_replace(ft, "^seq[.]", "")
+    new_seq <- gsub("^seq[.]", "", ft)
   } else {
     matches <- stringr::str_trim(ft) %>%
       stringr::str_locate(pattern = regexSeqId())
@@ -631,11 +425,9 @@ syncColMeta <- function(data) {
       stringr::str_sub)
   }
 
-  new_seq %<>% stringr::str_replace("\\.", "-")
-  k <- match(new_seq, col_meta$SeqId)
-  # Update the attribues -> Col.Meta information
-  # assume apts same order as Col.Meta (should be ok)
-  attributes(data)$Col.Meta <- col_meta[k, ]
-  data
+  new_seq <- sub("\\.", "-", new_seq)
+  k       <- match(new_seq, col_meta$SeqId)
+  # Update the attributes -> Col.Meta information
+  structure(data, Col.Meta = col_meta[k, ])
 }
 

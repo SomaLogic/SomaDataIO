@@ -36,7 +36,7 @@ prepHeaderMeta <- function(data) {
   x$Header.Meta$COL_DATA$Type <- unname(unlist(map[names(x$Col.Meta)]))
 
   # Update the ROW_DATA -> Name & Type vectors
-  data <- data %>% dplyr::select(.getmeta(.))
+  data <- data %>% dplyr::select(getMeta(.))
   x$Header.Meta$ROW_DATA$Name <- names(data)
   x$Header.Meta$ROW_DATA$Type <- purrr::map_chr(data, typeof)
 

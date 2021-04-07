@@ -1,9 +1,8 @@
-###############################
-# Generate SomaDataIO objects
-# Requires to be executed from
-# this directory as the home
-# Run: source("create_rda_objects.R")
-###############################
+#' ------------------------------------
+#' Generate `SomaDataIO` objects
+#' Run:
+#'   source("create_rda_objects.R")
+#' ------------------------------------
 library(here)
 example_data     <- read_adat(here("inst/example", "example_data.adat"))
 ex_features      <- getFeatures(example_data)

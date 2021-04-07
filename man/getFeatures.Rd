@@ -7,42 +7,51 @@
 getFeatures(x, n = FALSE, rm.controls = FALSE)
 }
 \arguments{
-\item{x}{Usually a \code{soma_adat} class object created using \code{\link[=read_adat]{read_adat()}}.}
+\item{x}{Typically a \code{soma_adat} class object created using \code{\link[=read_adat]{read_adat()}}.
+Alternatively, a character vector with elements containing \code{SeqIds}
+corresponding to analyte features.}
 
 \item{n}{Logical. Return an integer corresponding to the \emph{length}
-of the returned string?}
+of the features?}
 
 \item{rm.controls}{Logical. Should all control and non-human analytes
 (e.g. \code{HybControls}, \code{Non-Human}, \code{Non-Biotin}, \code{Spuriomer}) be removed
 from the returned value?}
 }
 \value{
-A character vector of ADAT feature ("analyte") names
-or an integer number corresponding to the length of the
-feature names (if \code{n = TRUE}).
+A character vector of ADAT feature ("analyte") names.
+If \code{n = TRUE}, an integer corresponding to the length of the
+feature names.
 }
 \description{
-Return the feature names (i.e. the column names for the feature data)
-from a \code{soma_adat}, data frame, matrix, list, or character
-vector. S3 methods exist for these classes.
+Return the feature names (i.e. the column names for
+SOMAmer reagent analytes) from a \code{soma_adat}, data frame,
+matrix, list, or character vector. S3 methods exist for these classes.
 }
 \examples{
 apts <- getFeatures(example_data)
 head(apts)
-
-getFeatures(example_data, TRUE)
 getFeatures(example_data, n = TRUE)
+
+# vector string
 bb <- getFeatures(names(example_data))
-identical(apts, bb)
+all.equal(apts, bb)
 
-# Control Analytes
-crtl <- setdiff(apts, getFeatures(example_data, rm.controls = TRUE))
-
-getFeatureData(example_data) \%>\% filter(AptName \%in\% crtl)
+# create some control sequences
+#           Spuriomer      HybControl
+apts2 <- c("seq.2053.2", "seq.2171.12", head(apts))
+apts2
+no_crtl <- getFeatures(apts2, rm.controls = TRUE)
+no_crtl
+setdiff(apts2, no_crtl)
 }
 \seealso{
-\code{\link[=regex]{regex()}}, \code{\link[=grep]{grep()}}
+\code{\link[=is.apt]{is.apt()}}
+
+Other get*: 
+\code{\link{getMeta}()}
 }
 \author{
 Stu Field
 }
+\concept{get*}

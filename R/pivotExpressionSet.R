@@ -19,10 +19,10 @@
 #' # convert ExpressionSet object to long format
 #' adat_long <- pivotExpressionSet(ex_set)
 #' @importFrom usethis ui_stop
-#' @importFrom tibble rownames_to_column as_tibble
+#' @importFrom tibble as_tibble
 #' @importFrom tidyr pivot_longer
 #' @importFrom dplyr arrange left_join select everything
-#' @export pivotExpressionSet
+#' @export
 pivotExpressionSet <- function(eSet) {
 
   if ( !requireNamespace("Biobase", quietly = TRUE) ) {
@@ -32,13 +32,12 @@ pivotExpressionSet <- function(eSet) {
     )
   }
 
-  # samples (rows) x features (cols)
-  f_data <- tibble::rownames_to_column(Biobase::fData(eSet), "feature")
-  p_data <- tibble::rownames_to_column(Biobase::pData(eSet), "array_id")
+  # samples (rows) x features (cols); move rn -> 1st column
+  f_data <- Biobase::fData(eSet) %>% rn2col("feature")
+  p_data <- Biobase::pData(eSet) %>% rn2col("array_id")
 
   data_long <- Biobase::exprs(eSet) %>%
-    t() %>% data.frame() %>%
-    tibble::rownames_to_column("array_id") %>%
+    t() %>% data.frame() %>% rn2col("array_id") %>%
     tidyr::pivot_longer(cols = -array_id, names_to = "feature")
 
   data_long %>%
