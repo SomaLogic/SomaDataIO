@@ -14,7 +14,7 @@ stripping original attributes), typically created using \code{\link[=read_adat]{
 A \code{\link[=tibble]{tibble()}} with columns corresponding to the column meta
 data entries in the ADAT. The tibble has a designated column "AptName"
 corresponding to the features in the ADAT, which can be retrieved using
-\code{\link[=getFeatures]{getFeatures()}}. This column can be use for indexing desired analytes.
+\code{\link[=getAnalytes]{getAnalytes()}}. This column can be use for indexing desired analytes.
 }
 \description{
 Uses the Column Meta data (meta data that appears above the protein
@@ -43,7 +43,7 @@ tbl \%>\% dplyr::select(dplyr::contains("Target"))
 tbl \%>\% dplyr::filter(stringr::str_detect(Target, "^MMP"))
 }
 \seealso{
-\code{\link[=getFeatures]{getFeatures()}}
+\code{\link[=getAnalytes]{getAnalytes()}}
 }
 \author{
 Stu Field

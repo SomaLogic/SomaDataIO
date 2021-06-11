@@ -19,7 +19,8 @@ please re-code your scripts accordingly as soon as possible.
 \details{
 \tabular{rl}{
 \code{meltExpressionSet()} \tab now use \code{\link[=pivotExpressionSet]{pivotExpressionSet()}} \cr
-\code{getSomamers()}       \tab now use \code{\link[=getFeatures]{getFeatures()}} \cr
+\code{getSomamers()}       \tab now use \code{\link[=getAnalytes]{getAnalytes()}} \cr
+\code{getFeatures()}       \tab now use \code{\link[=getAnalytes]{getAnalytes()}} \cr
 \code{getSomamerData()}    \tab now use \code{\link[=getFeatureData]{getFeatureData()}}
 }
 }

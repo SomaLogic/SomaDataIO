@@ -7,7 +7,8 @@
 #'
 #' \tabular{rl}{
 #'   `meltExpressionSet()` \tab now use [pivotExpressionSet()] \cr
-#'   `getSomamers()`       \tab now use [getFeatures()] \cr
+#'   `getSomamers()`       \tab now use [getAnalytes()] \cr
+#'   `getFeatures()`       \tab now use [getAnalytes()] \cr
 #'   `getSomamerData()`    \tab now use [getFeatureData()]
 #' }
 #'
@@ -21,6 +22,20 @@
 #' @importFrom lifecycle deprecate_stop deprecate_warn
 NULL
 
+#' @describeIn getAnalytes renamed in \pkg{SomaDataIO v5.1.0}. Exported
+#' (with life-cycle warning) to maintain backward compatibility.
+#' Please adjust your code accordingly.
+#' @export
+getFeatures <- function(x, n = FALSE, rm.controls = FALSE) {
+  deprecate_warn("5.1.0", "SomaDataIO::getFeatures()", "getAnalytes()")
+  getAnalytes(x = x, n = n, rm.controls = rm.controls)
+}
+
+#' @noRd
+getSomamers <- function(...) {
+  deprecate_warn("5.0.0", "SomaDataIO::getSomamers()", "getAnalytes()")
+  getAnalytes(...)
+}
 #' @noRd
 meltExpressionSet <- function(...) {
   deprecate_warn("5.0.0", "SomaDataIO::meltExpressionSet()",
@@ -29,15 +44,7 @@ meltExpressionSet <- function(...) {
 }
 
 #' @noRd
-getSomamers <- function(...) {
-  deprecate_warn("5.0.0", "SomaDataIO::getSomamers()",
-                 "getFeatures()")
-  getFeatures(...)
-}
-
-#' @noRd
 getSomamerData <- function(...) {
-  deprecate_warn("5.0.0", "SomaDataIO::getSomamerData()",
-                 "getFeatureData()")
+  deprecate_warn("5.0.0", "SomaDataIO::getSomamerData()", "getFeatureData()")
   getFeatureData(...)
 }

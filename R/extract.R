@@ -27,7 +27,7 @@
     return(NextMethod())
   }
 
-  apts <- getFeatures(x)
+  apts <- getAnalytes(x)
 
   if ( is.character(j) ) {
     # Character case
@@ -36,7 +36,7 @@
     # Integer/Logical case
     # this is tricky
     # must figure out which numeric indices are feature data; which meta data
-    k <- getFeatures(names(x)[j]) %>% match(apts)
+    k <- getAnalytes(names(x)[j]) %>% match(apts)
   }
 
   # Update the attributes -> Col.Meta information

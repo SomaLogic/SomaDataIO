@@ -1,10 +1,9 @@
-#' Get Features
+#' Get Analytes
 #'
 #' Return the feature names (i.e. the column names for
 #' SOMAmer reagent analytes) from a `soma_adat`, data frame,
 #' matrix, list, or character vector. S3 methods exist for these classes.
 #'
-#' @family get*
 #' @param x Typically a `soma_adat` class object created using [read_adat()].
 #' Alternatively, a character vector with elements containing `SeqIds`
 #' corresponding to analyte features.
@@ -19,28 +18,29 @@
 #' @author Stu Field
 #' @seealso [is.apt()]
 #' @examples
-#' apts <- getFeatures(example_data)
+#' apts <- getAnalytes(example_data)
 #' head(apts)
-#' getFeatures(example_data, n = TRUE)
+#' getAnalytes(example_data, n = TRUE)
 #'
 #' # vector string
-#' bb <- getFeatures(names(example_data))
+#' bb <- getAnalytes(names(example_data))
 #' all.equal(apts, bb)
 #'
 #' # create some control sequences
 #' #           Spuriomer      HybControl
 #' apts2 <- c("seq.2053.2", "seq.2171.12", head(apts))
 #' apts2
-#' no_crtl <- getFeatures(apts2, rm.controls = TRUE)
+#' no_crtl <- getAnalytes(apts2, rm.controls = TRUE)
 #' no_crtl
 #' setdiff(apts2, no_crtl)
+#' @order 1
 #' @export
-getFeatures <- function(x, n = FALSE, rm.controls = FALSE) UseMethod("getFeatures")
+getAnalytes <- function(x, n = FALSE, rm.controls = FALSE) UseMethod("getAnalytes")
 
-#' @importFrom usethis ui_stop
+#' @importFrom usethis ui_stop ui_value
 #' @noRd
 #' @export
-getFeatures.default <- function(x, n, rm.controls) {
+getAnalytes.default <- function(x, n, rm.controls) {
   usethis::ui_stop(
     "Couldn't find a S3 method for this class object: {ui_value(class(x))}."
   )
@@ -48,27 +48,28 @@ getFeatures.default <- function(x, n, rm.controls) {
 
 #' @noRd
 #' @export
-getFeatures.data.frame <- function(x, n = FALSE, rm.controls = FALSE) {
-  getFeatures(names(x), n = n, rm.controls = rm.controls)
+getAnalytes.data.frame <- function(x, n = FALSE, rm.controls = FALSE) {
+  getAnalytes(names(x), n = n, rm.controls = rm.controls)
 }
 
 #' @noRd
 #' @export
-getFeatures.soma_adat <- getFeatures.data.frame
+getAnalytes.soma_adat <- getAnalytes.data.frame
 
 #' @noRd
 #' @export
-getFeatures.list <- getFeatures.data.frame
+getAnalytes.list <- getAnalytes.data.frame
 
 #' @noRd
 #' @export
-getFeatures.matrix <- function(x, n = FALSE, rm.controls = FALSE) {
-  getFeatures(colnames(x), n = n, rm.controls = rm.controls)
+getAnalytes.matrix <- function(x, n = FALSE, rm.controls = FALSE) {
+  getAnalytes(colnames(x), n = n, rm.controls = rm.controls)
 }
 
+#' S3 getAnalytes method for character
 #' @noRd
 #' @export
-getFeatures.character <- function(x, n = FALSE, rm.controls = FALSE) {
+getAnalytes.character <- function(x, n = FALSE, rm.controls = FALSE) {
   lgl <- is.apt(x)
   if ( rm.controls ) {
     lgl <- lgl & !x %in% .getControls()

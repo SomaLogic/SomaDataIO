@@ -14,7 +14,7 @@ files <- c(
   #"convertAptNames.R",
   "is-seqFormat.R",
   "is-intact-attributes.R",
-  "getFeatures.R",
+  "getAnalytes.R",
   "getMeta.R",
   "MathGenerics.R",
   "parseHeader.R",

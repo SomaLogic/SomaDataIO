@@ -4,7 +4,7 @@
 \name{SomaDataObjects}
 \alias{SomaDataObjects}
 \alias{example_data}
-\alias{ex_features}
+\alias{ex_analytes}
 \alias{ex_feature_table}
 \alias{ex_target_names}
 \title{Example Data and Objects}
@@ -29,13 +29,13 @@ designed to contain biological signal.
 and usually the \code{SampleType == Sample} represents the "client" samples.
 }
 
+\item{ex_analytes}{character string of the analyte features contained
+in the \code{soma_adat} object, derived from a call to \code{\link[=getAnalytes]{getAnalytes()}}.}
+
 \item{ex_feature_table}{a lookup table corresponding to a
 transposed data frame of the "Col.Meta" attribute of an ADAT, with an
 index key field \code{AptName} included in column 1, derived from a call to
 \code{\link[=getFeatureData]{getFeatureData()}}.}
-
-\item{ex_features}{character string of the analyte features contained
-in the \code{soma_adat} object, derived from a call to \code{\link[=getFeatures]{getFeatures()}}.}
 
 \item{ex_target_names}{A lookup table mapping \code{SeqId} feature names ->
 target names contained in \code{example_data}. This object (or one like it) is
@@ -87,7 +87,7 @@ print(example_data, show_header = TRUE)
 class(example_data)
 
 # Features/Analytes
-head(ex_features, 20)
+head(ex_analytes, 20)
 
 # Feature info table (annotations)
 ex_feature_table

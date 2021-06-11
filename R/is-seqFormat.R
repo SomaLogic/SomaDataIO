@@ -29,7 +29,7 @@ is_seqFormat.default <- function(x) {
 #' @noRd
 #' @export
 is_seqFormat.soma_adat <- function(x) {
-  is_seqFormat(getFeatures(x))
+  is_seqFormat(getAnalytes(x))
 }
 
 #' S3 data.frame method

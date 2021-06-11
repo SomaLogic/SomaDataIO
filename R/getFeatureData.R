@@ -14,9 +14,9 @@
 #' @return A [tibble()] with columns corresponding to the column meta
 #' data entries in the ADAT. The tibble has a designated column "AptName"
 #' corresponding to the features in the ADAT, which can be retrieved using
-#' [getFeatures()]. This column can be use for indexing desired analytes.
+#' [getAnalytes()]. This column can be use for indexing desired analytes.
 #' @author Stu Field
-#' @seealso [getFeatures()]
+#' @seealso [getAnalytes()]
 #' @examples
 #' # Attribute check
 #' is.intact.attributes(example_data)   # must be TRUE
@@ -53,7 +53,7 @@ getFeatureData <- function(adat) {
   # We want to ensure `AptName` is an index
   # that can be used in the ADAT it comes from
   # AptName is the column that links AptData -> ADAT
-  tbl <- tibble::tibble(AptName = getFeatures(adat),
+  tbl <- tibble::tibble(AptName = getAnalytes(adat),
                         SeqId   = getSeqId(AptName, TRUE))
   if ( nrow(tbl) != nrow(colmeta) ) {
     usethis::ui_warn(

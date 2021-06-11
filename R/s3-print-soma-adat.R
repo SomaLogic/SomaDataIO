@@ -23,7 +23,7 @@ print.soma_adat <- function(x, show_header = FALSE, ...) {
   stringr::str_glue("     {x} {col_f(atts_symbol)}",
                     x = stringr::str_pad("Intact", 20, "right")) %>%
     writeLines()
-  apts <- getFeatures(x)
+  apts <- getAnalytes(x)
   meta <- setdiff(names(x), apts)
 
   writeLines(cli::rule(crayon::bold("Dimensions"), line_col = crayon::blue))

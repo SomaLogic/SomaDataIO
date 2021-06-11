@@ -72,7 +72,7 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
     msg  <- stringr::str_pad("  ADATs have same # of columns", width = pad, "right")
     usethis::ui_todo("{msg} {map_mark(mark)}")
 
-    mark <- are_equal(getFeatures(adat1, n = TRUE), getFeatures(adat2, n = TRUE))
+    mark <- are_equal(getAnalytes(adat1, n = TRUE), getAnalytes(adat2, n = TRUE))
     msg  <- stringr::str_pad("  ADATs have same # of features", width = pad, "right")
     usethis::ui_todo("{msg} {map_mark(mark)}")
 
@@ -87,7 +87,7 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
   usethis::ui_todo("{msg} {map_mark(mark)}")
 
   # Adat feature names ----
-  same_ft_names <- are_equal(getFeatures(adat1), getFeatures(adat2))
+  same_ft_names <- are_equal(getAnalytes(adat1), getAnalytes(adat2))
   msg <- stringr::str_pad("ADATs contain identical Features", width = pad, "right")
   usethis::ui_todo("{msg} {map_mark(same_ft_names)}")
 
@@ -98,8 +98,8 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
 
   if ( !(same_meta_names & same_ft_names) ) {
     ipad    <- 20   # internal padding
-    apts1_2 <- setdiff(getFeatures(adat1), getFeatures(adat2))
-    apts2_1 <- setdiff(getFeatures(adat2), getFeatures(adat1))
+    apts1_2 <- setdiff(getAnalytes(adat1), getAnalytes(adat2))
+    apts2_1 <- setdiff(getAnalytes(adat2), getAnalytes(adat1))
     meta1_2 <- setdiff(getMeta(adat1), getMeta(adat2))
     meta2_1 <- setdiff(getMeta(adat2), getMeta(adat1))
 
@@ -172,7 +172,7 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
 .diffAdatColumns <- function(x, y, meta = FALSE, tolerance) {
 
   type <- ifelse(meta, "Meta", "Feature")
-  .fun <- switch(type, Meta = getMeta, Feature = getFeatures)
+  .fun <- switch(type, Meta = getMeta, Feature = getAnalytes)
   cols <- intersect(.fun(x), .fun(y))
 
   test_lgl <- purrr::map2_lgl(x[, cols], y[, cols], ~ {

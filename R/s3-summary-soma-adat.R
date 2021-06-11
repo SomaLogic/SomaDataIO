@@ -58,7 +58,7 @@ summary.soma_adat <- function(object, ft.data,
   labs <- c("Target", "Min", "1Q", "Median", "Mean", "3Q",
             "Max", "sd", "MAD", "IQR") %>%
     stringr::str_pad(width = 6, side = "right")
-  nm   <- getFeatures(object)
+  nm   <- getAnalytes(object)
   vals <- dplyr::select(object, nm) %>%
     purrr::map(function(.x) {
       vec <- .x[!is.na(.x)]         # rm NaN/NA; outside b/c summary()

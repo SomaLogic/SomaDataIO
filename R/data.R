@@ -7,7 +7,7 @@
 #' group for studies or provide any metrics for SomaScan data in general.
 #'
 #' @name SomaDataObjects
-#' @aliases example_data ex_features ex_feature_table ex_target_names
+#' @aliases example_data ex_analytes ex_feature_table ex_target_names
 #' @docType data
 #'
 #' @section Data Description:
@@ -49,13 +49,13 @@
 #'   and usually the `SampleType == Sample` represents the "client" samples.
 #'   }
 #'
+#'   \item{ex_analytes}{character string of the analyte features contained
+#'   in the `soma_adat` object, derived from a call to [getAnalytes()].}
+#'
 #'   \item{ex_feature_table}{a lookup table corresponding to a
 #'   transposed data frame of the "Col.Meta" attribute of an ADAT, with an
 #'   index key field `AptName` included in column 1, derived from a call to
 #'   [getFeatureData()].}
-#'
-#'   \item{ex_features}{character string of the analyte features contained
-#'   in the `soma_adat` object, derived from a call to [getFeatures()].}
 #'
 #'   \item{ex_target_names}{A lookup table mapping `SeqId` feature names ->
 #'   target names contained in `example_data`. This object (or one like it) is
@@ -75,7 +75,7 @@
 #' class(example_data)
 #'
 #' # Features/Analytes
-#' head(ex_features, 20)
+#' head(ex_analytes, 20)
 #'
 #' # Feature info table (annotations)
 #' ex_feature_table

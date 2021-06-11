@@ -411,7 +411,7 @@ parseCheck <- function(all.tokens, verbose = TRUE) {
 
 syncColMeta <- function(data) {
   col_meta <- attributes(data)$Col.Meta
-  ft       <- getFeatures(data)
+  ft       <- getAnalytes(data)
 
   # if all features have new format
   # no need to use slower regex matching

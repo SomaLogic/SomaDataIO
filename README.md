@@ -109,7 +109,7 @@ users to run canned examples (or analyses). They can be accessed once
 `SomaDataIO` has been attached via `library()`. They are:
 
 -   `example_data`
--   `ex_features`
+-   `ex_analytes`
 -   `ex_feature_data`
 -   `ex_target_names`
 -   See `?SomaDataObjects`
@@ -194,7 +194,7 @@ my_adat
 #> #   seq.10424.31 <dbl>, seq.10425.3 <dbl>, seq.10426.21 <dbl>, seq.10427.2 <dbl>, …
 #> ════════════════════════════════════════════════════════════════════════════════════════════════════
 
-print(my_adat, show_header = TRUE)  # if simply wish to see Header info, no features
+print(my_adat, show_header = TRUE)  # if simply wish to see Header info
 #> ── Attributes ──────────────────────────────────────────────────────────────────────────────────────
 #>      Intact               ✓
 #> ── Dimensions ──────────────────────────────────────────────────────────────────────────────────────
@@ -351,17 +351,17 @@ getFeatureData(my_adat)
 #> #   Cal_Example_Adat_Set002 <dbl>, CalQcRatio_Example_Adat_Set002_170255 <dbl>, Dilution2 <dbl>
 ```
 
-#### Features (`seq.xxxx.xx`)
+#### Analyte Features (`seq.xxxx.xx`)
 
 ``` r
-getFeatures(my_adat) %>% head(20)     # first 20 features; see AptName above
+getAnalytes(my_adat) %>% head(20)     # first 20 analytes; see AptName above
 #>  [1] "seq.10000.28"  "seq.10001.7"   "seq.10003.15"  "seq.10006.25"  "seq.10008.43"  "seq.10011.65" 
 #>  [7] "seq.10012.5"   "seq.10013.34"  "seq.10014.31"  "seq.10015.119" "seq.10021.1"   "seq.10022.207"
 #> [13] "seq.10023.32"  "seq.10024.44"  "seq.10030.8"   "seq.10034.16"  "seq.10035.6"   "seq.10036.201"
 #> [19] "seq.10037.98"  "seq.10040.63"
-getFeatures(my_adat) %>% length()     # how many features
+getAnalytes(my_adat) %>% length()     # how many analytes 
 #> [1] 5284
-getFeatures(my_adat, n = TRUE)        # the `n` argument; no. features
+getAnalytes(my_adat, n = TRUE)        # the `n` argument; no. analytes
 #> [1] 5284
 ```
 
@@ -459,7 +459,7 @@ males %>%
 # see full complement of `soma_adat` methods
 methods(class = "soma_adat")
 #>  [1] [            [[           [[<-         [<-          $            $<-          anti_join   
-#>  [8] arrange      count        filter       full_join    getFeatures  getMeta      group_by    
+#>  [8] arrange      count        filter       full_join    getAnalytes  getMeta      group_by    
 #> [15] inner_join   is_seqFormat left_join    Math         mutate       print        rename      
 #> [22] right_join   sample_frac  sample_n     select       semi_join    separate     slice_sample
 #> [29] slice        summary      ungroup      unite       
@@ -474,7 +474,7 @@ is.intact.attributes(my_adat)     # attributes MUST be intact to write to file
 
 write_adat(my_adat, file = tempfile("my-adat-", fileext = ".adat"))
 #> ✓ ADAT passed checks and traps
-#> ✓ ADAT written to: '/var/folders/rh/hw387cn94f9431b9pdqjx1ss223hd0/T/RtmplzicI3/my-adat-198c4d7f9bba.adat'
+#> ✓ ADAT written to: '/var/folders/rh/hw387cn94f9431b9pdqjx1ss223hd0/T/RtmpGqJcuJ/my-adat-977e6d3a394a.adat'
 ```
 
 ------------------------------------------------------------------------
@@ -504,7 +504,7 @@ table(example_data$SampleType)
 #>     Buffer Calibrator         QC     Sample 
 #>          6         10          6        170
 
-is_seq <- function(.x) grepl("^seq\\.[0-9]{4}", .x) # regex for features
+is_seq <- function(.x) grepl("^seq\\.[0-9]{4}", .x) # regex for analytes
 
 # Prepare data set for analysis
 cleanData <- example_data %>%
@@ -512,8 +512,8 @@ cleanData <- example_data %>%
   tidyr::drop_na(Sex) %>%                           # rm NAs if present
   log10() %>%                                       # log10-transform (Math Generic)
   mutate(Group = as.numeric(factor(Sex)) - 1) %>%   # map Sex -> 0/1
-  mutate_if(is_seq(names(.)), ~ {                   # mutate features only
-    .x %>% subtract(mean(.)) %>% divide_by(sd(.))   # center & scale features
+  mutate_if(is_seq(names(.)), ~ {                   # mutate analytes only
+    .x %>% subtract(mean(.)) %>% divide_by(sd(.))   # center & scale analytes
   })
 table(cleanData$Sex)
 #> 

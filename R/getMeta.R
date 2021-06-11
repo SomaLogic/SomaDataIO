@@ -1,15 +1,13 @@
-#' Get Meta Data Names
-#'
-#' Return a character vector of string names of *non*-feature
+
+#' @describeIn getAnalytes
+#' Return a character vector of string names of *non*-analyte feature
 #' columns/variables.
 #'
-#' @family get*
-#' @inheritParams getFeatures
 #' @return Either a character vector of ADAT meta data names or
 #' an integer number the length of the meta data names (if `n = TRUE`).
-#' @author Stu Field
-#' @seealso [is.apt()]
 #' @examples
+#'
+#' # getMeta()
 #' mvec <- getMeta(example_data)
 #' head(mvec, 10)
 #' getMeta(example_data, n = TRUE)

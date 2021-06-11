@@ -49,7 +49,7 @@ write_adat <- function(x, file) {
     )
   }
 
-  apts <- getFeatures(x)
+  apts <- getAnalytes(x)
   atts <- prepHeaderMeta(x)
   attributes(x) <- atts
 
@@ -126,7 +126,7 @@ write_adat <- function(x, file) {
 #' @noRd
 checkADAT <- function(adat) {
   atts <- attributes(adat)
-  apts <- getFeatures(adat)
+  apts <- getAnalytes(adat)
   meta <- getMeta(adat)
   if ( !isTRUE(all.equal(cleanNames(meta),
                          cleanNames(atts$Header.Meta$ROW_DATA$Name))) ) {

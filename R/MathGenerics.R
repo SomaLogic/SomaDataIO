@@ -43,7 +43,7 @@
 #' @importFrom usethis ui_stop ui_value
 #' @export
 Math.soma_adat <- function(x, ...) {
-  .apts   <- getFeatures(x)
+  .apts   <- getAnalytes(x)
   class   <- class(x)
   mode_ok <- vapply(x[, .apts], function(.x)
                     is.numeric(.x) || is.complex(.x), NA)

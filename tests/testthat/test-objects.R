@@ -3,7 +3,7 @@
 test_that("Sample objects are created properly", {
   expect_is(example_data, "soma_adat")
   expect_is(ex_target_names, "list")
-  expect_length(ex_features, 5284)
+  expect_length(ex_analytes, 5284)
   expect_length(ex_target_names, 5284)
   expect_equal(dim(ex_feature_table), c(5284, 22))
   expect_named(ex_feature_table, c("AptName",
@@ -29,8 +29,8 @@ test_that("Sample objects are created properly", {
                                    "CalQcRatio_Example_Adat_Set002_170255",
                                    "Dilution2"))
   expect_is(ex_feature_table, "tbl_df")
-  expect_equal(ex_features, getFeatures(example_data))
-  expect_named(ex_target_names, ex_features)
+  expect_equal(ex_analytes, getAnalytes(example_data))
+  expect_named(ex_target_names, ex_analytes)
   expect_equal(ex_target_names %>% unlist() %>% unname(),
                ex_feature_table$TargetFullName)
   meta <- c("PlateId", "PlateRunDate", "ScannerID", "PlatePosition",

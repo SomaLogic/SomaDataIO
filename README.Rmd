@@ -137,7 +137,7 @@ to users to run canned examples (or analyses). They can be accessed once
 `SomaDataIO` has been attached via `library()`. They are:
 
 * `example_data`
-* `ex_features`
+* `ex_analytes`
 * `ex_feature_data`
 * `ex_target_names`
 * See `?SomaDataObjects`
@@ -171,7 +171,7 @@ is.soma_adat(my_adat)
 # S3 print method forwards -> tibble
 my_adat
 
-print(my_adat, show_header = TRUE)  # if simply wish to see Header info, no features
+print(my_adat, show_header = TRUE)  # if simply wish to see Header info
 
 # S3 summary method
 # View Target and summary statistics
@@ -205,11 +205,11 @@ getFeatureData(my_adat)
 ```
 
 
-#### Features (`seq.xxxx.xx`)
+#### Analyte Features (`seq.xxxx.xx`)
 ```{r feats}
-getFeatures(my_adat) %>% head(20)     # first 20 features; see AptName above
-getFeatures(my_adat) %>% length()     # how many features
-getFeatures(my_adat, n = TRUE)        # the `n` argument; no. features
+getAnalytes(my_adat) %>% head(20)     # first 20 analytes; see AptName above
+getAnalytes(my_adat) %>% length()     # how many analytes 
+getAnalytes(my_adat, n = TRUE)        # the `n` argument; no. analytes
 ```
 
 #### Clinical Data
@@ -286,7 +286,7 @@ exist, however the framework highlights how one could perform standard
 dim(example_data)
 table(example_data$SampleType)
 
-is_seq <- function(.x) grepl("^seq\\.[0-9]{4}", .x) # regex for features
+is_seq <- function(.x) grepl("^seq\\.[0-9]{4}", .x) # regex for analytes
 
 # Prepare data set for analysis
 cleanData <- example_data %>%
@@ -294,8 +294,8 @@ cleanData <- example_data %>%
   tidyr::drop_na(Sex) %>%                           # rm NAs if present
   log10() %>%                                       # log10-transform (Math Generic)
   mutate(Group = as.numeric(factor(Sex)) - 1) %>%   # map Sex -> 0/1
-  mutate_if(is_seq(names(.)), ~ {                   # mutate features only
-    .x %>% subtract(mean(.)) %>% divide_by(sd(.))   # center & scale features
+  mutate_if(is_seq(names(.)), ~ {                   # mutate analytes only
+    .x %>% subtract(mean(.)) %>% divide_by(sd(.))   # center & scale analytes
   })
 table(cleanData$Sex)
 table(cleanData$Group)    # F = 0; M = 1
@@ -403,6 +403,7 @@ LR_tbl
 
 
 #### Fit Model | Calculate Performance
+
 Next, select features for the model fit. We have a good idea of reasonable `Sex`
 markers from prior knowledge (`CGA*`), and fortunately many of these are highly
 ranked in `LR_tbl`. Below we fit a 4-marker logistic regression model from 

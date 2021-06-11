@@ -41,7 +41,7 @@ adat2eSet <- function(adat) {
 
   stopifnot(is.intact.attributes(adat))
   atts        <- attributes(adat)
-  apts        <- getFeatures(adat)
+  apts        <- getAnalytes(adat)
   lst         <- list()
   lst$fdata   <- getFeatureData(adat) %>% data.frame() %>% col2rn("AptName")
   class(adat) <- "data.frame"
