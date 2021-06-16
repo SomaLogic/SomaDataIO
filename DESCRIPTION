@@ -46,7 +46,7 @@ Suggests:
     withr
 VignetteBuilder: 
     knitr
-Copyright: SomaLogic, Inc. 2020
+Copyright: SomaLogic, Inc. 2021
 Encoding: UTF-8
 Language: en-US
 LazyData: true

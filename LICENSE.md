@@ -2,7 +2,7 @@
 
 SomaDataIO™
 
-Copyright © 2020 SomaLogic, Inc.
+Copyright © 2021 SomaLogic, Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of the SomaDataIO software and associated documentation files
