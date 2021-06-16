@@ -43,7 +43,8 @@ Suggests:
     rmarkdown,
     testthat,
     spelling,
-    withr
+    withr,
+    covr
 VignetteBuilder: 
     knitr
 Copyright: SomaLogic, Inc. 2021
