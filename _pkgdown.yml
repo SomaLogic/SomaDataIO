@@ -1,25 +1,25 @@
-template:
-  params:
-    docsearch:
-      api_key: fbd8d79ed49f21fc9ca7b2cf601a3f5b
-      index_name: pkgdown
-    ganalytics: UA-115082821-1
+url: https://github.com/SomaLogic/SomaDataIO
 
 home:
-  strip_header: false 
+  strip_header: true
   links:
   - text: Report a bug
-    href: https://github.com/SomaLogic/SomaDataIO/issues (update!)
+    href: https://github.com/SomaLogic/SomaDataIO/issues
   - text: Learn more about us
     href: http://www.somalogic.com
   - text: The tidyverse
     href: https://www.tidyverse.org
 
+template:
+  params:
+    ganalytics: UA-115082821-1
+
+authors:
+  "Stu Field":
+    href: https://github.com/stufield
+
 development:
-  mode: devel
-  version_label: default   # grey
-  #version_label: info     # blue
-  #version_label: danger   # red
+  mode: auto
 
 articles:
   - title: Getting Started
@@ -29,29 +29,41 @@ articles:
 
 reference:
   - title: Load an ADAT
-    desc: Load RFU (feature) data loaded into (and out of) an R session.
+    desc: >
+      Load RFU (feature) data loaded into (and out of) an R session.
     contents:
     - read_adat
+    - write_adat
+    - parseHeader
+    - rownames
     - is.intact.attributes
-    - MathGenerics
-    - SampleObjects
 
   - title: ADAT Manipulation
-    desc: Functions that allow filtering and subset selection of ADAT objects.
+    desc: >
+      Functions that allow filtering, wrangling, and subset
+      selection of ADAT objects.
     contents:
-    - filter
-    - diffAdats
+    - SeqId
     - starts_with("^get")
     - is_seqFormat
+    - MathGenerics
+    - diffAdats
 
   - title: Expression Data
-    desc: Functions to convert objects to those familiar with `expression` data.
+    desc: >
+      Functions to convert objects to those familiar with `expression` data.
     contents:
-    - pivotExpressionSet
     - adat2eSet
+    - pivotExpressionSet
+
+  - title: Data Objects
+    desc: Objects provided with `SomaDataIO`.
+    contents:
+    - SomaDataObjects
 
   - title: Deprecated
-    desc: Functions that have been deprecated in the current `SomaDataIO` release.
+    desc: >
+      Functions that have been deprecated (sunset) in the current `SomaDataIO` release.
     contents:
     - SomaDataIO-deprecated
 

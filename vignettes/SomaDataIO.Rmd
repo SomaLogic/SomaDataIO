@@ -31,19 +31,19 @@ contributed packages from the Comprehensive R Archive Network (CRAN).
 ## Main Features (I/O)
 
 * Loading data (Import)
-    + Import a text file in the `*.adat` format into an `R` session
-      as a `soma_adat` object.
+  + Import a text file in the `*.adat` format into an `R` session
+    as a `soma_adat` object.
 * Wrangling data (manipulation)
-    + Subset, reorder, and list various fields of a `soma_adat` object.
+  + Subset, reorder, and list various fields of a `soma_adat` object.
 * Exporting data (Output)
-    + Write out a `soma_adat` object as a `*.adat` text file.
+  + Write out a `soma_adat` object as a `*.adat` text file.
 
 
 ----------------------
 
-## TBD: Complete Later
+## TODO: Complete Later
 
-## See `README`
+#### In the meantime see [README](README.md)
 
 ---------------------
 

@@ -35,11 +35,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: r-lib/actions/setup-r@master
+      - uses: r-lib/actions/setup-r@v1
         with:
           r-version: ${{ matrix.config.r }}
 
-      - uses: r-lib/actions/setup-pandoc@master
+      - uses: r-lib/actions/setup-pandoc@v1
 
       - name: Query dependencies
         run: |
@@ -67,8 +67,8 @@ jobs:
         run: |
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
-          install.packages("BiocManager")
-          BiocManager::install("Biobase", version = "3.13")
+          remotes::install_cran("BiocManager")
+          BiocManager::install("Biobase", version = remotes::bioc_version())
         shell: Rscript {0}
 
       - name: Session info
