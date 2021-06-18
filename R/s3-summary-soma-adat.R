@@ -18,7 +18,7 @@
 #' the S3 generic [summary()].
 #' @param ft.data If `NULL` (default), and the attributes of `object` are
 #' intact, `Target` names are extracted from the "Col.Meta" of the attributes.
-#' Alternatively, the result of a call to [getFeatureData()], from
+#' Alternatively, the result of a call to [getAnalyteInfo()], from
 #' which Target names can be extracted. If neither of the above options are
 #' available, the "Target" row of the S3 [summary()] method is left blank.
 #' @param digits Integer. Used for number formatting with [signif()].
@@ -34,8 +34,8 @@
 #'   lapply(summary)
 #'
 #' # Alternatively pass `ft.data` for Target info
-#' # Obtained from `getFeatureData()`
-#' tbl <- attributes(my_adat)$Col.Meta
+#' # Obtained from `getAnalyteInfo()`
+#' tbl <- attr(my_adat, "Col.Meta")
 #' tbl$AptName <- sub("-", ".", paste0("seq.", tbl$SeqId))
 #' summary(my_adat[, mmps], ft.data = tbl)
 #'

@@ -15,6 +15,7 @@ files <- c(
   "is-seqFormat.R",
   "is-intact-attributes.R",
   "getAnalytes.R",
+  "getAnalyteInfo.R",
   "getMeta.R",
   "MathGenerics.R",
   "parseHeader.R",

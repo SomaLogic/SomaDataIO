@@ -6,7 +6,7 @@
 \alias{meltExpressionSet}
 \alias{getSomamers}
 \alias{getSomamerData}
-\title{Deprecated function(s) of the \code{SomaDataIO} package}
+\title{Deprecated function(s) of the \pkg{SomaDataIO} package}
 \arguments{
 \item{...}{A simple pass-through to a replacement alternative if available.}
 }
@@ -21,7 +21,8 @@ please re-code your scripts accordingly as soon as possible.
 \code{meltExpressionSet()} \tab now use \code{\link[=pivotExpressionSet]{pivotExpressionSet()}} \cr
 \code{getSomamers()}       \tab now use \code{\link[=getAnalytes]{getAnalytes()}} \cr
 \code{getFeatures()}       \tab now use \code{\link[=getAnalytes]{getAnalytes()}} \cr
-\code{getSomamerData()}    \tab now use \code{\link[=getFeatureData]{getFeatureData()}}
+\code{getSomamerData()}    \tab now use \code{\link[=getAnalyteInfo]{getAnalyteInfo()}} \cr
+\code{getFeatureData()}    \tab now use \code{\link[=getAnalyteInfo]{getAnalyteInfo()}}
 }
 }
 \author{

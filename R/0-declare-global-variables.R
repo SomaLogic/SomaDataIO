@@ -6,15 +6,16 @@
 # Reference: https://github.com/tidyverse/magrittr/issues/29
 ##################################
 utils::globalVariables(
-  c(".", "rn",
+  c(".",
+    "AptName",
     "array_id",
-    "feature",
-    "value",
+    "blank_col",
     "Dilution",
+    "feature",
+    "prefix",
+    "rn",
     "SeqId",
     "seqid",
-    "prefix",
-    "AptName",
-    "blank_col"
+    "value"
   )
 )

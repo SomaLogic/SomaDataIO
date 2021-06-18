@@ -98,7 +98,7 @@ the S3 generic \code{\link[=summary]{summary()}}.}
 
 \item{ft.data}{If \code{NULL} (default), and the attributes of \code{object} are
 intact, \code{Target} names are extracted from the "Col.Meta" of the attributes.
-Alternatively, the result of a call to \code{\link[=getFeatureData]{getFeatureData()}}, from
+Alternatively, the result of a call to \code{\link[=getAnalyteInfo]{getAnalyteInfo()}}, from
 which Target names can be extracted. If neither of the above options are
 available, the "Target" row of the S3 \code{\link[=summary]{summary()}} method is left blank.}
 
@@ -180,8 +180,8 @@ my_adat[, mmps] \%>\%
   lapply(summary)
 
 # Alternatively pass `ft.data` for Target info
-# Obtained from `getFeatureData()`
-tbl <- attributes(my_adat)$Col.Meta
+# Obtained from `getAnalyteInfo()`
+tbl <- attr(my_adat, "Col.Meta")
 tbl$AptName <- sub("-", ".", paste0("seq.", tbl$SeqId))
 summary(my_adat[, mmps], ft.data = tbl)
 

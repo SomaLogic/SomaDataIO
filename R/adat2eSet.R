@@ -43,11 +43,11 @@ adat2eSet <- function(adat) {
   atts        <- attributes(adat)
   apts        <- getAnalytes(adat)
   lst         <- list()
-  lst$fdata   <- getFeatureData(adat) %>% data.frame() %>% col2rn("AptName")
+  lst$fdata   <- data.frame(getAnalyteInfo(adat)) %>% col2rn("AptName")
   class(adat) <- "data.frame"
-  lst$pdata   <- adat[, setdiff(names(adat), apts)]
+  lst$pdata   <- adat[, setdiff(names(adat), apts), drop = FALSE]
   lst$header  <- atts$Header.Meta$HEADER
-  lst$exprs   <- adat[, apts]
+  lst$exprs   <- adat[, apts, drop = FALSE]
 
   f_df  <- data.frame(labelDescription = gsub("\\.", " ", names(lst$fdata)),
                       row.names = names(lst$fdata),  stringsAsFactors = FALSE)

@@ -35,7 +35,7 @@ in the \code{soma_adat} object, derived from a call to \code{\link[=getAnalytes]
 \item{ex_feature_table}{a lookup table corresponding to a
 transposed data frame of the "Col.Meta" attribute of an ADAT, with an
 index key field \code{AptName} included in column 1, derived from a call to
-\code{\link[=getFeatureData]{getFeatureData()}}.}
+\code{\link[=getAnalyteInfo]{getAnalyteInfo()}}.}
 
 \item{ex_target_names}{A lookup table mapping \code{SeqId} feature names ->
 target names contained in \code{example_data}. This object (or one like it) is

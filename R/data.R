@@ -55,7 +55,7 @@
 #'   \item{ex_feature_table}{a lookup table corresponding to a
 #'   transposed data frame of the "Col.Meta" attribute of an ADAT, with an
 #'   index key field `AptName` included in column 1, derived from a call to
-#'   [getFeatureData()].}
+#'   [getAnalyteInfo()].}
 #'
 #'   \item{ex_target_names}{A lookup table mapping `SeqId` feature names ->
 #'   target names contained in `example_data`. This object (or one like it) is

@@ -45,12 +45,11 @@ class(my_adat)
 is.soma_adat(my_adat)
 
 # Annotations Lookup Table
-feature_table <- getFeatureData(my_adat)
-feature_table
+anno_tbl <- getAnalyteInfo(my_adat)
+anno_tbl
 
-# Find all analytes starting with "MMP" in `feature_table`
-feature_table \%>\%
-  dplyr::filter(grepl("^MMP", Target))
+# Find all analytes starting with "MMP" in `anno_tbl`
+anno_tbl \%>\% dplyr::filter(grepl("^MMP", Target))
 }
 \seealso{
 Useful links:

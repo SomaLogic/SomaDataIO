@@ -1,5 +1,4 @@
 
-#' @importFrom tidyselect all_of
 #' @keywords internal package
 "_PACKAGE"
 
@@ -11,7 +10,7 @@
 #' table into a `data.frame` object and assigns the remaining data from
 #' the file as object `attributes`, i.e. call `attributes(adat)`.
 #' Other functions in the package are designed to make extracting,
-#' manipulating, and wrangling data in the newly created `soma_adat` 
+#' manipulating, and wrangling data in the newly created `soma_adat`
 #' object more convenient.
 #'
 #' Those familiar with micro-array data analysis and associated packages, e.g.
@@ -37,10 +36,9 @@
 #' is.soma_adat(my_adat)
 #'
 #' # Annotations Lookup Table
-#' feature_table <- getFeatureData(my_adat)
-#' feature_table
+#' anno_tbl <- getAnalyteInfo(my_adat)
+#' anno_tbl
 #'
-#' # Find all analytes starting with "MMP" in `feature_table`
-#' feature_table %>%
-#'   dplyr::filter(grepl("^MMP", Target))
+#' # Find all analytes starting with "MMP" in `anno_tbl`
+#' anno_tbl %>% dplyr::filter(grepl("^MMP", Target))
 NULL

@@ -1,4 +1,4 @@
-#' Deprecated function(s) of the `SomaDataIO` package
+#' Deprecated function(s) of the \pkg{SomaDataIO} package
 #'
 #' These functions are provided for compatibility with
 #' older versions of the `SomaDataIO` package.
@@ -9,7 +9,8 @@
 #'   `meltExpressionSet()` \tab now use [pivotExpressionSet()] \cr
 #'   `getSomamers()`       \tab now use [getAnalytes()] \cr
 #'   `getFeatures()`       \tab now use [getAnalytes()] \cr
-#'   `getSomamerData()`    \tab now use [getFeatureData()]
+#'   `getSomamerData()`    \tab now use [getAnalyteInfo()] \cr
+#'   `getFeatureData()`    \tab now use [getAnalyteInfo()]
 #' }
 #'
 #' @rdname SomaDataIO-deprecated
@@ -21,6 +22,15 @@
 #' @export meltExpressionSet getSomamers getSomamerData
 #' @importFrom lifecycle deprecate_stop deprecate_warn
 NULL
+
+#' @describeIn getAnalyteInfo renamed in \pkg{SomaDataIO v5.1.0}. Exported
+#' (with life-cycle warning) to maintain backward compatibility.
+#' Please adjust your code accordingly.
+#' @export
+getFeatureData <- function(adat) {
+  deprecate_warn("5.1.0", "SomaDataIO::getFeatureData()", "getAnalyteInfo()")
+  getAnalyteInfo(adat)
+}
 
 #' @describeIn getAnalytes renamed in \pkg{SomaDataIO v5.1.0}. Exported
 #' (with life-cycle warning) to maintain backward compatibility.
