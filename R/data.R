@@ -7,7 +7,7 @@
 #' group for studies or provide any metrics for SomaScan data in general.
 #'
 #' @name SomaDataObjects
-#' @aliases example_data ex_analytes ex_feature_table ex_target_names
+#' @aliases example_data ex_analytes ex_anno_tbl ex_target_names
 #' @docType data
 #'
 #' @section Data Description:
@@ -52,7 +52,7 @@
 #'   \item{ex_analytes}{character string of the analyte features contained
 #'   in the `soma_adat` object, derived from a call to [getAnalytes()].}
 #'
-#'   \item{ex_feature_table}{a lookup table corresponding to a
+#'   \item{ex_anno_tbl}{a lookup table corresponding to a
 #'   transposed data frame of the "Col.Meta" attribute of an ADAT, with an
 #'   index key field `AptName` included in column 1, derived from a call to
 #'   [getAnalyteInfo()].}
@@ -78,10 +78,10 @@
 #' head(ex_analytes, 20)
 #'
 #' # Feature info table (annotations)
-#' ex_feature_table
+#' ex_anno_tbl
 #'
 #' # Search via `filter()`
-#' ex_feature_table %>% dplyr::filter(grepl("^MMP", Target))
+#' ex_anno_tbl %>% dplyr::filter(grepl("^MMP", Target))
 #'
 #' # Lookup table -> targets
 #' # MMP-9

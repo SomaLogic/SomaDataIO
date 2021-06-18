@@ -136,7 +136,7 @@ to users to run canned examples (or analyses). They can be accessed once
 
 * `example_data`
 * `ex_analytes`
-* `ex_feature_data`
+* `ex_anno_tbl`
 * `ex_target_names`
 * See `?SomaDataObjects`
 
@@ -190,24 +190,23 @@ names(attributes(my_adat))
 
 # The `Col.Meta` attribute contains 
 # target annotation information
-attributes(my_adat)$Col.Meta
+attr(my_adat, "Col.Meta")
 ```
-
-#### Feature Data
-The `getFeatureData()` function creates a lookup table that links the feature
-names in the `soma_adat` object to the annotation data in `Col.Meta` via the
-common key, `AptName`, in column 1:
-
-```{r annotations}
-getFeatureData(my_adat)
-```
-
 
 #### Analyte Features (`seq.xxxx.xx`)
 ```{r feats}
 getAnalytes(my_adat) %>% head(20)     # first 20 analytes; see AptName above
 getAnalytes(my_adat) %>% length()     # how many analytes 
 getAnalytes(my_adat, n = TRUE)        # the `n` argument; no. analytes
+```
+
+#### Feature Data
+The `getAnalyteInfo()` function creates a lookup table that links
+analyte feature names in the `soma_adat` object to the annotation
+data in `Col.Meta` via the common index-key, `AptName`, in column 1:
+
+```{r annotations}
+getAnalyteInfo(my_adat)
 ```
 
 #### Clinical Data
@@ -300,10 +299,10 @@ table(cleanData$Group)    # F = 0; M = 1
 ```
 
 ## Compare Two Groups (M/F) via t-test
-#### Get annotations via `getFeatureData()`:
+#### Get annotations via `getAnalyteInfo()`:
 
 ```{r get-anno}
-t_tests <- getFeatureData(cleanData) %>% 
+t_tests <- getAnalyteInfo(cleanData) %>% 
   select(AptName, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt)
 
 # Feature data info:
@@ -383,7 +382,7 @@ assertthat::assert_that(
   identical(intersect(rownames(train), rownames(test)), character(0))
 )
 
-LR_tbl <- getFeatureData(train) %>%
+LR_tbl <- getAnalyteInfo(train) %>%
   select(AptName, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt) %>%
   mutate(
     formula  = map(AptName, ~ as.formula(paste("Group ~", .x))),  # create formula
@@ -442,7 +441,7 @@ logistic regression analysis above.
 
 #### Predict Age
 ```{r linreg-tbl}
-LinR_tbl <- getFeatureData(train) %>%               # `train` from above
+LinR_tbl <- getAnalyteInfo(train) %>%               # `train` from above
   select(AptName, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt) %>%
   mutate(
     formula = map(AptName, ~ as.formula(paste("Age ~", .x, collapse = " + "))),

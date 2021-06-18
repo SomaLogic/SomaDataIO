@@ -36,17 +36,17 @@ Please adjust your code accordingly.
 
 \examples{
 # Get Aptamer table
-ad <- getAnalyteInfo(example_data)
-ad
+anno_tbl <- getAnalyteInfo(example_data)
+anno_tbl
 
 # Use `dplyr::group_by()`
-dplyr::tally(dplyr::group_by(ad, Dilution))     # Print summary by dilution
+dplyr::tally(dplyr::group_by(anno_tbl, Dilution))   # Print summary by dilution
 
 # Columns containing "Target"
-ad \%>\% dplyr::select(dplyr::contains("Target"))
+anno_tbl \%>\% dplyr::select(dplyr::contains("Target"))
 
 # Rows of "Target" starting with MMP
-ad \%>\% dplyr::filter(stringr::str_detect(Target, "^MMP"))
+anno_tbl \%>\% dplyr::filter(stringr::str_detect(Target, "^MMP"))
 }
 \seealso{
 \code{\link[=getAnalytes]{getAnalytes()}}, \code{\link[=is.intact.attributes]{is.intact.attributes()}}, \code{\link[=read_adat]{read_adat()}}

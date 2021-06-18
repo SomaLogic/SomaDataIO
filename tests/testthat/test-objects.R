@@ -5,34 +5,34 @@ test_that("Sample objects are created properly", {
   expect_is(ex_target_names, "list")
   expect_length(ex_analytes, 5284)
   expect_length(ex_target_names, 5284)
-  expect_equal(dim(ex_feature_table), c(5284, 22))
-  expect_named(ex_feature_table, c("AptName",
-                                   "SeqId",
-                                   "SeqIdVersion",
-                                   "SomaId",
-                                   "TargetFullName",
-                                   "Target",
-                                   "UniProt",
-                                   "EntrezGeneID",
-                                   "EntrezGeneSymbol",
-                                   "Organism",
-                                   "Units",
-                                   "Type",
-                                   "Dilution",
-                                   "PlateScale_Reference",
-                                   "CalReference",
-                                   "Cal_Example_Adat_Set001",
-                                   "ColCheck",
-                                   "CalQcRatio_Example_Adat_Set001_170255",
-                                   "QcReference_170255",
-                                   "Cal_Example_Adat_Set002",
-                                   "CalQcRatio_Example_Adat_Set002_170255",
-                                   "Dilution2"))
-  expect_is(ex_feature_table, "tbl_df")
+  expect_equal(dim(ex_anno_tbl), c(5284, 22))
+  expect_named(ex_anno_tbl, c("AptName",
+                              "SeqId",
+                              "SeqIdVersion",
+                              "SomaId",
+                              "TargetFullName",
+                              "Target",
+                              "UniProt",
+                              "EntrezGeneID",
+                              "EntrezGeneSymbol",
+                              "Organism",
+                              "Units",
+                              "Type",
+                              "Dilution",
+                              "PlateScale_Reference",
+                              "CalReference",
+                              "Cal_Example_Adat_Set001",
+                              "ColCheck",
+                              "CalQcRatio_Example_Adat_Set001_170255",
+                              "QcReference_170255",
+                              "Cal_Example_Adat_Set002",
+                              "CalQcRatio_Example_Adat_Set002_170255",
+                              "Dilution2"))
+  expect_is(ex_anno_tbl, "tbl_df")
   expect_equal(ex_analytes, getAnalytes(example_data))
   expect_named(ex_target_names, ex_analytes)
   expect_equal(ex_target_names %>% unlist() %>% unname(),
-               ex_feature_table$TargetFullName)
+               ex_anno_tbl$TargetFullName)
   meta <- c("PlateId", "PlateRunDate", "ScannerID", "PlatePosition",
             "SlideId", "Subarray", "SampleId", "SampleType",
             "PercentDilution", "SampleMatrix", "Barcode", "Barcode2d",

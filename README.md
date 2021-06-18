@@ -16,7 +16,7 @@ coverage](https://codecov.io/gh/SomaLogic/SomaDataIO-internal/branch/master/grap
 MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://choosealicense.com/licenses/mit/)
 <!-- badges: end -->
 
------
+------------------------------------------------------------------------
 
 ## Overview
 
@@ -27,7 +27,7 @@ the ADAT object once in the R environment. Basic familiarity with the R
 environment is assumed, as is the ability to install contributed
 packages from the Comprehensive R Archive Network (CRAN).
 
------
+------------------------------------------------------------------------
 
 ## Installation
 
@@ -56,22 +56,23 @@ which `SomaDataIO` was developed. If you run into any unexpected
 behavior, please ensure that the following package dependencies are
 pre-installed:
 
-  - `R (>= 4.0.0)`
-  - `dplyr (v1.0.6)`
-  - `assertthat (v0.2.1)`
-  - `lifecycle (v1.0.0)`
-  - `magrittr (v2.0.1)`
-  - `devtools (v2.4.1)`
-  - `readr (v1.4.0)`
-  - `rlang (v0.4.11)`
-  - `purrr (v0.3.4)`
-  - `usethis (v2.0.1)`
-  - `tidyr (v1.1.3)`
-  - `tidyselect (v1.1.1)`
-  - `tibble (v3.2.1)`
-  - `cli (v2.5.0)`
-  - `crayon (v1.4.1)`
-  - `stringr (v1.4.0)`
+-   `R (>= 4.0.0)`
+-   `dplyr (v1.0.6)`
+-   `assertthat (v0.2.1)`
+-   `lifecycle (v1.0.0)`
+-   `magrittr (v2.0.1)`
+-   `devtools (v2.4.1)`
+-   `readr (v1.4.0)`
+-   `readxl (v1.3.1)`
+-   `rlang (v0.4.11)`
+-   `purrr (v0.3.4)`
+-   `usethis (v2.0.1)`
+-   `tidyr (v1.1.3)`
+-   `tidyselect (v1.1.1)`
+-   `tibble (v3.2.1)`
+-   `cli (v2.5.0)`
+-   `crayon (v1.4.1)`
+-   `stringr (v1.4.0)`
 
 #### Biobase
 
@@ -110,26 +111,26 @@ The `SomaDataIO` package comes with 4 internal objects available to
 users to run canned examples (or analyses). They can be accessed once
 `SomaDataIO` has been attached via `library()`. They are:
 
-  - `example_data`
-  - `ex_analytes`
-  - `ex_feature_data`
-  - `ex_target_names`
-  - See `?SomaDataObjects`
+-   `example_data`
+-   `ex_analytes`
+-   `ex_feature_data`
+-   `ex_target_names`
+-   See `?SomaDataObjects`
 
------
+------------------------------------------------------------------------
 
 ## Main Features (I/O)
 
-  - Loading data (Import)
-      - Import a text file in the `*.adat` format into an `R` session as
+-   Loading data (Import)
+    -   Import a text file in the `*.adat` format into an `R` session as
         a `soma_adat` object.
-  - Wrangling data (manipulation)
-      - Subset, reorder, and list various fields of a `soma_adat`
+-   Wrangling data (manipulation)
+    -   Subset, reorder, and list various fields of a `soma_adat`
         object.
-  - Exporting data (Output)
-      - Write out a `soma_adat` object as a `*.adat` text file.
+-   Exporting data (Output)
+    -   Write out a `soma_adat` object as a `*.adat` text file.
 
------
+------------------------------------------------------------------------
 
 ### Loading an ADAT
 
@@ -143,7 +144,7 @@ is.soma_adat(my_adat)
 # S3 print method forwards -> tibble
 my_adat
 #> ── Attributes ──────────────────────────────────────────────────────────────────────────────────────
-#>      Intact               ✔
+#>      Intact               ✓
 #> ── Dimensions ──────────────────────────────────────────────────────────────────────────────────────
 #>      Rows                 192
 #>      Columns              5318
@@ -198,7 +199,7 @@ my_adat
 
 print(my_adat, show_header = TRUE)  # if simply wish to see Header info
 #> ── Attributes ──────────────────────────────────────────────────────────────────────────────────────
-#>      Intact               ✔
+#>      Intact               ✓
 #> ── Dimensions ──────────────────────────────────────────────────────────────────────────────────────
 #>      Rows                 192
 #>      Columns              5318
@@ -211,41 +212,41 @@ print(my_adat, show_header = TRUE)  # if simply wish to see Header info
 #>       TargetFullName   |   Organism           |   CalReference              |   Cal_Example_Adat_Set002                 |            
 #>       Target           |   Units              |   Cal_Example_Adat_Set001   |   CalQcRatio_Example_Adat_Set002_170255   |            
 #> ── Header Data ─────────────────────────────────────────────────────────────────────────────────────
-#>      AdatId                                      ❯     GID-1234-56-789-abcdef     
-#>      Version                                     ❯     1.2     
-#>      AssayType                                   ❯     PharmaServices     
-#>      AssayVersion                                ❯     V4     
-#>      AssayRobot                                  ❯     Fluent 1 L-307     
-#>      Legal                                       ❯     Experiment details and data have been processed to protect Personally Identifiable Information (PII) and comply with existing privacy laws.     
-#>      CreatedBy                                   ❯     PharmaServices     
-#>      CreatedDate                                 ❯     2020-07-24     
-#>      EnteredBy                                   ❯     Technician1     
-#>      ExpDate                                     ❯     2020-06-18, 2020-07-20     
-#>      GeneratedBy                                 ❯     Px (Build:  : ), Canopy_0.1.1     
-#>      RunNotes                                    ❯     2 columns ('Age' and 'Sex') have been added to this ADAT. Age has been randomly increased or decreased by 1-2 years to protect patient information     
-#>      ProcessSteps                                ❯     Raw RFU, Hyb Normalization, medNormInt (SampleId), plateScale, Calibration, anmlQC, qcCheck, anmlSMP     
-#>      ProteinEffectiveDate                        ❯     2019-08-06     
-#>      StudyMatrix                                 ❯     EDTA Plasma     
-#>      LabLocation                                 ❯     SLUS     
-#>      Title                                       ❯     Example Adat Set001, Example Adat Set002     
-#>      AssaySite                                   ❯     SW     
-#>      CalibratorId                                ❯     170261     
-#>      ReportConfig                                ❯     {"analysisSteps":[{"stepType":"hybNorm","referenceSource":"intraplate","includeSampleTypes":["QC","Calibrator","Buffer"]},{"stepName":"medNormInt","stepType":"medNorm","includeSampleTypes":["Calibrator","Buffer"],"referenceSource":"intraplate","referenceFields":["SampleId"]},{"stepType":"plateScale","referenceSource":"Reference_v4_Plasma_Calibrator_170261"},{"stepType":"calibrate","referenceSource":"Reference_v4_Plasma_Calibrator_170261"},{"stepName":"anmlQC","stepType":"ANML","effectSizeCutoff":2.0,"minFractionUsed":0.3,"includeSampleTypes":["QC"],"referenceSource":"Reference_v4_Plasma_ANML"},{"stepType":"qcCheck","QCReferenceSource":"Reference_v4_Plasma_QC_ANML_170255","tailsCriteriaLower":0.8,"tailsCriteriaUpper":1.2,"tailThreshold":15.0,"QCAdditionalReferenceSources":["Reference_v4_Plasma_QC_ANML_170259","Reference_v4_Plasma_QC_ANML_170260"],"prenormalized":true},{"stepName":"anmlSMP","stepType":"ANML","effectSizeCutoff":2.0,"minFractionUsed":0.3,"includeSampleTypes":["Sample"],"referenceSource":"Reference_v4_Plasma_ANML"}],"qualityReports":["SQS Report"],"filter":{"proteinEffectiveDate":"2019-08-06"}}     
-#>      HybNormReference                            ❯     intraplate     
-#>      MedNormReference                            ❯     intraplate     
-#>      NormalizationAlgorithm                      ❯     ANML     
-#>      PlateScale_ReferenceSource                  ❯     Reference_v4_Plasma_Calibrator_170261     
-#>      PlateScale_Scalar_Example_Adat_Set001       ❯     1.08091554     
-#>      PlateScale_PassFlag_Example_Adat_Set001     ❯     PASS     
-#>      CalibrationReference                        ❯     Reference_v4_Plasma_Calibrator_170261     
-#>      CalPlateTailPercent_Example_Adat_Set001     ❯     0.1     
-#>      PlateTailPercent_Example_Adat_Set001        ❯     1.2     
-#>      PlateTailTest_Example_Adat_Set001           ❯     PASS     
-#>      PlateScale_Scalar_Example_Adat_Set002       ❯     1.09915270     
-#>      PlateScale_PassFlag_Example_Adat_Set002     ❯     PASS     
-#>      CalPlateTailPercent_Example_Adat_Set002     ❯     2.6     
-#>      PlateTailPercent_Example_Adat_Set002        ❯     4.2     
-#>      PlateTailTest_Example_Adat_Set002           ❯     PASS     
+#>      AdatId                                      >     GID-1234-56-789-abcdef     
+#>      Version                                     >     1.2     
+#>      AssayType                                   >     PharmaServices     
+#>      AssayVersion                                >     V4     
+#>      AssayRobot                                  >     Fluent 1 L-307     
+#>      Legal                                       >     Experiment details and data have been processed to protect Personally Identifiable Information (PII) and comply with existing privacy laws.     
+#>      CreatedBy                                   >     PharmaServices     
+#>      CreatedDate                                 >     2020-07-24     
+#>      EnteredBy                                   >     Technician1     
+#>      ExpDate                                     >     2020-06-18, 2020-07-20     
+#>      GeneratedBy                                 >     Px (Build:  : ), Canopy_0.1.1     
+#>      RunNotes                                    >     2 columns ('Age' and 'Sex') have been added to this ADAT. Age has been randomly increased or decreased by 1-2 years to protect patient information     
+#>      ProcessSteps                                >     Raw RFU, Hyb Normalization, medNormInt (SampleId), plateScale, Calibration, anmlQC, qcCheck, anmlSMP     
+#>      ProteinEffectiveDate                        >     2019-08-06     
+#>      StudyMatrix                                 >     EDTA Plasma     
+#>      LabLocation                                 >     SLUS     
+#>      Title                                       >     Example Adat Set001, Example Adat Set002     
+#>      AssaySite                                   >     SW     
+#>      CalibratorId                                >     170261     
+#>      ReportConfig                                >     {"analysisSteps":[{"stepType":"hybNorm","referenceSource":"intraplate","includeSampleTypes":["QC","Calibrator","Buffer"]},{"stepName":"medNormInt","stepType":"medNorm","includeSampleTypes":["Calibrator","Buffer"],"referenceSource":"intraplate","referenceFields":["SampleId"]},{"stepType":"plateScale","referenceSource":"Reference_v4_Plasma_Calibrator_170261"},{"stepType":"calibrate","referenceSource":"Reference_v4_Plasma_Calibrator_170261"},{"stepName":"anmlQC","stepType":"ANML","effectSizeCutoff":2.0,"minFractionUsed":0.3,"includeSampleTypes":["QC"],"referenceSource":"Reference_v4_Plasma_ANML"},{"stepType":"qcCheck","QCReferenceSource":"Reference_v4_Plasma_QC_ANML_170255","tailsCriteriaLower":0.8,"tailsCriteriaUpper":1.2,"tailThreshold":15.0,"QCAdditionalReferenceSources":["Reference_v4_Plasma_QC_ANML_170259","Reference_v4_Plasma_QC_ANML_170260"],"prenormalized":true},{"stepName":"anmlSMP","stepType":"ANML","effectSizeCutoff":2.0,"minFractionUsed":0.3,"includeSampleTypes":["Sample"],"referenceSource":"Reference_v4_Plasma_ANML"}],"qualityReports":["SQS Report"],"filter":{"proteinEffectiveDate":"2019-08-06"}}     
+#>      HybNormReference                            >     intraplate     
+#>      MedNormReference                            >     intraplate     
+#>      NormalizationAlgorithm                      >     ANML     
+#>      PlateScale_ReferenceSource                  >     Reference_v4_Plasma_Calibrator_170261     
+#>      PlateScale_Scalar_Example_Adat_Set001       >     1.08091554     
+#>      PlateScale_PassFlag_Example_Adat_Set001     >     PASS     
+#>      CalibrationReference                        >     Reference_v4_Plasma_Calibrator_170261     
+#>      CalPlateTailPercent_Example_Adat_Set001     >     0.1     
+#>      PlateTailPercent_Example_Adat_Set001        >     1.2     
+#>      PlateTailTest_Example_Adat_Set001           >     PASS     
+#>      PlateScale_Scalar_Example_Adat_Set002       >     1.09915270     
+#>      PlateScale_PassFlag_Example_Adat_Set002     >     PASS     
+#>      CalPlateTailPercent_Example_Adat_Set002     >     2.6     
+#>      PlateTailPercent_Example_Adat_Set002        >     4.2     
+#>      PlateTailTest_Example_Adat_Set002           >     PASS     
 #> ════════════════════════════════════════════════════════════════════════════════════════════════════
 
 # S3 summary method
@@ -306,7 +307,7 @@ names(attributes(my_adat))
 
 # The `Col.Meta` attribute contains 
 # target annotation information
-attributes(my_adat)$Col.Meta
+attr(my_adat, "Col.Meta")
 #> # A tibble: 5,284 x 21
 #>    SeqId  SeqIdVersion SomaId TargetFullName   Target UniProt EntrezGeneID EntrezGeneSymbol Organism
 #>    <chr>         <dbl> <chr>  <chr>            <chr>  <chr>   <chr>        <chr>            <chr>   
@@ -326,14 +327,28 @@ attributes(my_adat)$Col.Meta
 #> #   Cal_Example_Adat_Set002 <dbl>, CalQcRatio_Example_Adat_Set002_170255 <dbl>, Dilution2 <dbl>
 ```
 
-#### Feature Data
-
-The `getFeatureData()` function creates a lookup table that links the
-feature names in the `soma_adat` object to the annotation data in
-`Col.Meta` via the common key, `AptName`, in column 1:
+#### Analyte Features (`seq.xxxx.xx`)
 
 ``` r
-getFeatureData(my_adat)
+getAnalytes(my_adat) %>% head(20)     # first 20 analytes; see AptName above
+#>  [1] "seq.10000.28"  "seq.10001.7"   "seq.10003.15"  "seq.10006.25"  "seq.10008.43"  "seq.10011.65" 
+#>  [7] "seq.10012.5"   "seq.10013.34"  "seq.10014.31"  "seq.10015.119" "seq.10021.1"   "seq.10022.207"
+#> [13] "seq.10023.32"  "seq.10024.44"  "seq.10030.8"   "seq.10034.16"  "seq.10035.6"   "seq.10036.201"
+#> [19] "seq.10037.98"  "seq.10040.63"
+getAnalytes(my_adat) %>% length()     # how many analytes 
+#> [1] 5284
+getAnalytes(my_adat, n = TRUE)        # the `n` argument; no. analytes
+#> [1] 5284
+```
+
+#### Feature Data
+
+The `getAnalyteInfo()` function creates a lookup table that links
+analyte feature names in the `soma_adat` object to the annotation data
+in `Col.Meta` via the common index-key, `AptName`, in column 1:
+
+``` r
+getAnalyteInfo(my_adat)
 #> # A tibble: 5,284 x 22
 #>    AptName  SeqId  SeqIdVersion SomaId TargetFullName   Target UniProt EntrezGeneID EntrezGeneSymbol
 #>    <chr>    <chr>         <dbl> <chr>  <chr>            <chr>  <chr>   <chr>        <chr>           
@@ -351,20 +366,6 @@ getFeatureData(my_adat)
 #> #   Dilution <chr>, PlateScale_Reference <dbl>, CalReference <dbl>, Cal_Example_Adat_Set001 <dbl>,
 #> #   ColCheck <chr>, CalQcRatio_Example_Adat_Set001_170255 <dbl>, QcReference_170255 <dbl>,
 #> #   Cal_Example_Adat_Set002 <dbl>, CalQcRatio_Example_Adat_Set002_170255 <dbl>, Dilution2 <dbl>
-```
-
-#### Analyte Features (`seq.xxxx.xx`)
-
-``` r
-getAnalytes(my_adat) %>% head(20)     # first 20 analytes; see AptName above
-#>  [1] "seq.10000.28"  "seq.10001.7"   "seq.10003.15"  "seq.10006.25"  "seq.10008.43"  "seq.10011.65" 
-#>  [7] "seq.10012.5"   "seq.10013.34"  "seq.10014.31"  "seq.10015.119" "seq.10021.1"   "seq.10022.207"
-#> [13] "seq.10023.32"  "seq.10024.44"  "seq.10030.8"   "seq.10034.16"  "seq.10035.6"   "seq.10036.201"
-#> [19] "seq.10037.98"  "seq.10040.63"
-getAnalytes(my_adat) %>% length()     # how many analytes 
-#> [1] 5284
-getAnalytes(my_adat, n = TRUE)        # the `n` argument; no. analytes
-#> [1] 5284
 ```
 
 #### Clinical Data
@@ -425,7 +426,7 @@ dim(males)
 males %>% 
   dplyr::select(SampleType, SampleMatrix, starts_with("NormScale"))
 #> ── Attributes ──────────────────────────────────────────────────────────────────────────────────────
-#>      Intact               ✔
+#>      Intact               ✓
 #> ── Dimensions ──────────────────────────────────────────────────────────────────────────────────────
 #>      Rows                 85
 #>      Columns              5
@@ -475,11 +476,11 @@ is.intact.attributes(my_adat)     # attributes MUST be intact to write to file
 #> [1] TRUE
 
 write_adat(my_adat, file = tempfile("my-adat-", fileext = ".adat"))
-#> ✔ ADAT passed checks and traps
-#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpbSDsXO/my-adat-9ec2b0bd030.adat'
+#> ✓ ADAT passed checks and traps
+#> ✓ ADAT written to: '/var/folders/rh/hw387cn94f9431b9pdqjx1ss223hd0/T/Rtmpji4ob2/my-adat-148746a9283f5.adat'
 ```
 
------
+------------------------------------------------------------------------
 
 # Typical Analyses
 
@@ -491,9 +492,9 @@ parts or extensions of these techniques. Many variations of the
 workflows below exist, however the framework highlights how one could
 perform standard *preliminary* analyses on SomaLogic data for:
 
-  - Two-group differential expression (*t*-test)
-  - Binary classification (logistic regression)
-  - Linear regression
+-   Two-group differential expression (*t*-test)
+-   Binary classification (logistic regression)
+-   Linear regression
 
 #### Data Preparation
 
@@ -529,10 +530,10 @@ table(cleanData$Group)    # F = 0; M = 1
 
 ## Compare Two Groups (M/F) via t-test
 
-#### Get annotations via `getFeatureData()`:
+#### Get annotations via `getAnalyteInfo()`:
 
 ``` r
-t_tests <- getFeatureData(cleanData) %>% 
+t_tests <- getAnalyteInfo(cleanData) %>% 
   select(AptName, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt)
 
 # Feature data info:
@@ -660,7 +661,7 @@ assertthat::assert_that(
 )
 #> [1] TRUE
 
-LR_tbl <- getFeatureData(train) %>%
+LR_tbl <- getAnalyteInfo(train) %>%
   select(AptName, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt) %>%
   mutate(
     formula  = map(AptName, ~ as.formula(paste("Group ~", .x))),  # create formula
@@ -690,7 +691,7 @@ LR_tbl
 #> # … with 5,274 more rows
 ```
 
-#### Fit Model | Calculate Performance
+#### Fit Model \| Calculate Performance
 
 Next, select features for the model fit. We have a good idea of
 reasonable `Sex` markers from prior knowledge (`CGA*`), and fortunately
@@ -741,7 +742,7 @@ logistic regression analysis above.
 #### Predict Age
 
 ``` r
-LinR_tbl <- getFeatureData(train) %>%               # `train` from above
+LinR_tbl <- getAnalyteInfo(train) %>%               # `train` from above
   select(AptName, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt) %>%
   mutate(
     formula = map(AptName, ~ as.formula(paste("Age ~", .x, collapse = " + "))),
@@ -771,7 +772,7 @@ LinR_tbl
 #> # … with 5,274 more rows
 ```
 
-#### Fit Model | Calculate Performance
+#### Fit Model \| Calculate Performance
 
 Fit an 8-marker model with the top 8 features from `LinR_tbl`:
 
@@ -834,16 +835,16 @@ res %>%
 
 ![](man/figures/README-linreg-plot-1.png)<!-- -->
 
------
+------------------------------------------------------------------------
 
 ## MIT LICENSE
 
-  - See [LICENSE](LICENSE.md)
-  - The MIT License:
-      - <https://choosealicense.com/licenses/mit/>
-      - [https://tldrlegal.com/license/mit-license/](https://tldrlegal.com/license/mit-license)
+-   See [LICENSE](LICENSE.md)
+-   The MIT License:
+    -   <https://choosealicense.com/licenses/mit/>
+    -   [https://tldrlegal.com/license/mit-license/](https://tldrlegal.com/license/mit-license)
 
------
+------------------------------------------------------------------------
 
-Created by [Rmarkdown](https://github.com/rstudio/rmarkdown) (v2.9) and
+Created by [Rmarkdown](https://github.com/rstudio/rmarkdown) (v2.8) and
 R version 4.1.0 (2021-05-18).

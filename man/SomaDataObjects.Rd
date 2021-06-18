@@ -5,7 +5,7 @@
 \alias{SomaDataObjects}
 \alias{example_data}
 \alias{ex_analytes}
-\alias{ex_feature_table}
+\alias{ex_anno_tbl}
 \alias{ex_target_names}
 \title{Example Data and Objects}
 \format{
@@ -32,7 +32,7 @@ and usually the \code{SampleType == Sample} represents the "client" samples.
 \item{ex_analytes}{character string of the analyte features contained
 in the \code{soma_adat} object, derived from a call to \code{\link[=getAnalytes]{getAnalytes()}}.}
 
-\item{ex_feature_table}{a lookup table corresponding to a
+\item{ex_anno_tbl}{a lookup table corresponding to a
 transposed data frame of the "Col.Meta" attribute of an ADAT, with an
 index key field \code{AptName} included in column 1, derived from a call to
 \code{\link[=getAnalyteInfo]{getAnalyteInfo()}}.}
@@ -90,10 +90,10 @@ class(example_data)
 head(ex_analytes, 20)
 
 # Feature info table (annotations)
-ex_feature_table
+ex_anno_tbl
 
 # Search via `filter()`
-ex_feature_table \%>\% dplyr::filter(grepl("^MMP", Target))
+ex_anno_tbl \%>\% dplyr::filter(grepl("^MMP", Target))
 
 # Lookup table -> targets
 # MMP-9
