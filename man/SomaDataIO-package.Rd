@@ -6,6 +6,8 @@
 \alias{SomaDataIO-package}
 \title{SomaDataIO: SomaData Input/Output Package}
 \description{
+\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
+
 The SomaDataIO package loads the SomaLogic, Inc.
     proprietary data file, called an ADAT file ('*.adat'). It also
     provides auxiliary functions for extracting and manipulating relevant

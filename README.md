@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# The `SomaDataIO` R Package from SomaLogic, Inc.
+# `SomaDataIO` from SomaLogic, Inc. <img src="man/figures/logo.png" align="right" height="100" width="100"/>
 
 <!-- badges: start -->
 
@@ -12,6 +12,8 @@ badge](https://img.shields.io/badge/CRAN-No-red.svg)](https://cran.r-project.org
 [![R-CMD-check](https://github.com/SomaLogic/SomaDataIO-internal/workflows/R-CMD-check/badge.svg)](https://github.com/SomaLogic/SomaDataIO-internal/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/SomaLogic/SomaDataIO-internal/branch/master/graph/badge.svg)](https://codecov.io/gh/SomaLogic/SomaDataIO-internal?branch=master)
+[![Lifecycle
+Status](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![License:
 MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://choosealicense.com/licenses/mit/)
 <!-- badges: end -->
