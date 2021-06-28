@@ -59,6 +59,19 @@ The easiest way to install `SomaDataIO` is to install directly from GitHub:
 devtools::install_github("SomaLogic/SomaDataIO")
 ```
 
+which installs the most current "development" version from the repository
+`HEAD`. To install the *most recent* release, use:
+
+```{r install-release, eval = FALSE}
+devtools::install_github("SomaLogic/SomaDataIO@*release")
+```
+
+To install a *specific* tagged release, use:
+
+```{r install-version, eval = FALSE}
+devtools::install_github("SomaLogic/SomaDataIO@v5.0.0")
+```
+
 Alternatively you may clone the repository and install manually:
 
 ```bash
