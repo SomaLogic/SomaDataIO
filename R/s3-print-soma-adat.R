@@ -8,11 +8,8 @@
 #' @param x A `soma_adat` class object to [print()].
 #' @param show_header Logical. Should all the `Header Data` information
 #' be displayed instead of the data frame (`tibble`) object?
-#' @importFrom cli symbol rule
-#' @importFrom tibble as_tibble
 #' @importFrom stringr str_dup str_pad str_glue
 #' @importFrom purrr map_chr compact flatten_chr transpose
-#' @importFrom crayon green red blue cyan bold col_align col_nchar yellow
 #' @export
 print.soma_adat <- function(x, show_header = FALSE, ...) {
 

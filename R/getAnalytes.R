@@ -33,7 +33,6 @@
 #' no_crtl <- getAnalytes(apts2, rm.controls = TRUE)
 #' no_crtl
 #' setdiff(apts2, no_crtl)
-#' @order 1
 #' @export
 getAnalytes <- function(x, n = FALSE, rm.controls = FALSE) UseMethod("getAnalytes")
 

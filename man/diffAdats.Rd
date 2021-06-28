@@ -12,8 +12,7 @@ diffAdats(adat1, adat2, tolerance = 1e-06)
 \item{adat2}{Second \code{soma_adat} object.}
 
 \item{tolerance}{Tolerance for the difference between
-numeric vectors (i.e. SOMAmer/feature data). Passed
-eventually to \code{\link[=are_equal]{are_equal()}}.}
+numeric vectors (i.e. SOMAmer/feature data). Passed to \code{\link[=all.equal]{all.equal()}}.}
 }
 \description{
 Diff tool for the differences between two \code{soma_adat} objects.
@@ -37,9 +36,6 @@ diffAdats(example_data, dplyr::mutate(example_data, Subarray = sample(Subarray))
 new <- example_data
 new[5, c(rm, rm + 1)] <- 999
 diffAdats(example_data, new)
-}
-\seealso{
-\code{\link[=are_equal]{are_equal()}}
 }
 \author{
 Stu Field

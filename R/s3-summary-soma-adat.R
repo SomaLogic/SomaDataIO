@@ -16,11 +16,11 @@
 #'   * Interquartile range ([IQR()])
 #' @param object Object of class `soma_adat` used in
 #' the S3 generic [summary()].
-#' @param ft.data If `NULL` (default), and the attributes of `object` are
-#' intact, `Target` names are extracted from the "Col.Meta" of the attributes.
+#' @param tbl An annotations table. If `NULL` (default),
+#' annotation information is extracted from the object itself
+#' (if possible).
 #' Alternatively, the result of a call to [getAnalyteInfo()], from
-#' which Target names can be extracted. If neither of the above options are
-#' available, the "Target" row of the S3 [summary()] method is left blank.
+#' which Target names can be extracted.
 #' @param digits Integer. Used for number formatting with [signif()].
 #' @examples
 #' # S3 summary method
@@ -33,32 +33,26 @@
 #'   split(my_adat$Sex) %>%
 #'   lapply(summary)
 #'
-#' # Alternatively pass `ft.data` for Target info
-#' # Obtained from `getAnalyteInfo()`
-#' tbl <- attr(my_adat, "Col.Meta")
-#' tbl$AptName <- sub("-", ".", paste0("seq.", tbl$SeqId))
-#' summary(my_adat[, mmps], ft.data = tbl)
-#'
+#' # Alternatively pass annotations with Target info
+#' anno <- getAnalyteInfo(my_adat)
+#' summary(my_adat[, mmps], tbl = anno)
 #' @importFrom stats IQR mad sd
-#' @importFrom purrr map map2_df walk
+#' @importFrom purrr map map2_df
 #' @importFrom rlang set_names
 #' @importFrom stringr str_pad
-#' @importFrom utils capture.output
 #' @export
-summary.soma_adat <- function(object, ft.data,
+summary.soma_adat <- function(object, tbl,
                               digits = max(3L, getOption("digits") - 3L), ...) {
 
-  if ( !missing(ft.data) ) {
-    ad <- ft.data
-  } else {
-    ad <- attributes(object)$Col.Meta
-    ad$AptName <- sub("-", ".", paste0("seq.", ad$SeqId))
+  if ( missing(tbl) ) {
+    tbl <- getAnalyteInfo(object)
   }
 
+  nm   <- getAnalytes(object)
   labs <- c("Target", "Min", "1Q", "Median", "Mean", "3Q",
             "Max", "sd", "MAD", "IQR") %>%
     stringr::str_pad(width = 6, side = "right")
-  nm   <- getAnalytes(object)
+
   vals <- dplyr::select(object, nm) %>%
     purrr::map(function(.x) {
       vec <- .x[!is.na(.x)]         # rm NaN/NA; outside b/c summary()
@@ -67,10 +61,10 @@ summary.soma_adat <- function(object, ft.data,
     })
 
   # lookup table
-  tbl  <- as.list(ad$Target) %>% rlang::set_names(ad$AptName)
+  look <- as.list(tbl$Target) %>% rlang::set_names(tbl$AptName)
   tgts <- names(vals) %>%
     rlang::set_names() %>%
-    lapply(function(.x) ifelse(is.null(tbl[[.x]]), "", tbl[[.x]]))  # if NULL -> ""
+    lapply(function(.x) ifelse(is.null(look[[.x]]), "", look[[.x]]))  # if NULL -> ""
 
   purrr::map2_df(
     tgts, vals, ~ paste(labs, ":", stringr::str_pad(c(.x, .y), width = 10,
@@ -80,8 +74,6 @@ summary.soma_adat <- function(object, ft.data,
 }
 
 #' @noRd
-#' @importFrom crayon red blue
-#' @importFrom purrr walk
 #' @importFrom utils capture.output
 #' @export
 print.adat_summary <- function(x, ...) {
@@ -90,9 +82,9 @@ print.adat_summary <- function(x, ...) {
   out <- capture.output(print.default(z, quote = FALSE))
   purrr::walk(out, ~ {
     if ( grepl("seq", .x) ) {
-      cat(red(.x), "\n")
+      cat(crayon::red(.x), "\n")
     } else if ( grepl("Target", .x) ) {
-      cat(blue(.x), "\n")
+      cat(crayon::blue(.x), "\n")
     } else {
       cat(.x, "\n")
     }

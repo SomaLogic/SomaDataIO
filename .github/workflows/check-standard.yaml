@@ -9,6 +9,7 @@ on:
     branches:
       - main
       - master
+      - release
 
 name: R-CMD-check
 

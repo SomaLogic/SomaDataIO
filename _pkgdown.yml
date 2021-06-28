@@ -44,8 +44,10 @@ reference:
       selection of ADAT objects.
     contents:
     - SeqId
-    - starts_with("^get")
     - is_seqFormat
+    - starts_with("getAnalyte")
+    - getMeta
+    - diffAdats
     - MathGenerics
     - diffAdats
 

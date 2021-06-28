@@ -19,10 +19,6 @@ URL: www.somalogic.com
 Depends:
     R (>= 4.0.0)
 Imports:
-    assertthat (>= 0.2.1),
-    cli (>= 2.5.0),
-    crayon (>= 1.4.1),
-    devtools (>= 2.4.1),
     dplyr (>= 1.0.6),
     lifecycle (>= 1.0.0),
     magrittr (>= 2.0.1),
@@ -34,23 +30,24 @@ Imports:
     tibble (>= 3.1.2),
     tidyr (>= 1.1.3),
     tidyselect (>= 1.1.1),
-    usethis (>= 2.0.1),
-    utils
+    usethis (>= 2.0.1)
 Suggests:
     Biobase,
+    cli (>= 2.5.0),
+    crayon,
     ggplot2,
     knitr,
     rmarkdown,
-    testthat,
     spelling,
-    withr,
-    covr
+    testthat,
+    withr
 VignetteBuilder: 
     knitr
 Copyright: SomaLogic, Inc. 2021
 Encoding: UTF-8
 Language: en-US
 LazyData: true
+LazyDataCompression: xz
 LazyLoad: true
 Roxygen: list(markdown = TRUE)
 X-CRAN-COMMENT: Legal disclaimer see file LICENSE.md

@@ -11,7 +11,6 @@
 #' @importFrom tidyselect any_of
 #' @importFrom purrr map_chr
 #' @importFrom usethis ui_done ui_value ui_oops ui_code_block ui_stop
-#' @importFrom devtools session_info
 #' @keywords internal
 #' @noRd
 prepHeaderMeta <- function(data) {
@@ -69,8 +68,7 @@ prepHeaderMeta <- function(data) {
   }
 
   x$Header.Meta$HEADER$CreatedDate <- format(Sys.time(), "%Y-%m-%d")
-  sessInfo <- devtools::session_info()
-  user     <- ifelse(grepl("linux|darwin", sessInfo$platform$system),
+  user     <- ifelse(grepl("linux|darwin", R.version$platform),
                      Sys.getenv("USER"),
                      Sys.getenv("USERNAME"))
   pkg     <- utils::packageName()
@@ -79,6 +77,6 @@ prepHeaderMeta <- function(data) {
   x$Header.Meta$HEADER$CreatedBy <-
     sprintf("User: %s; Package: %s_%s; using %s; Platform: %s",
             user, pkg, pkg_ver,
-            sessInfo$platform$version, sessInfo$platform$system)
-  return(x)
+            R.version$version.string, R.version$system)
+  x
 }

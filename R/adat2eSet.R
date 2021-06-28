@@ -26,7 +26,6 @@
 #'
 #' ft <- Biobase::exprs(eSet)
 #' head(ft[, 1:10], 10)
-#' @importFrom utils sessionInfo
 #' @importFrom usethis ui_stop
 #' @importFrom methods validObject new
 #' @export
@@ -68,10 +67,9 @@ adat2eSet <- function(adat) {
   experimentData@contact <- "2945 Wilderness Place, Boulder, Colorado, 80301."
   experimentData@title <- if ("Title" %in% names(lst$header)) lst$header$Title else ""
   experimentData@url   <- "www.somalogic.com"
-  sess                 <- utils::sessionInfo()
-  experimentData@other <- c(list(R.version  = sess$R.version$version.string,
-                                 R.platform = sess$R.version$platform,
-                                 R.arch     = sess$R.version$arch),
+  experimentData@other <- c(list(R.version  = R.version$version.string,
+                                 R.platform = R.version$platform,
+                                 R.arch     = R.version$arch),
                             lst$header,
                             list(processingDateTime = as.character(Sys.time()))
                             )

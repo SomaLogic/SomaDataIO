@@ -18,8 +18,6 @@ Status](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifec
 MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://choosealicense.com/licenses/mit/)
 <!-- badges: end -->
 
-------------------------------------------------------------------------
-
 ## Overview
 
 This document accompanies the R package `SomaDataIO`, which loads the
@@ -38,6 +36,19 @@ GitHub:
 
 ``` r
 devtools::install_github("SomaLogic/SomaDataIO")
+```
+
+which installs the most current “development” version from the
+repository `HEAD`. To install the *most recent* release, use:
+
+``` r
+devtools::install_github("SomaLogic/SomaDataIO@*release")
+```
+
+To install a *specific* tagged release, use:
+
+``` r
+devtools::install_github("SomaLogic/SomaDataIO@v5.0.0")
 ```
 
 Alternatively you may clone the repository and install manually:
@@ -65,7 +76,6 @@ pre-installed:
 -   `magrittr (v2.0.1)`
 -   `devtools (v2.4.1)`
 -   `readr (v1.4.0)`
--   `readxl (v1.3.1)`
 -   `rlang (v0.4.11)`
 -   `purrr (v0.3.4)`
 -   `usethis (v2.0.1)`
@@ -115,7 +125,7 @@ users to run canned examples (or analyses). They can be accessed once
 
 -   `example_data`
 -   `ex_analytes`
--   `ex_feature_data`
+-   `ex_anno_tbl`
 -   `ex_target_names`
 -   See `?SomaDataObjects`
 
@@ -479,7 +489,7 @@ is.intact.attributes(my_adat)     # attributes MUST be intact to write to file
 
 write_adat(my_adat, file = tempfile("my-adat-", fileext = ".adat"))
 #> ✓ ADAT passed checks and traps
-#> ✓ ADAT written to: '/var/folders/rh/hw387cn94f9431b9pdqjx1ss223hd0/T/Rtmpji4ob2/my-adat-148746a9283f5.adat'
+#> ✓ ADAT written to: '/var/folders/rh/hw387cn94f9431b9pdqjx1ss223hd0/T/RtmpdFAz2Y/my-adat-de5c370e531d.adat'
 ```
 
 ------------------------------------------------------------------------
@@ -848,5 +858,5 @@ res %>%
 
 ------------------------------------------------------------------------
 
-Created by [Rmarkdown](https://github.com/rstudio/rmarkdown) (v2.8) and
+Created by [Rmarkdown](https://github.com/rstudio/rmarkdown) (v2.9) and
 R version 4.1.0 (2021-05-18).

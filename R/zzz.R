@@ -1,7 +1,5 @@
 
 #' @importFrom stringr str_glue
-#' @importFrom cli rule
-#' @importFrom crayon magenta
 #' @noRd
 .onAttach <- function(libname, pkgname) {
   packageStartupMessage(

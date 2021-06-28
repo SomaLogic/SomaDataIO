@@ -7,8 +7,7 @@
 #' @param adat1 First `soma_adat` object.
 #' @param adat2 Second `soma_adat` object.
 #' @param tolerance Tolerance for the difference between
-#' numeric vectors (i.e. SOMAmer/feature data). Passed
-#' eventually to [are_equal()].
+#' numeric vectors (i.e. SOMAmer/feature data). Passed to [all.equal()].
 #' @note Diffs of the column *intersect* names are considered.
 #' @author Stu Field
 #' @examples
@@ -26,10 +25,7 @@
 #' new[5, c(rm, rm + 1)] <- 999
 #' diffAdats(example_data, new)
 #' @importFrom stringr str_glue str_pad
-#' @importFrom purrr walk
-#' @importFrom assertthat are_equal
 #' @importFrom usethis ui_stop ui_done ui_value
-#' @seealso [are_equal()]
 #' @export
 diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
 
@@ -49,12 +45,12 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
     ) %>% writeLines()
 
   # Attribute names ----
-  mark <- are_equal(names(attributes(adat1)), names(attributes(adat2)))
+  mark <- names(attributes(adat1)) %equals% names(attributes(adat2))
   msg  <- stringr::str_pad("Attribute names are identical", width = pad, "right") # nolint
   usethis::ui_todo("{msg} {map_mark(mark)}")
 
   # Attributes ----
-  mark <- are_equal(attributes(adat1), attributes(adat2))
+  mark <- attributes(adat1) %equals% attributes(adat2)
   msg  <- stringr::str_pad("Attributes are identical", width = pad, "right")
   usethis::ui_todo("{msg} {map_mark(mark)}")
 
@@ -72,27 +68,27 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
     msg  <- stringr::str_pad("  ADATs have same # of columns", width = pad, "right")
     usethis::ui_todo("{msg} {map_mark(mark)}")
 
-    mark <- are_equal(getAnalytes(adat1, n = TRUE), getAnalytes(adat2, n = TRUE))
+    mark <- getAnalytes(adat1, n = TRUE) %equals% getAnalytes(adat2, n = TRUE)
     msg  <- stringr::str_pad("  ADATs have same # of features", width = pad, "right")
     usethis::ui_todo("{msg} {map_mark(mark)}")
 
-    mark <- are_equal(getMeta(adat1, n = TRUE), getMeta(adat2, n = TRUE))
+    mark <- getMeta(adat1, n = TRUE) %equals% getMeta(adat2, n = TRUE)
     msg  <- stringr::str_pad("  ADATs have same # of meta data", width = pad, "right")
     usethis::ui_todo("{msg} {map_mark(mark)}")
   }
 
   # Adat row names ----
-  mark <- are_equal(rownames(adat1), rownames(adat2))
+  mark <- rownames(adat1) %equals% rownames(adat2)
   msg  <- stringr::str_pad("ADAT row names are identical", width = pad, "right")
   usethis::ui_todo("{msg} {map_mark(mark)}")
 
   # Adat feature names ----
-  same_ft_names <- are_equal(getAnalytes(adat1), getAnalytes(adat2))
+  same_ft_names <- getAnalytes(adat1) %equals% getAnalytes(adat2)
   msg <- stringr::str_pad("ADATs contain identical Features", width = pad, "right")
   usethis::ui_todo("{msg} {map_mark(same_ft_names)}")
 
   # Adat meta names ----
-  same_meta_names <- are_equal(getMeta(adat1), getMeta(adat2))
+  same_meta_names <- getMeta(adat1) %equals% getMeta(adat2)
   msg <- stringr::str_pad("ADATs contain same Meta Fields", width = pad, "right")
   usethis::ui_todo("{msg} {map_mark(same_meta_names)}")
 
@@ -164,7 +160,6 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
 #' @param tolerance Numeric level of tolerance.
 #' @importFrom purrr map2_lgl keep
 #' @importFrom usethis ui_value ui_todo
-#' @importFrom assertthat are_equal
 #' @importFrom stringr str_pad
 #' @author Stu Field
 #' @keywords internal
@@ -177,9 +172,9 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
 
   test_lgl <- purrr::map2_lgl(x[, cols], y[, cols], ~ {
      if ( meta ) {
-       assertthat::are_equal(.x, .y, check.names = FALSE)
+       isTRUE(all.equal(.x, .y, check.names = FALSE))
      } else {
-       assertthat::are_equal(.x, .y, tolerance = tolerance)
+       isTRUE(all.equal(.x, .y, tolerance = tolerance))
      }
   })
 

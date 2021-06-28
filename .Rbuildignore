@@ -1,10 +1,12 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^data-raw$
+^pkgdown$
 ^docs$
 ^README\.Rmd$
 ^LICENSE\.md$
 ^_pkgdown\.yml$
 ^codecov\.yml$
 ^\.github$
+^\.covrignore$
 ^Makefile$

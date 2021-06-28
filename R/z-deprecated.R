@@ -20,7 +20,7 @@
 #' @param ... A simple pass-through to a replacement alternative if available.
 #' @aliases meltExpressionSet getSomamers getSomamerData
 #' @export meltExpressionSet getSomamers getSomamerData
-#' @importFrom lifecycle deprecate_stop deprecate_warn
+#' @importFrom lifecycle deprecate_warn
 NULL
 
 #' @describeIn getAnalyteInfo renamed in \pkg{SomaDataIO v5.1.0}. Exported

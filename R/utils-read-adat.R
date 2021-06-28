@@ -1,7 +1,6 @@
 # Auxiliary internals to `read_adat()`
 
 #' @keywords internal
-#' @importFrom usethis ui_stop ui_done
 #' @noRd
 checkHeader <- function(header, verbose) {
 
@@ -151,16 +150,13 @@ catchDims <- function(x, y) {
 }
 
 
-#' Helper for the `verbose =` argument.
+#' Helper for the 'verbose =' argument.
 #' @param rfu The RFU + meta data matrix. The actual data.
-#' @param header The header info from `parseHeader()`.
-#' @keywords internal
+#' @param header The header info from parseHeader().
 #' @importFrom purrr walk
 #' @importFrom utils head
-#' @importFrom usethis ui_done
-#' @importFrom tibble as_tibble
-#' @importFrom crayon bold green red blue magenta
 #' @importFrom stringr str_pad
+#' @keywords internal
 #' @noRd
 .verbosity <- function(rfu, header) {
   cli::rule(crayon::bold("Parsing Diagnostics"), line_col = crayon::blue,

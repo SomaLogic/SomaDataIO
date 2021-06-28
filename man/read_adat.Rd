@@ -20,7 +20,7 @@ is.soma_adat(x)
 
 \method{print}{soma_adat}(x, show_header = FALSE, ...)
 
-\method{summary}{soma_adat}(object, ft.data, digits = max(3L, getOption("digits") - 3L), ...)
+\method{summary}{soma_adat}(object, tbl, digits = max(3L, getOption("digits") - 3L), ...)
 }
 \arguments{
 \item{file}{Character. The elaborated path and file name of the \verb{*.adat}
@@ -96,11 +96,11 @@ be displayed instead of the data frame (\code{tibble}) object?}
 \item{object}{Object of class \code{soma_adat} used in
 the S3 generic \code{\link[=summary]{summary()}}.}
 
-\item{ft.data}{If \code{NULL} (default), and the attributes of \code{object} are
-intact, \code{Target} names are extracted from the "Col.Meta" of the attributes.
+\item{tbl}{An annotations table. If \code{NULL} (default),
+annotation information is extracted from the object itself
+(if possible).
 Alternatively, the result of a call to \code{\link[=getAnalyteInfo]{getAnalyteInfo()}}, from
-which Target names can be extracted. If neither of the above options are
-available, the "Target" row of the S3 \code{\link[=summary]{summary()}} method is left blank.}
+which Target names can be extracted.}
 
 \item{digits}{Integer. Used for number formatting with \code{\link[=signif]{signif()}}.}
 }
@@ -179,12 +179,9 @@ my_adat[, mmps] \%>\%
   split(my_adat$Sex) \%>\%
   lapply(summary)
 
-# Alternatively pass `ft.data` for Target info
-# Obtained from `getAnalyteInfo()`
-tbl <- attr(my_adat, "Col.Meta")
-tbl$AptName <- sub("-", ".", paste0("seq.", tbl$SeqId))
-summary(my_adat[, mmps], ft.data = tbl)
-
+# Alternatively pass annotations with Target info
+anno <- getAnalyteInfo(my_adat)
+summary(my_adat[, mmps], tbl = anno)
 }
 \seealso{
 \code{\link[=read_delim]{read_delim()}}

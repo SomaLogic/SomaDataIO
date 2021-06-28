@@ -9,7 +9,6 @@ output: github_document
 ```{r setup, echo = FALSE, message = FALSE}
 options(width = 100)
 library(SomaDataIO)
-library(magrittr)
 library(ggplot2)
 library(dplyr)
 library(tidyr)
@@ -92,21 +91,19 @@ If you run into any unexpected behavior, please
 ensure that the following package dependencies are pre-installed:
 
 * `R (>= 4.0.0)`
+* `cli (v2.5.0)`
+* `crayon (v1.4.1)`
 * `dplyr (v1.0.6)`
-* `assertthat (v0.2.1)`
 * `lifecycle (v1.0.0)`
 * `magrittr (v2.0.1)`
-* `devtools (v2.4.1)`
+* `purrr (v0.3.4)`
 * `readr (v1.4.0)`
 * `rlang (v0.4.11)`
-* `purrr (v0.3.4)`
-* `usethis (v2.0.1)`
+* `stringr (v1.4.0)`
 * `tidyr (v1.1.3)`
 * `tidyselect (v1.1.1)`
 * `tibble (v3.2.1)`
-* `cli (v2.5.0)`
-* `crayon (v1.4.1)`
-* `stringr (v1.4.0)`
+* `usethis (v2.0.1)`
 
 
 #### Biobase
@@ -302,8 +299,9 @@ cleanData <- example_data %>%
   tidyr::drop_na(Sex) %>%                           # rm NAs if present
   log10() %>%                                       # log10-transform (Math Generic)
   mutate(Group = as.numeric(factor(Sex)) - 1) %>%   # map Sex -> 0/1
-  mutate_if(is_seq(names(.)), ~ {                   # mutate analytes only
-    .x %>% subtract(mean(.)) %>% divide_by(sd(.))   # center & scale analytes
+  mutate_if(is_seq(names(.)), ~ {   # mutate analytes only
+    out <- .x - mean(.x)            # center analytes
+    out / sd(out)                   # scale analytes
   })
 table(cleanData$Sex)
 table(cleanData$Group)    # F = 0; M = 1
@@ -389,8 +387,8 @@ train <- cleanData[idx, ]
 test  <- cleanData[-idx, ]
 
 # assert no overlap
-assertthat::assert_that(
-  identical(intersect(rownames(train), rownames(test)), character(0))
+isTRUE(
+  all.equal(intersect(rownames(train), rownames(test)), character(0))
 )
 
 LR_tbl <- getAnalyteInfo(train) %>%

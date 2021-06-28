@@ -25,7 +25,6 @@
 #' @param file Character. File path where the object should be written.
 #' For example, extensions should be `*.adat`.
 #' @author Stu Field
-#' @importFrom assertthat assert_that
 #' @importFrom usethis ui_stop ui_warn ui_done ui_path
 #' @importFrom purrr walk iwalk
 #' @importFrom tidyselect everything
@@ -36,11 +35,11 @@
 #' @export
 write_adat <- function(x, file) {
 
+  stopifnot(inherits(x, "soma_adat"))
+
   if ( missing(file) ) {
     usethis::ui_stop("Must provide output file name ...")
   }
-
-  assertthat::assert_that(inherits(x, "soma_adat"))
 
   if ( !stringr::str_detect(file, "\\.adat$") ) {
     usethis::ui_warn(
