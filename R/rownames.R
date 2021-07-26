@@ -13,6 +13,8 @@
 #' @param data An object that inherits from class `data.frame`. Typically
 #' a `soma_adat` class object.
 #' @param name Character. The name of the column to move.
+#' @param value Character. The new set of names for the data frame.
+#' If duplicates exist they are modified on-the-fly via [make.unique()].
 #' @return All functions attempt to return an object of the same class as
 #' the input with fully intact and unmodified attributes (aside from those
 #' required by the desired action). [has_rn()] returns a scalar logical.
@@ -84,6 +86,18 @@ has_rn <- function(data) {
 rm_rn <- function(data) {
   stopifnot(is.data.frame(data))
   rownames(data) <- NULL
+  data
+}
+
+#' @describeIn rownames
+#' sets (and overwrites) existing row names for data frames only.
+#' @export
+set_rn <- function(data, value) {
+  stopifnot(is.data.frame(data))
+  if ( any(duplicated(value)) ) {
+    value <- make.unique(value, sep = "-")
+  }
+  rownames(data) <- value
   data
 }
 

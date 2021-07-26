@@ -6,6 +6,7 @@
 \alias{col2rn}
 \alias{has_rn}
 \alias{rm_rn}
+\alias{set_rn}
 \alias{add_rowid}
 \title{Helpers for Working With Row Names}
 \usage{
@@ -17,6 +18,8 @@ has_rn(data)
 
 rm_rn(data)
 
+set_rn(data, value)
+
 add_rowid(data, name = ".rowid")
 }
 \arguments{
@@ -24,6 +27,9 @@ add_rowid(data, name = ".rowid")
 a \code{soma_adat} class object.}
 
 \item{name}{Character. The name of the column to move.}
+
+\item{value}{Character. The new set of names for the data frame.
+If duplicates exist they are modified on-the-fly via \code{\link[=make.unique]{make.unique()}}.}
 }
 \value{
 All functions attempt to return an object of the same class as
@@ -52,6 +58,8 @@ will be overwritten (with warning).
 has explicit row names assigned.
 
 \item \code{rm_rn}: removes existing row names, leaving only implicit row names.
+
+\item \code{set_rn}: sets (and overwrites) existing row names for data frames only.
 
 \item \code{add_rowid}: adds a sequential integer row identifier; starting at \code{1:nrow(data)}.
 It does \emph{not} remove existing row names currently, but may in the future
