@@ -501,7 +501,7 @@ is.intact.attributes(my_adat)     # attributes MUST be intact to write to file
 
 write_adat(my_adat, file = tempfile("my-adat-", fileext = ".adat"))
 #> ✔ ADAT passed checks and traps
-#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpuTCdCz/my-adat-d7c3818c163.adat'
+#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmplciI3r/my-adat-103220052d99.adat'
 ```
 
 -----
