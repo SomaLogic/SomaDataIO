@@ -28,13 +28,15 @@ environment is assumed, as is the ability to install contributed
 packages from the Comprehensive R Archive Network (CRAN).
 
 If you run into any issues/problems with `SomaDataIO` full documentation
-can be found at our [pkgdown](https://somalogic.github.io/SomaDataIO/)
-website hosted by [GitHub](https://github.com/SomaLogic/SomaDataIO). If
-the issue persists we encourage you to consult the
+of the most recent
+[release](https://github.com/SomaLogic/SomaDataIO/releases) can be found
+at our [pkgdown](https://somalogic.github.io/SomaDataIO/) website hosted
+by [GitHub](https://github.com/SomaLogic/SomaDataIO/). If the issue
+persists we encourage you to consult the
 [issues](https://github.com/SomaLogic/SomaDataIO/issues/) page and, if
 appropriate, submit an issue and/or feature request.
 
-------------------------------------------------------------------------
+-----
 
 ## Installation
 
@@ -76,33 +78,35 @@ which `SomaDataIO` was developed. If you run into any unexpected
 behavior, please ensure that the following package dependencies are
 pre-installed:
 
--   `R (>= 4.0.0)`
--   `cli (v2.5.0)`
--   `crayon (v1.4.1)`
--   `dplyr (v1.0.6)`
--   `lifecycle (v1.0.0)`
--   `magrittr (v2.0.1)`
--   `purrr (v0.3.4)`
--   `readr (v1.4.0)`
--   `rlang (v0.4.11)`
--   `stringr (v1.4.0)`
--   `tidyr (v1.1.3)`
--   `tidyselect (v1.1.1)`
--   `tibble (v3.2.1)`
--   `usethis (v2.0.1)`
+  - `R (>= 4.0.0)`
+  - `cli (v2.5.0)`
+  - `crayon (v1.4.1)`
+  - `dplyr (v1.0.6)`
+  - `lifecycle (v1.0.0)`
+  - `magrittr (v2.0.1)`
+  - `purrr (v0.3.4)`
+  - `readr (v1.4.0)`
+  - `rlang (v0.4.11)`
+  - `stringr (v1.4.0)`
+  - `tidyr (v1.1.3)`
+  - `tidyselect (v1.1.1)`
+  - `tibble (v3.2.1)`
+  - `usethis (v2.0.1)`
 
 #### Biobase
 
 The `Biobase` package is *suggested*, being required by only two
-functions, `pivotExpressionSet()` and `adat2eset()`. `Biobase` must be
-installed separately from `Bioconductor` by entering the following from
-the `R` console:
+functions, `pivotExpressionSet()` and `adat2eSet()`.
+[Biobase](https://www.bioconductor.org/packages/release/bioc/html/Biobase.html)
+must be installed separately from
+[Bioconductor](https://www.bioconductor.org) by entering the following
+from the `R` console:
 
 ``` r
 if (!requireNamespace("BiocManager", quietly = TRUE)) {
   install.packages("BiocManager")
 }
-BiocManager::install("Biobase", version = "3.13")
+BiocManager::install("Biobase", version = remotes::bioc_version())
 ```
 
 Information about Bioconductor can be found here:
@@ -128,26 +132,29 @@ The `SomaDataIO` package comes with 4 internal objects available to
 users to run canned examples (or analyses). They can be accessed once
 `SomaDataIO` has been attached via `library()`. They are:
 
--   `example_data`
--   `ex_analytes`
--   `ex_anno_tbl`
--   `ex_target_names`
--   See `?SomaDataObjects`
+  - `example_data`
+  - `ex_analytes`
+  - `ex_anno_tbl`
+  - `ex_target_names`
+  - See `?SomaDataObjects`
 
-------------------------------------------------------------------------
+-----
 
 ## Main Features (I/O)
 
--   Loading data (Import)
-    -   Import a text file in the `*.adat` format into an `R` session as
-        a `soma_adat` object.
--   Wrangling data (manipulation)
-    -   Subset, reorder, and list various fields of a `soma_adat`
+  - Loading data (Import)
+      - parse and import a `*.adat` text file into an `R` session as a
+        `soma_adat` object.
+  - Wrangling data (manipulation)
+      - subset, reorder, and list various fields of a `soma_adat`
         object.
--   Exporting data (Output)
-    -   Write out a `soma_adat` object as a `*.adat` text file.
+      - `?SeqId` analyte (feature) matching.
+      - `dplyr` and `tidyr` verb S3 methods for the `soma_adat` class.
+      - `?rownames` helpers that do not break `soma_adat` attributes.
+  - Exporting data (Output)
+      - write out a `soma_adat` object as a `*.adat` text file.
 
-------------------------------------------------------------------------
+-----
 
 ### Loading an ADAT
 
@@ -160,21 +167,21 @@ is.soma_adat(my_adat)
 
 # S3 print method forwards -> tibble
 my_adat
-#> ── Attributes ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── Attributes ──────────────────────────────────────────────────────────────────────────────────────
 #>      Intact               ✔
-#> ── Dimensions ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── Dimensions ──────────────────────────────────────────────────────────────────────────────────────
 #>      Rows                 192
 #>      Columns              5318
 #>      Clinical Data        34
 #>      Features             5284
-#> ── Column Meta ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── Column Meta ─────────────────────────────────────────────────────────────────────────────────────
 #>       SeqId            |   UniProt            |   Type                      |   ColCheck                                |   Dilution2
 #>       SeqIdVersion     |   EntrezGeneID       |   Dilution                  |   CalQcRatio_Example_Adat_Set001_170255   |            
 #>       SomaId           |   EntrezGeneSymbol   |   PlateScale_Reference      |   QcReference_170255                      |            
 #>       TargetFullName   |   Organism           |   CalReference              |   Cal_Example_Adat_Set002                 |            
 #>       Target           |   Units              |   Cal_Example_Adat_Set001   |   CalQcRatio_Example_Adat_Set002_170255   |            
-#> ── Tibble ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> # A tibble: 192 x 5,319
+#> ── Tibble ──────────────────────────────────────────────────────────────────────────────────────────
+#> # A tibble: 192 × 5,319
 #>    row_names   PlateId    PlateRunDate ScannerID PlatePosition  SlideId Subarray SampleId SampleType
 #>    <chr>       <chr>      <date>       <chr>     <chr>            <dbl>    <dbl>    <dbl> <chr>     
 #>  1 2584958000… Example A… 2020-06-18   SG152144… H9             2.58e11        3        1 Sample    
@@ -212,23 +219,23 @@ my_adat
 #> #   seq.10370.21 <dbl>, seq.10372.18 <dbl>, seq.10390.21 <dbl>, seq.10391.1 <dbl>,
 #> #   seq.10396.6 <dbl>, seq.10416.79 <dbl>, seq.10418.36 <dbl>, seq.10419.1 <dbl>,
 #> #   seq.10424.31 <dbl>, seq.10425.3 <dbl>, seq.10426.21 <dbl>, seq.10427.2 <dbl>, …
-#> ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+#> ════════════════════════════════════════════════════════════════════════════════════════════════════
 
 print(my_adat, show_header = TRUE)  # if simply wish to see Header info
-#> ── Attributes ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── Attributes ──────────────────────────────────────────────────────────────────────────────────────
 #>      Intact               ✔
-#> ── Dimensions ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── Dimensions ──────────────────────────────────────────────────────────────────────────────────────
 #>      Rows                 192
 #>      Columns              5318
 #>      Clinical Data        34
 #>      Features             5284
-#> ── Column Meta ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── Column Meta ─────────────────────────────────────────────────────────────────────────────────────
 #>       SeqId            |   UniProt            |   Type                      |   ColCheck                                |   Dilution2
 #>       SeqIdVersion     |   EntrezGeneID       |   Dilution                  |   CalQcRatio_Example_Adat_Set001_170255   |            
 #>       SomaId           |   EntrezGeneSymbol   |   PlateScale_Reference      |   QcReference_170255                      |            
 #>       TargetFullName   |   Organism           |   CalReference              |   Cal_Example_Adat_Set002                 |            
 #>       Target           |   Units              |   Cal_Example_Adat_Set001   |   CalQcRatio_Example_Adat_Set002_170255   |            
-#> ── Header Data ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── Header Data ─────────────────────────────────────────────────────────────────────────────────────
 #>      AdatId                                      ❯     GID-1234-56-789-abcdef     
 #>      Version                                     ❯     1.2     
 #>      AssayType                                   ❯     PharmaServices     
@@ -264,7 +271,7 @@ print(my_adat, show_header = TRUE)  # if simply wish to see Header info
 #>      CalPlateTailPercent_Example_Adat_Set002     ❯     2.6     
 #>      PlateTailPercent_Example_Adat_Set002        ❯     4.2     
 #>      PlateTailTest_Example_Adat_Set002           ❯     PASS     
-#> ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+#> ════════════════════════════════════════════════════════════════════════════════════════════════════
 
 # S3 summary method
 # View Target and summary statistics
@@ -319,13 +326,13 @@ my_adat[, seqs] %>%
 
 ``` r
 names(attributes(my_adat))
-#> [1] "names"       "class"       "row.names"   "spec"        "Header.Meta" "Col.Meta"   
-#> [7] "file.specs"  "row.meta"
+#> [1] "names"       "class"       "row.names"   "Header.Meta" "Col.Meta"    "file.specs" 
+#> [7] "row.meta"
 
 # The `Col.Meta` attribute contains 
 # target annotation information
 attr(my_adat, "Col.Meta")
-#> # A tibble: 5,284 x 21
+#> # A tibble: 5,284 × 21
 #>    SeqId  SeqIdVersion SomaId TargetFullName   Target UniProt EntrezGeneID EntrezGeneSymbol Organism
 #>    <chr>         <dbl> <chr>  <chr>            <chr>  <chr>   <chr>        <chr>            <chr>   
 #>  1 10000…            3 SL019… Beta-crystallin… CRBB2  P43320  "1415"       "CRYBB2"         Human   
@@ -366,7 +373,7 @@ in `Col.Meta` via the common index-key, `AptName`, in column 1:
 
 ``` r
 getAnalyteInfo(my_adat)
-#> # A tibble: 5,284 x 22
+#> # A tibble: 5,284 × 22
 #>    AptName  SeqId  SeqIdVersion SomaId TargetFullName   Target UniProt EntrezGeneID EntrezGeneSymbol
 #>    <chr>    <chr>         <dbl> <chr>  <chr>            <chr>  <chr>   <chr>        <chr>           
 #>  1 seq.100… 10000…            3 SL019… Beta-crystallin… CRBB2  P43320  "1415"       "CRYBB2"        
@@ -442,21 +449,21 @@ dim(males)
 
 males %>% 
   dplyr::select(SampleType, SampleMatrix, starts_with("NormScale"))
-#> ── Attributes ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── Attributes ──────────────────────────────────────────────────────────────────────────────────────
 #>      Intact               ✔
-#> ── Dimensions ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── Dimensions ──────────────────────────────────────────────────────────────────────────────────────
 #>      Rows                 85
 #>      Columns              5
 #>      Clinical Data        5
 #>      Features             0
-#> ── Column Meta ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── Column Meta ─────────────────────────────────────────────────────────────────────────────────────
 #>       SeqId            |   UniProt            |   Type                      |   ColCheck                                |   Dilution2
 #>       SeqIdVersion     |   EntrezGeneID       |   Dilution                  |   CalQcRatio_Example_Adat_Set001_170255   |            
 #>       SomaId           |   EntrezGeneSymbol   |   PlateScale_Reference      |   QcReference_170255                      |            
 #>       TargetFullName   |   Organism           |   CalReference              |   Cal_Example_Adat_Set002                 |            
 #>       Target           |   Units              |   Cal_Example_Adat_Set001   |   CalQcRatio_Example_Adat_Set002_170255   |            
-#> ── Tibble ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#> # A tibble: 85 x 6
+#> ── Tibble ──────────────────────────────────────────────────────────────────────────────────────────
+#> # A tibble: 85 × 6
 #>    row_names      SampleType SampleMatrix NormScale_20 NormScale_0_005 NormScale_0_5
 #>    <chr>          <chr>      <chr>               <dbl>           <dbl>         <dbl>
 #>  1 258495800010_8 Sample     Plasma-PPT          0.984           1.03          0.915
@@ -470,7 +477,7 @@ males %>%
 #>  9 258495800008_4 Sample     Plasma-PPT          0.991           0.979         0.920
 #> 10 258495800006_6 Sample     Plasma-PPT          0.862           0.964         0.999
 #> # … with 75 more rows
-#> ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+#> ════════════════════════════════════════════════════════════════════════════════════════════════════
 ```
 
 #### Available S3 Methods `soma_adat`
@@ -494,10 +501,10 @@ is.intact.attributes(my_adat)     # attributes MUST be intact to write to file
 
 write_adat(my_adat, file = tempfile("my-adat-", fileext = ".adat"))
 #> ✔ ADAT passed checks and traps
-#> ✔ ADAT written to: '/var/folders/rh/hw387cn94f9431b9pdqjx1ss223hd0/T/RtmpjRYfMm/my-adat-8a133e4f0dbb.adat'
+#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpuTCdCz/my-adat-d7c3818c163.adat'
 ```
 
-------------------------------------------------------------------------
+-----
 
 # Typical Analyses
 
@@ -509,9 +516,9 @@ parts or extensions of these techniques. Many variations of the
 workflows below exist, however the framework highlights how one could
 perform standard *preliminary* analyses on SomaLogic data for:
 
--   Two-group differential expression (*t*-test)
--   Binary classification (logistic regression)
--   Linear regression
+  - Two-group differential expression (*t*-test)
+  - Binary classification (logistic regression)
+  - Linear regression
 
 #### Data Preparation
 
@@ -558,7 +565,7 @@ t_tests <- getAnalyteInfo(cleanData) %>%
 #   Subset via dplyr::filter(t_tests, ...) here to 
 #   restrict analysis to only certain analytes
 t_tests
-#> # A tibble: 5,284 x 5
+#> # A tibble: 5,284 × 5
 #>    AptName       SeqId    Target                                            EntrezGeneSymbol UniProt
 #>    <chr>         <chr>    <chr>                                             <chr>            <chr>  
 #>  1 seq.10000.28  10000-28 Beta-crystallin B2                                "CRYBB2"         P43320 
@@ -593,7 +600,7 @@ t_tests <- t_tests %>%
 
 # View analysis tibble
 t_tests
-#> # A tibble: 5,284 x 11
+#> # A tibble: 5,284 × 11
 #>    AptName  SeqId  Target     EntrezGeneSymbol UniProt formula t_test t_stat  p.value      fdr  rank
 #>    <chr>    <chr>  <chr>      <chr>            <chr>   <list>  <list>  <dbl>    <dbl>    <dbl> <int>
 #>  1 seq.846… 8468-… Prostate-… KLK3             P07288  <formu… <htes… -22.1  2.46e-43 1.30e-39     1
@@ -629,7 +636,7 @@ plot_tbl <- example_data %>%
 #> Joining, by = "AptName"
 
 plot_tbl
-#> # A tibble: 2,040 x 4
+#> # A tibble: 2,040 × 4
 #>    Sex   AptName        RFU Target                                                          
 #>    <chr> <chr>        <dbl> <fct>                                                           
 #>  1 F     seq.8468.19   2.54 Prostate-specific antigen                                       
@@ -693,7 +700,7 @@ LR_tbl <- getAnalyteInfo(train) %>%
   mutate(rank = row_number())     # add numeric ranks
 
 LR_tbl
-#> # A tibble: 5,284 x 11
+#> # A tibble: 5,284 × 11
 #>    AptName  SeqId  Target      EntrezGeneSymbol UniProt formula model beta_hat p.value     fdr  rank
 #>    <chr>    <chr>  <chr>       <chr>            <chr>   <list>  <lis>    <dbl>   <dbl>   <dbl> <int>
 #>  1 seq.658… 6580-… Pregnancy … PZP              P20742  <formu… <glm>    -3.07 5.09e-9 1.98e-5     1
@@ -709,7 +716,7 @@ LR_tbl
 #> # … with 5,274 more rows
 ```
 
-#### Fit Model \| Calculate Performance
+#### Fit Model | Calculate Performance
 
 Next, select features for the model fit. We have a good idea of
 reasonable `Sex` markers from prior knowledge (`CGA*`), and fortunately
@@ -746,7 +753,7 @@ tibble(Sensitivity = tp / (tp + fn),
        PPV         = tp / (tp + fp),
        NPV         = tn / (tn + fn)
 )
-#> # A tibble: 1 x 5
+#> # A tibble: 1 × 5
 #>   Sensitivity Specificity Accuracy   PPV   NPV
 #>         <dbl>       <dbl>    <dbl> <dbl> <dbl>
 #> 1         0.8        0.96     0.88 0.952 0.828
@@ -774,7 +781,7 @@ LinR_tbl <- getAnalyteInfo(train) %>%               # `train` from above
   mutate(rank = row_number())    # add numeric ranks
 
 LinR_tbl
-#> # A tibble: 5,284 x 11
+#> # A tibble: 5,284 × 11
 #>    AptName  SeqId  Target        EntrezGeneSymbol UniProt formula model slope  p.value     fdr  rank
 #>    <chr>    <chr>  <chr>         <chr>            <chr>   <list>  <lis> <dbl>    <dbl>   <dbl> <int>
 #>  1 seq.304… 3045-… Pleiotrophin  PTN              P21246  <formu… <lm>   6.70 4.25e-10 2.25e-6     1
@@ -790,7 +797,7 @@ LinR_tbl
 #> # … with 5,274 more rows
 ```
 
-#### Fit Model \| Calculate Performance
+#### Fit Model | Calculate Performance
 
 Fit an 8-marker model with the top 8 features from `LinR_tbl`:
 
@@ -828,7 +835,7 @@ tibble(
   RMSE = sqrt(mean(res$pred_error^2)),          # Root Mean Squared Error
   CCC  = linCCC(res$true_age, res$pred_age)     # Lin's CCC
 )
-#> # A tibble: 1 x 8
+#> # A tibble: 1 × 8
 #>     rss   tss   rsq rsqadj    R2   MAE  RMSE   CCC
 #>   <dbl> <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl>
 #> 1 4152. 8492. 0.511  0.416 0.550  7.16  9.11 0.702
@@ -853,16 +860,16 @@ res %>%
 
 ![](man/figures/README-linreg-plot-1.png)<!-- -->
 
-------------------------------------------------------------------------
+-----
 
 ## MIT LICENSE
 
--   See [LICENSE](LICENSE.md)
--   The MIT License:
-    -   <https://choosealicense.com/licenses/mit/>
-    -   [https://tldrlegal.com/license/mit-license/](https://tldrlegal.com/license/mit-license)
+  - See [LICENSE](LICENSE.md)
+  - The MIT License:
+      - <https://choosealicense.com/licenses/mit/>
+      - [https://tldrlegal.com/license/mit-license/](https://tldrlegal.com/license/mit-license)
 
-------------------------------------------------------------------------
+-----
 
 Created by [Rmarkdown](https://github.com/rstudio/rmarkdown) (v2.9) and
 R version 4.1.0 (2021-05-18).

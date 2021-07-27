@@ -1,16 +1,16 @@
 #' Convert to Long Format
 #'
-#' Utility to convert an `"ExpressionSet"` object
+#' Utility to convert an `ExpressionSet` class object
 #' from the "wide" data format to the "long" format via [pivot_longer()].
 #' The \pkg{Biobase} package is required for this function.
 #'
+#' @family eSet
 #' @param eSet An `ExpressionSet` class object, created using [adat2eSet()].
 #' @return A `tibble` consisting of the long format
 #' conversion of an `ExpressionSet` object.
 #' @author Stu Field
-#' @seealso [adat2eSet()]
 #' @examples
-#' # subet into a reduced mini-ADAT object
+#' # subset into a reduced mini-ADAT object
 #' # 10 samples (rows)
 #' # 5 clinical variables and 3 features (cols)
 #' sub_adat <- example_data[1:10, c(1:5, 35:37)]

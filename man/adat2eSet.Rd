@@ -16,14 +16,15 @@ A Bioconductor object of class \code{ExpressionSet}.
 \description{
 Utility to convert a SomaLogic \code{soma_adat} object to an
 \code{ExpressionSet} object via the \pkg{Biobase} package
-(download from \code{"Bioconductor"}).
+from \strong{Bioconductor}:
+\url{https://www.bioconductor.org/packages/release/bioc/html/Biobase.html}.
 }
 \details{
 The \pkg{Biobase} package is required and must be installed from
-\code{Bioconductor} via the following at the R console:\preformatted{if (!requireNamespace("BiocManager", quietly = TRUE)) \{
+\strong{Bioconductor} via the following at the R console:\preformatted{if (!requireNamespace("BiocManager", quietly = TRUE)) \{
   install.packages("BiocManager")
 \}
-BiocManager::install("Biobase", version = "3.13")
+BiocManager::install("Biobase", version = remotes::bioc_version())
 }
 }
 \examples{
@@ -38,8 +39,10 @@ head(ft[, 1:10], 10)
 \url{https://bioconductor.org/install/}
 }
 \seealso{
-\code{\link[=pivotExpressionSet]{pivotExpressionSet()}}
+Other eSet: 
+\code{\link{pivotExpressionSet}()}
 }
 \author{
 Stu Field
 }
+\concept{eSet}

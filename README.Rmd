@@ -46,12 +46,14 @@ from the ADAT object once in the R environment.
 Basic familiarity with the R environment is assumed, as is the ability to install
 contributed packages from the Comprehensive R Archive Network (CRAN).
 
-If you run into any issues/problems with `SomaDataIO` full documentation can
-be found at our
+If you run into any issues/problems with `SomaDataIO` full documentation
+of the most recent
+[release](https://github.com/SomaLogic/SomaDataIO/releases)
+can be found at our
 [pkgdown](https://somalogic.github.io/SomaDataIO/) website hosted by
-[GitHub](https://github.com/SomaLogic/SomaDataIO). 
+[GitHub](https://github.com/SomaLogic/SomaDataIO/).
 If the issue persists we encourage you to consult the
-[issues](https://github.com/SomaLogic/SomaDataIO/issues/) 
+[issues](https://github.com/SomaLogic/SomaDataIO/issues/)
 page and, if appropriate, submit an issue and/or feature request.
 
 
@@ -117,18 +119,21 @@ ensure that the following package dependencies are pre-installed:
 #### Biobase
 
 The `Biobase` package is *suggested*, being required by only 
-two functions, `pivotExpressionSet()` and `adat2eset()`. `Biobase` must be 
-installed separately from `Bioconductor` by entering the 
-following from the `R` console:
+two functions, `pivotExpressionSet()` and `adat2eSet()`. 
+[Biobase](https://www.bioconductor.org/packages/release/bioc/html/Biobase.html)
+must be installed separately from 
+[Bioconductor](https://www.bioconductor.org) 
+by entering the following from the `R` console:
 
 ```{r biobase, eval = FALSE}
 if (!requireNamespace("BiocManager", quietly = TRUE)) {
   install.packages("BiocManager")
 }
-BiocManager::install("Biobase", version = "3.13")
+BiocManager::install("Biobase", version = remotes::bioc_version())
 ```
 
-Information about Bioconductor can be found here: [https://bioconductor.org/install/](https://bioconductor.org/install/)
+Information about Bioconductor can be found here:
+[https://bioconductor.org/install/](https://bioconductor.org/install/)
 
 
 #### Loading
@@ -164,12 +169,15 @@ to users to run canned examples (or analyses). They can be accessed once
 ## Main Features (I/O)
 
 * Loading data (Import)
-    + Import a text file in the `*.adat` format into an `R` session
+    + parse and import a `*.adat` text file into an `R` session
       as a `soma_adat` object.
 * Wrangling data (manipulation)
-    + Subset, reorder, and list various fields of a `soma_adat` object.
+    + subset, reorder, and list various fields of a `soma_adat` object.
+    + `?SeqId` analyte (feature) matching.
+    + `dplyr` and `tidyr` verb S3 methods for the `soma_adat` class.
+    + `?rownames` helpers that do not break `soma_adat` attributes.
 * Exporting data (Output)
-    + Write out a `soma_adat` object as a `*.adat` text file.
+    + write out a `soma_adat` object as a `*.adat` text file.
 
 
 ----------------------

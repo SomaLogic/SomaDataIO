@@ -14,12 +14,12 @@ A \code{tibble} consisting of the long format
 conversion of an \code{ExpressionSet} object.
 }
 \description{
-Utility to convert an \code{"ExpressionSet"} object
+Utility to convert an \code{ExpressionSet} class object
 from the "wide" data format to the "long" format via \code{\link[=pivot_longer]{pivot_longer()}}.
 The \pkg{Biobase} package is required for this function.
 }
 \examples{
-# subet into a reduced mini-ADAT object
+# subset into a reduced mini-ADAT object
 # 10 samples (rows)
 # 5 clinical variables and 3 features (cols)
 sub_adat <- example_data[1:10, c(1:5, 35:37)]
@@ -29,8 +29,10 @@ ex_set   <- adat2eSet(sub_adat)
 adat_long <- pivotExpressionSet(ex_set)
 }
 \seealso{
-\code{\link[=adat2eSet]{adat2eSet()}}
+Other eSet: 
+\code{\link{adat2eSet}()}
 }
 \author{
 Stu Field
 }
+\concept{eSet}
