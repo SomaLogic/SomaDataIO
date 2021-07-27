@@ -49,7 +49,8 @@
 <meta property="og:title" content="Convert ADAT to ExpressionSet Object — adat2eSet" />
 <meta property="og:description" content="Utility to convert a SomaLogic soma_adat object to an
 ExpressionSet object via the Biobase package
-(download from &quot;Bioconductor&quot;)." />
+from Bioconductor:
+https://www.bioconductor.org/packages/release/bioc/html/Biobase.html." />
 <meta property="og:image" content="https://github.com/SomaLogic/SomaDataIO/logo.png" />
 
 
@@ -139,7 +140,8 @@ ExpressionSet object via the Biobase package
     <div class="ref-description">
     <p>Utility to convert a SomaLogic <code>soma_adat</code> object to an
 <code>ExpressionSet</code> object via the <span class="pkg">Biobase</span> package
-(download from <code>"Bioconductor"</code>).</p>
+from <strong>Bioconductor</strong>:
+<a href='https://www.bioconductor.org/packages/release/bioc/html/Biobase.html'>https://www.bioconductor.org/packages/release/bioc/html/Biobase.html</a>.</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>adat2eSet</span><span class='op'>(</span><span class='va'>adat</span><span class='op'>)</span></code></pre></div>
@@ -160,10 +162,10 @@ environment using <code><a href='read_adat.html'>read_adat()</a></code>.</p></td
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The <span class="pkg">Biobase</span> package is required and must be installed from
-<code>Bioconductor</code> via the following at the R console:</p><pre class='sourceCode r'><code><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span><span class='op'>(</span><span class='st'>"BiocManager"</span>, quietly <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+<strong>Bioconductor</strong> via the following at the R console:</p><pre class='sourceCode r'><code><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span><span class='op'>(</span><span class='st'>"BiocManager"</span>, quietly <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
   <span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='st'>"BiocManager"</span><span class='op'>)</span>
 <span class='op'>}</span>
-<span class='fu'>BiocManager</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/BiocManager/man/install.html'>install</a></span><span class='op'>(</span><span class='st'>"Biobase"</span>, version <span class='op'>=</span> <span class='st'>"3.13"</span><span class='op'>)</span>
+<span class='fu'>BiocManager</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/BiocManager/man/install.html'>install</a></span><span class='op'>(</span><span class='st'>"Biobase"</span>, version <span class='op'>=</span> <span class='fu'>remotes</span><span class='fu'>::</span><span class='fu'><a href='https://remotes.r-lib.org/reference/bioc_install_repos.html'>bioc_version</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
@@ -171,7 +173,8 @@ environment using <code><a href='read_adat.html'>read_adat()</a></code>.</p></td
     <p><a href='https://bioconductor.org/install/'>https://bioconductor.org/install/</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='pivotExpressionSet.html'>pivotExpressionSet()</a></code></p></div>
+    <div class='dont-index'><p>Other eSet: 
+<code><a href='pivotExpressionSet.html'>pivotExpressionSet</a>()</code></p></div>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Stu Field</p>

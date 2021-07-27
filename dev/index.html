@@ -88,7 +88,7 @@
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor" aria-hidden="true"></a>Overview</h2>
 <p>This document accompanies the R package <code>SomaDataIO</code>, which loads the SomaLogic, Inc. proprietary data file called an <code>*.adat</code>. The package provides auxiliary functions for extracting relevant information from the ADAT object once in the R environment. Basic familiarity with the R environment is assumed, as is the ability to install contributed packages from the Comprehensive R Archive Network (CRAN).</p>
-<p>If you run into any issues/problems with <code>SomaDataIO</code> full documentation can be found at our <a href="https://somalogic.github.io/SomaDataIO/" class="external-link">pkgdown</a> website hosted by <a href="https://github.com/SomaLogic/SomaDataIO">GitHub</a>. If the issue persists we encourage you to consult the <a href="https://github.com/SomaLogic/SomaDataIO/issues/">issues</a> page and, if appropriate, submit an issue and/or feature request.</p>
+<p>If you run into any issues/problems with <code>SomaDataIO</code> full documentation of the most recent <a href="https://github.com/SomaLogic/SomaDataIO/releases">release</a> can be found at our <a href="https://somalogic.github.io/SomaDataIO/" class="external-link">pkgdown</a> website hosted by <a href="https://github.com/SomaLogic/SomaDataIO/">GitHub</a>. If the issue persists we encourage you to consult the <a href="https://github.com/SomaLogic/SomaDataIO/issues/">issues</a> page and, if appropriate, submit an issue and/or feature request.</p>
 <hr>
 </div>
 <div id="installation" class="section level2">
@@ -130,12 +130,12 @@
 <div id="biobase" class="section level4">
 <h4 class="hasAnchor">
 <a href="#biobase" class="anchor" aria-hidden="true"></a>Biobase</h4>
-<p>The <code>Biobase</code> package is <em>suggested</em>, being required by only two functions, <code><a href="reference/pivotExpressionSet.html">pivotExpressionSet()</a></code> and <code>adat2eset()</code>. <code>Biobase</code> must be installed separately from <code>Bioconductor</code> by entering the following from the <code>R</code> console:</p>
+<p>The <code>Biobase</code> package is <em>suggested</em>, being required by only two functions, <code><a href="reference/pivotExpressionSet.html">pivotExpressionSet()</a></code> and <code><a href="reference/adat2eSet.html">adat2eSet()</a></code>. <a href="https://www.bioconductor.org/packages/release/bioc/html/Biobase.html" class="external-link">Biobase</a> must be installed separately from <a href="https://www.bioconductor.org" class="external-link">Bioconductor</a> by entering the following from the <code>R</code> console:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
   <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span>
 <span class="op">}</span>
-<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"Biobase"</span>, version <span class="op">=</span> <span class="st">"3.13"</span><span class="op">)</span></code></pre></div>
+<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"Biobase"</span>, version <span class="op">=</span> <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/bioc_install_repos.html" class="external-link">bioc_version</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Information about Bioconductor can be found here: <a href="https://bioconductor.org/install/" class="external-link uri">https://bioconductor.org/install/</a></p>
 </div>
 <div id="loading" class="section level4">
@@ -169,17 +169,23 @@
 <ul>
 <li>Loading data (Import)
 <ul>
-<li>Import a text file in the <code>*.adat</code> format into an <code>R</code> session as a <code>soma_adat</code> object.</li>
+<li>parse and import a <code>*.adat</code> text file into an <code>R</code> session as a <code>soma_adat</code> object.</li>
 </ul>
 </li>
 <li>Wrangling data (manipulation)
 <ul>
-<li>Subset, reorder, and list various fields of a <code>soma_adat</code> object.</li>
+<li>subset, reorder, and list various fields of a <code>soma_adat</code> object.</li>
+<li>
+<code><a href="reference/SeqId.html">?SeqId</a></code> analyte (feature) matching.</li>
+<li>
+<code>dplyr</code> and <code>tidyr</code> verb S3 methods for the <code>soma_adat</code> class.</li>
+<li>
+<code><a href="reference/rownames.html">?rownames</a></code> helpers that do not break <code>soma_adat</code> attributes.</li>
 </ul>
 </li>
 <li>Exporting data (Output)
 <ul>
-<li>Write out a <code>soma_adat</code> object as a <code>*.adat</code> text file.</li>
+<li>write out a <code>soma_adat</code> object as a <code>*.adat</code> text file.</li>
 </ul>
 </li>
 </ul>
@@ -196,21 +202,21 @@
 
 <span class="co"># S3 print method forwards -&gt; tibble</span>
 <span class="va">my_adat</span>
-<span class="co">#&gt; ── Attributes ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt; ── Attributes ──────────────────────────────────────────────────────────────────────────────────────</span>
 <span class="co">#&gt;      Intact               ✔</span>
-<span class="co">#&gt; ── Dimensions ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt; ── Dimensions ──────────────────────────────────────────────────────────────────────────────────────</span>
 <span class="co">#&gt;      Rows                 192</span>
 <span class="co">#&gt;      Columns              5318</span>
 <span class="co">#&gt;      Clinical Data        34</span>
 <span class="co">#&gt;      Features             5284</span>
-<span class="co">#&gt; ── Column Meta ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt; ── Column Meta ─────────────────────────────────────────────────────────────────────────────────────</span>
 <span class="co">#&gt;       SeqId            |   UniProt            |   Type                      |   ColCheck                                |   Dilution2</span>
 <span class="co">#&gt;       SeqIdVersion     |   EntrezGeneID       |   Dilution                  |   CalQcRatio_Example_Adat_Set001_170255   |            </span>
 <span class="co">#&gt;       SomaId           |   EntrezGeneSymbol   |   PlateScale_Reference      |   QcReference_170255                      |            </span>
 <span class="co">#&gt;       TargetFullName   |   Organism           |   CalReference              |   Cal_Example_Adat_Set002                 |            </span>
 <span class="co">#&gt;       Target           |   Units              |   Cal_Example_Adat_Set001   |   CalQcRatio_Example_Adat_Set002_170255   |            </span>
-<span class="co">#&gt; ── Tibble ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</span>
-<span class="co">#&gt; # A tibble: 192 x 5,319</span>
+<span class="co">#&gt; ── Tibble ──────────────────────────────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt; # A tibble: 192 × 5,319</span>
 <span class="co">#&gt;    row_names   PlateId    PlateRunDate ScannerID PlatePosition  SlideId Subarray SampleId SampleType</span>
 <span class="co">#&gt;    &lt;chr&gt;       &lt;chr&gt;      &lt;date&gt;       &lt;chr&gt;     &lt;chr&gt;            &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;     </span>
 <span class="co">#&gt;  1 2584958000… Example A… 2020-06-18   SG152144… H9             2.58e11        3        1 Sample    </span>
@@ -248,23 +254,23 @@
 <span class="co">#&gt; #   seq.10370.21 &lt;dbl&gt;, seq.10372.18 &lt;dbl&gt;, seq.10390.21 &lt;dbl&gt;, seq.10391.1 &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   seq.10396.6 &lt;dbl&gt;, seq.10416.79 &lt;dbl&gt;, seq.10418.36 &lt;dbl&gt;, seq.10419.1 &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   seq.10424.31 &lt;dbl&gt;, seq.10425.3 &lt;dbl&gt;, seq.10426.21 &lt;dbl&gt;, seq.10427.2 &lt;dbl&gt;, …</span>
-<span class="co">#&gt; ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════</span>
+<span class="co">#&gt; ════════════════════════════════════════════════════════════════════════════════════════════════════</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">my_adat</span>, show_header <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>  <span class="co"># if simply wish to see Header info</span>
-<span class="co">#&gt; ── Attributes ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt; ── Attributes ──────────────────────────────────────────────────────────────────────────────────────</span>
 <span class="co">#&gt;      Intact               ✔</span>
-<span class="co">#&gt; ── Dimensions ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt; ── Dimensions ──────────────────────────────────────────────────────────────────────────────────────</span>
 <span class="co">#&gt;      Rows                 192</span>
 <span class="co">#&gt;      Columns              5318</span>
 <span class="co">#&gt;      Clinical Data        34</span>
 <span class="co">#&gt;      Features             5284</span>
-<span class="co">#&gt; ── Column Meta ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt; ── Column Meta ─────────────────────────────────────────────────────────────────────────────────────</span>
 <span class="co">#&gt;       SeqId            |   UniProt            |   Type                      |   ColCheck                                |   Dilution2</span>
 <span class="co">#&gt;       SeqIdVersion     |   EntrezGeneID       |   Dilution                  |   CalQcRatio_Example_Adat_Set001_170255   |            </span>
 <span class="co">#&gt;       SomaId           |   EntrezGeneSymbol   |   PlateScale_Reference      |   QcReference_170255                      |            </span>
 <span class="co">#&gt;       TargetFullName   |   Organism           |   CalReference              |   Cal_Example_Adat_Set002                 |            </span>
 <span class="co">#&gt;       Target           |   Units              |   Cal_Example_Adat_Set001   |   CalQcRatio_Example_Adat_Set002_170255   |            </span>
-<span class="co">#&gt; ── Header Data ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt; ── Header Data ─────────────────────────────────────────────────────────────────────────────────────</span>
 <span class="co">#&gt;      AdatId                                      ❯     GID-1234-56-789-abcdef     </span>
 <span class="co">#&gt;      Version                                     ❯     1.2     </span>
 <span class="co">#&gt;      AssayType                                   ❯     PharmaServices     </span>
@@ -300,7 +306,7 @@
 <span class="co">#&gt;      CalPlateTailPercent_Example_Adat_Set002     ❯     2.6     </span>
 <span class="co">#&gt;      PlateTailPercent_Example_Adat_Set002        ❯     4.2     </span>
 <span class="co">#&gt;      PlateTailTest_Example_Adat_Set002           ❯     PASS     </span>
-<span class="co">#&gt; ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════</span>
+<span class="co">#&gt; ════════════════════════════════════════════════════════════════════════════════════════════════════</span>
 
 <span class="co"># S3 summary method</span>
 <span class="co"># View Target and summary statistics</span>
@@ -356,13 +362,13 @@
 <a href="#attributes-contain-file-and-feature-information" class="anchor" aria-hidden="true"></a>Attributes Contain File and Feature Information</h4>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; [1] "names"       "class"       "row.names"   "spec"        "Header.Meta" "Col.Meta"   </span>
-<span class="co">#&gt; [7] "file.specs"  "row.meta"</span>
+<span class="co">#&gt; [1] "names"       "class"       "row.names"   "Header.Meta" "Col.Meta"    "file.specs" </span>
+<span class="co">#&gt; [7] "row.meta"</span>
 
 <span class="co"># The `Col.Meta` attribute contains </span>
 <span class="co"># target annotation information</span>
 <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">my_adat</span>, <span class="st">"Col.Meta"</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 5,284 x 21</span>
+<span class="co">#&gt; # A tibble: 5,284 × 21</span>
 <span class="co">#&gt;    SeqId  SeqIdVersion SomaId TargetFullName   Target UniProt EntrezGeneID EntrezGeneSymbol Organism</span>
 <span class="co">#&gt;    &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;            &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt;            &lt;chr&gt;   </span>
 <span class="co">#&gt;  1 10000…            3 SL019… Beta-crystallin… CRBB2  P43320  "1415"       "CRYBB2"         Human   </span>
@@ -400,7 +406,7 @@
 <p>The <code><a href="reference/getAnalyteInfo.html">getAnalyteInfo()</a></code> function creates a lookup table that links analyte feature names in the <code>soma_adat</code> object to the annotation data in <code>Col.Meta</code> via the common index-key, <code>AptName</code>, in column 1:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/getAnalyteInfo.html">getAnalyteInfo</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 5,284 x 22</span>
+<span class="co">#&gt; # A tibble: 5,284 × 22</span>
 <span class="co">#&gt;    AptName  SeqId  SeqIdVersion SomaId TargetFullName   Target UniProt EntrezGeneID EntrezGeneSymbol</span>
 <span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;            &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt;           </span>
 <span class="co">#&gt;  1 seq.100… 10000…            3 SL019… Beta-crystallin… CRBB2  P43320  "1415"       "CRYBB2"        </span>
@@ -471,21 +477,21 @@
 
 <span class="va">males</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">SampleType</span>, <span class="va">SampleMatrix</span>, <span class="fu">starts_with</span><span class="op">(</span><span class="st">"NormScale"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; ── Attributes ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt; ── Attributes ──────────────────────────────────────────────────────────────────────────────────────</span>
 <span class="co">#&gt;      Intact               ✔</span>
-<span class="co">#&gt; ── Dimensions ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt; ── Dimensions ──────────────────────────────────────────────────────────────────────────────────────</span>
 <span class="co">#&gt;      Rows                 85</span>
 <span class="co">#&gt;      Columns              5</span>
 <span class="co">#&gt;      Clinical Data        5</span>
 <span class="co">#&gt;      Features             0</span>
-<span class="co">#&gt; ── Column Meta ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt; ── Column Meta ─────────────────────────────────────────────────────────────────────────────────────</span>
 <span class="co">#&gt;       SeqId            |   UniProt            |   Type                      |   ColCheck                                |   Dilution2</span>
 <span class="co">#&gt;       SeqIdVersion     |   EntrezGeneID       |   Dilution                  |   CalQcRatio_Example_Adat_Set001_170255   |            </span>
 <span class="co">#&gt;       SomaId           |   EntrezGeneSymbol   |   PlateScale_Reference      |   QcReference_170255                      |            </span>
 <span class="co">#&gt;       TargetFullName   |   Organism           |   CalReference              |   Cal_Example_Adat_Set002                 |            </span>
 <span class="co">#&gt;       Target           |   Units              |   Cal_Example_Adat_Set001   |   CalQcRatio_Example_Adat_Set002_170255   |            </span>
-<span class="co">#&gt; ── Tibble ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</span>
-<span class="co">#&gt; # A tibble: 85 x 6</span>
+<span class="co">#&gt; ── Tibble ──────────────────────────────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt; # A tibble: 85 × 6</span>
 <span class="co">#&gt;    row_names      SampleType SampleMatrix NormScale_20 NormScale_0_005 NormScale_0_5</span>
 <span class="co">#&gt;    &lt;chr&gt;          &lt;chr&gt;      &lt;chr&gt;               &lt;dbl&gt;           &lt;dbl&gt;         &lt;dbl&gt;</span>
 <span class="co">#&gt;  1 258495800010_8 Sample     Plasma-PPT          0.984           1.03          0.915</span>
@@ -499,7 +505,7 @@
 <span class="co">#&gt;  9 258495800008_4 Sample     Plasma-PPT          0.991           0.979         0.920</span>
 <span class="co">#&gt; 10 258495800006_6 Sample     Plasma-PPT          0.862           0.964         0.999</span>
 <span class="co">#&gt; # … with 75 more rows</span>
-<span class="co">#&gt; ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════</span></code></pre></div>
+<span class="co">#&gt; ════════════════════════════════════════════════════════════════════════════════════════════════════</span></code></pre></div>
 </div>
 <div id="available-s3-methods-soma_adat" class="section level4">
 <h4 class="hasAnchor">
@@ -526,7 +532,7 @@
 
 <span class="fu"><a href="reference/write_adat.html">write_adat</a></span><span class="op">(</span><span class="va">my_adat</span>, file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="st">"my-adat-"</span>, fileext <span class="op">=</span> <span class="st">".adat"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; ✔ ADAT passed checks and traps</span>
-<span class="co">#&gt; ✔ ADAT written to: '/var/folders/rh/hw387cn94f9431b9pdqjx1ss223hd0/T/RtmpjRYfMm/my-adat-8a133e4f0dbb.adat'</span></code></pre></div>
+<span class="co">#&gt; ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmplciI3r/my-adat-103220052d99.adat'</span></code></pre></div>
 <hr>
 </div>
 </div>
@@ -587,7 +593,7 @@
 <span class="co">#   Subset via dplyr::filter(t_tests, ...) here to </span>
 <span class="co">#   restrict analysis to only certain analytes</span>
 <span class="va">t_tests</span>
-<span class="co">#&gt; # A tibble: 5,284 x 5</span>
+<span class="co">#&gt; # A tibble: 5,284 × 5</span>
 <span class="co">#&gt;    AptName       SeqId    Target                                            EntrezGeneSymbol UniProt</span>
 <span class="co">#&gt;    &lt;chr&gt;         &lt;chr&gt;    &lt;chr&gt;                                             &lt;chr&gt;            &lt;chr&gt;  </span>
 <span class="co">#&gt;  1 seq.10000.28  10000-28 Beta-crystallin B2                                "CRYBB2"         P43320 </span>
@@ -621,7 +627,7 @@
 
 <span class="co"># View analysis tibble</span>
 <span class="va">t_tests</span>
-<span class="co">#&gt; # A tibble: 5,284 x 11</span>
+<span class="co">#&gt; # A tibble: 5,284 × 11</span>
 <span class="co">#&gt;    AptName  SeqId  Target     EntrezGeneSymbol UniProt formula t_test t_stat  p.value      fdr  rank</span>
 <span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;            &lt;chr&gt;   &lt;list&gt;  &lt;list&gt;  &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;</span>
 <span class="co">#&gt;  1 seq.846… 8468-… Prostate-… KLK3             P07288  &lt;formu… &lt;htes… -22.1  2.46e-43 1.30e-39     1</span>
@@ -657,7 +663,7 @@
 <span class="co">#&gt; Joining, by = "AptName"</span>
 
 <span class="va">plot_tbl</span>
-<span class="co">#&gt; # A tibble: 2,040 x 4</span>
+<span class="co">#&gt; # A tibble: 2,040 × 4</span>
 <span class="co">#&gt;    Sex   AptName        RFU Target                                                          </span>
 <span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;        &lt;dbl&gt; &lt;fct&gt;                                                           </span>
 <span class="co">#&gt;  1 F     seq.8468.19   2.54 Prostate-specific antigen                                       </span>
@@ -720,7 +726,7 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>rank <span class="op">=</span> <span class="fu">row_number</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>     <span class="co"># add numeric ranks</span>
 
 <span class="va">LR_tbl</span>
-<span class="co">#&gt; # A tibble: 5,284 x 11</span>
+<span class="co">#&gt; # A tibble: 5,284 × 11</span>
 <span class="co">#&gt;    AptName  SeqId  Target      EntrezGeneSymbol UniProt formula model beta_hat p.value     fdr  rank</span>
 <span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;       &lt;chr&gt;            &lt;chr&gt;   &lt;list&gt;  &lt;lis&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;</span>
 <span class="co">#&gt;  1 seq.658… 6580-… Pregnancy … PZP              P20742  &lt;formu… &lt;glm&gt;    -3.07 5.09e-9 1.98e-5     1</span>
@@ -769,7 +775,7 @@
        PPV         <span class="op">=</span> <span class="va">tp</span> <span class="op">/</span> <span class="op">(</span><span class="va">tp</span> <span class="op">+</span> <span class="va">fp</span><span class="op">)</span>,
        NPV         <span class="op">=</span> <span class="va">tn</span> <span class="op">/</span> <span class="op">(</span><span class="va">tn</span> <span class="op">+</span> <span class="va">fn</span><span class="op">)</span>
 <span class="op">)</span>
-<span class="co">#&gt; # A tibble: 1 x 5</span>
+<span class="co">#&gt; # A tibble: 1 × 5</span>
 <span class="co">#&gt;   Sensitivity Specificity Accuracy   PPV   NPV</span>
 <span class="co">#&gt;         &lt;dbl&gt;       &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt; 1         0.8        0.96     0.88 0.952 0.828</span></code></pre></div>
@@ -797,7 +803,7 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>rank <span class="op">=</span> <span class="fu">row_number</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>    <span class="co"># add numeric ranks</span>
 
 <span class="va">LinR_tbl</span>
-<span class="co">#&gt; # A tibble: 5,284 x 11</span>
+<span class="co">#&gt; # A tibble: 5,284 × 11</span>
 <span class="co">#&gt;    AptName  SeqId  Target        EntrezGeneSymbol UniProt formula model slope  p.value     fdr  rank</span>
 <span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;         &lt;chr&gt;            &lt;chr&gt;   &lt;list&gt;  &lt;lis&gt; &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;</span>
 <span class="co">#&gt;  1 seq.304… 3045-… Pleiotrophin  PTN              P21246  &lt;formu… &lt;lm&gt;   6.70 4.25e-10 2.25e-6     1</span>
@@ -850,7 +856,7 @@
   RMSE <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">pred_error</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span>,          <span class="co"># Root Mean Squared Error</span>
   CCC  <span class="op">=</span> <span class="fu">linCCC</span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">true_age</span>, <span class="va">res</span><span class="op">$</span><span class="va">pred_age</span><span class="op">)</span>     <span class="co"># Lin's CCC</span>
 <span class="op">)</span>
-<span class="co">#&gt; # A tibble: 1 x 8</span>
+<span class="co">#&gt; # A tibble: 1 × 8</span>
 <span class="co">#&gt;     rss   tss   rsq rsqadj    R2   MAE  RMSE   CCC</span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 4152. 8492. 0.511  0.416 0.550  7.16  9.11 0.702</span></code></pre></div>

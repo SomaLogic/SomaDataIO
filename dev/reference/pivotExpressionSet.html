@@ -47,7 +47,7 @@
 
 
 <meta property="og:title" content="Convert to Long Format — pivotExpressionSet" />
-<meta property="og:description" content="Utility to convert an &quot;ExpressionSet&quot; object
+<meta property="og:description" content="Utility to convert an ExpressionSet class object
 from the &quot;wide&quot; data format to the &quot;long&quot; format via pivot_longer().
 The Biobase package is required for this function." />
 <meta property="og:image" content="https://github.com/SomaLogic/SomaDataIO/logo.png" />
@@ -137,7 +137,7 @@ The Biobase package is required for this function." />
     </div>
 
     <div class="ref-description">
-    <p>Utility to convert an <code>"ExpressionSet"</code> object
+    <p>Utility to convert an <code>ExpressionSet</code> class object
 from the "wide" data format to the "long" format via <code>pivot_longer()</code>.
 The <span class="pkg">Biobase</span> package is required for this function.</p>
     </div>
@@ -159,13 +159,14 @@ The <span class="pkg">Biobase</span> package is required for this function.</p>
 conversion of an <code>ExpressionSet</code> object.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='adat2eSet.html'>adat2eSet()</a></code></p></div>
+    <div class='dont-index'><p>Other eSet: 
+<code><a href='adat2eSet.html'>adat2eSet</a>()</code></p></div>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Stu Field</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># subet into a reduced mini-ADAT object</span></span>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># subset into a reduced mini-ADAT object</span></span>
 <span class='r-in'><span class='co'># 10 samples (rows)</span></span>
 <span class='r-in'><span class='co'># 5 clinical variables and 3 features (cols)</span></span>
 <span class='r-in'><span class='va'>sub_adat</span> <span class='op'>&lt;-</span> <span class='va'>example_data</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>, <span class='fl'>35</span><span class='op'>:</span><span class='fl'>37</span><span class='op'>)</span><span class='op'>]</span></span>
