@@ -3,14 +3,13 @@
 NULL
 
 #' @importFrom tidyselect vars_pull
-#' @importFrom rlang enquo
 #' @export
 separate.soma_adat <- function(data, col, into, sep = "[^[:alnum:]]+",
-                               remove = TRUE,  convert = FALSE, extra = "warn",
+                               remove = TRUE, convert = FALSE, extra = "warn",
                                fill = "warn", ...) {
   atts <- attributes(data)
   data <- rn2col(data, ".separate_rn")
-  col  <- tidyselect::vars_pull(names(data), !!rlang::enquo(col))
+  col  <- vars_pull(names(data), !!substitute(col))
   # must do it this way b/c NextMethod() doesn't play nice with tidyeval
   data  <- data.frame(data)
   .data <- tidyr::separate(data, col, into, sep, remove, convert, extra, fill, ...)

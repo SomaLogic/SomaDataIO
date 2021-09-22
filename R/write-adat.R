@@ -25,13 +25,11 @@
 #' @param file Character. File path where the object should be written.
 #' For example, extensions should be `*.adat`.
 #' @author Stu Field
-#' @importFrom usethis ui_stop ui_warn ui_done ui_path
 #' @importFrom purrr walk iwalk
 #' @importFrom tidyselect everything
 #' @importFrom dplyr mutate select
 #' @importFrom readr write_tsv write_lines
-#' @importFrom stringr str_detect
-#' @seealso [read_adat()], [write_tsv()], [is.intact.attributes()]
+#' @seealso [read_adat()], [write_lines()], [write_tsv()], [is.intact.attributes()]
 #' @export
 write_adat <- function(x, file) {
 
@@ -41,9 +39,9 @@ write_adat <- function(x, file) {
     usethis::ui_stop("Must provide output file name ...")
   }
 
-  if ( !stringr::str_detect(file, "\\.adat$") ) {
+  if ( !grepl("\\.adat$", file) ) {
     usethis::ui_warn(
-      "File extension is not `*.adat` ({ui_path(file)}). \\
+      "File extension is not `*.adat` ({usethis::ui_path(file)}). \\
       Are you sure this is the correct file extension?"
     )
   }
@@ -79,9 +77,9 @@ write_adat <- function(x, file) {
   length_meta <- length(meta_names)
 
   purrr::iwalk(atts$Col.Meta, ~ {
-    paste0(stringr::str_dup("\t", length_meta),    # col shift
-           .y, "\t",                               # name
-           paste(.x, collapse = "\t")              # Col.Meta
+    paste0(strrep("\t", length_meta),    # col shift
+           .y, "\t",                     # name
+           paste(.x, collapse = "\t")    # Col.Meta
           ) %>%
           readr::write_lines(file = f, append = TRUE)
   })
@@ -99,7 +97,7 @@ write_adat <- function(x, file) {
       )
     }
 
-    tabs      <- stringr::str_dup("\t", length(apts) - 1)
+    tabs      <- strrep("\t", length(apts) - 1)
     metanames <- paste(meta_names, collapse = "\t")
     readr::write_lines(paste0(metanames, "\t\t", tabs), file = f, append = TRUE)
 
@@ -120,7 +118,6 @@ write_adat <- function(x, file) {
 #' Check ADAT prior to Writing
 #'
 #' @param adat A `soma_adat` class object.
-#' @importFrom usethis ui_stop ui_done ui_warn
 #' @keywords internal
 #' @noRd
 checkADAT <- function(adat) {

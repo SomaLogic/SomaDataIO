@@ -57,7 +57,6 @@ rn2col <- function(data, name = ".rn") {
 #' @describeIn rownames
 #' is the inverse of [rn2col()]. If row names exist, they
 #' will be overwritten (with warning).
-#' @importFrom usethis ui_warn
 #' @export
 col2rn <- function(data, name = ".rn") {
   stopifnot(is.data.frame(data), length(name) == 1)

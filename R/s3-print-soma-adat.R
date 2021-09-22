@@ -8,49 +8,48 @@
 #' @param x A `soma_adat` class object to [print()].
 #' @param show_header Logical. Should all the `Header Data` information
 #' be displayed instead of the data frame (`tibble`) object?
-#' @importFrom stringr str_dup str_pad str_glue
 #' @importFrom purrr map_chr compact flatten_chr transpose
 #' @export
 print.soma_adat <- function(x, show_header = FALSE, ...) {
 
   attsTRUE    <- is.intact.attributes(x)
-  col_f       <- if ( attsTRUE ) crayon::green else crayon::red            # nolint
-  atts_symbol <- if ( attsTRUE ) cli::symbol$tick else cli::symbol$cross   # nolint
-  writeLines(cli::rule(crayon::bold("Attributes"), line_col = crayon::blue))
-  stringr::str_glue("     {x} {col_f(atts_symbol)}",
-                    x = stringr::str_pad("Intact", 20, "right")) %>%
-    writeLines()
+  col_f       <- if ( attsTRUE ) crayon::green else crayon::red  # nolint
+  atts_symbol <- if ( attsTRUE ) symb_tick else symb_cross       # nolint
+  writeLines(rule(crayon::bold("Attributes"), line_col = "blue"))
+  writeLines(
+    paste("    ", .pad("Intact", 20), col_f(atts_symbol))
+  )
   apts <- getAnalytes(x)
   meta <- setdiff(names(x), apts)
 
-  writeLines(cli::rule(crayon::bold("Dimensions"), line_col = crayon::blue))
-  n_pad    <- 5
-  pad <- stringr::str_dup(" ", n_pad)
-  dim_vars <- stringr::str_pad(c("Rows", "Columns", "Clinical Data", "Features"),
-                               width = 20, "right") %>% paste0(pad, .)
+  writeLines(rule(crayon::bold("Dimensions"), line_col = "blue"))
+  n_pad <- 5
+  pad   <- strrep(" ", n_pad)
+  dim_vars <- .pad(c("Rows", "Columns", "Clinical Data", "Features"), 20) %>%
+    paste0(pad, .)
   dim_vals <- c(nrow(x), ncol(x), length(meta), length(apts)) %>%
     as.character() %>%
     crayon::blue()
   writeLines(paste(dim_vars, dim_vals))
 
   if ( !attsTRUE ) {
-    writeLines(cli::rule(crayon::bold("Header Data"), line_col = crayon::blue))
+    writeLines(rule(crayon::bold("Header Data"), line_col = "blue"))
     paste(pad, "No Header.Meta        ",
-           crayon::yellow(cli::symbol$warning),
+           crayon::yellow(symb_warn),
            crayon::red("ADAT columns were probably modified"),
-           crayon::yellow(cli::symbol$warning)
+           crayon::yellow(symb_warn)
            ) %>%
       writeLines()
   } else {
 
     # Column Meta Data
-    writeLines(cli::rule(crayon::bold("Column Meta"), line_col = crayon::blue))
+    writeLines(rule(crayon::bold("Column Meta"), line_col = "blue"))
     B <- names(attributes(x)$Col.Meta)
 
     # control how many columns of Col.Meta to print
     n_column <- 5
     # add padding for Col Meta between cols
-    colpad   <- stringr::str_dup(" ", 3)
+    colpad   <- strrep(" ", 3)
 
     if ( (L <- length(B)) %% n_column != 0 ) {
       B <- c(B, rep("", n_column - L %% n_column))
@@ -76,27 +75,24 @@ print.soma_adat <- function(x, show_header = FALSE, ...) {
     # show header data only
     if ( show_header ) {
       # Header Meta Data
-      cli::rule(crayon::bold("Header Data"), line_col = crayon::blue) %>%
-        writeLines()
+      writeLines(rule(crayon::bold("Header Data"), line_col = "blue"))
       A <- attributes(x) %>%
         purrr::pluck("Header.Meta", "HEADER") %>%
         purrr::compact()
       padmax <- purrr::map_dbl(names(A), nchar) %>% max()
-      col1   <- stringr::str_pad(names(A), padmax, "right") %>%
-        paste0(pad, ., pad)
+      col1   <- .pad(names(A), padmax) %>% paste0(pad, ., pad)
       col2   <- purrr::flatten_chr(A) %>% paste0(pad, ., pad)
-      paste0(col1,  crayon::green(cli::symbol$pointer), col2) %>%
+      paste0(col1,  crayon::green(symb_point), col2) %>%
         writeLines()
      }
   }
 
   if ( !show_header ) {
     # this is the default behavior
-    cli::rule(crayon::bold("Tibble"), line_col = crayon::blue) %>%
-      writeLines()
+    writeLines(rule(crayon::bold("Tibble"), line_col = "blue"))
     print(tibble::as_tibble(x, rownames = ifelse(has_rn(x), "row_names", NA)))
   }
 
-  writeLines(cli::rule(line = 2, line_col = crayon::green))
+  writeLines(rule(line = 2, line_col = "green"))
   invisible(x)
 }

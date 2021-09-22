@@ -38,8 +38,7 @@
 #' summary(my_adat[, mmps], tbl = anno)
 #' @importFrom stats IQR mad sd
 #' @importFrom purrr map map2_df
-#' @importFrom rlang set_names
-#' @importFrom stringr str_pad
+#' @importFrom stats setNames
 #' @export
 summary.soma_adat <- function(object, tbl,
                               digits = max(3L, getOption("digits") - 3L), ...) {
@@ -50,8 +49,7 @@ summary.soma_adat <- function(object, tbl,
 
   nm   <- getAnalytes(object)
   labs <- c("Target", "Min", "1Q", "Median", "Mean", "3Q",
-            "Max", "sd", "MAD", "IQR") %>%
-    stringr::str_pad(width = 6, side = "right")
+            "Max", "sd", "MAD", "IQR") %>% .pad(6)
 
   vals <- dplyr::select(object, nm) %>%
     purrr::map(function(.x) {
@@ -61,16 +59,13 @@ summary.soma_adat <- function(object, tbl,
     })
 
   # lookup table
-  look <- as.list(tbl$Target) %>% rlang::set_names(tbl$AptName)
-  tgts <- names(vals) %>%
-    rlang::set_names() %>%
+  look <- as.list(tbl$Target) %>% setNames(tbl$AptName)
+  tgts <- setNames(names(vals), names(vals)) %>%
     lapply(function(.x) ifelse(is.null(look[[.x]]), "", look[[.x]]))  # if NULL -> ""
 
   purrr::map2_df(
-    tgts, vals, ~ paste(labs, ":", stringr::str_pad(c(.x, .y), width = 10,
-                                                    side = "right"))
-    ) %>%
-    addClass("adat_summary")
+    tgts, vals, ~ paste(labs, ":", .pad(c(.x, .y), width = 10))
+  ) %>% addClass("adat_summary")
 }
 
 #' @noRd

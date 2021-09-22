@@ -25,7 +25,6 @@
 #' is.intact.attributes(my_adat[, -303])   # doesn't break atts; TRUE
 #' attributes(my_adat)$Col.Meta$Target <- NULL    # break attributes
 #' is.intact.attributes(my_adat, verbose = TRUE)  # FALSE (Target missing)
-#' @importFrom usethis ui_oops ui_value
 #' @export
 is.intact.attributes <- function(adat, verbose = interactive()) {
 
@@ -35,14 +34,14 @@ is.intact.attributes <- function(adat, verbose = interactive()) {
   if ( !is.soma_adat(adat) ) {
     if ( verbose ) {
       usethis::ui_oops(
-        "The object is not a `soma_adat` class object: {ui_value(class(adat))}"
+        "The object is not a `soma_adat` class object: {value(class(adat))}"
       )
     }
     FALSE
   } else if ( length(atts) <= 3 ) {
     if ( verbose ) {
       usethis::ui_oops(
-        "Attributes has only 3 entries: {ui_value(names(atts))}"
+        "Attributes has only 3 entries: {value(names(atts))}"
       )
     }
     FALSE
@@ -54,19 +53,19 @@ is.intact.attributes <- function(adat, verbose = interactive()) {
   } else if ( !all(c("HEADER", "COL_DATA", "ROW_DATA") %in% names(atts$Header.Meta)) ) {
     if ( verbose ) {
       diff <- setdiff(c("HEADER", "COL_DATA", "ROW_DATA"), names(atts$Header.Meta)) # nolint
-      usethis::ui_oops("Header.Meta missing: {ui_value(diff)}")
+      usethis::ui_oops("Header.Meta missing: {value(diff)}")
     }
     FALSE
   } else if ( !all(col_meta_checks %in% names(atts$Col.Meta)) ) {
     if ( verbose ) {
       diff <- setdiff(col_meta_checks, names(atts$Col.Meta))
-      usethis::ui_oops("Col.Meta is missing: {ui_value(diff)}")
+      usethis::ui_oops("Col.Meta is missing: {value(diff)}")
     }
     FALSE
   } else if ( !inherits(atts$Col.Meta, "tbl_df") ) {
     if ( verbose ) {
       usethis::ui_oops(
-        "Col.Meta is not a tibble! -> {ui_value(class(atts$Col.Meta))}"
+        "Col.Meta is not a tibble! -> {value(class(atts$Col.Meta))}"
       )
     }
     FALSE

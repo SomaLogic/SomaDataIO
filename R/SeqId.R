@@ -1,14 +1,32 @@
 #' Working with SomaLogic SeqIds
 #'
-#' The `SeqId`, e.g. `1234-56`, is the cornerstone used to uniquely identify
-#' SomaLogic analytes. The tools below enable users to extract, test,
-#' identify, and manipulate `SeqIds`.
+#' The `SeqId` is the cornerstone used to uniquely identify
+#' SomaLogic analytes.
+#' `SeqIds` follow the format **`<Pool>-<Clone>_<Version>`**, for example
+#' `"1234-56_7"` can be represented as:
+#' \tabular{ccc}{
+#'   **Pool** \tab **Clone** \tab **Version** \cr
+#'   `1234`   \tab `56`      \tab `7`
+#' }
+#' See **Details** below for the definition of each sub-unit.
+#' The **`<Pool>-<Clone>`** combination is sufficient to uniquely identify a
+#' specific analyte and therefore versions are no longer in provided (though
+#' they may be present in legacy ADATs).
+#' The tools below enable users to extract, test, identify, compare,
+#' and manipulate `SeqIds` across assay runs and/or versions.
+#'
+#' \tabular{ll}{
+#'   **Pool:**    \tab ties back to the original well during **SELEX** \cr
+#'   **Clone:**   \tab ties to the specific sequence within a pool \cr
+#'   **Version:** \tab refers to custom modifications (optional/defunct)
+#' }
 #'
 #' @name SeqId
 #' @param x Character. A vector of strings, usually analyte/feature column
 #' names, `AptNames`, or `SeqIds`. For [seqid2apt()], a vector of `SeqIds`.
-#' For [matchSeqIds()], a vector of pattern matches containing `SeqIds`. Can be
-#' `AptNames` with `GeneIDs` or `seq.XXXX` format, or even naked `SeqIds`.
+#' For [matchSeqIds()], a vector of pattern matches containing `SeqIds`.
+#' Can be `AptNames` with `GeneIDs` or `seq.XXXX` format, or even
+#' "naked" `SeqIds`.
 NULL
 
 
@@ -16,18 +34,16 @@ NULL
 #' Extract the `SeqId` String
 #'
 #' @describeIn SeqId
-#' Extracts the the `SeqId` portion (`SeqId-Clone_Version`) from an
-#' analyte column identifier, i.e. column name of an ADAT loaded
-#' with [read_adat()].
+#' Extracts/captures the the `SeqId` match from an analyte column identifier,
+#' i.e. column name of an ADAT loaded with [read_adat()]. Assumes the
+#' `SeqId` pattern occurs at the end of the string, which for
+#' the vast majority of cases will be true. For edge cases, see the
+#' `trailing` argument to [locateSeqId()].
 #'
 #' @param trim.version Logical. Whether to remove the version number,
-#' i.e. "1234-56" vs "1234-56_7". This is primarily for legacy ADATs
-#' where version numbers were common. Newer `SeqId` format does not
-#' contain version numbers.
-#' @return [getSeqId()]: a character vector of only the `SeqId` portion
-#' of a string.
+#' i.e. "1234-56_7" -> "1234-56". Primarily for legacy ADATs.
+#' @return [getSeqId()]: a character vector of `SeqId` capture from a string.
 #' @author Stu Field
-#' @seealso [str_locate()]
 #' @examples
 #' x <- c("ABDC.3948.48.2", "3948.88",
 #'        "3948.48.2", "3948-48_2", "3948.48.2",
@@ -37,43 +53,81 @@ NULL
 #' tibble::tibble(orig       = x,
 #'                SeqId      = getSeqId(x),
 #'                SeqId_trim = getSeqId(x, TRUE),
-#'                AptName    = seqid2apt(SeqId_trim))
+#'                AptName    = seqid2apt(SeqId))
 #'
-#' @importFrom stringr str_trim str_sub str_locate
-#' @importFrom stringr str_replace str_remove str_split
-#' @importFrom purrr pmap_chr
 #' @export
 getSeqId <- function(x, trim.version = FALSE) {
-  x         <- stringr::str_trim(x)   # zap trailing/leading whitespace
-  match_mat <- stringr::str_locate(x, regexSeqId())
-  args <- list(string = x,
-               start  = match_mat[, "start"],
-               end    = match_mat[, "end"])
-  seqId <- purrr::pmap_chr(args, stringr::str_sub) %>%
-    stringr::str_replace("\\.", "-") %>%
-    stringr::str_replace("\\.", "_")
+  # factor --> character; list --> character
+  # zap trailing/leading whitespace
+  df <- locateSeqId(trimws(x))
+  seqId <- substr(df$x, df$start, df$stop) %>%
+    sub("\\.", "-", .) %>%  # 1st '.' -> '-'
+    sub("\\.", "_", .)      # 2nd '.' -> '_' if present
 
   if ( trim.version ) {
-    stringr::str_split(seqId, "_") %>% purrr::map_chr(1L)
+    vapply(strsplit(seqId, "_", fixed = TRUE), `[[`, i = 1L, character(1))
   } else {
     seqId
   }
 }
 
 
+#' Regular expression match for `SeqIds`
+#'
 #' @describeIn SeqId
-#' Converts a `SeqId` format into anonymous-AptName format, i.e.
-#' `1234-56` -> `seq.1234.56`.
-#' @importFrom usethis ui_warn ui_value
+#' Generates a pre-formatted regular expression for
+#' matching of `SeqIds`. Note the *trailing* match, which is most
+#' commonly required, but [locateSeqId()] offers
+#' an alternative to mach *anywhere* in a string.
+#' Used internally in *many* utility functions
+#' @return [regexSeqId()]: a regular expression (`regex`) string
+#' pre-defined to match SomaLogic the `SeqId` pattern.
+#' @export
+regexSeqId <- function() {
+  #  Pool ------- Clone ------- Version (optional)
+  "[0-9]{4,5}[-.][0-9]{1,3}([._][0-9]{1,3})?$"
+}
+
+
+#' Locate string positions of `SeqIds`
+#'
+#' @describeIn SeqId
+#' Generates a data frame of the positional `SeqId` matches. Specifically
+#' designed to facilitate `SeqId` extraction via [substr()].
+#' Similar to [stringr::str_locate()].
+#' @param trailing Logical. Should the regular expression explicitly specify
+#' *trailing* `SeqId` pattern match, i.e. `"regex$"`?
+#' This is the most common case and the default.
+#' @return [locateSeqId()]: a data frame containing the `start` and `stop`
+#' integer positions for `SeqId` matches at each value of `x`.
+#' @export
+locateSeqId <- function(x, trailing = TRUE) {
+  pattern <- regexSeqId()
+  if ( !trailing ) {
+    pattern <- strtrim(pattern, nchar(pattern) - 1)   # trim `"$"`
+  }
+  regex <- regexpr(pattern, x)
+  start <- as.integer(regex)
+  start[start < 0] <- NA_integer_
+  stop  <- start + attr(regex, "match.length") - 1L
+  data.frame(x = x, start = start, stop = stop, stringsAsFactors = FALSE)
+}
+
+
+#' @describeIn SeqId
+#' Converts a `SeqId` into anonymous-AptName format, i.e.
+#' `1234-56` -> `seq.1234.56`. Versions, i.e. `1234-56_ver`, are trimmed.
 #' @export
 seqid2apt <- function(x) {
   stopifnot(inherits(x, "character"))
   if ( !all(is.SeqId(x)) ) {
     usethis::ui_stop(
       "As least some values are not in 'SeqId' format.
-      Try running `getSeqId()` for: {ui_value(x[!is.SeqId(x)])}"
+      Try running `getSeqId()` for: {value(x[!is.SeqId(x)])}"
     )
   }
+  # strip versions if present
+  x <- vapply(strsplit(x, "_", fixed = TRUE), `[[`, i = 1L, character(1))
   paste0("seq.", sub("-", ".", x))
 }
 
@@ -95,10 +149,10 @@ seqid2apt <- function(x) {
 #' is.apt("4959-2")      # TRUE
 #' is.apt("AGR2")        # FALSE
 #'
-#' @importFrom stringr str_detect
 #' @export
 is.apt <- function(x) {
-  stringr::str_detect(x, regexSeqId())
+  # ensures pattern ends with SeqId
+  grepl(regexSeqId(), x)
 }
 
 
@@ -107,34 +161,5 @@ is.apt <- function(x) {
 #' evaluate to `TRUE`.
 #' @export
 is.SeqId <- function(x) {
-  stringr::str_detect(x, "^[0-9]{4,5}-[0-9]{1,3}(_[0-9]{1,3})?$")
+  grepl("^[0-9]{4,5}-[0-9]{1,3}(_[0-9]{1,3})?$", x)
 }
-
-
-
-#' Regular expression match for `SeqIds`
-#'
-#' @describeIn SeqId
-#' Generates a pre-formatted regular expression for
-#' matching of `SeqIds`. Used internally in *many* utility functions
-#' @export
-regexSeqId <- function() {
-  #   SeqId ------ Clone ------ Version (optional)
-  "[0-9]{4,5}[-.][0-9]{1,3}([._][0-9]{1,3})?$"
-}
-
-# nolint start
-# An equivalent using the `rex` pkg
-# .regexSeqId <- function() {
-#   rex::rex(
-#     between(digit, 4, 5),        # SeqId; 4-5 numeric digits
-#     "-" %or% dot,                # either "-" or "."
-#     between(digit, 1, 3),        # Clone;  1-3 numeric digits
-
-#       "_" %or% dot,              # either "_" or "."
-#       between(digit, 1, 3)       # optional Version; 1-3 numeric digits
-#     ),
-#     end
-#     )
-# }
-# nolint end

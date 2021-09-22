@@ -24,8 +24,6 @@
 #' new <- example_data
 #' new[5, c(rm, rm + 1)] <- 999
 #' diffAdats(example_data, new)
-#' @importFrom stringr str_glue str_pad
-#' @importFrom usethis ui_stop ui_done ui_value
 #' @export
 diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
 
@@ -36,60 +34,62 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
   }
 
   map_mark <- function(.x) {
-    ifelse(.x, crayon::green(cli::symbol$tick), crayon::red(cli::symbol$cross))
+    ifelse(.x, crayon::green(symb_tick), crayon::red(symb_cross))
   }
 
-  pad <- 35
-  cli::rule(
-    "Checking ADAT attributes & characteristics", line_col = crayon::blue, line = 2
-    ) %>% writeLines()
+  writeLines(
+    rule(
+      "Checking ADAT attributes & characteristics", line_col = "blue", line = 2
+    )
+  )
 
   # Attribute names ----
+  pad <- 35
   mark <- names(attributes(adat1)) %equals% names(attributes(adat2))
-  msg  <- stringr::str_pad("Attribute names are identical", width = pad, "right") # nolint
+  msg  <- .pad("Attribute names are identical", width = pad) # nolint
   usethis::ui_todo("{msg} {map_mark(mark)}")
 
   # Attributes ----
   mark <- attributes(adat1) %equals% attributes(adat2)
-  msg  <- stringr::str_pad("Attributes are identical", width = pad, "right")
+  msg  <- .pad("Attributes are identical", width = pad)
   usethis::ui_todo("{msg} {map_mark(mark)}")
 
   # Adat dimensions ----
   mark <- all(dim(adat1) == dim(adat2))
-  msg  <- stringr::str_pad("ADAT dimensions are identical", width = pad, "right")
+  msg  <- .pad("ADAT dimensions are identical", width = pad)
   usethis::ui_todo("{msg} {map_mark(mark)}")
 
   if ( !mark ) {
     mark <- nrow(adat1) == nrow(adat2)
-    msg  <- stringr::str_pad("  ADATs have same # of rows", width = pad, "right")
+    msg  <- .pad("  ADATs have same # of rows", width = pad)
     usethis::ui_todo("{msg} {map_mark(mark)}")
 
     mark <- ncol(adat1) == ncol(adat2)
-    msg  <- stringr::str_pad("  ADATs have same # of columns", width = pad, "right")
+    msg  <- .pad("  ADATs have same # of columns", width = pad)
     usethis::ui_todo("{msg} {map_mark(mark)}")
 
     mark <- getAnalytes(adat1, n = TRUE) %equals% getAnalytes(adat2, n = TRUE)
-    msg  <- stringr::str_pad("  ADATs have same # of features", width = pad, "right")
+    msg  <- .pad("  ADATs have same # of features", width = pad)
     usethis::ui_todo("{msg} {map_mark(mark)}")
 
     mark <- getMeta(adat1, n = TRUE) %equals% getMeta(adat2, n = TRUE)
-    msg  <- stringr::str_pad("  ADATs have same # of meta data", width = pad, "right")
+    msg  <- .pad("  ADATs have same # of meta data", width = pad)
     usethis::ui_todo("{msg} {map_mark(mark)}")
   }
 
   # Adat row names ----
   mark <- rownames(adat1) %equals% rownames(adat2)
-  msg  <- stringr::str_pad("ADAT row names are identical", width = pad, "right")
+  msg  <- .pad("ADAT row names are identical", width = pad)
   usethis::ui_todo("{msg} {map_mark(mark)}")
 
   # Adat feature names ----
   same_ft_names <- getAnalytes(adat1) %equals% getAnalytes(adat2)
-  msg <- stringr::str_pad("ADATs contain identical Features", width = pad, "right")
+  msg <- .pad("ADATs contain identical Features", width = pad)
   usethis::ui_todo("{msg} {map_mark(same_ft_names)}")
 
   # Adat meta names ----
   same_meta_names <- getMeta(adat1) %equals% getMeta(adat2)
-  msg <- stringr::str_pad("ADATs contain same Meta Fields", width = pad, "right")
+  msg <- .pad("ADATs contain same Meta Fields", width = pad)
   usethis::ui_todo("{msg} {map_mark(same_meta_names)}")
 
   if ( !(same_meta_names & same_ft_names) ) {
@@ -100,48 +100,52 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
     meta2_1 <- setdiff(getMeta(adat2), getMeta(adat1))
 
     if ( length(apts1_2) > 0 ) {
-      stringr::str_glue(
-        "Features in {ui_value(deparse(substitute(adat1)))} but \\
-        not {ui_value(deparse(substitute(adat2)))}:"
-        ) %>% writeLines()
-      purrr::walk(stringr::str_pad(apts1_2, ipad), writeLines)
+      sprintf(
+        "Features in %s but not %s:",
+        value(deparse(substitute(adat1))),
+        value(deparse(substitute(adat2)))
+      ) %>% writeLines()
+      purrr::walk(.pad(apts1_2, ipad, "left"), writeLines)
     }
 
     if ( length(apts2_1) > 0 ) {
-      stringr::str_glue(
-        "Features in {ui_value(deparse(substitute(adat2)))} but \\
-        not {ui_value(deparse(substitute(adat1)))}:"
-        ) %>% writeLines()
-      purrr::walk(stringr::str_pad(apts2_1, ipad), writeLines)
+      sprintf(
+        "Features in %s but not %s:",
+        value(deparse(substitute(adat2))),
+        value(deparse(substitute(adat1)))
+      ) %>% writeLines()
+      purrr::walk(.pad(apts2_1, ipad, "left"), writeLines)
     }
 
     if ( length(meta1_2) > 0 ) {
-      stringr::str_glue(
-        "Meta data in {ui_value(deparse(substitute(adat1)))} but \\
-        not {ui_value(deparse(substitute(adat2)))}:"
-        ) %>% writeLines()
-      purrr::walk(stringr::str_pad(meta1_2, ipad), writeLines)
+      sprintf(
+        "Meta data in %s but not %s:",
+        value(deparse(substitute(adat1))),
+        value(deparse(substitute(adat2)))
+      ) %>% writeLines()
+      purrr::walk(.pad(meta1_2, ipad, "left"), writeLines)
     }
 
     if ( length(meta2_1) > 0 ) {
-      stringr::str_glue(
-        "Meta data in {ui_value(deparse(substitute(adat2)))} but \\
-        not {ui_value(deparse(substitute(adat1)))}:"
-        ) %>% writeLines()
-      purrr::walk(stringr::str_pad(meta2_1, ipad), writeLines)
+      sprintf(
+        "Meta data in %s but not %s:",
+        value(deparse(substitute(adat2))),
+        value(deparse(substitute(adat1)))
+      ) %>% writeLines()
+      purrr::walk(.pad(meta2_1, ipad, "left"), writeLines)
     }
     cat("\n")
     usethis::ui_done(
-      "Continuing on the {ui_value('*INTERSECT*')} of ADAT columns"
+      "Continuing on the {value('*INTERSECT*')} of ADAT columns"
     )
   }
 
   # up to here, all but content/values identical
   # Next -> check values
-  writeLines(cli::rule("Checking the data matrix", line_col = crayon::blue))
+  writeLines(rule("Checking the data matrix", line_col = "blue"))
   .diffAdatColumns(adat1, adat2, meta = TRUE, tolerance = tolerance)
   .diffAdatColumns(adat1, adat2, meta = FALSE, tolerance = tolerance)
-  writeLines(cli::rule(line_col = crayon::green, line = 2))
+  writeLines(rule(line_col = "green", line = 2))
 }
 
 
@@ -159,8 +163,6 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
 #' Otherwise, feature data is checked.
 #' @param tolerance Numeric level of tolerance.
 #' @importFrom purrr map2_lgl keep
-#' @importFrom usethis ui_value ui_todo
-#' @importFrom stringr str_pad
 #' @author Stu Field
 #' @keywords internal
 #' @noRd
@@ -178,20 +180,21 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
      }
   })
 
-  msg <- stringr::str_pad(sprintf("All %s data is identical", type), 35, "right") # nolint
+  msg <- .pad(sprintf("All %s data is identical", type), 35) # nolint
 
   # `test_lgl` is a logical vector
   if ( all(test_lgl, na.rm = TRUE) ) {
-    usethis::ui_todo("{msg} {crayon::green(cli::symbol$tick)}")
+    usethis::ui_todo("{msg} {crayon::green(symb_tick)}")
     invisible(NULL)
   } else {
-    usethis::ui_todo("{msg} {crayon::red(cli::symbol$cross)}")
+    usethis::ui_todo("{msg} {crayon::red(symb_cross)}")
     vec <- purrr::keep(test_lgl, !test_lgl) %>% names()
-    stringr::str_pad("    No. fields that differ ", 37, "right") %>%
+    .pad("    No. fields that differ ", 37) %>%
       paste(length(vec)) %>% writeLines()
-    cli::rule(sprintf("%s data diffs", type), line_col = crayon::magenta) %>%
-      writeLines()
-    print(usethis::ui_value(vec))
+    writeLines(
+      rule(sprintf("%s data diffs", type), line_col = "magenta")
+    )
+    print(value(vec))
     invisible(NULL)
   }
 }

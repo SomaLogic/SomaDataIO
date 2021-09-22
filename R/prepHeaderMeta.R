@@ -7,10 +7,7 @@
 #' @param x A `soma_adat` to be written.
 #' @return The adat attributes after `Header.Meta` and `Col.Meta` clean up.
 #' @author Stu Field
-#' @importFrom dplyr select mutate_if
 #' @importFrom tidyselect any_of
-#' @importFrom purrr map_chr
-#' @importFrom usethis ui_done ui_value ui_oops ui_code_block ui_stop
 #' @keywords internal
 #' @noRd
 prepHeaderMeta <- function(data) {
@@ -37,10 +34,10 @@ prepHeaderMeta <- function(data) {
   # Update the ROW_DATA -> Name & Type vectors
   data <- data %>% dplyr::select(getMeta(.))
   x$Header.Meta$ROW_DATA$Name <- names(data)
-  x$Header.Meta$ROW_DATA$Type <- purrr::map_chr(data, typeof)
+  x$Header.Meta$ROW_DATA$Type <- vapply(data, typeof, FUN.VALUE = character(1))
 
   # zap commas with semicolons
-  x$Col.Meta %<>% dplyr::mutate_if(is.character, ~ stringr::str_replace_all(.x, ",", ";"))
+  x$Col.Meta %<>% purrr::modify_if(is.character, ~ gsub(",", ";", .x))
 
   if ( "CreatedByHistory" %in% names(x$Header.Meta$HEADER) ) {
     x$Header.Meta$HEADER$CreatedByHistory <-
@@ -64,7 +61,7 @@ prepHeaderMeta <- function(data) {
   if ( !("Version" %in% names(x$Header.Meta$HEADER) &&
          x$Header.Meta$HEADER$Version == "1.2") ) {
     x$Header.Meta$HEADER$Version <- "1.2"
-    usethis::ui_done("Updating ADAT version to: {ui_value('1.2')}")
+    usethis::ui_done("Updating ADAT version to: {value('1.2')}")
   }
 
   x$Header.Meta$HEADER$CreatedDate <- format(Sys.time(), "%Y-%m-%d")
@@ -72,11 +69,10 @@ prepHeaderMeta <- function(data) {
                      Sys.getenv("USER"),
                      Sys.getenv("USERNAME"))
   pkg     <- utils::packageName()
-  pkg_ver <- utils::packageVersion(pkg) %>% as.character()   # nolint
+  pkg_ver <- as.character(utils::packageVersion(pkg))
 
   x$Header.Meta$HEADER$CreatedBy <-
     sprintf("User: %s; Package: %s_%s; using %s; Platform: %s",
-            user, pkg, pkg_ver,
-            R.version$version.string, R.version$system)
+            user, pkg, pkg_ver, R.version$version.string, R.version$system)
   x
 }

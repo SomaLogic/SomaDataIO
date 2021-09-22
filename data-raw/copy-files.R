@@ -7,8 +7,8 @@ library(here)
 root <- fs::path_expand(fs::path("~/bitbucket/SomaReadr"))
 files <- c(
   "diffAdats.R",
-  "dplyr-verbs.R",
   "dplyr-reexports.R",
+  "dplyr-verbs.R",
   "extract.R",
   #"revertAptNames.R",
   #"convertAptNames.R",
@@ -17,17 +17,18 @@ files <- c(
   "getAnalytes.R",
   "getAnalyteInfo.R",
   "getMeta.R",
+  "matchSeqIds.R",
   "MathGenerics.R",
   "parseHeader.R",
   "prepHeaderMeta.R",
   "read-adat.R",
-  "SeqId.R",
-  "tidyr-verbs.R",
-  "tidyr-reexports.R",
   "rownames.R",
-  "utils-read-adat.R",
+  "SeqId.R",
   "s3-print-soma-adat.R",
   "s3-summary-soma-adat.R",
+  "tidyr-reexports.R",
+  "tidyr-verbs.R",
+  "utils-read-adat.R",
   "write-adat.R"
 )
 paths <- fs::path(root, "R", files)

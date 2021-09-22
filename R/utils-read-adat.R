@@ -32,7 +32,6 @@ checkHeader <- function(header, verbose) {
 
 #' @param x The Header.Meta entry of `soma_adat` attributes.
 #' @keywords internal
-#' @importFrom usethis ui_stop ui_warn
 #' @noRd
 catchHeaderMeta <- function(x) {
   if ( "ROW_DATA" %in% names(x) ) {
@@ -56,7 +55,6 @@ catchHeaderMeta <- function(x) {
 
 #' @param x The Col.Meta entry of `soma_adat` attributes.
 #' @keywords internal
-#' @importFrom usethis ui_warn
 #' @noRd
 catchColMeta <- function(x) {
   if ( !"SeqId" %in% names(x) ) {
@@ -72,7 +70,6 @@ catchColMeta <- function(x) {
 
 #' @param x The `file.specs` entry of `soma_adat` attributes.
 #' @keywords internal
-#' @importFrom usethis ui_stop
 #' @noRd
 catchFile <- function(x) {
   stopifnot("EmptyAdat" %in% names(x),
@@ -134,7 +131,6 @@ catchFile <- function(x) {
 #' @param x The RFU + meta data matrix. The actual data.
 #' @param y The expected number of columns that `x` should have.
 #' @keywords internal
-#' @importFrom usethis ui_stop
 #' @noRd
 catchDims <- function(x, y) {
   if ( ncol(x) != y ) {
@@ -155,13 +151,12 @@ catchDims <- function(x, y) {
 #' @param header The header info from parseHeader().
 #' @importFrom purrr walk
 #' @importFrom utils head
-#' @importFrom stringr str_pad
 #' @keywords internal
 #' @noRd
 .verbosity <- function(rfu, header) {
-  cli::rule(crayon::bold("Parsing Diagnostics"), line_col = crayon::blue,
-            line = 2) %>%
-    writeLines()
+  writeLines(
+    rule(crayon::bold("Parsing Diagnostics"), line_col = "blue", line = 2)
+  )
   c1 <- c(
     "Skip calculated as",
     "Adat version",
@@ -174,7 +169,7 @@ catchDims <- function(x, y) {
     "Length features (apts)",
     "Dim data matrix",
     "Dim Col Meta"
-  ) %>% stringr::str_pad(25, "right")
+  ) %>% .pad(25)
   c2 <- c(
     header$file.specs$data.begin,
     header$Header.Meta$HEADER$Version,
@@ -188,15 +183,16 @@ catchDims <- function(x, y) {
     paste(dim(rfu), collapse = " x "),
     paste(dim(data.frame(header$Col.Meta)), collapse = " x ")
   ) %>% crayon::red()
-  purrr::walk(paste(c1, crayon::blue(cli::symbol$pointer), c2), usethis::ui_done)
-  cli::rule(crayon::bold("Head Col Meta"), line_col = crayon::magenta) %>%
-    writeLines()
+  purrr::walk(paste(c1, crayon::blue(symb_point), c2), usethis::ui_done)
+  writeLines(
+    rule(crayon::bold("Head Col Meta"), line_col = "magenta")
+  )
   print(head(tibble::as_tibble(header$Col.Meta)))
-  cli::rule(crayon::bold("Head Feature Data (final 2 cols)"),
-            line_col = crayon::magenta) %>%
-    writeLines()
+  writeLines(
+    rule(crayon::bold("Head Feature Data (final 2 cols)"), line_col = "magenta")
+  )
   nc <- ncol(rfu)
   print(utils::head(dplyr::select(rfu, (nc - 1):nc)))
-  writeLines(cli::rule(line_col = crayon::green, line = 2))
+  writeLines(rule(line_col = "green", line = 2))
   invisible(NULL)
 }

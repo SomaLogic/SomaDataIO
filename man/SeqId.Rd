@@ -3,23 +3,26 @@
 \name{SeqId}
 \alias{SeqId}
 \alias{getSeqId}
+\alias{regexSeqId}
+\alias{locateSeqId}
 \alias{seqid2apt}
 \alias{is.apt}
 \alias{is.SeqId}
-\alias{regexSeqId}
 \alias{matchSeqIds}
 \alias{getSeqIdMatches}
 \title{Working with SomaLogic SeqIds}
 \usage{
 getSeqId(x, trim.version = FALSE)
 
+regexSeqId()
+
+locateSeqId(x, trailing = TRUE)
+
 seqid2apt(x)
 
 is.apt(x)
 
 is.SeqId(x)
-
-regexSeqId()
 
 matchSeqIds(x, y, order.by.x = TRUE)
 
@@ -28,13 +31,16 @@ getSeqIdMatches(x, y, show = FALSE)
 \arguments{
 \item{x}{Character. A vector of strings, usually analyte/feature column
 names, \code{AptNames}, or \code{SeqIds}. For \code{\link[=seqid2apt]{seqid2apt()}}, a vector of \code{SeqIds}.
-For \code{\link[=matchSeqIds]{matchSeqIds()}}, a vector of pattern matches containing \code{SeqIds}. Can be
-\code{AptNames} with \code{GeneIDs} or \code{seq.XXXX} format, or even naked \code{SeqIds}.}
+For \code{\link[=matchSeqIds]{matchSeqIds()}}, a vector of pattern matches containing \code{SeqIds}.
+Can be \code{AptNames} with \code{GeneIDs} or \code{seq.XXXX} format, or even
+"naked" \code{SeqIds}.}
 
 \item{trim.version}{Logical. Whether to remove the version number,
-i.e. "1234-56" vs "1234-56_7". This is primarily for legacy ADATs
-where version numbers were common. Newer \code{SeqId} format does not
-contain version numbers.}
+i.e. "1234-56_7" -> "1234-56". Primarily for legacy ADATs.}
+
+\item{trailing}{Logical. Should the regular expression explicitly specify
+\emph{trailing} \code{SeqId} pattern match, i.e. \code{"regex$"}?
+This is the most common case and the default.}
 
 \item{y}{Character. A second vector of \code{AptNames} containing \code{SeqIds}
 to match against those in contained in \code{x}.
@@ -46,8 +52,13 @@ the \code{x} (first) argument?}
 \item{show}{Logical. Return the data frame visibly?}
 }
 \value{
-\code{\link[=getSeqId]{getSeqId()}}: a character vector of only the \code{SeqId} portion
-of a string.
+\code{\link[=getSeqId]{getSeqId()}}: a character vector of \code{SeqId} capture from a string.
+
+\code{\link[=regexSeqId]{regexSeqId()}}: a regular expression (\code{regex}) string
+pre-defined to match SomaLogic the \code{SeqId} pattern.
+
+\code{\link[=locateSeqId]{locateSeqId()}}: a data frame containing the \code{start} and \code{stop}
+integer positions for \code{SeqId} matches at each value of \code{x}.
 
 \code{\link[=is.apt]{is.apt()}}, \code{\link[=is.SeqId]{is.SeqId()}}: Logical. \code{TRUE} or \code{FALSE}.
 
@@ -60,18 +71,48 @@ length of the intersect of the matching \code{SeqIds}.
 The data frame is named by the passed arguments, \code{x} and \code{y}.
 }
 \description{
-The \code{SeqId}, e.g. \code{1234-56}, is the cornerstone used to uniquely identify
-SomaLogic analytes. The tools below enable users to extract, test,
-identify, and manipulate \code{SeqIds}.
+The \code{SeqId} is the cornerstone used to uniquely identify
+SomaLogic analytes.
+\code{SeqIds} follow the format \strong{\verb{<Pool>-<Clone>_<Version>}}, for example
+\code{"1234-56_7"} can be represented as:
+\tabular{ccc}{
+\strong{Pool} \tab \strong{Clone} \tab \strong{Version} \cr
+\code{1234}   \tab \code{56}      \tab \code{7}
+}
+See \strong{Details} below for the definition of each sub-unit.
+The \strong{\verb{<Pool>-<Clone>}} combination is sufficient to uniquely identify a
+specific analyte and therefore versions are no longer in provided (though
+they may be present in legacy ADATs).
+The tools below enable users to extract, test, identify, compare,
+and manipulate \code{SeqIds} across assay runs and/or versions.
+}
+\details{
+\tabular{ll}{
+\strong{Pool:}    \tab ties back to the original well during \strong{SELEX} \cr
+\strong{Clone:}   \tab ties to the specific sequence within a pool \cr
+\strong{Version:} \tab refers to custom modifications (optional/defunct)
+}
 }
 \section{Functions}{
 \itemize{
-\item \code{getSeqId}: Extracts the the \code{SeqId} portion (\code{SeqId-Clone_Version}) from an
-analyte column identifier, i.e. column name of an ADAT loaded
-with \code{\link[=read_adat]{read_adat()}}.
+\item \code{getSeqId}: Extracts/captures the the \code{SeqId} match from an analyte column identifier,
+i.e. column name of an ADAT loaded with \code{\link[=read_adat]{read_adat()}}. Assumes the
+\code{SeqId} pattern occurs at the end of the string, which for
+the vast majority of cases will be true. For edge cases, see the
+\code{trailing} argument to \code{\link[=locateSeqId]{locateSeqId()}}.
 
-\item \code{seqid2apt}: Converts a \code{SeqId} format into anonymous-AptName format, i.e.
-\code{1234-56} -> \code{seq.1234.56}.
+\item \code{regexSeqId}: Generates a pre-formatted regular expression for
+matching of \code{SeqIds}. Note the \emph{trailing} match, which is most
+commonly required, but \code{\link[=locateSeqId]{locateSeqId()}} offers
+an alternative to mach \emph{anywhere} in a string.
+Used internally in \emph{many} utility functions
+
+\item \code{locateSeqId}: Generates a data frame of the positional \code{SeqId} matches. Specifically
+designed to facilitate \code{SeqId} extraction via \code{\link[=substr]{substr()}}.
+Similar to \code{\link[stringr:str_locate]{stringr::str_locate()}}.
+
+\item \code{seqid2apt}: Converts a \code{SeqId} into anonymous-AptName format, i.e.
+\code{1234-56} -> \code{seq.1234.56}. Versions, i.e. \verb{1234-56_ver}, are trimmed.
 
 \item \code{is.apt}: Regular expression match to determine if a string \emph{contains}
 a \code{SeqId}, and thus is probably an \code{AptName} format string. Both
@@ -80,9 +121,6 @@ legacy \code{EntrezGeneSymbol-SeqId} combinations or newer
 
 \item \code{is.SeqId}: Tests for \code{SeqId} format. Values returned from \code{\link[=getSeqId]{getSeqId()}}
 evaluate to \code{TRUE}.
-
-\item \code{regexSeqId}: Generates a pre-formatted regular expression for
-matching of \code{SeqIds}. Used internally in \emph{many} utility functions
 
 \item \code{matchSeqIds}: Matches two character vectors on the basis of their
 intersecting \code{SeqIds}. Note that elements in \code{y} not
@@ -108,7 +146,7 @@ x <- c("ABDC.3948.48.2", "3948.88",
 tibble::tibble(orig       = x,
                SeqId      = getSeqId(x),
                SeqId_trim = getSeqId(x, TRUE),
-               AptName    = seqid2apt(SeqId_trim))
+               AptName    = seqid2apt(SeqId))
 
 # Logical Matching
 is.apt("AGR2.4959.2") # TRUE
@@ -134,8 +172,6 @@ b <- withr::with_seed(99, sample(getSeqId(a)))   # => SeqId & shuffle
 (getSeqIdMatches(a, b))                          # sorted by first vector "a"
 }
 \seealso{
-\code{\link[=str_locate]{str_locate()}}
-
 \code{\link[=intersect]{intersect()}}, \code{\link[=discard]{discard()}}
 }
 \author{

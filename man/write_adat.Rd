@@ -35,7 +35,7 @@ CRLF   \tab DOS/Windows \tab \verb{"\r\n"}
 }
 }
 \seealso{
-\code{\link[=read_adat]{read_adat()}}, \code{\link[=write_tsv]{write_tsv()}}, \code{\link[=is.intact.attributes]{is.intact.attributes()}}
+\code{\link[=read_adat]{read_adat()}}, \code{\link[=write_lines]{write_lines()}}, \code{\link[=write_tsv]{write_tsv()}}, \code{\link[=is.intact.attributes]{is.intact.attributes()}}
 
 Other IO: 
 \code{\link{parseHeader}()},

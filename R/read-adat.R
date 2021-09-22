@@ -40,10 +40,8 @@
 #' # read same file back in as check
 #' read_adat(fout)
 #'
-#' @importFrom utils head
-#' @importFrom usethis ui_warn ui_done
-#' @importFrom stringr str_split str_replace str_trim
-#' @importFrom readr read_delim read_lines cols
+#' @importFrom stats setNames
+#' @importFrom readr read_delim cols
 #' @export
 read_adat <- function(file, debug = FALSE, verbose = getOption("verbose"), ...) {
 
@@ -52,11 +50,10 @@ read_adat <- function(file, debug = FALSE, verbose = getOption("verbose"), ...) 
   # Debugger mode ----
   # nocov start
   if ( debug ) {
-    parse_out <- file %>%
-      readr::read_lines(n_max = 200) %>%
-      stringr::str_split("\t") %>%
+    res <- readLines(file, n = 200) %>%
+      strsplit("\t", fixed = TRUE) %>%
       parseCheck()
-    return(parse_out)
+    return(invisible(res))
   }
   # nocov end
 
@@ -82,20 +79,18 @@ read_adat <- function(file, debug = FALSE, verbose = getOption("verbose"), ...) 
 
   # catch for old adats with SeqIds in mystery row
   if ( length(row_meta) > header_data$file.specs$col.meta.shift ) {
-    row_meta %<>% utils::head(header_data$file.specs$col.meta.shift - 1)   # nocov
+    row_meta %<>% head(header_data$file.specs$col.meta.shift - 1)   # nocov
   }
 
-  # zap trailing spaces, double/leading dots, non-alphanum
-  row_meta %<>% stringr::str_trim()
+  # zap leading/trailing whitespace
+  row_meta <- trimws(row_meta)
 
   if ( !header_data$file.specs$old.adat ) {
     row_meta <- c(row_meta, "blank_col")  # Add empty column name in >= v1.0: sgf
   }
 
-  apt_names <- header_data$Col.Meta$SeqId %>%
-    getSeqId(trim.version = TRUE) %>%   # old adats may have a version #
-    stringr::str_replace("-", ".") %>%  # convert "-"  -> "."
-    paste0("seq.", .)                   # combine to form AptName
+  apt_names <- getSeqId(header_data$Col.Meta$SeqId, trim.version = TRUE) %>%
+    seqid2apt()
 
   ncols <- length(row_meta) + length(apt_names)
 
@@ -117,7 +112,7 @@ read_adat <- function(file, debug = FALSE, verbose = getOption("verbose"), ...) 
   # trim possible trailing tabs in rfu_dat table
   # convert tibble -> strip "spec_tbl_df" class
   rfu_dat <- tibble::as_tibble(rfu_dat)[, 1:ncols] %>%
-    rlang::set_names(c(row_meta, apt_names))
+    setNames(c(row_meta, apt_names))
 
   # remove ghost column if NOT old adat
   if ( "blank_col" %in% names(rfu_dat) ) {

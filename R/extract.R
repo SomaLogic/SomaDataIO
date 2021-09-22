@@ -49,7 +49,6 @@
 
 #' Partial matching is not allowed for class `soma_adat`.
 #' @noRd
-#' @importFrom usethis ui_warn
 #' @export
 `$.soma_adat` <- function(x, name) {
   if ( is.character(name) ) {
@@ -70,7 +69,6 @@
 #' @param i Numeric index or Character for the column desired.
 #' @param j Error. Do not use i,j syntax for `[[`, use `[` instead.
 #' @param exact Ignored with a warning.
-#' @importFrom usethis ui_stop ui_warn
 #' @export
 `[[.soma_adat` <- function(x, i, j, ..., exact = TRUE) {
   if ( !exact ) {

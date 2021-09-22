@@ -1,9 +1,29 @@
 
-#' @importFrom stringr str_glue
-#' @noRd
+.dummy <- function() { }  # nolint
+
+.onLoad <- function(libname, pkgname) {
+  # this is to make the active binding switch between
+  # UTF-8 and ASCII symbol encodings
+  switch_enc <- function(utf, ascii) {
+    if ( getOption("cli.unicode", TRUE) && l10n_info()$`UTF-8` ) {
+      utf
+    } else {
+      ascii
+    }
+  }
+  pkgenv <- environment(.dummy)
+  makeActiveBinding("symb_tick", function() switch_enc("\u2713", "v"), pkgenv)
+  makeActiveBinding("symb_cross", function() switch_enc("\u2716", "x"), pkgenv)
+  makeActiveBinding("symb_warn", function() switch_enc("\u26A0", "!"), pkgenv)
+  makeActiveBinding("symb_point", function() switch_enc("\u276F", ">"), pkgenv)
+  makeActiveBinding("symb_info", function() switch_enc("\u2139", "i"), pkgenv)
+  invisible()
+}
+
 .onAttach <- function(libname, pkgname) {
+  # Startup Message
   packageStartupMessage(
-    cli::rule(right = "Legal", line = 2, col = crayon::magenta),
+    rule(right = "Legal", line = 2, col = "magenta"),
     "\n",
     stringr::str_glue(
       "
@@ -36,6 +56,6 @@
       "
       ),
     "\n",
-    cli::rule(line = 2, col = crayon::magenta)
+    rule(line = 2, col = "magenta")
   )
 }

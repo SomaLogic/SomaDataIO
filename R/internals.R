@@ -7,7 +7,7 @@ addAttributes <- function(data, new.atts) {
   if ( is.null(dim(data)) ) {
     usethis::ui_warn(
       "Subsetting changed the shape of the object. \\
-      Should be a `data.frame` but is class {ui_value(class(data))}."
+      Should be a `data.frame` but is class {value(class(data))}."
     )
   }
   attrs <- setdiff(names(new.atts), names(attributes(data)))
@@ -22,51 +22,38 @@ addClass <- function(x, class) {
   structure(x, class = new_class)
 }
 
-catchRunawayTabs <- function(x) {
-  if ( grepl("^\\^.*[\t]{250,}$", x) ) {
-    usethis::ui_oops("Possible runaway tabs!")
-    usethis::ui_stop(
-      "Invalid ADAT! Empty tabs filling out the entire header block."
-    )
-  }
-  invisible(NULL)
-}
-
 cleanNames <- function(x) {
-  stringr::str_squish(x) %>%        # zap internal whitespace/leading/trailing
-    stringr::str_replace_all("[^A-Za-z0-9_]", ".") %>%  # zap non-alphanum (keep '_')
-    stringr::str_replace_all("\\.{2,}", ".") %>% # zap multiple dots
-    stringr::str_remove_all("^\\.|\\.$") %>%     # zap leading/trailing dots
-    stringr::str_replace_all("^Hyb[.]Scale", "HybControlNormScale") %>%
-    stringr::str_replace_all("^Med[.]Scale", "NormScale")
+  squish(x) %>%                          # zap leading/trailing/internal whitespace
+    gsub("[^A-Za-z0-9_]", ".", .) %>%    # zap non-alphanum (keep '_')
+    gsub("\\.+", ".", .) %>%             # zap multiple dots
+    gsub("^\\.|\\.$", "", .) %>%         # zap leading/trailing dots
+    sub("^Hyb[.]Scale", "HybControlNormScale", .) %>%
+    sub("^Med[.]Scale", "NormScale", .)
 }
 
 convertColMeta <- function(x) {
 
   # conversion fails if un-equal length columns; we want this as catch
-  tbl <- tibble::as_tibble(x) %>%
-    rlang::set_names(cleanNames)
+  tbl <- tibble::as_tibble(x)
+  names(tbl) <- cleanNames(names(tbl))
 
-  if ( "Dilution" %in% names(tbl) ) {
-    tbl <- tbl %>%
-      dplyr::mutate(
-        Dilution2 = stringr::str_remove_all(Dilution, "%$|Mix ") %>%
-          as.numeric() / 100
-        )
+  if ( !is.null(tbl$Dilution) ) {
+    tbl$Dilution2 <- as.numeric(gsub("%$|Mix ", "", tbl$Dilution)) / 100
   }
 
-  # this chunk stolen from SomaPlyr::makeNumeric()
-  safe_num    <- purrr::quietly(as.numeric)
   convert_num <- function(.x) {
-    y   <- safe_num(.x)$warnings
-    lgl <- !isTRUE(y == "NAs introduced by coercion") # warning not tripped?
-    lgl && !inherits(.x, c("factor", "integer"))      # don't touch integers/factors
+    w <- tryCatch(as.numeric(.x), warning = function(w) w)
+    is_warn <- inherits(w, "simpleWarning")
+    # NA warning tripped?
+    na_warn <- is_warn && identical(w$message, "NAs introduced by coercion")
+    num_ok  <- !na_warn
+    num_ok && !inherits(.x, c("factor", "integer")) # don't touch factors/integers
   }
 
-  tbl %>%
-    dplyr::mutate_if(convert_num, as.numeric) %>%
-    dplyr::mutate(Dilution = as.character(Dilution),    # keep character
-                  SeqId    = getSeqId(SeqId, TRUE))     # rm versions; safety
+  tbl <- purrr::modify_if(tbl, convert_num, as.numeric)
+  tbl$Dilution <- as.character(tbl$Dilution)    # keep character
+  tbl$SeqId    <- getSeqId(tbl$SeqId, TRUE)     # rm versions; safety
+  tbl
 }
 
 genRowNames <- function(adat) {
@@ -152,7 +139,7 @@ parseCheck <- function(all.tokens, verbose = TRUE) {
   if ( any(!chk_string %in% firsts) ) {
     usethis::ui_stop(
       "The following *landmark* tokens is absent from \\
-      the ADAT header: {ui_value(setdiff(chk_string, firsts))}",
+      the ADAT header: {value(setdiff(chk_string, firsts))}",
     )
   }
 
@@ -160,9 +147,9 @@ parseCheck <- function(all.tokens, verbose = TRUE) {
   tab_test <- all.tokens[[ which(firsts == "^HEADER") ]]
   if ( length(tab_test) > 100 ) {
     # catch for runaway tabs
-    writeLines(cli::rule(crayon::bold("Head"), line_col = crayon::blue))
+    writeLines(rule(crayon::bold("Head"), line_col = "blue"))
     print(utils::head(tab_test, 10))
-    writeLines(cli::rule(crayon::bold("Tail"), line_col = crayon::blue))
+    writeLines(rule(crayon::bold("Tail"), line_col = "blue"))
     print(utils::tail(tab_test, 10))
     cat("\n")
     usethis::ui_oops(
@@ -185,8 +172,8 @@ parseCheck <- function(all.tokens, verbose = TRUE) {
 
   if ( col_meta_shift != length(row_meta) + 1 ) {
     usethis::ui_stop(
-      "The Col.Meta shift {ui_value(col_meta_shift)} does not match the \\
-      length stated in ^ROW_DATA row {ui_value(length(row_meta) + 1)} -- \\
+      "The Col.Meta shift {value(col_meta_shift)} does not match the \\
+      length stated in ^ROW_DATA row {value(length(row_meta) + 1)} -- \\
       visually inspect ADAT."
     )
   }
@@ -197,14 +184,13 @@ parseCheck <- function(all.tokens, verbose = TRUE) {
   which_header_row <- table_begin + length(col_meta) + 1
 
   if ( verbose ) {
-    writeLines(cli::rule(crayon::bold("Parsing Diagnostics"),
-                         line_col = crayon::blue))
-    c1 <- list(
+    writeLines(rule(crayon::bold("Parsing Diagnostics"), line_col = "blue"))
+    c1 <- c(
       "Table Begin",
       "Col.Meta Start",
       "Col.Meta Shift",
       "Header Row",
-      "Rows of the Col Meta") %>% stringr::str_pad(width = 25, "right")
+      "Rows of the Col Meta") %>% .pad(25)
     c2 <- list(
       table_begin,
       which_col_meta_start,
@@ -212,15 +198,13 @@ parseCheck <- function(all.tokens, verbose = TRUE) {
       which_header_row,
       which_col_meta_rows
     )
-    purrr::walk2(c1, c2, ~ usethis::ui_todo("{.x} {ui_value(.y)}"))
+    purrr::walk2(c1, c2, ~ usethis::ui_todo("{.x} {value(.y)}"))
 
     # --- Col Meta --- #
-    spaces <- stringr::str_dup(" ", 3)
+    spaces <- strrep(" ", 3)
     writeLines(
-      cli::rule(
-        crayon::bold("Col Meta"),
-        line_col = crayon::blue,
-        right = length(col_meta)
+      rule(
+        crayon::bold("Col Meta"), line_col = "blue", right = length(col_meta)
       )
     )
 
@@ -232,7 +216,7 @@ parseCheck <- function(all.tokens, verbose = TRUE) {
 
     col_print %<>% format()
     col_print %<>% split(rep(1:4, each = length(.) / 4))
-    spaces <- stringr::str_dup(" ", 2)
+    spaces <- strrep(" ", 2)
     paste0(
       spaces,
       col_print[[1L]],
@@ -247,10 +231,8 @@ parseCheck <- function(all.tokens, verbose = TRUE) {
 
     # --- Row Meta --- #
     writeLines(
-      cli::rule(
-        crayon::bold("Row Meta"),
-        line_col = crayon::blue,
-        right = length(row_meta)
+      rule(
+        crayon::bold("Row Meta"), line_col = "blue", right = length(row_meta)
       )
     )
 
@@ -278,7 +260,7 @@ parseCheck <- function(all.tokens, verbose = TRUE) {
 
   if ( which_header_row >= length(all.tokens) ) {
     usethis::ui_oops("No feature/RFU data ... Col.Meta only ADAT")
-    writeLines(cli::rule("Done", line = 2, line_col = crayon::green))
+    writeLines(rule("Done", line = 2, line_col = "green"))
     return(invisible(NULL))
   }
 
@@ -290,29 +272,29 @@ parseCheck <- function(all.tokens, verbose = TRUE) {
 
   if ( any(duplicated(col_meta2)) ) {
     writeLines(
-      cli::rule(
+      rule(
         crayon::bold("Duplicated Col.Meta names"),
-        line_col = crayon::blue,
-        right = crayon::red("!")
+        line_col = "blue", right = crayon::red("!")
       )
     )
     usethis::ui_oops("Duplicated Col.Meta names in col meta block")
     usethis::ui_oops(
       "Potential over-write scenario for entry: \\
-      {ui_value(col_meta2[duplicated(col_meta2))]}"
+      {value(col_meta2[duplicated(col_meta2))]}"
     )
   }
 
   # check col meta match
   if ( !setequal(col_meta, col_meta2) ) {
     usethis::ui_oops("Mismatch between `^COL_DATA` in header and `Col.Meta` block:")
-    usethis::ui_todo("  In Header:   {ui_value(col_meta)}")
-    usethis::ui_todo("  In Col.Meta: {ui_value(col_meta2)}")
+    usethis::ui_todo("  In Header:   {value(col_meta)}")
+    usethis::ui_todo("  In Col.Meta: {value(col_meta2)}")
     usethis::ui_stop("Stopping check early.")
   }
 
   # check row meta match
-  string_in_table <- stringr::str_subset(all.tokens[[which_header_row]], "[:alnum:]")
+  string_in_table <- grep("[[:alnum:]]", all.tokens[[which_header_row]],
+                          value = TRUE)
   if ( !isTRUE(all.equal(sort(row_meta), sort(string_in_table))) ) {
     cat(
       purrr::walk(1:length(row_meta), function(.x)   # nolint
@@ -320,7 +302,7 @@ parseCheck <- function(all.tokens, verbose = TRUE) {
       )
     usethis::ui_stop(
       "Meta data mismatch between `Header Meta` vs `meta data` \\
-      in table ... ADAT line: {ui_value(which_header_row)}\n"
+      in table ... ADAT line: {value(which_header_row)}\n"
     )
   }
 
@@ -338,10 +320,9 @@ parseCheck <- function(all.tokens, verbose = TRUE) {
   # if tabs are wrong it won't be
   if ( !all(data_lengths == data_lengths[1]) ) {
     writeLines(
-      cli::rule(
+      rule(
         crayon::bold("Possible Tabs Problem"),
-        line_col = crayon::blue,
-        right = crayon::red("!")
+        line_col = "blue", right = crayon::red("!")
       )
     )
     usethis::ui_todo("All Token lengths:")
@@ -366,14 +347,13 @@ parseCheck <- function(all.tokens, verbose = TRUE) {
   header_length <- length(all.tokens[[ which_header_row ]])
   if ( (table_width - header_length) > 10 ) {
     writeLines(
-      cli::rule(
+      rule(
         crayon::bold("Problem with tabs in Header (blank) row"),
-        line_col = crayon::blue,
-        right = crayon::red("!")
+        line_col = "blue", right = crayon::red("!")
       )
     )
-    usethis::ui_todo("Should be:    {ui_value(table_width)}")
-    usethis::ui_todo("Currently is: {ui_value(header_length)}")
+    usethis::ui_todo("Should be:    {value(table_width)}")
+    usethis::ui_todo("Currently is: {value(header_length)}")
     # print(all.tokens[[ which_header_row ]])   # nolint
     usethis::ui_oops("Length of the header row is incorrect")
     usethis::ui_oops("Does not match the width of the data table")
@@ -388,16 +368,16 @@ parseCheck <- function(all.tokens, verbose = TRUE) {
 
   if ( any(string_gaps) ) {
     writeLines(
-      cli::rule(crayon::bold("Empty Strings Detected in Col.Meta"),
-                line_col = crayon::blue,
-                right = crayon::red("!"))
+      rule(
+        crayon::bold("Empty Strings Detected in Col.Meta"),
+        line_col = "blue", right = crayon::red("!"))
     )
     usethis::ui_todo(
       "Visually inspect the following Col.Meta rows: \\
-      {ui_value(col_meta2[string_gaps])}"
+      {value(col_meta2[string_gaps])}"
     )
     usethis::ui_info(
-      "  They may be missing in: {ui_value(c('Spuriomers', 'HybControls'))}"
+      "  They may be missing in: {value(c('Spuriomers', 'HybControls'))}"
     )
     usethis::ui_todo(
       "Strings may be missing in SOMAmers \\
@@ -405,26 +385,20 @@ parseCheck <- function(all.tokens, verbose = TRUE) {
     )
     usethis::ui_todo("This is a non-critical bug ...")
   }
-  cat("\n")
-  writeLines(cli::rule("Done", line = 2, line_col = crayon::green))
+  writeLines(rule("Parse Diagnostic Complete", line = 2, line_col = "green"))
 }
 
 syncColMeta <- function(data) {
-  col_meta <- attributes(data)$Col.Meta
-  ft       <- getAnalytes(data)
-
-  # if all features have new format
-  # no need to use slower regex matching
+  col_meta <- attr(data, "Col.Meta")
+  # no trim leading whitespace if 'else' below is to perform pattern match
+  ft <- trimws(getAnalytes(data), which = "right")
+  # if all features have new format; no need to match (speed)
   if ( all(grepl("^seq[.]", ft)) ) {
     new_seq <- gsub("^seq[.]", "", ft)
   } else {
-    matches <- stringr::str_trim(ft) %>%
-      stringr::str_locate(pattern = regexSeqId())
-    new_seq <- purrr::pmap_chr(
-      list(string = ft, start = matches[, "start"], end = matches[, "end"]),
-      stringr::str_sub)
+    df <- locateSeqId(ft)
+    new_seq <- substr(df$x, df$start, df$stop)
   }
-
   new_seq <- sub("\\.", "-", new_seq)
   k       <- match(new_seq, col_meta$SeqId)
   # Update the attributes -> Col.Meta information

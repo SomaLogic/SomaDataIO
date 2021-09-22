@@ -7,7 +7,6 @@ local({
   f <- c(
     "addAttributes",
     "addClass",
-    "catchRunawayTabs",
     "cleanNames",
     "convertColMeta",
     "genRowNames",

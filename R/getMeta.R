@@ -17,12 +17,12 @@
 #' @export
 getMeta <- function(x, n = FALSE) UseMethod("getMeta")
 
-#' @importFrom usethis ui_stop ui_value
 #' @noRd
 #' @export
 getMeta.default <- function(x, n) {
-  usethis::ui_stop(
-    "Couldn't find a S3 method for this class object: {ui_value(class(x))}."
+  stop(
+    "Couldn't find a S3 method for this class object: ", value(class(x)),
+    call. = FALSE
   )
 }
 

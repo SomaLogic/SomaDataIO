@@ -36,12 +36,12 @@
 #' @export
 getAnalytes <- function(x, n = FALSE, rm.controls = FALSE) UseMethod("getAnalytes")
 
-#' @importFrom usethis ui_stop ui_value
 #' @noRd
 #' @export
 getAnalytes.default <- function(x, n, rm.controls) {
-  usethis::ui_stop(
-    "Couldn't find a S3 method for this class object: {ui_value(class(x))}."
+  stop(
+    "Couldn't find a S3 method for this class object: ", value(class(x)),
+    call. = FALSE
   )
 }
 
@@ -82,12 +82,12 @@ getAnalytes.character <- function(x, n = FALSE, rm.controls = FALSE) {
 
 #' Get Control Analytes (internal)
 #'
-#' @importFrom stringr str_replace
 #' @keywords internal
 #' @noRd
 .getControls <- function() {
-  paste0("seq.", c(seq_NonBiotin, seq_NonHuman, seq_Spuriomer, seq_HybControlElution)) %>%
-    stringr::str_replace("-", ".")
+  seqid2apt(
+    c(seq_NonBiotin, seq_NonHuman, seq_Spuriomer, seq_HybControlElution)
+  )
 }
 
 

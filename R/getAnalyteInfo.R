@@ -21,16 +21,14 @@
 #' anno_tbl
 #'
 #' # Use `dplyr::group_by()`
-#' dplyr::tally(dplyr::group_by(anno_tbl, Dilution))   # Print summary by dilution
+#' dplyr::tally(dplyr::group_by(anno_tbl, Dilution))     # Print summary by dilution
 #'
 #' # Columns containing "Target"
 #' anno_tbl %>% dplyr::select(dplyr::contains("Target"))
 #'
 #' # Rows of "Target" starting with MMP
-#' anno_tbl %>% dplyr::filter(stringr::str_detect(Target, "^MMP"))
+#' anno_tbl %>% dplyr::filter(grepl("^MMP", Target))
 #' @importFrom tibble tibble
-#' @importFrom purrr map_if
-#' @importFrom usethis ui_warn
 #' @export
 getAnalyteInfo <- function(adat) {
 

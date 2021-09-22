@@ -22,16 +22,12 @@
 #' header
 #' @seealso [read_lines()]
 #' @importFrom readr read_lines
-#' @importFrom usethis ui_stop ui_warn
-#' @importFrom stringr str_remove_all str_split str_which
-#' @importFrom purrr map
-#' @importFrom rlang set_names
 #' @export
 parseHeader <- function(file) {
 
   line <- 0
-  ret  <- c("Header.Meta", "Col.Meta", "file.specs") %>%
-    rlang::set_names() %>%
+  ret  <- setNames(c("Header.Meta", "Col.Meta", "file.specs"),
+                   c("Header.Meta", "Col.Meta", "file.specs")) %>%
     purrr::map(~list())
 
   repeat {
@@ -43,12 +39,11 @@ parseHeader <- function(file) {
     }
 
     line <- line + 1
-    # print(line)
-    catchRunawayTabs(row_data)            # catch for runaway tabs
+    #print(line)
+    catchRunawayTabs(row_data)  # trap runaway tabs
 
     if ( grepl("Checksum", row_data) ) {
-      ret$Header.Meta$Checksum <- stringr::str_split(row_data,
-                                                     pattern = "\t")[[1L]][2L]
+      ret$Header.Meta$Checksum <- strsplit(row_data, "\t", fixed = TRUE)[[1L]][2L]
       next
     } else if ( row_data == "^HEADER" ) {
       section <- "HEADER"
@@ -66,24 +61,24 @@ parseHeader <- function(file) {
       next
     } else if ( grepl("^\\^[A-Z]", row_data) ) {
       section    <- "Free.Form"
-      free_field <- stringr::str_split(row_data, pattern = "\t")[[1L]][1L]
-      free_field <- substr(free_field, 2, nchar(free_field))
+      free_field <- strsplit(row_data, "\t", fixed = TRUE)[[1L]][1L]
+      free_field <- gsub("^[^A-Za-z]+", "", free_field)
       next
     }
-    # print(section)
+    #print(section)
 
-    tokens <- stringr::str_split(row_data, pattern = "\t")[[1L]]
-    # print(tokens)
+    tokens <- strsplit(row_data, "\t", fixed = TRUE)[[1L]]
+    #print(tokens)
 
-    if ( section == "HEADER" && length(tokens) == 1 && tokens == "" ) {
+    if ( section == "HEADER" && identical(tokens, character(0)) ) {
       usethis::ui_warn(
-        "Blank row(s) detected in `Header` section ... they will be skipped."
+        "Blank row detected in `Header` section ... it will be skipped."
       )
       next
     }
 
     # are 1st 2 entries empty strings? Col.Meta section
-    first_alnum <- stringr::str_which(tokens, "[[:alnum:]]")[1L]
+    first_alnum <- grep("[[:alnum:]]", tokens)[1L]
 
     # If first alpha-num is once again at 1 | 2 position, break out of Col.Meta section
     # This only happens once, when Col.Meta section has been completed
@@ -95,9 +90,9 @@ parseHeader <- function(file) {
     # But treat the Col.Meta section specially
     tokens %<>% trim_empty(ifelse(section == "Col.Meta", "left", "right"))
 
-    # zap (!), non-alphanum, double dots etc.
-    tokens[1L] <- stringr::str_remove_all(tokens[1L], "^[^A-Za-z]")
-    # print(tokens[1])
+    # zap (!) if starts with non-alphanum
+    tokens[1L] <- gsub("^[^A-Za-z]+", "", tokens[1L])
+    #print(tokens[1])
 
     if ( section == "HEADER" ) {
       cur.header <- tokens[1L]
@@ -134,17 +129,14 @@ parseHeader <- function(file) {
   ret
 }
 
-#' Runaway Tabs Catch: Internal to parseHeader
-#' @param x A read-in line of text
-#' @importFrom usethis ui_oops ui_stop
+#' Runaway Tabs Catch: Internal to `parseHeader()`
+#' @param x A single line of text from an ADAT.
 #' @keywords internal
 #' @noRd
 catchRunawayTabs <- function(x) {
   if ( grepl("^\\^.*[\t]{250,}$", x) ) {
-    usethis::ui_oops("Possible runaway tabs!")
-    usethis::ui_stop(
-      "Invalid ADAT! Empty tabs filling out the entire header block."
-    )
+    stop("Invalid ADAT! Empty tabs filling out the entire header block.",
+         call. = FALSE)
   }
   invisible(NULL)
 }

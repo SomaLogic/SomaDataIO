@@ -23,14 +23,14 @@
 #' matchSeqIds(x, y, order.by.x = FALSE)
 #'
 #' @importFrom purrr discard
-#' @importFrom rlang set_names
+#' @importFrom stats setNames
 #' @export
 matchSeqIds <- function(x, y, order.by.x = TRUE) {
   # getSeqId() returns NA for non-Aptamer elements; rm NAs in 'x'
-  x_seqIds <- getSeqId(x, TRUE) %>% purrr::discard(is.na)
+  x_seqIds <- getSeqId(x, TRUE) %>% discard(is.na)
   # create lookup table to index SeqIds to their values in 'y'
-  y_lookup <- as.list(y) %>% rlang::set_names(getSeqId(y, TRUE))
-  y_seqIds <- names(y_lookup) %>% purrr::discard(is.na)   # rm NAs in 'y'
+  y_lookup <- setNames(as.list(y), getSeqId(y, TRUE))
+  y_seqIds <- names(y_lookup) %>% discard(is.na)   # rm NAs in 'y'
   if ( order.by.x ) {
     order_seqs <- intersect(x_seqIds, y_seqIds)
   } else {
@@ -70,14 +70,12 @@ matchSeqIds <- function(x, y, order.by.x = TRUE) {
 #' a <- utils::head(feats, 15)
 #' b <- withr::with_seed(99, sample(getSeqId(a)))   # => SeqId & shuffle
 #' (getSeqIdMatches(a, b))                          # sorted by first vector "a"
-#' @importFrom purrr discard
-#' @importFrom rlang set_names
-#' @importFrom usethis ui_oops
+#' @importFrom stats setNames
 #' @export
 getSeqIdMatches <- function(x, y, show = FALSE) {
   # getSeqId() returns NA for non-Aptamer matches
-  x_seqIds <- getSeqId(x, trim.version = TRUE) %>% purrr::discard(is.na) %>% unique()
-  y_seqIds <- getSeqId(y, trim.version = TRUE) %>% purrr::discard(is.na) %>% unique()
+  x_seqIds <- getSeqId(x, trim.version = TRUE) %>% discard(is.na) %>% unique()
+  y_seqIds <- getSeqId(y, trim.version = TRUE) %>% discard(is.na) %>% unique()
   inter    <- intersect(x_seqIds, y_seqIds)
   L1       <- matchSeqIds(inter, x, order.by.x = TRUE)
   L2       <- matchSeqIds(inter, y, order.by.x = TRUE)
@@ -88,8 +86,7 @@ getSeqIdMatches <- function(x, y, show = FALSE) {
   }
 
   nms <- c(match.call()$x, match.call()$y)
-  M   <- data.frame(L1, L2, stringsAsFactors = FALSE) %>%
-    rlang::set_names(nms)
+  M   <- data.frame(L1, L2, stringsAsFactors = FALSE) %>% setNames(nms)
 
   if ( show ) {
     M
