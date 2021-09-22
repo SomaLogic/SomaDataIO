@@ -8,11 +8,10 @@
 #' `"SeqId"` which is a unique analyte identifier.
 #' @examples
 #' \dontrun{
-#' anno <- readAnnotations("~/Desktop/SomaScan_V4.1_7K_Annotated_Content_20210616.xlsx")
+#' anno <- read_annotations("~/Desktop/SomaScan_V4.1_7K_Annotated_Content_20210616.xlsx")
 #' }
-#' @importFrom usethis ui_warn ui_path ui_value
 #' @export
-readAnnotations <- function(file) {
+read_annotations <- function(file) {
 
   ext <- gsub("(.*)[.]([^.]+)$", "\\2", file)
   stopifnot(ext %in% c("xlsx", "json"))
@@ -20,25 +19,27 @@ readAnnotations <- function(file) {
   sha <- unname(tools::md5sum(file))
   ver <- getAnnoVer(file)
 
-  if ( !grepl("^SL-[0-9]+-rev[0-9]+([.][0-9]+)?-202[0-9]", ver) ) {
-    usethis::ui_stop(
-      "Unable to determine annotations file version: {ui_value(ver)}.
-      A valid annotations file version is required to proceed."
+  if ( !grepl("^SL-[0-9]+-rev[0-9]+", ver) ) {
+    stop(
+      "Unable to determine annotations file version: ", value(ver),
+      ".\nA valid annotations file version is required to proceed.",
+      call. = FALSE
     )
   }
 
   if ( !ver %in% names(ver_dict) ) {
-    usethis::ui_stop(
-      "Unknown version of the annotations file: {ui_value(ver)}."
+    stop(
+      "Unknown version of the annotations file: ", value(ver), ".",
+      call. = FALSE
     )
   }
 
   if ( sha != ver_dict[[ver]]$sha ) {
     usethis::ui_warn(
-      "The md5 checksum for {ui_path(file)} does not match its expected value.
-      File version: {ui_value(ver)}
-      File md5:     {ui_value(sha)}
-      Expected md5: {ui_value(ver_dict[[ver]]$sha)}
+      "The md5 checksum for {value(file)} does not match its expected value.
+      File version: {value(ver)}
+      File md5:     {value(sha)}
+      Expected md5: {value(ver_dict[[ver]]$sha)}
       It is possible the file has been modified."
     )
   }
@@ -68,7 +69,7 @@ getAnnoVer <- function(file) {
                            col_names = c("text", "doc", "version", "date"),
                            col_types = "text")
   ver <- paste(toupper(rev$text), rev$doc, tolower(rev$version), rev$date, sep = "-")
-  gsub("[^A-Za-z0-9\\.\\-]", "", ver)
+  gsub(" +", "", ver)
 }
 
 # version dictionary of md5-sha key-value pairs
