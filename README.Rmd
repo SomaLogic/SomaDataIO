@@ -109,11 +109,9 @@ ensure that the following package dependencies are pre-installed:
 * `purrr (v0.3.4)`
 * `readr (v1.4.0)`
 * `readxl (v1.3.1)`
-* `rlang (v0.4.11)`
-* `stringr (v1.4.0)`
+* `tibble (v3.2.1)`
 * `tidyr (v1.1.3)`
 * `tidyselect (v1.1.1)`
-* `tibble (v3.2.1)`
 * `usethis (v2.0.1)`
 
 
@@ -309,18 +307,21 @@ dim(example_data)
 table(example_data$SampleType)
 
 is_seq <- function(.x) grepl("^seq\\.[0-9]{4}", .x) # regex for analytes
+cs <- function(.x) {    # center/scale vector
+  out <- .x - mean(.x)  # center
+  out / sd(out)         # scale
+}
 
 # Prepare data set for analysis
 cleanData <- example_data %>%
   filter(SampleType == "Sample") %>%                # rm control samples
-  tidyr::drop_na(Sex) %>%                           # rm NAs if present
+  drop_na(Sex) %>%                                  # rm NAs if present
   log10() %>%                                       # log10-transform (Math Generic)
   mutate(Group = as.numeric(factor(Sex)) - 1) %>%   # map Sex -> 0/1
-  mutate_if(is_seq(names(.)), ~ {   # mutate analytes only
-    out <- .x - mean(.x)            # center analytes
-    out / sd(out)                   # scale analytes
-  })
+  modify_if(is_seq(names(.)), cs)
+
 table(cleanData$Sex)
+
 table(cleanData$Group)    # F = 0; M = 1
 ```
 
@@ -343,15 +344,15 @@ and `stats::t.test()`
 
 ```{r t-tests}
 t_tests <- t_tests %>% 
-  dplyr::mutate(
+  mutate(
     formula = map(AptName, ~ as.formula(paste(.x, "~ Sex"))), # create formula
-    t_test  = purrr::map(formula, ~ stats::t.test(.x, data = cleanData)),  # fit t-tests
-    t_stat  = purrr::map_dbl(t_test, "statistic"),            # pull out t-statistic
-    p.value = purrr::map_dbl(t_test, "p.value"),              # pull out p-values
-    fdr     = stats::p.adjust(p.value, method = "BH")         # FDR for multiple testing
+    t_test  = map(formula, ~ stats::t.test(.x, data = cleanData)),  # fit t-tests
+    t_stat  = map_dbl(t_test, "statistic"),            # pull out t-statistic
+    p.value = map_dbl(t_test, "p.value"),              # pull out p-values
+    fdr     = p.adjust(p.value, method = "BH")         # FDR for multiple testing
   ) %>%
-  dplyr::arrange(p.value) %>%                   # re-order by `p-value`
-  dplyr::mutate(rank = dplyr::row_number())     # add numeric ranks
+  arrange(p.value) %>%           # re-order by `p-value`
+  mutate(rank = row_number())    # add numeric ranks
 
 # View analysis tibble
 t_tests
