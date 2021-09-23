@@ -56,7 +56,7 @@ reference:
       Functionality required to convert between SomaScan versions,
       e.g. v4.1 -> v4.0, sometimes referred to as "lifting".
     contents:
-    - readAnnotations
+    - read_annotations
 
   - title: Expression Data
     desc: >

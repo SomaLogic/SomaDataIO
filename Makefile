@@ -18,7 +18,7 @@ roxygen:
 
 test:
 	@ $(RSCRIPT) \
-	-e "Sys.setenv(ON_JENKINS = 'true', TZ = 'America/Denver')" \
+	-e "Sys.setenv(TZ = 'America/Denver')" \
 	-e "devtools::test(reporter = 'check', stop_on_failure = TRUE)"
 
 build: roxygen
