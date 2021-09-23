@@ -20,11 +20,6 @@ trim_empty <- function(x, side) {
   strsplit(trim, "\t", fixed = TRUE)[[1L]] # now a single key-value pair
 }
 
-# zap leading/trailing whitespace & extra internal whitespace
-squish <- function(x) {
-  gsub("[[:space:]]+", " ", trimws(x))
-}
-
 # kinder version of identical
 `%equals%` <- function(x, y) {
   isTRUE(all.equal(x, y))

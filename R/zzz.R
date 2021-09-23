@@ -4,7 +4,7 @@
 .onLoad <- function(libname, pkgname) {
   # this is to make the active binding switch between
   # UTF-8 and ASCII symbol encodings
-  switch_enc <- function(utf, ascii) {
+  `%enc%` <- function(utf, ascii) {
     if ( getOption("cli.unicode", TRUE) && l10n_info()$`UTF-8` ) {
       utf
     } else {
@@ -12,11 +12,25 @@
     }
   }
   pkgenv <- environment(.dummy)
-  makeActiveBinding("symb_tick", function() switch_enc("\u2713", "v"), pkgenv)
-  makeActiveBinding("symb_cross", function() switch_enc("\u2716", "x"), pkgenv)
-  makeActiveBinding("symb_warn", function() switch_enc("\u26A0", "!"), pkgenv)
-  makeActiveBinding("symb_point", function() switch_enc("\u276F", ">"), pkgenv)
-  makeActiveBinding("symb_info", function() switch_enc("\u2139", "i"), pkgenv)
+  makeActiveBinding("symb_tick", function() "\u2713" %enc% "v", pkgenv)
+  makeActiveBinding("symb_cross", function() "\u2716" %enc% "x", pkgenv)
+  makeActiveBinding("symb_warn", function() "\u26A0" %enc% "!", pkgenv)
+  makeActiveBinding("symb_point", function() "\u276F" %enc% ">", pkgenv)
+  makeActiveBinding("symb_info", function() "\u2139" %enc% "i", pkgenv)
+
+  # bind and assign the internal functions in `io_int`
+  # from sysdata.rda to SomaDataIO namespace
+  for (i in seq_along(io_int)) environment(io_int[[i]]) <- pkgenv
+  assign("addAttributes", io_int$addAttributes, pkgenv)
+  assign("addClass", io_int$addClass, pkgenv)
+  assign("cleanNames", io_int$cleanNames, envir = pkgenv)
+  assign("convertColMeta", io_int$convertColMeta, pkgenv)
+  assign("genRowNames", io_int$genRowNames, pkgenv)
+  assign("getAdatVersion", io_int$getAdatVersion, pkgenv)
+  assign("parseCheck", io_int$parseCheck, pkgenv)
+  assign("scaleAnalytes", io_int$scaleAnalytes, pkgenv)
+  assign("squish", io_int$squish, pkgenv)
+  assign("syncColMeta", io_int$syncColMeta, pkgenv)
   invisible()
 }
 
