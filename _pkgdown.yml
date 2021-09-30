@@ -57,6 +57,7 @@ reference:
       e.g. v4.1 -> v4.0, sometimes referred to as "lifting".
     contents:
     - read_annotations
+    - lift_adat
 
   - title: Expression Data
     desc: >

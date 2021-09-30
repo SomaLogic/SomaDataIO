@@ -16,7 +16,6 @@ read_annotations <- function(file) {
   ext <- gsub("(.*)[.]([^.]+)$", "\\2", file)
   stopifnot(ext %in% c("xlsx", "json"))
 
-  sha <- unname(tools::md5sum(file))
   ver <- getAnnoVer(file)
 
   if ( !grepl("^SL-[0-9]+-rev[0-9]+", ver) ) {
@@ -31,16 +30,6 @@ read_annotations <- function(file) {
     stop(
       "Unknown version of the annotations file: ", value(ver), ".",
       call. = FALSE
-    )
-  }
-
-  if ( sha != ver_dict[[ver]]$sha ) {
-    usethis::ui_warn(
-      "The md5 checksum for {value(file)} does not match its expected value.
-      File version: {value(ver)}
-      File md5:     {value(sha)}
-      Expected md5: {value(ver_dict[[ver]]$sha)}
-      It is possible the file has been modified."
     )
   }
 
@@ -60,7 +49,7 @@ read_annotations <- function(file) {
           "EntrezGeneSymbol") %in% names(tbl)
        )
   )
-  structure(tbl, version = ver, md5sha = sha)
+  structure(tbl, version = ver)
 }
 
 # assumes line7 contains the version info
@@ -72,16 +61,37 @@ getAnnoVer <- function(file) {
   gsub(" +", "", ver)
 }
 
-# version dictionary of md5-sha key-value pairs
-# 'correct' md5 checksums, skip, etc.
+# version dictionary of key-value pairs
+# for file characteristics
 ver_dict <- list(
-  # test-anno.xlsx file
-  "SL-12345678-rev0-2021-01" = list(sha  = "8a345fa621377d0bac40fc8c47f5579d",
+  # dummy version; v4.0 -> v4.1
+  "SL-99999999-rev99-1999-01" = list(col_serum  = "Serum Scalar v4.0 to v4.1",
+                                     col_plasma = "Plasma Scalar v4.0 to v4.1"),
+  # test-anno.xlsx file; v4.1 -> v4.0
+  "SL-12345678-rev0-2021-01" = list(sha = "8a345fa621377d0bac40fc8c47f5579d",
+                                    col_serum  = "Serum Scalar v4.1 to v4.0",
+                                    col_plasma = "Plasma Scalar v4.1 to v4.0",
+                                    which_serum  = 40,
+                                    which_plasma = 42,
                                     skip = 8L,
                                     rows = 1,
                                     cols = 43),
-  "SL-00000571-rev2-2021-06" = list(sha  = "5fa46834ed826eb1e8dba88698cf7a76",
+  # v4.1 -> v4.0
+  "SL-00000571-rev2-2021-06" = list(sha = "5fa46834ed826eb1e8dba88698cf7a76",
+                                    col_serum  = "Serum Scalar v4.1 to v4.0",
+                                    col_plasma = "Plasma Scalar v4.1 to v4.0",
+                                    which_serum  = 40,
+                                    which_plasma = 42,
                                     skip = 8L,
                                     rows = 7596,
+                                    cols = 43),
+  # v4.0 -> v4.1
+  "SL-00000246-rev5-2021-06" = list(sha = "7d92666369d4e33364b11804f2d1f8ce",
+                                    col_serum  = "Serum Scalar v4.0 to v4.1",
+                                    col_plasma = "Plasma Scalar v4.0 to v4.1",
+                                    which_serum  = 40,
+                                    which_plasma = 42,
+                                    skip = 8L,
+                                    rows = 5284,
                                     cols = 43)
 )
