@@ -36,13 +36,14 @@ write_adat <- function(x, file) {
   stopifnot(inherits(x, "soma_adat"))
 
   if ( missing(file) ) {
-    usethis::ui_stop("Must provide output file name ...")
+    stop("Must provide output file name ...", call. = FALSE)
   }
 
   if ( !grepl("\\.adat$", file) ) {
-    usethis::ui_warn(
-      "File extension is not `*.adat` ({usethis::ui_path(file)}). \\
-      Are you sure this is the correct file extension?"
+    warning(
+      "File extension is not `*.adat` (", .value(file), "). ",
+      "Are you sure this is the correct file extension?",
+      call. = FALSE
     )
   }
 
@@ -89,11 +90,12 @@ write_adat <- function(x, file) {
   if ( nrow(x) != 0 ) {
 
     if ( length_meta < 1 ) {
-      usethis::ui_warn("
-        You are writing an ADAT without any meta data
-        This will likely cause this file ({file}) to \\
-        be unreadable using `read_adat()`
-        Suggest including at least one column of meta data."
+      warning(
+        "\nYou are writing an ADAT without any meta data\n",
+        "This may cause this file (", .value(file),
+        ") to be unreadable via `read_adat()`\n",
+        "Suggest including at least one column of meta data.",
+        call. = FALSE
       )
     }
 
@@ -110,7 +112,7 @@ write_adat <- function(x, file) {
     # change 4000 -> 4e3 scientific mode; SampleUniqueID
     readr::write_tsv(x = df, file = f, na = "", append = TRUE)
   }
-  usethis::ui_done("ADAT written to: {usethis::ui_path(file)}")
+  .done("ADAT written to: {.value(file)}")
   invisible(x)
 }
 
@@ -126,28 +128,32 @@ checkADAT <- function(adat) {
   meta <- getMeta(adat)
   if ( !isTRUE(all.equal(cleanNames(meta),
                          cleanNames(atts$Header.Meta$ROW_DATA$Name))) ) {
-    usethis::ui_stop(
-      "Meta data mismatch between `Header Meta` and ADAT meta data. \\
-      Check `attributes(ADAT)$Header.Meta$ROW_DATA$Name`."
+    stop(
+      "Meta data mismatch between `Header Meta` and ADAT meta data. ",
+      "Check `attributes(ADAT)$Header.Meta$ROW_DATA$Name`.", call. = FALSE
     )
   }
   if ( length(apts) != nrow(atts$Col.Meta) ) {
-    usethis::ui_stop(
-      "Number of aptamers in ADAT does not match No. aptamers in Col.Meta!"
+    stop(
+      "Number of aptamers in ADAT does not match No. aptamers in Col.Meta!",
+      call. = FALSE
     )
   }
   if ( setequal(getSeqId(apts), atts$Col.Meta$SeqId) ) {
     if ( !identical(getSeqId(apts), atts$Col.Meta$SeqId) ) {
-      usethis::ui_stop(
-        "ADAT features are out of sync with rows in Col.Meta!
-        You may need to run `syncColMeta()` to re-sync the Col.Meta, \\
-        then try again."
+      stop(
+        "ADAT features are out of sync with rows in Col.Meta!\n",
+        "You may need to run `syncColMeta()` to re-sync the Col.Meta, ",
+        "then try again.", call. = FALSE
       )
     }
   }
   if ( nrow(adat) == 0 ) {
-    usethis::ui_warn("ADAT has no rows! Writing just header and column meta data")
+    warning(
+      "ADAT has no rows! Writing just header and column meta data",
+      call. = FALSE
+    )
   }
-  usethis::ui_done("ADAT passed checks and traps")
+  .done("ADAT passed checks and traps")
   invisible(NULL)
 }

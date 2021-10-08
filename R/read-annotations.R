@@ -20,7 +20,7 @@ read_annotations <- function(file) {
 
   if ( !grepl("^SL-[0-9]+-rev[0-9]+", ver) ) {
     stop(
-      "Unable to determine annotations file version: ", value(ver),
+      "Unable to determine annotations file version: ", .value(ver),
       ".\nA valid annotations file version is required to proceed.",
       call. = FALSE
     )
@@ -28,7 +28,7 @@ read_annotations <- function(file) {
 
   if ( !ver %in% names(ver_dict) ) {
     stop(
-      "Unknown version of the annotations file: ", value(ver), ".",
+      "Unknown version of the annotations file: ", .value(ver), ".",
       call. = FALSE
     )
   }

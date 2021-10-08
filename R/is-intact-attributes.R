@@ -33,39 +33,39 @@ is.intact.attributes <- function(adat, verbose = interactive()) {
 
   if ( !is.soma_adat(adat) ) {
     if ( verbose ) {
-      usethis::ui_oops(
-        "The object is not a `soma_adat` class object: {value(class(adat))}"
+      .oops(
+        "The object is not a `soma_adat` class object: {.value(class(adat))}"
       )
     }
     FALSE
   } else if ( length(atts) <= 3 ) {
     if ( verbose ) {
-      usethis::ui_oops(
-        "Attributes has only 3 entries: {value(names(atts))}"
+      .oops(
+        "Attributes has only 3 entries: {.value(names(atts))}"
       )
     }
     FALSE
   } else if ( !all(c("Header.Meta", "Col.Meta") %in% names(atts)) ) {
     if ( verbose ) {
-      usethis::ui_oops("Header.Meta and/or Col.Meta missing from attributes.")
+      .oops("Header.Meta and/or Col.Meta missing from attributes.")
     }
     FALSE
   } else if ( !all(c("HEADER", "COL_DATA", "ROW_DATA") %in% names(atts$Header.Meta)) ) {
     if ( verbose ) {
       diff <- setdiff(c("HEADER", "COL_DATA", "ROW_DATA"), names(atts$Header.Meta)) # nolint
-      usethis::ui_oops("Header.Meta missing: {value(diff)}")
+      .oops("Header.Meta missing: {.value(diff)}")
     }
     FALSE
   } else if ( !all(col_meta_checks %in% names(atts$Col.Meta)) ) {
     if ( verbose ) {
       diff <- setdiff(col_meta_checks, names(atts$Col.Meta))
-      usethis::ui_oops("Col.Meta is missing: {value(diff)}")
+      .oops("Col.Meta is missing: {.value(diff)}")
     }
     FALSE
   } else if ( !inherits(atts$Col.Meta, "tbl_df") ) {
     if ( verbose ) {
-      usethis::ui_oops(
-        "Col.Meta is not a tibble! -> {value(class(atts$Col.Meta))}"
+      .oops(
+        "Col.Meta is not a tibble! -> {.value(class(atts$Col.Meta))}"
       )
     }
     FALSE

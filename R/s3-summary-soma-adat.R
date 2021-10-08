@@ -37,7 +37,6 @@
 #' anno <- getAnalyteInfo(my_adat)
 #' summary(my_adat[, mmps], tbl = anno)
 #' @importFrom stats IQR mad sd
-#' @importFrom purrr map map2_df
 #' @importFrom stats setNames
 #' @export
 summary.soma_adat <- function(object, tbl,
@@ -52,10 +51,10 @@ summary.soma_adat <- function(object, tbl,
             "Max", "sd", "MAD", "IQR") %>% .pad(6)
 
   vals <- dplyr::select(object, nm) %>%
-    purrr::map(function(.x) {
+    lapply(function(.x) {
       vec <- .x[!is.na(.x)]         # rm NaN/NA; outside b/c summary()
-      unname(c(summary(vec), sd(vec), mad(vec), IQR(vec))) %>%
-        format(digits = digits)
+      format(c(unname(summary(vec)), sd(vec), mad(vec), IQR(vec)),
+             digits = digits)
     })
 
   # lookup table
@@ -63,9 +62,11 @@ summary.soma_adat <- function(object, tbl,
   tgts <- setNames(names(vals), names(vals)) %>%
     lapply(function(.x) ifelse(is.null(look[[.x]]), "", look[[.x]]))  # if NULL -> ""
 
-  purrr::map2_df(
-    tgts, vals, ~ paste(labs, ":", .pad(c(.x, .y), width = 10))
-  ) %>% addClass("adat_summary")
+  setNames(nm, nm) %>%
+    lapply(function(.col)
+      paste(labs, ":", .pad(c(tgts[[.col]], vals[[.col]]), width = 10))) %>%
+    data.frame() %>%
+    addClass("adat_summary")
 }
 
 #' @noRd
@@ -77,9 +78,9 @@ print.adat_summary <- function(x, ...) {
   out <- capture.output(print.default(z, quote = FALSE))
   purrr::walk(out, ~ {
     if ( grepl("seq", .x) ) {
-      cat(crayon::red(.x), "\n")
+      cat(cr_red(.x), "\n")
     } else if ( grepl("Target", .x) ) {
-      cat(crayon::blue(.x), "\n")
+      cat(cr_blue(.x), "\n")
     } else {
       cat(.x, "\n")
     }

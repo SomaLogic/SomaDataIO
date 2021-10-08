@@ -38,7 +38,7 @@ getAnalyteInfo <- function(adat) {
   L <- vapply(colmeta, length, FUN.VALUE = integer(1L), USE.NAMES = FALSE)
 
   if ( !(diff(range(L)) < .Machine$double.eps^0.5) ) {
-    usethis::ui_warn("Unequal lengths in column meta data")
+    warning("Unequal lengths in column meta data", call. = FALSE)
     max <- max(L)
     colmeta %<>% purrr::map_if(L < max, ~ c(.x, rep(NA, max - length(.x))))
   }
@@ -48,9 +48,9 @@ getAnalyteInfo <- function(adat) {
   tbl <- tibble::tibble(AptName = getAnalytes(adat),
                         SeqId   = getSeqId(AptName, TRUE))
   if ( nrow(tbl) != nrow(colmeta) ) {
-    usethis::ui_warn(
-      "Features inconsistent between `AptName` vs `SeqId` in `getAnalyteInfo()`.
-      Merging annotations based on analyte features of `soma_adat`."
+    warning(
+      "Features inconsistent between `AptName` vs `SeqId` in `getAnalyteInfo()`.\n",
+      "Merging annotations based on analyte features of `soma_adat`.", call. = FALSE
     )
   }
   dplyr::left_join(tbl, colmeta, by = "SeqId")

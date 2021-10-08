@@ -4,7 +4,7 @@
 #' `SomaDataIO`
 #' -------------------------------
 library(here)
-root <- fs::path_expand(fs::path("~/bitbucket/SomaReadr"))
+root <- path.expand("~/bitbucket/SomaReadr")
 files <- c(
   "diffAdats.R",
   "dplyr-reexports.R",
@@ -31,5 +31,5 @@ files <- c(
   "utils-read-adat.R",
   "write-adat.R"
 )
-paths <- fs::path(root, "R", files)
+paths <- paste(root, "R", files, sep = "/")
 fs::file_copy(paths, here("R"), overwrite = TRUE)

@@ -25,8 +25,8 @@ information that is included in the adat output along with the RFU data}
 Parses the header section of an ADAT file.
 }
 \examples{
-f <- system.file("example", "example_data.adat", package = "SomaDataIO",
-                 mustWork = TRUE)
+f <- system.file("example", "example_data.adat",
+                 package = "SomaDataIO", mustWork = TRUE)
 header <- parseHeader(f)
 header
 }

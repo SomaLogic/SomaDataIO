@@ -24,8 +24,8 @@
 #' @author Stu Field
 #' @seealso [read_delim()]
 #' @examples
-#' f <- system.file("example", "example_data.adat", package = "SomaDataIO",
-#'                  mustWork = TRUE)
+#' f <- system.file("example", "example_data.adat",
+#'                  package = "SomaDataIO", mustWork = TRUE)
 #' my_adat <- read_adat(f)
 #' is.soma_adat(my_adat)
 #'
@@ -65,9 +65,9 @@ read_adat <- function(file, debug = FALSE, verbose = getOption("verbose"), ...) 
 
   # nocov start
   if ( header_data$file.specs$EmptyAdat ) {
-    usethis::ui_warn(
-      "No RFU feature data in ADAT. Returning a `tibble` object with \\
-      Column Meta data only."
+    warning(
+      "No RFU feature data in ADAT. Returning a `tibble` object ",
+      "with Column Meta data only.", call. = FALSE
     )
     apt_table <- convertColMeta(header_data$Col.Meta) %>%
       addAttributes(header_data$Header.Meta)

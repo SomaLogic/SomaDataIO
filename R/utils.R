@@ -1,9 +1,22 @@
 
-# borrow cli::rule() for internal use
-rule <- getFromNamespace("rule", ns = "cli")
+# borrow from usethis, cli, and crayon for internal use
+# without explicitly importing the package in NAMESPACE file
+# avoid R CMD check NOTE:
+#   "Namespace in Imports field not imported from: 'pkg'"
+.value    <- function(x) usethis::ui_value(x)
+.todo     <- usethis::ui_todo
+.done     <- usethis::ui_done
+.oops     <- usethis::ui_oops
+.info     <- usethis::ui_info
+.code     <- usethis::ui_code
+cli_rule  <- cli::rule
+cr_bold   <- crayon::bold
+cr_green  <- crayon::green
+cr_cyan   <- crayon::cyan
+cr_red    <- crayon::red
+cr_blue   <- crayon::blue
+cr_yellow <- crayon::yellow
 
-# borrow usethis::ui_value() for internal use
-value <- getFromNamespace("ui_value", ns = "usethis")
 
 # wrapper around padding; default to right side padding
 .pad <- function(x, width, side = c("right", "left")) {

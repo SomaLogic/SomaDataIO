@@ -54,7 +54,9 @@
   if ( is.character(name) ) {
     ret <- .subset2(x, name)
     if ( is.null(ret) ) {
-      usethis::ui_warn("Unknown or uninitialised column: '{name}'")
+      warning(
+        "Unknown or uninitialised column: '", name, "'", call. = FALSE
+      )
     }
     return(ret)
   }
@@ -72,12 +74,12 @@
 #' @export
 `[[.soma_adat` <- function(x, i, j, ..., exact = TRUE) {
   if ( !exact ) {
-    usethis::ui_warn("`exact=` is ignored in `[[`.")
+    warning("`exact=` is ignored in `[[`.", call. = FALSE)
   }
   if ( !missing(j) ) {
-    usethis::ui_stop(
-      "Passing jth column index not supported via `[[` for `soma_adat`. \\
-      Please use x[{i}, {j}] instead."
+    stop(
+      "Passing jth column index not supported via `[[` for `soma_adat`. ",
+      "Please use x[", i, ", ", j, "] instead.", call. = FALSE
     )
   }
   return(`$.soma_adat`(x, i))

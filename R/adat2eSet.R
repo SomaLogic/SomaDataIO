@@ -27,15 +27,14 @@
 #'
 #' ft <- Biobase::exprs(eSet)
 #' head(ft[, 1:10], 10)
-#' @importFrom usethis ui_stop
 #' @importFrom methods validObject new
 #' @export
 adat2eSet <- function(adat) {
 
   if ( !requireNamespace("Biobase", quietly = TRUE) ) {
-    usethis::ui_stop(
-      "The `Biobase` package is required to use this function.
-      See ?adat2eSet for installation instructions."
+    stop(
+      "The `Biobase` package is required to use this function.\n",
+      "See ?adat2eSet for installation instructions.", call. = FALSE
     )
   }
 
@@ -77,10 +76,9 @@ adat2eSet <- function(adat) {
   Biobase::experimentData(eset) <- experimentData
 
   if ( !validObject(eset) ) {
-    usethis::ui_stop(
-      "The `ExpressionSet` object was created but is invalid."
+    stop(
+      "The `ExpressionSet` object was created but is invalid.", call. = FALSE
     )
   }
-
   eset
 }

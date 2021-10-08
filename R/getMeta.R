@@ -21,7 +21,7 @@ getMeta <- function(x, n = FALSE) UseMethod("getMeta")
 #' @export
 getMeta.default <- function(x, n) {
   stop(
-    "Couldn't find a S3 method for this class object: ", value(class(x)),
+    "Couldn't find a S3 method for this class object: ", .value(class(x)),
     call. = FALSE
   )
 }

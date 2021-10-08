@@ -61,8 +61,9 @@ rn2col <- function(data, name = ".rn") {
 col2rn <- function(data, name = ".rn") {
   stopifnot(is.data.frame(data), length(name) == 1)
   if ( has_rn(data) ) {
-    usethis::ui_warn(
-      "`data` already has assigned row names. They will be over-written."
+    warning(
+      "`data` already has assigned row names. They will be over-written.",
+      call. = FALSE
     )
   }
   # in case values are duplicated

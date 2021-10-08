@@ -81,7 +81,7 @@ getSeqIdMatches <- function(x, y, show = FALSE) {
   L2       <- matchSeqIds(inter, y, order.by.x = TRUE)
 
   if ( length(c(L1, L2)) == 0 ) {
-    usethis::ui_oops("No matches between lists")
+    .oops("No matches between lists")
     show <- TRUE
   }
 

@@ -18,17 +18,17 @@
 #'
 #' # convert ExpressionSet object to long format
 #' adat_long <- pivotExpressionSet(ex_set)
-#' @importFrom usethis ui_stop
 #' @importFrom tibble as_tibble
 #' @importFrom tidyr pivot_longer
-#' @importFrom dplyr arrange left_join select everything
+#' @importFrom dplyr left_join select
+#' @importFrom tidyselect everything
 #' @export
 pivotExpressionSet <- function(eSet) {
 
   if ( !requireNamespace("Biobase", quietly = TRUE) ) {
-    usethis::ui_stop(
-      "The `Biobase` package is required to use this function.
-      See ?adat2eSet for installation instructions.",
+    stop(
+      "The `Biobase` package is required to use this function.\n",
+      "See ?adat2eSet for installation instructions.", call. = FALSE
     )
   }
 

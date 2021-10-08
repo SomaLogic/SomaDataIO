@@ -16,6 +16,7 @@ utils::globalVariables(
     "prefix",
     "rn",
     "SeqId",
-    "seqid"
+    "seqid",
+    "value"
   )
 )

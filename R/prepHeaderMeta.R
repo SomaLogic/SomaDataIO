@@ -17,12 +17,12 @@ prepHeaderMeta <- function(data) {
     x$Col.Meta %<>% dplyr::select(-any_of("Dilution2"))  # rm Dilution2
   } else {
     # THIS IS A BIT OF A KLUGE :(
-    usethis::ui_oops("Please fix ADAT attributes prior to `write()` call" )
-    usethis::ui_oops("Calling `is.intact.attributes(data)` should be TRUE")
-    usethis::ui_oops("Fix attributes using `SomaPlyr::createChildAttributes()`")
-    usethis::ui_code_block("Example:", copy = FALSE)
-    usethis::ui_code_block("  data %<>% createChildAttributes(., parent)")
-    usethis::ui_stop("Stopping while you fix the attributes of `data`.")
+    .oops("Please fix ADAT attributes prior to `write()` call" )
+    .oops("Calling `is.intact.attributes(data)` should be TRUE")
+    .oops("Fix attributes using `SomaPlyr::createChildAttributes()`")
+    .code("Example:")
+    .code("  data <- createChildAttributes(data, parent)")
+    stop("Stopping while you fix the attributes of `data`.", call. = FALSE)
   }
 
   # Sync COL_DATA NAME & Type vectors
@@ -61,7 +61,7 @@ prepHeaderMeta <- function(data) {
   if ( !("Version" %in% names(x$Header.Meta$HEADER) &&
          x$Header.Meta$HEADER$Version == "1.2") ) {
     x$Header.Meta$HEADER$Version <- "1.2"
-    usethis::ui_done("Updating ADAT version to: {value('1.2')}")
+    .done("Updating ADAT version to: {.value('1.2')}")
   }
 
   x$Header.Meta$HEADER$CreatedDate <- format(Sys.time(), "%Y-%m-%d")

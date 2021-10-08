@@ -153,8 +153,8 @@ the following for each column of the ADAT object containing SOMAmer data
 }}
 
 \examples{
-f <- system.file("example", "example_data.adat", package = "SomaDataIO",
-                 mustWork = TRUE)
+f <- system.file("example", "example_data.adat",
+                 package = "SomaDataIO", mustWork = TRUE)
 my_adat <- read_adat(f)
 is.soma_adat(my_adat)
 

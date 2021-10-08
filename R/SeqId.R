@@ -121,16 +121,16 @@ locateSeqId <- function(x, trailing = TRUE) {
 seqid2apt <- function(x) {
   stopifnot(inherits(x, "character"))
   if ( !all(is.SeqId(x)) ) {
-    usethis::ui_stop(
-      "As least some values are not in 'SeqId' format.
-      Try running `getSeqId()` for: {value(x[!is.SeqId(x)])}"
+    stop(
+      "As least some values are not in 'SeqId' format.\n",
+      "Try running `getSeqId()` for: ", .value(x[!is.SeqId(x)]),
+      call. = FALSE
     )
   }
   # strip versions if present
   x <- vapply(strsplit(x, "_", fixed = TRUE), `[[`, i = 1L, character(1))
   paste0("seq.", sub("-", ".", x))
 }
-
 
 
 #' Does a string contain a `SeqId`?

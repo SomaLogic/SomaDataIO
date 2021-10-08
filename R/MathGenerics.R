@@ -49,9 +49,10 @@ Math.soma_adat <- function(x, ...) {
   if ( all(mode_ok) ) {
     x[, .apts] <- lapply(X = x[, .apts], FUN = .Generic, ...)
   } else {
-    usethis::ui_stop(
-      "Non-numeric variable(s) in `soma_adat` object \\
-      where RFU values should be: {value(names(x[, .apts])[ !mode_ok ])}."
+    stop(
+      "Non-numeric variable(s) in `soma_adat` object ",
+      "where RFU values should be: ",
+      .value(names(x[, .apts])[!mode_ok]), ".", call. = FALSE
     )
   }
   structure(x, class = class)
@@ -62,7 +63,7 @@ Math.soma_adat <- function(x, ...) {
 #' @export
 Math.soma.adat <- function(x, ...) {
   .msg <- paste(
-    "The", value("soma.adat"), "class is now", value("soma_adat."),
+    "The", .value("soma.adat"), "class is now", .value("soma_adat."),
     "This math generic will be deprecated.\n",
     "Please either:\n",
     "  1) Re-class with x %<>% addClass('soma_adat')\n",

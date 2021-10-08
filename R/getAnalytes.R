@@ -40,7 +40,7 @@ getAnalytes <- function(x, n = FALSE, rm.controls = FALSE) UseMethod("getAnalyte
 #' @export
 getAnalytes.default <- function(x, n, rm.controls) {
   stop(
-    "Couldn't find a S3 method for this class object: ", value(class(x)),
+    "Couldn't find a S3 method for this class object: ", .value(class(x)),
     call. = FALSE
   )
 }

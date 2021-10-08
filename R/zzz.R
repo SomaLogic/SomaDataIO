@@ -37,11 +37,11 @@
 .onAttach <- function(libname, pkgname) {
   # Startup Message
   packageStartupMessage(
-    rule(right = "Legal", line = 2, col = "magenta"),
+    cli_rule(right = "Legal", line = 2, col = "magenta"),
     "\n",
     create_legal(),
     "\n",
-    rule(line = 2, col = "magenta")
+    cli_rule(line = 2, col = "magenta")
   )
 }
 

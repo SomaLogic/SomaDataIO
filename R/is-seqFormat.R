@@ -21,7 +21,7 @@ is_seqFormat <- function(x) UseMethod("is_seqFormat")
 #' @export
 is_seqFormat.default <- function(x) {
   stop(
-    "Couldn't find a S3 method for this class object: ", value(class(x)),
+    "Couldn't find a S3 method for this class object: ", .value(class(x)),
     call. = FALSE
   )
 }

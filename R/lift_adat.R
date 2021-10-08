@@ -65,7 +65,7 @@ lift_adat <- function(adat, anno.tbl) {
     scalar_col <- ver_dict[[anno_ver]]$col_serum
   } else {
     stop(
-      "Unsupported matrix: ", value(atts$StudyMatrix), ".\n",
+      "Unsupported matrix: ", .value(atts$StudyMatrix), ".\n",
       "Current supported matrices: 'EDTA Plasma' or 'Serum' for a ",
       "lifting transformation.", call. = FALSE
     )
@@ -133,8 +133,8 @@ lift_adat <- function(adat, anno.tbl) {
   allowed <- c("v4", "v4.0", "v4.1")
   if ( !tolower(ver) %in% allowed ) {
     stop(
-      "Unsupported assay version: ", value(ver),
-      ". Supported versions: ", value(allowed), call. = FALSE
+      "Unsupported assay version: ", .value(ver),
+      ". Supported versions: ", .value(allowed), call. = FALSE
     )
   }
   invisible(NULL)

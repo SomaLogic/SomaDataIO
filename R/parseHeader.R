@@ -16,19 +16,19 @@
 #'   information that is included in the adat output along with the RFU data}
 #' @author Stu Field
 #' @examples
-#' f <- system.file("example", "example_data.adat", package = "SomaDataIO",
-#'                  mustWork = TRUE)
+#' f <- system.file("example", "example_data.adat",
+#'                  package = "SomaDataIO", mustWork = TRUE)
 #' header <- parseHeader(f)
 #' header
 #' @seealso [read_lines()]
 #' @importFrom readr read_lines
+#' @importFrom stats setNames
 #' @export
 parseHeader <- function(file) {
 
   line <- 0
-  ret  <- setNames(c("Header.Meta", "Col.Meta", "file.specs"),
-                   c("Header.Meta", "Col.Meta", "file.specs")) %>%
-    purrr::map(~list())
+  nms  <- c("Header.Meta", "Col.Meta", "file.specs")
+  ret  <- setNames(replicate(length(nms), list()), nms)
 
   repeat {
     row_data <- readr::read_lines(file, n_max = 1L, skip = line)
@@ -71,8 +71,9 @@ parseHeader <- function(file) {
     #print(tokens)
 
     if ( section == "HEADER" && identical(tokens, character(0)) ) {
-      usethis::ui_warn(
-        "Blank row detected in `Header` section ... it will be skipped."
+      warning(
+        "Blank row detected in `Header` section ... it will be skipped.",
+        call. = FALSE
       )
       next
     }
@@ -112,10 +113,10 @@ parseHeader <- function(file) {
     } else if ( section == "DATA_TABLE" ) {
       # if at end of Col.Meta section, break loop & stop reading file
       # first check that all lengths Col.Meta are equal (or as_tibble will fail)
-      if ( diff(range(purrr::map_dbl(ret$Col.Meta, length))) != 0 ) {
-        usethis::ui_stop(
-          "Col.Meta lengths unequal! The Col.Meta block in not square.
-          There may be trailing tabs in the Col.Meta section."
+      if ( diff(range(vapply(ret$Col.Meta, length, integer(1)))) != 0 ) {
+        stop(
+          "Col.Meta lengths unequal! The Col.Meta block in not square.\n",
+          "There may be trailing tabs in the Col.Meta section.", call. = FALSE
         )
       }
       ret$file.specs$data.begin   <- line

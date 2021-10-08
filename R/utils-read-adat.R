@@ -5,17 +5,17 @@
 checkHeader <- function(header, verbose) {
 
   if ( !"Header.Meta" %in% names(header) ) {
-    usethis::ui_stop("Could not find `Header.Meta`.")
+    stop("Could not find `Header.Meta`.", call. = FALSE)
   }
 
   if ( !"Col.Meta" %in% names(header) ) {
-    usethis::ui_stop("No `Col.Meta` data found in adat.")
+    stop("No `Col.Meta` data found in adat.", call. = FALSE)
   }
 
   if ( !"file.specs" %in% names(header) ) {
-    usethis::ui_stop(
-      "No `file.specs` entry found in header ... \\
-      should be added during file parsing."
+    stop(
+      "No `file.specs` entry found in header ... ",
+      "should be added during file parsing.", call. = FALSE
     )
   }
 
@@ -24,7 +24,7 @@ checkHeader <- function(header, verbose) {
   catchFile(header$file.specs)
 
   if ( verbose ) {
-    usethis::ui_done("Header passed checks and traps")
+    .done("Header passed checks and traps")
   }
   invisible(NULL)
 }
@@ -36,18 +36,19 @@ checkHeader <- function(header, verbose) {
 catchHeaderMeta <- function(x) {
   if ( "ROW_DATA" %in% names(x) ) {
     if ( !"Name" %in% names(x$ROW_DATA) ) {
-      usethis::ui_stop(
-        "Could not find `Name` entry in `ROW_DATA` of `Header.Meta`."
+      stop(
+        "Could not find `Name` entry in `ROW_DATA` of `Header.Meta`.",
+        call. = FALSE
       )
     }
     if ( any(duplicated(x$ROW_DATA$Name)) ) {
-      usethis::ui_stop(
-        "Duplicate row (clinical) meta data fields \\
-        defined in header `ROW_DATA`."
+      stop(
+        "Duplicate row (clinical) meta data fields ",
+        "defined in header `ROW_DATA`.", call. = FALSE
       )
     }
   } else {
-    usethis::ui_warn("`ROW_DATA` is mising from `Header.Meta`.")
+    warning("`ROW_DATA` is mising from `Header.Meta`.", call. = FALSE)
   }
   invisible(NULL)
 }
@@ -58,10 +59,11 @@ catchHeaderMeta <- function(x) {
 #' @noRd
 catchColMeta <- function(x) {
   if ( !"SeqId" %in% names(x) ) {
-    usethis::ui_warn(
-      "No `SeqId` row found in Column Meta Data:
-      SeqIds will be absent from adat Column Meta AND \\
-      `SomaPlyr::getAptamers()` will not function properly."
+    warning(
+      "No `SeqId` row found in Column Meta Data:\n",
+      "SeqIds will be absent from adat Column Meta AND ",
+      "`getAnalytes()` cannot function properly.",
+      call. = FALSE
     )
   }
   invisible(NULL)
@@ -77,23 +79,26 @@ catchFile <- function(x) {
             "old.adat" %in% names(x))
 
   if ( !is.logical(x$EmptyAdat) ) {
-    usethis::ui_stop(
-      "The `EmptyAdat` entry of `file.specs` should be \\
-      class logical: {class(x$EmptyAdat)}."
+    stop(
+      "The `EmptyAdat` entry of `file.specs` should be ",
+      "class logical: ", .value(class(x$EmptyAdat)), ".",
+      call. = FALSE
     )
   }
 
   if ( !is.numeric(x$table.begin) || length(x$table.begin) != 1 ) {
-    usethis::ui_stop(
-      "The `table.begin` entry of `file.specs` should be \\
-      class numeric AND length 1: {x$table.begin}."
+    stop(
+      "The `table.begin` entry of `file.specs` should be ",
+      "class numeric AND length 1: ", .value(x$table.begin), ".",
+      call. = FALSE
     )
   }
 
   if ( !is.logical(x$old.adat) ) {
-    usethis::ui_stop(
-      "The `old.adat` entry of `file.specs` should be \\
-      class logical: {class(x$old.adat)}."
+    stop(
+      "The `old.adat` entry of `file.specs` should be ",
+      "class logical: ", .value(class(x$old.adat)), ".",
+      call. = FALSE
     )
   }
 
@@ -103,23 +108,26 @@ catchFile <- function(x) {
               "data.begin" %in% names(x))
 
     if ( !is.numeric(x$col.meta.start) || length(x$col.meta.start) != 1 ) {
-      usethis::ui_stop(
-        "The `col.meta.start` entry of `file.specs` should \\
-        be class numeric AND length 1: {x$col.meta.start}"
+      stop(
+        "The `col.meta.start` entry of `file.specs` should ",
+        "be class numeric AND length 1: ", .value(x$col.meta.start),
+        call. = FALSE
       )
     }
 
     if ( !is.numeric(x$col.meta.shift) || length(x$col.meta.shift) != 1 ) {
-      usethis::ui_stop(
-        "The `col.meta.shift` entry of `file.specs` should \\
-        be class numeric AND length 1: {x$col.meta.shift}"
+      stop(
+        "The `col.meta.shift` entry of `file.specs` should ",
+        "be class numeric AND length 1: ", .value(x$col.meta.shift),
+        call. = FALSE
       )
     }
 
     if ( !is.numeric(x$data.begin) || length(x$data.begin) != 1 ) {
-      usethis::ui_stop(
-        "The `data.begin` entry of `file.specs` should \\
-        be class numeric AND length 1: {x$data.begin}"
+      stop(
+        "The `data.begin` entry of `file.specs` should ",
+        "be class numeric AND length 1: ", .value(x$data.begin),
+        call. = FALSE
       )
     }
   }
@@ -134,12 +142,13 @@ catchFile <- function(x) {
 #' @noRd
 catchDims <- function(x, y) {
   if ( ncol(x) != y ) {
-    usethis::ui_stop(
-      "Number of columns in `rfu_dat` not equal to (meta + aptamers) length.
-      Possible: trailing tabs OR the old/new adat version is incorrect.
-      Check `1.0` vs. `1.0.0` version in the ADAT.
-      This could *SERIOUSLY* affect your data.
-      Please try `read_adat(x debug = TRUE)`."
+    stop(
+      "Number of columns in `rfu_dat` not equal to (meta + aptamers) length.\n",
+      "Possible: trailing tabs OR the old/new adat version is incorrect.\n",
+      "Check `1.0` vs. `1.0.0` version in the ADAT.\n",
+      "This could *SERIOUSLY* affect your data.\n",
+      "Please try `read_adat(x debug = TRUE)`.",
+      call. = FALSE
     )
   }
   invisible(NULL)
@@ -155,7 +164,7 @@ catchDims <- function(x, y) {
 #' @noRd
 .verbosity <- function(rfu, header) {
   writeLines(
-    rule(crayon::bold("Parsing Diagnostics"), line_col = "blue", line = 2)
+    cli_rule(cr_bold("Parsing Diagnostics"), line_col = "blue", line = 2)
   )
   c1 <- c(
     "Skip calculated as",
@@ -182,17 +191,17 @@ catchDims <- function(x, y) {
     getAnalytes(rfu, n = TRUE),
     paste(dim(rfu), collapse = " x "),
     paste(dim(data.frame(header$Col.Meta)), collapse = " x ")
-  ) %>% crayon::red()
-  purrr::walk(paste(c1, crayon::blue(symb_point), c2), usethis::ui_done)
+  ) %>% cr_red()
+  purrr::walk(paste(c1, cr_blue(symb_point), c2), .done)
   writeLines(
-    rule(crayon::bold("Head Col Meta"), line_col = "magenta")
+    cli_rule(cr_bold("Head Col Meta"), line_col = "magenta")
   )
   print(head(tibble::as_tibble(header$Col.Meta)))
   writeLines(
-    rule(crayon::bold("Head Feature Data (final 2 cols)"), line_col = "magenta")
+    cli_rule(cr_bold("Head Feature Data (final 2 cols)"), line_col = "magenta")
   )
   nc <- ncol(rfu)
   print(utils::head(dplyr::select(rfu, (nc - 1):nc)))
-  writeLines(rule(line_col = "green", line = 2))
+  writeLines(cli_rule(line_col = "green", line = 2))
   invisible(NULL)
 }
