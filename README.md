@@ -38,6 +38,15 @@ appropriate, submit an issue and/or feature request.
 
 -----
 
+## Usage
+
+The `SomaDataIO` package is licensed under the [MIT](LICENSE.md) license
+is intended solely for research use only (“RUO”) purposes. The code
+contained herein may *not* be used for diagnostic, clinical,
+therapeutic, or other commercial purposes.
+
+-----
+
 ## Installation
 
 The easiest way to install `SomaDataIO` is to install directly from
@@ -163,6 +172,7 @@ f <- system.file("example", "example_data.adat", package = "SomaDataIO", mustWor
 my_adat <- read_adat(f)
 is.soma_adat(my_adat)
 #> [1] TRUE
+
 # S3 print method forwards -> tibble
 my_adat
 #> ── Attributes ──────────────────────────────────────────────────────────────────────────────────────
@@ -200,6 +210,7 @@ my_adat
 #> #   NormScale_0_5 <dbl>, ANMLFractionUsed_20 <dbl>, ANMLFractionUsed_0_005 <dbl>,
 #> #   ANMLFractionUsed_0_5 <dbl>, Age <dbl>, Sex <chr>, seq.10000.28 <dbl>, seq.10001.7 <dbl>, …
 #> ════════════════════════════════════════════════════════════════════════════════════════════════════
+
 print(my_adat, show_header = TRUE)  # if simply wish to see Header info
 #> ── Attributes ──────────────────────────────────────────────────────────────────────────────────────
 #>      Intact               ✓
@@ -251,6 +262,7 @@ print(my_adat, show_header = TRUE)  # if simply wish to see Header info
 #>      PlateTailPercent_Example_Adat_Set002        ❯     4.2     
 #>      PlateTailTest_Example_Adat_Set002           ❯     PASS     
 #> ════════════════════════════════════════════════════════════════════════════════════════════════════
+
 # S3 summary method
 # View Target and summary statistics
 seqs <- tail(names(my_adat), 3)
@@ -266,6 +278,7 @@ summary(my_adat[, seqs])
 #>  sd     :  4484.2    sd     : 16463.8    sd     : 1869.7     
 #>  MAD    :  4537.9    MAD    : 20865.2    MAD    : 2041.0     
 #>  IQR    :  6815.8    IQR    : 29471.2    IQR    : 2885.2
+
 # Summarize by Sex
 my_adat[, seqs] %>%
   split(my_adat$Sex) %>%
@@ -305,22 +318,23 @@ my_adat[, seqs] %>%
 names(attributes(my_adat))
 #> [1] "names"       "class"       "row.names"   "Header.Meta" "Col.Meta"    "file.specs" 
 #> [7] "row.meta"
+
 # The `Col.Meta` attribute contains 
 # target annotation information
 attr(my_adat, "Col.Meta")
 #> # A tibble: 5,284 × 21
-#>    SeqId     SeqIdVersion SomaId TargetFullName Target UniProt EntrezGeneID EntrezGeneSymbol Organism
-#>    <chr>            <dbl> <chr>  <chr>          <chr>  <chr>   <chr>        <chr>            <chr>   
-#>  1 10000-28             3 SL019… Beta-crystall… CRBB2  P43320  "1415"       "CRYBB2"         Human   
-#>  2 10001-7              3 SL002… RAF proto-onc… c-Raf  P04049  "5894"       "RAF1"           Human   
-#>  3 10003-15             3 SL019… Zinc finger p… ZNF41  P51814  "7592"       "ZNF41"          Human   
-#>  4 10006-25             3 SL019… ETS domain-co… ELK1   P19419  "2002"       "ELK1"           Human   
-#>  5 10008-43             3 SL019… Guanylyl cycl… GUC1A  P43080  "2978"       "GUCA1A"         Human   
-#>  6 10011-65             3 SL019… Inositol poly… OCRL   Q01968  "4952"       "OCRL"           Human   
-#>  7 10012-5              3 SL014… SAM pointed d… SPDEF  O95238  "25803"      "SPDEF"          Human   
-#>  8 10013-34             3 SL025… Fc_MOUSE       Fc_MO… Q99LC4  ""           ""               Mouse   
-#>  9 10014-31             3 SL007… Zinc finger p… SLUG   O43623  "6591"       "SNAI2"          Human   
-#> 10 10015-119            3 SL014… Voltage-gated… KCAB2  Q13303  "8514"       "KCNAB2"         Human   
+#>    SeqId  SeqIdVersion SomaId TargetFullName   Target UniProt EntrezGeneID EntrezGeneSymbol Organism
+#>    <chr>         <dbl> <chr>  <chr>            <chr>  <chr>   <chr>        <chr>            <chr>   
+#>  1 10000…            3 SL019… Beta-crystallin… CRBB2  P43320  "1415"       "CRYBB2"         Human   
+#>  2 10001…            3 SL002… RAF proto-oncog… c-Raf  P04049  "5894"       "RAF1"           Human   
+#>  3 10003…            3 SL019… Zinc finger pro… ZNF41  P51814  "7592"       "ZNF41"          Human   
+#>  4 10006…            3 SL019… ETS domain-cont… ELK1   P19419  "2002"       "ELK1"           Human   
+#>  5 10008…            3 SL019… Guanylyl cyclas… GUC1A  P43080  "2978"       "GUCA1A"         Human   
+#>  6 10011…            3 SL019… Inositol polyph… OCRL   Q01968  "4952"       "OCRL"           Human   
+#>  7 10012…            3 SL014… SAM pointed dom… SPDEF  O95238  "25803"      "SPDEF"          Human   
+#>  8 10013…            3 SL025… Fc_MOUSE         Fc_MO… Q99LC4  ""           ""               Mouse   
+#>  9 10014…            3 SL007… Zinc finger pro… SLUG   O43623  "6591"       "SNAI2"          Human   
+#> 10 10015…            3 SL014… Voltage-gated p… KCAB2  Q13303  "8514"       "KCNAB2"         Human   
 #> # … with 5,274 more rows, and 12 more variables: Units <chr>, Type <chr>, Dilution <chr>,
 #> #   PlateScale_Reference <dbl>, CalReference <dbl>, Cal_Example_Adat_Set001 <dbl>, ColCheck <chr>,
 #> #   CalQcRatio_Example_Adat_Set001_170255 <dbl>, QcReference_170255 <dbl>,
@@ -350,18 +364,18 @@ in `Col.Meta` via the common index-key, `AptName`, in column 1:
 ``` r
 getAnalyteInfo(my_adat)
 #> # A tibble: 5,284 × 22
-#>    AptName       SeqId     SeqIdVersion SomaId   TargetFullName Target UniProt EntrezGeneID EntrezGeneSymbol
-#>    <chr>         <chr>            <dbl> <chr>    <chr>          <chr>  <chr>   <chr>        <chr>           
-#>  1 seq.10000.28  10000-28             3 SL019233 Beta-crystall… CRBB2  P43320  "1415"       "CRYBB2"        
-#>  2 seq.10001.7   10001-7              3 SL002564 RAF proto-onc… c-Raf  P04049  "5894"       "RAF1"          
-#>  3 seq.10003.15  10003-15             3 SL019245 Zinc finger p… ZNF41  P51814  "7592"       "ZNF41"         
-#>  4 seq.10006.25  10006-25             3 SL019228 ETS domain-co… ELK1   P19419  "2002"       "ELK1"          
-#>  5 seq.10008.43  10008-43             3 SL019234 Guanylyl cycl… GUC1A  P43080  "2978"       "GUCA1A"        
-#>  6 seq.10011.65  10011-65             3 SL019246 Inositol poly… OCRL   Q01968  "4952"       "OCRL"          
-#>  7 seq.10012.5   10012-5              3 SL014669 SAM pointed d… SPDEF  O95238  "25803"      "SPDEF"         
-#>  8 seq.10013.34  10013-34             3 SL025418 Fc_MOUSE       Fc_MO… Q99LC4  ""           ""              
-#>  9 seq.10014.31  10014-31             3 SL007803 Zinc finger p… SLUG   O43623  "6591"       "SNAI2"         
-#> 10 seq.10015.119 10015-119            3 SL014924 Voltage-gated… KCAB2  Q13303  "8514"       "KCNAB2"        
+#>    AptName  SeqId  SeqIdVersion SomaId TargetFullName   Target UniProt EntrezGeneID EntrezGeneSymbol
+#>    <chr>    <chr>         <dbl> <chr>  <chr>            <chr>  <chr>   <chr>        <chr>           
+#>  1 seq.100… 10000…            3 SL019… Beta-crystallin… CRBB2  P43320  "1415"       "CRYBB2"        
+#>  2 seq.100… 10001…            3 SL002… RAF proto-oncog… c-Raf  P04049  "5894"       "RAF1"          
+#>  3 seq.100… 10003…            3 SL019… Zinc finger pro… ZNF41  P51814  "7592"       "ZNF41"         
+#>  4 seq.100… 10006…            3 SL019… ETS domain-cont… ELK1   P19419  "2002"       "ELK1"          
+#>  5 seq.100… 10008…            3 SL019… Guanylyl cyclas… GUC1A  P43080  "2978"       "GUCA1A"        
+#>  6 seq.100… 10011…            3 SL019… Inositol polyph… OCRL   Q01968  "4952"       "OCRL"          
+#>  7 seq.100… 10012…            3 SL014… SAM pointed dom… SPDEF  O95238  "25803"      "SPDEF"         
+#>  8 seq.100… 10013…            3 SL025… Fc_MOUSE         Fc_MO… Q99LC4  ""           ""              
+#>  9 seq.100… 10014…            3 SL007… Zinc finger pro… SLUG   O43623  "6591"       "SNAI2"         
+#> 10 seq.100… 10015…            3 SL014… Voltage-gated p… KCAB2  Q13303  "8514"       "KCNAB2"        
 #> # … with 5,274 more rows, and 13 more variables: Organism <chr>, Units <chr>, Type <chr>,
 #> #   Dilution <chr>, PlateScale_Reference <dbl>, CalReference <dbl>, Cal_Example_Adat_Set001 <dbl>,
 #> #   ColCheck <chr>, CalQcRatio_Example_Adat_Set001_170255 <dbl>, QcReference_170255 <dbl>,
@@ -396,12 +410,15 @@ You may perform basic mathematical transformations on the feature data
 ``` r
 head(my_adat$seq.2429.27)
 #> [1]  8642.3 12472.1 14627.7 13579.8  8938.8  6738.8
+
 logData <- log10(my_adat)    # a typical log10() transform
 head(logData$seq.2429.27)
 #> [1] 3.936629 4.095940 4.165176 4.132893 3.951279 3.828583
+
 roundData <- round(my_adat)
 head(roundData$seq.2429.27)
 #> [1]  8642 12472 14628 13580  8939  6739
+
 sqData <- sqrt(my_adat)
 head(sqData$seq.2429.27)
 #> [1]  92.96397 111.67856 120.94503 116.53240  94.54523  82.09019
@@ -419,6 +436,7 @@ dim(my_adat)
 males <- dplyr::filter(my_adat, Sex == "M")
 dim(males)
 #> [1]   85 5318
+
 males %>% 
   dplyr::select(SampleType, SampleMatrix, starts_with("NormScale"))
 #> ── Attributes ──────────────────────────────────────────────────────────────────────────────────────
@@ -461,7 +479,7 @@ methods(class = "soma_adat")
 #>  [8] arrange      count        filter       full_join    getAnalytes  getMeta      group_by    
 #> [15] inner_join   is_seqFormat left_join    Math         mutate       print        rename      
 #> [22] right_join   sample_frac  sample_n     select       semi_join    separate     slice_sample
-#> [29] slice        summary      ungroup      unite       
+#> [29] slice        summary      transform    ungroup      unite       
 #> see '?methods' for accessing help and source code
 ```
 
@@ -470,9 +488,10 @@ methods(class = "soma_adat")
 ``` r
 is.intact.attributes(my_adat)     # attributes MUST be intact to write to file
 #> [1] TRUE
+
 write_adat(my_adat, file = tempfile("my-adat-", fileext = ".adat"))
 #> ✔ ADAT passed checks and traps
-#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpTHmmoQ/my-adat-1cc379f17553.adat'
+#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpyPfNEd/my-adat-115b23306f23.adat'
 ```
 
 -----
@@ -501,6 +520,7 @@ table(example_data$SampleType)
 #> 
 #>     Buffer Calibrator         QC     Sample 
 #>          6         10          6        170
+
 is_seq <- function(.x) grepl("^seq\\.[0-9]{4}", .x) # regex for analytes
 cs <- function(.x) {    # center/scale vector
   out <- .x - mean(.x)  # center
@@ -519,6 +539,7 @@ table(cleanData$Sex)
 #> 
 #>  F  M 
 #> 85 85
+
 table(cleanData$Group)    # F = 0; M = 1
 #> 
 #>  0  1 
@@ -573,18 +594,18 @@ t_tests <- t_tests %>%
 # View analysis tibble
 t_tests
 #> # A tibble: 5,284 × 11
-#>    AptName  SeqId  Target     EntrezGeneSymbol UniProt formula t_test t_stat  p.value      fdr  rank
-#>    <chr>    <chr>  <chr>      <chr>            <chr>   <list>  <list>  <dbl>    <dbl>    <dbl> <int>
-#>  1 seq.846… 8468-… Prostate-… KLK3             P07288  <formu… <htes… -22.1  2.46e-43 1.30e-39     1
-#>  2 seq.658… 6580-… Pregnancy… PZP              P20742  <formu… <htes…  14.2  3.07e-28 8.12e-25     2
-#>  3 seq.792… 7926-… Kunitz-ty… SPINT3           P49223  <formu… <htes… -11.1  6.16e-21 1.08e-17     3
-#>  4 seq.303… 3032-… Follicle … CGA FSHB         P01215… <formu… <htes…   9.67 4.68e-17 6.18e-14     4
-#>  5 seq.168… 16892… Ectonucle… ENPP2            Q13822  <formu… <htes…   9.37 6.45e-17 6.82e-14     5
-#>  6 seq.576… 5763-… Beta-defe… DEFB104A         Q8WTQ1  <formu… <htes…  -8.71 9.11e-15 8.02e-12     6
-#>  7 seq.928… 9282-… Cysteine-… CRISP2           P16562  <formu… <htes…  -8.47 1.16e-14 8.74e-12     7
-#>  8 seq.295… 2953-… Luteinizi… CGA LHB          P01215… <formu… <htes…   8.55 2.58e-14 1.71e-11     8
-#>  9 seq.491… 4914-… Human Cho… CGA CGB          P01215… <formu… <htes…   8.14 3.99e-13 2.34e-10     9
-#> 10 seq.247… 2474-… Serum amy… APCS             P02743  <formu… <htes…  -7.40 1.08e-11 5.72e- 9    10
+#>    AptName      SeqId  Target EntrezGeneSymbol UniProt formula t_test t_stat  p.value      fdr  rank
+#>    <chr>        <chr>  <chr>  <chr>            <chr>   <list>  <list>  <dbl>    <dbl>    <dbl> <int>
+#>  1 seq.8468.19  8468-… Prost… KLK3             P07288  <formu… <htes… -22.1  2.46e-43 1.30e-39     1
+#>  2 seq.6580.29  6580-… Pregn… PZP              P20742  <formu… <htes…  14.2  3.07e-28 8.12e-25     2
+#>  3 seq.7926.13  7926-… Kunit… SPINT3           P49223  <formu… <htes… -11.1  6.16e-21 1.08e-17     3
+#>  4 seq.3032.11  3032-… Folli… CGA FSHB         P01215… <formu… <htes…   9.67 4.68e-17 6.18e-14     4
+#>  5 seq.16892.23 16892… Ecton… ENPP2            Q13822  <formu… <htes…   9.37 6.45e-17 6.82e-14     5
+#>  6 seq.5763.67  5763-… Beta-… DEFB104A         Q8WTQ1  <formu… <htes…  -8.71 9.11e-15 8.02e-12     6
+#>  7 seq.9282.12  9282-… Cyste… CRISP2           P16562  <formu… <htes…  -8.47 1.16e-14 8.74e-12     7
+#>  8 seq.2953.31  2953-… Lutei… CGA LHB          P01215… <formu… <htes…   8.55 2.58e-14 1.71e-11     8
+#>  9 seq.4914.10  4914-… Human… CGA CGB          P01215… <formu… <htes…   8.14 3.99e-13 2.34e-10     9
+#> 10 seq.2474.54  2474-… Serum… APCS             P02743  <formu… <htes…  -7.40 1.08e-11 5.72e- 9    10
 #> # … with 5,274 more rows
 ```
 
@@ -606,6 +627,7 @@ plot_tbl <- example_data %>%
   # order factor levels by 't_tests' rank to order plots below
   mutate(Target = factor(Target, levels = target_map$Target))
 #> Joining, by = "AptName"
+
 plot_tbl
 #> # A tibble: 2,040 × 4
 #>    Sex   AptName        RFU Target                                                          
@@ -656,6 +678,7 @@ isTRUE(
   all.equal(intersect(rownames(train), rownames(test)), character(0))
 )
 #> [1] TRUE
+
 LR_tbl <- getAnalyteInfo(train) %>%
   select(AptName, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt) %>%
   mutate(
@@ -715,6 +738,7 @@ conf
 #> Actual  F  M
 #>      F 24  1
 #>      M  5 20
+
 # Classification metrics
 tibble(Sensitivity = tp / (tp + fn),
        Specificity = tn / (tn + fp),
@@ -841,4 +865,4 @@ res %>%
 -----
 
 Created by [Rmarkdown](https://github.com/rstudio/rmarkdown) (v2.11) and
-R version 4.1.1 (2021-08-10).
+R version 4.1.2 (2021-11-01).
