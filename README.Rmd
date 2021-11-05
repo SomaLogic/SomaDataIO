@@ -59,6 +59,16 @@ page and, if appropriate, submit an issue and/or feature request.
 
 -------------------
 
+## Usage
+
+The `SomaDataIO` package is licensed under the [MIT](LICENSE.md)
+license is intended solely for research use only (“RUO”) purposes.
+The code contained herein may *not* be used for diagnostic, clinical,
+therapeutic, or other commercial purposes.
+
+
+-------------------
+
 
 ## Installation
 
