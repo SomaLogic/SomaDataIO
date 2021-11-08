@@ -36,6 +36,7 @@ reference:
     - write_adat
     - parseHeader
     - rownames
+    - Col.Meta
     - is.intact.attributes
 
   - title: ADAT Manipulation

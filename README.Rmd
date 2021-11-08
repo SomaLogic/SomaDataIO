@@ -236,11 +236,13 @@ getAnalytes(my_adat, n = TRUE)        # the `n` argument; no. analytes
 #### Feature Data
 The `getAnalyteInfo()` function creates a lookup table that links
 analyte feature names in the `soma_adat` object to the annotation
-data in `Col.Meta` via the common index-key, `AptName`, in column 1:
+data in `?Col.Meta` via the common index-key, `AptName`, in column 1:
 
 ```{r annotations}
 getAnalyteInfo(my_adat)
 ```
+
+See `?colmeta` or `?annotations` for further details about these fields.
 
 #### Clinical Data
 ```{r meta}
@@ -264,10 +266,10 @@ sqData <- sqrt(my_adat)
 head(sqData$seq.2429.27)
 ```
 
-#### Full Complement of `dplyr` S3 Methods
+#### Full Complement of [dplyr](https://dplyr.tidyverse.org) S3 Methods
 The `soma_adat` also comes with numerous class specific methods to the most
-popular `dplyr` generics that make working with `soma_adat` objects simpler
-for those familiar with this standard toolkit:
+popular [dplyr](https://dplyr.tidyverse.org) generics that make working 
+with `soma_adat` objects simpler for those familiar with this standard toolkit:
 
 ```{r dplyr}
 dim(my_adat)
