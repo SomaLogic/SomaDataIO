@@ -3,6 +3,12 @@ on:
     branches:
       - main
       - master
+    paths:
+      - 'man/**'
+      - 'vignettes/**'
+      - '_pkgdown.yml'
+      - 'NEWS.md'
+      - 'README.md'
 
 name: deploy pkgdown to gh-pages
 

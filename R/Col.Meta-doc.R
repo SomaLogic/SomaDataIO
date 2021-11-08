@@ -32,10 +32,10 @@
 #' | PlateScale_Reference          | PlateScale reference value                                       | 1378.85        |
 #' | CalReference                  | Calibration sample reference value                               | 1378.85        |
 #' | medNormRef_ReferenceRFU       | Median normalization reference value                             | 490.342        |
-#' | Cal_V4_\verb{<YY>_<SSS>_<PPP>}| Calibration scale factor (for given Year-Study-Plate)            | 0.64           |
+#' | Cal_V4_\verb{<YY>_<SSS>_<PPP>}| Calibration scale factor (for given Year_Study_Plate)            | 0.64           |
 #' | ColCheck                      | QC acceptance criteria across all plates/sets                    | PASS           |
 #' | QcReference_\verb{<LLLLL>}    | QC sample reference value (for given QC lot)                     | PASS           |
-#' | CalQcRatio_V4_\verb{<YY>_<SSS>_<PPP>} | Post calibration median QC ratio to reference (for given Year-Study-Plate) | 1.04 |
+#' | CalQcRatio_V4_\verb{<YY>_<SSS>_<PPP>} | Post calibration median QC ratio to reference (for given Year_Study_Plate) | 1.04 |
 #'
 #' @section Row Meta (Sample Annotations):
 #' Information describing the *samples* is typically found to the left of
@@ -46,8 +46,8 @@
 #'
 #' | __Field__         | __Description__                                   | __Examples__   |
 #' | :---------------- | :------------------------------------------------ | :------------- |
-#' | PlateId           | Plate identifier                                  | V4-18-004_001,V4-18-004_002 |
-#' | ScannerID         | Scanner used to analyze slide                     | SG12064173,SG14374437 |
+#' | PlateId           | Plate identifier                                  | V4-18-004_001, V4-18-004_002 |
+#' | ScannerID         | Scanner used to analyze slide                     | SG12064173, SG14374437 |
 #' | PlatePosition     | Location on 96 well plate (A1-H12)                | A1, H12              |
 #' | SlideId           | Agilent slide barcode                             | 2.58E+11             |
 #' | Subarray          | Agilent subarray (1 – 8)                          | 1,8                  |

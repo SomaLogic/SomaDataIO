@@ -38,10 +38,10 @@ consist of the any or all of the following:\tabular{lll}{
    PlateScale_Reference \tab PlateScale reference value \tab 1378.85 \cr
    CalReference \tab Calibration sample reference value \tab 1378.85 \cr
    medNormRef_ReferenceRFU \tab Median normalization reference value \tab 490.342 \cr
-   Cal_V4_\verb{<YY>_<SSS>_<PPP>} \tab Calibration scale factor (for given Year-Study-Plate) \tab 0.64 \cr
+   Cal_V4_\verb{<YY>_<SSS>_<PPP>} \tab Calibration scale factor (for given Year_Study_Plate) \tab 0.64 \cr
    ColCheck \tab QC acceptance criteria across all plates/sets \tab PASS \cr
    QcReference_\verb{<LLLLL>} \tab QC sample reference value (for given QC lot) \tab PASS \cr
-   CalQcRatio_V4_\verb{<YY>_<SSS>_<PPP>} \tab Post calibration median QC ratio to reference (for given Year-Study-Plate) \tab 1.04 \cr
+   CalQcRatio_V4_\verb{<YY>_<SSS>_<PPP>} \tab Post calibration median QC ratio to reference (for given Year_Study_Plate) \tab 1.04 \cr
 }
 }
 
@@ -53,8 +53,8 @@ consist of clinical information provided by the client, or run-specific
 diagnostic information included for assay quality control. Below are
 some examples of what may be present in this section:\tabular{lll}{
    \strong{Field} \tab \strong{Description} \tab \strong{Examples} \cr
-   PlateId \tab Plate identifier \tab V4-18-004_001,V4-18-004_002 \cr
-   ScannerID \tab Scanner used to analyze slide \tab SG12064173,SG14374437 \cr
+   PlateId \tab Plate identifier \tab V4-18-004_001, V4-18-004_002 \cr
+   ScannerID \tab Scanner used to analyze slide \tab SG12064173, SG14374437 \cr
    PlatePosition \tab Location on 96 well plate (A1-H12) \tab A1, H12 \cr
    SlideId \tab Agilent slide barcode \tab 2.58E+11 \cr
    Subarray \tab Agilent subarray (1 – 8) \tab 1,8 \cr
