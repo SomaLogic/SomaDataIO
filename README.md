@@ -359,7 +359,7 @@ getAnalytes(my_adat, n = TRUE)        # the `n` argument; no. analytes
 
 The `getAnalyteInfo()` function creates a lookup table that links
 analyte feature names in the `soma_adat` object to the annotation data
-in `Col.Meta` via the common index-key, `AptName`, in column 1:
+in `?Col.Meta` via the common index-key, `AptName`, in column 1:
 
 ``` r
 getAnalyteInfo(my_adat)
@@ -381,6 +381,8 @@ getAnalyteInfo(my_adat)
 #> #   ColCheck <chr>, CalQcRatio_Example_Adat_Set001_170255 <dbl>, QcReference_170255 <dbl>,
 #> #   Cal_Example_Adat_Set002 <dbl>, CalQcRatio_Example_Adat_Set002_170255 <dbl>, Dilution2 <dbl>
 ```
+
+See `?colmeta` or `?annotations` for further details about these fields.
 
 #### Clinical Data
 
@@ -424,11 +426,12 @@ head(sqData$seq.2429.27)
 #> [1]  92.96397 111.67856 120.94503 116.53240  94.54523  82.09019
 ```
 
-#### Full Complement of `dplyr` S3 Methods
+#### Full Complement of [dplyr](https://dplyr.tidyverse.org) S3 Methods
 
 The `soma_adat` also comes with numerous class specific methods to the
-most popular `dplyr` generics that make working with `soma_adat` objects
-simpler for those familiar with this standard toolkit:
+most popular [dplyr](https://dplyr.tidyverse.org) generics that make
+working with `soma_adat` objects simpler for those familiar with this
+standard toolkit:
 
 ``` r
 dim(my_adat)
@@ -491,7 +494,7 @@ is.intact.attributes(my_adat)     # attributes MUST be intact to write to file
 
 write_adat(my_adat, file = tempfile("my-adat-", fileext = ".adat"))
 #> ✔ ADAT passed checks and traps
-#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpyPfNEd/my-adat-115b23306f23.adat'
+#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpnPEauo/my-adat-a4425f00b8.adat'
 ```
 
 -----
