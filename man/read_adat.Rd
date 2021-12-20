@@ -125,9 +125,10 @@ backward compatibility to older versions of \code{SomaDataIO}.
 \code{\link[=is.soma_adat]{is.soma_adat()}} checks whether an object is of class \code{soma_adat}.
 See \code{\link[=inherits]{inherits()}}.
 
-Subsetting a \code{soma_adat} object class relies heavily on the S3 (\code{[}) method
-of the generic \code{\link[=Extract]{Extract()}} function that keeps the \code{soma_adat} attributes
-intact \emph{and} subsets the \code{Col.Meta} so that it is consistent with the new object.
+Subsetting a \code{soma_adat} object class relies heavily on
+the S3 (\code{[}) method of the generic \code{\link[=Extract]{Extract()}} function that
+keeps the \code{soma_adat} attributes intact \emph{and} subsets the
+\code{Col.Meta} so that it is consistent with the new object.
 }
 \section{Methods (by generic)}{
 \itemize{

@@ -1,8 +1,9 @@
 #' Extract method for class `soma_adat`
 #'
-#' Subsetting a `soma_adat` object class relies heavily on the S3 (`[`) method
-#' of the generic [Extract()] function that keeps the `soma_adat` attributes
-#' intact *and* subsets the `Col.Meta` so that it is consistent with the new object.
+#' Subsetting a `soma_adat` object class relies heavily on
+#' the S3 (`[`) method of the generic [Extract()] function that
+#' keeps the `soma_adat` attributes intact *and* subsets the
+#' `Col.Meta` so that it is consistent with the new object.
 #' @rdname read_adat
 #' @order 4
 #' @inheritParams base::`[`

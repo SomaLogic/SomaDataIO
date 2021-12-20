@@ -11,83 +11,58 @@
 #' @export
 print.soma_adat <- function(x, show_header = FALSE, ...) {
 
-  attsTRUE    <- is.intact.attributes(x)
+  writeLines(cli_rule(cr_bold("SomaScan Data"), line = 2, line_col = "blue"))
+  attsTRUE    <- is.intact.attributes(x, verbose = FALSE)
   col_f       <- if ( attsTRUE ) cr_green else cr_red       # nolint
   atts_symbol <- if ( attsTRUE ) symb_tick else symb_cross  # nolint
-  writeLines(cli_rule(cr_bold("Attributes"), line_col = "blue"))
-  writeLines(
-    paste("    ", .pad("Intact", 20), col_f(atts_symbol))
-  )
-  apts <- getAnalytes(x)
-  meta <- setdiff(names(x), apts)
-
-  writeLines(cli_rule(cr_bold("Dimensions"), line_col = "blue"))
-  n_pad <- 5
-  pad   <- strrep(" ", n_pad)
-  dim_vars <- .pad(c("Rows", "Columns", "Clinical Data", "Features"), 20) %>%
+  meta   <- getMeta(x)
+  n_apts <- getAnalytes(x, n = TRUE)
+  pad    <- strrep(" ", 5)
+  dim_vars <- .pad(c("Attributes intact", "Rows", "Columns",
+                     "Clinical Data", "Features"), 20) %>%
     paste0(pad, .)
-  dim_vals <- c(nrow(x), ncol(x), length(meta), length(apts)) %>%
+  dim_vals <- c(col_f(atts_symbol), nrow(x), ncol(x), length(meta), n_apts) %>%
     as.character() %>%
-    cr_blue()
+    cr_cyan()
   writeLines(paste(dim_vars, dim_vals))
 
-  if ( !attsTRUE ) {
-    writeLines(cli_rule(cr_bold("Header Data"), line_col = "blue"))
-    paste(pad, "No Header.Meta        ",
+  if ( attsTRUE ) {
+    # Column Meta Data
+    writeLines(cli_rule(cr_bold("Column Meta"), line_col = "magenta"))
+    nms <- names(x %@@% "Col.Meta")
+    nms <- paste(nms, collapse = ", ")
+    str <- strwrap(nms, width = getOption("width"),
+                   prefix = paste0(cr_cyan(symb_info), " "))
+    writeLines(str)
+
+    # show header data only
+    if ( show_header ) {
+      # Header Meta Data
+      writeLines(cli_rule(cr_bold("Header Data"), line_col = "magenta"))
+      notempty <- function(x) length(x) != 0
+      A <- Filter(notempty, (x %@@% "Header.Meta")$HEADER)
+      print(tibble::enframe(unlist(A), name = "Key", value = "Value"), n = 15)
+    }
+
+  } else {
+    writeLines(cli_rule(cr_bold("Header Data"), line_col = "magenta"))
+    paste(paste0(pad, .pad("No Header.Meta", 20)),
           cr_yellow(symb_warn),
           cr_red("ADAT columns were probably modified"),
           cr_yellow(symb_warn)
       ) %>%
       writeLines()
-  } else {
-
-    # Column Meta Data
-    writeLines(cli_rule(cr_bold("Column Meta"), line_col = "blue"))
-    B <- names(attributes(x)$Col.Meta)
-
-    # control how many columns of Col.Meta to print
-    n_column <- 5
-    # add padding for Col Meta between cols
-    colpad   <- strrep(" ", 3)
-
-    if ( (L <- length(B)) %% n_column != 0 ) {
-      B <- c(B, rep("", n_column - L %% n_column))
-    }
-
-    if ( L <= n_column ) {
-      B <- format(B)
-      writeLines(paste0(colpad, B, collapse = colpad))
-    } else {
-      B <- B %>%
-        split(rep(1:n_column, each = length(B) / n_column)) %>%
-        lapply(format)
-
-      # Test: this will fail if not all same length
-      data.frame(B)
-
-      B. <- purrr::transpose(B) %>% lapply(unlist, use.names = FALSE)
-      lapply(B., paste, collapse = cr_cyan("   |   ")) %>%
-        paste(pad, .) %>%
-        lapply(writeLines) %>% invisible()
-    }
-
-    # show header data only
-    if ( show_header ) {
-      # Header Meta Data
-      writeLines(cli_rule(cr_bold("Header Data"), line_col = "blue"))
-      notempty <- function(x) length(x) != 0
-      A <- Filter(notempty, attributes(x)$Header.Meta$HEADER)
-      padmax <- max(vapply(names(A), nchar, double(1)))
-      col1   <- .pad(names(A), padmax) %>% paste0(pad, ., pad)
-      col2   <- unlist(A, use.names = FALSE) %>% paste0(pad, ., pad)
-      paste0(col1, cr_green(symb_point), col2) %>% writeLines()
-     }
   }
 
   if ( !show_header ) {
     # this is the default behavior
-    writeLines(cli_rule(cr_bold("Tibble"), line_col = "blue"))
-    print(tibble::as_tibble(x, rownames = ifelse(has_rn(x), "row_names", NA)))
+    writeLines(cli_rule(cr_bold("Tibble"), line_col = "magenta"))
+    print(
+      tibble::as_tibble(x, rownames = ifelse(has_rn(x), "row_names", NA)),
+      n_extra = 15,            # soft deprecated
+      #max_extra_cols   = 10,  # next version of tibble
+      #max_footer_lines = 10   # next version of tibble
+    )
   }
 
   writeLines(cli_rule(line = 2, line_col = "green"))
