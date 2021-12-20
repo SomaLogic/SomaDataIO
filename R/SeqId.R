@@ -109,7 +109,7 @@ locateSeqId <- function(x, trailing = TRUE) {
   regex <- regexpr(pattern, x)
   start <- as.integer(regex)
   start[start < 0] <- NA_integer_
-  stop  <- start + attr(regex, "match.length") - 1L
+  stop  <- start + (regex %@@% "match.length") - 1L
   data.frame(x = x, start = start, stop = stop, stringsAsFactors = FALSE)
 }
 

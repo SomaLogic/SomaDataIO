@@ -34,6 +34,19 @@ trim_empty <- function(x, side) {
 }
 
 # kinder version of identical
-`%equals%` <- function(x, y) {
+`%==%` <- function(x, y) {
   isTRUE(all.equal(x, y))
+}
+
+# A friendly version of `attr(x, y)`. `y` can be unquoted.
+`%@@%` <- function(x, y) {
+  name <- as.character(substitute(y))
+  attr(x, which = name, exact = TRUE)
+}
+
+# attr assignment. `attr(x, y) <- value`. `y` can be unquoted.
+`%@@%<-` <- function(x, y, value) {
+  name <- as.character(substitute(y))
+  attr(x, which = name) <- value
+  x
 }

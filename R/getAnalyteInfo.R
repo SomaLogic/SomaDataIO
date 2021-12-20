@@ -32,10 +32,10 @@
 #' @export
 getAnalyteInfo <- function(adat) {
 
-  colmeta <- attr(adat, "Col.Meta")
+  colmeta <- adat %@@% "Col.Meta"
   stopifnot(!is.null(colmeta), inherits(colmeta, "tbl_df"))
   colmeta %<>% dplyr::ungroup()    # safety; previously a 'grouped_df'
-  L <- vapply(colmeta, length, FUN.VALUE = integer(1L), USE.NAMES = FALSE)
+  L <- vapply(colmeta, length, FUN.VALUE = 1L, USE.NAMES = FALSE)
 
   if ( !(diff(range(L)) < .Machine$double.eps^0.5) ) {
     warning("Unequal lengths in column meta data", call. = FALSE)

@@ -46,16 +46,16 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
 
   # Attribute names ----
   pad <- 35
-  mark <- names(attributes(adat1)) %equals% names(attributes(adat2))
+  mark <- names(attributes(adat1)) %==% names(attributes(adat2))
   msg  <- .pad("Attribute names are identical", width = pad) # nolint
   .todo("{msg} {map_mark(mark)}")
 
   # Attributes ----
-  mark <- attributes(adat1) %equals% attributes(adat2)
+  mark <- attributes(adat1) %==% attributes(adat2)
   msg  <- .pad("Attributes are identical", width = pad)
   .todo("{msg} {map_mark(mark)}")
 
-  # Adat dimensions ----
+  # ADAT dimensions ----
   mark <- all(dim(adat1) == dim(adat2))
   msg  <- .pad("ADAT dimensions are identical", width = pad)
   .todo("{msg} {map_mark(mark)}")
@@ -69,27 +69,27 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
     msg  <- .pad("  ADATs have same # of columns", width = pad)
     .todo("{msg} {map_mark(mark)}")
 
-    mark <- getAnalytes(adat1, n = TRUE) %equals% getAnalytes(adat2, n = TRUE)
+    mark <- getAnalytes(adat1, n = TRUE) %==% getAnalytes(adat2, n = TRUE)
     msg  <- .pad("  ADATs have same # of features", width = pad)
     .todo("{msg} {map_mark(mark)}")
 
-    mark <- getMeta(adat1, n = TRUE) %equals% getMeta(adat2, n = TRUE)
+    mark <- getMeta(adat1, n = TRUE) %==% getMeta(adat2, n = TRUE)
     msg  <- .pad("  ADATs have same # of meta data", width = pad)
     .todo("{msg} {map_mark(mark)}")
   }
 
   # Adat row names ----
-  mark <- rownames(adat1) %equals% rownames(adat2)
+  mark <- rownames(adat1) %==% rownames(adat2)
   msg  <- .pad("ADAT row names are identical", width = pad)
   .todo("{msg} {map_mark(mark)}")
 
   # Adat feature names ----
-  same_ft_names <- getAnalytes(adat1) %equals% getAnalytes(adat2)
+  same_ft_names <- getAnalytes(adat1) %==% getAnalytes(adat2)
   msg <- .pad("ADATs contain identical Features", width = pad)
   .todo("{msg} {map_mark(same_ft_names)}")
 
   # Adat meta names ----
-  same_meta_names <- getMeta(adat1) %equals% getMeta(adat2)
+  same_meta_names <- getMeta(adat1) %==% getMeta(adat2)
   msg <- .pad("ADATs contain same Meta Fields", width = pad)
   .todo("{msg} {map_mark(same_meta_names)}")
 
@@ -144,8 +144,8 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
   # up to here, all but content/values identical
   # Next -> check values
   writeLines(cli_rule("Checking the data matrix", line_col = "blue"))
-  .diffAdatColumns(adat1, adat2, meta = TRUE, tolerance = tolerance)
-  .diffAdatColumns(adat1, adat2, meta = FALSE, tolerance = tolerance)
+  .diffAdatColumns(adat1, adat2, meta = TRUE)
+  .diffAdatColumns(adat1, adat2, tolerance = tolerance)
   writeLines(cli_rule(line_col = "green", line = 2))
 }
 
@@ -168,33 +168,26 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
 #' @noRd
 .diffAdatColumns <- function(x, y, meta = FALSE, tolerance) {
 
-  type <- ifelse(meta, "Meta", "Feature")
-  .fun <- switch(type, Meta = getMeta, Feature = getAnalytes)
-  cols <- intersect(.fun(x), .fun(y))
-
-  test_lgl <- vapply(cols, function(.col) {
-    if ( meta ) {
-      isTRUE(all.equal(x[[.col]], y[[.col]], check.names = FALSE))
-    } else {
-      isTRUE(all.equal(x[[.col]], y[[.col]], tolerance = tolerance))
-    }
-  }, logical(1))
-
-  msg <- .pad(sprintf("All %s data is identical", type), 35) # nolint
-
-  # `test_lgl` is a logical vector
-  if ( all(test_lgl, na.rm = TRUE) ) {
-    .todo("{msg} {cr_green(symb_tick)}")
-    invisible(NULL)
-  } else {
-    .todo("{msg} {cr_red(symb_cross)}")
-    vec <- names(test_lgl)[!test_lgl]
-    .pad("    No. fields that differ ", 37) %>%
-      paste(length(vec)) %>% writeLines()
-    writeLines(
-      cli_rule(sprintf("%s data diffs", type), line_col = "magenta")
-    )
-    print(.value(vec))
-    invisible(NULL)
+  type <- ifelse(meta, "Clinical", "Feature")
+  .fun <- switch(type, Clinical = getMeta, Feature = getAnalytes)
+  args <- switch(type, Clinical = list(check.names = FALSE),
+                       Feature  = list(tolerance = tolerance))
+  f_bool <- function(col) {
+    args$target  <- x[[col]]
+    args$current <- y[[col]]
+    isTRUE(do.call(all.equal, args))
   }
+  diff_lgl <- !vapply(intersect(.fun(x), .fun(y)), f_bool, NA) # vars that differ
+  msg <- .pad(sprintf("All %s data is identical", type), 35)
+
+  if ( any(diff_lgl) ) {
+    .todo("{msg} {cr_red(symb_cross)}")
+    prnt <- .pad("    No. fields that differ ", 37) %>% paste(sum(diff_lgl))
+    writeLines(prnt)
+    writeLines(cli_rule(sprintf("%s data diffs", type), line_col = "magenta"))
+    print(.value(names(Filter(isTRUE, diff_lgl))))
+  } else {
+    .todo("{msg} {cr_green(symb_tick)}")
+  }
+  invisible(NULL)
 }
