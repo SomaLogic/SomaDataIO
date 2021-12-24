@@ -7,7 +7,7 @@ output: github_document
 
 
 ```{r setup, echo = FALSE, message = FALSE}
-options(width = 100)
+options(width = 101)
 library(SomaDataIO)
 library(ggplot2)
 library(dplyr)
