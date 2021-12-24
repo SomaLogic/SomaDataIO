@@ -175,93 +175,70 @@ is.soma_adat(my_adat)
 
 # S3 print method forwards -> tibble
 my_adat
-#> ── Attributes ──────────────────────────────────────────────────────────────────────────────────────
-#>      Intact               ✓
-#> ── Dimensions ──────────────────────────────────────────────────────────────────────────────────────
+#> ══ SomaScan Data ════════════════════════════════════════════════════════════════════════════════════
+#>      Attributes intact    ✓
 #>      Rows                 192
 #>      Columns              5318
 #>      Clinical Data        34
 #>      Features             5284
-#> ── Column Meta ─────────────────────────────────────────────────────────────────────────────────────
-#>       SeqId            |   UniProt            |   Type                      |   ColCheck                                |   Dilution2
-#>       SeqIdVersion     |   EntrezGeneID       |   Dilution                  |   CalQcRatio_Example_Adat_Set001_170255   |            
-#>       SomaId           |   EntrezGeneSymbol   |   PlateScale_Reference      |   QcReference_170255                      |            
-#>       TargetFullName   |   Organism           |   CalReference              |   Cal_Example_Adat_Set002                 |            
-#>       Target           |   Units              |   Cal_Example_Adat_Set001   |   CalQcRatio_Example_Adat_Set002_170255   |            
-#> ── Tibble ──────────────────────────────────────────────────────────────────────────────────────────
+#> ── Column Meta ──────────────────────────────────────────────────────────────────────────────────────
+#> ℹ SeqId, SeqIdVersion, SomaId, TargetFullName, Target, UniProt, EntrezGeneID, EntrezGeneSymbol,
+#> ℹ Organism, Units, Type, Dilution, PlateScale_Reference, CalReference, Cal_Example_Adat_Set001,
+#> ℹ ColCheck, CalQcRatio_Example_Adat_Set001_170255, QcReference_170255, Cal_Example_Adat_Set002,
+#> ℹ CalQcRatio_Example_Adat_Set002_170255, Dilution2
+#> ── Tibble ───────────────────────────────────────────────────────────────────────────────────────────
 #> # A tibble: 192 × 5,319
-#>    row_names      PlateId  PlateRunDate ScannerID PlatePosition SlideId Subarray SampleId SampleType
-#>    <chr>          <chr>    <date>       <chr>     <chr>           <dbl>    <dbl>    <dbl> <chr>     
-#>  1 258495800012_3 Example… 2020-06-18   SG152144… H9            2.58e11        3        1 Sample    
-#>  2 258495800004_7 Example… 2020-06-18   SG152144… H8            2.58e11        7        2 Sample    
-#>  3 258495800010_8 Example… 2020-06-18   SG152144… H7            2.58e11        8        3 Sample    
-#>  4 258495800003_4 Example… 2020-06-18   SG152144… H6            2.58e11        4        4 Sample    
-#>  5 258495800009_4 Example… 2020-06-18   SG152144… H5            2.58e11        4        5 Sample    
-#>  6 258495800012_8 Example… 2020-06-18   SG152144… H4            2.58e11        8        6 Sample    
-#>  7 258495800001_3 Example… 2020-06-18   SG152144… H3            2.58e11        3        7 Sample    
-#>  8 258495800004_8 Example… 2020-06-18   SG152144… H2            2.58e11        8        8 Sample    
-#>  9 258495800001_8 Example… 2020-06-18   SG152144… H12           2.58e11        8        9 Sample    
-#> 10 258495800004_3 Example… 2020-06-18   SG152144… H11           2.58e11        3   170261 Calibrator
+#>    row_names      PlateId   PlateRunDate ScannerID PlatePosition SlideId Subarray SampleId SampleType
+#>    <chr>          <chr>     <date>       <chr>     <chr>           <dbl>    <dbl>    <dbl> <chr>     
+#>  1 258495800012_3 Example … 2020-06-18   SG152144… H9            2.58e11        3        1 Sample    
+#>  2 258495800004_7 Example … 2020-06-18   SG152144… H8            2.58e11        7        2 Sample    
+#>  3 258495800010_8 Example … 2020-06-18   SG152144… H7            2.58e11        8        3 Sample    
+#>  4 258495800003_4 Example … 2020-06-18   SG152144… H6            2.58e11        4        4 Sample    
+#>  5 258495800009_4 Example … 2020-06-18   SG152144… H5            2.58e11        4        5 Sample    
+#>  6 258495800012_8 Example … 2020-06-18   SG152144… H4            2.58e11        8        6 Sample    
+#>  7 258495800001_3 Example … 2020-06-18   SG152144… H3            2.58e11        3        7 Sample    
+#>  8 258495800004_8 Example … 2020-06-18   SG152144… H2            2.58e11        8        8 Sample    
+#>  9 258495800001_8 Example … 2020-06-18   SG152144… H12           2.58e11        8        9 Sample    
+#> 10 258495800004_3 Example … 2020-06-18   SG152144… H11           2.58e11        3   170261 Calibrator
 #> # … with 182 more rows, and 5,310 more variables: PercentDilution <dbl>, SampleMatrix <chr>,
 #> #   Barcode <lgl>, Barcode2d <lgl>, SampleName <lgl>, SampleNotes <lgl>, AliquotingNotes <lgl>,
-#> #   SampleDescription <chr>, AssayNotes <lgl>, TimePoint <lgl>, ExtIdentifier <lgl>,
-#> #   SsfExtId <lgl>, SampleGroup <lgl>, SiteId <lgl>, TubeUniqueID <lgl>, CLI <lgl>,
-#> #   HybControlNormScale <dbl>, RowCheck <chr>, NormScale_20 <dbl>, NormScale_0_005 <dbl>,
-#> #   NormScale_0_5 <dbl>, ANMLFractionUsed_20 <dbl>, ANMLFractionUsed_0_005 <dbl>,
-#> #   ANMLFractionUsed_0_5 <dbl>, Age <dbl>, Sex <chr>, seq.10000.28 <dbl>, seq.10001.7 <dbl>, …
-#> ════════════════════════════════════════════════════════════════════════════════════════════════════
+#> #   SampleDescription <chr>, AssayNotes <lgl>, TimePoint <lgl>, ExtIdentifier <lgl>, SsfExtId <lgl>,
+#> #   SampleGroup <lgl>, SiteId <lgl>, TubeUniqueID <lgl>, …
+#> ═════════════════════════════════════════════════════════════════════════════════════════════════════
 
 print(my_adat, show_header = TRUE)  # if simply wish to see Header info
-#> ── Attributes ──────────────────────────────────────────────────────────────────────────────────────
-#>      Intact               ✓
-#> ── Dimensions ──────────────────────────────────────────────────────────────────────────────────────
+#> ══ SomaScan Data ════════════════════════════════════════════════════════════════════════════════════
+#>      Attributes intact    ✓
 #>      Rows                 192
 #>      Columns              5318
 #>      Clinical Data        34
 #>      Features             5284
-#> ── Column Meta ─────────────────────────────────────────────────────────────────────────────────────
-#>       SeqId            |   UniProt            |   Type                      |   ColCheck                                |   Dilution2
-#>       SeqIdVersion     |   EntrezGeneID       |   Dilution                  |   CalQcRatio_Example_Adat_Set001_170255   |            
-#>       SomaId           |   EntrezGeneSymbol   |   PlateScale_Reference      |   QcReference_170255                      |            
-#>       TargetFullName   |   Organism           |   CalReference              |   Cal_Example_Adat_Set002                 |            
-#>       Target           |   Units              |   Cal_Example_Adat_Set001   |   CalQcRatio_Example_Adat_Set002_170255   |            
-#> ── Header Data ─────────────────────────────────────────────────────────────────────────────────────
-#>      AdatId                                      ❯     GID-1234-56-789-abcdef     
-#>      Version                                     ❯     1.2     
-#>      AssayType                                   ❯     PharmaServices     
-#>      AssayVersion                                ❯     V4     
-#>      AssayRobot                                  ❯     Fluent 1 L-307     
-#>      Legal                                       ❯     Experiment details and data have been processed to protect Personally Identifiable Information (PII) and comply with existing privacy laws.     
-#>      CreatedBy                                   ❯     PharmaServices     
-#>      CreatedDate                                 ❯     2020-07-24     
-#>      EnteredBy                                   ❯     Technician1     
-#>      ExpDate                                     ❯     2020-06-18, 2020-07-20     
-#>      GeneratedBy                                 ❯     Px (Build:  : ), Canopy_0.1.1     
-#>      RunNotes                                    ❯     2 columns ('Age' and 'Sex') have been added to this ADAT. Age has been randomly increased or decreased by 1-2 years to protect patient information     
-#>      ProcessSteps                                ❯     Raw RFU, Hyb Normalization, medNormInt (SampleId), plateScale, Calibration, anmlQC, qcCheck, anmlSMP     
-#>      ProteinEffectiveDate                        ❯     2019-08-06     
-#>      StudyMatrix                                 ❯     EDTA Plasma     
-#>      LabLocation                                 ❯     SLUS     
-#>      Title                                       ❯     Example Adat Set001, Example Adat Set002     
-#>      AssaySite                                   ❯     SW     
-#>      CalibratorId                                ❯     170261     
-#>      ReportConfig                                ❯     {"analysisSteps":[{"stepType":"hybNorm","referenceSource":"intraplate","includeSampleTypes":["QC","Calibrator","Buffer"]},{"stepName":"medNormInt","stepType":"medNorm","includeSampleTypes":["Calibrator","Buffer"],"referenceSource":"intraplate","referenceFields":["SampleId"]},{"stepType":"plateScale","referenceSource":"Reference_v4_Plasma_Calibrator_170261"},{"stepType":"calibrate","referenceSource":"Reference_v4_Plasma_Calibrator_170261"},{"stepName":"anmlQC","stepType":"ANML","effectSizeCutoff":2.0,"minFractionUsed":0.3,"includeSampleTypes":["QC"],"referenceSource":"Reference_v4_Plasma_ANML"},{"stepType":"qcCheck","QCReferenceSource":"Reference_v4_Plasma_QC_ANML_170255","tailsCriteriaLower":0.8,"tailsCriteriaUpper":1.2,"tailThreshold":15.0,"QCAdditionalReferenceSources":["Reference_v4_Plasma_QC_ANML_170259","Reference_v4_Plasma_QC_ANML_170260"],"prenormalized":true},{"stepName":"anmlSMP","stepType":"ANML","effectSizeCutoff":2.0,"minFractionUsed":0.3,"includeSampleTypes":["Sample"],"referenceSource":"Reference_v4_Plasma_ANML"}],"qualityReports":["SQS Report"],"filter":{"proteinEffectiveDate":"2019-08-06"}}     
-#>      HybNormReference                            ❯     intraplate     
-#>      MedNormReference                            ❯     intraplate     
-#>      NormalizationAlgorithm                      ❯     ANML     
-#>      PlateScale_ReferenceSource                  ❯     Reference_v4_Plasma_Calibrator_170261     
-#>      PlateScale_Scalar_Example_Adat_Set001       ❯     1.08091554     
-#>      PlateScale_PassFlag_Example_Adat_Set001     ❯     PASS     
-#>      CalibrationReference                        ❯     Reference_v4_Plasma_Calibrator_170261     
-#>      CalPlateTailPercent_Example_Adat_Set001     ❯     0.1     
-#>      PlateTailPercent_Example_Adat_Set001        ❯     1.2     
-#>      PlateTailTest_Example_Adat_Set001           ❯     PASS     
-#>      PlateScale_Scalar_Example_Adat_Set002       ❯     1.09915270     
-#>      PlateScale_PassFlag_Example_Adat_Set002     ❯     PASS     
-#>      CalPlateTailPercent_Example_Adat_Set002     ❯     2.6     
-#>      PlateTailPercent_Example_Adat_Set002        ❯     4.2     
-#>      PlateTailTest_Example_Adat_Set002           ❯     PASS     
-#> ════════════════════════════════════════════════════════════════════════════════════════════════════
+#> ── Column Meta ──────────────────────────────────────────────────────────────────────────────────────
+#> ℹ SeqId, SeqIdVersion, SomaId, TargetFullName, Target, UniProt, EntrezGeneID, EntrezGeneSymbol,
+#> ℹ Organism, Units, Type, Dilution, PlateScale_Reference, CalReference, Cal_Example_Adat_Set001,
+#> ℹ ColCheck, CalQcRatio_Example_Adat_Set001_170255, QcReference_170255, Cal_Example_Adat_Set002,
+#> ℹ CalQcRatio_Example_Adat_Set002_170255, Dilution2
+#> ── Header Data ──────────────────────────────────────────────────────────────────────────────────────
+#> # A tibble: 35 × 2
+#>    Key                  Value                                                                        
+#>    <chr>                <chr>                                                                        
+#>  1 AdatId               GID-1234-56-789-abcdef                                                       
+#>  2 Version              1.2                                                                          
+#>  3 AssayType            PharmaServices                                                               
+#>  4 AssayVersion         V4                                                                           
+#>  5 AssayRobot           Fluent 1 L-307                                                               
+#>  6 Legal                Experiment details and data have been processed to protect Personally Identi…
+#>  7 CreatedBy            PharmaServices                                                               
+#>  8 CreatedDate          2020-07-24                                                                   
+#>  9 EnteredBy            Technician1                                                                  
+#> 10 ExpDate              2020-06-18, 2020-07-20                                                       
+#> 11 GeneratedBy          Px (Build:  : ), Canopy_0.1.1                                                
+#> 12 RunNotes             2 columns ('Age' and 'Sex') have been added to this ADAT. Age has been rando…
+#> 13 ProcessSteps         Raw RFU, Hyb Normalization, medNormInt (SampleId), plateScale, Calibration, …
+#> 14 ProteinEffectiveDate 2019-08-06                                                                   
+#> 15 StudyMatrix          EDTA Plasma                                                                  
+#> # … with 20 more rows
+#> ═════════════════════════════════════════════════════════════════════════════════════════════════════
 
 # S3 summary method
 # View Target and summary statistics
@@ -316,25 +293,24 @@ my_adat[, seqs] %>%
 
 ``` r
 names(attributes(my_adat))
-#> [1] "names"       "class"       "row.names"   "Header.Meta" "Col.Meta"    "file.specs" 
-#> [7] "row.meta"
+#> [1] "names"       "class"       "row.names"   "Header.Meta" "Col.Meta"    "file.specs"  "row.meta"
 
 # The `Col.Meta` attribute contains 
 # target annotation information
 attr(my_adat, "Col.Meta")
 #> # A tibble: 5,284 × 21
-#>    SeqId  SeqIdVersion SomaId TargetFullName   Target UniProt EntrezGeneID EntrezGeneSymbol Organism
-#>    <chr>         <dbl> <chr>  <chr>            <chr>  <chr>   <chr>        <chr>            <chr>   
-#>  1 10000…            3 SL019… Beta-crystallin… CRBB2  P43320  "1415"       "CRYBB2"         Human   
-#>  2 10001…            3 SL002… RAF proto-oncog… c-Raf  P04049  "5894"       "RAF1"           Human   
-#>  3 10003…            3 SL019… Zinc finger pro… ZNF41  P51814  "7592"       "ZNF41"          Human   
-#>  4 10006…            3 SL019… ETS domain-cont… ELK1   P19419  "2002"       "ELK1"           Human   
-#>  5 10008…            3 SL019… Guanylyl cyclas… GUC1A  P43080  "2978"       "GUCA1A"         Human   
-#>  6 10011…            3 SL019… Inositol polyph… OCRL   Q01968  "4952"       "OCRL"           Human   
-#>  7 10012…            3 SL014… SAM pointed dom… SPDEF  O95238  "25803"      "SPDEF"          Human   
-#>  8 10013…            3 SL025… Fc_MOUSE         Fc_MO… Q99LC4  ""           ""               Mouse   
-#>  9 10014…            3 SL007… Zinc finger pro… SLUG   O43623  "6591"       "SNAI2"          Human   
-#> 10 10015…            3 SL014… Voltage-gated p… KCAB2  Q13303  "8514"       "KCNAB2"         Human   
+#>    SeqId     SeqIdVersion SomaId TargetFullName Target UniProt EntrezGeneID EntrezGeneSymbol Organism
+#>    <chr>            <dbl> <chr>  <chr>          <chr>  <chr>   <chr>        <chr>            <chr>   
+#>  1 10000-28             3 SL019… Beta-crystall… CRBB2  P43320  "1415"       "CRYBB2"         Human   
+#>  2 10001-7              3 SL002… RAF proto-onc… c-Raf  P04049  "5894"       "RAF1"           Human   
+#>  3 10003-15             3 SL019… Zinc finger p… ZNF41  P51814  "7592"       "ZNF41"          Human   
+#>  4 10006-25             3 SL019… ETS domain-co… ELK1   P19419  "2002"       "ELK1"           Human   
+#>  5 10008-43             3 SL019… Guanylyl cycl… GUC1A  P43080  "2978"       "GUCA1A"         Human   
+#>  6 10011-65             3 SL019… Inositol poly… OCRL   Q01968  "4952"       "OCRL"           Human   
+#>  7 10012-5              3 SL014… SAM pointed d… SPDEF  O95238  "25803"      "SPDEF"          Human   
+#>  8 10013-34             3 SL025… Fc_MOUSE       Fc_MO… Q99LC4  ""           ""               Mouse   
+#>  9 10014-31             3 SL007… Zinc finger p… SLUG   O43623  "6591"       "SNAI2"          Human   
+#> 10 10015-119            3 SL014… Voltage-gated… KCAB2  Q13303  "8514"       "KCNAB2"         Human   
 #> # … with 5,274 more rows, and 12 more variables: Units <chr>, Type <chr>, Dilution <chr>,
 #> #   PlateScale_Reference <dbl>, CalReference <dbl>, Cal_Example_Adat_Set001 <dbl>, ColCheck <chr>,
 #> #   CalQcRatio_Example_Adat_Set001_170255 <dbl>, QcReference_170255 <dbl>,
@@ -364,18 +340,18 @@ in `?Col.Meta` via the common index-key, `AptName`, in column 1:
 ``` r
 getAnalyteInfo(my_adat)
 #> # A tibble: 5,284 × 22
-#>    AptName  SeqId  SeqIdVersion SomaId TargetFullName   Target UniProt EntrezGeneID EntrezGeneSymbol
-#>    <chr>    <chr>         <dbl> <chr>  <chr>            <chr>  <chr>   <chr>        <chr>           
-#>  1 seq.100… 10000…            3 SL019… Beta-crystallin… CRBB2  P43320  "1415"       "CRYBB2"        
-#>  2 seq.100… 10001…            3 SL002… RAF proto-oncog… c-Raf  P04049  "5894"       "RAF1"          
-#>  3 seq.100… 10003…            3 SL019… Zinc finger pro… ZNF41  P51814  "7592"       "ZNF41"         
-#>  4 seq.100… 10006…            3 SL019… ETS domain-cont… ELK1   P19419  "2002"       "ELK1"          
-#>  5 seq.100… 10008…            3 SL019… Guanylyl cyclas… GUC1A  P43080  "2978"       "GUCA1A"        
-#>  6 seq.100… 10011…            3 SL019… Inositol polyph… OCRL   Q01968  "4952"       "OCRL"          
-#>  7 seq.100… 10012…            3 SL014… SAM pointed dom… SPDEF  O95238  "25803"      "SPDEF"         
-#>  8 seq.100… 10013…            3 SL025… Fc_MOUSE         Fc_MO… Q99LC4  ""           ""              
-#>  9 seq.100… 10014…            3 SL007… Zinc finger pro… SLUG   O43623  "6591"       "SNAI2"         
-#> 10 seq.100… 10015…            3 SL014… Voltage-gated p… KCAB2  Q13303  "8514"       "KCNAB2"        
+#>    AptName  SeqId  SeqIdVersion SomaId TargetFullName    Target UniProt EntrezGeneID EntrezGeneSymbol
+#>    <chr>    <chr>         <dbl> <chr>  <chr>             <chr>  <chr>   <chr>        <chr>           
+#>  1 seq.100… 10000…            3 SL019… Beta-crystallin … CRBB2  P43320  "1415"       "CRYBB2"        
+#>  2 seq.100… 10001…            3 SL002… RAF proto-oncoge… c-Raf  P04049  "5894"       "RAF1"          
+#>  3 seq.100… 10003…            3 SL019… Zinc finger prot… ZNF41  P51814  "7592"       "ZNF41"         
+#>  4 seq.100… 10006…            3 SL019… ETS domain-conta… ELK1   P19419  "2002"       "ELK1"          
+#>  5 seq.100… 10008…            3 SL019… Guanylyl cyclase… GUC1A  P43080  "2978"       "GUCA1A"        
+#>  6 seq.100… 10011…            3 SL019… Inositol polypho… OCRL   Q01968  "4952"       "OCRL"          
+#>  7 seq.100… 10012…            3 SL014… SAM pointed doma… SPDEF  O95238  "25803"      "SPDEF"         
+#>  8 seq.100… 10013…            3 SL025… Fc_MOUSE          Fc_MO… Q99LC4  ""           ""              
+#>  9 seq.100… 10014…            3 SL007… Zinc finger prot… SLUG   O43623  "6591"       "SNAI2"         
+#> 10 seq.100… 10015…            3 SL014… Voltage-gated po… KCAB2  Q13303  "8514"       "KCNAB2"        
 #> # … with 5,274 more rows, and 13 more variables: Organism <chr>, Units <chr>, Type <chr>,
 #> #   Dilution <chr>, PlateScale_Reference <dbl>, CalReference <dbl>, Cal_Example_Adat_Set001 <dbl>,
 #> #   ColCheck <chr>, CalQcRatio_Example_Adat_Set001_170255 <dbl>, QcReference_170255 <dbl>,
@@ -442,20 +418,18 @@ dim(males)
 
 males %>% 
   dplyr::select(SampleType, SampleMatrix, starts_with("NormScale"))
-#> ── Attributes ──────────────────────────────────────────────────────────────────────────────────────
-#>      Intact               ✓
-#> ── Dimensions ──────────────────────────────────────────────────────────────────────────────────────
+#> ══ SomaScan Data ════════════════════════════════════════════════════════════════════════════════════
+#>      Attributes intact    ✓
 #>      Rows                 85
 #>      Columns              5
 #>      Clinical Data        5
 #>      Features             0
-#> ── Column Meta ─────────────────────────────────────────────────────────────────────────────────────
-#>       SeqId            |   UniProt            |   Type                      |   ColCheck                                |   Dilution2
-#>       SeqIdVersion     |   EntrezGeneID       |   Dilution                  |   CalQcRatio_Example_Adat_Set001_170255   |            
-#>       SomaId           |   EntrezGeneSymbol   |   PlateScale_Reference      |   QcReference_170255                      |            
-#>       TargetFullName   |   Organism           |   CalReference              |   Cal_Example_Adat_Set002                 |            
-#>       Target           |   Units              |   Cal_Example_Adat_Set001   |   CalQcRatio_Example_Adat_Set002_170255   |            
-#> ── Tibble ──────────────────────────────────────────────────────────────────────────────────────────
+#> ── Column Meta ──────────────────────────────────────────────────────────────────────────────────────
+#> ℹ SeqId, SeqIdVersion, SomaId, TargetFullName, Target, UniProt, EntrezGeneID, EntrezGeneSymbol,
+#> ℹ Organism, Units, Type, Dilution, PlateScale_Reference, CalReference, Cal_Example_Adat_Set001,
+#> ℹ ColCheck, CalQcRatio_Example_Adat_Set001_170255, QcReference_170255, Cal_Example_Adat_Set002,
+#> ℹ CalQcRatio_Example_Adat_Set002_170255, Dilution2
+#> ── Tibble ───────────────────────────────────────────────────────────────────────────────────────────
 #> # A tibble: 85 × 6
 #>    row_names      SampleType SampleMatrix NormScale_20 NormScale_0_005 NormScale_0_5
 #>    <chr>          <chr>      <chr>               <dbl>           <dbl>         <dbl>
@@ -470,7 +444,7 @@ males %>%
 #>  9 258495800008_4 Sample     Plasma-PPT          0.991           0.979         0.920
 #> 10 258495800006_6 Sample     Plasma-PPT          0.862           0.964         0.999
 #> # … with 75 more rows
-#> ════════════════════════════════════════════════════════════════════════════════════════════════════
+#> ═════════════════════════════════════════════════════════════════════════════════════════════════════
 ```
 
 #### Available S3 Methods `soma_adat`
@@ -494,7 +468,7 @@ is.intact.attributes(my_adat)     # attributes MUST be intact to write to file
 
 write_adat(my_adat, file = tempfile("my-adat-", fileext = ".adat"))
 #> ✔ ADAT passed checks and traps
-#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpnPEauo/my-adat-a4425f00b8.adat'
+#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpyGNiHo/my-adat-eb27eb3a566.adat'
 ```
 
 -----
@@ -562,18 +536,18 @@ t_tests <- getAnalyteInfo(cleanData) %>%
 #   restrict analysis to only certain analytes
 t_tests
 #> # A tibble: 5,284 × 5
-#>    AptName       SeqId     Target                                           EntrezGeneSymbol UniProt
-#>    <chr>         <chr>     <chr>                                            <chr>            <chr>  
-#>  1 seq.10000.28  10000-28  Beta-crystallin B2                               "CRYBB2"         P43320 
-#>  2 seq.10001.7   10001-7   RAF proto-oncogene serine/threonine-protein kin… "RAF1"           P04049 
-#>  3 seq.10003.15  10003-15  Zinc finger protein 41                           "ZNF41"          P51814 
-#>  4 seq.10006.25  10006-25  ETS domain-containing protein Elk-1              "ELK1"           P19419 
-#>  5 seq.10008.43  10008-43  Guanylyl cyclase-activating protein 1            "GUCA1A"         P43080 
-#>  6 seq.10011.65  10011-65  Inositol polyphosphate 5-phosphatase OCRL-1      "OCRL"           Q01968 
-#>  7 seq.10012.5   10012-5   SAM pointed domain-containing Ets transcription… "SPDEF"          O95238 
-#>  8 seq.10013.34  10013-34  Fc_MOUSE                                         ""               Q99LC4 
-#>  9 seq.10014.31  10014-31  Zinc finger protein SNAI2                        "SNAI2"          O43623 
-#> 10 seq.10015.119 10015-119 Voltage-gated potassium channel subunit beta-2   "KCNAB2"         Q13303 
+#>    AptName       SeqId     Target                                            EntrezGeneSymbol UniProt
+#>    <chr>         <chr>     <chr>                                             <chr>            <chr>  
+#>  1 seq.10000.28  10000-28  Beta-crystallin B2                                "CRYBB2"         P43320 
+#>  2 seq.10001.7   10001-7   RAF proto-oncogene serine/threonine-protein kina… "RAF1"           P04049 
+#>  3 seq.10003.15  10003-15  Zinc finger protein 41                            "ZNF41"          P51814 
+#>  4 seq.10006.25  10006-25  ETS domain-containing protein Elk-1               "ELK1"           P19419 
+#>  5 seq.10008.43  10008-43  Guanylyl cyclase-activating protein 1             "GUCA1A"         P43080 
+#>  6 seq.10011.65  10011-65  Inositol polyphosphate 5-phosphatase OCRL-1       "OCRL"           Q01968 
+#>  7 seq.10012.5   10012-5   SAM pointed domain-containing Ets transcription … "SPDEF"          O95238 
+#>  8 seq.10013.34  10013-34  Fc_MOUSE                                          ""               Q99LC4 
+#>  9 seq.10014.31  10014-31  Zinc finger protein SNAI2                         "SNAI2"          O43623 
+#> 10 seq.10015.119 10015-119 Voltage-gated potassium channel subunit beta-2    "KCNAB2"         Q13303 
 #> # … with 5,274 more rows
 ```
 
@@ -597,18 +571,18 @@ t_tests <- t_tests %>%
 # View analysis tibble
 t_tests
 #> # A tibble: 5,284 × 11
-#>    AptName      SeqId  Target EntrezGeneSymbol UniProt formula t_test t_stat  p.value      fdr  rank
-#>    <chr>        <chr>  <chr>  <chr>            <chr>   <list>  <list>  <dbl>    <dbl>    <dbl> <int>
-#>  1 seq.8468.19  8468-… Prost… KLK3             P07288  <formu… <htes… -22.1  2.46e-43 1.30e-39     1
-#>  2 seq.6580.29  6580-… Pregn… PZP              P20742  <formu… <htes…  14.2  3.07e-28 8.12e-25     2
-#>  3 seq.7926.13  7926-… Kunit… SPINT3           P49223  <formu… <htes… -11.1  6.16e-21 1.08e-17     3
-#>  4 seq.3032.11  3032-… Folli… CGA FSHB         P01215… <formu… <htes…   9.67 4.68e-17 6.18e-14     4
-#>  5 seq.16892.23 16892… Ecton… ENPP2            Q13822  <formu… <htes…   9.37 6.45e-17 6.82e-14     5
-#>  6 seq.5763.67  5763-… Beta-… DEFB104A         Q8WTQ1  <formu… <htes…  -8.71 9.11e-15 8.02e-12     6
-#>  7 seq.9282.12  9282-… Cyste… CRISP2           P16562  <formu… <htes…  -8.47 1.16e-14 8.74e-12     7
-#>  8 seq.2953.31  2953-… Lutei… CGA LHB          P01215… <formu… <htes…   8.55 2.58e-14 1.71e-11     8
-#>  9 seq.4914.10  4914-… Human… CGA CGB          P01215… <formu… <htes…   8.14 3.99e-13 2.34e-10     9
-#> 10 seq.2474.54  2474-… Serum… APCS             P02743  <formu… <htes…  -7.40 1.08e-11 5.72e- 9    10
+#>    AptName      SeqId  Target  EntrezGeneSymbol UniProt formula t_test t_stat  p.value      fdr  rank
+#>    <chr>        <chr>  <chr>   <chr>            <chr>   <list>  <list>  <dbl>    <dbl>    <dbl> <int>
+#>  1 seq.8468.19  8468-… Prosta… KLK3             P07288  <formu… <htes… -22.1  2.46e-43 1.30e-39     1
+#>  2 seq.6580.29  6580-… Pregna… PZP              P20742  <formu… <htes…  14.2  3.07e-28 8.12e-25     2
+#>  3 seq.7926.13  7926-… Kunitz… SPINT3           P49223  <formu… <htes… -11.1  6.16e-21 1.08e-17     3
+#>  4 seq.3032.11  3032-… Follic… CGA FSHB         P01215… <formu… <htes…   9.67 4.68e-17 6.18e-14     4
+#>  5 seq.16892.23 16892… Ectonu… ENPP2            Q13822  <formu… <htes…   9.37 6.45e-17 6.82e-14     5
+#>  6 seq.5763.67  5763-… Beta-d… DEFB104A         Q8WTQ1  <formu… <htes…  -8.71 9.11e-15 8.02e-12     6
+#>  7 seq.9282.12  9282-… Cystei… CRISP2           P16562  <formu… <htes…  -8.47 1.16e-14 8.74e-12     7
+#>  8 seq.2953.31  2953-… Lutein… CGA LHB          P01215… <formu… <htes…   8.55 2.58e-14 1.71e-11     8
+#>  9 seq.4914.10  4914-… Human … CGA CGB          P01215… <formu… <htes…   8.14 3.99e-13 2.34e-10     9
+#> 10 seq.2474.54  2474-… Serum … APCS             P02743  <formu… <htes…  -7.40 1.08e-11 5.72e- 9    10
 #> # … with 5,274 more rows
 ```
 
@@ -697,18 +671,18 @@ LR_tbl <- getAnalyteInfo(train) %>%
 
 LR_tbl
 #> # A tibble: 5,284 × 11
-#>    AptName      SeqId  Target  EntrezGeneSymbol UniProt formula model beta_hat p.value     fdr  rank
-#>    <chr>        <chr>  <chr>   <chr>            <chr>   <list>  <lis>    <dbl>   <dbl>   <dbl> <int>
-#>  1 seq.6580.29  6580-… Pregna… PZP              P20742  <formu… <glm>    -3.07 5.09e-9 1.98e-5     1
-#>  2 seq.5763.67  5763-… Beta-d… DEFB104A         Q8WTQ1  <formu… <glm>     3.13 7.50e-9 1.98e-5     2
-#>  3 seq.3032.11  3032-… Follic… CGA FSHB         P01215… <formu… <glm>    -1.64 2.27e-8 3.99e-5     3
-#>  4 seq.7926.13  7926-… Kunitz… SPINT3           P49223  <formu… <glm>     2.90 3.35e-8 4.42e-5     4
-#>  5 seq.2953.31  2953-… Lutein… CGA LHB          P01215… <formu… <glm>    -1.58 1.22e-7 1.28e-4     5
-#>  6 seq.16892.23 16892… Ectonu… ENPP2            Q13822  <formu… <glm>    -1.89 1.46e-7 1.28e-4     6
-#>  7 seq.4914.10  4914-… Human … CGA CGB          P01215… <formu… <glm>    -1.56 1.75e-7 1.32e-4     7
-#>  8 seq.9282.12  9282-… Cystei… CRISP2           P16562  <formu… <glm>     1.91 3.43e-7 2.27e-4     8
-#>  9 seq.2474.54  2474-… Serum … APCS             P02743  <formu… <glm>     1.79 3.00e-6 1.76e-3     9
-#> 10 seq.7139.14  7139-… SLIT a… SLITRK4          Q8IW52  <formu… <glm>     1.21 3.86e-6 2.04e-3    10
+#>    AptName      SeqId    Target EntrezGeneSymbol UniProt formula model beta_hat p.value     fdr  rank
+#>    <chr>        <chr>    <chr>  <chr>            <chr>   <list>  <lis>    <dbl>   <dbl>   <dbl> <int>
+#>  1 seq.6580.29  6580-29  Pregn… PZP              P20742  <formu… <glm>    -3.07 5.09e-9 1.98e-5     1
+#>  2 seq.5763.67  5763-67  Beta-… DEFB104A         Q8WTQ1  <formu… <glm>     3.13 7.50e-9 1.98e-5     2
+#>  3 seq.3032.11  3032-11  Folli… CGA FSHB         P01215… <formu… <glm>    -1.64 2.27e-8 3.99e-5     3
+#>  4 seq.7926.13  7926-13  Kunit… SPINT3           P49223  <formu… <glm>     2.90 3.35e-8 4.42e-5     4
+#>  5 seq.2953.31  2953-31  Lutei… CGA LHB          P01215… <formu… <glm>    -1.58 1.22e-7 1.28e-4     5
+#>  6 seq.16892.23 16892-23 Ecton… ENPP2            Q13822  <formu… <glm>    -1.89 1.46e-7 1.28e-4     6
+#>  7 seq.4914.10  4914-10  Human… CGA CGB          P01215… <formu… <glm>    -1.56 1.75e-7 1.32e-4     7
+#>  8 seq.9282.12  9282-12  Cyste… CRISP2           P16562  <formu… <glm>     1.91 3.43e-7 2.27e-4     8
+#>  9 seq.2474.54  2474-54  Serum… APCS             P02743  <formu… <glm>     1.79 3.00e-6 1.76e-3     9
+#> 10 seq.7139.14  7139-14  SLIT … SLITRK4          Q8IW52  <formu… <glm>     1.21 3.86e-6 2.04e-3    10
 #> # … with 5,274 more rows
 ```
 
@@ -778,18 +752,18 @@ LinR_tbl <- getAnalyteInfo(train) %>%               # `train` from above
 
 LinR_tbl
 #> # A tibble: 5,284 × 11
-#>    AptName      SeqId    Target  EntrezGeneSymbol UniProt formula model slope  p.value     fdr  rank
-#>    <chr>        <chr>    <chr>   <chr>            <chr>   <list>  <lis> <dbl>    <dbl>   <dbl> <int>
-#>  1 seq.3045.72  3045-72  Pleiot… PTN              P21246  <formu… <lm>   6.70 4.25e-10 2.25e-6     1
-#>  2 seq.4496.60  4496-60  Macrop… MMP12            P39900  <formu… <lm>   6.31 1.28e- 9 2.58e-6     2
-#>  3 seq.15640.54 15640-54 Transg… TAGLN            Q01995  <formu… <lm>   6.74 1.46e- 9 2.58e-6     3
-#>  4 seq.6392.7   6392-7   WNT1-i… WISP2            O76076  <formu… <lm>   6.32 2.84e- 9 3.76e-6     4
-#>  5 seq.15386.7  15386-7  Fatty … FABP4            P15090  <formu… <lm>   5.87 6.65e- 9 7.03e-6     5
-#>  6 seq.4374.45  4374-45  Growth… GDF15            Q99988  <formu… <lm>   5.95 1.26e- 8 1.11e-5     6
-#>  7 seq.2609.59  2609-59  Cystat… CST3             P01034  <formu… <lm>   5.60 3.11e- 8 2.35e-5     7
-#>  8 seq.8480.29  8480-29  EGF-co… EFEMP1           Q12805  <formu… <lm>   6.00 1.47e- 7 8.48e-5     8
-#>  9 seq.15533.97 15533-97 Macrop… MSR1             P21757  <formu… <lm>   5.51 1.50e- 7 8.48e-5     9
-#> 10 seq.3362.61  3362-61  Chordi… CHRDL1           Q9BU40  <formu… <lm>   5.35 1.86e- 7 8.48e-5    10
+#>    AptName      SeqId    Target   EntrezGeneSymbol UniProt formula model slope  p.value     fdr  rank
+#>    <chr>        <chr>    <chr>    <chr>            <chr>   <list>  <lis> <dbl>    <dbl>   <dbl> <int>
+#>  1 seq.3045.72  3045-72  Pleiotr… PTN              P21246  <formu… <lm>   6.70 4.25e-10 2.25e-6     1
+#>  2 seq.4496.60  4496-60  Macroph… MMP12            P39900  <formu… <lm>   6.31 1.28e- 9 2.58e-6     2
+#>  3 seq.15640.54 15640-54 Transge… TAGLN            Q01995  <formu… <lm>   6.74 1.46e- 9 2.58e-6     3
+#>  4 seq.6392.7   6392-7   WNT1-in… WISP2            O76076  <formu… <lm>   6.32 2.84e- 9 3.76e-6     4
+#>  5 seq.15386.7  15386-7  Fatty a… FABP4            P15090  <formu… <lm>   5.87 6.65e- 9 7.03e-6     5
+#>  6 seq.4374.45  4374-45  Growth/… GDF15            Q99988  <formu… <lm>   5.95 1.26e- 8 1.11e-5     6
+#>  7 seq.2609.59  2609-59  Cystati… CST3             P01034  <formu… <lm>   5.60 3.11e- 8 2.35e-5     7
+#>  8 seq.8480.29  8480-29  EGF-con… EFEMP1           Q12805  <formu… <lm>   6.00 1.47e- 7 8.48e-5     8
+#>  9 seq.15533.97 15533-97 Macroph… MSR1             P21757  <formu… <lm>   5.51 1.50e- 7 8.48e-5     9
+#> 10 seq.3362.61  3362-61  Chordin… CHRDL1           Q9BU40  <formu… <lm>   5.35 1.86e- 7 8.48e-5    10
 #> # … with 5,274 more rows
 ```
 
