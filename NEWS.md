@@ -1,4 +1,4 @@
-# SomaDataIO (development version)
+# SomaDataIO 5.2.0
 
 * Added new documentation regarding `Col.Meta` (@stufield, #12).
   - documentation around column meta data,
