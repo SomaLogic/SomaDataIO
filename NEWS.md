@@ -1,5 +1,6 @@
 # SomaDataIO 5.2.0
 
+* SomaLogic Inc. is now SomaLogic Operating Co. Inc.
 * Added new documentation regarding `Col.Meta` (@stufield, #12).
   - documentation around column meta data,
     row meta data, where they are found in an ADAT,

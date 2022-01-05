@@ -24,7 +24,7 @@ ver <- paste0("https://img.shields.io/badge/Version-", ver,
               "-success.svg?style=flat&logo=github")
 ```
 
-# `SomaDataIO` from SomaLogic, Inc. <img src="man/figures/logo.png" align="right" height="100" width="100"/>
+# `SomaDataIO` from SomaLogic Operating Co., Inc. <img src="man/figures/logo.png" align="right" height="100" width="100"/>
 
 <!-- badges: start -->
 ![GitHub version](`r ver`)
@@ -40,7 +40,7 @@ ver <- paste0("https://img.shields.io/badge/Version-", ver,
 ## Overview
 
 This document accompanies the R package `SomaDataIO`, which loads the 
-SomaLogic, Inc. proprietary data file called an `*.adat`.
+SomaLogic Operating Co., Inc. proprietary data file called an `*.adat`.
 The package provides auxiliary functions for extracting relevant information 
 from the ADAT object once in the R environment.
 Basic familiarity with the R environment is assumed, as is the ability to install
@@ -62,7 +62,7 @@ page and, if appropriate, submit an issue and/or feature request.
 ## Usage
 
 The `SomaDataIO` package is licensed under the [MIT](LICENSE.md)
-license is intended solely for research use only (“RUO”) purposes.
+license and is intended solely for research use only (“RUO”) purposes.
 The code contained herein may *not* be used for diagnostic, clinical,
 therapeutic, or other commercial purposes.
 

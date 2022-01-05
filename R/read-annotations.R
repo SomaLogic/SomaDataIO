@@ -1,7 +1,8 @@
 #' Import a SomaLogic Annotations File
 #'
-#' @param file A path to an annotations file location. This is a sanctioned,
-#' versioned file provided by SomaLogic, Inc. and should be an unmodified
+#' @param file A path to an annotations file location.
+#' This is a sanctioned, versioned file provided by
+#' SomaLogic Operating Co., Inc. and should be an unmodified
 #' `*.xlsx` file.
 #' @return A `tibble` containing analyte-specific annotations and
 #' related information (e.g. lift/scale information), keyed on SomaLogic

@@ -63,7 +63,7 @@ adat2eSet <- function(adat) {
 
   experimentData       <- Biobase::experimentData(eset)
   experimentData@name  <- if ("AssayType" %in% names(lst$header)) lst$header$AssayType else ""
-  experimentData@lab   <- "SomaLogic, Inc."
+  experimentData@lab   <- "SomaLogic Operating Co., Inc."
   experimentData@contact <- "2945 Wilderness Place, Boulder, Colorado, 80301."
   experimentData@title <- if ("Title" %in% names(lst$header)) lst$header$Title else ""
   experimentData@url   <- "www.somalogic.com"

@@ -7,9 +7,9 @@ Authors@R:
              family = "Field",
              role = c("aut", "cre"),
              email = "sfield@somalogic.com"),
-      person(given = "SomaLogic, Inc.",
+      person(given = "SomaLogic Operating Co., Inc.",
              role = c("cph", "fnd")))
-Description: The SomaDataIO package loads the SomaLogic, Inc.
+Description: The SomaDataIO package loads the SomaLogic Operating Co., Inc.
     proprietary data file, called an ADAT file ('*.adat'). It also
     provides auxiliary functions for extracting and manipulating relevant
     information from an ADAT, as well as exporting a modified ADAT to
@@ -42,7 +42,7 @@ Suggests:
     withr
 VignetteBuilder: 
     knitr
-Copyright: SomaLogic, Inc. 2021
+Copyright: SomaLogic Operating Co., Inc. 2022
 Encoding: UTF-8
 Language: en-US
 LazyData: true

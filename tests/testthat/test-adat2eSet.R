@@ -11,7 +11,7 @@ test_that("adat2eSet unit test", {
   expect_is(eSet@experimentData@other, "list")
   expect_equal(eSet@experimentData@url, "www.somalogic.com")
   expect_equal(eSet@experimentData@title, "Example Adat Set001, Example Adat Set002")
-  expect_equal(eSet@experimentData@lab, "SomaLogic, Inc.")
+  expect_equal(eSet@experimentData@lab, "SomaLogic Operating Co., Inc.")
   expect_equal(eSet@experimentData@other$Version, "1.2")
   expect_equal(eSet@experimentData@other$ExpDate, "2020-06-18, 2020-07-20")
   expect_equal(eSet@experimentData@other$AssaySite, "SW")

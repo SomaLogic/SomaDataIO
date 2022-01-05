@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
 
-The SomaDataIO package loads the SomaLogic, Inc.
+The SomaDataIO package loads the SomaLogic Operating Co., Inc.
     proprietary data file, called an ADAT file ('*.adat'). It also
     provides auxiliary functions for extracting and manipulating relevant
     information from an ADAT, as well as exporting a modified ADAT to
@@ -65,7 +65,7 @@ Useful links:
 
 Other contributors:
 \itemize{
-  \item SomaLogic, Inc. [copyright holder, funder]
+  \item SomaLogic Operating Co., Inc. [copyright holder, funder]
 }
 
 }

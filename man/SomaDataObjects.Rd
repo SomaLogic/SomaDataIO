@@ -44,7 +44,7 @@ plot titles on the fly.}
 }
 }
 \source{
-SomaLogic Inc.
+SomaLogic Operating Co., Inc.
 }
 \description{
 The \code{example_data} object is intended to provide existing and prospective

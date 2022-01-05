@@ -63,7 +63,7 @@
 #'   plot titles on the fly.}
 #' }
 #'
-#' @source SomaLogic Inc.
+#' @source SomaLogic Operating Co., Inc.
 #' @keywords datasets
 #' @examples
 #' # S3 print method
