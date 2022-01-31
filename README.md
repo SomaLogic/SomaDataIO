@@ -1,12 +1,12 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# `SomaDataIO` from SomaLogic, Inc. <img src="man/figures/logo.png" align="right" height="100" width="100"/>
+# `SomaDataIO` from SomaLogic Operating Co., Inc. <img src="man/figures/logo.png" align="right" height="100" width="100"/>
 
 <!-- badges: start -->
 
 ![GitHub
-version](https://img.shields.io/badge/Version-5.1.0.9000-success.svg?style=flat&logo=github)
+version](https://img.shields.io/badge/Version-5.2.0-success.svg?style=flat&logo=github)
 [![CRAN
 badge](https://img.shields.io/badge/CRAN-No-red.svg)](https://cran.r-project.org)
 [![R-CMD-check](https://github.com/SomaLogic/SomaDataIO/workflows/R-CMD-check/badge.svg)](https://github.com/SomaLogic/SomaDataIO/actions)
@@ -21,11 +21,12 @@ MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://choosealicense.
 ## Overview
 
 This document accompanies the R package `SomaDataIO`, which loads the
-SomaLogic, Inc. proprietary data file called an `*.adat`. The package
-provides auxiliary functions for extracting relevant information from
-the ADAT object once in the R environment. Basic familiarity with the R
-environment is assumed, as is the ability to install contributed
-packages from the Comprehensive R Archive Network (CRAN).
+SomaLogic Operating Co., Inc. proprietary data file called an `*.adat`.
+The package provides auxiliary functions for extracting relevant
+information from the ADAT object once in the R environment. Basic
+familiarity with the R environment is assumed, as is the ability to
+install contributed packages from the Comprehensive R Archive Network
+(CRAN).
 
 If you run into any issues/problems with `SomaDataIO` full documentation
 of the most recent
@@ -41,7 +42,7 @@ appropriate, submit an issue and/or feature request.
 ## Usage
 
 The `SomaDataIO` package is licensed under the [MIT](LICENSE.md) license
-is intended solely for research use only (“RUO”) purposes. The code
+and is intended solely for research use only (“RUO”) purposes. The code
 contained herein may *not* be used for diagnostic, clinical,
 therapeutic, or other commercial purposes.
 
@@ -340,18 +341,18 @@ in `?Col.Meta` via the common index-key, `AptName`, in column 1:
 ``` r
 getAnalyteInfo(my_adat)
 #> # A tibble: 5,284 × 22
-#>    AptName  SeqId  SeqIdVersion SomaId TargetFullName    Target UniProt EntrezGeneID EntrezGeneSymbol
-#>    <chr>    <chr>         <dbl> <chr>  <chr>             <chr>  <chr>   <chr>        <chr>           
-#>  1 seq.100… 10000…            3 SL019… Beta-crystallin … CRBB2  P43320  "1415"       "CRYBB2"        
-#>  2 seq.100… 10001…            3 SL002… RAF proto-oncoge… c-Raf  P04049  "5894"       "RAF1"          
-#>  3 seq.100… 10003…            3 SL019… Zinc finger prot… ZNF41  P51814  "7592"       "ZNF41"         
-#>  4 seq.100… 10006…            3 SL019… ETS domain-conta… ELK1   P19419  "2002"       "ELK1"          
-#>  5 seq.100… 10008…            3 SL019… Guanylyl cyclase… GUC1A  P43080  "2978"       "GUCA1A"        
-#>  6 seq.100… 10011…            3 SL019… Inositol polypho… OCRL   Q01968  "4952"       "OCRL"          
-#>  7 seq.100… 10012…            3 SL014… SAM pointed doma… SPDEF  O95238  "25803"      "SPDEF"         
-#>  8 seq.100… 10013…            3 SL025… Fc_MOUSE          Fc_MO… Q99LC4  ""           ""              
-#>  9 seq.100… 10014…            3 SL007… Zinc finger prot… SLUG   O43623  "6591"       "SNAI2"         
-#> 10 seq.100… 10015…            3 SL014… Voltage-gated po… KCAB2  Q13303  "8514"       "KCNAB2"        
+#>    AptName      SeqId SeqIdVersion SomaId TargetFullName Target UniProt EntrezGeneID EntrezGeneSymbol
+#>    <chr>        <chr>        <dbl> <chr>  <chr>          <chr>  <chr>   <chr>        <chr>           
+#>  1 seq.10000.28 1000…            3 SL019… Beta-crystall… CRBB2  P43320  "1415"       "CRYBB2"        
+#>  2 seq.10001.7  1000…            3 SL002… RAF proto-onc… c-Raf  P04049  "5894"       "RAF1"          
+#>  3 seq.10003.15 1000…            3 SL019… Zinc finger p… ZNF41  P51814  "7592"       "ZNF41"         
+#>  4 seq.10006.25 1000…            3 SL019… ETS domain-co… ELK1   P19419  "2002"       "ELK1"          
+#>  5 seq.10008.43 1000…            3 SL019… Guanylyl cycl… GUC1A  P43080  "2978"       "GUCA1A"        
+#>  6 seq.10011.65 1001…            3 SL019… Inositol poly… OCRL   Q01968  "4952"       "OCRL"          
+#>  7 seq.10012.5  1001…            3 SL014… SAM pointed d… SPDEF  O95238  "25803"      "SPDEF"         
+#>  8 seq.10013.34 1001…            3 SL025… Fc_MOUSE       Fc_MO… Q99LC4  ""           ""              
+#>  9 seq.10014.31 1001…            3 SL007… Zinc finger p… SLUG   O43623  "6591"       "SNAI2"         
+#> 10 seq.10015.1… 1001…            3 SL014… Voltage-gated… KCAB2  Q13303  "8514"       "KCNAB2"        
 #> # … with 5,274 more rows, and 13 more variables: Organism <chr>, Units <chr>, Type <chr>,
 #> #   Dilution <chr>, PlateScale_Reference <dbl>, CalReference <dbl>, Cal_Example_Adat_Set001 <dbl>,
 #> #   ColCheck <chr>, CalQcRatio_Example_Adat_Set001_170255 <dbl>, QcReference_170255 <dbl>,
@@ -468,7 +469,7 @@ is.intact.attributes(my_adat)     # attributes MUST be intact to write to file
 
 write_adat(my_adat, file = tempfile("my-adat-", fileext = ".adat"))
 #> ✔ ADAT passed checks and traps
-#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpyGNiHo/my-adat-eb27eb3a566.adat'
+#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpmwk9TG/my-adat-77c4e1d1566.adat'
 ```
 
 -----
@@ -571,18 +572,18 @@ t_tests <- t_tests %>%
 # View analysis tibble
 t_tests
 #> # A tibble: 5,284 × 11
-#>    AptName      SeqId  Target  EntrezGeneSymbol UniProt formula t_test t_stat  p.value      fdr  rank
-#>    <chr>        <chr>  <chr>   <chr>            <chr>   <list>  <list>  <dbl>    <dbl>    <dbl> <int>
-#>  1 seq.8468.19  8468-… Prosta… KLK3             P07288  <formu… <htes… -22.1  2.46e-43 1.30e-39     1
-#>  2 seq.6580.29  6580-… Pregna… PZP              P20742  <formu… <htes…  14.2  3.07e-28 8.12e-25     2
-#>  3 seq.7926.13  7926-… Kunitz… SPINT3           P49223  <formu… <htes… -11.1  6.16e-21 1.08e-17     3
-#>  4 seq.3032.11  3032-… Follic… CGA FSHB         P01215… <formu… <htes…   9.67 4.68e-17 6.18e-14     4
-#>  5 seq.16892.23 16892… Ectonu… ENPP2            Q13822  <formu… <htes…   9.37 6.45e-17 6.82e-14     5
-#>  6 seq.5763.67  5763-… Beta-d… DEFB104A         Q8WTQ1  <formu… <htes…  -8.71 9.11e-15 8.02e-12     6
-#>  7 seq.9282.12  9282-… Cystei… CRISP2           P16562  <formu… <htes…  -8.47 1.16e-14 8.74e-12     7
-#>  8 seq.2953.31  2953-… Lutein… CGA LHB          P01215… <formu… <htes…   8.55 2.58e-14 1.71e-11     8
-#>  9 seq.4914.10  4914-… Human … CGA CGB          P01215… <formu… <htes…   8.14 3.99e-13 2.34e-10     9
-#> 10 seq.2474.54  2474-… Serum … APCS             P02743  <formu… <htes…  -7.40 1.08e-11 5.72e- 9    10
+#>    AptName     SeqId Target EntrezGeneSymbol UniProt formula   t_test  t_stat  p.value      fdr  rank
+#>    <chr>       <chr> <chr>  <chr>            <chr>   <list>    <list>   <dbl>    <dbl>    <dbl> <int>
+#>  1 seq.8468.19 8468… Prost… KLK3             P07288  <formula> <htest> -22.1  2.46e-43 1.30e-39     1
+#>  2 seq.6580.29 6580… Pregn… PZP              P20742  <formula> <htest>  14.2  3.07e-28 8.12e-25     2
+#>  3 seq.7926.13 7926… Kunit… SPINT3           P49223  <formula> <htest> -11.1  6.16e-21 1.08e-17     3
+#>  4 seq.3032.11 3032… Folli… CGA FSHB         P01215… <formula> <htest>   9.67 4.68e-17 6.18e-14     4
+#>  5 seq.16892.… 1689… Ecton… ENPP2            Q13822  <formula> <htest>   9.37 6.45e-17 6.82e-14     5
+#>  6 seq.5763.67 5763… Beta-… DEFB104A         Q8WTQ1  <formula> <htest>  -8.71 9.11e-15 8.02e-12     6
+#>  7 seq.9282.12 9282… Cyste… CRISP2           P16562  <formula> <htest>  -8.47 1.16e-14 8.74e-12     7
+#>  8 seq.2953.31 2953… Lutei… CGA LHB          P01215… <formula> <htest>   8.55 2.58e-14 1.71e-11     8
+#>  9 seq.4914.10 4914… Human… CGA CGB          P01215… <formula> <htest>   8.14 3.99e-13 2.34e-10     9
+#> 10 seq.2474.54 2474… Serum… APCS             P02743  <formula> <htest>  -7.40 1.08e-11 5.72e- 9    10
 #> # … with 5,274 more rows
 ```
 
@@ -671,18 +672,18 @@ LR_tbl <- getAnalyteInfo(train) %>%
 
 LR_tbl
 #> # A tibble: 5,284 × 11
-#>    AptName      SeqId    Target EntrezGeneSymbol UniProt formula model beta_hat p.value     fdr  rank
-#>    <chr>        <chr>    <chr>  <chr>            <chr>   <list>  <lis>    <dbl>   <dbl>   <dbl> <int>
-#>  1 seq.6580.29  6580-29  Pregn… PZP              P20742  <formu… <glm>    -3.07 5.09e-9 1.98e-5     1
-#>  2 seq.5763.67  5763-67  Beta-… DEFB104A         Q8WTQ1  <formu… <glm>     3.13 7.50e-9 1.98e-5     2
-#>  3 seq.3032.11  3032-11  Folli… CGA FSHB         P01215… <formu… <glm>    -1.64 2.27e-8 3.99e-5     3
-#>  4 seq.7926.13  7926-13  Kunit… SPINT3           P49223  <formu… <glm>     2.90 3.35e-8 4.42e-5     4
-#>  5 seq.2953.31  2953-31  Lutei… CGA LHB          P01215… <formu… <glm>    -1.58 1.22e-7 1.28e-4     5
-#>  6 seq.16892.23 16892-23 Ecton… ENPP2            Q13822  <formu… <glm>    -1.89 1.46e-7 1.28e-4     6
-#>  7 seq.4914.10  4914-10  Human… CGA CGB          P01215… <formu… <glm>    -1.56 1.75e-7 1.32e-4     7
-#>  8 seq.9282.12  9282-12  Cyste… CRISP2           P16562  <formu… <glm>     1.91 3.43e-7 2.27e-4     8
-#>  9 seq.2474.54  2474-54  Serum… APCS             P02743  <formu… <glm>     1.79 3.00e-6 1.76e-3     9
-#> 10 seq.7139.14  7139-14  SLIT … SLITRK4          Q8IW52  <formu… <glm>     1.21 3.86e-6 2.04e-3    10
+#>    AptName      SeqId  Target EntrezGeneSymbol UniProt formula   model beta_hat p.value     fdr  rank
+#>    <chr>        <chr>  <chr>  <chr>            <chr>   <list>    <lis>    <dbl>   <dbl>   <dbl> <int>
+#>  1 seq.6580.29  6580-… Pregn… PZP              P20742  <formula> <glm>    -3.07 5.09e-9 1.98e-5     1
+#>  2 seq.5763.67  5763-… Beta-… DEFB104A         Q8WTQ1  <formula> <glm>     3.13 7.50e-9 1.98e-5     2
+#>  3 seq.3032.11  3032-… Folli… CGA FSHB         P01215… <formula> <glm>    -1.64 2.27e-8 3.99e-5     3
+#>  4 seq.7926.13  7926-… Kunit… SPINT3           P49223  <formula> <glm>     2.90 3.35e-8 4.42e-5     4
+#>  5 seq.2953.31  2953-… Lutei… CGA LHB          P01215… <formula> <glm>    -1.58 1.22e-7 1.28e-4     5
+#>  6 seq.16892.23 16892… Ecton… ENPP2            Q13822  <formula> <glm>    -1.89 1.46e-7 1.28e-4     6
+#>  7 seq.4914.10  4914-… Human… CGA CGB          P01215… <formula> <glm>    -1.56 1.75e-7 1.32e-4     7
+#>  8 seq.9282.12  9282-… Cyste… CRISP2           P16562  <formula> <glm>     1.91 3.43e-7 2.27e-4     8
+#>  9 seq.2474.54  2474-… Serum… APCS             P02743  <formula> <glm>     1.79 3.00e-6 1.76e-3     9
+#> 10 seq.7139.14  7139-… SLIT … SLITRK4          Q8IW52  <formula> <glm>     1.21 3.86e-6 2.04e-3    10
 #> # … with 5,274 more rows
 ```
 
@@ -752,18 +753,18 @@ LinR_tbl <- getAnalyteInfo(train) %>%               # `train` from above
 
 LinR_tbl
 #> # A tibble: 5,284 × 11
-#>    AptName      SeqId    Target   EntrezGeneSymbol UniProt formula model slope  p.value     fdr  rank
-#>    <chr>        <chr>    <chr>    <chr>            <chr>   <list>  <lis> <dbl>    <dbl>   <dbl> <int>
-#>  1 seq.3045.72  3045-72  Pleiotr… PTN              P21246  <formu… <lm>   6.70 4.25e-10 2.25e-6     1
-#>  2 seq.4496.60  4496-60  Macroph… MMP12            P39900  <formu… <lm>   6.31 1.28e- 9 2.58e-6     2
-#>  3 seq.15640.54 15640-54 Transge… TAGLN            Q01995  <formu… <lm>   6.74 1.46e- 9 2.58e-6     3
-#>  4 seq.6392.7   6392-7   WNT1-in… WISP2            O76076  <formu… <lm>   6.32 2.84e- 9 3.76e-6     4
-#>  5 seq.15386.7  15386-7  Fatty a… FABP4            P15090  <formu… <lm>   5.87 6.65e- 9 7.03e-6     5
-#>  6 seq.4374.45  4374-45  Growth/… GDF15            Q99988  <formu… <lm>   5.95 1.26e- 8 1.11e-5     6
-#>  7 seq.2609.59  2609-59  Cystati… CST3             P01034  <formu… <lm>   5.60 3.11e- 8 2.35e-5     7
-#>  8 seq.8480.29  8480-29  EGF-con… EFEMP1           Q12805  <formu… <lm>   6.00 1.47e- 7 8.48e-5     8
-#>  9 seq.15533.97 15533-97 Macroph… MSR1             P21757  <formu… <lm>   5.51 1.50e- 7 8.48e-5     9
-#> 10 seq.3362.61  3362-61  Chordin… CHRDL1           Q9BU40  <formu… <lm>   5.35 1.86e- 7 8.48e-5    10
+#>    AptName      SeqId    Target EntrezGeneSymbol UniProt formula   model slope  p.value     fdr  rank
+#>    <chr>        <chr>    <chr>  <chr>            <chr>   <list>    <lis> <dbl>    <dbl>   <dbl> <int>
+#>  1 seq.3045.72  3045-72  Pleio… PTN              P21246  <formula> <lm>   6.70 4.25e-10 2.25e-6     1
+#>  2 seq.4496.60  4496-60  Macro… MMP12            P39900  <formula> <lm>   6.31 1.28e- 9 2.58e-6     2
+#>  3 seq.15640.54 15640-54 Trans… TAGLN            Q01995  <formula> <lm>   6.74 1.46e- 9 2.58e-6     3
+#>  4 seq.6392.7   6392-7   WNT1-… WISP2            O76076  <formula> <lm>   6.32 2.84e- 9 3.76e-6     4
+#>  5 seq.15386.7  15386-7  Fatty… FABP4            P15090  <formula> <lm>   5.87 6.65e- 9 7.03e-6     5
+#>  6 seq.4374.45  4374-45  Growt… GDF15            Q99988  <formula> <lm>   5.95 1.26e- 8 1.11e-5     6
+#>  7 seq.2609.59  2609-59  Cysta… CST3             P01034  <formula> <lm>   5.60 3.11e- 8 2.35e-5     7
+#>  8 seq.8480.29  8480-29  EGF-c… EFEMP1           Q12805  <formula> <lm>   6.00 1.47e- 7 8.48e-5     8
+#>  9 seq.15533.97 15533-97 Macro… MSR1             P21757  <formula> <lm>   5.51 1.50e- 7 8.48e-5     9
+#> 10 seq.3362.61  3362-61  Chord… CHRDL1           Q9BU40  <formula> <lm>   5.35 1.86e- 7 8.48e-5    10
 #> # … with 5,274 more rows
 ```
 
