@@ -7,19 +7,18 @@
 #' @param x A `soma_adat` to be written.
 #' @return The adat attributes after `Header.Meta` and `Col.Meta` clean up.
 #' @author Stu Field
-#' @importFrom tidyselect any_of
 #' @keywords internal
 #' @noRd
 prepHeaderMeta <- function(data) {
 
   if ( is.intact.attributes(data) ) {
     x <- attributes(data)
-    x$Col.Meta %<>% dplyr::select(-any_of("Dilution2"))  # rm Dilution2
+    x$Col.Meta$Dilution2 <- NULL   # rm Dilution2
   } else {
     # THIS IS A BIT OF A KLUGE :(
-    .oops("Please fix ADAT attributes prior to `write()` call" )
+    .oops("Please fix ADAT attributes prior to `write_adat()` call" )
     .oops("Calling `is.intact.attributes(data)` should be TRUE")
-    .oops("Fix attributes using `SomaPlyr::createChildAttributes()`")
+    .oops("Fix attributes using `createChildAttributes()`")
     .code("Example:")
     .code("  data <- createChildAttributes(data, parent)")
     stop("Stopping while you fix the attributes of `data`.", call. = FALSE)
@@ -32,12 +31,13 @@ prepHeaderMeta <- function(data) {
   x$Header.Meta$COL_DATA$Type <- unname(unlist(map[names(x$Col.Meta)]))
 
   # Update the ROW_DATA -> Name & Type vectors
-  data <- data %>% dplyr::select(getMeta(.))
+  data <- data[, getMeta(data)]
   x$Header.Meta$ROW_DATA$Name <- names(data)
-  x$Header.Meta$ROW_DATA$Type <- vapply(data, typeof, FUN.VALUE = character(1))
+  x$Header.Meta$ROW_DATA$Type <- vapply(data, typeof, FUN.VALUE = "")
 
-  # zap commas with semicolons
-  x$Col.Meta %<>% purrr::modify_if(is.character, ~ gsub(",", ";", .x))
+  # zap commas with semicolons in chr Col.Meta
+  idx <- which(vapply(x$Col.Meta, is.character, NA))
+  for ( i in idx ) x$Col.Meta[[i]] <- gsub(",", ";", x$Col.Meta[[i]])
 
   if ( "CreatedByHistory" %in% names(x$Header.Meta$HEADER) ) {
     x$Header.Meta$HEADER$CreatedByHistory <-

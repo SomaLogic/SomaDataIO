@@ -28,25 +28,24 @@
 #'
 #' # Rows of "Target" starting with MMP
 #' anno_tbl %>% dplyr::filter(grepl("^MMP", Target))
-#' @importFrom tibble tibble
+#' @importFrom tibble tibble as_tibble
 #' @export
 getAnalyteInfo <- function(adat) {
 
   colmeta <- adat %@@% "Col.Meta"
   stopifnot(!is.null(colmeta), inherits(colmeta, "tbl_df"))
-  colmeta %<>% dplyr::ungroup()    # safety; previously a 'grouped_df'
-  L <- vapply(colmeta, length, FUN.VALUE = 1L, USE.NAMES = FALSE)
+  colmeta <- dplyr::ungroup(colmeta)  # safety; previously a 'grouped_df'
+  # AptName is the key index that links AnalyteInfo -> ADAT
+  tbl <- tibble(AptName = getAnalytes(adat), SeqId = getSeqId(AptName, TRUE))
 
-  if ( !(diff(range(L)) < .Machine$double.eps^0.5) ) {
+  L <- range(lengths(colmeta, use.names = FALSE))
+  if ( diff(L) > .Machine$double.eps^0.5 ) {
+    # now that colmeta is `tbl_df` never enters this branch
     warning("Unequal lengths in column meta data", call. = FALSE)
-    max <- max(L)
-    colmeta %<>% purrr::map_if(L < max, ~ c(.x, rep(NA, max - length(.x))))
+    .jagged <- function(x) as_tibble(lapply(x, "length<-", max(lengths(x))))
+    colmeta <- .jagged(colmeta)
   }
 
-  # Ensure `AptName` can be used in the ADAT it comes from
-  # AptName is the key index that links AnalyteInfo -> ADAT
-  tbl <- tibble::tibble(AptName = getAnalytes(adat),
-                        SeqId   = getSeqId(AptName, TRUE))
   if ( nrow(tbl) != nrow(colmeta) ) {
     warning(
       "Features inconsistent between `AptName` vs `SeqId` in `getAnalyteInfo()`.\n",

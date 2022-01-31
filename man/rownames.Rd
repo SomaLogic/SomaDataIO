@@ -57,7 +57,7 @@ will be overwritten (with warning).
 \item \code{has_rn}: returns a boolean indicating whether the data frame
 has explicit row names assigned.
 
-\item \code{rm_rn}: removes existing row names, leaving only implicit row names.
+\item \code{rm_rn}: removes existing row names, leaving only "implicit" row names.
 
 \item \code{set_rn}: sets (and overwrites) existing row names for data frames only.
 

@@ -80,8 +80,13 @@ has_rn <- function(data) {
   .row_names_info(data, 1L) > 0L && !is.na(.row_names_info(data, 0L)[[1L]])
 }
 
+# does the data frame have implicit rownames?
+implicit_rn <- function(data) {
+  .row_names_info(data, 1L) < 0L
+}
+
 #' @describeIn rownames
-#' removes existing row names, leaving only implicit row names.
+#' removes existing row names, leaving only "implicit" row names.
 #' @export
 rm_rn <- function(data) {
   stopifnot(is.data.frame(data))

@@ -57,6 +57,12 @@ getAnalytes.soma_adat <- getAnalytes.data.frame
 
 #' @noRd
 #' @export
+getAnalytes.recipe <- function(x, n = FALSE, rm.controls = FALSE) {
+  getAnalytes(x$var_info$variable, n = n, rm.controls = rm.controls)
+}
+
+#' @noRd
+#' @export
 getAnalytes.list <- getAnalytes.data.frame
 
 #' @noRd
@@ -79,6 +85,7 @@ getAnalytes.character <- function(x, n = FALSE, rm.controls = FALSE) {
     x[lgl]
   }
 }
+
 
 #' Get Control Analytes (internal)
 #'

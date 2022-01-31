@@ -106,7 +106,7 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
         .value(deparse(substitute(adat1))),
         .value(deparse(substitute(adat2)))
       ) %>% writeLines()
-      purrr::walk(.pad(apts1_2, ipad, "left"), writeLines)
+      lapply(.pad(apts1_2, ipad, "left"), writeLines)
     }
 
     if ( length(apts2_1) > 0 ) {
@@ -115,7 +115,7 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
         .value(deparse(substitute(adat2))),
         .value(deparse(substitute(adat1)))
       ) %>% writeLines()
-      purrr::walk(.pad(apts2_1, ipad, "left"), writeLines)
+      lapply(.pad(apts2_1, ipad, "left"), writeLines)
     }
 
     if ( length(meta1_2) > 0 ) {
@@ -124,7 +124,7 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
         .value(deparse(substitute(adat1))),
         .value(deparse(substitute(adat2)))
       ) %>% writeLines()
-      purrr::walk(.pad(meta1_2, ipad, "left"), writeLines)
+      lapply(.pad(meta1_2, ipad, "left"), writeLines)
     }
 
     if ( length(meta2_1) > 0 ) {
@@ -133,7 +133,7 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
         .value(deparse(substitute(adat2))),
         .value(deparse(substitute(adat1)))
       ) %>% writeLines()
-      purrr::walk(.pad(meta2_1, ipad, "left"), writeLines)
+      lapply(.pad(meta2_1, ipad, "left"), writeLines)
     }
     cat("\n")
     .done(

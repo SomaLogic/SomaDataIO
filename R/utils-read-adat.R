@@ -1,7 +1,22 @@
 # Auxiliary internals to `read_adat()`
 
-#' @keywords internal
-#' @noRd
+# certain "standard" variables are known to be a specific class
+# otherwise allow read.delim() to guess type
+.metaTypes <- function(x) {
+  base_type <- rep_len(NA_character_, length(x))
+  known_chr <- c("PlateId", "SampleId", "SampleType", "Subject_ID", "SampleMatrix")
+  known_dbl <- c("SlideId", "Subarray", "HybControlNormScale")
+  chr_idx   <- which(x %in% known_chr)
+  dbl_idx   <- which(x %in% known_dbl)
+  if ( length(chr_idx) ) base_type[chr_idx] <- "character"
+  if ( length(dbl_idx) ) base_type[dbl_idx] <- "numeric"
+  stopifnot(
+    length(x) == length(base_type),
+    is.character(base_type)
+  )
+  base_type
+}
+
 checkHeader <- function(header, verbose) {
 
   if ( !"Header.Meta" %in% names(header) ) {
@@ -74,9 +89,11 @@ catchColMeta <- function(x) {
 #' @keywords internal
 #' @noRd
 catchFile <- function(x) {
-  stopifnot("EmptyAdat" %in% names(x),
-            "table.begin" %in% names(x),
-            "old.adat" %in% names(x))
+  stopifnot(
+    "EmptyAdat" %in% names(x),
+    "table.begin" %in% names(x),
+    "old.adat" %in% names(x)
+  )
 
   if ( !is.logical(x$EmptyAdat) ) {
     stop(
@@ -158,7 +175,6 @@ catchDims <- function(x, y) {
 #' Helper for the 'verbose =' argument.
 #' @param rfu The RFU + meta data matrix. The actual data.
 #' @param header The header info from parseHeader().
-#' @importFrom purrr walk
 #' @importFrom utils head
 #' @keywords internal
 #' @noRd
@@ -192,7 +208,7 @@ catchDims <- function(x, y) {
     paste(dim(rfu), collapse = " x "),
     paste(dim(data.frame(header$Col.Meta)), collapse = " x ")
   ) %>% cr_red()
-  purrr::walk(paste(c1, cr_blue(symb_point), c2), .done)
+  lapply(paste(c1, cr_blue(symb_point), c2), .done)
   writeLines(
     cli_rule(cr_bold("Head Col Meta"), line_col = "magenta")
   )
@@ -201,7 +217,7 @@ catchDims <- function(x, y) {
     cli_rule(cr_bold("Head Feature Data (final 2 cols)"), line_col = "magenta")
   )
   nc <- ncol(rfu)
-  print(utils::head(dplyr::select(rfu, (nc - 1):nc)))
+  print(head(dplyr::select(rfu, (nc - 1):nc)))
   writeLines(cli_rule(line_col = "green", line = 2))
   invisible(NULL)
 }

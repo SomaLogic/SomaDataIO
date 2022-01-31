@@ -20,29 +20,30 @@
 #'                  package = "SomaDataIO", mustWork = TRUE)
 #' header <- parseHeader(f)
 #' header
-#' @seealso [read_lines()]
-#' @importFrom readr read_lines
 #' @importFrom stats setNames
+#' @importFrom tibble enframe
 #' @export
 parseHeader <- function(file) {
 
-  line <- 0
-  nms  <- c("Header.Meta", "Col.Meta", "file.specs")
-  ret  <- setNames(replicate(length(nms), list()), nms)
+  nms <- c("Header.Meta", "Col.Meta", "file.specs")
+  ret <- setNames(replicate(length(nms), list()), nms)
+  all_data <- .getHeaderLines(file)
 
+  line <- 0L
   repeat {
-    row_data <- readr::read_lines(file, n_max = 1L, skip = line)
+    line <- line + 1L
+    row_data <- all_data[line]
 
     # if end of file reached before feature data = empty adat
-    if ( ret$file.specs$EmptyAdat <- length(row_data) == 0 ) {
+    # modified based on length of the all_data rather then content of row_data
+    if ( ret$file.specs$EmptyAdat <- line > length(all_data) ) {
       break
     }
 
-    line <- line + 1
-    #print(line)
-    catchRunawayTabs(row_data)  # trap runaway tabs
+    row_data <- .trimRunawayTabs(row_data)  # trim runaway tabs in anchor lines
 
     if ( grepl("Checksum", row_data) ) {
+      # for old ADATs with checksums
       ret$Header.Meta$Checksum <- strsplit(row_data, "\t", fixed = TRUE)[[1L]][2L]
       next
     } else if ( row_data == "^HEADER" ) {
@@ -58,6 +59,8 @@ parseHeader <- function(file) {
       section <- "Col.Meta"
       ret$file.specs$table.begin    <- line
       ret$file.specs$col.meta.start <- line + 1
+      shift <- regexpr("[[:alnum:]]", all_data[line + 1])
+      ret$file.specs$col.meta.shift <- as.integer(shift) # strip attr
       next
     } else if ( grepl("^\\^[A-Z]", row_data) ) {
       section    <- "Free.Form"
@@ -67,10 +70,29 @@ parseHeader <- function(file) {
     }
     #print(section)
 
+    # zap (!) if starts with non-alphanum
+    row_data <- gsub("^[^A-Za-z\t]+", "", row_data)
+
+    # leading tab-space means within Col.Meta block
+    leading_tab <- grepl("^\t", row_data)
+
+    # trim leading/trailing empty strings in header block
+    # trap case: "key\tvalue\t\t\t\t\t\t\t" -> "key\tvalue"
+    side <- switch(section, Col.Meta = "left", "right")
+    row_data <- trimws(row_data, which = side, whitespace = "[\t]")
+
+    # If in Col.Meta but no longer leading tab-space, break out Col.Meta
+    # This only happens once, when Col.Meta section has been completed
+    if ( section == "Col.Meta" && !leading_tab ) {
+      section <- "EXIT"
+    }
+
     tokens <- strsplit(row_data, "\t", fixed = TRUE)[[1L]]
+    # pad trailing match; strsplit() does not pad empty string with trailing match
+    if ( grepl("\t$", row_data) ) tokens <- c(tokens, "")
     #print(tokens)
 
-    if ( section == "HEADER" && identical(tokens, character(0)) ) {
+    if ( section == "HEADER" && all(tokens == "") ) {
       warning(
         "Blank row detected in `Header` section ... it will be skipped.",
         call. = FALSE
@@ -78,66 +100,83 @@ parseHeader <- function(file) {
       next
     }
 
-    # are 1st 2 entries empty strings? Col.Meta section
-    first_alnum <- grep("[[:alnum:]]", tokens)[1L]
-
-    # If first alpha-num is once again at 1 | 2 position, break out of Col.Meta section
-    # This only happens once, when Col.Meta section has been completed
-    if ( section == "Col.Meta" && first_alnum <= 2 ) {
-      section <- "DATA_TABLE"
-    }
-
-    # Trim leading/trailing empty strings from vector
-    # But treat the Col.Meta section specially
-    tokens %<>% trim_empty(ifelse(section == "Col.Meta", "left", "right"))
-
-    # zap (!) if starts with non-alphanum
-    tokens[1L] <- gsub("^[^A-Za-z]+", "", tokens[1L])
-    #print(tokens[1])
-
     if ( section == "HEADER" ) {
       cur.header <- tokens[1L]
       ret$Header.Meta[[section]][[cur.header]] <- list()
-      ret$Header.Meta[[section]][[cur.header]] <- tokens[-1]
+      ret$Header.Meta[[section]][[cur.header]] <- tokens[-1L]
     } else if ( section == "COL_DATA" ) {
-      ret$Header.Meta[[section]][[tokens[1L]]]  <- tokens[-1]
+      ret$Header.Meta[[section]][[tokens[1L]]]  <- tokens[-1L]
     } else if ( section == "ROW_DATA" ) {
-      ret$Header.Meta[[section]][[tokens[1L]]]  <- tokens[-1]
+      ret$Header.Meta[[section]][[tokens[1L]]]  <- tokens[-1L]
     } else if ( section == "Free.Form" ) {
       cur.header <- tokens[1L]
       ret$Header.Meta[[free_field]][[cur.header]] <- list()
-      ret$Header.Meta[[free_field]][[cur.header]] <- tokens[-1]
+      ret$Header.Meta[[free_field]][[cur.header]] <- tokens[-1L]
     } else if ( section == "Col.Meta" ) {
-      ret[[section]][[tokens[1L]]]  <- tokens[-1]
-      ret$file.specs$col.meta.shift <- first_alnum
-    } else if ( section == "DATA_TABLE" ) {
-      # if at end of Col.Meta section, break loop & stop reading file
-      # first check that all lengths Col.Meta are equal (or as_tibble will fail)
-      if ( diff(range(vapply(ret$Col.Meta, length, integer(1)))) != 0 ) {
+      ret[[section]][[tokens[1L]]]  <- tokens[-1L]
+    } else if ( section == "EXIT" ) {
+      # if at end of Col.Meta section, break loop & stop parsing
+      # 1st check that all lengths Col.Meta are equal (or as_tibble() will fail)
+      if ( diff(range(lengths(ret$Col.Meta))) != 0 ) {
+        if ( interactive() ) {
+          print(enframe(lengths(ret$Col.Meta), name = "Field", value = "\t"))
+        }
         stop(
           "Col.Meta lengths unequal! The Col.Meta block in not square.\n",
           "There may be trailing tabs in the Col.Meta section.", call. = FALSE
         )
       }
       ret$file.specs$data.begin   <- line
-      ret$row.meta                <- tokens
+      tokens <- trimws(tokens)    # ensure spaces in header row -> ""
+      ret$row.meta                <- tokens[tokens != ""] # rm empty elements
       ret$Header.Meta$TABLE_BEGIN <- basename(file)  # append file name to header & break
       break
     }
   }
+
   # TRUE if old adat version
   ret$file.specs$old.adat <- getAdatVersion(ret$Header.Meta) < "1.0.0"
   ret
 }
 
-#' Runaway Tabs Catch: Internal to `parseHeader()`
-#' @param x A single line of text from an ADAT.
-#' @keywords internal
-#' @noRd
-catchRunawayTabs <- function(x) {
-  if ( grepl("^\\^.*[\t]{250,}$", x) ) {
-    stop("Invalid ADAT! Empty tabs filling out the entire header block.",
-         call. = FALSE)
+
+# Bite off chunks of the ADAT header 'x' (20) at a time
+#   until the RFU block is reached
+# Should be faster than reading *all* lines _every_ time,
+#   especially for large files with many samples
+# @param n initial starting n lines to ingest.
+# @param chunks number of additional new lines to ingest at each iteration.
+.getHeaderLines <- function(file, n = 20L, chunks = 20L) {
+  repeat {
+    lines <- readLines(file, n = n, encoding = "UTF-8")
+    if ( length(lines) < n ) break    # exit if overshot file length
+    lastline   <- trimws(rev(lines)[1L], which = "right")  # only trailing \t
+    tab_start  <- grepl("^\t", lastline) # line starts with \t
+    tab_digits <- gregexpr("\t[0-9]+[.][0-9]+\t", lastline)[[1L]] # tabs w only digits
+    # exit if:
+    #   last line doesn't start with tab (not in Col.Meta block)
+    #   last line has > 250 tabs containing only digits (RFU data block)
+    if ( !tab_start && length(tab_digits) > 250L ) {
+      break
+    } else {
+      n <- n + chunks    # bite off chunks of lines
+    }
   }
-  invisible(NULL)
+  lines
+}
+
+# Runaway \t catch:
+#   anchor (^) lines need right-side trimming to determine 'section' correctly
+# @param x A single line of text from readLines().
+.trimRunawayTabs <- function(x) {
+  anchors <- c("^HEADER", "^ROW_META", "^COL_META", "^TABLE_BEGIN")
+  pattern <- paste0("\\", anchors, "[\t]+$")
+  pattern <- paste(pattern, collapse = "|")
+  if ( grepl(pattern, x) ) {
+    warning("Trailing tabs filling out header block in one of: ",
+            .value(anchors), "\nTrailing tabs will be trimmed.", call. = FALSE)
+    trimws(x, "right", whitespace = "[\t]")
+  } else {
+    x
+  }
 }

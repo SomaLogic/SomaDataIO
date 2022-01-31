@@ -13,7 +13,7 @@
 #' @return [matchSeqIds()]: a character string corresponding to values
 #' in `y` of the intersect of `x` and `y`. If no matches are
 #' found, `character(0)`.
-#' @seealso [intersect()], [discard()]
+#' @seealso [intersect()]
 #' @examples
 #'
 #' # SeqId Matching
@@ -22,15 +22,15 @@
 #' matchSeqIds(x, y)
 #' matchSeqIds(x, y, order.by.x = FALSE)
 #'
-#' @importFrom purrr discard
 #' @importFrom stats setNames
 #' @export
 matchSeqIds <- function(x, y, order.by.x = TRUE) {
-  # getSeqId() returns NA for non-Aptamer elements; rm NAs in 'x'
-  x_seqIds <- getSeqId(x, TRUE) %>% discard(is.na)
-  # create lookup table to index SeqIds to their values in 'y'
-  y_lookup <- setNames(as.list(y), getSeqId(y, TRUE))
-  y_seqIds <- names(y_lookup) %>% discard(is.na)   # rm NAs in 'y'
+  # getSeqId() returns NA for non-Aptamer elements
+  x_seqIds <- getSeqId(x, TRUE)
+  x_seqIds <- x_seqIds[!is.na(x_seqIds)] # rm NAs in 'x'
+  y_seqIds <- getSeqId(y, TRUE)
+  y_lookup <- setNames(y, y_seqIds)      # create hashmap
+  y_seqIds <- y_seqIds[!is.na(y_seqIds)] # rm NAs in 'y'
   if ( order.by.x ) {
     order_seqs <- intersect(x_seqIds, y_seqIds)
   } else {
@@ -39,7 +39,7 @@ matchSeqIds <- function(x, y, order.by.x = TRUE) {
   if ( length(order_seqs) == 0 ) {
     return(character(0))
   }
-  unname(unlist(y_lookup[order_seqs]))
+  unname(y_lookup[order_seqs])
 }
 
 
@@ -62,7 +62,7 @@ matchSeqIds <- function(x, y, order.by.x = TRUE) {
 #' The data frame is named by the passed arguments, `x` and `y`.
 #' @examples
 #' # vector of features
-#' feats <- names(example_data) %>% purrr::keep(is.apt)
+#' feats <- getAnalytes(example_data)
 #'
 #' match_df <- getSeqIdMatches(feats[1:100], feats[90:500])  # 11 overlapping
 #' match_df
@@ -74,8 +74,10 @@ matchSeqIds <- function(x, y, order.by.x = TRUE) {
 #' @export
 getSeqIdMatches <- function(x, y, show = FALSE) {
   # getSeqId() returns NA for non-Aptamer matches
-  x_seqIds <- getSeqId(x, trim.version = TRUE) %>% discard(is.na) %>% unique()
-  y_seqIds <- getSeqId(y, trim.version = TRUE) %>% discard(is.na) %>% unique()
+  x_seqIds <- getSeqId(x, trim.version = TRUE)
+  x_seqIds <- unique(x_seqIds[!is.na(x_seqIds)])
+  y_seqIds <- getSeqId(y, trim.version = TRUE)
+  y_seqIds <- unique(y_seqIds[!is.na(y_seqIds)])
   inter    <- intersect(x_seqIds, y_seqIds)
   L1       <- matchSeqIds(inter, x, order.by.x = TRUE)
   L2       <- matchSeqIds(inter, y, order.by.x = TRUE)
@@ -86,7 +88,7 @@ getSeqIdMatches <- function(x, y, show = FALSE) {
   }
 
   nms <- c(match.call()$x, match.call()$y)
-  M   <- data.frame(L1, L2, stringsAsFactors = FALSE) %>% setNames(nms)
+  M   <- setNames(data.frame(L1, L2, stringsAsFactors = FALSE), nms)
 
   if ( show ) {
     M

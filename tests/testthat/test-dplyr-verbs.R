@@ -1,7 +1,6 @@
 
 # Setup ----
-# mock up a dummy 'soma_adat' object
-# smaller than `example_data` for speed/simplicity
+# mock up a dummy ADAT object; smaller than `sample.adat` for speed/simplicity
 data <- mock_adat()
 
 
@@ -39,7 +38,7 @@ test_that("arrange method produces expected output", {
   expect_true(is.intact.attributes(new))
   expect_equal(names(attributes(new)), names(attributes(data))) # atts order preserved
   # check the arrange happened correctly
-  expect_equal(new$SampleId, c("003", "006", "001", "002", "005", "004"))
+  expect_equal(new$SampleId, c("005", "001", "002", "003", "004", "006"))
 })
 
 # rename ----
@@ -54,17 +53,25 @@ test_that("rename method produces expected output", {
   expect_false("PlateId" %in% names(new))
   expect_setequal(rownames(new), rownames(data))
   expect_equal(names(attributes(new)), names(attributes(data))) # atts order preserved
+  expect_warning(   # warning if analyte is renamed
+    new2 <- rename(data, PID = PlateId, seq.1111.11 = seq.3333.33),
+    "You are renaming analytes. Modify the SomaScan menu with care."
+  )
+  expect_true(is.intact.attributes(new2))
+  new_cm <- attr(data, "Col.Meta")
+  new_cm[2L, ] <- NA_character_  # 3333-33 is renamed, NAs in Col.Meta row
+  expect_equal(attr(new2, "Col.Meta"), new_cm)
 })
 
 # filter ----
 test_that("filter method produces expected output", {
-  new <- filter(data, NormScale > 0)
+  new <- filter(data, NormScale > 0.9)
   expect_true(is.soma_adat(new))
   expect_s3_class(new, "soma_adat")
   expect_equal(class(new), class(data))
   expect_equal(names(new), names(data))
   expect_equal(dim(new), c(3, ncol(data)))
-  expect_equal(new$NormScale, c(0.18364332422208, 1.59528080213779, 0.32950777181536))
+  expect_equal(new$NormScale, c(1.1, 1.8, 1.8))
   expect_true(all(rownames(new) %in% rownames(data)))
   expect_true(is.intact.attributes(new))
   expect_equal(names(attributes(new)), names(attributes(data))) # atts order preserved
@@ -127,7 +134,7 @@ test_that("left_join method produces expected output", {
   expect_equal(names(attributes(new)), names(attributes(data))) # atts order preserved
 })
 
-test_that("left_join() method doesn't fix implicit rownames", {
+test_that("left_join() method doesn't fix rownames if there aren't any", {
   x  <- data.frame(id = LETTERS[1:3], a = rnorm(3)) %>% addClass("soma_adat")
   y  <- data.frame(id = LETTERS[1:3], b = rnorm(3))
   df <- left_join(x, y, by = "id")

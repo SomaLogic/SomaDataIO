@@ -14,6 +14,7 @@ count.soma_adat <- function(x, ..., wt = NULL, sort = FALSE, name = "n",
 
 #' @export
 arrange.soma_adat <- function(.data, ...) {
+  # the `[.soma_adat` method fixes attr for us here
   .data <- rn2col(.data, ".arrange_rn")
   .data <- NextMethod()
   .data <- col2rn(.data, ".arrange_rn")
@@ -23,6 +24,7 @@ arrange.soma_adat <- function(.data, ...) {
 
 #' @export
 filter.soma_adat <- function(.data, ...) {
+  # the `[.soma_adat` method fixes attr for us here
   .data <- rn2col(.data, ".filter_rn")
   .data <- NextMethod()
   .data <- col2rn(.data, ".filter_rn")
@@ -32,16 +34,19 @@ filter.soma_adat <- function(.data, ...) {
 
 #' @export
 mutate.soma_adat <- function(.data, ...) {
+  atts  <- attributes(.data)
   .data <- rn2col(.data, ".mutate_rn")
   .data <- NextMethod()
+  .data <- addAttributes(.data, atts)
   .data <- col2rn(.data, ".mutate_rn")
+  attributes(.data) <- attributes(.data)[names(atts)]   # orig order
   stopifnot(is.intact.attributes(.data))
   .data
 }
 
 #' @export
 select.soma_adat <- function(.data, ...) {
-  # dplyr::select() doesn't mess with rownames; but does strip atts
+  # the `[.soma_adat` method fixes rn for us here
   atts  <- attributes(.data)
   .data <- NextMethod()
   .data <- syncColMeta(addAttributes(.data, atts))
@@ -52,7 +57,15 @@ select.soma_adat <- function(.data, ...) {
 
 #' @export
 rename.soma_adat <- function(.data, ...) {
+  dots  <- match.call(expand.dots = FALSE)$...
   .data <- NextMethod()
+  if ( any(is.apt(dots)) ) {  # re-sync if renamed analytes
+    warning(
+      "You are renaming analytes. Modify the SomaScan menu with care.",
+      call. = FALSE
+    )
+    .data <- syncColMeta(.data)
+  }
   stopifnot(is.intact.attributes(.data))
   .data
 }
@@ -60,7 +73,7 @@ rename.soma_adat <- function(.data, ...) {
 #' @export
 left_join.soma_adat <- function(x, y, by = NULL, copy = FALSE,
                                 suffix = c(".x", ".y"), ...) {
-  # don't maintain rownames if they're implicit
+  # don't maintain rownames if they don't exist to begin with
   if ( !has_rn(x) ) {
     x <- NextMethod()
   } else {
@@ -148,4 +161,3 @@ ungroup.soma_adat <- function(x, ...) {
   stopifnot(is.intact.attributes(.data))
   .data
 }
-

@@ -31,8 +31,6 @@ header <- parseHeader(f)
 header
 }
 \seealso{
-\code{\link[=read_lines]{read_lines()}}
-
 Other IO: 
 \code{\link{read_adat}()},
 \code{\link{write_adat}()}

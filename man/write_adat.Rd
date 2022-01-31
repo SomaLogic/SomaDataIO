@@ -22,11 +22,12 @@ attributes, see \code{\link[=is.intact.attributes]{is.intact.attributes()}}.
 \details{
 The ADAT specification \emph{no longer} requires Windows
 end of line (EOL) characters (\verb{"\r\n"}).
-The EOL is currently \verb{"\n"} which is commonly used in POSIX systems,
+The current EOL spec is \verb{"\n"} which is commonly used in POSIX systems,
 like MacOS and Linux.
-The EOL affects the format of the resulting file, particularly
-calculating a checksum, therefore ADATs written via other systems may
-result in differing EOLs. EOL encoding for operating systems is below:\cr
+Since the EOL affects the resulting checksum, ADATs written on
+other systems generate slightly differing files.
+Standardizing to \verb{"\n"} attempts to solve this issue.
+For reference, see the EOL encoding for operating systems below:\cr
 \tabular{llc}{
 Symbol \tab Platform    \tab Character \cr
 LF     \tab Linux       \tab \verb{"\n"} \cr
@@ -35,7 +36,7 @@ CRLF   \tab DOS/Windows \tab \verb{"\r\n"}
 }
 }
 \seealso{
-\code{\link[=read_adat]{read_adat()}}, \code{\link[=write_lines]{write_lines()}}, \code{\link[=write_tsv]{write_tsv()}}, \code{\link[=is.intact.attributes]{is.intact.attributes()}}
+\code{\link[=read_adat]{read_adat()}}, \code{\link[=is.intact.attributes]{is.intact.attributes()}}
 
 Other IO: 
 \code{\link{parseHeader}()},

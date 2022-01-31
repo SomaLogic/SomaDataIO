@@ -7,11 +7,12 @@
 #'
 #' The ADAT specification *no longer* requires Windows
 #' end of line (EOL) characters (\verb{"\r\n"}).
-#' The EOL is currently \verb{"\n"} which is commonly used in POSIX systems,
+#' The current EOL spec is \verb{"\n"} which is commonly used in POSIX systems,
 #' like MacOS and Linux.
-#' The EOL affects the format of the resulting file, particularly
-#' calculating a checksum, therefore ADATs written via other systems may
-#' result in differing EOLs. EOL encoding for operating systems is below:\cr
+#' Since the EOL affects the resulting checksum, ADATs written on
+#' other systems generate slightly differing files.
+#' Standardizing to \verb{"\n"} attempts to solve this issue.
+#' For reference, see the EOL encoding for operating systems below:\cr
 #' \tabular{llc}{
 #'   Symbol \tab Platform    \tab Character \cr
 #'   LF     \tab Linux       \tab \verb{"\n"} \cr
@@ -25,11 +26,8 @@
 #' @param file Character. File path where the object should be written.
 #' For example, extensions should be `*.adat`.
 #' @author Stu Field
-#' @importFrom purrr walk iwalk
-#' @importFrom tidyselect everything
-#' @importFrom dplyr mutate select
-#' @importFrom readr write_tsv write_lines
-#' @seealso [read_adat()], [write_lines()], [write_tsv()], [is.intact.attributes()]
+#' @importFrom utils write.table
+#' @seealso [read_adat()], [is.intact.attributes()]
 #' @export
 write_adat <- function(x, file) {
 
@@ -52,77 +50,73 @@ write_adat <- function(x, file) {
   attributes(x) <- atts
 
   # checks and traps
-  checkADAT(x)
+  .checkADAT(x)
 
-  # remove FEATURE_EXTRACTION & recalculate Checksum
-  header_keep      <- setdiff(names(atts$Header.Meta),
-                              c("Checksum", "FEATURE_EXTRACTION"))
-  atts$Header.Meta <- atts$Header.Meta[ header_keep ]
+  # remove FEATURE_EXTRACTION & Checksum
+  header_keep <- setdiff(names(atts$Header.Meta),
+                         c("Checksum", "FEATURE_EXTRACTION"))
+  atts$Header.Meta <- atts$Header.Meta[header_keep]
 
-  # open connection
-  f  <- file(file, open = "wb")
+  # open connection; append in text mode
+  f <- file(file, open = "a")
   on.exit(close(f))
-  HM <- atts$Header.Meta      # Header Meta; rename for convenience
 
-  purrr::walk(names(HM), function(i) {
-    readr::write_lines(paste0("^", i), file = f, append = TRUE)
-    if ( i == "TABLE_BEGIN" ) return(NULL)
-    purrr::iwalk(HM[[i]], ~ {
-      paste0("!", .y, "\t", paste0(.x, collapse = "\t")) %>%
-        readr::write_lines(file = f, append = TRUE)
-      })
-  })
+  .flatten <- function(x) {
+    paste0(names(x), "\t", vapply(x, paste, collapse = "\t", ""))
+  }
+  HM <- atts$Header.Meta
 
-  # write Col Meta
-  meta_names  <- getMeta(x)
-  length_meta <- length(meta_names)
+  # write Header.Meta
+  writeLines("^HEADER", con = f)
+  writeLines(.flatten(HM$HEADER), con = f)
+  writeLines("^COL_DATA", con = f)
+  writeLines(.flatten(HM$COL_DATA), con = f)
+  writeLines("^ROW_DATA", con = f)
+  writeLines(.flatten(HM$ROW_DATA), con = f)
+  writeLines("^TABLE_BEGIN", con = f)
 
-  purrr::iwalk(atts$Col.Meta, ~ {
-    paste0(strrep("\t", length_meta),    # col shift
-           .y, "\t",                     # name
-           paste(.x, collapse = "\t")    # Col.Meta
-          ) %>%
-          readr::write_lines(file = f, append = TRUE)
-  })
+  # write Col.Meta
+  tabshift <- strrep("\t", atts$file.specs$col.meta.shift - 1L)  # col shift
+  writeLines(paste0(tabshift, .flatten(atts$Col.Meta)), con = f)
 
   # Write out header row
-  # Skip rest if Adat is empty
-  if ( nrow(x) != 0 ) {
-
-    if ( length_meta < 1 ) {
+  # Skip rest if "Empty ADAT"
+  if ( nrow(x) > 0 ) {
+    if ( getMeta(x, n = TRUE) < 1 ) {
       warning(
-        "\nYou are writing an ADAT without any meta data\n",
-        "This may cause this file (", .value(file),
-        ") to be unreadable via `read_adat()`\n",
-        "Suggest including at least one column of meta data.",
+        "\nYou are writing an ADAT without any meta data.\n",
+        "This may cause this file (", .value(file), ") ",
+        "to be unreadable via `read_adat()`.\n",
+        "Suggest including at least one column of meta data (e.g. 'sample_id').",
         call. = FALSE
       )
     }
 
-    tabs      <- strrep("\t", length(apts) - 1)
-    metanames <- paste(meta_names, collapse = "\t")
-    readr::write_lines(paste0(metanames, "\t\t", tabs), file = f, append = TRUE)
+    tabs <- strrep("\t", length(apts) - 1L)
+    meta_names <- getMeta(x)
+    metanames  <- paste(meta_names, collapse = "\t")
+    writeLines(paste0(metanames, "\t\t", tabs), con = f)
 
-    df <- dplyr::mutate(x, blank_col = NA_character_) %>%   # add mystery column
-      dplyr::select(meta_names, blank_col, everything())
+    # insert blank column
+    df <- x
+    df$blank_col <- NA_character_
+    df <- df[, c(meta_names, "blank_col", apts)]
 
     # write meta & feature data to file
     df[, apts] <- apply(df[, apts], 2, function(.x) sprintf("%0.1f", .x))
 
-    # change 4000 -> 4e3 scientific mode; SampleUniqueID
-    readr::write_tsv(x = df, file = f, na = "", append = TRUE)
+    write.table(x = df, file = f, na = "", sep = "\t", append = TRUE,
+                row.names = FALSE, col.names = FALSE, eol = "\n",
+                quote = FALSE, fileEncoding = "UTF-8")
   }
   .done("ADAT written to: {.value(file)}")
   invisible(x)
 }
 
 
-#' Check ADAT prior to Writing
-#'
-#' @param adat A `soma_adat` class object.
-#' @keywords internal
-#' @noRd
-checkADAT <- function(adat) {
+# Check ADAT prior to Writing
+# @param adat A `soma_adat` class object.
+.checkADAT <- function(adat) {
   atts <- attributes(adat)
   apts <- getAnalytes(adat)
   meta <- getMeta(adat)
@@ -139,21 +133,20 @@ checkADAT <- function(adat) {
       call. = FALSE
     )
   }
-  if ( setequal(getSeqId(apts), atts$Col.Meta$SeqId) ) {
-    if ( !identical(getSeqId(apts), atts$Col.Meta$SeqId) ) {
-      stop(
-        "ADAT features are out of sync with rows in Col.Meta!\n",
-        "You may need to run `syncColMeta()` to re-sync the Col.Meta, ",
-        "then try again.", call. = FALSE
-      )
-    }
+  if ( setequal(getSeqId(apts), atts$Col.Meta$SeqId) &&     # set equal
+       !identical(getSeqId(apts), atts$Col.Meta$SeqId) ) {  # but not identical
+    stop(
+      "ADAT features are out of sync with rows in Col.Meta!\n",
+      "You may need to run `syncColMeta()` to re-sync the Col.Meta, ",
+      "then try again.", call. = FALSE
+    )
   }
   if ( nrow(adat) == 0 ) {
     warning(
-      "ADAT has no rows! Writing just header and column meta data",
+      "ADAT has no rows! Writing just header and column meta data.",
       call. = FALSE
     )
   }
-  .done("ADAT passed checks and traps")
+  .done("ADAT passed all checks and traps.")
   invisible(NULL)
 }

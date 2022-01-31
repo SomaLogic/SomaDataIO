@@ -31,5 +31,5 @@ files <- c(
   "utils-read-adat.R",
   "write-adat.R"
 )
-paths <- paste(root, "R", files, sep = "/")
-fs::file_copy(paths, here("R"), overwrite = TRUE)
+paths <- file.path(root, "R", files)
+file.copy(paths, here("R"), overwrite = TRUE)

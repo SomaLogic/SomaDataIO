@@ -13,7 +13,7 @@
 #' @param verbose Logical. Should the function call be run in *verbose*
 #' mode, printing relevant diagnostic call information to the console.
 #' @param ... Additional arguments passed ultimately to
-#' [read_delim()], or additional arguments passed to either
+#' [read.delim()], or additional arguments passed to either
 #' other S3 print or summary methods as required by those generics.
 #' @return A `data.frame`-like object of class `soma_adat`
 #' consisting of SomaLogic RFU (feature) data and clinical meta data as
@@ -22,7 +22,7 @@
 #' "Header.Meta", "Col.Meta", ...) are stored as attributes (e.g.
 #' `attributes(x)$Header.Meta`).
 #' @author Stu Field
-#' @seealso [read_delim()]
+#' @seealso [read.delim()]
 #' @examples
 #' f <- system.file("example", "example_data.adat",
 #'                  package = "SomaDataIO", mustWork = TRUE)
@@ -41,7 +41,7 @@
 #' read_adat(fout)
 #'
 #' @importFrom stats setNames
-#' @importFrom readr read_delim cols
+#' @importFrom utils read.delim
 #' @export
 read_adat <- function(file, debug = FALSE, verbose = getOption("verbose"), ...) {
 
@@ -50,7 +50,7 @@ read_adat <- function(file, debug = FALSE, verbose = getOption("verbose"), ...) 
   # Debugger mode ----
   # nocov start
   if ( debug ) {
-    res <- readLines(file, n = 200) %>%
+    res <- .getHeaderLines(file) %>%
       strsplit("\t", fixed = TRUE) %>%
       parseCheck()
     return(invisible(res))
@@ -69,9 +69,9 @@ read_adat <- function(file, debug = FALSE, verbose = getOption("verbose"), ...) 
       "No RFU feature data in ADAT. Returning a `tibble` object ",
       "with Column Meta data only.", call. = FALSE
     )
-    apt_table <- convertColMeta(header_data$Col.Meta) %>%
+    anno_table <- convertColMeta(header_data$Col.Meta) %>%
       addAttributes(header_data$Header.Meta)
-    return(apt_table)
+    return(anno_table)
   }
   # nocov end
 
@@ -86,7 +86,7 @@ read_adat <- function(file, debug = FALSE, verbose = getOption("verbose"), ...) 
   row_meta <- trimws(row_meta)
 
   if ( !header_data$file.specs$old.adat ) {
-    row_meta <- c(row_meta, "blank_col")  # Add empty column name in >= v1.0: sgf
+    row_meta <- c(row_meta, "blank_col")  # Add empty column name in >= v1.0
   }
 
   apt_names <- getSeqId(header_data$Col.Meta$SeqId, trim.version = TRUE) %>%
@@ -94,25 +94,29 @@ read_adat <- function(file, debug = FALSE, verbose = getOption("verbose"), ...) 
 
   ncols <- length(row_meta) + length(apt_names)
 
-  # Data ingest ----
-  # Read in the raw data as tab delimited
-  rfu_dat <- readr::read_delim(
-    file, delim    = "\t",
-    col_types      = readr::cols(), # no col spec msg
-    progress       = FALSE,         # suppress progress bar
-    # escape_double = FALSE,
-    skip           = header_data$file.specs$data.begin,
-    col_names      = FALSE,
-    ...
+  # Data ingest type spec ----
+  # specify RFU data as type numeric
+  # certain 'row_meta' types are specified; allow guessing (NA) on rest
+  types_meta <- .metaTypes(row_meta)                  # spec type for meta
+  types_rfu  <- rep_len("numeric", length(apt_names)) # spec column type
+
+  rfu_dat <- read.delim(
+    file, sep = "\t",
+    header = FALSE, row.names = NULL,         # no header or rnms (set below)
+    skip = header_data$file.specs$data.begin, # skip header
+    colClasses = c(types_meta, types_rfu),    # spec column types
+    na.strings = c("", ".", "NA"),  # these values will be NAs
+    comment.char = "",              # ignore possible comments in file
+    check.names = FALSE,            # don't fix tbl names (set below)
+    as.is = TRUE,                   # do not convert chr -> fct
+    encoding = "UTF-8", ...         # assume UTF-8 encoding
   )
 
   # Catch dimension issues ----
   catchDims(rfu_dat, ncols)
 
-  # trim possible trailing tabs in rfu_dat table
-  # convert tibble -> strip "spec_tbl_df" class
-  rfu_dat <- tibble::as_tibble(rfu_dat)[, 1:ncols] %>%
-    setNames(c(row_meta, apt_names))
+  # trim possible trailing tabs in rfu_dat table & rename
+  rfu_dat <- setNames(rfu_dat[, 1:ncols], c(row_meta, apt_names))
 
   # remove ghost column if NOT old adat
   if ( "blank_col" %in% names(rfu_dat) ) {
@@ -122,10 +126,6 @@ read_adat <- function(file, debug = FALSE, verbose = getOption("verbose"), ...) 
   if ( verbose ) {
     .verbosity(rfu_dat, header_data)
   }
-
-  # reorder atts here to keep with default data.frame class order
-  attributes(rfu_dat) <- attributes(rfu_dat)[c("names", "class",
-                                               "row.names", "spec")]
 
   # Create `soma_adat` ----
   structure(rfu_dat,

@@ -76,7 +76,7 @@ print.adat_summary <- function(x, ...) {
   z <- as.matrix(x)
   rownames(z) <- rep.int("", nrow(z))
   out <- capture.output(print.default(z, quote = FALSE))
-  purrr::walk(out, ~ {
+  lapply(out, function(.x) {
     if ( grepl("seq", .x) ) {
       cat(cr_red(.x), "\n")
     } else if ( grepl("Target", .x) ) {

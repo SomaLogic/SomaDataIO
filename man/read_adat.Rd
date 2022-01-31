@@ -33,7 +33,7 @@ fails to load, particularly out-of-spec, poorly modified, or legacy ADATs.}
 mode, printing relevant diagnostic call information to the console.}
 
 \item{...}{Additional arguments passed ultimately to
-\code{\link[=read_delim]{read_delim()}}, or additional arguments passed to either
+\code{\link[=read.delim]{read.delim()}}, or additional arguments passed to either
 other S3 print or summary methods as required by those generics.}
 
 \item{x}{A \code{soma_adat} class object to \code{\link[=print]{print()}}.}
@@ -185,7 +185,7 @@ anno <- getAnalyteInfo(my_adat)
 summary(my_adat[, mmps], tbl = anno)
 }
 \seealso{
-\code{\link[=read_delim]{read_delim()}}
+\code{\link[=read.delim]{read.delim()}}
 
 Other IO: 
 \code{\link{parseHeader}()},

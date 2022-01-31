@@ -162,7 +162,7 @@ matchSeqIds(x, y)
 matchSeqIds(x, y, order.by.x = FALSE)
 
 # vector of features
-feats <- names(example_data) \%>\% purrr::keep(is.apt)
+feats <- getAnalytes(example_data)
 
 match_df <- getSeqIdMatches(feats[1:100], feats[90:500])  # 11 overlapping
 match_df
@@ -172,7 +172,7 @@ b <- withr::with_seed(99, sample(getSeqId(a)))   # => SeqId & shuffle
 (getSeqIdMatches(a, b))                          # sorted by first vector "a"
 }
 \seealso{
-\code{\link[=intersect]{intersect()}}, \code{\link[=discard]{discard()}}
+\code{\link[=intersect]{intersect()}}
 }
 \author{
 Stu Field

@@ -58,7 +58,7 @@ test_that("getAnalytes matrix S3 method kicks in", {
 })
 
 test_that("the S3 list method kicks in", {
-  apts <- as.list(seq_vec) %>% purrr::set_names()
+  apts <- setNames(as.list(seq_vec), seq_vec)
   expect_type(apts, "list")
   expect_equal(getAnalytes(apts), head(getAnalytes(example_data)))
   expect_true(all(apts %in% names(example_data)))
