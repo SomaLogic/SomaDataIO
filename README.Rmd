@@ -116,12 +116,9 @@ ensure that the following package dependencies are pre-installed:
 * `dplyr (v1.0.6)`
 * `lifecycle (v1.0.0)`
 * `magrittr (v2.0.1)`
-* `purrr (v0.3.4)`
-* `readr (v1.4.0)`
 * `readxl (v1.3.1)`
 * `tibble (v3.2.1)`
 * `tidyr (v1.1.3)`
-* `tidyselect (v1.1.1)`
 * `usethis (v2.0.1)`
 
 

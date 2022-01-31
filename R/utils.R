@@ -25,12 +25,13 @@ cr_yellow <- crayon::yellow
   encodeString(x, width = width, justify = just)
 }
 
-# trim leading/trailing empty strings in header block
-# trap case: "key\tvalue\t\t\t\t\t\t\t" -> "key\tvalue"
-trim_empty <- function(x, side) {
-  x <- paste(x, collapse = "\t")    # collapse key-value row to single string
-  trim <- trimws(x, which = side)   # trim tabs/whitespace; Col.Meta trim left
-  strsplit(trim, "\t", fixed = TRUE)[[1L]] # now a single key-value pair
+# friendly version of ifelse
+`%||%` <- function(x, y) {
+  if ( is.null(x) || length(x) <= 0 ) {
+    y
+  } else {
+    x
+  }
 }
 
 # kinder version of identical
@@ -38,15 +39,13 @@ trim_empty <- function(x, side) {
   isTRUE(all.equal(x, y))
 }
 
+# easily test inequality of R objects
+`%!=%` <- function(x, y) {
+  !isTRUE(all.equal(x, y))
+}
+
 # A friendly version of `attr(x, y)`. `y` can be unquoted.
 `%@@%` <- function(x, y) {
   name <- as.character(substitute(y))
   attr(x, which = name, exact = TRUE)
-}
-
-# attr assignment. `attr(x, y) <- value`. `y` can be unquoted.
-`%@@%<-` <- function(x, y, value) {
-  name <- as.character(substitute(y))
-  attr(x, which = name) <- value
-  x
 }

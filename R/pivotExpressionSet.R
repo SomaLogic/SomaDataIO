@@ -21,7 +21,6 @@
 #' @importFrom tibble as_tibble
 #' @importFrom tidyr pivot_longer
 #' @importFrom dplyr left_join select
-#' @importFrom tidyselect everything
 #' @export
 pivotExpressionSet <- function(eSet) {
 
