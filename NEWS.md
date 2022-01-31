@@ -1,3 +1,27 @@
+# SomaDataIO 5.3.0
+
+* Upgrades primarily from improvements to SomaLogic internal code base,
+  including:
+  - general reduction on external package dependency to improve code
+    stability
+  - internal usage of base R alternatives to the `readr` package for 
+    parsing and importing ADATs (e.g. `read.delim()` over `read_delim()`).
+    This is mostly for code simplification, but can often result in marked
+    speed improvements. As the SomaScan `plex` size increases,
+    this speed improvement will become more important.
+  - `parseHeader()` was dramatically simplified, now reading in lines 20L at
+    a time until the RFU block is reached. In addition, once the block is
+    reached, all header lines are read-in once and indexed
+    (as opposed to line-by-line).
+  - `read_adat()` now specifies column types via `colClasses =` which for
+    the majority of the ADAT is type `double` for the RFU columns.
+    This should dramatically improve speed of ingest.
+  - `write_adat()` was simplified internally, with fewer nested `apply` and
+    for-loops.
+  - encoding for all input/output (I/O) is assumed to be `UTF-8`.
+* New `getAnalytes()` S3 method for class `recipe` from the `recipes` package.
+
+
 # SomaDataIO 5.2.0
 
 * SomaLogic Inc. is now SomaLogic Operating Co. Inc.

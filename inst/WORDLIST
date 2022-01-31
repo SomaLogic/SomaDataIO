@@ -7,13 +7,14 @@ AptName
 Biobase
 CMD
 Codecov
+dplyr
 EDTA
 EOL
 EOLs
 ExpressionSet
 eSet
 LF
-Lifecycle
+lifecycle
 MERCHANTABILITY
 MacOS
 PII
