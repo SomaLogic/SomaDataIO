@@ -1,12 +1,12 @@
 Type: Package
 Package: SomaDataIO
 Title: SomaData Input/Output Package
-Version: 5.2.0
+Version: 5.2.0.9000
 Authors@R: 
     c(person(given = "Stu",
              family = "Field",
              role = c("aut", "cre"),
-             email = "sfield@somalogic.com"),
+             email = "stu.g.field@gmail.com"),
       person(given = "SomaLogic Operating Co., Inc.",
              role = c("cph", "fnd")))
 Description: The SomaDataIO package loads the SomaLogic Operating Co., Inc.

@@ -61,7 +61,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Stu Field \email{sfield@somalogic.com}
+\strong{Maintainer}: Stu Field \email{stu.g.field@gmail.com}
 
 Other contributors:
 \itemize{
