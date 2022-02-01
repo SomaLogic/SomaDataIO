@@ -1,7 +1,7 @@
 Type: Package
 Package: SomaDataIO
 Title: SomaData Input/Output Package
-Version: 5.2.0.9000
+Version: 5.3.0
 Authors@R: 
     c(person(given = "Stu",
              family = "Field",
