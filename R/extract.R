@@ -67,7 +67,7 @@
 
 #' We want to restrict the usage of `[[` for `soma_adat`. Use only a
 #' numeric index (e.g. `1L`) or a character identifying the column
-#' (e.g. `SampleGroup`). Partial matching is not allowed.
+#' (e.g. `Sex`). Partial matching is not allowed.
 #' @noRd
 #' @param i Numeric index or Character for the column desired.
 #' @param j Error. Do not use i,j syntax for `[[`, use `[` instead.
