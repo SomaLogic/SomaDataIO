@@ -188,6 +188,7 @@ summary(my_adat[, mmps], tbl = anno)
 \code{\link[=read.delim]{read.delim()}}
 
 Other IO: 
+\code{\link{loadAdatsAsList}()},
 \code{\link{parseHeader}()},
 \code{\link{write_adat}()}
 }

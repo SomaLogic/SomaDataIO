@@ -32,6 +32,7 @@ header
 }
 \seealso{
 Other IO: 
+\code{\link{loadAdatsAsList}()},
 \code{\link{read_adat}()},
 \code{\link{write_adat}()}
 }

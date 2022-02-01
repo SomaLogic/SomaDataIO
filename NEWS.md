@@ -1,7 +1,7 @@
 # SomaDataIO 5.3.0
 
 * Upgrades primarily from improvements to SomaLogic internal code base,
-  including:
+  including: (@stufield)
   - general reduction on external package dependency to improve code
     stability
   - internal usage of base R alternatives to the `readr` package for 
@@ -20,6 +20,8 @@
     for-loops.
   - encoding for all input/output (I/O) is assumed to be `UTF-8`.
 * New `getAnalytes()` S3 method for class `recipe` from the `recipes` package.
+* New `loadAdatsAsList()` to load multiple ADAT files in a single call
+  and optionally collapse them into a single data frame (@stufield, #8).
 
 
 # SomaDataIO 5.2.0

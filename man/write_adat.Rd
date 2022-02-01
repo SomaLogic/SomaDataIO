@@ -39,6 +39,7 @@ CRLF   \tab DOS/Windows \tab \verb{"\r\n"}
 \code{\link[=read_adat]{read_adat()}}, \code{\link[=is.intact.attributes]{is.intact.attributes()}}
 
 Other IO: 
+\code{\link{loadAdatsAsList}()},
 \code{\link{parseHeader}()},
 \code{\link{read_adat}()}
 }

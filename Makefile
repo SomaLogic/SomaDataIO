@@ -20,6 +20,7 @@ FILES := $(addprefix $(DIR)/R/, \
 	getAnalyteInfo.R \
 	getMeta.R \
 	matchSeqIds.R \
+	loadAdatsAsList.R \
 	MathGenerics.R \
 	parseHeader.R \
 	prepHeaderMeta.R \

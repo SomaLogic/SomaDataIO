@@ -34,6 +34,7 @@ reference:
     contents:
     - read_adat
     - write_adat
+    - loadAdatsAslist
     - parseHeader
     - rownames
     - Col.Meta
