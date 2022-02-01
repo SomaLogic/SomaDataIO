@@ -18,7 +18,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="SomaData Input/Output Package">
-<meta property="og:description" content="The SomaDataIO package loads the SomaLogic, Inc.
+<meta property="og:description" content="The SomaDataIO package loads the SomaLogic Operating Co., Inc.
     proprietary data file, called an ADAT file (*.adat). It also
     provides auxiliary functions for extracting and manipulating relevant
     information from an ADAT, as well as exporting a modified ADAT to
@@ -50,7 +50,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">SomaDataIO</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.2.0</span>
       </span>
     </div>
 
@@ -79,19 +79,26 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
-<div id="somadataio-from-somalogic-inc-" class="section level1">
+<div class="section level1">
 
 <!-- badges: start -->
 
-<div id="overview" class="section level2">
-<h2 class="hasAnchor">
-<a href="#overview" class="anchor" aria-hidden="true"></a>Overview</h2>
-<p>This document accompanies the R package <code>SomaDataIO</code>, which loads the SomaLogic, Inc. proprietary data file called an <code>*.adat</code>. The package provides auxiliary functions for extracting relevant information from the ADAT object once in the R environment. Basic familiarity with the R environment is assumed, as is the ability to install contributed packages from the Comprehensive R Archive Network (CRAN).</p>
+<div class="section level2">
+<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h2>
+<p>This document accompanies the R package <code>SomaDataIO</code>, which loads the SomaLogic Operating Co., Inc. proprietary data file called an <code>*.adat</code>. The package provides auxiliary functions for extracting relevant information from the ADAT object once in the R environment. Basic familiarity with the R environment is assumed, as is the ability to install contributed packages from the Comprehensive R Archive Network (CRAN).</p>
+<p>If you run into any issues/problems with <code>SomaDataIO</code> full documentation of the most recent <a href="https://github.com/SomaLogic/SomaDataIO/releases">release</a> can be found at our <a href="https://somalogic.github.io/SomaDataIO/" class="external-link">pkgdown</a> website hosted by <a href="https://github.com/SomaLogic/SomaDataIO/">GitHub</a>. If the issue persists we encourage you to consult the <a href="https://github.com/SomaLogic/SomaDataIO/issues/">issues</a> page and, if appropriate, submit an issue and/or feature request.</p>
 <hr>
 </div>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor" aria-hidden="true"></a>Installation</h2>
+<div class="section level2">
+<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h2>
+<p>The <code>SomaDataIO</code> package is licensed under the <a href="LICENSE.html">MIT</a> license and is intended solely for research use only (“RUO”) purposes. The code contained herein may <em>not</em> be used for diagnostic, clinical, therapeutic, or other commercial purposes.</p>
+<hr>
+</div>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p>The easiest way to install <code>SomaDataIO</code> is to install directly from GitHub:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"SomaLogic/SomaDataIO"</span><span class="op">)</span></code></pre></div>
@@ -104,9 +111,9 @@
 <p>Alternatively you may clone the repository and install manually:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">git</span> clone https://github.com/SomaLogic/SomaDataIO.git SomaDataIO</span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="ex">R</span> CMD INSTALL --use-vanilla --resave-data SomaDataIO</span></code></pre></div>
-<div id="package-dependencies" class="section level4">
-<h4 class="hasAnchor">
-<a href="#package-dependencies" class="anchor" aria-hidden="true"></a>Package Dependencies</h4>
+<div class="section level4">
+<h4 id="package-dependencies">Package Dependencies<a class="anchor" aria-label="anchor" href="#package-dependencies"></a>
+</h4>
 <p>The <code>SomaDataIO</code> package was intentionally developed to run slightly behind the bleeding edge of The Comprehensive R Archive Network (<code>CRAN</code>). This allows lead time to identify and fix bugs as well as simplifying software life-cycle. This may change in the future, however for the time being, the dependencies below represent the environment in which <code>SomaDataIO</code> was developed. If you run into any unexpected behavior, please ensure that the following package dependencies are pre-installed:</p>
 <ul>
 <li><code>R (&gt;= 4.0.0)</code></li>
@@ -117,28 +124,27 @@
 <li><code>magrittr (v2.0.1)</code></li>
 <li><code>purrr (v0.3.4)</code></li>
 <li><code>readr (v1.4.0)</code></li>
-<li><code>rlang (v0.4.11)</code></li>
-<li><code>stringr (v1.4.0)</code></li>
+<li><code>readxl (v1.3.1)</code></li>
+<li><code>tibble (v3.2.1)</code></li>
 <li><code>tidyr (v1.1.3)</code></li>
 <li><code>tidyselect (v1.1.1)</code></li>
-<li><code>tibble (v3.2.1)</code></li>
 <li><code>usethis (v2.0.1)</code></li>
 </ul>
 </div>
-<div id="biobase" class="section level4">
-<h4 class="hasAnchor">
-<a href="#biobase" class="anchor" aria-hidden="true"></a>Biobase</h4>
-<p>The <code>Biobase</code> package is <em>suggested</em>, being required by only two functions, <code><a href="reference/pivotExpressionSet.html">pivotExpressionSet()</a></code> and <code>adat2eset()</code>. <code>Biobase</code> must be installed separately from <code>Bioconductor</code> by entering the following from the <code>R</code> console:</p>
+<div class="section level4">
+<h4 id="biobase">Biobase<a class="anchor" aria-label="anchor" href="#biobase"></a>
+</h4>
+<p>The <code>Biobase</code> package is <em>suggested</em>, being required by only two functions, <code><a href="reference/pivotExpressionSet.html">pivotExpressionSet()</a></code> and <code><a href="reference/adat2eSet.html">adat2eSet()</a></code>. <a href="https://www.bioconductor.org/packages/release/bioc/html/Biobase.html" class="external-link">Biobase</a> must be installed separately from <a href="https://www.bioconductor.org" class="external-link">Bioconductor</a> by entering the following from the <code>R</code> console:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
   <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span>
 <span class="op">}</span>
-<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"Biobase"</span>, version <span class="op">=</span> <span class="st">"3.13"</span><span class="op">)</span></code></pre></div>
+<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"Biobase"</span>, version <span class="op">=</span> <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/bioc_install_repos.html" class="external-link">bioc_version</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Information about Bioconductor can be found here: <a href="https://bioconductor.org/install/" class="external-link uri">https://bioconductor.org/install/</a></p>
 </div>
-<div id="loading" class="section level4">
-<h4 class="hasAnchor">
-<a href="#loading" class="anchor" aria-hidden="true"></a>Loading</h4>
+<div class="section level4">
+<h4 id="loading">Loading<a class="anchor" aria-label="anchor" href="#loading"></a>
+</h4>
 <p>Upon <em>successful</em> installation, load the SomaDataIO as normal:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">SomaDataIO</span><span class="op">)</span></code></pre></div>
@@ -146,9 +152,9 @@
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span>help <span class="op">=</span> <span class="va">SomaDataIO</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="internal-objects" class="section level4">
-<h4 class="hasAnchor">
-<a href="#internal-objects" class="anchor" aria-hidden="true"></a>Internal Objects</h4>
+<div class="section level4">
+<h4 id="internal-objects">Internal Objects<a class="anchor" aria-label="anchor" href="#internal-objects"></a>
+</h4>
 <p>The <code>SomaDataIO</code> package comes with 4 internal objects available to users to run canned examples (or analyses). They can be accessed once <code>SomaDataIO</code> has been attached via <code><a href="https://rdrr.io/r/base/library.html" class="external-link">library()</a></code>. They are:</p>
 <ul>
 <li><code>example_data</code></li>
@@ -161,30 +167,36 @@
 <hr>
 </div>
 </div>
-<div id="main-features-io" class="section level2">
-<h2 class="hasAnchor">
-<a href="#main-features-io" class="anchor" aria-hidden="true"></a>Main Features (I/O)</h2>
+<div class="section level2">
+<h2 id="main-features-io">Main Features (I/O)<a class="anchor" aria-label="anchor" href="#main-features-io"></a>
+</h2>
 <ul>
 <li>Loading data (Import)
 <ul>
-<li>Import a text file in the <code>*.adat</code> format into an <code>R</code> session as a <code>soma_adat</code> object.</li>
+<li>parse and import a <code>*.adat</code> text file into an <code>R</code> session as a <code>soma_adat</code> object.</li>
 </ul>
 </li>
 <li>Wrangling data (manipulation)
 <ul>
-<li>Subset, reorder, and list various fields of a <code>soma_adat</code> object.</li>
+<li>subset, reorder, and list various fields of a <code>soma_adat</code> object.</li>
+<li>
+<code><a href="reference/SeqId.html">?SeqId</a></code> analyte (feature) matching.</li>
+<li>
+<code>dplyr</code> and <code>tidyr</code> verb S3 methods for the <code>soma_adat</code> class.</li>
+<li>
+<code><a href="reference/rownames.html">?rownames</a></code> helpers that do not break <code>soma_adat</code> attributes.</li>
 </ul>
 </li>
 <li>Exporting data (Output)
 <ul>
-<li>Write out a <code>soma_adat</code> object as a <code>*.adat</code> text file.</li>
+<li>write out a <code>soma_adat</code> object as a <code>*.adat</code> text file.</li>
 </ul>
 </li>
 </ul>
 <hr>
-<div id="loading-an-adat" class="section level3">
-<h3 class="hasAnchor">
-<a href="#loading-an-adat" class="anchor" aria-hidden="true"></a>Loading an ADAT</h3>
+<div class="section level3">
+<h3 id="loading-an-adat">Loading an ADAT<a class="anchor" aria-label="anchor" href="#loading-an-adat"></a>
+</h3>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Sample file name</span>
 <span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"example"</span>, <span class="st">"example_data.adat"</span>, package <span class="op">=</span> <span class="st">"SomaDataIO"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
@@ -194,111 +206,70 @@
 
 <span class="co"># S3 print method forwards -&gt; tibble</span>
 <span class="va">my_adat</span>
-<span class="co">#&gt; ── Attributes ──────────────────────────────────────────────────────────────────────────────────────</span>
-<span class="co">#&gt;      Intact               ✔</span>
-<span class="co">#&gt; ── Dimensions ──────────────────────────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt; ══ SomaScan Data ════════════════════════════════════════════════════════════════════════════════════</span>
+<span class="co">#&gt;      Attributes intact    ✓</span>
 <span class="co">#&gt;      Rows                 192</span>
 <span class="co">#&gt;      Columns              5318</span>
 <span class="co">#&gt;      Clinical Data        34</span>
 <span class="co">#&gt;      Features             5284</span>
-<span class="co">#&gt; ── Column Meta ─────────────────────────────────────────────────────────────────────────────────────</span>
-<span class="co">#&gt;       SeqId            |   UniProt            |   Type                      |   ColCheck                                |   Dilution2</span>
-<span class="co">#&gt;       SeqIdVersion     |   EntrezGeneID       |   Dilution                  |   CalQcRatio_Example_Adat_Set001_170255   |            </span>
-<span class="co">#&gt;       SomaId           |   EntrezGeneSymbol   |   PlateScale_Reference      |   QcReference_170255                      |            </span>
-<span class="co">#&gt;       TargetFullName   |   Organism           |   CalReference              |   Cal_Example_Adat_Set002                 |            </span>
-<span class="co">#&gt;       Target           |   Units              |   Cal_Example_Adat_Set001   |   CalQcRatio_Example_Adat_Set002_170255   |            </span>
-<span class="co">#&gt; ── Tibble ──────────────────────────────────────────────────────────────────────────────────────────</span>
-<span class="co">#&gt; # A tibble: 192 x 5,319</span>
-<span class="co">#&gt;    row_names   PlateId    PlateRunDate ScannerID PlatePosition  SlideId Subarray SampleId SampleType</span>
-<span class="co">#&gt;    &lt;chr&gt;       &lt;chr&gt;      &lt;date&gt;       &lt;chr&gt;     &lt;chr&gt;            &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;     </span>
-<span class="co">#&gt;  1 2584958000… Example A… 2020-06-18   SG152144… H9             2.58e11        3        1 Sample    </span>
-<span class="co">#&gt;  2 2584958000… Example A… 2020-06-18   SG152144… H8             2.58e11        7        2 Sample    </span>
-<span class="co">#&gt;  3 2584958000… Example A… 2020-06-18   SG152144… H7             2.58e11        8        3 Sample    </span>
-<span class="co">#&gt;  4 2584958000… Example A… 2020-06-18   SG152144… H6             2.58e11        4        4 Sample    </span>
-<span class="co">#&gt;  5 2584958000… Example A… 2020-06-18   SG152144… H5             2.58e11        4        5 Sample    </span>
-<span class="co">#&gt;  6 2584958000… Example A… 2020-06-18   SG152144… H4             2.58e11        8        6 Sample    </span>
-<span class="co">#&gt;  7 2584958000… Example A… 2020-06-18   SG152144… H3             2.58e11        3        7 Sample    </span>
-<span class="co">#&gt;  8 2584958000… Example A… 2020-06-18   SG152144… H2             2.58e11        8        8 Sample    </span>
-<span class="co">#&gt;  9 2584958000… Example A… 2020-06-18   SG152144… H12            2.58e11        8        9 Sample    </span>
-<span class="co">#&gt; 10 2584958000… Example A… 2020-06-18   SG152144… H11            2.58e11        3   170261 Calibrator</span>
+<span class="co">#&gt; ── Column Meta ──────────────────────────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt; ℹ SeqId, SeqIdVersion, SomaId, TargetFullName, Target, UniProt, EntrezGeneID, EntrezGeneSymbol,</span>
+<span class="co">#&gt; ℹ Organism, Units, Type, Dilution, PlateScale_Reference, CalReference, Cal_Example_Adat_Set001,</span>
+<span class="co">#&gt; ℹ ColCheck, CalQcRatio_Example_Adat_Set001_170255, QcReference_170255, Cal_Example_Adat_Set002,</span>
+<span class="co">#&gt; ℹ CalQcRatio_Example_Adat_Set002_170255, Dilution2</span>
+<span class="co">#&gt; ── Tibble ───────────────────────────────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt; # A tibble: 192 × 5,319</span>
+<span class="co">#&gt;    row_names      PlateId   PlateRunDate ScannerID PlatePosition SlideId Subarray SampleId SampleType</span>
+<span class="co">#&gt;    &lt;chr&gt;          &lt;chr&gt;     &lt;date&gt;       &lt;chr&gt;     &lt;chr&gt;           &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;     </span>
+<span class="co">#&gt;  1 258495800012_3 Example … 2020-06-18   SG152144… H9            2.58e11        3        1 Sample    </span>
+<span class="co">#&gt;  2 258495800004_7 Example … 2020-06-18   SG152144… H8            2.58e11        7        2 Sample    </span>
+<span class="co">#&gt;  3 258495800010_8 Example … 2020-06-18   SG152144… H7            2.58e11        8        3 Sample    </span>
+<span class="co">#&gt;  4 258495800003_4 Example … 2020-06-18   SG152144… H6            2.58e11        4        4 Sample    </span>
+<span class="co">#&gt;  5 258495800009_4 Example … 2020-06-18   SG152144… H5            2.58e11        4        5 Sample    </span>
+<span class="co">#&gt;  6 258495800012_8 Example … 2020-06-18   SG152144… H4            2.58e11        8        6 Sample    </span>
+<span class="co">#&gt;  7 258495800001_3 Example … 2020-06-18   SG152144… H3            2.58e11        3        7 Sample    </span>
+<span class="co">#&gt;  8 258495800004_8 Example … 2020-06-18   SG152144… H2            2.58e11        8        8 Sample    </span>
+<span class="co">#&gt;  9 258495800001_8 Example … 2020-06-18   SG152144… H12           2.58e11        8        9 Sample    </span>
+<span class="co">#&gt; 10 258495800004_3 Example … 2020-06-18   SG152144… H11           2.58e11        3   170261 Calibrator</span>
 <span class="co">#&gt; # … with 182 more rows, and 5,310 more variables: PercentDilution &lt;dbl&gt;, SampleMatrix &lt;chr&gt;,</span>
 <span class="co">#&gt; #   Barcode &lt;lgl&gt;, Barcode2d &lt;lgl&gt;, SampleName &lt;lgl&gt;, SampleNotes &lt;lgl&gt;, AliquotingNotes &lt;lgl&gt;,</span>
-<span class="co">#&gt; #   SampleDescription &lt;chr&gt;, AssayNotes &lt;lgl&gt;, TimePoint &lt;lgl&gt;, ExtIdentifier &lt;lgl&gt;,</span>
-<span class="co">#&gt; #   SsfExtId &lt;lgl&gt;, SampleGroup &lt;lgl&gt;, SiteId &lt;lgl&gt;, TubeUniqueID &lt;lgl&gt;, CLI &lt;lgl&gt;,</span>
-<span class="co">#&gt; #   HybControlNormScale &lt;dbl&gt;, RowCheck &lt;chr&gt;, NormScale_20 &lt;dbl&gt;, NormScale_0_005 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   NormScale_0_5 &lt;dbl&gt;, ANMLFractionUsed_20 &lt;dbl&gt;, ANMLFractionUsed_0_005 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   ANMLFractionUsed_0_5 &lt;dbl&gt;, Age &lt;dbl&gt;, Sex &lt;chr&gt;, seq.10000.28 &lt;dbl&gt;, seq.10001.7 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   seq.10003.15 &lt;dbl&gt;, seq.10006.25 &lt;dbl&gt;, seq.10008.43 &lt;dbl&gt;, seq.10011.65 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   seq.10012.5 &lt;dbl&gt;, seq.10013.34 &lt;dbl&gt;, seq.10014.31 &lt;dbl&gt;, seq.10015.119 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   seq.10021.1 &lt;dbl&gt;, seq.10022.207 &lt;dbl&gt;, seq.10023.32 &lt;dbl&gt;, seq.10024.44 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   seq.10030.8 &lt;dbl&gt;, seq.10034.16 &lt;dbl&gt;, seq.10035.6 &lt;dbl&gt;, seq.10036.201 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   seq.10037.98 &lt;dbl&gt;, seq.10040.63 &lt;dbl&gt;, seq.10041.3 &lt;dbl&gt;, seq.10042.8 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   seq.10043.31 &lt;dbl&gt;, seq.10044.12 &lt;dbl&gt;, seq.10045.47 &lt;dbl&gt;, seq.10046.55 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   seq.10047.12 &lt;dbl&gt;, seq.10048.7 &lt;dbl&gt;, seq.10049.112 &lt;dbl&gt;, seq.10053.5 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   seq.10054.3 &lt;dbl&gt;, seq.10056.5 &lt;dbl&gt;, seq.10058.1 &lt;dbl&gt;, seq.10063.10 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   seq.10064.12 &lt;dbl&gt;, seq.10070.22 &lt;dbl&gt;, seq.10073.22 &lt;dbl&gt;, seq.10074.128 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   seq.10075.75 &lt;dbl&gt;, seq.10076.1 &lt;dbl&gt;, seq.10078.5 &lt;dbl&gt;, seq.10080.9 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   seq.10081.17 &lt;dbl&gt;, seq.10082.251 &lt;dbl&gt;, seq.10085.25 &lt;dbl&gt;, seq.10086.39 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   seq.10087.10 &lt;dbl&gt;, seq.10088.37 &lt;dbl&gt;, seq.10089.7 &lt;dbl&gt;, seq.10336.3 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   seq.10339.48 &lt;dbl&gt;, seq.10342.55 &lt;dbl&gt;, seq.10344.334 &lt;dbl&gt;, seq.10346.5 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   seq.10356.21 &lt;dbl&gt;, seq.10361.25 &lt;dbl&gt;, seq.10362.35 &lt;dbl&gt;, seq.10363.13 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   seq.10364.6 &lt;dbl&gt;, seq.10365.132 &lt;dbl&gt;, seq.10366.11 &lt;dbl&gt;, seq.10367.62 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   seq.10370.21 &lt;dbl&gt;, seq.10372.18 &lt;dbl&gt;, seq.10390.21 &lt;dbl&gt;, seq.10391.1 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   seq.10396.6 &lt;dbl&gt;, seq.10416.79 &lt;dbl&gt;, seq.10418.36 &lt;dbl&gt;, seq.10419.1 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   seq.10424.31 &lt;dbl&gt;, seq.10425.3 &lt;dbl&gt;, seq.10426.21 &lt;dbl&gt;, seq.10427.2 &lt;dbl&gt;, …</span>
-<span class="co">#&gt; ════════════════════════════════════════════════════════════════════════════════════════════════════</span>
+<span class="co">#&gt; #   SampleDescription &lt;chr&gt;, AssayNotes &lt;lgl&gt;, TimePoint &lt;lgl&gt;, ExtIdentifier &lt;lgl&gt;, SsfExtId &lt;lgl&gt;,</span>
+<span class="co">#&gt; #   SampleGroup &lt;lgl&gt;, SiteId &lt;lgl&gt;, TubeUniqueID &lt;lgl&gt;, …</span>
+<span class="co">#&gt; ═════════════════════════════════════════════════════════════════════════════════════════════════════</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">my_adat</span>, show_header <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>  <span class="co"># if simply wish to see Header info</span>
-<span class="co">#&gt; ── Attributes ──────────────────────────────────────────────────────────────────────────────────────</span>
-<span class="co">#&gt;      Intact               ✔</span>
-<span class="co">#&gt; ── Dimensions ──────────────────────────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt; ══ SomaScan Data ════════════════════════════════════════════════════════════════════════════════════</span>
+<span class="co">#&gt;      Attributes intact    ✓</span>
 <span class="co">#&gt;      Rows                 192</span>
 <span class="co">#&gt;      Columns              5318</span>
 <span class="co">#&gt;      Clinical Data        34</span>
 <span class="co">#&gt;      Features             5284</span>
-<span class="co">#&gt; ── Column Meta ─────────────────────────────────────────────────────────────────────────────────────</span>
-<span class="co">#&gt;       SeqId            |   UniProt            |   Type                      |   ColCheck                                |   Dilution2</span>
-<span class="co">#&gt;       SeqIdVersion     |   EntrezGeneID       |   Dilution                  |   CalQcRatio_Example_Adat_Set001_170255   |            </span>
-<span class="co">#&gt;       SomaId           |   EntrezGeneSymbol   |   PlateScale_Reference      |   QcReference_170255                      |            </span>
-<span class="co">#&gt;       TargetFullName   |   Organism           |   CalReference              |   Cal_Example_Adat_Set002                 |            </span>
-<span class="co">#&gt;       Target           |   Units              |   Cal_Example_Adat_Set001   |   CalQcRatio_Example_Adat_Set002_170255   |            </span>
-<span class="co">#&gt; ── Header Data ─────────────────────────────────────────────────────────────────────────────────────</span>
-<span class="co">#&gt;      AdatId                                      ❯     GID-1234-56-789-abcdef     </span>
-<span class="co">#&gt;      Version                                     ❯     1.2     </span>
-<span class="co">#&gt;      AssayType                                   ❯     PharmaServices     </span>
-<span class="co">#&gt;      AssayVersion                                ❯     V4     </span>
-<span class="co">#&gt;      AssayRobot                                  ❯     Fluent 1 L-307     </span>
-<span class="co">#&gt;      Legal                                       ❯     Experiment details and data have been processed to protect Personally Identifiable Information (PII) and comply with existing privacy laws.     </span>
-<span class="co">#&gt;      CreatedBy                                   ❯     PharmaServices     </span>
-<span class="co">#&gt;      CreatedDate                                 ❯     2020-07-24     </span>
-<span class="co">#&gt;      EnteredBy                                   ❯     Technician1     </span>
-<span class="co">#&gt;      ExpDate                                     ❯     2020-06-18, 2020-07-20     </span>
-<span class="co">#&gt;      GeneratedBy                                 ❯     Px (Build:  : ), Canopy_0.1.1     </span>
-<span class="co">#&gt;      RunNotes                                    ❯     2 columns ('Age' and 'Sex') have been added to this ADAT. Age has been randomly increased or decreased by 1-2 years to protect patient information     </span>
-<span class="co">#&gt;      ProcessSteps                                ❯     Raw RFU, Hyb Normalization, medNormInt (SampleId), plateScale, Calibration, anmlQC, qcCheck, anmlSMP     </span>
-<span class="co">#&gt;      ProteinEffectiveDate                        ❯     2019-08-06     </span>
-<span class="co">#&gt;      StudyMatrix                                 ❯     EDTA Plasma     </span>
-<span class="co">#&gt;      LabLocation                                 ❯     SLUS     </span>
-<span class="co">#&gt;      Title                                       ❯     Example Adat Set001, Example Adat Set002     </span>
-<span class="co">#&gt;      AssaySite                                   ❯     SW     </span>
-<span class="co">#&gt;      CalibratorId                                ❯     170261     </span>
-<span class="co">#&gt;      ReportConfig                                ❯     {"analysisSteps":[{"stepType":"hybNorm","referenceSource":"intraplate","includeSampleTypes":["QC","Calibrator","Buffer"]},{"stepName":"medNormInt","stepType":"medNorm","includeSampleTypes":["Calibrator","Buffer"],"referenceSource":"intraplate","referenceFields":["SampleId"]},{"stepType":"plateScale","referenceSource":"Reference_v4_Plasma_Calibrator_170261"},{"stepType":"calibrate","referenceSource":"Reference_v4_Plasma_Calibrator_170261"},{"stepName":"anmlQC","stepType":"ANML","effectSizeCutoff":2.0,"minFractionUsed":0.3,"includeSampleTypes":["QC"],"referenceSource":"Reference_v4_Plasma_ANML"},{"stepType":"qcCheck","QCReferenceSource":"Reference_v4_Plasma_QC_ANML_170255","tailsCriteriaLower":0.8,"tailsCriteriaUpper":1.2,"tailThreshold":15.0,"QCAdditionalReferenceSources":["Reference_v4_Plasma_QC_ANML_170259","Reference_v4_Plasma_QC_ANML_170260"],"prenormalized":true},{"stepName":"anmlSMP","stepType":"ANML","effectSizeCutoff":2.0,"minFractionUsed":0.3,"includeSampleTypes":["Sample"],"referenceSource":"Reference_v4_Plasma_ANML"}],"qualityReports":["SQS Report"],"filter":{"proteinEffectiveDate":"2019-08-06"}}     </span>
-<span class="co">#&gt;      HybNormReference                            ❯     intraplate     </span>
-<span class="co">#&gt;      MedNormReference                            ❯     intraplate     </span>
-<span class="co">#&gt;      NormalizationAlgorithm                      ❯     ANML     </span>
-<span class="co">#&gt;      PlateScale_ReferenceSource                  ❯     Reference_v4_Plasma_Calibrator_170261     </span>
-<span class="co">#&gt;      PlateScale_Scalar_Example_Adat_Set001       ❯     1.08091554     </span>
-<span class="co">#&gt;      PlateScale_PassFlag_Example_Adat_Set001     ❯     PASS     </span>
-<span class="co">#&gt;      CalibrationReference                        ❯     Reference_v4_Plasma_Calibrator_170261     </span>
-<span class="co">#&gt;      CalPlateTailPercent_Example_Adat_Set001     ❯     0.1     </span>
-<span class="co">#&gt;      PlateTailPercent_Example_Adat_Set001        ❯     1.2     </span>
-<span class="co">#&gt;      PlateTailTest_Example_Adat_Set001           ❯     PASS     </span>
-<span class="co">#&gt;      PlateScale_Scalar_Example_Adat_Set002       ❯     1.09915270     </span>
-<span class="co">#&gt;      PlateScale_PassFlag_Example_Adat_Set002     ❯     PASS     </span>
-<span class="co">#&gt;      CalPlateTailPercent_Example_Adat_Set002     ❯     2.6     </span>
-<span class="co">#&gt;      PlateTailPercent_Example_Adat_Set002        ❯     4.2     </span>
-<span class="co">#&gt;      PlateTailTest_Example_Adat_Set002           ❯     PASS     </span>
-<span class="co">#&gt; ════════════════════════════════════════════════════════════════════════════════════════════════════</span>
+<span class="co">#&gt; ── Column Meta ──────────────────────────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt; ℹ SeqId, SeqIdVersion, SomaId, TargetFullName, Target, UniProt, EntrezGeneID, EntrezGeneSymbol,</span>
+<span class="co">#&gt; ℹ Organism, Units, Type, Dilution, PlateScale_Reference, CalReference, Cal_Example_Adat_Set001,</span>
+<span class="co">#&gt; ℹ ColCheck, CalQcRatio_Example_Adat_Set001_170255, QcReference_170255, Cal_Example_Adat_Set002,</span>
+<span class="co">#&gt; ℹ CalQcRatio_Example_Adat_Set002_170255, Dilution2</span>
+<span class="co">#&gt; ── Header Data ──────────────────────────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt; # A tibble: 35 × 2</span>
+<span class="co">#&gt;    Key                  Value                                                                        </span>
+<span class="co">#&gt;    &lt;chr&gt;                &lt;chr&gt;                                                                        </span>
+<span class="co">#&gt;  1 AdatId               GID-1234-56-789-abcdef                                                       </span>
+<span class="co">#&gt;  2 Version              1.2                                                                          </span>
+<span class="co">#&gt;  3 AssayType            PharmaServices                                                               </span>
+<span class="co">#&gt;  4 AssayVersion         V4                                                                           </span>
+<span class="co">#&gt;  5 AssayRobot           Fluent 1 L-307                                                               </span>
+<span class="co">#&gt;  6 Legal                Experiment details and data have been processed to protect Personally Identi…</span>
+<span class="co">#&gt;  7 CreatedBy            PharmaServices                                                               </span>
+<span class="co">#&gt;  8 CreatedDate          2020-07-24                                                                   </span>
+<span class="co">#&gt;  9 EnteredBy            Technician1                                                                  </span>
+<span class="co">#&gt; 10 ExpDate              2020-06-18, 2020-07-20                                                       </span>
+<span class="co">#&gt; 11 GeneratedBy          Px (Build:  : ), Canopy_0.1.1                                                </span>
+<span class="co">#&gt; 12 RunNotes             2 columns ('Age' and 'Sex') have been added to this ADAT. Age has been rando…</span>
+<span class="co">#&gt; 13 ProcessSteps         Raw RFU, Hyb Normalization, medNormInt (SampleId), plateScale, Calibration, …</span>
+<span class="co">#&gt; 14 ProteinEffectiveDate 2019-08-06                                                                   </span>
+<span class="co">#&gt; 15 StudyMatrix          EDTA Plasma                                                                  </span>
+<span class="co">#&gt; # … with 20 more rows</span>
+<span class="co">#&gt; ═════════════════════════════════════════════════════════════════════════════════════════════════════</span>
 
 <span class="co"># S3 summary method</span>
 <span class="co"># View Target and summary statistics</span>
@@ -346,41 +317,40 @@
 <span class="co">#&gt;  MAD    :  4538      MAD    : 19345      MAD    : 1996.9     </span>
 <span class="co">#&gt;  IQR    :  6043      IQR    : 25695      IQR    : 2720.0</span></code></pre></div>
 </div>
-<div id="wrangling" class="section level3">
-<h3 class="hasAnchor">
-<a href="#wrangling" class="anchor" aria-hidden="true"></a>Wrangling</h3>
-<div id="attributes-contain-file-and-feature-information" class="section level4">
-<h4 class="hasAnchor">
-<a href="#attributes-contain-file-and-feature-information" class="anchor" aria-hidden="true"></a>Attributes Contain File and Feature Information</h4>
+<div class="section level3">
+<h3 id="wrangling">Wrangling<a class="anchor" aria-label="anchor" href="#wrangling"></a>
+</h3>
+<div class="section level4">
+<h4 id="attributes-contain-file-and-feature-information">Attributes Contain File and Feature Information<a class="anchor" aria-label="anchor" href="#attributes-contain-file-and-feature-information"></a>
+</h4>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; [1] "names"       "class"       "row.names"   "spec"        "Header.Meta" "Col.Meta"   </span>
-<span class="co">#&gt; [7] "file.specs"  "row.meta"</span>
+<span class="co">#&gt; [1] "names"       "class"       "row.names"   "Header.Meta" "Col.Meta"    "file.specs"  "row.meta"</span>
 
 <span class="co"># The `Col.Meta` attribute contains </span>
 <span class="co"># target annotation information</span>
 <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">my_adat</span>, <span class="st">"Col.Meta"</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 5,284 x 21</span>
-<span class="co">#&gt;    SeqId  SeqIdVersion SomaId TargetFullName   Target UniProt EntrezGeneID EntrezGeneSymbol Organism</span>
-<span class="co">#&gt;    &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;            &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt;            &lt;chr&gt;   </span>
-<span class="co">#&gt;  1 10000…            3 SL019… Beta-crystallin… CRBB2  P43320  "1415"       "CRYBB2"         Human   </span>
-<span class="co">#&gt;  2 10001…            3 SL002… RAF proto-oncog… c-Raf  P04049  "5894"       "RAF1"           Human   </span>
-<span class="co">#&gt;  3 10003…            3 SL019… Zinc finger pro… ZNF41  P51814  "7592"       "ZNF41"          Human   </span>
-<span class="co">#&gt;  4 10006…            3 SL019… ETS domain-cont… ELK1   P19419  "2002"       "ELK1"           Human   </span>
-<span class="co">#&gt;  5 10008…            3 SL019… Guanylyl cyclas… GUC1A  P43080  "2978"       "GUCA1A"         Human   </span>
-<span class="co">#&gt;  6 10011…            3 SL019… Inositol polyph… OCRL   Q01968  "4952"       "OCRL"           Human   </span>
-<span class="co">#&gt;  7 10012…            3 SL014… SAM pointed dom… SPDEF  O95238  "25803"      "SPDEF"          Human   </span>
-<span class="co">#&gt;  8 10013…            3 SL025… Fc_MOUSE         Fc_MO… Q99LC4  ""           ""               Mouse   </span>
-<span class="co">#&gt;  9 10014…            3 SL007… Zinc finger pro… SLUG   O43623  "6591"       "SNAI2"          Human   </span>
-<span class="co">#&gt; 10 10015…            3 SL014… Voltage-gated p… KCAB2  Q13303  "8514"       "KCNAB2"         Human   </span>
+<span class="co">#&gt; # A tibble: 5,284 × 21</span>
+<span class="co">#&gt;    SeqId     SeqIdVersion SomaId TargetFullName Target UniProt EntrezGeneID EntrezGeneSymbol Organism</span>
+<span class="co">#&gt;    &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;          &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt;            &lt;chr&gt;   </span>
+<span class="co">#&gt;  1 10000-28             3 SL019… Beta-crystall… CRBB2  P43320  "1415"       "CRYBB2"         Human   </span>
+<span class="co">#&gt;  2 10001-7              3 SL002… RAF proto-onc… c-Raf  P04049  "5894"       "RAF1"           Human   </span>
+<span class="co">#&gt;  3 10003-15             3 SL019… Zinc finger p… ZNF41  P51814  "7592"       "ZNF41"          Human   </span>
+<span class="co">#&gt;  4 10006-25             3 SL019… ETS domain-co… ELK1   P19419  "2002"       "ELK1"           Human   </span>
+<span class="co">#&gt;  5 10008-43             3 SL019… Guanylyl cycl… GUC1A  P43080  "2978"       "GUCA1A"         Human   </span>
+<span class="co">#&gt;  6 10011-65             3 SL019… Inositol poly… OCRL   Q01968  "4952"       "OCRL"           Human   </span>
+<span class="co">#&gt;  7 10012-5              3 SL014… SAM pointed d… SPDEF  O95238  "25803"      "SPDEF"          Human   </span>
+<span class="co">#&gt;  8 10013-34             3 SL025… Fc_MOUSE       Fc_MO… Q99LC4  ""           ""               Mouse   </span>
+<span class="co">#&gt;  9 10014-31             3 SL007… Zinc finger p… SLUG   O43623  "6591"       "SNAI2"          Human   </span>
+<span class="co">#&gt; 10 10015-119            3 SL014… Voltage-gated… KCAB2  Q13303  "8514"       "KCNAB2"         Human   </span>
 <span class="co">#&gt; # … with 5,274 more rows, and 12 more variables: Units &lt;chr&gt;, Type &lt;chr&gt;, Dilution &lt;chr&gt;,</span>
 <span class="co">#&gt; #   PlateScale_Reference &lt;dbl&gt;, CalReference &lt;dbl&gt;, Cal_Example_Adat_Set001 &lt;dbl&gt;, ColCheck &lt;chr&gt;,</span>
 <span class="co">#&gt; #   CalQcRatio_Example_Adat_Set001_170255 &lt;dbl&gt;, QcReference_170255 &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   Cal_Example_Adat_Set002 &lt;dbl&gt;, CalQcRatio_Example_Adat_Set002_170255 &lt;dbl&gt;, Dilution2 &lt;dbl&gt;</span></code></pre></div>
 </div>
-<div id="analyte-features-seqxxxxxx" class="section level4">
-<h4 class="hasAnchor">
-<a href="#analyte-features-seqxxxxxx" class="anchor" aria-hidden="true"></a>Analyte Features (<code>seq.xxxx.xx</code>)</h4>
+<div class="section level4">
+<h4 id="analyte-features-seqxxxxxx">Analyte Features (<code>seq.xxxx.xx</code>)<a class="anchor" aria-label="anchor" href="#analyte-features-seqxxxxxx"></a>
+</h4>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/getAnalytes.html">getAnalytes</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>     <span class="co"># first 20 analytes; see AptName above</span>
 <span class="co">#&gt;  [1] "seq.10000.28"  "seq.10001.7"   "seq.10003.15"  "seq.10006.25"  "seq.10008.43"  "seq.10011.65" </span>
@@ -392,33 +362,34 @@
 <span class="fu"><a href="reference/getAnalytes.html">getAnalytes</a></span><span class="op">(</span><span class="va">my_adat</span>, n <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>        <span class="co"># the `n` argument; no. analytes</span>
 <span class="co">#&gt; [1] 5284</span></code></pre></div>
 </div>
-<div id="feature-data" class="section level4">
-<h4 class="hasAnchor">
-<a href="#feature-data" class="anchor" aria-hidden="true"></a>Feature Data</h4>
-<p>The <code><a href="reference/getAnalyteInfo.html">getAnalyteInfo()</a></code> function creates a lookup table that links analyte feature names in the <code>soma_adat</code> object to the annotation data in <code>Col.Meta</code> via the common index-key, <code>AptName</code>, in column 1:</p>
+<div class="section level4">
+<h4 id="feature-data">Feature Data<a class="anchor" aria-label="anchor" href="#feature-data"></a>
+</h4>
+<p>The <code><a href="reference/getAnalyteInfo.html">getAnalyteInfo()</a></code> function creates a lookup table that links analyte feature names in the <code>soma_adat</code> object to the annotation data in <code><a href="reference/Col.Meta.html">?Col.Meta</a></code> via the common index-key, <code>AptName</code>, in column 1:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/getAnalyteInfo.html">getAnalyteInfo</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 5,284 x 22</span>
-<span class="co">#&gt;    AptName  SeqId  SeqIdVersion SomaId TargetFullName   Target UniProt EntrezGeneID EntrezGeneSymbol</span>
-<span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;            &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt;           </span>
-<span class="co">#&gt;  1 seq.100… 10000…            3 SL019… Beta-crystallin… CRBB2  P43320  "1415"       "CRYBB2"        </span>
-<span class="co">#&gt;  2 seq.100… 10001…            3 SL002… RAF proto-oncog… c-Raf  P04049  "5894"       "RAF1"          </span>
-<span class="co">#&gt;  3 seq.100… 10003…            3 SL019… Zinc finger pro… ZNF41  P51814  "7592"       "ZNF41"         </span>
-<span class="co">#&gt;  4 seq.100… 10006…            3 SL019… ETS domain-cont… ELK1   P19419  "2002"       "ELK1"          </span>
-<span class="co">#&gt;  5 seq.100… 10008…            3 SL019… Guanylyl cyclas… GUC1A  P43080  "2978"       "GUCA1A"        </span>
-<span class="co">#&gt;  6 seq.100… 10011…            3 SL019… Inositol polyph… OCRL   Q01968  "4952"       "OCRL"          </span>
-<span class="co">#&gt;  7 seq.100… 10012…            3 SL014… SAM pointed dom… SPDEF  O95238  "25803"      "SPDEF"         </span>
-<span class="co">#&gt;  8 seq.100… 10013…            3 SL025… Fc_MOUSE         Fc_MO… Q99LC4  ""           ""              </span>
-<span class="co">#&gt;  9 seq.100… 10014…            3 SL007… Zinc finger pro… SLUG   O43623  "6591"       "SNAI2"         </span>
-<span class="co">#&gt; 10 seq.100… 10015…            3 SL014… Voltage-gated p… KCAB2  Q13303  "8514"       "KCNAB2"        </span>
+<span class="co">#&gt; # A tibble: 5,284 × 22</span>
+<span class="co">#&gt;    AptName      SeqId SeqIdVersion SomaId TargetFullName Target UniProt EntrezGeneID EntrezGeneSymbol</span>
+<span class="co">#&gt;    &lt;chr&gt;        &lt;chr&gt;        &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;          &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt;           </span>
+<span class="co">#&gt;  1 seq.10000.28 1000…            3 SL019… Beta-crystall… CRBB2  P43320  "1415"       "CRYBB2"        </span>
+<span class="co">#&gt;  2 seq.10001.7  1000…            3 SL002… RAF proto-onc… c-Raf  P04049  "5894"       "RAF1"          </span>
+<span class="co">#&gt;  3 seq.10003.15 1000…            3 SL019… Zinc finger p… ZNF41  P51814  "7592"       "ZNF41"         </span>
+<span class="co">#&gt;  4 seq.10006.25 1000…            3 SL019… ETS domain-co… ELK1   P19419  "2002"       "ELK1"          </span>
+<span class="co">#&gt;  5 seq.10008.43 1000…            3 SL019… Guanylyl cycl… GUC1A  P43080  "2978"       "GUCA1A"        </span>
+<span class="co">#&gt;  6 seq.10011.65 1001…            3 SL019… Inositol poly… OCRL   Q01968  "4952"       "OCRL"          </span>
+<span class="co">#&gt;  7 seq.10012.5  1001…            3 SL014… SAM pointed d… SPDEF  O95238  "25803"      "SPDEF"         </span>
+<span class="co">#&gt;  8 seq.10013.34 1001…            3 SL025… Fc_MOUSE       Fc_MO… Q99LC4  ""           ""              </span>
+<span class="co">#&gt;  9 seq.10014.31 1001…            3 SL007… Zinc finger p… SLUG   O43623  "6591"       "SNAI2"         </span>
+<span class="co">#&gt; 10 seq.10015.1… 1001…            3 SL014… Voltage-gated… KCAB2  Q13303  "8514"       "KCNAB2"        </span>
 <span class="co">#&gt; # … with 5,274 more rows, and 13 more variables: Organism &lt;chr&gt;, Units &lt;chr&gt;, Type &lt;chr&gt;,</span>
 <span class="co">#&gt; #   Dilution &lt;chr&gt;, PlateScale_Reference &lt;dbl&gt;, CalReference &lt;dbl&gt;, Cal_Example_Adat_Set001 &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   ColCheck &lt;chr&gt;, CalQcRatio_Example_Adat_Set001_170255 &lt;dbl&gt;, QcReference_170255 &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   Cal_Example_Adat_Set002 &lt;dbl&gt;, CalQcRatio_Example_Adat_Set002_170255 &lt;dbl&gt;, Dilution2 &lt;dbl&gt;</span></code></pre></div>
+<p>See <code><a href="reference/Col.Meta.html">?colmeta</a></code> or <code><a href="reference/Col.Meta.html">?annotations</a></code> for further details about these fields.</p>
 </div>
-<div id="clinical-data" class="section level4">
-<h4 class="hasAnchor">
-<a href="#clinical-data" class="anchor" aria-hidden="true"></a>Clinical Data</h4>
+<div class="section level4">
+<h4 id="clinical-data">Clinical Data<a class="anchor" aria-label="anchor" href="#clinical-data"></a>
+</h4>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/getAnalytes.html">getMeta</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span>             <span class="co"># clinical meta data for each sample</span>
 <span class="co">#&gt;  [1] "PlateId"                "PlateRunDate"           "ScannerID"             </span>
@@ -436,9 +407,9 @@
 <span class="fu"><a href="reference/getAnalytes.html">getMeta</a></span><span class="op">(</span><span class="va">my_adat</span>, n <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>   <span class="co"># also an `n` argument</span>
 <span class="co">#&gt; [1] 34</span></code></pre></div>
 </div>
-<div id="math-generics" class="section level4">
-<h4 class="hasAnchor">
-<a href="#math-generics" class="anchor" aria-hidden="true"></a>Math Generics</h4>
+<div class="section level4">
+<h4 id="math-generics">Math Generics<a class="anchor" aria-label="anchor" href="#math-generics"></a>
+</h4>
 <p>You may perform basic mathematical transformations on the feature data <em>only</em> with special <code>soma_adat</code> S3 methods (see <code><a href="reference/MathGenerics.html">?MathGenerics</a></code>):</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">$</span><span class="va">seq.2429.27</span><span class="op">)</span>
@@ -456,10 +427,10 @@
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sqData</span><span class="op">$</span><span class="va">seq.2429.27</span><span class="op">)</span>
 <span class="co">#&gt; [1]  92.96397 111.67856 120.94503 116.53240  94.54523  82.09019</span></code></pre></div>
 </div>
-<div id="full-complement-of-dplyr-s3-methods" class="section level4">
-<h4 class="hasAnchor">
-<a href="#full-complement-of-dplyr-s3-methods" class="anchor" aria-hidden="true"></a>Full Complement of <code>dplyr</code> S3 Methods</h4>
-<p>The <code>soma_adat</code> also comes with numerous class specific methods to the most popular <code>dplyr</code> generics that make working with <code>soma_adat</code> objects simpler for those familiar with this standard toolkit:</p>
+<div class="section level4">
+<h4 id="full-complement-of-dplyr-s3-methods">Full Complement of <a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a> S3 Methods<a class="anchor" aria-label="anchor" href="#full-complement-of-dplyr-s3-methods"></a>
+</h4>
+<p>The <code>soma_adat</code> also comes with numerous class specific methods to the most popular <a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a> generics that make working with <code>soma_adat</code> objects simpler for those familiar with this standard toolkit:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span>
 <span class="co">#&gt; [1]  192 5318</span>
@@ -469,21 +440,19 @@
 
 <span class="va">males</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">SampleType</span>, <span class="va">SampleMatrix</span>, <span class="fu">starts_with</span><span class="op">(</span><span class="st">"NormScale"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; ── Attributes ──────────────────────────────────────────────────────────────────────────────────────</span>
-<span class="co">#&gt;      Intact               ✔</span>
-<span class="co">#&gt; ── Dimensions ──────────────────────────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt; ══ SomaScan Data ════════════════════════════════════════════════════════════════════════════════════</span>
+<span class="co">#&gt;      Attributes intact    ✓</span>
 <span class="co">#&gt;      Rows                 85</span>
 <span class="co">#&gt;      Columns              5</span>
 <span class="co">#&gt;      Clinical Data        5</span>
 <span class="co">#&gt;      Features             0</span>
-<span class="co">#&gt; ── Column Meta ─────────────────────────────────────────────────────────────────────────────────────</span>
-<span class="co">#&gt;       SeqId            |   UniProt            |   Type                      |   ColCheck                                |   Dilution2</span>
-<span class="co">#&gt;       SeqIdVersion     |   EntrezGeneID       |   Dilution                  |   CalQcRatio_Example_Adat_Set001_170255   |            </span>
-<span class="co">#&gt;       SomaId           |   EntrezGeneSymbol   |   PlateScale_Reference      |   QcReference_170255                      |            </span>
-<span class="co">#&gt;       TargetFullName   |   Organism           |   CalReference              |   Cal_Example_Adat_Set002                 |            </span>
-<span class="co">#&gt;       Target           |   Units              |   Cal_Example_Adat_Set001   |   CalQcRatio_Example_Adat_Set002_170255   |            </span>
-<span class="co">#&gt; ── Tibble ──────────────────────────────────────────────────────────────────────────────────────────</span>
-<span class="co">#&gt; # A tibble: 85 x 6</span>
+<span class="co">#&gt; ── Column Meta ──────────────────────────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt; ℹ SeqId, SeqIdVersion, SomaId, TargetFullName, Target, UniProt, EntrezGeneID, EntrezGeneSymbol,</span>
+<span class="co">#&gt; ℹ Organism, Units, Type, Dilution, PlateScale_Reference, CalReference, Cal_Example_Adat_Set001,</span>
+<span class="co">#&gt; ℹ ColCheck, CalQcRatio_Example_Adat_Set001_170255, QcReference_170255, Cal_Example_Adat_Set002,</span>
+<span class="co">#&gt; ℹ CalQcRatio_Example_Adat_Set002_170255, Dilution2</span>
+<span class="co">#&gt; ── Tibble ───────────────────────────────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt; # A tibble: 85 × 6</span>
 <span class="co">#&gt;    row_names      SampleType SampleMatrix NormScale_20 NormScale_0_005 NormScale_0_5</span>
 <span class="co">#&gt;    &lt;chr&gt;          &lt;chr&gt;      &lt;chr&gt;               &lt;dbl&gt;           &lt;dbl&gt;         &lt;dbl&gt;</span>
 <span class="co">#&gt;  1 258495800010_8 Sample     Plasma-PPT          0.984           1.03          0.915</span>
@@ -497,11 +466,11 @@
 <span class="co">#&gt;  9 258495800008_4 Sample     Plasma-PPT          0.991           0.979         0.920</span>
 <span class="co">#&gt; 10 258495800006_6 Sample     Plasma-PPT          0.862           0.964         0.999</span>
 <span class="co">#&gt; # … with 75 more rows</span>
-<span class="co">#&gt; ════════════════════════════════════════════════════════════════════════════════════════════════════</span></code></pre></div>
+<span class="co">#&gt; ═════════════════════════════════════════════════════════════════════════════════════════════════════</span></code></pre></div>
 </div>
-<div id="available-s3-methods-soma_adat" class="section level4">
-<h4 class="hasAnchor">
-<a href="#available-s3-methods-soma_adat" class="anchor" aria-hidden="true"></a>Available S3 Methods <code>soma_adat</code>
+<div class="section level4">
+<h4 id="available-s3-methods-soma_adat">Available S3 Methods <code>soma_adat</code>
+<a class="anchor" aria-label="anchor" href="#available-s3-methods-soma_adat"></a>
 </h4>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># see full complement of `soma_adat` methods</span>
@@ -510,13 +479,13 @@
 <span class="co">#&gt;  [8] arrange      count        filter       full_join    getAnalytes  getMeta      group_by    </span>
 <span class="co">#&gt; [15] inner_join   is_seqFormat left_join    Math         mutate       print        rename      </span>
 <span class="co">#&gt; [22] right_join   sample_frac  sample_n     select       semi_join    separate     slice_sample</span>
-<span class="co">#&gt; [29] slice        summary      ungroup      unite       </span>
+<span class="co">#&gt; [29] slice        summary      transform    ungroup      unite       </span>
 <span class="co">#&gt; see '?methods' for accessing help and source code</span></code></pre></div>
 </div>
 </div>
-<div id="writing-a-soma_adat" class="section level3">
-<h3 class="hasAnchor">
-<a href="#writing-a-soma_adat" class="anchor" aria-hidden="true"></a>Writing a <code>soma_adat</code>
+<div class="section level3">
+<h3 id="writing-a-soma_adat">Writing a <code>soma_adat</code>
+<a class="anchor" aria-label="anchor" href="#writing-a-soma_adat"></a>
 </h3>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/is.intact.attributes.html">is.intact.attributes</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span>     <span class="co"># attributes MUST be intact to write to file</span>
@@ -524,23 +493,23 @@
 
 <span class="fu"><a href="reference/write_adat.html">write_adat</a></span><span class="op">(</span><span class="va">my_adat</span>, file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="st">"my-adat-"</span>, fileext <span class="op">=</span> <span class="st">".adat"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; ✔ ADAT passed checks and traps</span>
-<span class="co">#&gt; ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp2nir9H/my-adat-1ba457a8c391.adat'</span></code></pre></div>
+<span class="co">#&gt; ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpmwk9TG/my-adat-77c4e1d1566.adat'</span></code></pre></div>
 <hr>
 </div>
 </div>
 </div>
-<div id="typical-analyses" class="section level1">
-<h1 class="hasAnchor">
-<a href="#typical-analyses" class="anchor" aria-hidden="true"></a>Typical Analyses</h1>
+<div class="section level1">
+<h1 id="typical-analyses">Typical Analyses<a class="anchor" aria-label="anchor" href="#typical-analyses"></a>
+</h1>
 <p>Although it is beyond the scope of the <code>SomaDataIO</code> package, below are 3 sample analyses that typical users/clients would perform on SomaLogic data. They are not intended to be a definitive guide in statistical analysis and existing packages do exist in the <code>R</code> universe that perform parts or extensions of these techniques. Many variations of the workflows below exist, however the framework highlights how one could perform standard <em>preliminary</em> analyses on SomaLogic data for:</p>
 <ul>
 <li>Two-group differential expression (<em>t</em>-test)</li>
 <li>Binary classification (logistic regression)</li>
 <li>Linear regression</li>
 </ul>
-<div id="data-preparation" class="section level4">
-<h4 class="hasAnchor">
-<a href="#data-preparation" class="anchor" aria-hidden="true"></a>Data Preparation</h4>
+<div class="section level4">
+<h4 id="data-preparation">Data Preparation<a class="anchor" aria-label="anchor" href="#data-preparation"></a>
+</h4>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># `example_data` comes with SomaDataIO</span>
 <span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span>
@@ -551,32 +520,35 @@
 <span class="co">#&gt;          6         10          6        170</span>
 
 <span class="va">is_seq</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">.x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"^seq\\.[0-9]{4}"</span>, <span class="va">.x</span><span class="op">)</span> <span class="co"># regex for analytes</span>
+<span class="va">cs</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">.x</span><span class="op">)</span> <span class="op">{</span>    <span class="co"># center/scale vector</span>
+  <span class="va">out</span> <span class="op">&lt;-</span> <span class="va">.x</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span>  <span class="co"># center</span>
+  <span class="va">out</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span>         <span class="co"># scale</span>
+<span class="op">}</span>
 
 <span class="co"># Prepare data set for analysis</span>
 <span class="va">cleanData</span> <span class="op">&lt;-</span> <span class="va">example_data</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">SampleType</span> <span class="op">==</span> <span class="st">"Sample"</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>                <span class="co"># rm control samples</span>
-  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html" class="external-link">drop_na</a></span><span class="op">(</span><span class="va">Sex</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>                           <span class="co"># rm NAs if present</span>
+  <span class="fu">drop_na</span><span class="op">(</span><span class="va">Sex</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>                                  <span class="co"># rm NAs if present</span>
   <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log10</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>                                       <span class="co"># log10-transform (Math Generic)</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">Sex</span><span class="op">)</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>   <span class="co"># map Sex -&gt; 0/1</span>
-  <span class="fu">mutate_if</span><span class="op">(</span><span class="fu">is_seq</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span>, <span class="op">~</span> <span class="op">{</span>   <span class="co"># mutate analytes only</span>
-    <span class="va">out</span> <span class="op">&lt;-</span> <span class="va">.x</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span>            <span class="co"># center analytes</span>
-    <span class="va">out</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span>                   <span class="co"># scale analytes</span>
-  <span class="op">}</span><span class="op">)</span>
+  <span class="fu">modify_if</span><span class="op">(</span><span class="fu">is_seq</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span>, <span class="va">cs</span><span class="op">)</span>
+
 <span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">cleanData</span><span class="op">$</span><span class="va">Sex</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  F  M </span>
 <span class="co">#&gt; 85 85</span>
+
 <span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">cleanData</span><span class="op">$</span><span class="va">Group</span><span class="op">)</span>    <span class="co"># F = 0; M = 1</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  0  1 </span>
 <span class="co">#&gt; 85 85</span></code></pre></div>
 </div>
-<div id="compare-two-groups-mf-via-t-test" class="section level2">
-<h2 class="hasAnchor">
-<a href="#compare-two-groups-mf-via-t-test" class="anchor" aria-hidden="true"></a>Compare Two Groups (M/F) via t-test</h2>
-<div id="get-annotations-via-getanalyteinfo" class="section level4">
-<h4 class="hasAnchor">
-<a href="#get-annotations-via-getanalyteinfo" class="anchor" aria-hidden="true"></a>Get annotations via <code>getAnalyteInfo()</code>:</h4>
+<div class="section level2">
+<h2 id="compare-two-groups-mf-via-t-test">Compare Two Groups (M/F) via t-test<a class="anchor" aria-label="anchor" href="#compare-two-groups-mf-via-t-test"></a>
+</h2>
+<div class="section level4">
+<h4 id="get-annotations-via-getanalyteinfo">Get annotations via <code>getAnalyteInfo()</code>:<a class="anchor" aria-label="anchor" href="#get-annotations-via-getanalyteinfo"></a>
+</h4>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">t_tests</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/getAnalyteInfo.html">getAnalyteInfo</a></span><span class="op">(</span><span class="va">cleanData</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
   <span class="fu">select</span><span class="op">(</span><span class="va">AptName</span>, <span class="va">SeqId</span>, Target <span class="op">=</span> <span class="va">TargetFullName</span>, <span class="va">EntrezGeneSymbol</span>, <span class="va">UniProt</span><span class="op">)</span>
@@ -585,58 +557,58 @@
 <span class="co">#   Subset via dplyr::filter(t_tests, ...) here to </span>
 <span class="co">#   restrict analysis to only certain analytes</span>
 <span class="va">t_tests</span>
-<span class="co">#&gt; # A tibble: 5,284 x 5</span>
-<span class="co">#&gt;    AptName       SeqId    Target                                            EntrezGeneSymbol UniProt</span>
-<span class="co">#&gt;    &lt;chr&gt;         &lt;chr&gt;    &lt;chr&gt;                                             &lt;chr&gt;            &lt;chr&gt;  </span>
-<span class="co">#&gt;  1 seq.10000.28  10000-28 Beta-crystallin B2                                "CRYBB2"         P43320 </span>
-<span class="co">#&gt;  2 seq.10001.7   10001-7  RAF proto-oncogene serine/threonine-protein kina… "RAF1"           P04049 </span>
-<span class="co">#&gt;  3 seq.10003.15  10003-15 Zinc finger protein 41                            "ZNF41"          P51814 </span>
-<span class="co">#&gt;  4 seq.10006.25  10006-25 ETS domain-containing protein Elk-1               "ELK1"           P19419 </span>
-<span class="co">#&gt;  5 seq.10008.43  10008-43 Guanylyl cyclase-activating protein 1             "GUCA1A"         P43080 </span>
-<span class="co">#&gt;  6 seq.10011.65  10011-65 Inositol polyphosphate 5-phosphatase OCRL-1       "OCRL"           Q01968 </span>
-<span class="co">#&gt;  7 seq.10012.5   10012-5  SAM pointed domain-containing Ets transcription … "SPDEF"          O95238 </span>
-<span class="co">#&gt;  8 seq.10013.34  10013-34 Fc_MOUSE                                          ""               Q99LC4 </span>
-<span class="co">#&gt;  9 seq.10014.31  10014-31 Zinc finger protein SNAI2                         "SNAI2"          O43623 </span>
-<span class="co">#&gt; 10 seq.10015.119 10015-1… Voltage-gated potassium channel subunit beta-2    "KCNAB2"         Q13303 </span>
+<span class="co">#&gt; # A tibble: 5,284 × 5</span>
+<span class="co">#&gt;    AptName       SeqId     Target                                            EntrezGeneSymbol UniProt</span>
+<span class="co">#&gt;    &lt;chr&gt;         &lt;chr&gt;     &lt;chr&gt;                                             &lt;chr&gt;            &lt;chr&gt;  </span>
+<span class="co">#&gt;  1 seq.10000.28  10000-28  Beta-crystallin B2                                "CRYBB2"         P43320 </span>
+<span class="co">#&gt;  2 seq.10001.7   10001-7   RAF proto-oncogene serine/threonine-protein kina… "RAF1"           P04049 </span>
+<span class="co">#&gt;  3 seq.10003.15  10003-15  Zinc finger protein 41                            "ZNF41"          P51814 </span>
+<span class="co">#&gt;  4 seq.10006.25  10006-25  ETS domain-containing protein Elk-1               "ELK1"           P19419 </span>
+<span class="co">#&gt;  5 seq.10008.43  10008-43  Guanylyl cyclase-activating protein 1             "GUCA1A"         P43080 </span>
+<span class="co">#&gt;  6 seq.10011.65  10011-65  Inositol polyphosphate 5-phosphatase OCRL-1       "OCRL"           Q01968 </span>
+<span class="co">#&gt;  7 seq.10012.5   10012-5   SAM pointed domain-containing Ets transcription … "SPDEF"          O95238 </span>
+<span class="co">#&gt;  8 seq.10013.34  10013-34  Fc_MOUSE                                          ""               Q99LC4 </span>
+<span class="co">#&gt;  9 seq.10014.31  10014-31  Zinc finger protein SNAI2                         "SNAI2"          O43623 </span>
+<span class="co">#&gt; 10 seq.10015.119 10015-119 Voltage-gated potassium channel subunit beta-2    "KCNAB2"         Q13303 </span>
 <span class="co">#&gt; # … with 5,274 more rows</span></code></pre></div>
 </div>
-<div id="calculate-t-tests" class="section level4">
-<h4 class="hasAnchor">
-<a href="#calculate-t-tests" class="anchor" aria-hidden="true"></a>Calculate <code>t-tests</code>
+<div class="section level4">
+<h4 id="calculate-t-tests">Calculate <code>t-tests</code>
+<a class="anchor" aria-label="anchor" href="#calculate-t-tests"></a>
 </h4>
 <p>Use a “list columns” approach via nested tibble object using <code>dplyr</code>, <code>purrr</code>, and <code><a href="https://rdrr.io/r/stats/t.test.html" class="external-link">stats::t.test()</a></code></p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">t_tests</span> <span class="op">&lt;-</span> <span class="va">t_tests</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>
     formula <span class="op">=</span> <span class="fu">map</span><span class="op">(</span><span class="va">AptName</span>, <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/formula.html" class="external-link">as.formula</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">.x</span>, <span class="st">"~ Sex"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, <span class="co"># create formula</span>
-    t_test  <span class="op">=</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">formula</span>, <span class="op">~</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/t.test.html" class="external-link">t.test</a></span><span class="op">(</span><span class="va">.x</span>, data <span class="op">=</span> <span class="va">cleanData</span><span class="op">)</span><span class="op">)</span>,  <span class="co"># fit t-tests</span>
-    t_stat  <span class="op">=</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_dbl</a></span><span class="op">(</span><span class="va">t_test</span>, <span class="st">"statistic"</span><span class="op">)</span>,            <span class="co"># pull out t-statistic</span>
-    p.value <span class="op">=</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_dbl</a></span><span class="op">(</span><span class="va">t_test</span>, <span class="st">"p.value"</span><span class="op">)</span>,              <span class="co"># pull out p-values</span>
-    fdr     <span class="op">=</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/p.adjust.html" class="external-link">p.adjust</a></span><span class="op">(</span><span class="va">p.value</span>, method <span class="op">=</span> <span class="st">"BH"</span><span class="op">)</span>         <span class="co"># FDR for multiple testing</span>
+    t_test  <span class="op">=</span> <span class="fu">map</span><span class="op">(</span><span class="va">formula</span>, <span class="op">~</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/t.test.html" class="external-link">t.test</a></span><span class="op">(</span><span class="va">.x</span>, data <span class="op">=</span> <span class="va">cleanData</span><span class="op">)</span><span class="op">)</span>,  <span class="co"># fit t-tests</span>
+    t_stat  <span class="op">=</span> <span class="fu">map_dbl</span><span class="op">(</span><span class="va">t_test</span>, <span class="st">"statistic"</span><span class="op">)</span>,            <span class="co"># pull out t-statistic</span>
+    p.value <span class="op">=</span> <span class="fu">map_dbl</span><span class="op">(</span><span class="va">t_test</span>, <span class="st">"p.value"</span><span class="op">)</span>,              <span class="co"># pull out p-values</span>
+    fdr     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/p.adjust.html" class="external-link">p.adjust</a></span><span class="op">(</span><span class="va">p.value</span>, method <span class="op">=</span> <span class="st">"BH"</span><span class="op">)</span>         <span class="co"># FDR for multiple testing</span>
   <span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">p.value</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>                   <span class="co"># re-order by `p-value`</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>rank <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/ranking.html" class="external-link">row_number</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>     <span class="co"># add numeric ranks</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">p.value</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>           <span class="co"># re-order by `p-value`</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>rank <span class="op">=</span> <span class="fu">row_number</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>    <span class="co"># add numeric ranks</span>
 
 <span class="co"># View analysis tibble</span>
 <span class="va">t_tests</span>
-<span class="co">#&gt; # A tibble: 5,284 x 11</span>
-<span class="co">#&gt;    AptName  SeqId  Target     EntrezGeneSymbol UniProt formula t_test t_stat  p.value      fdr  rank</span>
-<span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;            &lt;chr&gt;   &lt;list&gt;  &lt;list&gt;  &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;</span>
-<span class="co">#&gt;  1 seq.846… 8468-… Prostate-… KLK3             P07288  &lt;formu… &lt;htes… -22.1  2.46e-43 1.30e-39     1</span>
-<span class="co">#&gt;  2 seq.658… 6580-… Pregnancy… PZP              P20742  &lt;formu… &lt;htes…  14.2  3.07e-28 8.12e-25     2</span>
-<span class="co">#&gt;  3 seq.792… 7926-… Kunitz-ty… SPINT3           P49223  &lt;formu… &lt;htes… -11.1  6.16e-21 1.08e-17     3</span>
-<span class="co">#&gt;  4 seq.303… 3032-… Follicle … CGA FSHB         P01215… &lt;formu… &lt;htes…   9.67 4.68e-17 6.18e-14     4</span>
-<span class="co">#&gt;  5 seq.168… 16892… Ectonucle… ENPP2            Q13822  &lt;formu… &lt;htes…   9.37 6.45e-17 6.82e-14     5</span>
-<span class="co">#&gt;  6 seq.576… 5763-… Beta-defe… DEFB104A         Q8WTQ1  &lt;formu… &lt;htes…  -8.71 9.11e-15 8.02e-12     6</span>
-<span class="co">#&gt;  7 seq.928… 9282-… Cysteine-… CRISP2           P16562  &lt;formu… &lt;htes…  -8.47 1.16e-14 8.74e-12     7</span>
-<span class="co">#&gt;  8 seq.295… 2953-… Luteinizi… CGA LHB          P01215… &lt;formu… &lt;htes…   8.55 2.58e-14 1.71e-11     8</span>
-<span class="co">#&gt;  9 seq.491… 4914-… Human Cho… CGA CGB          P01215… &lt;formu… &lt;htes…   8.14 3.99e-13 2.34e-10     9</span>
-<span class="co">#&gt; 10 seq.247… 2474-… Serum amy… APCS             P02743  &lt;formu… &lt;htes…  -7.40 1.08e-11 5.72e- 9    10</span>
+<span class="co">#&gt; # A tibble: 5,284 × 11</span>
+<span class="co">#&gt;    AptName     SeqId Target EntrezGeneSymbol UniProt formula   t_test  t_stat  p.value      fdr  rank</span>
+<span class="co">#&gt;    &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;            &lt;chr&gt;   &lt;list&gt;    &lt;list&gt;   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;</span>
+<span class="co">#&gt;  1 seq.8468.19 8468… Prost… KLK3             P07288  &lt;formula&gt; &lt;htest&gt; -22.1  2.46e-43 1.30e-39     1</span>
+<span class="co">#&gt;  2 seq.6580.29 6580… Pregn… PZP              P20742  &lt;formula&gt; &lt;htest&gt;  14.2  3.07e-28 8.12e-25     2</span>
+<span class="co">#&gt;  3 seq.7926.13 7926… Kunit… SPINT3           P49223  &lt;formula&gt; &lt;htest&gt; -11.1  6.16e-21 1.08e-17     3</span>
+<span class="co">#&gt;  4 seq.3032.11 3032… Folli… CGA FSHB         P01215… &lt;formula&gt; &lt;htest&gt;   9.67 4.68e-17 6.18e-14     4</span>
+<span class="co">#&gt;  5 seq.16892.… 1689… Ecton… ENPP2            Q13822  &lt;formula&gt; &lt;htest&gt;   9.37 6.45e-17 6.82e-14     5</span>
+<span class="co">#&gt;  6 seq.5763.67 5763… Beta-… DEFB104A         Q8WTQ1  &lt;formula&gt; &lt;htest&gt;  -8.71 9.11e-15 8.02e-12     6</span>
+<span class="co">#&gt;  7 seq.9282.12 9282… Cyste… CRISP2           P16562  &lt;formula&gt; &lt;htest&gt;  -8.47 1.16e-14 8.74e-12     7</span>
+<span class="co">#&gt;  8 seq.2953.31 2953… Lutei… CGA LHB          P01215… &lt;formula&gt; &lt;htest&gt;   8.55 2.58e-14 1.71e-11     8</span>
+<span class="co">#&gt;  9 seq.4914.10 4914… Human… CGA CGB          P01215… &lt;formula&gt; &lt;htest&gt;   8.14 3.99e-13 2.34e-10     9</span>
+<span class="co">#&gt; 10 seq.2474.54 2474… Serum… APCS             P02743  &lt;formula&gt; &lt;htest&gt;  -7.40 1.08e-11 5.72e- 9    10</span>
 <span class="co">#&gt; # … with 5,274 more rows</span></code></pre></div>
 </div>
-<div id="visualize-with-ggplot2" class="section level4">
-<h4 class="hasAnchor">
-<a href="#visualize-with-ggplot2" class="anchor" aria-hidden="true"></a>Visualize with <code>ggplot2()</code>
+<div class="section level4">
+<h4 id="visualize-with-ggplot2">Visualize with <code>ggplot2()</code>
+<a class="anchor" aria-label="anchor" href="#visualize-with-ggplot2"></a>
 </h4>
 <p>Create a plotting tibble in the “long” format for <code>ggplot2</code>:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
@@ -655,7 +627,7 @@
 <span class="co">#&gt; Joining, by = "AptName"</span>
 
 <span class="va">plot_tbl</span>
-<span class="co">#&gt; # A tibble: 2,040 x 4</span>
+<span class="co">#&gt; # A tibble: 2,040 × 4</span>
 <span class="co">#&gt;    Sex   AptName        RFU Target                                                          </span>
 <span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;        &lt;dbl&gt; &lt;fct&gt;                                                           </span>
 <span class="co">#&gt;  1 F     seq.8468.19   2.54 Prostate-specific antigen                                       </span>
@@ -686,12 +658,12 @@
 <p><img src="reference/figures/README-ggplot-boxes-1.png"><!-- --></p>
 </div>
 </div>
-<div id="logistic-regression" class="section level2">
-<h2 class="hasAnchor">
-<a href="#logistic-regression" class="anchor" aria-hidden="true"></a>Logistic Regression</h2>
-<div id="predict-sex" class="section level4">
-<h4 class="hasAnchor">
-<a href="#predict-sex" class="anchor" aria-hidden="true"></a>Predict Sex</h4>
+<div class="section level2">
+<h2 id="logistic-regression">Logistic Regression<a class="anchor" aria-label="anchor" href="#logistic-regression"></a>
+</h2>
+<div class="section level4">
+<h4 id="predict-sex">Predict Sex<a class="anchor" aria-label="anchor" href="#predict-sex"></a>
+</h4>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>                  <span class="co"># seed resulting in 50/50 class balance</span>
 <span class="va">idx</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">cleanData</span><span class="op">)</span>, size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">cleanData</span><span class="op">)</span> <span class="op">-</span> <span class="fl">50</span><span class="op">)</span>  <span class="co"># hold-out</span>
@@ -718,24 +690,24 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>rank <span class="op">=</span> <span class="fu">row_number</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>     <span class="co"># add numeric ranks</span>
 
 <span class="va">LR_tbl</span>
-<span class="co">#&gt; # A tibble: 5,284 x 11</span>
-<span class="co">#&gt;    AptName  SeqId  Target      EntrezGeneSymbol UniProt formula model beta_hat p.value     fdr  rank</span>
-<span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;       &lt;chr&gt;            &lt;chr&gt;   &lt;list&gt;  &lt;lis&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;</span>
-<span class="co">#&gt;  1 seq.658… 6580-… Pregnancy … PZP              P20742  &lt;formu… &lt;glm&gt;    -3.07 5.09e-9 1.98e-5     1</span>
-<span class="co">#&gt;  2 seq.576… 5763-… Beta-defen… DEFB104A         Q8WTQ1  &lt;formu… &lt;glm&gt;     3.13 7.50e-9 1.98e-5     2</span>
-<span class="co">#&gt;  3 seq.303… 3032-… Follicle s… CGA FSHB         P01215… &lt;formu… &lt;glm&gt;    -1.64 2.27e-8 3.99e-5     3</span>
-<span class="co">#&gt;  4 seq.792… 7926-… Kunitz-typ… SPINT3           P49223  &lt;formu… &lt;glm&gt;     2.90 3.35e-8 4.42e-5     4</span>
-<span class="co">#&gt;  5 seq.295… 2953-… Luteinizin… CGA LHB          P01215… &lt;formu… &lt;glm&gt;    -1.58 1.22e-7 1.28e-4     5</span>
-<span class="co">#&gt;  6 seq.168… 16892… Ectonucleo… ENPP2            Q13822  &lt;formu… &lt;glm&gt;    -1.89 1.46e-7 1.28e-4     6</span>
-<span class="co">#&gt;  7 seq.491… 4914-… Human Chor… CGA CGB          P01215… &lt;formu… &lt;glm&gt;    -1.56 1.75e-7 1.32e-4     7</span>
-<span class="co">#&gt;  8 seq.928… 9282-… Cysteine-r… CRISP2           P16562  &lt;formu… &lt;glm&gt;     1.91 3.43e-7 2.27e-4     8</span>
-<span class="co">#&gt;  9 seq.247… 2474-… Serum amyl… APCS             P02743  &lt;formu… &lt;glm&gt;     1.79 3.00e-6 1.76e-3     9</span>
-<span class="co">#&gt; 10 seq.713… 7139-… SLIT and N… SLITRK4          Q8IW52  &lt;formu… &lt;glm&gt;     1.21 3.86e-6 2.04e-3    10</span>
+<span class="co">#&gt; # A tibble: 5,284 × 11</span>
+<span class="co">#&gt;    AptName      SeqId  Target EntrezGeneSymbol UniProt formula   model beta_hat p.value     fdr  rank</span>
+<span class="co">#&gt;    &lt;chr&gt;        &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;            &lt;chr&gt;   &lt;list&gt;    &lt;lis&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;</span>
+<span class="co">#&gt;  1 seq.6580.29  6580-… Pregn… PZP              P20742  &lt;formula&gt; &lt;glm&gt;    -3.07 5.09e-9 1.98e-5     1</span>
+<span class="co">#&gt;  2 seq.5763.67  5763-… Beta-… DEFB104A         Q8WTQ1  &lt;formula&gt; &lt;glm&gt;     3.13 7.50e-9 1.98e-5     2</span>
+<span class="co">#&gt;  3 seq.3032.11  3032-… Folli… CGA FSHB         P01215… &lt;formula&gt; &lt;glm&gt;    -1.64 2.27e-8 3.99e-5     3</span>
+<span class="co">#&gt;  4 seq.7926.13  7926-… Kunit… SPINT3           P49223  &lt;formula&gt; &lt;glm&gt;     2.90 3.35e-8 4.42e-5     4</span>
+<span class="co">#&gt;  5 seq.2953.31  2953-… Lutei… CGA LHB          P01215… &lt;formula&gt; &lt;glm&gt;    -1.58 1.22e-7 1.28e-4     5</span>
+<span class="co">#&gt;  6 seq.16892.23 16892… Ecton… ENPP2            Q13822  &lt;formula&gt; &lt;glm&gt;    -1.89 1.46e-7 1.28e-4     6</span>
+<span class="co">#&gt;  7 seq.4914.10  4914-… Human… CGA CGB          P01215… &lt;formula&gt; &lt;glm&gt;    -1.56 1.75e-7 1.32e-4     7</span>
+<span class="co">#&gt;  8 seq.9282.12  9282-… Cyste… CRISP2           P16562  &lt;formula&gt; &lt;glm&gt;     1.91 3.43e-7 2.27e-4     8</span>
+<span class="co">#&gt;  9 seq.2474.54  2474-… Serum… APCS             P02743  &lt;formula&gt; &lt;glm&gt;     1.79 3.00e-6 1.76e-3     9</span>
+<span class="co">#&gt; 10 seq.7139.14  7139-… SLIT … SLITRK4          Q8IW52  &lt;formula&gt; &lt;glm&gt;     1.21 3.86e-6 2.04e-3    10</span>
 <span class="co">#&gt; # … with 5,274 more rows</span></code></pre></div>
 </div>
-<div id="fit-model--calculate-performance" class="section level4">
-<h4 class="hasAnchor">
-<a href="#fit-model--calculate-performance" class="anchor" aria-hidden="true"></a>Fit Model | Calculate Performance</h4>
+<div class="section level4">
+<h4 id="fit-model--calculate-performance">Fit Model | Calculate Performance<a class="anchor" aria-label="anchor" href="#fit-model--calculate-performance"></a>
+</h4>
 <p>Next, select features for the model fit. We have a good idea of reasonable <code>Sex</code> markers from prior knowledge (<code>CGA*</code>), and fortunately many of these are highly ranked in <code>LR_tbl</code>. Below we fit a 4-marker logistic regression model from cherry-picked gender-related features:</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># AptName is index key between `LR_tbl` and `train`</span>
@@ -767,19 +739,19 @@
        PPV         <span class="op">=</span> <span class="va">tp</span> <span class="op">/</span> <span class="op">(</span><span class="va">tp</span> <span class="op">+</span> <span class="va">fp</span><span class="op">)</span>,
        NPV         <span class="op">=</span> <span class="va">tn</span> <span class="op">/</span> <span class="op">(</span><span class="va">tn</span> <span class="op">+</span> <span class="va">fn</span><span class="op">)</span>
 <span class="op">)</span>
-<span class="co">#&gt; # A tibble: 1 x 5</span>
+<span class="co">#&gt; # A tibble: 1 × 5</span>
 <span class="co">#&gt;   Sensitivity Specificity Accuracy   PPV   NPV</span>
 <span class="co">#&gt;         &lt;dbl&gt;       &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt; 1         0.8        0.96     0.88 0.952 0.828</span></code></pre></div>
 </div>
 </div>
-<div id="linear-regression" class="section level2">
-<h2 class="hasAnchor">
-<a href="#linear-regression" class="anchor" aria-hidden="true"></a>Linear Regression</h2>
+<div class="section level2">
+<h2 id="linear-regression">Linear Regression<a class="anchor" aria-label="anchor" href="#linear-regression"></a>
+</h2>
 <p>We use the same <code>cleanData</code>, <code>train</code>, and <code>test</code> data objects from the logistic regression analysis above.</p>
-<div id="predict-age" class="section level4">
-<h4 class="hasAnchor">
-<a href="#predict-age" class="anchor" aria-hidden="true"></a>Predict Age</h4>
+<div class="section level4">
+<h4 id="predict-age">Predict Age<a class="anchor" aria-label="anchor" href="#predict-age"></a>
+</h4>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">LinR_tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/getAnalyteInfo.html">getAnalyteInfo</a></span><span class="op">(</span><span class="va">train</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>               <span class="co"># `train` from above</span>
   <span class="fu">select</span><span class="op">(</span><span class="va">AptName</span>, <span class="va">SeqId</span>, Target <span class="op">=</span> <span class="va">TargetFullName</span>, <span class="va">EntrezGeneSymbol</span>, <span class="va">UniProt</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
@@ -795,24 +767,24 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>rank <span class="op">=</span> <span class="fu">row_number</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>    <span class="co"># add numeric ranks</span>
 
 <span class="va">LinR_tbl</span>
-<span class="co">#&gt; # A tibble: 5,284 x 11</span>
-<span class="co">#&gt;    AptName  SeqId  Target        EntrezGeneSymbol UniProt formula model slope  p.value     fdr  rank</span>
-<span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;         &lt;chr&gt;            &lt;chr&gt;   &lt;list&gt;  &lt;lis&gt; &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;</span>
-<span class="co">#&gt;  1 seq.304… 3045-… Pleiotrophin  PTN              P21246  &lt;formu… &lt;lm&gt;   6.70 4.25e-10 2.25e-6     1</span>
-<span class="co">#&gt;  2 seq.449… 4496-… Macrophage m… MMP12            P39900  &lt;formu… &lt;lm&gt;   6.31 1.28e- 9 2.58e-6     2</span>
-<span class="co">#&gt;  3 seq.156… 15640… Transgelin    TAGLN            Q01995  &lt;formu… &lt;lm&gt;   6.74 1.46e- 9 2.58e-6     3</span>
-<span class="co">#&gt;  4 seq.639… 6392-7 WNT1-inducib… WISP2            O76076  &lt;formu… &lt;lm&gt;   6.32 2.84e- 9 3.76e-6     4</span>
-<span class="co">#&gt;  5 seq.153… 15386… Fatty acid-b… FABP4            P15090  &lt;formu… &lt;lm&gt;   5.87 6.65e- 9 7.03e-6     5</span>
-<span class="co">#&gt;  6 seq.437… 4374-… Growth/diffe… GDF15            Q99988  &lt;formu… &lt;lm&gt;   5.95 1.26e- 8 1.11e-5     6</span>
-<span class="co">#&gt;  7 seq.260… 2609-… Cystatin-C    CST3             P01034  &lt;formu… &lt;lm&gt;   5.60 3.11e- 8 2.35e-5     7</span>
-<span class="co">#&gt;  8 seq.848… 8480-… EGF-containi… EFEMP1           Q12805  &lt;formu… &lt;lm&gt;   6.00 1.47e- 7 8.48e-5     8</span>
-<span class="co">#&gt;  9 seq.155… 15533… Macrophage s… MSR1             P21757  &lt;formu… &lt;lm&gt;   5.51 1.50e- 7 8.48e-5     9</span>
-<span class="co">#&gt; 10 seq.336… 3362-… Chordin-like… CHRDL1           Q9BU40  &lt;formu… &lt;lm&gt;   5.35 1.86e- 7 8.48e-5    10</span>
+<span class="co">#&gt; # A tibble: 5,284 × 11</span>
+<span class="co">#&gt;    AptName      SeqId    Target EntrezGeneSymbol UniProt formula   model slope  p.value     fdr  rank</span>
+<span class="co">#&gt;    &lt;chr&gt;        &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;            &lt;chr&gt;   &lt;list&gt;    &lt;lis&gt; &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt;</span>
+<span class="co">#&gt;  1 seq.3045.72  3045-72  Pleio… PTN              P21246  &lt;formula&gt; &lt;lm&gt;   6.70 4.25e-10 2.25e-6     1</span>
+<span class="co">#&gt;  2 seq.4496.60  4496-60  Macro… MMP12            P39900  &lt;formula&gt; &lt;lm&gt;   6.31 1.28e- 9 2.58e-6     2</span>
+<span class="co">#&gt;  3 seq.15640.54 15640-54 Trans… TAGLN            Q01995  &lt;formula&gt; &lt;lm&gt;   6.74 1.46e- 9 2.58e-6     3</span>
+<span class="co">#&gt;  4 seq.6392.7   6392-7   WNT1-… WISP2            O76076  &lt;formula&gt; &lt;lm&gt;   6.32 2.84e- 9 3.76e-6     4</span>
+<span class="co">#&gt;  5 seq.15386.7  15386-7  Fatty… FABP4            P15090  &lt;formula&gt; &lt;lm&gt;   5.87 6.65e- 9 7.03e-6     5</span>
+<span class="co">#&gt;  6 seq.4374.45  4374-45  Growt… GDF15            Q99988  &lt;formula&gt; &lt;lm&gt;   5.95 1.26e- 8 1.11e-5     6</span>
+<span class="co">#&gt;  7 seq.2609.59  2609-59  Cysta… CST3             P01034  &lt;formula&gt; &lt;lm&gt;   5.60 3.11e- 8 2.35e-5     7</span>
+<span class="co">#&gt;  8 seq.8480.29  8480-29  EGF-c… EFEMP1           Q12805  &lt;formula&gt; &lt;lm&gt;   6.00 1.47e- 7 8.48e-5     8</span>
+<span class="co">#&gt;  9 seq.15533.97 15533-97 Macro… MSR1             P21757  &lt;formula&gt; &lt;lm&gt;   5.51 1.50e- 7 8.48e-5     9</span>
+<span class="co">#&gt; 10 seq.3362.61  3362-61  Chord… CHRDL1           Q9BU40  &lt;formula&gt; &lt;lm&gt;   5.35 1.86e- 7 8.48e-5    10</span>
 <span class="co">#&gt; # … with 5,274 more rows</span></code></pre></div>
 </div>
-<div id="fit-model--calculate-performance-1" class="section level4">
-<h4 class="hasAnchor">
-<a href="#fit-model--calculate-performance-1" class="anchor" aria-hidden="true"></a>Fit Model | Calculate Performance</h4>
+<div class="section level4">
+<h4 id="fit-model--calculate-performance-1">Fit Model | Calculate Performance<a class="anchor" aria-label="anchor" href="#fit-model--calculate-performance-1"></a>
+</h4>
 <p>Fit an 8-marker model with the top 8 features from <code>LinR_tbl</code>:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">feats</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">LinR_tbl</span><span class="op">$</span><span class="va">AptName</span>, <span class="fl">8</span><span class="op">)</span>
@@ -848,14 +820,14 @@
   RMSE <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">pred_error</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span>,          <span class="co"># Root Mean Squared Error</span>
   CCC  <span class="op">=</span> <span class="fu">linCCC</span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">true_age</span>, <span class="va">res</span><span class="op">$</span><span class="va">pred_age</span><span class="op">)</span>     <span class="co"># Lin's CCC</span>
 <span class="op">)</span>
-<span class="co">#&gt; # A tibble: 1 x 8</span>
+<span class="co">#&gt; # A tibble: 1 × 8</span>
 <span class="co">#&gt;     rss   tss   rsq rsqadj    R2   MAE  RMSE   CCC</span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 4152. 8492. 0.511  0.416 0.550  7.16  9.11 0.702</span></code></pre></div>
 </div>
-<div id="visualize-concordance" class="section level4">
-<h4 class="hasAnchor">
-<a href="#visualize-concordance" class="anchor" aria-hidden="true"></a>Visualize Concordance</h4>
+<div class="section level4">
+<h4 id="visualize-concordance">Visualize Concordance<a class="anchor" aria-label="anchor" href="#visualize-concordance"></a>
+</h4>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">lims</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">true_age</span>, <span class="va">res</span><span class="op">$</span><span class="va">pred_age</span><span class="op">)</span>
 <span class="va">res</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
@@ -873,9 +845,9 @@
 <hr>
 </div>
 </div>
-<div id="mit-license" class="section level2">
-<h2 class="hasAnchor">
-<a href="#mit-license" class="anchor" aria-hidden="true"></a>MIT LICENSE</h2>
+<div class="section level2">
+<h2 id="mit-license">MIT LICENSE<a class="anchor" aria-label="anchor" href="#mit-license"></a>
+</h2>
 <ul>
 <li>See <a href="LICENSE.html">LICENSE</a>
 </li>
@@ -887,7 +859,7 @@
 </li>
 </ul>
 <hr>
-<p>Created by <a href="https://github.com/rstudio/rmarkdown" class="external-link">Rmarkdown</a> (v2.9) and R version 4.1.0 (2021-05-18).</p>
+<p>Created by <a href="https://github.com/rstudio/rmarkdown" class="external-link">Rmarkdown</a> (v2.11) and R version 4.1.2 (2021-11-01).</p>
 </div>
 </div>
 
@@ -897,12 +869,9 @@
     <div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Report a bug at <br><a href="https://github.com/SomaLogic/SomaDataIO/issues">https://​github.com/​SomaLogic/​SomaDataIO/​issues</a>
-</li>
-<li>Learn more about us at <br><a href="http://www.somalogic.com">http://​www.somalogic.com</a>
-</li>
-<li>The tidyverse at <br><a href="https://www.tidyverse.org">https://​www.tidyverse.org</a>
-</li>
+<li><a href="https://github.com/SomaLogic/SomaDataIO/issues">Report a bug</a></li>
+<li><a href="http://www.somalogic.com" class="external-link">Learn more about us</a></li>
+<li><a href="https://www.tidyverse.org" class="external-link">The tidyverse</a></li>
 </ul>
 </div>
 
@@ -910,17 +879,24 @@
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
 
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing SomaDataIO</a></li>
+</ul>
+</div>
 
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>
-<a href="https://github.com/stufield">Stu Field</a> <br><small class="roles"> Author, maintainer </small>  </li>
-<li>SomaLogic, Inc. <br><small class="roles"> Copyright holder, funder </small>  </li>
+<a href="https://github.com/stufield" class="external-link">Stu Field</a> <br><small class="roles"> Author, maintainer </small>  </li>
+<li>SomaLogic Operating Co., Inc. <br><small class="roles"> Copyright holder, funder </small>  </li>
 </ul>
 </div>
 
@@ -928,8 +904,8 @@
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://cran.r-project.org" class="external-link"><img src="https://img.shields.io/badge/CRAN-No-red.svg" alt="CRAN badge"></a></li>
-<li><a href="https://github.com/SomaLogic/SomaDataIO-internal/actions"><img src="https://github.com/SomaLogic/SomaDataIO-internal/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://codecov.io/gh/SomaLogic/SomaDataIO-internal?branch=master" class="external-link"><img src="https://codecov.io/gh/SomaLogic/SomaDataIO-internal/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
+<li><a href="https://github.com/SomaLogic/SomaDataIO/actions"><img src="https://github.com/SomaLogic/SomaDataIO/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://codecov.io/gh/SomaLogic/SomaDataIO?branch=master" class="external-link"><img src="https://codecov.io/gh/SomaLogic/SomaDataIO/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html" class="external-link"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="Lifecycle Status"></a></li>
 <li><a href="https://choosealicense.com/licenses/mit/" class="external-link"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a></li>
 </ul>
@@ -941,12 +917,12 @@
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by <a href="https://github.com/stufield" class="external-link">Stu Field</a>, SomaLogic, Inc..</p>
+<p>Developed by <a href="https://github.com/stufield" class="external-link">Stu Field</a>, SomaLogic Operating Co., Inc..</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
 </div>
 
       </footer>
