@@ -19,6 +19,7 @@ FILES := $(addprefix $(DIR)/R/, \
 	getAnalytes.R \
 	getAnalyteInfo.R \
 	getMeta.R \
+	getTargetNames.R \
 	matchSeqIds.R \
 	loadAdatsAsList.R \
 	MathGenerics.R \
@@ -83,8 +84,7 @@ objects:
 	-e "example_data <- read_adat('inst/example/example_data.adat')" \
 	-e "ex_analytes  <- getAnalytes(example_data)" \
 	-e "ex_anno_tbl  <- getAnalyteInfo(example_data)" \
-	-e "ex_target_names <- as.list(ex_anno_tbl$$TargetFullName)" \
-	-e "names(ex_target_names) <- ex_anno_tbl$$AptName" \
+	-e "ex_target_names <- getTargetNames(ex_anno_tbl)" \
 	-e "save(example_data, file = 'data/example_data.rda', compress = 'xz')" \
 	-e "save(ex_analytes, ex_anno_tbl, ex_target_names, file = 'data/data_objects.rda', compress = 'xz')"
 	@ echo "Saving objects to 'data/*.rda' ..."

@@ -1,8 +1,8 @@
 
 # Testing ----
 test_that("Sample objects are created properly", {
-  expect_is(example_data, "soma_adat")
-  expect_is(ex_target_names, "list")
+  expect_s3_class(example_data, "soma_adat")
+  expect_s3_class(ex_target_names, "target_map")
   expect_length(ex_analytes, 5284)
   expect_length(ex_target_names, 5284)
   expect_equal(dim(ex_anno_tbl), c(5284, 22))
@@ -28,10 +28,10 @@ test_that("Sample objects are created properly", {
                               "Cal_Example_Adat_Set002",
                               "CalQcRatio_Example_Adat_Set002_170255",
                               "Dilution2"))
-  expect_is(ex_anno_tbl, "tbl_df")
+  expect_s3_class(ex_anno_tbl, "tbl_df")
   expect_equal(ex_analytes, getAnalytes(example_data))
   expect_named(ex_target_names, ex_analytes)
-  expect_equal(ex_target_names %>% unlist() %>% unname(),
+  expect_equal(unlist(ex_target_names, use.names = FALSE),
                ex_anno_tbl$TargetFullName)
   meta <- c("PlateId", "PlateRunDate", "ScannerID", "PlatePosition",
             "SlideId", "Subarray", "SampleId", "SampleType",

@@ -22,6 +22,8 @@
 * New `getAnalytes()` S3 method for class `recipe` from the `recipes` package.
 * New `loadAdatsAsList()` to load multiple ADAT files in a single call
   and optionally collapse them into a single data frame (@stufield, #8).
+* New `getTargetNames()` function to map ADAT `seq.XXXX.XX` names
+  to corresponding protein targets from the annotations table
 
 
 # SomaDataIO 5.2.0
