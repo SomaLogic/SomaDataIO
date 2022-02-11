@@ -50,7 +50,6 @@ adat2eSet <- function(adat) {
 
   f_df  <- data.frame(labelDescription = gsub("\\.", " ", names(lst$fdata)),
                       row.names = names(lst$fdata),  stringsAsFactors = FALSE)
-  # partial match warning from inside `new()`; along -> along.with
   fdata <- new("AnnotatedDataFrame", data = lst$fdata, varMetadata = f_df)
   p_df  <- data.frame(labelDescription = gsub("\\.", " ", names(lst$pdata)),
                       row.names = names(lst$pdata), stringsAsFactors = FALSE)
