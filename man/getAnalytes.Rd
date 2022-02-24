@@ -13,9 +13,7 @@ getMeta(x, n = FALSE)
 getFeatures(x, n = FALSE, rm.controls = FALSE)
 }
 \arguments{
-\item{x}{Typically a \code{soma_adat} class object created using \code{\link[=read_adat]{read_adat()}}.
-Alternatively, a character vector with elements containing \code{SeqIds}
-corresponding to analyte features.}
+\item{x}{Typically a \code{soma_adat} class object created using \code{\link[=read_adat]{read_adat()}}.}
 
 \item{n}{Logical. Return an integer corresponding to the \emph{length}
 of the features?}
@@ -25,23 +23,33 @@ of the features?}
 from the returned value?}
 }
 \value{
-A character vector of ADAT feature ("analyte") names.
-If \code{n = TRUE}, an integer corresponding to the length of the
-feature names.
+\code{getAnalytes()} returns character vector of ADAT feature
+("analyte") names.
 
-Either a character vector of ADAT meta data names or
-an integer number the length of the meta data names (if \code{n = TRUE}).
+\code{getMeta()} returns character vector of ADAT meta data names.
+
+For both, if \code{n = TRUE}, an integer corresponding to the
+\strong{length} of the character vector.
 }
 \description{
 Return the feature names (i.e. the column names for
-SOMAmer reagent analytes) from a \code{soma_adat}, data frame,
-matrix, list, or character vector. S3 methods exist for these classes.
+SOMAmer reagent analytes) from a \code{soma_adat}.
+S3 methods also exist for these classes:\preformatted{## [1] getAnalytes.character  getAnalytes.data.frame getAnalytes.default   
+## [4] getAnalytes.list       getAnalytes.matrix     getAnalytes.recipe    
+## [7] getAnalytes.soma_adat 
+## see '?methods' for accessing help and source code
+}
+
+\code{\link[=getMeta]{getMeta()}} returns the inverse, a character vector of string
+names of \emph{non}-analyte feature columns/variables, which typically
+correspond to the clinical "meta" data variables.
+S3 methods exist for these classes:\preformatted{## [1] getMeta.character  getMeta.data.frame getMeta.default    getMeta.list      
+## [5] getMeta.matrix     getMeta.soma_adat 
+## see '?methods' for accessing help and source code
+}
 }
 \section{Functions}{
 \itemize{
-\item \code{getMeta}: Return a character vector of string names of \emph{non}-analyte feature
-columns/variables.
-
 \item \code{getFeatures}: renamed in \pkg{SomaDataIO v5.1.0}. Exported
 (with life-cycle warning) to maintain backward compatibility.
 Please adjust your code accordingly.

@@ -1,20 +1,21 @@
 #' Get Analytes
 #'
 #' Return the feature names (i.e. the column names for
-#' SOMAmer reagent analytes) from a `soma_adat`, data frame,
-#' matrix, list, or character vector. S3 methods exist for these classes.
+#' SOMAmer reagent analytes) from a `soma_adat`.
+#' S3 methods also exist for these classes:
+#' ```{r method-classes, echo = FALSE}
+#' options(width = 80)
+#' methods("getAnalytes")
+#' ```
 #'
 #' @param x Typically a `soma_adat` class object created using [read_adat()].
-#' Alternatively, a character vector with elements containing `SeqIds`
-#' corresponding to analyte features.
 #' @param n Logical. Return an integer corresponding to the *length*
 #' of the features?
 #' @param rm.controls Logical. Should all control and non-human analytes
 #' (e.g. `HybControls`, `Non-Human`, `Non-Biotin`, `Spuriomer`) be removed
 #' from the returned value?
-#' @return A character vector of ADAT feature ("analyte") names.
-#' If `n = TRUE`, an integer corresponding to the length of the
-#' feature names.
+#' @return `getAnalytes()` returns character vector of ADAT feature
+#' ("analyte") names.
 #' @author Stu Field
 #' @seealso [is.apt()]
 #' @examples

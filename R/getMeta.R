@@ -1,10 +1,19 @@
 
-#' @describeIn getAnalytes
-#' Return a character vector of string names of *non*-analyte feature
-#' columns/variables.
+#' Get Meta
 #'
-#' @return Either a character vector of ADAT meta data names or
-#' an integer number the length of the meta data names (if `n = TRUE`).
+#' [getMeta()] returns the inverse, a character vector of string
+#' names of *non*-analyte feature columns/variables, which typically
+#' correspond to the clinical "meta" data variables.
+#' S3 methods exist for these classes:
+#' ```{r method-classes2, echo = FALSE}
+#' options(width = 80)
+#' methods("getMeta")
+#' ```
+#'
+#' @rdname getAnalytes
+#' @return `getMeta()` returns character vector of ADAT meta data names.
+#' @return For both, if `n = TRUE`, an integer corresponding to the
+#' __length__ of the character vector.
 #' @examples
 #'
 #' # getMeta()
