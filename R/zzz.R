@@ -18,20 +18,17 @@
   makeActiveBinding("symb_point", function() "\u276F" %enc% ">", pkgenv)
   makeActiveBinding("symb_info", function() "\u2139" %enc% "i", pkgenv)
 
-  # bind and assign the internal functions in `io_int`
+  .env_bind <- function(.env, x) { # x = env of fns from inside sysdata.rda
+    for ( i in names(x) ) {
+      environment(x[[i]]) <- .env  # re-assign binding env
+      .env[[i]] <- x[[i]]          # assign to .env
+    }
+    invisible()
+  }
+  # bind and assign the internal functions in `.__IO__env`
   # from sysdata.rda to SomaDataIO namespace
-  for (i in seq_along(io_int)) environment(io_int[[i]]) <- pkgenv
-  assign("addAttributes", io_int$addAttributes, pkgenv)
-  assign("addClass", io_int$addClass, pkgenv)
-  assign("cleanNames", io_int$cleanNames, envir = pkgenv)
-  assign("convertColMeta", io_int$convertColMeta, pkgenv)
-  assign("genRowNames", io_int$genRowNames, pkgenv)
-  assign("getAdatVersion", io_int$getAdatVersion, pkgenv)
-  assign("parseCheck", io_int$parseCheck, pkgenv)
-  assign("scaleAnalytes", io_int$scaleAnalytes, pkgenv)
-  assign("squish", io_int$squish, pkgenv)
-  assign("syncColMeta", io_int$syncColMeta, pkgenv)
-  invisible()
+  # rlang::env_print(.__IO__env)
+  .env_bind(pkgenv, .__IO__env)
 }
 
 .onAttach <- function(libname, pkgname) {
@@ -52,7 +49,7 @@ create_legal <- function() {
 
       Copyright \u00A9 2022 SomaLogic Operating Co., Inc.
 
-      The `SomaDataIO` package is licensed under the MIT license 
+      The `SomaDataIO` package is licensed under the MIT license
       (`LICENSE.md`) and is intended solely for research use
       only (\"RUO\") purposes. The code contained herein may *not*
       be used for diagnostic, clinical, therapeutic, or other

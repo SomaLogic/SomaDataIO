@@ -36,6 +36,16 @@ FILES := $(addprefix $(DIR)/R/, \
 	utils-read-adat.R \
 	write-adat.R)
 
+SYSFILES := $(addprefix $(DIR)/R/, \
+	addAttributes.R \
+	addClass.R \
+	cleanNames.R \
+	convertColMeta.R \
+	genRowNames.R \
+	getAdatVersion.R \
+	parseCheck.R \
+	scaleAnalytes.R \
+	syncColMeta.R)
 
 all: roxygen check clean
 update: sync sysdata objects
@@ -57,7 +67,7 @@ check: build
 	@ cd ..;\
 	$(RCMD) check --no-manual $(PKGNAME)_$(PKGVERS).tar.gz
 
-# copy SomaLogicL internal source code from private bitbucket repository
+# copy SomaLogic internal source code from private bitbucket repository
 # modify to purpose: sample.adat -> example_data, etc.
 # must be inside SL VPN with SSH keys set up to run 'make sync'
 sync:
@@ -90,31 +100,19 @@ objects:
 	@ echo "Saving objects to 'data/*.rda' ..."
 
 # necessary to decouple the function from the namespace
-# avoids loading of source package when sysdata.rda is loaded
-# this is a bit hacky and could probably be improved (sgf)
+# avoids loading of source package when 'sysdata.rda' is loaded
+# a bit hacky and could probably be improved (sgf)
 sysdata:
 	@ echo "Creating 'R/sysdata.rda' ..."
+	@ git clone --depth=1 ssh://git@bitbucket.sladmin.com:7999/sv/somareadr.git $(DIR)
+	@ git archive --format=tar --remote=ssh://git@bitbucket.sladmin.com:7999/sv/somanormalization \
+		master R/scaleAnalytes.R | tar -xf - -C $(DIR)
 	@ $(RSCRIPT) \
-	-e "io_int <- list()" \
-	-e "f <- c(" \
-	-e "  SomaReadr = 'addAttributes'," \
-	-e "  SomaReadr = 'addClass'," \
-	-e "  SomaReadr = 'cleanNames'," \
-	-e "  SomaReadr = 'squish'," \
-	-e "  SomaReadr = 'convertColMeta'," \
-	-e "  SomaReadr = 'genRowNames'," \
-	-e "  SomaReadr = 'getAdatVersion'," \
-	-e "  SomaReadr = 'parseCheck'," \
-	-e "  SomaReadr = 'syncColMeta'," \
-	-e "  SomaNormalization = 'scaleAnalytes'" \
-	-e ")" \
-	-e "for (i in seq_along(f)) { # loop over fns" \
-	-e "  fn   <- f[i]" \
-	-e "  func <- getFromNamespace(fn, ns = names(fn)) # get function" \
-	-e "  func <- deparse1(func, collapse = '\n') # convert to text" \
-	-e "  io_int[[fn]] <- eval(str2lang(func))    # re-create func" \
-	-e "}" \
-	-e "save(io_int, file = 'R/sysdata.rda')"
+	-e "files <- commandArgs(TRUE)" \
+	-e ".__IO__env <- new.env()" \
+	-e "invisible(lapply(files, sys.source, envir = .__IO__env, keep.source = TRUE))" \
+	-e "save(.__IO__env, file = 'R/sysdata.rda')" $(SYSFILES)
+	@ $(RM) $(DIR)
 	@ echo "Saving 'R/sysdata.rda' ..."
 
 install_deps:
