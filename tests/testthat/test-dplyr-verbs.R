@@ -1,6 +1,6 @@
 
 # Setup ----
-# mock up a dummy ADAT object; smaller than `sample.adat` for speed/simplicity
+# mock up a dummy ADAT object; smaller than `example_data` for speed/simplicity
 data <- mock_adat()
 
 
@@ -25,7 +25,7 @@ test_that("count method produces expected output", {
 })
 
 # arrange ----
-test_that("arrange method produces expected output", {
+test_that("`arrange()` method produces expected output", {
   new <- arrange(data, NormScale)
   expect_true(is.soma_adat(new))
   expect_s3_class(new, "soma_adat")
@@ -42,7 +42,7 @@ test_that("arrange method produces expected output", {
 })
 
 # rename ----
-test_that("rename method produces expected output", {
+test_that("`rename()` method produces expected output", {
   new <- rename(data, PID = PlateId)
   expect_true(is.soma_adat(new))
   expect_s3_class(new, "soma_adat")
@@ -59,12 +59,12 @@ test_that("rename method produces expected output", {
   )
   expect_true(is.intact.attributes(new2))
   new_cm <- attr(data, "Col.Meta")
-  new_cm[2L, ] <- NA_character_  # 3333-33 is renamed, NAs in Col.Meta row
+  new_cm[2L, ] <- NA   # 3333-33 is renamed, NAs in Col.Meta row
   expect_equal(attr(new2, "Col.Meta"), new_cm)
 })
 
 # filter ----
-test_that("filter method produces expected output", {
+test_that("`filter()` method produces expected output", {
   new <- filter(data, NormScale > 0.9)
   expect_true(is.soma_adat(new))
   expect_s3_class(new, "soma_adat")
@@ -78,7 +78,7 @@ test_that("filter method produces expected output", {
 })
 
 # mutate ----
-test_that("mutate method produces expected output", {
+test_that("`mutate()` method produces expected output", {
   new <- mutate(data, Subarray_2x = Subarray * 2)
   expect_true(is.soma_adat(new))
   expect_s3_class(new, "soma_adat")
@@ -93,7 +93,7 @@ test_that("mutate method produces expected output", {
 })
 
 # select ----
-test_that("select method produces expected output", {
+test_that("`select()` method produces expected output", {
   apts <- head(getAnalytes(data), 2)
   meta <- head(getMeta(data), 3)
   new  <- select(data, all_of(meta), all_of(apts))
@@ -107,13 +107,13 @@ test_that("select method produces expected output", {
   expect_true(all(rownames(new) %in% rownames(data)))
   expect_true(is.intact.attributes(new))
   ad <- attributes(new)$Col.Meta
-  expect_equal(dim(ad), c(2, 4))
+  expect_equal(dim(ad), c(2, 9))
   expect_equal(ad$SeqId, getSeqId(apts))  # apt data sync'd?
   expect_equal(names(attributes(new)), names(attributes(data))) # atts order preserved
 })
 
 # left-join ----
-test_that("left_join method produces expected output", {
+test_that("`left_join()` method produces expected output", {
   merge_data <- withr::with_seed(101,
                                  data.frame(SampleId = sample(data$SampleId),
                                             NewData  = rnorm(6)))
@@ -134,7 +134,7 @@ test_that("left_join method produces expected output", {
   expect_equal(names(attributes(new)), names(attributes(data))) # atts order preserved
 })
 
-test_that("left_join() method doesn't fix rownames if there aren't any", {
+test_that("`left_join()` method doesn't fix rownames if there aren't any", {
   x  <- data.frame(id = LETTERS[1:3], a = rnorm(3)) %>% addClass("soma_adat")
   y  <- data.frame(id = LETTERS[1:3], b = rnorm(3))
   df <- left_join(x, y, by = "id")
@@ -146,7 +146,7 @@ test_that("left_join() method doesn't fix rownames if there aren't any", {
 })
 
 # anti-join ----
-test_that("anti_join() method generates expected output", {
+test_that("`anti_join()` method generates expected output", {
   x  <- data.frame(id = LETTERS[1:3], a = rnorm(3), row.names = letters[1:3]) %>%
     addClass("soma_adat")
   y  <- data.frame(id = LETTERS[2:4], b = rnorm(3))
@@ -158,7 +158,7 @@ test_that("anti_join() method generates expected output", {
 })
 
 # slice ----
-test_that("slice() method is correctly dispatched", {
+test_that("`slice()` method is correctly dispatched", {
   new <- slice(data, c(1:3))
   expect_true(is.soma_adat(new))
   expect_s3_class(new, "soma_adat")
@@ -180,7 +180,7 @@ test_that("slice() method is correctly dispatched", {
 })
 
 # slice_sample ----
-test_that("slice_sample() method is correctly dispatched", {
+test_that("`slice_sample()` method is correctly dispatched", {
   n   <- 4
   new <- withr::with_seed(101, slice_sample(data, n = n))
   expect_true(is.soma_adat(new))
@@ -196,7 +196,7 @@ test_that("slice_sample() method is correctly dispatched", {
 })
 
 # sample_frac ----
-test_that("sample_frac() method is correctly dispatched", {
+test_that("`sample_frac()` method is correctly dispatched", {
   new <- withr::with_seed(101, sample_frac(data, replace = TRUE))
   rownames(new)
   expect_s3_class(new, "soma_adat")
@@ -215,7 +215,7 @@ test_that("sample_frac() method is correctly dispatched", {
 })
 
 # sample_n ----
-test_that("sample_n() method is correctly dispatched", {
+test_that("`sample_n()` method is correctly dispatched", {
   n   <- 4
   new <- withr::with_seed(101, sample_n(data, size = n))
   expect_s3_class(new, "soma_adat")
@@ -230,7 +230,7 @@ test_that("sample_n() method is correctly dispatched", {
 })
 
 # group_by & ungroup ----
-test_that("ungroup() method generates expected output", {
+test_that("`ungroup()` method generates expected output", {
   df <- group_by(data, SampleGroup)
   expect_true(is.soma_adat(df))
   expect_s3_class(df, "soma_adat")

@@ -33,6 +33,7 @@ Suggests:
     ggplot2,
     knitr,
     readxl (>= 1.3.1),
+    recipes,
     rmarkdown,
     spelling,
     testthat,

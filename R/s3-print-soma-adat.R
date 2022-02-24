@@ -66,9 +66,9 @@ print.soma_adat <- function(x, show_header = FALSE, ...) {
     writeLines(cli_rule(cr_bold("Tibble"), line_col = "magenta"))
     print(
       tibble::as_tibble(x, rownames = ifelse(has_rn(x), "row_names", NA)),
-      n_extra = 15,            # soft deprecated
-      #max_extra_cols   = 10,  # next version of tibble
-      #max_footer_lines = 10   # next version of tibble
+      n_extra = 15            # soft deprecated
+#     max_extra_cols   = 10,  # next version of tibble
+#     max_footer_lines = 10   # next version of tibble
     )
   }
 

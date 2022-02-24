@@ -36,6 +36,29 @@ FILES := $(addprefix $(DIR)/R/, \
 	utils-read-adat.R \
 	write-adat.R)
 
+TESTFILES := $(addprefix $(DIR)/tests/testthat/, \
+	helper.R \
+	test-rownames.R \
+	test-dplyr-verbs.R \
+	test-tidyr-verbs.R \
+	test-is-apt.R \
+	test-checkADAT.R \
+	test-genRownames.R \
+	test-getAdatVersion.R \
+	test-getMeta.R \
+	test-getAnalytes.R \
+	test-getSeqIdMatches.R \
+	test-groupGenerics.R \
+	test-locateSeqId.R \
+	test-matchSeqIds.R \
+	test-prepHeaderMeta.R \
+	test-S3-extract.R \
+	test-S3-median.R \
+	test-S3-print.R \
+	test-S3-summary.R \
+	test-SeqId.R \
+	test-syncColMeta.R)
+
 SYSFILES := $(addprefix $(DIR)/R/, \
 	addAttributes.R \
 	addClass.R \
@@ -78,11 +101,20 @@ sync:
 	-e "for (f in files) {" \
 	-e "  x <- gsub('sample[.]adat', 'example_data', readLines(f))" \
 	-e "  x <- gsub('sample_adat_controls', 'example_data', x)" \
-	-e "  x <- gsub('SomaReadr', 'SomaDataIO', x)" \
 	-e "  x <- gsub('data-raw', 'example', x)" \
+	-e "  x <- gsub('SomaReadr', 'SomaDataIO', x)" \
 	-e "  x <- gsub('SampleGroup', 'Sex', x)" \
 	-e "  writeLines(enc2utf8(x), file.path('R', basename(f)))" \
 	-e "}" $(FILES)
+	@ $(RSCRIPT) \
+	-e "files <- commandArgs(TRUE)" \
+	-e "for (f in files) {" \
+	-e "  x <- gsub('sample[.]adat', 'example_data', readLines(f))" \
+	-e "  x <- gsub('sample_adat[.]adat', 'example_data.adat', x)" \
+	-e "  x <- gsub('data-raw', 'example', x)" \
+	-e "  x <- gsub('SomaReadr', 'SomaDataIO', x)" \
+	-e "  writeLines(enc2utf8(x), file.path('tests/testthat', basename(f)))" \
+	-e "}" $(TESTFILES)
 	@ $(RM) $(DIR)
 	@ echo "File sync complete ..."
 

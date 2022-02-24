@@ -129,7 +129,7 @@ write_adat <- function(x, file) {
   }
   if ( length(apts) != nrow(atts$Col.Meta) ) {
     stop(
-      "Number of aptamers in ADAT does not match No. aptamers in Col.Meta!",
+      "Number of RFU features in ADAT does not match No. analytes in Col.Meta!",
       call. = FALSE
     )
   }

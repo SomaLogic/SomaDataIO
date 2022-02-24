@@ -153,6 +153,14 @@ test_that("the `Ops()` group generic generates the expected output", {
   expect_error(
     capture_output(adat == adat), NA   # expect NO errors! diffAdats()
   )
+
+  foo <- adat[, getAnalytes(adat)]
+  bar <- data.frame(1:6, 1:6, 1:6)
+  expect_error(                                   # soma_adat <-> data.frame; error
+    expect_warning(foo + bar, "Incompatible methods"), # soma_adat <-> data.frame; warn
+    "non-numeric argument to binary operator"
+  )
+  expect_error(data.frame(foo) + bar, NA) # data.frame <-> data.frame; no error
 })
 
 test_that("the `Summary()` group generic generates the expected output", {
@@ -160,8 +168,8 @@ test_that("the `Summary()` group generic generates the expected output", {
   expect_equal(range(adat, 5000), c(1934.8, 5000))
   expect_equal(range(adat, 500), c(500, 4317.8))
   expect_equal(sum(adat), 54680.9)
-  expect_equal(sum(adat, 1), 54681.9)   # + 1
-  expect_equal(sum(adat, -1), 54679.9)  # - 1
+  expect_equal(sum(adat, 1), 54681.9)   # `+` 1
+  expect_equal(sum(adat, -1), 54679.9)  # `-` 1
   expect_equal(min(adat), 1934.8)
   expect_equal(min(adat, 100), 100)
   expect_equal(min(adat, -999), -999)

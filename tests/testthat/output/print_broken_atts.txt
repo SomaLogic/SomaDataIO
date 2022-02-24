@@ -1,0 +1,29 @@
+== SomaScan Data ===============================================================
+     Attributes intact    x
+     Rows                 192
+     Columns              5318
+     Clinical Data        34
+     Features             5284
+-- Header Data -----------------------------------------------------------------
+     No Header.Meta       ! ADAT columns were probably modified !
+-- Tibble ----------------------------------------------------------------------
+# A tibble: 192 x 5,319
+   row_names      PlateId  PlateRunDate ScannerID PlatePosition SlideId Subarray
+   <chr>          <chr>    <chr>        <chr>     <chr>           <dbl>    <dbl>
+ 1 258495800012_3 Example~ 2020-06-18   SG152144~ H9            2.58e11        3
+ 2 258495800004_7 Example~ 2020-06-18   SG152144~ H8            2.58e11        7
+ 3 258495800010_8 Example~ 2020-06-18   SG152144~ H7            2.58e11        8
+ 4 258495800003_4 Example~ 2020-06-18   SG152144~ H6            2.58e11        4
+ 5 258495800009_4 Example~ 2020-06-18   SG152144~ H5            2.58e11        4
+ 6 258495800012_8 Example~ 2020-06-18   SG152144~ H4            2.58e11        8
+ 7 258495800001_3 Example~ 2020-06-18   SG152144~ H3            2.58e11        3
+ 8 258495800004_8 Example~ 2020-06-18   SG152144~ H2            2.58e11        8
+ 9 258495800001_8 Example~ 2020-06-18   SG152144~ H12           2.58e11        8
+10 258495800004_3 Example~ 2020-06-18   SG152144~ H11           2.58e11        3
+# ... with 182 more rows, and 5,312 more variables: SampleId <chr>,
+#   SampleType <chr>, PercentDilution <int>, SampleMatrix <chr>, Barcode <lgl>,
+#   Barcode2d <lgl>, SampleName <lgl>, SampleNotes <lgl>,
+#   AliquotingNotes <lgl>, SampleDescription <chr>, AssayNotes <lgl>,
+#   TimePoint <lgl>, ExtIdentifier <lgl>, SsfExtId <lgl>, SampleGroup <lgl>,
+#   ...
+================================================================================
