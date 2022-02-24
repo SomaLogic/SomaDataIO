@@ -34,11 +34,14 @@ reference:
     contents:
     - read_adat
     - write_adat
+    - soma_adat
     - loadAdatsAslist
     - parseHeader
     - rownames
     - Col.Meta
     - is.intact.attributes
+    - groupGenerics
+    - reexports
 
   - title: ADAT Manipulation
     desc: >
@@ -49,8 +52,6 @@ reference:
     - is_seqFormat
     - starts_with("getAnalyte")
     - getMeta
-    - diffAdats
-    - MathGenerics
     - diffAdats
 
   - title: Transform Between SomaScan Versions

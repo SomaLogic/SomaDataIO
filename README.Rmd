@@ -8,6 +8,8 @@ output: github_document
 
 ```{r setup, echo = FALSE, message = FALSE}
 options(width = 101)
+#Sys.setlocale("LC_COLLATE", "C")
+Sys.setlocale("LC_COLLATE", "en_US.UTF-8") # ensure common sorting envir
 library(SomaDataIO)
 library(ggplot2)
 library(dplyr)
@@ -247,10 +249,11 @@ getMeta(my_adat)             # clinical meta data for each sample
 getMeta(my_adat, n = TRUE)   # also an `n` argument
 ```
 
-#### Math Generics
+#### Group Generics
 You may perform basic mathematical transformations on the feature data *only*
-with special `soma_adat` S3 methods (see `?MathGenerics`):
-```{r math-generics}
+with special `soma_adat` S3 methods (see `?groupGenerics`):
+
+```{r group-generics}
 head(my_adat$seq.2429.27)
 
 logData <- log10(my_adat)    # a typical log10() transform
@@ -261,6 +264,14 @@ head(roundData$seq.2429.27)
 
 sqData <- sqrt(my_adat)
 head(sqData$seq.2429.27)
+
+antilog(1:4)
+
+sum(my_adat < 100)  # low signalling values
+
+all.equal(my_adat, sqrt(my_adat^2))
+
+all.equal(my_adat, antilog(log10(my_adat)))
 ```
 
 #### Full Complement of [dplyr](https://dplyr.tidyverse.org) S3 Methods

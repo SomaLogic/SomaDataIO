@@ -1,14 +1,25 @@
 
+# internal helpers similar to `usethis::ui_*()` functions
+.value <- function(x) {
+  if ( identical(Sys.getenv("TESTTHAT"), "true") ) {
+    paste(encodeString(x, quote = "'"), collapse = ", ")
+  } else {
+    usethis::ui_value(x)
+  }
+}
+
+.code <- function(x) {
+  paste0("\033[90m", encodeString(x, quote = "`"), "\033[39m")
+}
+
 # borrow from usethis, cli, and crayon for internal use
 # without explicitly importing the package in NAMESPACE file
 # avoid R CMD check NOTE:
 #   "Namespace in Imports field not imported from: 'pkg'"
-.value    <- function(x) usethis::ui_value(x)
-.todo     <- usethis::ui_todo
-.done     <- usethis::ui_done
-.oops     <- usethis::ui_oops
-.info     <- usethis::ui_info
-.code     <- usethis::ui_code
+.todo <- usethis::ui_todo
+.done <- usethis::ui_done
+.oops <- usethis::ui_oops
+# -------------------------- #
 cli_rule  <- cli::rule
 cr_bold   <- crayon::bold
 cr_green  <- crayon::green
