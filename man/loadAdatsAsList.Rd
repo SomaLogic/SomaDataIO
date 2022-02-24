@@ -71,6 +71,7 @@ union_adat <- dplyr::bind_rows(adats, .id = "SourceFile")
 Other IO: 
 \code{\link{parseHeader}()},
 \code{\link{read_adat}()},
+\code{\link{soma_adat}},
 \code{\link{write_adat}()}
 }
 \author{

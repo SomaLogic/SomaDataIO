@@ -41,7 +41,8 @@ CRLF   \tab DOS/Windows \tab \verb{"\r\n"}
 Other IO: 
 \code{\link{loadAdatsAsList}()},
 \code{\link{parseHeader}()},
-\code{\link{read_adat}()}
+\code{\link{read_adat}()},
+\code{\link{soma_adat}}
 }
 \author{
 Stu Field

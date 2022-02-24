@@ -13,7 +13,6 @@ DIR := tmp
 FILES := $(addprefix $(DIR)/R/, \
 	dplyr-reexports.R \
 	dplyr-verbs.R \
-	extract.R \
 	is-seqFormat.R \
 	is-intact-attributes.R \
 	getAnalytes.R \
@@ -22,12 +21,13 @@ FILES := $(addprefix $(DIR)/R/, \
 	getTargetNames.R \
 	matchSeqIds.R \
 	loadAdatsAsList.R \
-	MathGenerics.R \
+	groupGenerics.R \
 	parseHeader.R \
 	prepHeaderMeta.R \
 	read-adat.R \
 	rownames.R \
 	SeqId.R \
+	s3-soma-adat.R \
 	s3-print-soma-adat.R \
 	s3-summary-soma-adat.R \
 	tidyr-reexports.R \

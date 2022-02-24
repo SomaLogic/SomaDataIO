@@ -1,13 +1,20 @@
-# Print ----
 
-#' @describeIn read_adat
-#' The S3 generic print method (`print`) returns summary information
-#' parsed from the object attributes, if possible (see examples), followed
-#' by a dispatch to the `tibble` print method.
+#' S3 Print
 #'
-#' @param x A `soma_adat` class object to [print()].
+#' S3 [print()] method returns summary information parsed from the object
+#' attributes, if present, followed by a dispatch to the [tibble()] print method.
+#' Rownames are printed as the first column in the print method only.
+#'
+#' @rdname soma_adat
+#' @order 2
 #' @param show_header Logical. Should all the `Header Data` information
 #' be displayed instead of the data frame (`tibble`) object?
+#' @examples
+#' my_adat <- system.file("example", "example_data.adat",
+#'                        package = "SomaDataIO", mustWork = TRUE) %>% read_adat()
+#' # S3 print method
+#' my_adat
+#'
 #' @export
 print.soma_adat <- function(x, show_header = FALSE, ...) {
 

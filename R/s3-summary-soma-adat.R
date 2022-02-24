@@ -1,9 +1,8 @@
-# Summary ----
 
-#' @describeIn read_adat
-#' An associated S3 generic summary method ([summary()]) returns
-#' the following for each column of the ADAT object containing SOMAmer data
-#' (clinical meta data is excluded):
+#' S3 Summary
+#'
+#' S3 [summary()] method returns the following for each column of the ADAT
+#' object containing SOMAmer data (clinical meta data is *excluded*):
 #'   * Target (if available)
 #'   * Minimum value
 #'   * 1st Quantile
@@ -14,11 +13,11 @@
 #'   * Standard deviation
 #'   * Median absolute deviation ([mad()])
 #'   * Interquartile range ([IQR()])
-#' @param object Object of class `soma_adat` used in
-#' the S3 generic [summary()].
+#'
+#' @rdname soma_adat
+#' @order 3
 #' @param tbl An annotations table. If `NULL` (default),
-#' annotation information is extracted from the object itself
-#' (if possible).
+#' annotation information is extracted from the object itself (if possible).
 #' Alternatively, the result of a call to [getAnalyteInfo()], from
 #' which Target names can be extracted.
 #' @param digits Integer. Used for number formatting with [signif()].
