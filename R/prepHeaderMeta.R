@@ -5,7 +5,7 @@
 #' This function an internal to `write_adat()`.
 #'
 #' @param x A `soma_adat` to be written.
-#' @return The adat attributes after `Header.Meta` and `Col.Meta` clean up.
+#' @return The ADAT attributes after `Header.Meta` and `Col.Meta` clean up.
 #' @author Stu Field
 #' @keywords internal
 #' @noRd
@@ -15,12 +15,16 @@ prepHeaderMeta <- function(data) {
     x <- attributes(data)
     x$Col.Meta$Dilution2 <- NULL   # rm Dilution2
   } else {
-    # THIS IS A BIT OF A KLUGE :(
-    .oops("Please fix ADAT attributes prior to `write_adat()` call" )
-    .oops("Calling `is.intact.attributes(data)` should be TRUE")
-    .oops("Fix attributes using `createChildAttributes()`")
-    .code("Example:")
-    .code("  data <- createChildAttributes(data, parent)")
+    # this is a bit of a KLUGE :(
+    if ( interactive() ) {
+      cat(
+        "\n Please fix ADAT attributes prior to calling",
+        .code("write_adat()"), "\n Calling",
+        .code("is.intact.attributes(data)"), "must be TRUE\n Perhaps",
+        .code("createChildAttributes()"), "can help?\n Example:\n  ",
+        .code("data <- createChildAttributes(data, parent)"), "\n\n"
+      )
+    }
     stop("Stopping while you fix the attributes of `data`.", call. = FALSE)
   }
 

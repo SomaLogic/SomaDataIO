@@ -5,7 +5,6 @@
 #' a `soma_adat` object.
 #'
 #' @family IO
-#' @order 1
 #' @param file Character. The elaborated path and file name of the `*.adat`
 #' file to be loaded into an R workspace.
 #' @param debug Logical. Used for debugging and development of an ADAT that
@@ -63,8 +62,7 @@ read_adat <- function(file, debug = FALSE, verbose = getOption("verbose"), ...) 
   # Checks & Traps ----
   checkHeader(header_data, verbose = verbose)
 
-  # nocov start
-  if ( header_data$file.specs$EmptyAdat ) {
+  if ( header_data$file_specs$empty_adat ) {
     warning(
       "No RFU feature data in ADAT. Returning a `tibble` object ",
       "with Column Meta data only.", call. = FALSE
@@ -73,19 +71,18 @@ read_adat <- function(file, debug = FALSE, verbose = getOption("verbose"), ...) 
       addAttributes(header_data$Header.Meta)
     return(anno_table)
   }
-  # nocov end
 
-  row_meta <- header_data$row.meta
+  row_meta <- header_data$row_meta
 
   # catch for old adats with SeqIds in mystery row
-  if ( length(row_meta) > header_data$file.specs$col.meta.shift ) {
-    row_meta %<>% head(header_data$file.specs$col.meta.shift - 1)   # nocov
+  if ( length(row_meta) > header_data$file_specs$col_meta_shift ) {
+    row_meta %<>% head(header_data$file_specs$col_meta_shift - 1)   # nocov
   }
 
   # zap leading/trailing whitespace
   row_meta <- trimws(row_meta)
 
-  if ( !header_data$file.specs$old.adat ) {
+  if ( !header_data$file_specs$old_adat ) {
     row_meta <- c(row_meta, "blank_col")  # Add empty column name in >= v1.0
   }
 
@@ -103,7 +100,7 @@ read_adat <- function(file, debug = FALSE, verbose = getOption("verbose"), ...) 
   rfu_dat <- read.delim(
     file, sep = "\t",
     header = FALSE, row.names = NULL,         # no header or rnms (set below)
-    skip = header_data$file.specs$data.begin, # skip header
+    skip = header_data$file_specs$data_begin, # skip header
     colClasses = c(types_meta, types_rfu),    # spec column types
     na.strings = c("", ".", "NA"),  # these values will be NAs
     comment.char = "",              # ignore possible comments in file
@@ -132,29 +129,28 @@ read_adat <- function(file, debug = FALSE, verbose = getOption("verbose"), ...) 
             row.names   = genRowNames(rfu_dat),
             Header.Meta = header_data$Header.Meta,
             Col.Meta    = convertColMeta(header_data$Col.Meta),
-            file.specs  = header_data$file.specs,
-            row.meta    = header_data$row.meta,
+            file_specs  = header_data$file_specs,
+            row_meta    = header_data$row_meta,
             class       = c("soma_adat", "data.frame")
             )   # one day a tibble?
 }
-
 
 #' Alias to `read.adat`
 #'
 #' [read.adat()] is a convenient alias for [read_adat()] designed to enable
 #' backward compatibility to older versions of `SomaDataIO`.
+#'
 #' @rdname read_adat
-#' @order 2
 #' @export
 read.adat <- read_adat
-
 
 #' Test for Object type "soma_adat"
 #'
 #' [is.soma_adat()] checks whether an object is of class `soma_adat`.
 #' See [inherits()].
+#'
 #' @rdname read_adat
-#' @order 3
+#' @param x An `R` object to test.
 #' @return A logical indicating whether `x` inherits from class `soma_adat`.
 #' @export
 is.soma_adat <- function(x) inherits(x, "soma_adat")

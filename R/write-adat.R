@@ -76,7 +76,7 @@ write_adat <- function(x, file) {
   writeLines("^TABLE_BEGIN", con = f)
 
   # write Col.Meta
-  tabshift <- strrep("\t", atts$file.specs$col.meta.shift - 1L)  # col shift
+  tabshift <- strrep("\t", atts$file_specs$col_meta_shift - 1L)  # col shift
   writeLines(paste0(tabshift, .flatten(atts$Col.Meta)), con = f)
 
   # Write out header row

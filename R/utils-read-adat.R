@@ -27,16 +27,16 @@ checkHeader <- function(header, verbose) {
     stop("No `Col.Meta` data found in adat.", call. = FALSE)
   }
 
-  if ( !"file.specs" %in% names(header) ) {
+  if ( !"file_specs" %in% names(header) ) {
     stop(
-      "No `file.specs` entry found in header ... ",
+      "No `file_specs` entry found in header ... ",
       "should be added during file parsing.", call. = FALSE
     )
   }
 
   catchHeaderMeta(header$Header.Meta)
   catchColMeta(header$Col.Meta)
-  catchFile(header$file.specs)
+  catchFile(header$file_specs)
 
   if ( verbose ) {
     .done("Header passed checks and traps")
@@ -85,65 +85,65 @@ catchColMeta <- function(x) {
 }
 
 
-#' @param x The `file.specs` entry of `soma_adat` attributes.
+#' @param x The `file_specs` entry of `soma_adat` attributes.
 #' @keywords internal
 #' @noRd
 catchFile <- function(x) {
   stopifnot(
-    "EmptyAdat" %in% names(x),
-    "table.begin" %in% names(x),
-    "old.adat" %in% names(x)
+    "empty_adat" %in% names(x),
+    "table_begin" %in% names(x),
+    "old_adat" %in% names(x)
   )
 
-  if ( !is.logical(x$EmptyAdat) ) {
+  if ( !is.logical(x$empty_adat) ) {
     stop(
-      "The `EmptyAdat` entry of `file.specs` should be ",
-      "class logical: ", .value(class(x$EmptyAdat)), ".",
+      "The `empty_adat` entry of `file_specs` should be ",
+      "class logical: ", .value(class(x$empty_adat)), ".",
       call. = FALSE
     )
   }
 
-  if ( !is.numeric(x$table.begin) || length(x$table.begin) != 1 ) {
+  if ( !is.numeric(x$table_begin) || length(x$table_begin) != 1 ) {
     stop(
-      "The `table.begin` entry of `file.specs` should be ",
-      "class numeric AND length 1: ", .value(x$table.begin), ".",
+      "The `table_begin` entry of `file_specs` should be ",
+      "class numeric AND length 1: ", .value(x$table_begin), ".",
       call. = FALSE
     )
   }
 
-  if ( !is.logical(x$old.adat) ) {
+  if ( !is.logical(x$old_adat) ) {
     stop(
-      "The `old.adat` entry of `file.specs` should be ",
-      "class logical: ", .value(class(x$old.adat)), ".",
+      "The `old_adat` entry of `file_specs` should be ",
+      "class logical: ", .value(class(x$old_adat)), ".",
       call. = FALSE
     )
   }
 
-  if ( !x$EmptyAdat ) {
-    stopifnot("col.meta.start" %in% names(x),
-              "col.meta.shift" %in% names(x),
-              "data.begin" %in% names(x))
+  if ( !x$empty_adat ) {
+    stopifnot("col_meta_start" %in% names(x),
+              "col_meta_shift" %in% names(x),
+              "data_begin" %in% names(x))
 
-    if ( !is.numeric(x$col.meta.start) || length(x$col.meta.start) != 1 ) {
+    if ( !is.numeric(x$col_meta_start) || length(x$col_meta_start) != 1 ) {
       stop(
-        "The `col.meta.start` entry of `file.specs` should ",
-        "be class numeric AND length 1: ", .value(x$col.meta.start),
+        "The `col_meta_start` entry of `file_specs` should ",
+        "be class numeric AND length 1: ", .value(x$col_meta_start),
         call. = FALSE
       )
     }
 
-    if ( !is.numeric(x$col.meta.shift) || length(x$col.meta.shift) != 1 ) {
+    if ( !is.numeric(x$col_meta_shift) || length(x$col_meta_shift) != 1 ) {
       stop(
-        "The `col.meta.shift` entry of `file.specs` should ",
-        "be class numeric AND length 1: ", .value(x$col.meta.shift),
+        "The `col_meta_shift` entry of `file_specs` should ",
+        "be class numeric AND length 1: ", .value(x$col_meta_shift),
         call. = FALSE
       )
     }
 
-    if ( !is.numeric(x$data.begin) || length(x$data.begin) != 1 ) {
+    if ( !is.numeric(x$data_begin) || length(x$data_begin) != 1 ) {
       stop(
-        "The `data.begin` entry of `file.specs` should ",
-        "be class numeric AND length 1: ", .value(x$data.begin),
+        "The `data_begin` entry of `file_specs` should ",
+        "be class numeric AND length 1: ", .value(x$data_begin),
         call. = FALSE
       )
     }
@@ -174,8 +174,9 @@ catchDims <- function(x, y) {
 
 #' Helper for the 'verbose =' argument.
 #' @param rfu The RFU + meta data matrix. The actual data.
-#' @param header The header info from parseHeader().
+#' @param header The header info from [parseHeader()].
 #' @importFrom utils head
+#' @importFrom tibble as_tibble
 #' @keywords internal
 #' @noRd
 .verbosity <- function(rfu, header) {
@@ -183,26 +184,24 @@ catchDims <- function(x, y) {
     cli_rule(cr_bold("Parsing Diagnostics"), line_col = "blue", line = 2)
   )
   c1 <- c(
-    "Skip calculated as",
-    "Adat version",
-    "Table Begin",
-    "Col.Meta Start",
-    "Col.Meta Shift",
-    "Header Row",
-    "Old Adat version",
-    "Length sample meta (clin)",
-    "Length features (apts)",
+    "ADAT version",
+    "Header skip",
+    "Table begin",
+    "Col.Meta start",
+    "Col.Meta shift",
+    "Is old ADAT",
+    "no. clinical variables",
+    "no. RFU variables",
     "Dim data matrix",
-    "Dim Col Meta"
+    "Dim Col.Meta (annot.)"
   ) %>% .pad(25)
   c2 <- c(
-    header$file.specs$data.begin,
     header$Header.Meta$HEADER$Version,
-    header$file.specs$table.begin,
-    header$file.specs$col.meta.start,
-    header$file.specs$col.meta.shift,
-    header$file.specs$data.begin,
-    header$file.specs$old.adat,
+    header$file_specs$data_begin,
+    header$file_specs$table_begin,
+    header$file_specs$col_meta_start,
+    header$file_specs$col_meta_shift,
+    header$file_specs$old_adat,
     getMeta(rfu, n = TRUE),
     getAnalytes(rfu, n = TRUE),
     paste(dim(rfu), collapse = " x "),
@@ -212,12 +211,12 @@ catchDims <- function(x, y) {
   writeLines(
     cli_rule(cr_bold("Head Col Meta"), line_col = "magenta")
   )
-  print(head(tibble::as_tibble(header$Col.Meta)))
+  print(head(as_tibble(header$Col.Meta)))
   writeLines(
-    cli_rule(cr_bold("Head Feature Data (final 2 cols)"), line_col = "magenta")
+    cli_rule(cr_bold("Trailing 2 RFU features"), line_col = "magenta")
   )
   nc <- ncol(rfu)
-  print(head(dplyr::select(rfu, (nc - 1):nc)))
+  print(rfu[1:6, (nc - 1):nc])
   writeLines(cli_rule(line_col = "green", line = 2))
   invisible(NULL)
 }

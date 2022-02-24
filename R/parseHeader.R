@@ -11,8 +11,8 @@
 #' \item{Col.Meta}{list of vectors that contain the column meta
 #'   data about individual analytes, includes information about the target
 #'   name and calibration and QC ratios}
-#' \item{file.specs}{list of vectors containing the file specs}
-#' \item{row.meta}{vector of names of the "row.meta" data; assay
+#' \item{file_specs}{list of values of the file parsing specifications}
+#' \item{row_meta}{character vector of the clinical variables; assay
 #'   information that is included in the adat output along with the RFU data}
 #' @author Stu Field
 #' @examples
@@ -25,7 +25,7 @@
 #' @export
 parseHeader <- function(file) {
 
-  nms <- c("Header.Meta", "Col.Meta", "file.specs")
+  nms <- c("Header.Meta", "Col.Meta", "file_specs")
   ret <- setNames(replicate(length(nms), list()), nms)
   all_data <- .getHeaderLines(file)
 
@@ -36,7 +36,7 @@ parseHeader <- function(file) {
 
     # if end of file reached before feature data = empty adat
     # modified based on length of the all_data rather then content of row_data
-    if ( ret$file.specs$EmptyAdat <- line > length(all_data) ) {
+    if ( ret$file_specs$empty_adat <- line > length(all_data) ) {
       break
     }
 
@@ -57,10 +57,10 @@ parseHeader <- function(file) {
       next
     } else if ( row_data == "^TABLE_BEGIN" ) {
       section <- "Col.Meta"
-      ret$file.specs$table.begin    <- line
-      ret$file.specs$col.meta.start <- line + 1
+      ret$file_specs$table_begin    <- line
+      ret$file_specs$col_meta_start <- line + 1
       shift <- regexpr("[[:alnum:]]", all_data[line + 1])
-      ret$file.specs$col.meta.shift <- as.integer(shift) # strip attr
+      ret$file_specs$col_meta_shift <- as.integer(shift) # strip attr
       next
     } else if ( grepl("^\\^[A-Z]", row_data) ) {
       section    <- "Free.Form"
@@ -126,16 +126,16 @@ parseHeader <- function(file) {
           "There may be trailing tabs in the Col.Meta section.", call. = FALSE
         )
       }
-      ret$file.specs$data.begin   <- line
+      ret$file_specs$data_begin   <- line
       tokens <- trimws(tokens)    # ensure spaces in header row -> ""
-      ret$row.meta                <- tokens[tokens != ""] # rm empty elements
+      ret$row_meta                <- tokens[tokens != ""] # rm empty elements
       ret$Header.Meta$TABLE_BEGIN <- basename(file)  # append file name to header & break
       break
     }
   }
 
   # TRUE if old adat version
-  ret$file.specs$old.adat <- getAdatVersion(ret$Header.Meta) < "1.0.0"
+  ret$file_specs$old_adat <- getAdatVersion(ret$Header.Meta) < "1.0.0"
   ret
 }
 

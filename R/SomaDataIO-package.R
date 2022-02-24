@@ -1,4 +1,5 @@
 
+#' @importFrom utils head tail
 #' @keywords internal package
 "_PACKAGE"
 

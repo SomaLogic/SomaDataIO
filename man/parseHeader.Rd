@@ -17,8 +17,8 @@ in order to complete loading the ADAT file, including:
 \item{Col.Meta}{list of vectors that contain the column meta
 data about individual analytes, includes information about the target
 name and calibration and QC ratios}
-\item{file.specs}{list of vectors containing the file specs}
-\item{row.meta}{vector of names of the "row.meta" data; assay
+\item{file_specs}{list of values of the file parsing specifications}
+\item{row_meta}{character vector of the clinical variables; assay
 information that is included in the adat output along with the RFU data}
 }
 \description{
@@ -34,6 +34,7 @@ header
 Other IO: 
 \code{\link{loadAdatsAsList}()},
 \code{\link{read_adat}()},
+\code{\link{soma_adat}},
 \code{\link{write_adat}()}
 }
 \author{
