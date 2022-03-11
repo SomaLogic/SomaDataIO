@@ -1,24 +1,26 @@
 
 ## Reviewer Stakeholders by Team
 
-| Change Type         | BI                  | Info.Sec. | Legal        | Marketing        | Regulatory  |
-| ------------------- | ------------------- | --------- | ------------ | ---------------- | ----------- |
-| Code                | @KirkDSL, @stufield | @trhein   |              |                  |             |
-| Documentation       | @KirkDSL, @stufield |           | @SLbmangum   | @SarahAnderson23 |             |
-| README              |                     | @trhein   | @SLbmangum   | @SarahAnderson23 | @nmcnabbSL  |
-| LICENSE             |                     |           | @SLbmangum   |                  |             |
+| Change Type         | BI                  | Info.Sec. | Legal        | Marketing     | Regulatory  |
+| ------------------- | ------------------- | --------- | ------------ | ------------- | ----------- |
+| Code                | @KirkDSL, @stufield | @trhein   |              |               |             |
+| Documentation       | @KirkDSL, @stufield |           | @SLbmangum   | @kmurugesan14 |             |
+| README              |                     | @trhein   | @SLbmangum   | @kmurugesan14 | @nmcnabbSL  |
+| LICENSE             |                     |           | @SLbmangum   |               |             |
 
 
 ## Reviewers
-check which reviewers you wish to add. Remember (!) to actually add them
-separately in the top-right:
+Below is a list of *all* possible SomaLogic reviewers.
+Please check which reviewers you wish to add.
+Remember (!) to actually add them as reviewers separately in the top-right:
 
-- [ ] @KirkDSL 
+- [ ] @KirkDSL
 - [ ] @stufield
 - [ ] @trhein
-- [ ] @SarahAnderson23
 - [ ] @SLbmangum
+- [ ] @kmurugesan14
 - [ ] @nmcnabbSL
+- [ ] @SarahAnderson23
 - [ ] @ajw-somalogic
 
 
