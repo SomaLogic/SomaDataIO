@@ -1,12 +1,14 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+    ## [1] "en_US.UTF-8"
+
 # `SomaDataIO` from SomaLogic Operating Co., Inc. <img src="man/figures/logo.png" align="right" height="100" width="100"/>
 
 <!-- badges: start -->
 
 ![GitHub
-version](https://img.shields.io/badge/Version-5.2.0-success.svg?style=flat&logo=github)
+version](https://img.shields.io/badge/Version-5.3.0-success.svg?style=flat&logo=github)
 [![CRAN
 badge](https://img.shields.io/badge/CRAN-No-red.svg)](https://cran.r-project.org)
 [![R-CMD-check](https://github.com/SomaLogic/SomaDataIO/workflows/R-CMD-check/badge.svg)](https://github.com/SomaLogic/SomaDataIO/actions)
@@ -94,12 +96,9 @@ pre-installed:
   - `dplyr (v1.0.6)`
   - `lifecycle (v1.0.0)`
   - `magrittr (v2.0.1)`
-  - `purrr (v0.3.4)`
-  - `readr (v1.4.0)`
   - `readxl (v1.3.1)`
   - `tibble (v3.2.1)`
   - `tidyr (v1.1.3)`
-  - `tidyselect (v1.1.1)`
   - `usethis (v2.0.1)`
 
 #### Biobase
@@ -190,18 +189,18 @@ my_adat
 #> ── Tibble ───────────────────────────────────────────────────────────────────────────────────────────
 #> # A tibble: 192 × 5,319
 #>    row_names      PlateId   PlateRunDate ScannerID PlatePosition SlideId Subarray SampleId SampleType
-#>    <chr>          <chr>     <date>       <chr>     <chr>           <dbl>    <dbl>    <dbl> <chr>     
-#>  1 258495800012_3 Example … 2020-06-18   SG152144… H9            2.58e11        3        1 Sample    
-#>  2 258495800004_7 Example … 2020-06-18   SG152144… H8            2.58e11        7        2 Sample    
-#>  3 258495800010_8 Example … 2020-06-18   SG152144… H7            2.58e11        8        3 Sample    
-#>  4 258495800003_4 Example … 2020-06-18   SG152144… H6            2.58e11        4        4 Sample    
-#>  5 258495800009_4 Example … 2020-06-18   SG152144… H5            2.58e11        4        5 Sample    
-#>  6 258495800012_8 Example … 2020-06-18   SG152144… H4            2.58e11        8        6 Sample    
-#>  7 258495800001_3 Example … 2020-06-18   SG152144… H3            2.58e11        3        7 Sample    
-#>  8 258495800004_8 Example … 2020-06-18   SG152144… H2            2.58e11        8        8 Sample    
-#>  9 258495800001_8 Example … 2020-06-18   SG152144… H12           2.58e11        8        9 Sample    
-#> 10 258495800004_3 Example … 2020-06-18   SG152144… H11           2.58e11        3   170261 Calibrator
-#> # … with 182 more rows, and 5,310 more variables: PercentDilution <dbl>, SampleMatrix <chr>,
+#>    <chr>          <chr>     <chr>        <chr>     <chr>           <dbl>    <dbl> <chr>    <chr>     
+#>  1 258495800012_3 Example … 2020-06-18   SG152144… H9            2.58e11        3 1        Sample    
+#>  2 258495800004_7 Example … 2020-06-18   SG152144… H8            2.58e11        7 2        Sample    
+#>  3 258495800010_8 Example … 2020-06-18   SG152144… H7            2.58e11        8 3        Sample    
+#>  4 258495800003_4 Example … 2020-06-18   SG152144… H6            2.58e11        4 4        Sample    
+#>  5 258495800009_4 Example … 2020-06-18   SG152144… H5            2.58e11        4 5        Sample    
+#>  6 258495800012_8 Example … 2020-06-18   SG152144… H4            2.58e11        8 6        Sample    
+#>  7 258495800001_3 Example … 2020-06-18   SG152144… H3            2.58e11        3 7        Sample    
+#>  8 258495800004_8 Example … 2020-06-18   SG152144… H2            2.58e11        8 8        Sample    
+#>  9 258495800001_8 Example … 2020-06-18   SG152144… H12           2.58e11        8 9        Sample    
+#> 10 258495800004_3 Example … 2020-06-18   SG152144… H11           2.58e11        3 170261   Calibrator
+#> # … with 182 more rows, and 5,310 more variables: PercentDilution <int>, SampleMatrix <chr>,
 #> #   Barcode <lgl>, Barcode2d <lgl>, SampleName <lgl>, SampleNotes <lgl>, AliquotingNotes <lgl>,
 #> #   SampleDescription <chr>, AssayNotes <lgl>, TimePoint <lgl>, ExtIdentifier <lgl>, SsfExtId <lgl>,
 #> #   SampleGroup <lgl>, SiteId <lgl>, TubeUniqueID <lgl>, …
@@ -294,7 +293,7 @@ my_adat[, seqs] %>%
 
 ``` r
 names(attributes(my_adat))
-#> [1] "names"       "class"       "row.names"   "Header.Meta" "Col.Meta"    "file.specs"  "row.meta"
+#> [1] "names"       "class"       "row.names"   "Header.Meta" "Col.Meta"    "file_specs"  "row_meta"
 
 # The `Col.Meta` attribute contains 
 # target annotation information
@@ -381,10 +380,10 @@ getMeta(my_adat, n = TRUE)   # also an `n` argument
 #> [1] 34
 ```
 
-#### Math Generics
+#### Group Generics
 
 You may perform basic mathematical transformations on the feature data
-*only* with special `soma_adat` S3 methods (see `?MathGenerics`):
+*only* with special `soma_adat` S3 methods (see `?groupGenerics`):
 
 ``` r
 head(my_adat$seq.2429.27)
@@ -401,6 +400,18 @@ head(roundData$seq.2429.27)
 sqData <- sqrt(my_adat)
 head(sqData$seq.2429.27)
 #> [1]  92.96397 111.67856 120.94503 116.53240  94.54523  82.09019
+
+antilog(1:4)
+#> [1]    10   100  1000 10000
+
+sum(my_adat < 100)  # low signalling values
+#> [1] 41721
+
+all.equal(my_adat, sqrt(my_adat^2))
+#> [1] TRUE
+
+all.equal(my_adat, antilog(log10(my_adat)))
+#> [1] TRUE
 ```
 
 #### Full Complement of [dplyr](https://dplyr.tidyverse.org) S3 Methods
@@ -453,11 +464,12 @@ males %>%
 ``` r
 # see full complement of `soma_adat` methods
 methods(class = "soma_adat")
-#>  [1] [            [[           [[<-         [<-          $            $<-          anti_join   
-#>  [8] arrange      count        filter       full_join    getAnalytes  getMeta      group_by    
-#> [15] inner_join   is_seqFormat left_join    Math         mutate       print        rename      
-#> [22] right_join   sample_frac  sample_n     select       semi_join    separate     slice_sample
-#> [29] slice        summary      transform    ungroup      unite       
+#>  [1] [            [[           [[<-         [<-          ==           $            $<-         
+#>  [8] anti_join    arrange      count        filter       full_join    getAnalytes  getMeta     
+#> [15] group_by     inner_join   is_seqFormat left_join    Math         median       mutate      
+#> [22] Ops          print        rename       right_join   sample_frac  sample_n     select      
+#> [29] semi_join    separate     slice_sample slice        summary      Summary      transform   
+#> [36] ungroup      unite       
 #> see '?methods' for accessing help and source code
 ```
 
@@ -468,8 +480,8 @@ is.intact.attributes(my_adat)     # attributes MUST be intact to write to file
 #> [1] TRUE
 
 write_adat(my_adat, file = tempfile("my-adat-", fileext = ".adat"))
-#> ✔ ADAT passed checks and traps
-#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpmwk9TG/my-adat-77c4e1d1566.adat'
+#> ✔ ADAT passed all checks and traps.
+#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpW9M1k4/my-adat-9ae20556bf1.adat'
 ```
 
 -----
@@ -842,5 +854,5 @@ res %>%
 
 -----
 
-Created by [Rmarkdown](https://github.com/rstudio/rmarkdown) (v2.11) and
-R version 4.1.2 (2021-11-01).
+Created by [Rmarkdown](https://github.com/rstudio/rmarkdown) (v2.13) and
+R version 4.1.3 (2022-03-10).
