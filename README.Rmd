@@ -6,7 +6,7 @@ output: github_document
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 
-```{r setup, echo = FALSE, message = FALSE}
+```{r setup, echo = FALSE, results = FALSE, message = FALSE}
 options(width = 101)
 #Sys.setlocale("LC_COLLATE", "C")
 Sys.setlocale("LC_COLLATE", "en_US.UTF-8") # ensure common sorting envir
