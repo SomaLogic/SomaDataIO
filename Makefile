@@ -147,6 +147,9 @@ sysdata:
 	@ $(RM) $(DIR)
 	@ echo "Saving 'R/sysdata.rda' ..."
 
+check_versions:
+	@ $(RSCRIPT) inst/check-pkg-versions.R
+
 install_deps:
 	@ $(RSCRIPT) \
 	-e "if (!requireNamespace('remotes')) install.packages('remotes')" \
