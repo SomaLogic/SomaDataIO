@@ -17,7 +17,7 @@ Description: The SomaDataIO package loads the SomaLogic Operating Co., Inc.
 License: MIT + file LICENSE
 URL: www.somalogic.com
 Depends:
-    R (>= 4.0.0)
+    R (>= 4.1.0)
 Imports:
     dplyr (>= 1.0.6),
     lifecycle (>= 1.0.0),
