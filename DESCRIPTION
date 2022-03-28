@@ -3,12 +3,12 @@ Package: SomaDataIO
 Title: SomaData Input/Output Package
 Version: 5.3.0
 Authors@R: 
-    c(person(given = "Stu",
+    c(person(given  = "Stu",
              family = "Field",
-             role = c("aut", "cre"),
-             email = "stu.g.field@gmail.com"),
-      person(given = "SomaLogic Operating Co., Inc.",
-             role = c("cph", "fnd")))
+             role   = c("aut", "cre"),
+             email  = "stu.g.field@gmail.com"),
+      person(given  = "SomaLogic Operating Co., Inc.",
+             role   = c("cph", "fnd")))
 Description: The SomaDataIO package loads the SomaLogic Operating Co., Inc.
     proprietary data file, called an ADAT file ('*.adat'). It also
     provides auxiliary functions for extracting and manipulating relevant
