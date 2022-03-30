@@ -35,7 +35,7 @@ reference:
     - read_adat
     - write_adat
     - soma_adat
-    - loadAdatsAslist
+    - loadAdatsAsList
     - parseHeader
     - rownames
     - Col.Meta
