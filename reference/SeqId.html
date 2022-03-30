@@ -35,7 +35,7 @@ and manipulate SeqIds across assay runs and/or versions.'><meta property="og:ima
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SomaDataIO</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.3.0</span>
       </span>
     </div>
 
@@ -173,7 +173,7 @@ avoid dumping excess output to the console (see the <code>show =</code> argument
 </ul></div>
     <div id="see-also">
     <h2>See also</h2>
-    <div class="dont-index"><p><code><a href="https://rdrr.io/r/base/sets.html" class="external-link">intersect()</a></code>, <code>discard()</code></p></div>
+    <div class="dont-index"><p><code><a href="https://rdrr.io/r/base/sets.html" class="external-link">intersect()</a></code></p></div>
     </div>
     <div id="author">
     <h2>Author</h2>
@@ -223,7 +223,7 @@ avoid dumping excess output to the console (see the <code>show =</code> argument
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "3714-49" "4554-56"</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># vector of features</span></span>
-<span class="r-in"><span class="va">feats</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/keep.html" class="external-link">keep</a></span><span class="op">(</span><span class="va">is.apt</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">feats</span> <span class="op">&lt;-</span> <span class="fu"><a href="getAnalytes.html">getAnalytes</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">match_df</span> <span class="op">&lt;-</span> <span class="fu">getSeqIdMatches</span><span class="op">(</span><span class="va">feats</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">]</span>, <span class="va">feats</span><span class="op">[</span><span class="fl">90</span><span class="op">:</span><span class="fl">500</span><span class="op">]</span><span class="op">)</span>  <span class="co"># 11 overlapping</span></span>
 <span class="r-in"><span class="va">match_df</span></span>

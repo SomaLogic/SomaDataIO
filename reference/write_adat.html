@@ -26,7 +26,7 @@ attributes, see is.intact.attributes()."><meta property="og:image" content="http
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SomaDataIO</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.3.0</span>
       </span>
     </div>
 
@@ -78,17 +78,20 @@ For example, extensions should be <code>*.adat</code>.</p></dd>
     <h2>Details</h2>
     <p>The ADAT specification <em>no longer</em> requires Windows
 end of line (EOL) characters (<code>"\r\n"</code>).
-The EOL is currently <code>"\n"</code> which is commonly used in POSIX systems,
+The current EOL spec is <code>"\n"</code> which is commonly used in POSIX systems,
 like MacOS and Linux.
-The EOL affects the format of the resulting file, particularly
-calculating a checksum, therefore ADATs written via other systems may
-result in differing EOLs. EOL encoding for operating systems is below:<br></p><table class="table table"><tr><td>Symbol</td><td>Platform</td><td>Character</td></tr><tr><td>LF</td><td>Linux</td><td><code>"\n"</code></td></tr><tr><td>CR</td><td>MacOS</td><td><code>"\r"</code></td></tr><tr><td>CRLF</td><td>DOS/Windows</td><td><code>"\r\n"</code></td></tr></table></div>
+Since the EOL affects the resulting checksum, ADATs written on
+other systems generate slightly differing files.
+Standardizing to <code>"\n"</code> attempts to solve this issue.
+For reference, see the EOL encoding for operating systems below:<br></p><table class="table table"><tr><td>Symbol</td><td>Platform</td><td>Character</td></tr><tr><td>LF</td><td>Linux</td><td><code>"\n"</code></td></tr><tr><td>CR</td><td>MacOS</td><td><code>"\r"</code></td></tr><tr><td>CRLF</td><td>DOS/Windows</td><td><code>"\r\n"</code></td></tr></table></div>
     <div id="see-also">
     <h2>See also</h2>
-    <div class="dont-index"><p><code><a href="read_adat.html">read_adat()</a></code>, <code>write_lines()</code>, <code>write_tsv()</code>, <code><a href="is.intact.attributes.html">is.intact.attributes()</a></code></p>
+    <div class="dont-index"><p><code><a href="read_adat.html">read_adat()</a></code>, <code><a href="is.intact.attributes.html">is.intact.attributes()</a></code></p>
 <p>Other IO: 
+<code><a href="loadAdatsAsList.html">loadAdatsAsList</a>()</code>,
 <code><a href="parseHeader.html">parseHeader</a>()</code>,
-<code><a href="read_adat.html">read_adat</a>()</code></p></div>
+<code><a href="read_adat.html">read_adat</a>()</code>,
+<code><a href="soma_adat.html">soma_adat</a></code></p></div>
     </div>
     <div id="author">
     <h2>Author</h2>

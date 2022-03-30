@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SomaDataIO</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.3.0</span>
       </span>
     </div>
 
@@ -50,6 +50,23 @@
       
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="5.3.0" id="somadataio-530">SomaDataIO 5.3.0<a class="anchor" aria-label="anchor" href="#somadataio-530"></a></h2>
+<ul><li>Upgrades primarily from improvements to SomaLogic internal code base, including: (@stufield)
+<ul><li>general reduction on external package dependency to improve code stability</li>
+<li>internal usage of base R alternatives to the <code>readr</code> package for parsing and importing ADATs (e.g. <code><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.delim()</a></code> over <code>read_delim()</code>). This is mostly for code simplification, but can often result in marked speed improvements. As the SomaScan <code>plex</code> size increases, this speed improvement will become more important.</li>
+<li>
+<code><a href="../reference/parseHeader.html">parseHeader()</a></code> was dramatically simplified, now reading in lines 20L at a time until the RFU block is reached. In addition, once the block is reached, all header lines are read-in once and indexed (as opposed to line-by-line).</li>
+<li>
+<code><a href="../reference/read_adat.html">read_adat()</a></code> now specifies column types via <code>colClasses =</code> which for the majority of the ADAT is type <code>double</code> for the RFU columns. This should dramatically improve speed of ingest.</li>
+<li>
+<code><a href="../reference/write_adat.html">write_adat()</a></code> was simplified internally, with fewer nested <code>apply</code> and for-loops.</li>
+<li>encoding for all input/output (I/O) is assumed to be <code>UTF-8</code>.</li>
+</ul></li>
+<li>New <code><a href="../reference/getAnalytes.html">getAnalytes()</a></code> S3 method for class <code>recipe</code> from the <code>recipes</code> package.</li>
+<li>New <code><a href="../reference/loadAdatsAsList.html">loadAdatsAsList()</a></code> to load multiple ADAT files in a single call and optionally collapse them into a single data frame (@stufield, #8).</li>
+<li>New <code><a href="../reference/getAnalyteInfo.html">getTargetNames()</a></code> function to map ADAT <code>seq.XXXX.XX</code> names to corresponding protein targets from the annotations table</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="5.2.0" id="somadataio-520">SomaDataIO 5.2.0<a class="anchor" aria-label="anchor" href="#somadataio-520"></a></h2>
 <ul><li>SomaLogic Inc. is now SomaLogic Operating Co. Inc.</li>

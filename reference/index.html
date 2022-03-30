@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SomaDataIO</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.3.0</span>
       </span>
     </div>
 
@@ -54,13 +54,21 @@
           <p class="section-desc"></p><p>Load RFU (feature) data loaded into (and out of) an R session.</p>
         </th>
       </tr></tbody><tbody><tr><td>
-          <p><code><a href="read_adat.html">read_adat()</a></code> <code><a href="read_adat.html">read.adat()</a></code> <code><a href="read_adat.html">is.soma_adat()</a></code> <code><a href="read_adat.html">`[`(<i>&lt;soma_adat&gt;</i>)</a></code> <code><a href="read_adat.html">print(<i>&lt;soma_adat&gt;</i>)</a></code> <code><a href="read_adat.html">summary(<i>&lt;soma_adat&gt;</i>)</a></code> </p>
+          <p><code><a href="read_adat.html">read_adat()</a></code> <code><a href="read_adat.html">read.adat()</a></code> <code><a href="read_adat.html">is.soma_adat()</a></code> </p>
         </td>
         <td><p>Read (Load) SomaLogic ADATs</p></td>
       </tr><tr><td>
           <p><code><a href="write_adat.html">write_adat()</a></code> </p>
         </td>
         <td><p>Write an ADAT to File</p></td>
+      </tr><tr><td>
+          <p><code><a href="soma_adat.html">print(<i>&lt;soma_adat&gt;</i>)</a></code> <code><a href="soma_adat.html">summary(<i>&lt;soma_adat&gt;</i>)</a></code> <code><a href="soma_adat.html">`[`(<i>&lt;soma_adat&gt;</i>)</a></code> <code><a href="soma_adat.html">`$`(<i>&lt;soma_adat&gt;</i>)</a></code> <code><a href="soma_adat.html">`[[`(<i>&lt;soma_adat&gt;</i>)</a></code> <code><a href="soma_adat.html">`[&lt;-`(<i>&lt;soma_adat&gt;</i>)</a></code> <code><a href="soma_adat.html">`$&lt;-`(<i>&lt;soma_adat&gt;</i>)</a></code> <code><a href="soma_adat.html">`[[&lt;-`(<i>&lt;soma_adat&gt;</i>)</a></code> <code><a href="soma_adat.html">median(<i>&lt;soma_adat&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>The <code>soma_adat</code>Class and S3 Methods</p></td>
+      </tr><tr><td>
+          <p><code><a href="loadAdatsAsList.html">loadAdatsAsList()</a></code> <code><a href="loadAdatsAsList.html">collapseAdats()</a></code> </p>
+        </td>
+        <td><p>Load ADAT files as a list</p></td>
       </tr><tr><td>
           <p><code><a href="parseHeader.html">parseHeader()</a></code> </p>
         </td>
@@ -77,6 +85,14 @@
           <p><code><a href="is.intact.attributes.html">is.intact.attributes()</a></code> </p>
         </td>
         <td><p>Are Attributes Intact?</p></td>
+      </tr><tr><td>
+          <p><code><a href="groupGenerics.html">Math(<i>&lt;soma_adat&gt;</i>)</a></code> <code><a href="groupGenerics.html">antilog()</a></code> <code><a href="groupGenerics.html">Ops(<i>&lt;soma_adat&gt;</i>)</a></code> <code><a href="groupGenerics.html">`==`(<i>&lt;soma_adat&gt;</i>)</a></code> <code><a href="groupGenerics.html">Summary(<i>&lt;soma_adat&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Group Generics for <code>soma_adat</code> Class Objects</p></td>
+      </tr><tr><td>
+          <p><code><a href="reexports.html">reexports</a></code> </p>
+        </td>
+        <td><p>Objects exported from other packages</p></td>
       </tr></tbody><tbody><tr><th colspan="2">
           <h2 id="adat-manipulation">ADAT Manipulation <a href="#adat-manipulation" class="anchor" aria-hidden="true"></a></h2>
           <p class="section-desc"></p><p>Functions that allow filtering, wrangling, and subset selection of ADAT objects.</p>
@@ -90,7 +106,7 @@
         </td>
         <td><p>Test <code>AptName</code> Format</p></td>
       </tr><tr><td>
-          <p><code><a href="getAnalyteInfo.html">getAnalyteInfo()</a></code> <code><a href="getAnalyteInfo.html">getFeatureData()</a></code> </p>
+          <p><code><a href="getAnalyteInfo.html">getAnalyteInfo()</a></code> <code><a href="getAnalyteInfo.html">getTargetNames()</a></code> <code><a href="getAnalyteInfo.html">getFeatureData()</a></code> </p>
         </td>
         <td><p>Get Analyte Annotation Information</p></td>
       </tr><tr><td>
@@ -101,10 +117,6 @@
           <p><code><a href="diffAdats.html">diffAdats()</a></code> </p>
         </td>
         <td><p>Diff Two ADAT Objects</p></td>
-      </tr><tr><td>
-          <p><code><a href="MathGenerics.html">Math(<i>&lt;soma_adat&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Mathematical Group Generics for ADAT Object</p></td>
       </tr></tbody><tbody><tr><th colspan="2">
           <h2 id="transform-between-somascan-versions">Transform Between SomaScan Versions <a href="#transform-between-somascan-versions" class="anchor" aria-hidden="true"></a></h2>
           <p class="section-desc"></p><p>Functionality required to convert between SomaScan versions, e.g. v4.1 -&gt; v4.0, sometimes referred to as “lifting”.</p>

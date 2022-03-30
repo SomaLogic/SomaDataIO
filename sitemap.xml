@@ -25,10 +25,10 @@
     <loc>https://github.com/SomaLogic/SomaDataIO/news/index.html</loc>
   </url>
   <url>
-    <loc>https://github.com/SomaLogic/SomaDataIO/reference/Col.Meta.html</loc>
+    <loc>https://github.com/SomaLogic/SomaDataIO/pull_request_template.html</loc>
   </url>
   <url>
-    <loc>https://github.com/SomaLogic/SomaDataIO/reference/MathGenerics.html</loc>
+    <loc>https://github.com/SomaLogic/SomaDataIO/reference/Col.Meta.html</loc>
   </url>
   <url>
     <loc>https://github.com/SomaLogic/SomaDataIO/reference/SeqId.html</loc>
@@ -55,6 +55,9 @@
     <loc>https://github.com/SomaLogic/SomaDataIO/reference/getAnalytes.html</loc>
   </url>
   <url>
+    <loc>https://github.com/SomaLogic/SomaDataIO/reference/groupGenerics.html</loc>
+  </url>
+  <url>
     <loc>https://github.com/SomaLogic/SomaDataIO/reference/index.html</loc>
   </url>
   <url>
@@ -65,6 +68,9 @@
   </url>
   <url>
     <loc>https://github.com/SomaLogic/SomaDataIO/reference/lift_adat.html</loc>
+  </url>
+  <url>
+    <loc>https://github.com/SomaLogic/SomaDataIO/reference/loadAdatsAsList.html</loc>
   </url>
   <url>
     <loc>https://github.com/SomaLogic/SomaDataIO/reference/parseHeader.html</loc>
@@ -86,6 +92,9 @@
   </url>
   <url>
     <loc>https://github.com/SomaLogic/SomaDataIO/reference/rownames.html</loc>
+  </url>
+  <url>
+    <loc>https://github.com/SomaLogic/SomaDataIO/reference/soma_adat.html</loc>
   </url>
   <url>
     <loc>https://github.com/SomaLogic/SomaDataIO/reference/transform.html</loc>

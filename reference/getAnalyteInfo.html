@@ -30,7 +30,7 @@ represents the key index between the table and soma_adat from which it comes.'><
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SomaDataIO</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.3.0</span>
       </span>
     </div>
 
@@ -72,6 +72,8 @@ represents the key index between the table and <code>soma_adat</code> from which
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">getAnalyteInfo</span><span class="op">(</span><span class="va">adat</span><span class="op">)</span>
 
+<span class="fu">getTargetNames</span><span class="op">(</span><span class="va">tbl</span><span class="op">)</span>
+
 <span class="fu">getFeatureData</span><span class="op">(</span><span class="va">adat</span><span class="op">)</span></code></pre></div>
     </div>
 
@@ -80,6 +82,9 @@ represents the key index between the table and <code>soma_adat</code> from which
     <dl><dt>adat</dt>
 <dd><p>A <code>soma_adat</code> object (with intact attributes),
 typically created using <code><a href="read_adat.html">read_adat()</a></code>.</p></dd>
+<dt>tbl</dt>
+<dd><p>A <code>tibble</code> object containing analyte target annotation
+information. This is usually the result of a call to <code>getAnalyteInfo()</code>.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -89,7 +94,14 @@ to the column meta data entries in the <code>soma_adat</code>; 1 row per analyte
     <div id="functions">
     <h2>Functions</h2>
     
-<ul><li><p><code>getFeatureData</code>: renamed in <span class="pkg">SomaDataIO v5.1.0</span>. Exported
+<ul><li><p><code>getTargetNames</code>: creates a lookup table (or dictionary) as a named list object of <code>AptNames</code>
+and Target names in key-value pairs.
+This is a convenient tool to quickly access a <code>TargetName</code> given
+the <code>AptName</code> in which the key-value pairs map the <code>seq.XXXX.XX</code>
+to its corresponding <code>TargetName</code> in <code>tbl</code>.
+This structure which provides a convenient auto-completion mechanism at
+the command line or for generating plot titles.</p></li>
+<li><p><code>getFeatureData</code>: renamed in <span class="pkg">SomaDataIO v5.1.0</span>. Exported
 (with life-cycle warning) to maintain backward compatibility.
 Please adjust your code accordingly.</p></li>
 </ul></div>
@@ -181,6 +193,32 @@ Please adjust your code accordingly.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   CalQcRatio_Example_Adat_Set001_170255 &lt;dbl&gt;, QcReference_170255 &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Cal_Example_Adat_Set002 &lt;dbl&gt;, CalQcRatio_Example_Adat_Set002_170255 &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Dilution2 &lt;dbl&gt;</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># Target names</span></span>
+<span class="r-in"><span class="va">tg</span> <span class="op">&lt;-</span> <span class="fu">getTargetNames</span><span class="op">(</span><span class="va">anno_tbl</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># how to use for plotting</span></span>
+<span class="r-in"><span class="va">feats</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">anno_tbl</span><span class="op">$</span><span class="va">AptName</span>, <span class="fl">6</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">feats</span>, <span class="kw">function</span><span class="op">(</span><span class="va">.x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, main <span class="op">=</span> <span class="va">tg</span><span class="op">[[</span><span class="va">.x</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-plt img"><img src="getAnalyteInfo-1.png" alt="" width="700" height="433"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.9500.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.7003.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.11681.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.17748.21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.12376.85</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.9095.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
   </div>
