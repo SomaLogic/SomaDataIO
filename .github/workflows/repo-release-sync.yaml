@@ -25,5 +25,6 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
         git config user.name github-actions
         git config user.email github-actions@github.com
-        git remote add destination git@github.com:SomaLogic/SomaDataIO.git
-        git push destination "$GITHUB_REF":master -f
+        git remote add public git@github.com:SomaLogic/SomaDataIO.git
+        #git push public "$GITHUB_REF":master --force-with-lease
+        git push public "$GITHUB_REF":master
