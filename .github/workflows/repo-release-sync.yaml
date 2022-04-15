@@ -23,8 +23,5 @@ jobs:
         mkdir ~/.ssh
         echo "$ssh_private_key" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-        git config user.name github-actions
-        git config user.email github-actions@github.com
-        git remote add public git@github.com:SomaLogic/SomaDataIO.git
-        #git push public "$GITHUB_REF":master --force-with-lease
-        git push public "$GITHUB_REF":master
+        git -c user.name=github-actions -c user.email=github-actions@github.com push \
+          git@github.com:SomaLogic/SomaDataIO.git "$GITHUB_REF":master
