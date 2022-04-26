@@ -42,7 +42,7 @@ jobs:
       - name: Install dependencies
         run: |
           remotes::install_cran("BiocManager")
-          BiocManager::install("Biobase", version = "3.14")
+          BiocManager::install("Biobase", version = "3.15")
           remotes::install_deps(dependencies = TRUE)
           remotes::install_dev("pkgdown")
           #install.packages("pkgdown", type = "binary")

@@ -5,12 +5,12 @@ f <- system.file("example", "single_sample.adat",
 adat <- read_adat(f)
 
 # Testing ----
-test_that("read_adat is the correct class", {
+test_that("`read_adat()` is the correct class", {
   expect_s3_class(adat, "soma_adat")
   expect_s3_class(adat, "data.frame")
 })
 
-test_that("read_adat attributes are correct", {
+test_that("`read_adat()` attributes are correct", {
   atts <- attributes(adat)
   expect_named(atts,
                c("names",
@@ -56,7 +56,7 @@ test_that("`read_adat()` the dimensions of the 'soma_adat' object are correct", 
   expect_equal(adat$Sex, "M")
 })
 
-test_that("read_adat produces the correct RFU values", {
+test_that("`read_adat()` produces the correct RFU values", {
   expect_equal(median(adat$seq.3343.1), 2046.6)
   apts <- getAnalytes(adat)
   expect_equal(sum(adat[, apts]), 21311516)
@@ -94,16 +94,18 @@ test_that("`write_adat()` throws error when no file name is passed", {
 })
 
 test_that("`write_adat()` throws warning when passing invalid file format", {
-  skip_on_os("windows")
-  f_fail <- sub("//", "/", tempfile(fileext = ".txt"))
-  expect_warning(
-    write_adat(adat, file = f_fail),
-    paste0(
-      "File extension is not `*.adat` ('", f_fail, "').",
-      " Are you sure this is the correct file extension?"),
-    fixed = TRUE
-  )
-  unlink(f_fail)
+  bad_ext <- tempfile(fileext = ".txt")
+  if (  tolower(Sys.info()[["sysname"]]) == "windows" ) {
+    # path sep '\` on windows gets messy with the warning match
+    match <- "File extension is not `*.adat`"
+  } else {
+    match <- paste0(
+      "File extension is not `*.adat` ('", bad_ext, "'). ",
+      "Are you sure this is the correct file extension?"
+    )
+  }
+  expect_warning(write_adat(adat, file = bad_ext), match, fixed = TRUE)
+  unlink(bad_ext)
 })
 
 test_that("`write_adat()` shifts Col.Meta correctly when clinical data added/removed", {
@@ -130,12 +132,13 @@ test_that("`write_adat()` shifts Col.Meta correctly when clinical data added/rem
 
 # print.soma_adat -------
 test_that("print.soma_adat() returns original object", {
-  skip_on_os("windows")
-  withr::local_output_sink("/dev/null")    # dump console output
+  dump <- tempfile(pattern = "tmp-")
+  withr::local_output_sink(dump)    # dump console output
   y <- print(adat)
   z <- print(adat, show_header = TRUE)
   expect_equal(y, adat)
   expect_equal(z, adat)
+  unlink(dump)
 })
 
 # is.soma_adat -------

@@ -76,7 +76,7 @@ jobs:
         run: |
           remotes::install_cran("BiocManager")
           # this will require occasional updating
-          BiocManager::install("Biobase", version = "3.14")
+          BiocManager::install("Biobase", version = "3.15")
         shell: Rscript {0}
 
       - name: Install Biobase devel
