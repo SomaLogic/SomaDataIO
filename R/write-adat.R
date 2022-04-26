@@ -76,13 +76,14 @@ write_adat <- function(x, file) {
   writeLines("^TABLE_BEGIN", con = f)
 
   # write Col.Meta
-  tabshift <- strrep("\t", atts$file_specs$col_meta_shift - 1L)  # col shift
+  n_meta   <- getMeta(x, n = TRUE)
+  tabshift <- strrep("\t", n_meta)  # col shift
   writeLines(paste0(tabshift, .flatten(atts$Col.Meta)), con = f)
 
   # Write out header row
   # Skip rest if "Empty ADAT"
   if ( nrow(x) > 0 ) {
-    if ( getMeta(x, n = TRUE) < 1 ) {
+    if ( n_meta < 1 ) {
       warning(
         "\nYou are writing an ADAT without any meta data.\n",
         "This may cause this file (", .value(file), ") ",
@@ -92,10 +93,10 @@ write_adat <- function(x, file) {
       )
     }
 
-    tabs <- strrep("\t", length(apts) - 1L)
+    tabs <- strrep("\t", length(apts))
     meta_names <- getMeta(x)
     metanames  <- paste(meta_names, collapse = "\t")
-    writeLines(paste0(metanames, "\t\t", tabs), con = f)
+    writeLines(paste0(metanames, "\t", tabs), con = f)
 
     # insert blank column
     df <- x

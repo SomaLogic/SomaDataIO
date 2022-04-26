@@ -186,7 +186,7 @@ test_that("`.getHeaderLines()` grabs header correctly, with actual ADAT", {
 test_that("an empty ADAT is correctly handled", {
   file <- test_path("testdata/empty.adat")
   x <- .getHeaderLines(file)
-  expect_length(x, 37)
+  expect_length(x, 40)
   x <- parseHeader(file)
   expect_named(x, c("Header.Meta", "Col.Meta", "file_specs"))
   expect_true(x$file_specs$empty_adat)
