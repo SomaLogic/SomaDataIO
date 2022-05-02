@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 ![GitHub
-version](https://img.shields.io/badge/Version-5.3.0-success.svg?style=flat&logo=github)
+version](https://img.shields.io/badge/Version-5.3.0.9000-success.svg?style=flat&logo=github)
 [![CRAN
 badge](https://img.shields.io/badge/CRAN-No-red.svg)](https://cran.r-project.org)
 [![R-CMD-check](https://github.com/SomaLogic/SomaDataIO/workflows/R-CMD-check/badge.svg)](https://github.com/SomaLogic/SomaDataIO/actions)
@@ -88,14 +88,14 @@ which `SomaDataIO` was developed. If you run into any unexpected
 behavior, please ensure that the following package dependencies are
 pre-installed:
 
-  - `R (>= 4.0.0)`
+  - `R (>= 4.1.0)`
   - `cli (v2.5.0)`
   - `crayon (v1.4.1)`
   - `dplyr (v1.0.6)`
   - `lifecycle (v1.0.0)`
   - `magrittr (v2.0.1)`
   - `readxl (v1.3.1)`
-  - `tibble (v3.2.1)`
+  - `tibble (v3.1.2)`
   - `tidyr (v1.1.3)`
   - `usethis (v2.0.1)`
 
@@ -479,7 +479,7 @@ is.intact.attributes(my_adat)     # attributes MUST be intact to write to file
 
 write_adat(my_adat, file = tempfile("my-adat-", fileext = ".adat"))
 #> ✔ ADAT passed all checks and traps.
-#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmp1sppJY/my-adat-720360485c3.adat'
+#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpxwy6fk/my-adat-7ee19f25cd2.adat'
 ```
 
 -----
@@ -852,5 +852,5 @@ res %>%
 
 -----
 
-Created by [Rmarkdown](https://github.com/rstudio/rmarkdown) (v2.13) and
-R version 4.1.3 (2022-03-10).
+Created by [Rmarkdown](https://github.com/rstudio/rmarkdown) (v2.14) and
+R version 4.2.0 (2022-04-22).
