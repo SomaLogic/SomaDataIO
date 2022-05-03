@@ -1,9 +1,9 @@
 pandoc: 2.7.3
-pkgdown: 1.6.1.9001
-pkgdown_sha: ce9781a15c7ea07df9fb17a11295ba4abec0b54b
+pkgdown: 2.0.3.9000
+pkgdown_sha: 9dee019f9983b86585a77a3b1a1459b9f0390fe6
 articles:
   SomaDataIO: SomaDataIO.html
-last_built: 2021-07-27T20:43Z
+last_built: 2022-05-03T19:17Z
 urls:
   reference: https://github.com/SomaLogic/SomaDataIO/reference
   article: https://github.com/SomaLogic/SomaDataIO/articles
