@@ -138,7 +138,7 @@ objects:
 sysdata:
 	@ echo "Creating 'R/sysdata.rda' ..."
 	@ git clone --depth=1 ssh://git@bitbucket.sladmin.com:7999/sv/somareadr.git $(DIR)
-	@ git archive --format=tar --remote=ssh://git@bitbucket.sladmin.com:7999/sv/somanormalization \
+	@ git archive --format=tar --remote=ssh://git@bitbucket.sladmin.com:7999/sv/somaplyr \
 		master R/scaleAnalytes.R | tar -xf - -C $(DIR)
 	@ $(RSCRIPT) \
 	-e "files <- commandArgs(TRUE)" \
