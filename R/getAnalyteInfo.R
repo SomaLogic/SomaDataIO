@@ -24,10 +24,10 @@
 #' dplyr::tally(dplyr::group_by(anno_tbl, Dilution))     # Print summary by dilution
 #'
 #' # Columns containing "Target"
-#' anno_tbl %>% dplyr::select(dplyr::contains("Target"))
+#' anno_tbl |> dplyr::select(dplyr::contains("Target"))
 #'
 #' # Rows of "Target" starting with MMP
-#' anno_tbl %>% dplyr::filter(grepl("^MMP", Target))
+#' anno_tbl |> dplyr::filter(grepl("^MMP", Target))
 #' @importFrom tibble tibble as_tibble
 #' @export
 getAnalyteInfo <- function(adat) {

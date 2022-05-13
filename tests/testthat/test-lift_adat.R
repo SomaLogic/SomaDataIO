@@ -34,7 +34,8 @@ test_that("an error occurs if analytes are missing from anno.tbl", {
   expect_error(
     lift_adat(adat, t2),
     paste0("Missing scalar value for 1 analytes. Cannot continue.\n",
-           "Please check the reference scalars or annotations file to proceed")
+           "Please check the reference scalars, their names, or the ",
+           "annotations file to proceed."), fixed = TRUE
   )
 })
 

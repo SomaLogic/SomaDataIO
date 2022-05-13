@@ -59,10 +59,10 @@ NULL
 getSeqId <- function(x, trim.version = FALSE) {
   # factor --> character; list --> character
   # zap trailing/leading whitespace
-  df <- locateSeqId(trimws(x))
-  seqId <- substr(df$x, df$start, df$stop) %>%
-    sub("\\.", "-", .) %>%  # 1st '.' -> '-'
-    sub("\\.", "_", .)      # 2nd '.' -> '_' if present
+  df    <- locateSeqId(trimws(x))
+  seqId <- substr(df$x, df$start, df$stop)
+  seqId <- sub("\\.", "-", seqId) # 1st '.' -> '-'
+  seqId <- sub("\\.", "_", seqId) # 2nd '.' -> '_' if present
 
   if ( trim.version ) {
     vapply(strsplit(seqId, "_", fixed = TRUE), `[[`, i = 1L, character(1))

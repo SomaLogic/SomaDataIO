@@ -135,7 +135,7 @@ test_that("`left_join()` method produces expected output", {
 })
 
 test_that("`left_join()` method doesn't fix rownames if there aren't any", {
-  x  <- data.frame(id = LETTERS[1:3], a = rnorm(3)) %>% addClass("soma_adat")
+  x  <- data.frame(id = LETTERS[1:3], a = rnorm(3)) |> addClass("soma_adat")
   y  <- data.frame(id = LETTERS[1:3], b = rnorm(3))
   df <- left_join(x, y, by = "id")
   expect_false(has_rn(df))
@@ -147,7 +147,7 @@ test_that("`left_join()` method doesn't fix rownames if there aren't any", {
 
 # anti-join ----
 test_that("`anti_join()` method generates expected output", {
-  x  <- data.frame(id = LETTERS[1:3], a = rnorm(3), row.names = letters[1:3]) %>%
+  x  <- data.frame(id = LETTERS[1:3], a = rnorm(3), row.names = letters[1:3]) |>
     addClass("soma_adat")
   y  <- data.frame(id = LETTERS[2:4], b = rnorm(3))
   df <- anti_join(x, y, by = "id")

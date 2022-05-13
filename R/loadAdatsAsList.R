@@ -19,8 +19,8 @@
 #' @author Stu Field
 #' @seealso [read_adat()]
 #' @examples
-#' files <- system.file("example", package = "SomaDataIO") %>%
-#'   dir(pattern = "[.]adat$", full.names = TRUE) %>% rev()
+#' files <- system.file("example", package = "SomaDataIO") |>
+#'   dir(pattern = "[.]adat$", full.names = TRUE) |> rev()
 #'
 #' # 2 files in directory
 #' files
@@ -81,7 +81,7 @@ collapseAdats <- function(x) {
   # rm names so rownames are re-constructed via `rbind()`
   new <- lapply(unname(x), function(.x) dplyr::select(.x, common))
   new <- do.call(rbind, new)
-  new_header <- lapply(x, attr, which = "Header.Meta") %>%
+  new_header <- lapply(x, attr, which = "Header.Meta") |>
     lapply(`[[`, "HEADER")
   attributes(new)$Header.Meta$HEADER <- Reduce(`c`, new_header)
   nms <- names(attributes(x[[1L]]))         # attr order or 1st adat

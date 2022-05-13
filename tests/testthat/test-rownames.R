@@ -30,7 +30,7 @@ test_that("the rowname helpers move rownames safely", {
 })
 
 test_that("the rowname helpers have object fidelity", {
-  df <- rn2col(example_data) %>% col2rn()  # convert & convert back
+  df <- rn2col(example_data) |> col2rn()  # convert & convert back
   expect_equal(df, example_data)
 })
 

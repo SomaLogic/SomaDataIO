@@ -79,7 +79,7 @@ NULL
     # Integer/Logical case
     # this is tricky
     # must figure out which numeric indices are feature data; which meta data
-    k <- getAnalytes(names(x)[j]) %>% match(apts)
+    k <- getAnalytes(names(x)[j]) |> match(apts)
   }
 
   # Update the attributes -> Col.Meta information

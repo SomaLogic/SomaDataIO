@@ -28,8 +28,8 @@
 #' summary(my_adat[, mmps])
 #'
 #' # Summarize by group
-#' my_adat[, mmps] %>%
-#'   split(my_adat$Sex) %>%
+#' my_adat[, mmps] |>
+#'   split(my_adat$Sex) |>
 #'   lapply(summary)
 #'
 #' # Alternatively pass annotations with Target info
@@ -38,18 +38,18 @@
 #' @importFrom stats IQR mad sd
 #' @importFrom stats setNames
 #' @export
-summary.soma_adat <- function(object, tbl,
+summary.soma_adat <- function(object, tbl = NULL,
                               digits = max(3L, getOption("digits") - 3L), ...) {
 
-  if ( missing(tbl) ) {
+  if ( is.null(tbl) ) {
     tbl <- getAnalyteInfo(object)
   }
 
   nm   <- getAnalytes(object)
   labs <- c("Target", "Min", "1Q", "Median", "Mean", "3Q",
-            "Max", "sd", "MAD", "IQR") %>% .pad(6)
+            "Max", "sd", "MAD", "IQR") |> .pad(6)
 
-  vals <- dplyr::select(object, nm) %>%
+  vals <- dplyr::select(object, nm) |>
     lapply(function(.x) {
       vec <- .x[!is.na(.x)]         # rm NaN/NA; outside b/c summary()
       format(c(unname(summary(vec)), sd(vec), mad(vec), IQR(vec)),
@@ -57,14 +57,14 @@ summary.soma_adat <- function(object, tbl,
     })
 
   # lookup table
-  look <- as.list(tbl$Target) %>% setNames(tbl$AptName)
-  tgts <- setNames(names(vals), names(vals)) %>%
+  look <- as.list(tbl$Target) |> setNames(tbl$AptName)
+  tgts <- setNames(names(vals), names(vals)) |>
     lapply(function(.x) ifelse(is.null(look[[.x]]), "", look[[.x]]))  # if NULL -> ""
 
-  setNames(nm, nm) %>%
+  setNames(nm, nm) |>
     lapply(function(.col)
-      paste(labs, ":", .pad(c(tgts[[.col]], vals[[.col]]), width = 10))) %>%
-    data.frame() %>%
+      paste(labs, ":", .pad(c(tgts[[.col]], vals[[.col]]), width = 10))) |>
+    data.frame() |>
     addClass("adat_summary")
 }
 

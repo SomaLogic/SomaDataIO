@@ -49,8 +49,8 @@ read_adat <- function(file, debug = FALSE, verbose = getOption("verbose"), ...) 
   # Debugger mode ----
   # nocov start
   if ( debug ) {
-    res <- .getHeaderLines(file) %>%
-      strsplit("\t", fixed = TRUE) %>%
+    res <- .getHeaderLines(file) |>
+      strsplit("\t", fixed = TRUE) |>
       parseCheck()
     return(invisible(res))
   }
@@ -67,7 +67,7 @@ read_adat <- function(file, debug = FALSE, verbose = getOption("verbose"), ...) 
       "No RFU feature data in ADAT. Returning a `tibble` object ",
       "with Column Meta data only.", call. = FALSE
     )
-    anno_table <- convertColMeta(header_data$Col.Meta) %>%
+    anno_table <- convertColMeta(header_data$Col.Meta) |>
       addAttributes(header_data$Header.Meta)
     return(anno_table)
   }
@@ -76,7 +76,7 @@ read_adat <- function(file, debug = FALSE, verbose = getOption("verbose"), ...) 
 
   # catch for old adats with SeqIds in mystery row
   if ( length(row_meta) > header_data$file_specs$col_meta_shift ) {
-    row_meta %<>% head(header_data$file_specs$col_meta_shift - 1)   # nocov
+    row_meta <- head(row_meta, header_data$file_specs$col_meta_shift - 1) # nocov
   }
 
   # zap leading/trailing whitespace
@@ -86,7 +86,7 @@ read_adat <- function(file, debug = FALSE, verbose = getOption("verbose"), ...) 
     row_meta <- c(row_meta, "blank_col")  # Add empty column name in >= v1.0
   }
 
-  apt_names <- getSeqId(header_data$Col.Meta$SeqId, trim.version = TRUE) %>%
+  apt_names <- getSeqId(header_data$Col.Meta$SeqId, trim.version = TRUE) |>
     seqid2apt()
 
   ncols <- length(row_meta) + length(apt_names)

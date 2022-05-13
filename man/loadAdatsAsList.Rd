@@ -44,8 +44,8 @@ with little variable intersection, a sparse RFU-matrix will result.
 See \code{Examples} below.
 }
 \examples{
-files <- system.file("example", package = "SomaDataIO") \%>\%
-  dir(pattern = "[.]adat$", full.names = TRUE) \%>\% rev()
+files <- system.file("example", package = "SomaDataIO") |>
+  dir(pattern = "[.]adat$", full.names = TRUE) |> rev()
 
 # 2 files in directory
 files

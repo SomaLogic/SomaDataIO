@@ -11,7 +11,7 @@
 #' be displayed instead of the data frame (`tibble`) object?
 #' @examples
 #' my_adat <- system.file("example", "example_data.adat",
-#'                        package = "SomaDataIO", mustWork = TRUE) %>% read_adat()
+#'                        package = "SomaDataIO", mustWork = TRUE) |> read_adat()
 #' # S3 print method
 #' my_adat
 #'
@@ -25,11 +25,10 @@ print.soma_adat <- function(x, show_header = FALSE, ...) {
   meta   <- getMeta(x)
   n_apts <- getAnalytes(x, n = TRUE)
   pad    <- strrep(" ", 5)
-  dim_vars <- .pad(c("Attributes intact", "Rows", "Columns",
-                     "Clinical Data", "Features"), 20) %>%
-    paste0(pad, .)
-  dim_vals <- c(col_f(atts_symbol), nrow(x), ncol(x), length(meta), n_apts) %>%
-    as.character() %>%
+  dim_vars <- paste0(pad, .pad(c("Attributes intact", "Rows", "Columns",
+                                 "Clinical Data", "Features"), 20))
+  dim_vals <- c(col_f(atts_symbol), nrow(x), ncol(x), length(meta), n_apts) |>
+    as.character() |>
     cr_cyan()
   writeLines(paste(dim_vars, dim_vals))
 
@@ -57,7 +56,7 @@ print.soma_adat <- function(x, show_header = FALSE, ...) {
           cr_yellow(symb_warn),
           cr_red("ADAT columns were probably modified"),
           cr_yellow(symb_warn)
-      ) %>%
+      ) |>
       writeLines()
   }
 

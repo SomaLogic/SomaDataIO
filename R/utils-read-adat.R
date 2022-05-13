@@ -194,7 +194,7 @@ catchDims <- function(x, y) {
     "no. RFU variables",
     "Dim data matrix",
     "Dim Col.Meta (annot.)"
-  ) %>% .pad(25)
+  ) |> .pad(25)
   c2 <- c(
     header$Header.Meta$HEADER$Version,
     header$file_specs$data_begin,
@@ -206,7 +206,7 @@ catchDims <- function(x, y) {
     getAnalytes(rfu, n = TRUE),
     paste(dim(rfu), collapse = " x "),
     paste(dim(data.frame(header$Col.Meta)), collapse = " x ")
-  ) %>% cr_red()
+  ) |> cr_red()
   lapply(paste(c1, cr_blue(symb_point), c2), .done)
   writeLines(
     cli_rule(cr_bold("Head Col Meta"), line_col = "magenta")
