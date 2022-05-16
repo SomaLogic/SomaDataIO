@@ -22,7 +22,7 @@
 10 258495800004_3 Example~ 2020-06-18   SG152144~ H11           2.58e11        3
 # ... with 182 more rows, and 5,312 more variables: SampleId <chr>,
 #   SampleType <chr>, PercentDilution <int>, SampleMatrix <chr>, Barcode <lgl>,
-#   Barcode2d <lgl>, SampleName <lgl>, SampleNotes <lgl>,
+#   Barcode2d <chr>, SampleName <lgl>, SampleNotes <lgl>,
 #   AliquotingNotes <lgl>, SampleDescription <chr>, AssayNotes <lgl>,
 #   TimePoint <lgl>, ExtIdentifier <lgl>, SsfExtId <lgl>, SampleGroup <lgl>,
 #   ...

@@ -4,7 +4,8 @@
 # otherwise allow read.delim() to guess type
 .metaTypes <- function(x) {
   base_type <- rep_len(NA_character_, length(x))
-  known_chr <- c("PlateId", "SampleId", "SampleType", "Subject_ID", "SampleMatrix")
+  known_chr <- c("PlateId", "SampleId", "SampleType", "Subject_ID",
+                 "SampleMatrix", "Barcode2d")
   known_dbl <- c("SlideId", "Subarray", "HybControlNormScale")
   chr_idx   <- which(x %in% known_chr)
   dbl_idx   <- which(x %in% known_dbl)
