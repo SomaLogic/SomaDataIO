@@ -182,7 +182,7 @@ As with <code>$</code>, partial matching is <em>not</em> allowed.</p>
 print(x, show_header = FALSE, ...)
 
 # S3 method for soma_adat
-summary(object, tbl, digits = max(3L, getOption("digits") - 3L), ...)
+summary(object, tbl = NULL, digits = max(3L, getOption("digits") - 3L), ...)
 
 # S3 method for soma_adat
 [(x, i, j, drop = TRUE)
@@ -291,7 +291,7 @@ which Target names can be extracted.</p></dd>
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">my_adat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"example"</span>, <span class="st">"example_data.adat"</span>,</span>
-<span class="r-in">                       package <span class="op">=</span> <span class="st">"SomaDataIO"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="read_adat.html">read_adat</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in">                       package <span class="op">=</span> <span class="st">"SomaDataIO"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> |&gt; <span class="fu"><a href="read_adat.html">read_adat</a></span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-in"><span class="co"># S3 print method</span></span>
 <span class="r-in"><span class="va">my_adat</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">══</span> <span style="font-weight: bold;">SomaScan Data</span> <span style="color: #0000BB;">═══════════════════════════════════════════════════════════════</span></span>
@@ -323,7 +323,7 @@ which Target names can be extracted.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 258495800004_3 Example… 2020-06-18   SG152144… H11           2.58<span style="color: #949494;">e</span>11        3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 182 more rows, and 5,312 more variables: SampleId &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   SampleType &lt;chr&gt;, PercentDilution &lt;int&gt;, SampleMatrix &lt;chr&gt;, Barcode &lt;lgl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Barcode2d &lt;lgl&gt;, SampleName &lt;lgl&gt;, SampleNotes &lt;lgl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Barcode2d &lt;chr&gt;, SampleName &lt;lgl&gt;, SampleNotes &lt;lgl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   AliquotingNotes &lt;lgl&gt;, SampleDescription &lt;chr&gt;, AssayNotes &lt;lgl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   TimePoint &lt;lgl&gt;, ExtIdentifier &lt;lgl&gt;, SsfExtId &lt;lgl&gt;, SampleGroup &lt;lgl&gt;, …</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">════════════════════════════════════════════════════════════════════════════════</span></span>
@@ -356,8 +356,8 @@ which Target names can be extracted.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  IQR    :  124.55    </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Summarize by group</span></span>
-<span class="r-in"><span class="va">my_adat</span><span class="op">[</span>, <span class="va">mmps</span><span class="op">]</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">$</span><span class="va">Sex</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
+<span class="r-in"><span class="va">my_adat</span><span class="op">[</span>, <span class="va">mmps</span><span class="op">]</span> |&gt;</span>
+<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">$</span><span class="va">Sex</span><span class="op">)</span> |&gt;</span>
 <span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">summary</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $F</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"> seq.2579.17         seq.2788.55         seq.2789.26        </span> </span>
