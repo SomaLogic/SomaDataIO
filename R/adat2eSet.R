@@ -42,7 +42,7 @@ adat2eSet <- function(adat) {
   atts        <- attributes(adat)
   apts        <- getAnalytes(adat)
   lst         <- list()
-  lst$fdata   <- data.frame(getAnalyteInfo(adat)) %>% col2rn("AptName")
+  lst$fdata   <- data.frame(getAnalyteInfo(adat)) |> col2rn("AptName")
   class(adat) <- "data.frame"
   lst$pdata   <- adat[, setdiff(names(adat), apts), drop = FALSE]
   lst$header  <- atts$Header.Meta$HEADER
@@ -55,7 +55,7 @@ adat2eSet <- function(adat) {
                       row.names = names(lst$pdata), stringsAsFactors = FALSE)
   pdata <- new("AnnotatedDataFrame", data = lst$pdata, varMetadata = p_df)
   m_df  <- data.frame(labelDescription = gsub("_", " ", colnames(pdata)))
-  eset  <- t(lst$exprs) %>%
+  eset  <- t(lst$exprs) |>
     Biobase::ExpressionSet(varMetadata = m_df,
                            featureData = fdata,
                            phenoData   = pdata)

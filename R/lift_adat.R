@@ -93,9 +93,10 @@ lift_adat <- function(adat, anno.tbl) {
   new_space <- gsub(".*(v[0-9]\\.[0-9])$", "\\1", scalar_col)
   attr(adat, "Header.Meta")$HEADER$SignalSpace <- new_space
   new_step <- sprintf("Annotation Lift (%s to %s)", tolower(from_space), new_space)
-  attr(adat, "Header.Meta")$HEADER$ProcessSteps %<>% paste0(", ", new_step)
+  steps    <- attr(adat, "Header.Meta")$HEADER$ProcessSteps
+  attr(adat, "Header.Meta")$HEADER$ProcessSteps <- paste0(steps, ", ", new_step)
   ref_vec <- deframe(anno.tbl)
-  scaleAnalytes(adat, ref_vec) %>% round(1L)
+  scaleAnalytes(adat, ref_vec) |> round(1L)
 }
 
 

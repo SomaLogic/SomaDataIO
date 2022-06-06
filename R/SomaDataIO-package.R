@@ -41,5 +41,5 @@
 #' anno_tbl
 #'
 #' # Find all analytes starting with "MMP" in `anno_tbl`
-#' anno_tbl %>% dplyr::filter(grepl("^MMP", Target))
+#' anno_tbl |> dplyr::filter(grepl("^MMP", Target))
 NULL

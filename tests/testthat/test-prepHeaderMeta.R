@@ -52,7 +52,7 @@ test_that("`prepHeaderMeta()` wrangles the correct fields", {
   expect_equal(z$class, class(y))
 })
 
-test_that("error is thrown if no data has broken attributes", {
+test_that("error is thrown if new data has broken attributes", {
   expect_error(
     prepHeaderMeta(data.frame(1:10)),
     "Stopping while you fix the attributes of `data`."

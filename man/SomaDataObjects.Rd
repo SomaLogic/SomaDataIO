@@ -93,7 +93,7 @@ head(ex_analytes, 20)
 ex_anno_tbl
 
 # Search via `filter()`
-ex_anno_tbl \%>\% dplyr::filter(grepl("^MMP", Target))
+ex_anno_tbl |> dplyr::filter(grepl("^MMP", Target))
 
 # Lookup table -> targets
 # MMP-9

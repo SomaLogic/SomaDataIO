@@ -105,7 +105,7 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
         "Features in %s but not %s:",
         .value(deparse(substitute(adat1))),
         .value(deparse(substitute(adat2)))
-      ) %>% writeLines()
+      ) |> writeLines()
       lapply(.pad(apts1_2, ipad, "left"), writeLines)
     }
 
@@ -114,7 +114,7 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
         "Features in %s but not %s:",
         .value(deparse(substitute(adat2))),
         .value(deparse(substitute(adat1)))
-      ) %>% writeLines()
+      ) |> writeLines()
       lapply(.pad(apts2_1, ipad, "left"), writeLines)
     }
 
@@ -123,7 +123,7 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
         "Meta data in %s but not %s:",
         .value(deparse(substitute(adat1))),
         .value(deparse(substitute(adat2)))
-      ) %>% writeLines()
+      ) |> writeLines()
       lapply(.pad(meta1_2, ipad, "left"), writeLines)
     }
 
@@ -132,7 +132,7 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
         "Meta data in %s but not %s:",
         .value(deparse(substitute(adat2))),
         .value(deparse(substitute(adat1)))
-      ) %>% writeLines()
+      ) |> writeLines()
       lapply(.pad(meta2_1, ipad, "left"), writeLines)
     }
     cat("\n")
@@ -182,7 +182,7 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
 
   if ( any(diff_lgl) ) {
     .todo("{msg} {cr_red(symb_cross)}")
-    prnt <- .pad("    No. fields that differ ", 37) %>% paste(sum(diff_lgl))
+    prnt <- paste(.pad("    No. fields that differ ", 37), sum(diff_lgl))
     writeLines(prnt)
     writeLines(cli_rule(sprintf("%s data diffs", type), line_col = "magenta"))
     print(.value(names(Filter(isTRUE, diff_lgl))))

@@ -32,18 +32,18 @@ pivotExpressionSet <- function(eSet) {
   }
 
   # samples (rows) x features (cols); move rn -> 1st column
-  f_data <- Biobase::fData(eSet) %>% rn2col("feature")
-  p_data <- Biobase::pData(eSet) %>% rn2col("array_id")
+  f_data <- Biobase::fData(eSet) |> rn2col("feature")
+  p_data <- Biobase::pData(eSet) |> rn2col("array_id")
 
-  data_long <- Biobase::exprs(eSet) %>%
-    t() %>% data.frame() %>% rn2col("array_id") %>%
+  data_long <- Biobase::exprs(eSet) |>
+    t() |> data.frame() |> rn2col("array_id") |>
     tidyr::pivot_longer(cols = -array_id, names_to = "feature")
 
-  data_long %>%
-    dplyr::left_join(f_data, by = "feature") %>%    # merge feature data
-    dplyr::left_join(p_data, by = "array_id") %>%   # merge clinical data
-    dplyr::arrange(array_id) %>%                    # order by sample/array
-    dplyr::select(array_id, feature, dplyr::everything()) %>%  # re-order
-    dplyr::select(-value, dplyr::everything()) %>%  # move 'value' to end
+  data_long |>
+    dplyr::left_join(f_data, by = "feature") |>    # merge feature data
+    dplyr::left_join(p_data, by = "array_id") |>   # merge clinical data
+    dplyr::arrange(array_id) |>                    # order by sample/array
+    dplyr::select(array_id, feature, dplyr::everything()) |>  # re-order
+    dplyr::select(-value, dplyr::everything()) |>  # move 'value' to end
     tibble::as_tibble()                             # convert to tibble
 }
