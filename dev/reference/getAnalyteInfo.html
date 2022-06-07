@@ -79,16 +79,14 @@ represents the key index between the table and <code>soma_adat</code> from which
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>adat</dt>
-<dd><p>A <code>soma_adat</code> object (with intact attributes),
-typically created using <code><a href="read_adat.html">read_adat()</a></code>.</p></dd>
-<dt>tbl</dt>
-<dd><p>A <code>tibble</code> object containing analyte target annotation
-information. This is usually the result of a call to <code>getAnalyteInfo()</code>.</p></dd>
-</dl></div>
+    <p></p>
+<p></p>
+    </div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <code>tibble</code> object with columns corresponding
+    
+
+<p>A <code>tibble</code> object with columns corresponding
 to the column meta data entries in the <code>soma_adat</code>; 1 row per analyte.</p>
     </div>
     <div id="functions">
@@ -201,22 +199,22 @@ Please adjust your code accordingly.</p></li>
 <span class="r-in"><span class="va">feats</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">anno_tbl</span><span class="op">$</span><span class="va">AptName</span>, <span class="fl">6</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">feats</span>, <span class="kw">function</span><span class="op">(</span><span class="va">.x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, main <span class="op">=</span> <span class="va">tg</span><span class="op">[[</span><span class="va">.x</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-plt img"><img src="getAnalyteInfo-1.png" alt="" width="700" height="433"></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.3499.77</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.5656.53</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.13628.58</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.11365.17</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.14226.120</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.3348.49</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.6380.23</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.14616.16</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.3191.50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.9580.5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.8754.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.12411.60</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>

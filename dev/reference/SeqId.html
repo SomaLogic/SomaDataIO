@@ -95,40 +95,39 @@ and manipulate <code>SeqIds</code> across assay runs and/or versions.</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>x</dt>
-<dd><p>Character. A vector of strings, usually analyte/feature column
-names, <code>AptNames</code>, or <code>SeqIds</code>. For <code>seqid2apt()</code>, a vector of <code>SeqIds</code>.
-For <code>matchSeqIds()</code>, a vector of pattern matches containing <code>SeqIds</code>.
-Can be <code>AptNames</code> with <code>GeneIDs</code> or <code>seq.XXXX</code> format, or even
-"naked" <code>SeqIds</code>.</p></dd>
-<dt>trim.version</dt>
-<dd><p>Logical. Whether to remove the version number,
-i.e. "1234-56_7" -&gt; "1234-56". Primarily for legacy ADATs.</p></dd>
-<dt>trailing</dt>
-<dd><p>Logical. Should the regular expression explicitly specify
-<em>trailing</em> <code>SeqId</code> pattern match, i.e. <code>"regex$"</code>?
-This is the most common case and the default.</p></dd>
-<dt>y</dt>
-<dd><p>Character. A second vector of <code>AptNames</code> containing <code>SeqIds</code>
-to match against those in contained in <code>x</code>.
-For <code>matchSeqIds()</code> these values are returned if there are matching elements.</p></dd>
-<dt>order.by.x</dt>
-<dd><p>Logical. Order the returned character string by
-the <code>x</code> (first) argument?</p></dd>
-<dt>show</dt>
-<dd><p>Logical. Return the data frame visibly?</p></dd>
-</dl></div>
+    <p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+    </div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>getSeqId()</code>: a character vector of <code>SeqId</code> capture from a string.
-<code>regexSeqId()</code>: a regular expression (<code>regex</code>) string
-pre-defined to match SomaLogic the <code>SeqId</code> pattern.
-<code>locateSeqId()</code>: a data frame containing the <code>start</code> and <code>stop</code>integer positions for <code>SeqId</code> matches at each value of <code>x</code>.
-<code>is.apt()</code>, <code>is.SeqId()</code>: Logical. <code>TRUE</code> or <code>FALSE</code>.
-<code>matchSeqIds()</code>: a character string corresponding to values
+    
+
+<p><code>getSeqId()</code>: a character vector of <code>SeqId</code> capture from a string.</p>
+
+
+<p><code>regexSeqId()</code>: a regular expression (<code>regex</code>) string
+pre-defined to match SomaLogic the <code>SeqId</code> pattern.</p>
+
+
+<p><code>locateSeqId()</code>: a data frame containing the <code>start</code> and <code>stop</code></p>
+
+
+<p>integer positions for <code>SeqId</code> matches at each value of <code>x</code>.</p>
+
+
+<p><code>is.apt()</code>, <code>is.SeqId()</code>: Logical. <code>TRUE</code> or <code>FALSE</code>.</p>
+
+
+<p><code>matchSeqIds()</code>: a character string corresponding to values
 in <code>y</code> of the intersect of <code>x</code> and <code>y</code>. If no matches are
-found, <code>character(0)</code>.
-<code>getSeqIdMatches()</code>: a \(n x 2\) data frame, where <code>n</code> is the
+found, <code>character(0)</code>.</p>
+
+
+<p><code>getSeqIdMatches()</code>: a \(n x 2\) data frame, where <code>n</code> is the
 length of the intersect of the matching <code>SeqIds</code>.
 The data frame is named by the passed arguments, <code>x</code> and <code>y</code>.</p>
     </div>

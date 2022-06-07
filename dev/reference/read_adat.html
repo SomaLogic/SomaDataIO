@@ -77,30 +77,27 @@ See <code><a href="https://rdrr.io/r/base/class.html" class="external-link">inhe
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>file</dt>
-<dd><p>Character. The elaborated path and file name of the <code>*.adat</code>
-file to be loaded into an R workspace.</p></dd>
-<dt>debug</dt>
-<dd><p>Logical. Used for debugging and development of an ADAT that
-fails to load, particularly out-of-spec, poorly modified, or legacy ADATs.</p></dd>
-<dt>verbose</dt>
-<dd><p>Logical. Should the function call be run in <em>verbose</em>
-mode, printing relevant diagnostic call information to the console.</p></dd>
-<dt>...</dt>
-<dd><p>Additional arguments passed ultimately to
-<code><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.delim()</a></code>, or additional arguments passed to either
-other S3 print or summary methods as required by those generics.</p></dd>
-<dt>x</dt>
-<dd><p>An <code>R</code> object to test.</p></dd>
-</dl></div>
+    <p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+    </div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <code>data.frame</code>-like object of class <code>soma_adat</code>consisting of SomaLogic RFU (feature) data and clinical meta data as
+    
+
+<p>A <code>data.frame</code>-like object of class <code>soma_adat</code></p>
+
+
+<p>consisting of SomaLogic RFU (feature) data and clinical meta data as
 columns, and samples as rows. Row names are labeled with the unique ID
 "SlideId_Subarray" concatenation. The sections of the ADAT header (e.g.,
 "Header.Meta", "Col.Meta", ...) are stored as attributes (e.g.
-<code>attributes(x)$Header.Meta</code>).
-A logical indicating whether <code>x</code> inherits from class <code>soma_adat</code>.</p>
+<code>attributes(x)$Header.Meta</code>).</p>
+
+
+<p>A logical indicating whether <code>x</code> inherits from class <code>soma_adat</code>.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -199,7 +196,7 @@ A logical indicating whether <code>x</code> inherits from class <code>soma_adat<
 <span class="r-in"><span class="va">fout</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".adat"</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="write_adat.html">write_adat</a></span><span class="op">(</span><span class="va">my_adat</span>, file <span class="op">=</span> <span class="va">fout</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> ADAT passed all checks and traps.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> ADAT written to: <span style="color: #0000BB;">'/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpWScURj/filebaa1c95b5f5.adat'</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> ADAT written to: <span style="color: #0000BB;">'/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpDqflfU/file7c52292095c.adat'</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># read same file back in as check</span></span>
 <span class="r-in"><span class="fu">read_adat</span><span class="op">(</span><span class="va">fout</span><span class="op">)</span></span>
