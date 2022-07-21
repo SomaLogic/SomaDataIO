@@ -57,8 +57,8 @@ write_adat <- function(x, file) {
                          c("Checksum", "FEATURE_EXTRACTION"))
   atts$Header.Meta <- atts$Header.Meta[header_keep]
 
-  # open connection; append in text mode
-  f <- file(file, open = "a")
+  # open connection; overwrite in text mode
+  f <- file(file, open = "w")
   on.exit(close(f))
 
   .flatten <- function(x) {

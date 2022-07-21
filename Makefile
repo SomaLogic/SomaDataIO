@@ -156,8 +156,8 @@ install_deps:
 	-e "if (!requireNamespace('remotes')) install.packages('remotes')" \
 	-e "remotes::install_deps(dependencies = TRUE)"
 
-install: install_deps build
-	@ R CMD INSTALL --use-vanilla --resave-data $(PKGNAME)_$(PKGVERS).tar.gz
+install: build
+	@ R CMD INSTALL --use-vanilla --preclean --resave-data .
 
 clean:
 	@ cd ..;\
