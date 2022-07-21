@@ -12,17 +12,20 @@ i CalQcRatio_Example_Adat_Set001_170255, QcReference_170255,
 i Cal_Example_Adat_Set002, CalQcRatio_Example_Adat_Set002_170255, Dilution2
 -- Tibble ----------------------------------------------------------------------
 # A tibble: 6 x 5,319
-  row_names      PlateId   PlateRunDate ScannerID PlatePosition SlideId Subarray
-  <chr>          <chr>     <chr>        <chr>     <chr>           <dbl>    <dbl>
-1 258495800012_3 Example ~ 2020-06-18   SG152144~ H9            2.58e11        3
-2 258495800004_7 Example ~ 2020-06-18   SG152144~ H8            2.58e11        7
-3 258495800010_8 Example ~ 2020-06-18   SG152144~ H7            2.58e11        8
-4 258495800003_4 Example ~ 2020-06-18   SG152144~ H6            2.58e11        4
-5 258495800009_4 Example ~ 2020-06-18   SG152144~ H5            2.58e11        4
-6 258495800012_8 Example ~ 2020-06-18   SG152144~ H4            2.58e11        8
-# ... with 5,312 more variables: SampleId <chr>, SampleType <chr>,
-#   PercentDilution <int>, SampleMatrix <chr>, Barcode <lgl>, Barcode2d <chr>,
-#   SampleName <lgl>, SampleNotes <lgl>, AliquotingNotes <lgl>,
-#   SampleDescription <chr>, AssayNotes <lgl>, TimePoint <lgl>,
-#   ExtIdentifier <lgl>, SsfExtId <lgl>, SampleGroup <lgl>, ...
+  row_names      PlateId Plate~1 Scann~2 Plate~3 SlideId Subar~4 Sampl~5 Sampl~6
+  <chr>          <chr>   <chr>   <chr>   <chr>     <dbl>   <dbl> <chr>   <chr>  
+1 258495800012_3 Exampl~ 2020-0~ SG1521~ H9      2.58e11       3 1       Sample 
+2 258495800004_7 Exampl~ 2020-0~ SG1521~ H8      2.58e11       7 2       Sample 
+3 258495800010_8 Exampl~ 2020-0~ SG1521~ H7      2.58e11       8 3       Sample 
+4 258495800003_4 Exampl~ 2020-0~ SG1521~ H6      2.58e11       4 4       Sample 
+5 258495800009_4 Exampl~ 2020-0~ SG1521~ H5      2.58e11       4 5       Sample 
+6 258495800012_8 Exampl~ 2020-0~ SG1521~ H4      2.58e11       8 6       Sample 
+# ... with 5,310 more variables: PercentDilution <int>, SampleMatrix <chr>,
+#   Barcode <lgl>, Barcode2d <chr>, SampleName <lgl>, SampleNotes <lgl>,
+#   AliquotingNotes <lgl>, SampleDescription <chr>, AssayNotes <lgl>,
+#   TimePoint <lgl>, ExtIdentifier <lgl>, SsfExtId <lgl>, SampleGroup <lgl>,
+#   SiteId <lgl>, TubeUniqueID <lgl>, ..., and abbreviated variable names
+#   1: PlateRunDate, 2: ScannerID, 3: PlatePosition, 4: Subarray, 5: SampleId,
+#   6: SampleType
+# i Use `colnames()` to see all variable names
 ================================================================================
