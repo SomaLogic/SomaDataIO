@@ -24,4 +24,4 @@ jobs:
         echo "$ssh_private_key" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         git -c user.name=github-actions -c user.email=github-actions@github.com push \
-          git@github.com:SomaLogic/SomaDataIO.git "$GITHUB_REF":master
+          git@github.com:SomaLogic/SomaDataIO.git "$GITHUB_REF":main
