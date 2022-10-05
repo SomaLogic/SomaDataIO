@@ -31,5 +31,4 @@ i Cal_Example_Adat_Set002, CalQcRatio_Example_Adat_Set002_170255, Dilution2
 #   SampleGroup <lgl>, SiteId <lgl>, TubeUniqueID <lgl>, ..., and abbreviated
 #   variable names 1: PlateRunDate, 2: ScannerID, 3: PlatePosition,
 #   4: Subarray, 5: SampleId, 6: SampleType
-# i Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ================================================================================

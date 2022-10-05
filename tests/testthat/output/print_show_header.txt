@@ -30,5 +30,4 @@ i Cal_Example_Adat_Set002, CalQcRatio_Example_Adat_Set002_170255, Dilution2
 14 ProteinEffectiveDate 2019-08-06                                              
 15 StudyMatrix          EDTA Plasma                                             
 # ... with 20 more rows
-# i Use `print(n = ...)` to see more rows
 ================================================================================
