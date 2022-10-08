@@ -8,6 +8,11 @@
   }
 }
 
+.strip_raw_key <- function(x) {
+  attr(x, "raw_key") <- NULL
+  x
+}
+
 .code <- function(x) {
   paste0("\033[90m", encodeString(x, quote = "`"), "\033[39m")
 }

@@ -10,8 +10,8 @@ test_that("`.checkADAT()` produces an error when it should", {
   expect_invisible(.checkADAT(adat))   # invisible
 
   # Failure
-  attr(adat, "Header.Meta") <- NULL  # break attributes
-  attr(adat, "Col.Meta")    <- NULL  # break attributes
+  # break sync with attributes and adat
+  attributes(adat)$Header.Meta$ROW_DATA$Name <- "Foo"
   expect_error(
     .checkADAT(adat),
     "Meta data mismatch between `Header Meta` and ADAT meta data."

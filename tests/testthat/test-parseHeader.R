@@ -19,7 +19,10 @@ test_that("`parseHeader()` correctly parses header information of an ADAT", {
   expect_equal(header$file_specs$col_meta_shift, 35)
   expect_equal(header$file_specs$data_begin, 66)
   expect_false(header$file_specs$old_adat)
-  expect_equal(header$Header.Meta$ROW_DATA$Name, header$row_meta)
+  expect_equivalent(header$Header.Meta$ROW_DATA$Name, header$row_meta)
+  expect_equal(attr(header$Header.Meta$ROW_DATA$Name, "raw_key"), "!Name")
+  expect_equivalent(header$Header.Meta$COL_DATA$Name, names(header$Col.Meta))
+  expect_equal(attr(header$Header.Meta$COL_DATA$Name, "raw_key"), "!Name")
   expect_equal(header$file_specs$data_begin -
                (header$file_specs$table_begin + 1),
                length(header$Col.Meta))
@@ -35,31 +38,57 @@ test_that("`parseHeader()` correctly parses header information of an ADAT", {
   expect_true(all(lengths(header$Col.Meta) == 5284))
   expect_type(header$Header.Meta$HEADER, "list")
   # HEADER entry
-  expect_length(header$Header.Meta$HEADER, 37)
+  expect_length(header$Header.Meta$HEADER, 37L)
   HD <- header$Header.Meta$HEADER
-  expect_equal(HD$Version, "1.2")
-  expect_equal(HD$AdatId, "GID-1234-56-789-abcdef")
-  expect_equal(HD$AssayType, "PharmaServices")
-  expect_equal(HD$AssayRobot, "Fluent 1 L-307")
-  expect_equal(HD$AssayVersion, "V4")
-  expect_match(HD$Legal, "^Experiment.*PII")
-  expect_equal(HD$AssaySite, "SW")
-  expect_match(HD$CreatedBy, "PharmaServices")
-  expect_equal(HD$CreatedDate, "2020-07-24")
-  expect_equal(HD$EnteredBy, "Technician1")
-  expect_equal(HD$ExpDate, "2020-06-18, 2020-07-20")
-  expect_null(HD$ExpIds)
-  expect_equal(HD$GeneratedBy, "Px (Build:  : ), Canopy_0.1.1")
-  expect_null(HD$MasterMixVersion, "V3")
-  expect_match(HD$ProcessSteps, "Raw RFU, Hyb Normal")
-  expect_equal(HD$StudyMatrix, "EDTA Plasma")
-  expect_equal(HD$StudyOrganism, character(0))
-  expect_equal(HD$Title, "Example Adat Set001, Example Adat Set002")
-  expect_equal(HD$HybNormReference, "intraplate")
-  expect_equal(HD$HybNormReference, "intraplate")
-  expect_equal(HD$NormalizationAlgorithm, "ANML")
-  expect_null(HD$PlateMedianCal_Set_A)
-  expect_null(HD$ReportType)
+  tbl <- list(
+    AdatId              = "GID-1234-56-789-abcdef",
+    Version             = "1.2",
+    AssayType           = "PharmaServices",
+    AssayVersion        = "V4",
+    AssayRobot          = "Fluent 1 L-307",
+    Legal               = paste("Experiment details and data have been",
+                                "processed to protect Personally Identifiable",
+                                "Information (PII) and comply with existing",
+                                "privacy laws."),
+    CreatedBy           = "PharmaServices",
+    CreatedDate         = "2020-07-24",
+    EnteredBy           = "Technician1",
+    ExpDate             = "2020-06-18, 2020-07-20",
+    GeneratedBy         = "Px (Build:  : ), Canopy_0.1.1",
+    RunNotes            = paste("2 columns ('Age' and 'Sex') have been added",
+                                "to this ADAT. Age has been randomly",
+                                "increased or decreased by 1-2 years to",
+                                "protect patient information"),
+    ProcessSteps        = paste("Raw RFU, Hyb Normalization, medNormInt",
+                                "(SampleId), plateScale, Calibration, anmlQC,",
+                                "qcCheck, anmlSMP"),
+   ProteinEffectiveDate = "2019-08-06",
+    StudyMatrix         = "EDTA Plasma",
+    PlateType           = character(0),
+    LabLocation         = "SLUS",
+    StudyOrganism       = character(0),
+    Title               = "Example Adat Set001, Example Adat Set002",
+    AssaySite           = "SW",
+    CalibratorId        = "170261",
+    HybNormReference    = "intraplate",
+    MedNormReference    = "intraplate",
+    NormalizationAlgorithm                  = "ANML",
+    PlateScale_ReferenceSource              = "Reference_v4_Plasma_Calibrator_170261",
+    PlateScale_Scalar_Example_Adat_Set001   = "1.08091554",
+    PlateScale_PassFlag_Example_Adat_Set001 = "PASS",
+    CalibrationReference                    = "Reference_v4_Plasma_Calibrator_170261",
+    CalPlateTailPercent_Example_Adat_Set001 = "0.1",
+    PlateTailPercent_Example_Adat_Set001    = "1.2",
+    PlateTailTest_Example_Adat_Set001       = "PASS",
+    PlateScale_Scalar_Example_Adat_Set002   = "1.09915270",
+    PlateScale_PassFlag_Example_Adat_Set002 = "PASS",
+    CalPlateTailPercent_Example_Adat_Set002 = "2.6",
+    PlateTailPercent_Example_Adat_Set002    = "4.2",
+    PlateTailTest_Example_Adat_Set002       = "PASS"
+  )
+  expect_true("ReportConfig" %in% names(HD))   # test that it's there
+  i <- which(names(HD) == "ReportConfig")
+  expect_equivalent(HD[-i], tbl)   # don't test attributes; skip ReportConfig
   expect_equal(header$Header.Meta$TABLE_BEGIN, basename(file))
 })
 
@@ -71,7 +100,7 @@ test_that("`parseHeader()` free form section", {
   x <- parseHeader(fil)
   unlink(fil)
   expect_true(x$file_specs$empty_adat)
-  expect_equal(x$Header.Meta$FreeForm$BumbleFish, "Lion")
+  expect_equal(x$Header.Meta$FreeForm$BumbleFish, .setAttr("Lion", "!BumbleFish"))
 })
 
 test_that("`parseHeader()` COL_DATA section", {
@@ -82,7 +111,8 @@ test_that("`parseHeader()` COL_DATA section", {
   expect_true(x$file_specs$empty_adat)
   expect_false(x$file_specs$old_adat)
   expect_equal(x$Col.Meta, list())
-  expect_equal(x$Header.Meta$COL_DATA$Name, c("Dog", "Cat", "Bear"))
+  expect_equal(x$Header.Meta$COL_DATA$Name,
+               .setAttr(c("Dog", "Cat", "Bear"), "!Name"))
 })
 
 test_that("`parseHeader()` ROW_DATA section", {
@@ -93,7 +123,8 @@ test_that("`parseHeader()` ROW_DATA section", {
   expect_true(x$file_specs$empty_adat)
   expect_false(x$file_specs$old_adat)
   expect_equal(x$Col.Meta, list())
-  expect_equal(x$Header.Meta$ROW_DATA$Name, c("Bear", "Cat", "Dog"))
+  expect_equal(x$Header.Meta$ROW_DATA$Name,
+               .setAttr(c("Bear", "Cat", "Dog"), "!Name"))
 })
 
 test_that("`parseHeader()` skips blank rows in header section", {
@@ -186,7 +217,7 @@ test_that("`.getHeaderLines()` grabs header correctly, with actual ADAT", {
 test_that("an empty ADAT is correctly handled", {
   file <- test_path("testdata/empty.adat")
   x <- .getHeaderLines(file)
-  expect_length(x, 40)
+  expect_length(x, 40L)
   x <- parseHeader(file)
   expect_named(x, c("Header.Meta", "Col.Meta", "file_specs"))
   expect_true(x$file_specs$empty_adat)

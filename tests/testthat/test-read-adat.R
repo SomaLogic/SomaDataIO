@@ -34,9 +34,9 @@ test_that("`read_adat()` attributes are correct", {
   expect_equal(atts$file_specs$col_meta_shift, 35)
   expect_equal(atts$file_specs$data_begin, 41)
   expect_false(atts$file_specs$old_adat)
-  expect_equal(atts$row_meta, utils::head(names(adat), 34))
+  expect_equal(atts$row_meta, utils::head(names(adat), 34L))
   expect_equal(atts$Header.Meta$ROW_DATA$Name,
-               utils::head(names(adat), 34))
+               .setAttr(utils::head(names(adat), 34L), "!Name"))
   expect_named(atts$Header.Meta,
                c("HEADER", "COL_DATA", "ROW_DATA", "TABLE_BEGIN"))
   expect_named(atts$Col.Meta,
@@ -76,58 +76,6 @@ test_that("an empty ADAT is correctly handled", {
   )
   expect_s3_class(tbl, "tbl_df")
   expect_equal(tbl, attr(adat, "Col.Meta"), check.attributes = FALSE)
-})
-
-# write ------
-test_that("`write_adat()` function produced identical object when read back", {
-  f_check <- tempfile(fileext = ".adat")
-  write_adat(adat, file = f_check)
-  # some attributes are expected to be false:
-  #   TABLE_BEGIN will shift due to CreatedBy & CreatedDate changes
-  #   Strings in Col.Meta are cleaned up "," -> ";"
-  expect_equivalent(read_adat(f_check), adat)
-  unlink(f_check)
-})
-
-test_that("`write_adat()` throws error when no file name is passed", {
-  expect_error(write_adat(adat), "Must provide output file name ...")
-})
-
-test_that("`write_adat()` throws warning when passing invalid file format", {
-  bad_ext <- tempfile(fileext = ".txt")
-  if (  tolower(Sys.info()[["sysname"]]) == "windows" ) {
-    # path sep '\` on windows gets messy with the warning match
-    match <- "File extension is not `*.adat`"
-  } else {
-    match <- paste0(
-      "File extension is not `*.adat` ('", bad_ext, "'). ",
-      "Are you sure this is the correct file extension?"
-    )
-  }
-  expect_warning(write_adat(adat, file = bad_ext), match, fixed = TRUE)
-  unlink(bad_ext)
-})
-
-test_that("`write_adat()` shifts Col.Meta correctly when clinical data added/removed", {
-  # rm meta data
-  f_check <- tempfile(fileext = ".adat")
-  short   <- dplyr::select(head(adat),
-                           SlideId, Subarray, SampleGroup,
-                           seq.2182.54, seq.2190.55)
-  write_adat(short, file = f_check)
-  expect_equivalent(read_adat(f_check), short)
-  expect_equal(getMeta(short), getMeta(read_adat(f_check)))
-  unlink(f_check)
-
-  # add meta data
-  f_check2 <- tempfile(fileext = ".adat")
-  long     <- head(adat)
-  long$foo <- "bar"
-  write_adat(long, file = f_check2)  # write_adat() re-orders meta to come 1st!
-  new <- read_adat(f_check2)
-  expect_equivalent(new[, getMeta(new)], long[, getMeta(long)])
-  expect_equivalent(new[, getAnalytes(new)], long[, getAnalytes(long)])
-  unlink(f_check2)
 })
 
 # print.soma_adat -------

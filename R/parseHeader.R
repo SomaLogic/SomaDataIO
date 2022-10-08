@@ -70,9 +70,6 @@ parseHeader <- function(file) {
     }
     #print(section)
 
-    # zap (!) if starts with non-alphanum
-    row_data <- gsub("^[^A-Za-z\t]+", "", row_data)
-
     # leading tab-space means within Col.Meta block
     leading_tab <- grepl("^\t", row_data)
 
@@ -100,18 +97,17 @@ parseHeader <- function(file) {
       next
     }
 
+    # zap (!) for names
+    cur_name <- gsub("^[^A-Za-z\t]+", "", tokens[1L])
+
     if ( section == "HEADER" ) {
-      cur.header <- tokens[1L]
-      ret$Header.Meta[[section]][[cur.header]] <- list()
-      ret$Header.Meta[[section]][[cur.header]] <- tokens[-1L]
-    } else if ( section == "COL_DATA" ) {
-      ret$Header.Meta[[section]][[tokens[1L]]]  <- tokens[-1L]
-    } else if ( section == "ROW_DATA" ) {
-      ret$Header.Meta[[section]][[tokens[1L]]]  <- tokens[-1L]
+      ret$Header.Meta[[section]][[cur_name]] <- list()
+      ret$Header.Meta[[section]][[cur_name]] <- .setAttr(tokens[-1L], tokens[1L])
+    } else if ( section == "COL_DATA" | section == "ROW_DATA" ) {
+      ret$Header.Meta[[section]][[cur_name]] <- .setAttr(tokens[-1L], tokens[1L])
     } else if ( section == "Free.Form" ) {
-      cur.header <- tokens[1L]
-      ret$Header.Meta[[free_field]][[cur.header]] <- list()
-      ret$Header.Meta[[free_field]][[cur.header]] <- tokens[-1L]
+      ret$Header.Meta[[free_field]][[cur_name]] <- list()
+      ret$Header.Meta[[free_field]][[cur_name]] <- .setAttr(tokens[-1L], tokens[1L])
     } else if ( section == "Col.Meta" ) {
       ret[[section]][[tokens[1L]]]  <- tokens[-1L]
     } else if ( section == "EXIT" ) {
@@ -137,6 +133,13 @@ parseHeader <- function(file) {
   # TRUE if old adat version
   ret$file_specs$old_adat <- getAdatVersion(ret$Header.Meta) < "1.0.0"
   ret
+}
+
+
+# helper to set attributes
+.setAttr <- function(obj, value, attr = "raw_key") {
+  attr(obj, attr) <- value
+  obj
 }
 
 

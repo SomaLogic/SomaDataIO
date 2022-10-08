@@ -40,6 +40,7 @@ TESTFILES := $(addprefix $(DIR)/tests/testthat/, \
 	helper.R \
 	test-rownames.R \
 	test-read-adat.R \
+	test-write-adat.R \
 	test-dplyr-verbs.R \
 	test-tidyr-verbs.R \
 	test-is-apt.R \

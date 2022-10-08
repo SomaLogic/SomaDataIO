@@ -53,31 +53,40 @@ write_adat <- function(x, file) {
   .checkADAT(x)
 
   # remove FEATURE_EXTRACTION & Checksum
-  header_keep <- setdiff(names(atts$Header.Meta),
-                         c("Checksum", "FEATURE_EXTRACTION"))
+  header_keep <- grep("Checksum|FEATURE_EXTRACTION",
+                      names(atts$Header.Meta), invert = TRUE,
+                      ignore.case = TRUE, value = TRUE)
   atts$Header.Meta <- atts$Header.Meta[header_keep]
 
   # open connection; overwrite in text mode
   f <- file(file, open = "w")
   on.exit(close(f))
 
-  .flatten <- function(x) {
-    paste0(names(x), "\t", vapply(x, paste, collapse = "\t", ""))
+  .flatten <- function(.x) {
+    paste0(names(.x), "\t", vapply(.x, paste, collapse = "\t", ""))
   }
+
   HM <- atts$Header.Meta
 
   # write Header.Meta
-  writeLines("^HEADER", con = f)
-  writeLines(.flatten(HM$HEADER), con = f)
-  writeLines("^COL_DATA", con = f)
-  writeLines(.flatten(HM$COL_DATA), con = f)
-  writeLines("^ROW_DATA", con = f)
-  writeLines(.flatten(HM$ROW_DATA), con = f)
-  writeLines("^TABLE_BEGIN", con = f)
+  writeLines(
+    c("^HEADER",
+      .flatten(HM$HEADER),
+      "^COL_DATA",
+      .flatten(HM$COL_DATA),
+      "^ROW_DATA",
+      .flatten(HM$ROW_DATA),
+      "^TABLE_BEGIN"),
+    con = f
+  )
 
   # write Col.Meta
   n_meta   <- getMeta(x, n = TRUE)
   tabshift <- strrep("\t", n_meta)  # col shift
+  int_v    <- which(vapply(atts$Col.Meta, is.numeric, NA))
+  # necessary to maintain signif. digits on conversion to char
+  .fix_digits <- function(.x) trimws(format(.x, digits = 10))
+  for ( i in int_v ) atts$Col.Meta[[i]] <- .fix_digits(atts$Col.Meta[[i]])
   writeLines(paste0(tabshift, .flatten(atts$Col.Meta)), con = f)
 
   # Write out header row
@@ -121,8 +130,10 @@ write_adat <- function(x, file) {
   atts <- attributes(adat)
   apts <- getAnalytes(adat)
   meta <- getMeta(adat)
+  idx  <- grep("Name", names(atts$Header.Meta$ROW_DATA), ignore.case = TRUE)
+  stopifnot(length(idx) == 1L)
   if ( !isTRUE(all.equal(cleanNames(meta),
-                         cleanNames(atts$Header.Meta$ROW_DATA$Name))) ) {
+                         cleanNames(atts$Header.Meta$ROW_DATA[[idx]]))) ) {
     stop(
       "Meta data mismatch between `Header Meta` and ADAT meta data. ",
       "Check `attributes(ADAT)$Header.Meta$ROW_DATA$Name`.", call. = FALSE

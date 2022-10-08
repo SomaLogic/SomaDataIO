@@ -3,7 +3,7 @@ suppressPackageStartupMessages(library(Biobase))
 
 sub_adat <- example_data[1:10, c(1:5, 35:37)]
 
-test_that("adat2eSet unit test", {
+test_that("`adat2eSet()` converts `soma_adt` -> eSet correctly", {
   eSet <- adat2eSet(sub_adat)
   expect_s4_class(eSet, "ExpressionSet")
   expect_is(eSet@assayData$exprs, "matrix")

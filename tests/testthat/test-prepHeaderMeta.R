@@ -12,15 +12,14 @@ x$Header.Meta$ROW_DATA$Name <- c("a", "b")
 x$Col.Meta <- tibble::tibble(SeqId = "1234-56", Target = "MyProtein",
                              Units = "RFU", Dilution = 0.01, Dilution2 = 1)
 x$Header.Meta$TABLE_BEGIN <- "my-adat.adat"
-y <- data.frame(a = 1:10, b = LETTERS[1:10], c = runif(10),
-                seq.1234.56 = rnorm(10), stringsAsFactors = FALSE)
+y <- data.frame(a = 1:10, b = LETTERS[1:10], c = runif(10), seq.1234.56 = runif(10))
 y <- addAttributes(y, x)
 y <- addClass(y, "soma_adat")
 
 
 # Testing ----
 test_that("`prepHeaderMeta()` wrangles the correct fields", {
-  z <- prepHeaderMeta(y)
+  expect_message(z <- prepHeaderMeta(y), "Updating ADAT version to")
   expect_type(z, "list")
   expect_equal(z$Header.Meta$HEADER$CreatedDate, format(Sys.time(), "%Y-%m-%d"))
   expect_equal(z$Header.Meta$HEADER$Version, "1.2")
@@ -28,7 +27,7 @@ test_that("`prepHeaderMeta()` wrangles the correct fields", {
   expect_equal(z$Header.Meta$HEADER$CreatedByHistory, "DonTrump")
 
   by <- strsplit(z$Header.Meta$HEADER$CreatedBy, "; ", fixed = TRUE)[[1L]]
-  expect_length(by, 4)
+  expect_length(by, 4L)
   expect_match(by[1L], "^User:")
   expect_match(by[2L], "^Package: SomaDataIO_[0-9][.][0-9][.][0-9]")
   expect_match(by[3L],
@@ -44,7 +43,7 @@ test_that("`prepHeaderMeta()` wrangles the correct fields", {
                                               b = "character",
                                               c = "double"))
 
-  expect_false("Dilution2" %in% names(z$Col.Meta))   # Dilution2 removed
+  expect_null(as.list(z$Col.Meta)$Dilution2)  # Dilution2 removed
   expect_equal(z$Header.Meta$TABLE_BEGIN, x$Header.Meta$TABLE_BEGIN)
   expect_equal(z$Col.Meta, x$Col.Meta[, col])
   expect_equal(z$row.names, 1:10)
@@ -52,9 +51,21 @@ test_that("`prepHeaderMeta()` wrangles the correct fields", {
   expect_equal(z$class, class(y))
 })
 
-test_that("error is thrown if new data has broken attributes", {
+test_that("an error is thrown if new data has broken attributes", {
   expect_error(
     prepHeaderMeta(data.frame(1:10)),
     "Stopping while you fix the attributes of `data`."
   )
+})
+
+test_that("`prepHeaderMeta()` correctly reconstitutes the original key-names", {
+  header <- parseHeader(test_path("testdata/empty.adat"))$Header.Meta
+  attr(y, "Header.Meta") <- header
+  z <- prepHeaderMeta(y)
+  # remove 'History' new entries from check
+  mapped_idx <- grep("History$", names(z$Header.Meta$HEADER))
+  true_names <- vapply(header$HEADER, attr, which = "raw_key", "")
+  expect_named(z$Header.Meta$HEADER[-mapped_idx], unname(true_names))
+  expect_named(z$Header.Meta$COL_DATA, paste0("!", names(header$COL_DATA)))
+  expect_named(z$Header.Meta$ROW_DATA, paste0("!", names(header$ROW_DATA)))
 })
