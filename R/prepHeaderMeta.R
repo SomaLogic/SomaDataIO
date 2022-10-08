@@ -40,8 +40,8 @@ prepHeaderMeta <- function(data) {
   x$Header.Meta$ROW_DATA$Type <- vapply(data, typeof, FUN.VALUE = "")
 
   # zap commas with semicolons in chr Col.Meta
-  idx <- which(vapply(x$Col.Meta, is.character, NA))
-  for ( i in idx ) x$Col.Meta[[i]] <- gsub(",", ";", x$Col.Meta[[i]])
+  #idx <- which(vapply(x$Col.Meta, is.character, NA))
+  #for ( i in idx ) x$Col.Meta[[i]] <- gsub(",", ";", x$Col.Meta[[i]])
 
   if ( "CreatedByHistory" %in% names(x$Header.Meta$HEADER) ) {
     x$Header.Meta$HEADER$CreatedByHistory <-
