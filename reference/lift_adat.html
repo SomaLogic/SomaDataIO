@@ -30,7 +30,7 @@ via *.xlsx file, which can be parsed via read_annotations(). See Details.'><meta
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SomaDataIO</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.3.1</span>
       </span>
     </div>
 
@@ -70,20 +70,25 @@ via <code>*.xlsx</code> file, which can be parsed via <code><a href="read_annota
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">lift_adat</span><span class="op">(</span><span class="va">adat</span>, <span class="va">anno.tbl</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">lift_adat</span><span class="op">(</span><span class="va">adat</span>, <span class="va">anno.tbl</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>adat</dt>
 <dd><p>A <code>soma_adat</code> class object.</p></dd>
+
+
 <dt>anno.tbl</dt>
 <dd><p>A table of annotations, typically the result of a call
 to <code><a href="read_annotations.html">read_annotations()</a></code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A "lifted" <code>soma_adat</code> object corresponding to the scaling
+    
+
+<p>A "lifted" <code>soma_adat</code> object corresponding to the scaling
 reference in the <code>anno.tbl</code>. RFU values are rounded to 1 decimal to
 match standard SomaScan delivery format.</p>
     </div>
@@ -100,33 +105,33 @@ a separate annotations file and a <code>soma_adat</code> from SomaScan <code>v4.
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># `example_data` is assay V4</span></span>
-<span class="r-in"><span class="va">adat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">example_data</span>, <span class="fl">3</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># read in version specific annotations file</span></span>
-<span class="r-in"><span class="co"># containing scaling values between assay versions</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_annotations.html">read_annotations</a></span><span class="op">(</span><span class="st">"path/to/annotations_file.xlsx"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># mock annotations table in lieu of `*.xlsx` file</span></span>
-<span class="r-in"><span class="va">tbl</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>SeqId <span class="op">=</span> <span class="fu"><a href="SeqId.html">getSeqId</a></span><span class="op">(</span><span class="fu"><a href="getAnalytes.html">getAnalytes</a></span><span class="op">(</span><span class="va">adat</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">                     <span class="st">"Plasma Scalar v4.0 to v4.1"</span> <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>   <span class="co"># scale by 1.0</span></span>
-<span class="r-in"><span class="co"># usually performed inside `read_annotations()`</span></span>
-<span class="r-in"><span class="co"># assign valid testing version to annotations table</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">tbl</span>, <span class="st">"version"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"SL-99999999-rev99-1999-01"</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># perform the 'lifting'</span></span>
-<span class="r-in"><span class="va">lift</span> <span class="op">&lt;-</span> <span class="fu">lift_adat</span><span class="op">(</span><span class="va">adat</span>, <span class="va">tbl</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># `tbl` contained all scalars = 1.0; same RFUs</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">adat</span>, <span class="va">lift</span>, check.attributes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># `example_data` is assay V4</span></span></span>
+<span class="r-in"><span><span class="va">adat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">example_data</span>, <span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># read in version specific annotations file</span></span></span>
+<span class="r-in"><span><span class="co"># containing scaling values between assay versions</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="read_annotations.html">read_annotations</a></span><span class="op">(</span><span class="st">"path/to/annotations_file.xlsx"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># mock annotations table in lieu of `*.xlsx` file</span></span></span>
+<span class="r-in"><span><span class="va">tbl</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>SeqId <span class="op">=</span> <span class="fu"><a href="SeqId.html">getSeqId</a></span><span class="op">(</span><span class="fu"><a href="getAnalytes.html">getAnalytes</a></span><span class="op">(</span><span class="va">adat</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                     <span class="st">"Plasma Scalar v4.0 to v4.1"</span> <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>   <span class="co"># scale by 1.0</span></span></span>
+<span class="r-in"><span><span class="co"># usually performed inside `read_annotations()`</span></span></span>
+<span class="r-in"><span><span class="co"># assign valid testing version to annotations table</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">tbl</span>, <span class="st">"version"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"SL-99999999-rev99-1999-01"</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># perform the 'lifting'</span></span></span>
+<span class="r-in"><span><span class="va">lift</span> <span class="op">&lt;-</span> <span class="fu">lift_adat</span><span class="op">(</span><span class="va">adat</span>, <span class="va">tbl</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># `tbl` contained all scalars = 1.0; same RFUs</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">adat</span>, <span class="va">lift</span>, check.attributes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># attributes updated to reflect the 'lift'</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">lift</span>, <span class="st">"Header"</span><span class="op">)</span><span class="op">$</span><span class="va">HEADER</span><span class="op">$</span><span class="va">ProcessSteps</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># attributes updated to reflect the 'lift'</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">lift</span>, <span class="st">"Header"</span><span class="op">)</span><span class="op">$</span><span class="va">HEADER</span><span class="op">$</span><span class="va">ProcessSteps</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Raw RFU, Hyb Normalization, medNormInt (SampleId), plateScale, Calibration, anmlQC, qcCheck, anmlSMP, Annotation Lift (v4 to v4.1)"</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">lift</span>, <span class="st">"Header"</span><span class="op">)</span><span class="op">$</span><span class="va">HEADER</span><span class="op">$</span><span class="va">SignalSpace</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">lift</span>, <span class="st">"Header"</span><span class="op">)</span><span class="op">$</span><span class="va">HEADER</span><span class="op">$</span><span class="va">SignalSpace</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "v4.1"</span>
 </code></pre></div>
     </div>
@@ -142,7 +147,7 @@ a separate annotations file and a <code>soma_adat</code> from SomaScan <code>v4.
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

@@ -38,7 +38,7 @@ S3 methods exist for these classes:## [1] getMeta.character  getMeta.data.frame 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SomaDataIO</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.3.1</span>
       </span>
     </div>
 
@@ -69,46 +69,57 @@ S3 methods exist for these classes:## [1] getMeta.character  getMeta.data.frame 
     <div class="ref-description">
     <p>Return the feature names (i.e. the column names for
 SOMAmer reagent analytes) from a <code>soma_adat</code>.
-S3 methods also exist for these classes:</p><div class="sourceCode"><pre><code><span class="co">## [1] getAnalytes.character  getAnalytes.data.frame getAnalytes.default   </span>
-<span class="co">## [4] getAnalytes.list       getAnalytes.matrix     getAnalytes.recipe    </span>
-<span class="co">## [7] getAnalytes.soma_adat </span>
-<span class="co">## see '?methods' for accessing help and source code</span></code></pre></div>
+S3 methods also exist for these classes:</p><div class="sourceCode"><pre><code><span><span class="co">## [1] getAnalytes.character  getAnalytes.data.frame getAnalytes.default   </span></span>
+<span><span class="co">## [4] getAnalytes.list       getAnalytes.matrix     getAnalytes.recipe    </span></span>
+<span><span class="co">## [7] getAnalytes.soma_adat </span></span>
+<span><span class="co">## see '?methods' for accessing help and source code</span></span></code></pre></div>
 
 <p><code>getMeta()</code> returns the inverse, a character vector of string
 names of <em>non</em>-analyte feature columns/variables, which typically
 correspond to the clinical "meta" data variables.
-S3 methods exist for these classes:</p><div class="sourceCode"><pre><code><span class="co">## [1] getMeta.character  getMeta.data.frame getMeta.default    getMeta.list      </span>
-<span class="co">## [5] getMeta.matrix     getMeta.soma_adat </span>
-<span class="co">## see '?methods' for accessing help and source code</span></code></pre></div>
+S3 methods exist for these classes:</p><div class="sourceCode"><pre><code><span><span class="co">## [1] getMeta.character  getMeta.data.frame getMeta.default    getMeta.list      </span></span>
+<span><span class="co">## [5] getMeta.matrix     getMeta.soma_adat </span></span>
+<span><span class="co">## see '?methods' for accessing help and source code</span></span></code></pre></div>
 
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">getAnalytes</span><span class="op">(</span><span class="va">x</span>, n <span class="op">=</span> <span class="cn">FALSE</span>, rm.controls <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="fu">getMeta</span><span class="op">(</span><span class="va">x</span>, n <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="fu">getFeatures</span><span class="op">(</span><span class="va">x</span>, n <span class="op">=</span> <span class="cn">FALSE</span>, rm.controls <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">getAnalytes</span><span class="op">(</span><span class="va">x</span>, n <span class="op">=</span> <span class="cn">FALSE</span>, rm.controls <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">getMeta</span><span class="op">(</span><span class="va">x</span>, n <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">getFeatures</span><span class="op">(</span><span class="va">x</span>, n <span class="op">=</span> <span class="cn">FALSE</span>, rm.controls <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>Typically a <code>soma_adat</code> class object created using <code><a href="read_adat.html">read_adat()</a></code>.</p></dd>
+
+
 <dt>n</dt>
 <dd><p>Logical. Return an integer corresponding to the <em>length</em>
 of the features?</p></dd>
+
+
 <dt>rm.controls</dt>
 <dd><p>Logical. Should all control and non-human analytes
 (e.g. <code>HybControls</code>, <code>Non-Human</code>, <code>Non-Biotin</code>, <code>Spuriomer</code>) be removed
 from the returned value?</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>getAnalytes()</code> returns character vector of ADAT feature
-("analyte") names.
-<code>getMeta()</code> returns character vector of ADAT meta data names.
-For both, if <code>n = TRUE</code>, an integer corresponding to the
+    
+
+<p><code>getAnalytes()</code> returns character vector of ADAT feature
+("analyte") names.</p>
+
+
+<p><code>getMeta()</code> returns character vector of ADAT meta data names.</p>
+
+
+<p>For both, if <code>n = TRUE</code>, an integer corresponding to the
 <strong>length</strong> of the character vector.</p>
     </div>
     <div id="functions">
@@ -129,42 +140,42 @@ Please adjust your code accordingly.</p></li>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">apts</span> <span class="op">&lt;-</span> <span class="fu">getAnalytes</span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">apts</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">apts</span> <span class="op">&lt;-</span> <span class="fu">getAnalytes</span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">apts</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "seq.10000.28" "seq.10001.7"  "seq.10003.15" "seq.10006.25" "seq.10008.43"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [6] "seq.10011.65"</span>
-<span class="r-in"><span class="fu">getAnalytes</span><span class="op">(</span><span class="va">example_data</span>, n <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">getAnalytes</span><span class="op">(</span><span class="va">example_data</span>, n <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5284</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># vector string</span></span>
-<span class="r-in"><span class="va">bb</span> <span class="op">&lt;-</span> <span class="fu">getAnalytes</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">apts</span>, <span class="va">bb</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># vector string</span></span></span>
+<span class="r-in"><span><span class="va">bb</span> <span class="op">&lt;-</span> <span class="fu">getAnalytes</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">apts</span>, <span class="va">bb</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># create some control sequences</span></span>
-<span class="r-in"><span class="co">#           Spuriomer      HybControl</span></span>
-<span class="r-in"><span class="va">apts2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"seq.2053.2"</span>, <span class="st">"seq.2171.12"</span>, <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">apts</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">apts2</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># create some control sequences</span></span></span>
+<span class="r-in"><span><span class="co">#           Spuriomer      HybControl</span></span></span>
+<span class="r-in"><span><span class="va">apts2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"seq.2053.2"</span>, <span class="st">"seq.2171.12"</span>, <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">apts</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">apts2</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "seq.2053.2"   "seq.2171.12"  "seq.10000.28" "seq.10001.7"  "seq.10003.15"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [6] "seq.10006.25" "seq.10008.43" "seq.10011.65"</span>
-<span class="r-in"><span class="va">no_crtl</span> <span class="op">&lt;-</span> <span class="fu">getAnalytes</span><span class="op">(</span><span class="va">apts2</span>, rm.controls <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">no_crtl</span></span>
+<span class="r-in"><span><span class="va">no_crtl</span> <span class="op">&lt;-</span> <span class="fu">getAnalytes</span><span class="op">(</span><span class="va">apts2</span>, rm.controls <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">no_crtl</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "seq.10000.28" "seq.10001.7"  "seq.10003.15" "seq.10006.25" "seq.10008.43"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [6] "seq.10011.65"</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="va">apts2</span>, <span class="va">no_crtl</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="va">apts2</span>, <span class="va">no_crtl</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "seq.2053.2"  "seq.2171.12"</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># getMeta()</span></span>
-<span class="r-in"><span class="va">mvec</span> <span class="op">&lt;-</span> <span class="fu">getMeta</span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mvec</span>, <span class="fl">10</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># getMeta()</span></span></span>
+<span class="r-in"><span><span class="va">mvec</span> <span class="op">&lt;-</span> <span class="fu">getMeta</span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mvec</span>, <span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "PlateId"         "PlateRunDate"    "ScannerID"       "PlatePosition"  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [5] "SlideId"         "Subarray"        "SampleId"        "SampleType"     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [9] "PercentDilution" "SampleMatrix"   </span>
-<span class="r-in"><span class="fu">getMeta</span><span class="op">(</span><span class="va">example_data</span>, n <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">getMeta</span><span class="op">(</span><span class="va">example_data</span>, n <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 34</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># test data.frame and character S3 methods</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="fu">getMeta</span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span>, <span class="fu">getMeta</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="co"># TRUE</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># test data.frame and character S3 methods</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="fu">getMeta</span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span>, <span class="fu">getMeta</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="co"># TRUE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 </code></pre></div>
     </div>
@@ -180,7 +191,7 @@ Please adjust your code accordingly.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

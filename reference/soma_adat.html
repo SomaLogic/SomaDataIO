@@ -87,7 +87,7 @@ S3 median() is currently unavailable for the soma_adat class."><meta property="o
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SomaDataIO</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.3.1</span>
       </span>
     </div>
 
@@ -136,15 +136,15 @@ dispatched on class <code>soma_adat</code>.
 <br><br>
 Below is a list of <em>all</em> currently available S3 methods that dispatch on
 the <code>soma_adat</code> class:</p></li>
-</ul><div class="sourceCode"><pre><code><span class="co">##  [1] [            [[           [[&lt;-         [&lt;-          ==          </span>
-<span class="co">##  [6] $            $&lt;-          anti_join    arrange      count       </span>
-<span class="co">## [11] filter       full_join    getAnalytes  getMeta      group_by    </span>
-<span class="co">## [16] inner_join   is_seqFormat left_join    Math         median      </span>
-<span class="co">## [21] mutate       Ops          print        rename       right_join  </span>
-<span class="co">## [26] sample_frac  sample_n     select       semi_join    separate    </span>
-<span class="co">## [31] slice_sample slice        summary      Summary      transform   </span>
-<span class="co">## [36] ungroup      unite       </span>
-<span class="co">## see '?methods' for accessing help and source code</span></code></pre></div>
+</ul><div class="sourceCode"><pre><code><span><span class="co">##  [1] [            [[           [[&lt;-         [&lt;-          ==          </span></span>
+<span><span class="co">##  [6] $            $&lt;-          anti_join    arrange      count       </span></span>
+<span><span class="co">## [11] filter       full_join    getAnalytes  getMeta      group_by    </span></span>
+<span><span class="co">## [16] inner_join   is_seqFormat left_join    Math         median      </span></span>
+<span><span class="co">## [21] mutate       Ops          print        rename       right_join  </span></span>
+<span><span class="co">## [26] sample_frac  sample_n     select       semi_join    separate    </span></span>
+<span><span class="co">## [31] slice_sample slice        summary      Summary      transform   </span></span>
+<span><span class="co">## [36] ungroup      unite       </span></span>
+<span><span class="co">## see '?methods' for accessing help and source code</span></span></code></pre></div>
 
 <p>S3 <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> method returns summary information parsed from the object
 attributes, if present, followed by a dispatch to the <code>tibble()</code> print method.
@@ -182,7 +182,7 @@ As with <code>$</code>, partial matching is <em>not</em> allowed.</p>
 print(x, show_header = FALSE, ...)
 
 # S3 method for soma_adat
-summary(object, tbl, digits = max(3L, getOption("digits") - 3L), ...)
+summary(object, tbl = NULL, digits = max(3L, getOption("digits") - 3L), ...)
 
 # S3 method for soma_adat
 [(x, i, j, drop = TRUE)
@@ -210,19 +210,29 @@ median(x, na.rm = FALSE, ...)</code></pre></div>
     <h2>Arguments</h2>
     <dl><dt>x, object</dt>
 <dd><p>A <code>soma_adat</code> class object.</p></dd>
+
+
 <dt>show_header</dt>
 <dd><p>Logical. Should all the <code>Header Data</code> information
 be displayed instead of the data frame (<code>tibble</code>) object?</p></dd>
+
+
 <dt>...</dt>
 <dd><p>potentially further arguments for methods; not used in
     the default method.</p></dd>
+
+
 <dt>tbl</dt>
 <dd><p>An annotations table. If <code>NULL</code> (default),
 annotation information is extracted from the object itself (if possible).
 Alternatively, the result of a call to <code><a href="getAnalyteInfo.html">getAnalyteInfo()</a></code>, from
 which Target names can be extracted.</p></dd>
+
+
 <dt>digits</dt>
 <dd><p>Integer. Used for number formatting with <code><a href="https://rdrr.io/r/base/Round.html" class="external-link">signif()</a></code>.</p></dd>
+
+
 <dt>i</dt>
 <dd><p>indices specifying elements to extract or replace.  Indices are
     <code>numeric</code> or <code>character</code> vectors or empty (missing) or
@@ -241,6 +251,8 @@ which Target names can be extracted.</p></dd>
     result is then a vector with elements corresponding to the sets of
     indices in each row of <code>i</code>.</p>
 <p>An index value of <code>NULL</code> is treated as if it were <code>integer(0)</code>.</p></dd>
+
+
 <dt>j</dt>
 <dd><p>indices specifying elements to extract or replace.  Indices are
     <code>numeric</code> or <code>character</code> vectors or empty (missing) or
@@ -259,24 +271,35 @@ which Target names can be extracted.</p></dd>
     result is then a vector with elements corresponding to the sets of
     indices in each row of <code>i</code>.</p>
 <p>An index value of <code>NULL</code> is treated as if it were <code>integer(0)</code>.</p></dd>
+
+
 <dt>drop</dt>
 <dd><p>For matrices and arrays.  If <code>TRUE</code> the result is
     coerced to the lowest possible dimension (see the examples).  This
     only works for extracting elements, not for the replacement.  See
     <code><a href="https://rdrr.io/r/base/drop.html" class="external-link">drop</a></code> for further details.</p></dd>
+
+
 <dt>name</dt>
 <dd><p>A literal character string or a <a href="https://rdrr.io/r/base/name.html" class="external-link">name</a> (possibly <a href="https://rdrr.io/r/base/Quotes.html" class="external-link">backtick</a>
     quoted).  For extraction, this is normally (see under
     ‘Environments’) partially matched to the <code><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></code>
     of the object.</p></dd>
+
+
 <dt>exact</dt>
 <dd><p>Ignored with a <code><a href="https://rdrr.io/r/base/warning.html" class="external-link">warning()</a></code>.</p></dd>
+
+
 <dt>value</dt>
 <dd><p>typically an array-like <span style="R">R</span> object of a similar class as
     <code>x</code>.</p></dd>
+
+
 <dt>na.rm</dt>
 <dd><p>a logical value indicating whether <code>NA</code>
     values should be stripped before the computation proceeds.</p></dd>
+
 </dl></div>
     <div id="see-also">
     <h2>See also</h2>
@@ -290,10 +313,10 @@ which Target names can be extracted.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">my_adat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"example"</span>, <span class="st">"example_data.adat"</span>,</span>
-<span class="r-in">                       package <span class="op">=</span> <span class="st">"SomaDataIO"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="read_adat.html">read_adat</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># S3 print method</span></span>
-<span class="r-in"><span class="va">my_adat</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">my_adat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"example"</span>, <span class="st">"example_data.adat"</span>,</span></span>
+<span class="r-in"><span>                       package <span class="op">=</span> <span class="st">"SomaDataIO"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="read_adat.html">read_adat</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># S3 print method</span></span></span>
+<span class="r-in"><span><span class="va">my_adat</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">══</span> <span style="font-weight: bold;">SomaScan Data</span> <span style="color: #0000BB;">═══════════════════════════════════════════════════════════════</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Attributes intact    <span style="color: #00BB00;">✓</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Rows                 <span style="color: #00BBBB;">192</span></span>
@@ -309,29 +332,31 @@ which Target names can be extracted.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Dilution2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">──</span> <span style="font-weight: bold;">Tibble</span> <span style="color: #BB00BB;">──────────────────────────────────────────────────────────────────────</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 192 × 5,319</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    row_names      PlateId  PlateRunDate ScannerID PlatePosition SlideId Subarray</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 258495800012_3 Example… 2020-06-18   SG152144… H9            2.58<span style="color: #949494;">e</span>11        3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 258495800004_7 Example… 2020-06-18   SG152144… H8            2.58<span style="color: #949494;">e</span>11        7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 258495800010_8 Example… 2020-06-18   SG152144… H7            2.58<span style="color: #949494;">e</span>11        8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 258495800003_4 Example… 2020-06-18   SG152144… H6            2.58<span style="color: #949494;">e</span>11        4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 258495800009_4 Example… 2020-06-18   SG152144… H5            2.58<span style="color: #949494;">e</span>11        4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 258495800012_8 Example… 2020-06-18   SG152144… H4            2.58<span style="color: #949494;">e</span>11        8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 258495800001_3 Example… 2020-06-18   SG152144… H3            2.58<span style="color: #949494;">e</span>11        3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 258495800004_8 Example… 2020-06-18   SG152144… H2            2.58<span style="color: #949494;">e</span>11        8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 258495800001_8 Example… 2020-06-18   SG152144… H12           2.58<span style="color: #949494;">e</span>11        8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 258495800004_3 Example… 2020-06-18   SG152144… H11           2.58<span style="color: #949494;">e</span>11        3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 182 more rows, and 5,312 more variables: SampleId &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   SampleType &lt;chr&gt;, PercentDilution &lt;int&gt;, SampleMatrix &lt;chr&gt;, Barcode &lt;lgl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Barcode2d &lt;lgl&gt;, SampleName &lt;lgl&gt;, SampleNotes &lt;lgl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   AliquotingNotes &lt;lgl&gt;, SampleDescription &lt;chr&gt;, AssayNotes &lt;lgl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   TimePoint &lt;lgl&gt;, ExtIdentifier &lt;lgl&gt;, SsfExtId &lt;lgl&gt;, SampleGroup &lt;lgl&gt;, …</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    row_names     PlateId Plate…¹ Scann…² Plate…³ SlideId Subar…⁴ Sampl…⁵ Sampl…⁶</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 258495800012… Exampl… 2020-0… SG1521… H9      2.58<span style="color: #949494;">e</span>11       3 1       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 258495800004… Exampl… 2020-0… SG1521… H8      2.58<span style="color: #949494;">e</span>11       7 2       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 258495800010… Exampl… 2020-0… SG1521… H7      2.58<span style="color: #949494;">e</span>11       8 3       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 258495800003… Exampl… 2020-0… SG1521… H6      2.58<span style="color: #949494;">e</span>11       4 4       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 258495800009… Exampl… 2020-0… SG1521… H5      2.58<span style="color: #949494;">e</span>11       4 5       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 258495800012… Exampl… 2020-0… SG1521… H4      2.58<span style="color: #949494;">e</span>11       8 6       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 258495800001… Exampl… 2020-0… SG1521… H3      2.58<span style="color: #949494;">e</span>11       3 7       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 258495800004… Exampl… 2020-0… SG1521… H2      2.58<span style="color: #949494;">e</span>11       8 8       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 258495800001… Exampl… 2020-0… SG1521… H12     2.58<span style="color: #949494;">e</span>11       8 9       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 258495800004… Exampl… 2020-0… SG1521… H11     2.58<span style="color: #949494;">e</span>11       3 170261  Calibr…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 182 more rows, 5,310 more variables: PercentDilution &lt;int&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   SampleMatrix &lt;chr&gt;, Barcode &lt;lgl&gt;, Barcode2d &lt;chr&gt;, SampleName &lt;lgl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   SampleNotes &lt;lgl&gt;, AliquotingNotes &lt;lgl&gt;, SampleDescription &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   AssayNotes &lt;lgl&gt;, TimePoint &lt;lgl&gt;, ExtIdentifier &lt;lgl&gt;, SsfExtId &lt;lgl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   SampleGroup &lt;lgl&gt;, SiteId &lt;lgl&gt;, TubeUniqueID &lt;lgl&gt;, …, and abbreviated</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   variable names ¹​PlateRunDate, ²​ScannerID, ³​PlatePosition, ⁴​Subarray,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ⁵​SampleId, ⁶​SampleType</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">════════════════════════════════════════════════════════════════════════════════</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># S3 summary method</span></span>
-<span class="r-in"><span class="co"># MMP (4) analytes</span></span>
-<span class="r-in"><span class="va">mmps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"seq.2579.17"</span>, <span class="st">"seq.2788.55"</span>, <span class="st">"seq.2789.26"</span>, <span class="st">"seq.4925.54"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">[</span>, <span class="va">mmps</span><span class="op">]</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># S3 summary method</span></span></span>
+<span class="r-in"><span><span class="co"># MMP (4) analytes</span></span></span>
+<span class="r-in"><span><span class="va">mmps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"seq.2579.17"</span>, <span class="st">"seq.2788.55"</span>, <span class="st">"seq.2789.26"</span>, <span class="st">"seq.4925.54"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">[</span>, <span class="va">mmps</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"> seq.2579.17         seq.2788.55         seq.2789.26        </span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"> Target : MMP-9      Target : MMP-3      Target : MMP-7     </span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Min    :    59.3    Min    :  29.30     Min    :    24.1    </span>
@@ -354,11 +379,11 @@ which Target names can be extracted.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  sd     :  259.01    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  MAD    :   93.85    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  IQR    :  124.55    </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Summarize by group</span></span>
-<span class="r-in"><span class="va">my_adat</span><span class="op">[</span>, <span class="va">mmps</span><span class="op">]</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">$</span><span class="va">Sex</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">summary</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Summarize by group</span></span></span>
+<span class="r-in"><span><span class="va">my_adat</span><span class="op">[</span>, <span class="va">mmps</span><span class="op">]</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">$</span><span class="va">Sex</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">summary</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $F</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"> seq.2579.17         seq.2788.55         seq.2789.26        </span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"> Target : MMP-9      Target : MMP-3      Target : MMP-7     </span> </span>
@@ -407,10 +432,10 @@ which Target names can be extracted.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  MAD    :  103.8     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  IQR    :  139.6     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Alternatively pass annotations with Target info</span></span>
-<span class="r-in"><span class="va">anno</span> <span class="op">&lt;-</span> <span class="fu"><a href="getAnalyteInfo.html">getAnalyteInfo</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">[</span>, <span class="va">mmps</span><span class="op">]</span>, tbl <span class="op">=</span> <span class="va">anno</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Alternatively pass annotations with Target info</span></span></span>
+<span class="r-in"><span><span class="va">anno</span> <span class="op">&lt;-</span> <span class="fu"><a href="getAnalyteInfo.html">getAnalyteInfo</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">[</span>, <span class="va">mmps</span><span class="op">]</span>, tbl <span class="op">=</span> <span class="va">anno</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;"> seq.2579.17         seq.2788.55         seq.2789.26        </span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;"> Target : MMP-9      Target : MMP-3      Target : MMP-7     </span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Min    :    59.3    Min    :  29.30     Min    :    24.1    </span>
@@ -447,7 +472,7 @@ which Target names can be extracted.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

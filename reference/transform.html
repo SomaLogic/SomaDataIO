@@ -28,7 +28,7 @@ v must have nrow(adat) elements."><meta property="og:image" content="https://git
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SomaDataIO</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.3.1</span>
       </span>
     </div>
 
@@ -66,21 +66,28 @@ If scaling the analytes (columns), <code>v</code> <em>must</em> have
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="co"># S3 method for soma_adat</span>
-<span class="fu">transform</span><span class="op">(</span><span class="va">`_data`</span>, <span class="va">v</span>, dim <span class="op">=</span> <span class="fl">2</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for soma_adat</span></span>
+<span><span class="fu">transform</span><span class="op">(</span><span class="va">`_data`</span>, <span class="va">v</span>, dim <span class="op">=</span> <span class="fl">2</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>_data</dt>
 <dd><p>A <code>soma_adat</code> object.</p></dd>
+
+
 <dt>v</dt>
 <dd><p>A numeric vector of the appropriate length corresponding to <code>dim</code>.</p></dd>
+
+
 <dt>dim</dt>
 <dd><p>Integer. The dimension to apply elements of <code>v</code> to.
 <code>1</code> = rows; <code>2</code> = columns (default).</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Currently not used but required by the S3 generic.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -107,43 +114,43 @@ This must be done upstream.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># simplified example of underlying operations</span></span>
-<span class="r-in"><span class="va">M</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">12</span>, ncol <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">M</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># simplified example of underlying operations</span></span></span>
+<span class="r-in"><span><span class="va">M</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">12</span>, ncol <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">M</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3] [,4]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    1    4    7   10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    2    5    8   11</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    3    6    9   12</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">v</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span></span>
-<span class="r-in"><span class="va">M</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">v</span><span class="op">)</span>    <span class="co"># transform columns</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">v</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span></span></span>
+<span class="r-in"><span><span class="va">M</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">v</span><span class="op">)</span>    <span class="co"># transform columns</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3] [,4]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    1    8   21   40</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    2   10   24   44</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    3   12   27   48</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">v</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">v</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">M</span>    <span class="co"># transform rows</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">v</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">v</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">M</span>    <span class="co"># transform rows</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3] [,4]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    1    4    7   10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    4   10   16   22</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    9   18   27   36</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># dummy ADAT example:</span></span>
-<span class="r-in"><span class="va">v</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">0.5</span><span class="op">)</span>     <span class="co"># double seq1; half seq2</span></span>
-<span class="r-in"><span class="va">adat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>sample      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"sample_"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>,</span>
-<span class="r-in">                   seq.1234.56 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>,</span>
-<span class="r-in">                   seq.9999.88 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span> <span class="op">*</span> <span class="fl">10</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">adat</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># dummy ADAT example:</span></span></span>
+<span class="r-in"><span><span class="va">v</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">0.5</span><span class="op">)</span>     <span class="co"># double seq1; half seq2</span></span></span>
+<span class="r-in"><span><span class="va">adat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>sample      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"sample_"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                   seq.1234.56 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                   seq.9999.88 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">5</span>, <span class="fl">6</span><span class="op">)</span> <span class="op">*</span> <span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">adat</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     sample seq.1234.56 seq.9999.88</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 sample_1           1          40</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 sample_2           2          50</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3 sample_3           3          60</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># `soma_adat` to invoke S3 method dispatch</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">adat</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"soma_adat"</span>, <span class="st">"data.frame"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">trans</span> <span class="op">&lt;-</span> <span class="fu">transform</span><span class="op">(</span><span class="va">adat</span>, <span class="va">v</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">trans</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># `soma_adat` to invoke S3 method dispatch</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">adat</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"soma_adat"</span>, <span class="st">"data.frame"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">trans</span> <span class="op">&lt;-</span> <span class="fu">transform</span><span class="op">(</span><span class="va">adat</span>, <span class="va">v</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">trans</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     sample seq.1234.56 seq.9999.88</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 sample_1           2          20</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 sample_2           4          25</span>
@@ -162,7 +169,7 @@ This must be done upstream.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

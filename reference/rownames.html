@@ -30,7 +30,7 @@ does not affect row names, which differs from tibble::rowid_to_column()."><meta 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SomaDataIO</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.3.1</span>
       </span>
     </div>
 
@@ -70,17 +70,17 @@ does <em>not</em> affect row names, which differs from <code><a href="https://ti
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">rn2col</span><span class="op">(</span><span class="va">data</span>, name <span class="op">=</span> <span class="st">".rn"</span><span class="op">)</span>
-
-<span class="fu">col2rn</span><span class="op">(</span><span class="va">data</span>, name <span class="op">=</span> <span class="st">".rn"</span><span class="op">)</span>
-
-<span class="fu">has_rn</span><span class="op">(</span><span class="va">data</span><span class="op">)</span>
-
-<span class="fu">rm_rn</span><span class="op">(</span><span class="va">data</span><span class="op">)</span>
-
-<span class="fu">set_rn</span><span class="op">(</span><span class="va">data</span>, <span class="va">value</span><span class="op">)</span>
-
-<span class="fu">add_rowid</span><span class="op">(</span><span class="va">data</span>, name <span class="op">=</span> <span class="st">".rowid"</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">rn2col</span><span class="op">(</span><span class="va">data</span>, name <span class="op">=</span> <span class="st">".rn"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">col2rn</span><span class="op">(</span><span class="va">data</span>, name <span class="op">=</span> <span class="st">".rn"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">has_rn</span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">rm_rn</span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">set_rn</span><span class="op">(</span><span class="va">data</span>, <span class="va">value</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">add_rowid</span><span class="op">(</span><span class="va">data</span>, name <span class="op">=</span> <span class="st">".rowid"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -88,15 +88,22 @@ does <em>not</em> affect row names, which differs from <code><a href="https://ti
     <dl><dt>data</dt>
 <dd><p>An object that inherits from class <code>data.frame</code>. Typically
 a <code>soma_adat</code> class object.</p></dd>
+
+
 <dt>name</dt>
 <dd><p>Character. The name of the column to move.</p></dd>
+
+
 <dt>value</dt>
 <dd><p>Character. The new set of names for the data frame.
 If duplicates exist they are modified on-the-fly via <code><a href="https://rdrr.io/r/base/make.unique.html" class="external-link">make.unique()</a></code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>All functions attempt to return an object of the same class as
+    
+
+<p>All functions attempt to return an object of the same class as
 the input with fully intact and unmodified attributes (aside from those
 required by the desired action). <code>has_rn()</code> returns a scalar logical.</p>
     </div>
@@ -118,47 +125,47 @@ It does <em>not</em> remove existing row names currently, but may in the future
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, b <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>, row.names <span class="op">=</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">df</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, b <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>, row.names <span class="op">=</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">df</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   a          b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A 1  1.9540133</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> B 2  1.5658220</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> C 3 -0.6713400</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> D 4 -0.2015574</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E 5  1.4320865</span>
-<span class="r-in"><span class="fu">rn2col</span><span class="op">(</span><span class="va">df</span><span class="op">)</span>              <span class="co"># default name is `.rn`</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A 1 -0.5682188</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> B 2  0.5770321</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> C 3 -0.5763486</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> D 4  0.7437470</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> E 5  0.5679279</span>
+<span class="r-in"><span><span class="fu">rn2col</span><span class="op">(</span><span class="va">df</span><span class="op">)</span>              <span class="co"># default name is `.rn`</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .rn a          b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   A 1  1.9540133</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   B 2  1.5658220</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   C 3 -0.6713400</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4   D 4 -0.2015574</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   E 5  1.4320865</span>
-<span class="r-in"><span class="fu">rn2col</span><span class="op">(</span><span class="va">df</span>, <span class="st">"AptName"</span><span class="op">)</span>   <span class="co"># pass `name =`</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   A 1 -0.5682188</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   B 2  0.5770321</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   C 3 -0.5763486</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   D 4  0.7437470</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   E 5  0.5679279</span>
+<span class="r-in"><span><span class="fu">rn2col</span><span class="op">(</span><span class="va">df</span>, <span class="st">"AptName"</span><span class="op">)</span>   <span class="co"># pass `name =`</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   AptName a          b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       A 1  1.9540133</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       B 2  1.5658220</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       C 3 -0.6713400</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       D 4 -0.2015574</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5       E 5  1.4320865</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># moving columns</span></span>
-<span class="r-in"><span class="va">df</span><span class="op">$</span><span class="va">mtcars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">col2rn</span><span class="op">(</span><span class="va">df</span>, <span class="st">"mtcars"</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1       A 1 -0.5682188</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2       B 2  0.5770321</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3       C 3 -0.5763486</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4       D 4  0.7437470</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5       E 5  0.5679279</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># moving columns</span></span></span>
+<span class="r-in"><span><span class="va">df</span><span class="op">$</span><span class="va">mtcars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">col2rn</span><span class="op">(</span><span class="va">df</span>, <span class="st">"mtcars"</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`data` already has assigned row names. They will be over-written.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      a          b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> am   1  1.9540133</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mpg  2  1.5658220</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> vs   3 -0.6713400</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> wt   4 -0.2015574</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> disp 5  1.4320865</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Move back and forth easily</span></span>
-<span class="r-in"><span class="co"># Leaves original object un-modified</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu">col2rn</span><span class="op">(</span><span class="fu">rn2col</span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mpg  1 -0.5682188</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> gear 2  0.5770321</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> am   3 -0.5763486</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> qsec 4  0.7437470</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> carb 5  0.5679279</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Move back and forth easily</span></span></span>
+<span class="r-in"><span><span class="co"># Leaves original object un-modified</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu">col2rn</span><span class="op">(</span><span class="fu">rn2col</span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># add "id" column</span></span>
-<span class="r-in"><span class="fu">add_rowid</span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># add "id" column</span></span></span>
+<span class="r-in"><span><span class="fu">add_rowid</span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                     .rowid  mpg cyl  disp  hp drat    wt  qsec vs am gear carb</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4                1 21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mazda RX4 Wag            2 21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4</span>
@@ -192,12 +199,12 @@ It does <em>not</em> remove existing row names currently, but may in the future
 <span class="r-out co"><span class="r-pr">#&gt;</span> Ferrari Dino            30 19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Maserati Bora           31 15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Volvo 142E              32 21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># remove row names</span></span>
-<span class="r-in"><span class="fu">has_rn</span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># remove row names</span></span></span>
+<span class="r-in"><span><span class="fu">has_rn</span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span class="va">mtcars2</span> <span class="op">&lt;-</span> <span class="fu">rm_rn</span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">has_rn</span><span class="op">(</span><span class="va">mtcars2</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">mtcars2</span> <span class="op">&lt;-</span> <span class="fu">rm_rn</span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">has_rn</span><span class="op">(</span><span class="va">mtcars2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
 </code></pre></div>
     </div>
@@ -213,7 +220,7 @@ It does <em>not</em> remove existing row names currently, but may in the future
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>
