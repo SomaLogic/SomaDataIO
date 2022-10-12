@@ -90,7 +90,7 @@ devtools::install_github("SomaLogic/SomaDataIO@*release")
 To install a *specific* tagged release, use:
 
 ```{r install-version, eval = FALSE}
-devtools::install_github("SomaLogic/SomaDataIO@v5.0.0")
+devtools::install_github("SomaLogic/SomaDataIO@v5.3.0")
 ```
 
 Alternatively you may clone the repository and install manually:

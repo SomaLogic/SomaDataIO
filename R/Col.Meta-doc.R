@@ -2,7 +2,7 @@
 #'
 #' In a standard SomaLogic ADAT, the section of information that
 #' sits directly above the measurement data (RFU data matrix) is
-#' the column meta data, or `?Col.Meta`, which contains detailed information
+#' the column meta data (`Col.Meta`), which contains detailed information
 #' and annotations about the analytes, [SeqId()]s, and their targets.
 #' See section below for further information about available
 #' fields and their descriptions. Use [getAnalyteInfo()] to
