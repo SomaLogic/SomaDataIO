@@ -60,7 +60,7 @@ write_adat <- function(x, file) {
 
   # open connection; overwrite in text mode
   f <- file(file, open = "w")
-  on.exit(close(f))
+  on.exit(close(f), add = TRUE, after = FALSE)
 
   .flatten <- function(.x) {
     paste0(names(.x), "\t", vapply(.x, paste, collapse = "\t", ""))
