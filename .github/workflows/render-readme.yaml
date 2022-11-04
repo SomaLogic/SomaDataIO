@@ -10,27 +10,42 @@ name: Render README
 jobs:
   render:
     name: Render README
-    runs-on: macOS-latest
+    runs-on: macOS-latest   # macOS important for syslibs 'curl'
+
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
-      - uses: actions/checkout@v2
-      - uses: r-lib/actions/setup-r@v1
-      - uses: r-lib/actions/setup-pandoc@v1
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: r-lib/actions/setup-pandoc@v2
+      
+      - uses: r-lib/actions/setup-r@v2
+
+      # don't use r-lib 'setup-renv' here
+      # simply install necessary pkgs below
+      # one day may use this:
+      #- uses: r-lib/actions/setup-renv@v2
+
       - name: Install rmarkdown, remotes, and the local package
         run: |
           install.packages('remotes')
-          remotes::install_local('.')
           remotes::install_cran('rmarkdown')
           remotes::install_cran('ggplot2')
+          remotes::install_cran('usethis')
+          remotes::install_local('.')
         shell: Rscript {0}
+
       - name: Render README
-        run: |
-          Rscript -e 'rmarkdown::render("README.Rmd")'
+        run: rmarkdown::render("README.Rmd")
+        shell: Rscript {0}
+
       - name: Commit results
         run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
+          git config --local user.name "$GITHUB_ACTOR"
+          git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git commit README.md -m 'Re-build README.Rmd' || echo "No changes to commit"
           git push origin || echo "No changes to commit"
-

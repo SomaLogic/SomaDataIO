@@ -11,10 +11,12 @@ on:
 jobs:
   repo-sync:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
+
     - name: repo-sync
       env:
         ssh_private_key: ${{ secrets.SSH_PRIVATE_SOMADATAIO_KEY }}
@@ -23,5 +25,5 @@ jobs:
         mkdir ~/.ssh
         echo "$ssh_private_key" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-        git -c user.name=github-actions -c user.email=github-actions@github.com push \
+        git -c user.name="$GITHUB_ACTOR" -c user.email="$GITHUB_ACTOR"@users.noreply.github.com push \
           git@github.com:SomaLogic/SomaDataIO.git "$GITHUB_REF":main
