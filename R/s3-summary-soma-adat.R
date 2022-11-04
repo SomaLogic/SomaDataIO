@@ -49,7 +49,7 @@ summary.soma_adat <- function(object, tbl = NULL,
   labs <- c("Target", "Min", "1Q", "Median", "Mean", "3Q",
             "Max", "sd", "MAD", "IQR") |> .pad(6)
 
-  vals <- dplyr::select(object, nm) |>
+  vals <- dplyr::select(object, all_of(nm)) |>
     lapply(function(.x) {
       vec <- .x[!is.na(.x)]         # rm NaN/NA; outside b/c summary()
       format(c(unname(summary(vec)), sd(vec), mad(vec), IQR(vec)),
