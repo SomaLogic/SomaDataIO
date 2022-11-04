@@ -23,8 +23,6 @@
 # ... with 182 more rows, 5,310 more variables: PercentDilution <int>,
 #   SampleMatrix <chr>, Barcode <lgl>, Barcode2d <chr>, SampleName <lgl>,
 #   SampleNotes <lgl>, AliquotingNotes <lgl>, SampleDescription <chr>,
-#   AssayNotes <lgl>, TimePoint <lgl>, ExtIdentifier <lgl>, SsfExtId <lgl>,
-#   SampleGroup <lgl>, SiteId <lgl>, TubeUniqueID <lgl>, ..., and abbreviated
-#   variable names 1: PlateRunDate, 2: ScannerID, 3: PlatePosition,
-#   4: Subarray, 5: SampleId, 6: SampleType
+#   AssayNotes <lgl>, TimePoint <lgl>, ..., and abbreviated variable names
+#   1: PlateRunDate, 2: ScannerID, 3: PlatePosition, 4: Subarray, ...
 ================================================================================
