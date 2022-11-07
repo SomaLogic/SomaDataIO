@@ -28,10 +28,6 @@ as appropriate.}
 \item{base}{A positive or complex number: the base with respect to
 which logarithms are computed.}
 
-\item{e1}{objects.}
-
-\item{e2}{objects.}
-
 \item{na.rm}{logical: should missing values be removed?}
 }
 \value{
@@ -47,27 +43,29 @@ the returned object (\code{\link[=Math]{Math()}} and \code{\link[=Ops]{Ops()}}) 
 }
 \section{Functions}{
 \itemize{
-\item \code{antilog}: Performs the inverse or anti-log transform for a numeric vector of
+\item \code{antilog()}: Performs the inverse or anti-log transform for a numeric vector of
 \code{soma_adat} object. \strong{note:} default is \code{base = 10}, which differs from
 the \code{\link[=log]{log()}} default base \emph{e}.
 
-\item \code{Ops.soma_adat}: Performs binary mathematical operations on class \code{soma_adat}. See \code{\link[=Ops]{Ops()}}.
+\item \code{Ops(soma_adat)}: Performs binary mathematical operations on class \code{soma_adat}. See \code{\link[=Ops]{Ops()}}.
 
-\item \code{==.soma_adat}: Compares left- and right-hand sides of the operator \emph{unless} the RHS
+\item \code{ == }: Compares left- and right-hand sides of the operator \emph{unless} the RHS
 is also a \code{soma_adat}, in which case \code{\link[=diffAdats]{diffAdats()}} is invoked.
 
-\item \code{Summary.soma_adat}: Performs summary calculations on class \code{soma_adat}. See \code{\link[=Summary]{Summary()}}.
-}}
+\item \code{Summary(soma_adat)}: Performs summary calculations on class \code{soma_adat}. See \code{\link[=Summary]{Summary()}}.
 
+}}
 \section{Math}{
 
-Group members:\preformatted{##  [1] "abs"      "acos"     "acosh"    "asin"     "asinh"    "atan"    
-##  [7] "atanh"    "ceiling"  "cos"      "cosh"     "cospi"    "cummax"  
-## [13] "cummin"   "cumprod"  "cumsum"   "digamma"  "exp"      "expm1"   
-## [19] "floor"    "gamma"    "lgamma"   "log"      "log10"    "log1p"   
-## [25] "log2"     "sign"     "sin"      "sinh"     "sinpi"    "sqrt"    
-## [31] "tan"      "tanh"     "tanpi"    "trigamma" "trunc"
-}
+Group members:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{#>  [1] "abs"      "acos"     "acosh"    "asin"     "asinh"    "atan"    
+#>  [7] "atanh"    "ceiling"  "cos"      "cosh"     "cospi"    "cummax"  
+#> [13] "cummin"   "cumprod"  "cumsum"   "digamma"  "exp"      "expm1"   
+#> [19] "floor"    "gamma"    "lgamma"   "log"      "log10"    "log1p"   
+#> [25] "log2"     "sign"     "sin"      "sinh"     "sinpi"    "sqrt"    
+#> [31] "tan"      "tanh"     "tanpi"    "trigamma" "trunc"
+}\if{html}{\out{</div>}}
 
 Commonly used generics of this group include:
 \itemize{
@@ -78,9 +76,11 @@ Commonly used generics of this group include:
 
 \section{Ops}{
 
-Group members:\preformatted{##  [1] "+"   "-"   "*"   "^"   "\%\%"  "\%/\%" "/"   "=="  ">"   "<"   "!="  "<=" 
-## [13] ">="
-}
+Group members:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{#>  [1] "+"   "-"   "*"   "^"   "\%\%"  "\%/\%" "/"   "=="  ">"   "<"   "!="  "<=" 
+#> [13] ">="
+}\if{html}{\out{</div>}}
 
 Note that for the \verb{`==`} method if the RHS is also a \code{soma_adat},
 \code{\link[=diffAdats]{diffAdats()}} is invoked which compares LHS vs. RHS.
@@ -92,8 +92,10 @@ Commonly used generics of this group include:
 
 \section{Summary}{
 
-Group members:\preformatted{## [1] "all"   "any"   "max"   "min"   "prod"  "range" "sum"
-}
+Group members:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{#> [1] "all"   "any"   "max"   "min"   "prod"  "range" "sum"
+}\if{html}{\out{</div>}}
 
 Commonly used generics of this group include:
 \itemize{

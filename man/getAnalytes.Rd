@@ -34,27 +34,31 @@ For both, if \code{n = TRUE}, an integer corresponding to the
 \description{
 Return the feature names (i.e. the column names for
 SOMAmer reagent analytes) from a \code{soma_adat}.
-S3 methods also exist for these classes:\preformatted{## [1] getAnalytes.character  getAnalytes.data.frame getAnalytes.default   
-## [4] getAnalytes.list       getAnalytes.matrix     getAnalytes.recipe    
-## [7] getAnalytes.soma_adat 
-## see '?methods' for accessing help and source code
-}
+S3 methods also exist for these classes:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{#> [1] getAnalytes.character  getAnalytes.data.frame getAnalytes.default   
+#> [4] getAnalytes.list       getAnalytes.matrix     getAnalytes.recipe    
+#> [7] getAnalytes.soma_adat 
+#> see '?methods' for accessing help and source code
+}\if{html}{\out{</div>}}
 
 \code{\link[=getMeta]{getMeta()}} returns the inverse, a character vector of string
 names of \emph{non}-analyte feature columns/variables, which typically
 correspond to the clinical "meta" data variables.
-S3 methods exist for these classes:\preformatted{## [1] getMeta.character  getMeta.data.frame getMeta.default    getMeta.list      
-## [5] getMeta.matrix     getMeta.soma_adat 
-## see '?methods' for accessing help and source code
-}
+S3 methods exist for these classes:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{#> [1] getMeta.character  getMeta.data.frame getMeta.default    getMeta.list      
+#> [5] getMeta.matrix     getMeta.soma_adat 
+#> see '?methods' for accessing help and source code
+}\if{html}{\out{</div>}}
 }
 \section{Functions}{
 \itemize{
-\item \code{getFeatures}: renamed in \pkg{SomaDataIO v5.1.0}. Exported
+\item \code{getFeatures()}: renamed in \pkg{SomaDataIO v5.1.0}. Exported
 (with life-cycle warning) to maintain backward compatibility.
 Please adjust your code accordingly.
-}}
 
+}}
 \examples{
 apts <- getAnalytes(example_data)
 head(apts)

@@ -48,24 +48,24 @@ does \emph{not} affect row names, which differs from \code{tibble::rowid_to_colu
 }
 \section{Functions}{
 \itemize{
-\item \code{rn2col}: moves the row names of \code{data} to an explicit column
+\item \code{rn2col()}: moves the row names of \code{data} to an explicit column
 whether they are explicit or implicit.
 
-\item \code{col2rn}: is the inverse of \code{\link[=rn2col]{rn2col()}}. If row names exist, they
+\item \code{col2rn()}: is the inverse of \code{\link[=rn2col]{rn2col()}}. If row names exist, they
 will be overwritten (with warning).
 
-\item \code{has_rn}: returns a boolean indicating whether the data frame
+\item \code{has_rn()}: returns a boolean indicating whether the data frame
 has explicit row names assigned.
 
-\item \code{rm_rn}: removes existing row names, leaving only "implicit" row names.
+\item \code{rm_rn()}: removes existing row names, leaving only "implicit" row names.
 
-\item \code{set_rn}: sets (and overwrites) existing row names for data frames only.
+\item \code{set_rn()}: sets (and overwrites) existing row names for data frames only.
 
-\item \code{add_rowid}: adds a sequential integer row identifier; starting at \code{1:nrow(data)}.
+\item \code{add_rowid()}: adds a sequential integer row identifier; starting at \code{1:nrow(data)}.
 It does \emph{not} remove existing row names currently, but may in the future
 (please code accordingly).
-}}
 
+}}
 \examples{
 df <- data.frame(a = 1:5, b = rnorm(5), row.names = LETTERS[1:5])
 df

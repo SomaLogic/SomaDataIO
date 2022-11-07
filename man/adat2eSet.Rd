@@ -21,11 +21,13 @@ from \strong{Bioconductor}:
 }
 \details{
 The \pkg{Biobase} package is required and must be installed from
-\strong{Bioconductor} via the following at the R console:\preformatted{if (!requireNamespace("BiocManager", quietly = TRUE)) \{
+\strong{Bioconductor} via the following at the R console:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{if (!requireNamespace("BiocManager", quietly = TRUE)) \{
   install.packages("BiocManager")
 \}
 BiocManager::install("Biobase", version = remotes::bioc_version())
-}
+}\if{html}{\out{</div>}}
 }
 \examples{
 eSet <- adat2eSet(example_data)

@@ -48,4 +48,4 @@ LazyDataCompression: xz
 LazyLoad: true
 Roxygen: list(markdown = TRUE)
 X-CRAN-COMMENT: Legal disclaimer see file LICENSE.md
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.1

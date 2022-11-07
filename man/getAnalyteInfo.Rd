@@ -36,7 +36,7 @@ represents the key index between the table and \code{soma_adat} from which it co
 }
 \section{Functions}{
 \itemize{
-\item \code{getTargetNames}: creates a lookup table (or dictionary) as a named list object of \code{AptNames}
+\item \code{getTargetNames()}: creates a lookup table (or dictionary) as a named list object of \code{AptNames}
 and Target names in key-value pairs.
 This is a convenient tool to quickly access a \code{TargetName} given
 the \code{AptName} in which the key-value pairs map the \code{seq.XXXX.XX}
@@ -44,11 +44,11 @@ to its corresponding \code{TargetName} in \code{tbl}.
 This structure which provides a convenient auto-completion mechanism at
 the command line or for generating plot titles.
 
-\item \code{getFeatureData}: renamed in \pkg{SomaDataIO v5.1.0}. Exported
+\item \code{getFeatureData()}: renamed in \pkg{SomaDataIO v5.1.0}. Exported
 (with life-cycle warning) to maintain backward compatibility.
 Please adjust your code accordingly.
-}}
 
+}}
 \examples{
 # Get Aptamer table
 anno_tbl <- getAnalyteInfo(example_data)

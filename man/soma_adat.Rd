@@ -48,52 +48,6 @@ which Target names can be extracted.}
 
 \item{digits}{Integer. Used for number formatting with \code{\link[=signif]{signif()}}.}
 
-\item{i}{
-    indices specifying elements to extract or replace.  Indices are
-    \code{numeric} or \code{character} vectors or empty (missing) or
-    \code{NULL}.  Numeric values are coerced to integer as by
-    \code{\link[base]{as.integer}} (and hence truncated towards zero).
-    Character vectors will be matched to the \code{\link[base]{names}} of the
-    object (or for matrices/arrays, the \code{\link[base]{dimnames}}):
-    see \sQuote{Character indices} below for further details.
-
-    For \code{[}-indexing only: \code{i}, \code{j}, \code{\dots} can be
-    logical vectors, indicating elements/slices to select.  Such vectors
-    are recycled if necessary to match the corresponding extent.
-    \code{i}, \code{j}, \code{\dots} can also be negative integers,
-    indicating elements/slices to leave out of the selection.
-
-    When indexing arrays by \code{[} a single argument \code{i} can be a
-    matrix with as many columns as there are dimensions of \code{x}; the
-    result is then a vector with elements corresponding to the sets of
-    indices in each row of \code{i}.
-
-    An index value of \code{NULL} is treated as if it were \code{integer(0)}.
-  }
-
-\item{j}{
-    indices specifying elements to extract or replace.  Indices are
-    \code{numeric} or \code{character} vectors or empty (missing) or
-    \code{NULL}.  Numeric values are coerced to integer as by
-    \code{\link[base]{as.integer}} (and hence truncated towards zero).
-    Character vectors will be matched to the \code{\link[base]{names}} of the
-    object (or for matrices/arrays, the \code{\link[base]{dimnames}}):
-    see \sQuote{Character indices} below for further details.
-
-    For \code{[}-indexing only: \code{i}, \code{j}, \code{\dots} can be
-    logical vectors, indicating elements/slices to select.  Such vectors
-    are recycled if necessary to match the corresponding extent.
-    \code{i}, \code{j}, \code{\dots} can also be negative integers,
-    indicating elements/slices to leave out of the selection.
-
-    When indexing arrays by \code{[} a single argument \code{i} can be a
-    matrix with as many columns as there are dimensions of \code{x}; the
-    result is then a vector with elements corresponding to the sets of
-    indices in each row of \code{i}.
-
-    An index value of \code{NULL} is treated as if it were \code{integer(0)}.
-  }
-
 \item{drop}{For matrices and arrays.  If \code{TRUE} the result is
     coerced to the lowest possible dimension (see the examples).  This
     only works for extracting elements, not for the replacement.  See
@@ -140,16 +94,18 @@ dispatched on class \code{soma_adat}.
 \cr\cr
 Below is a list of \emph{all} currently available S3 methods that dispatch on
 the \code{soma_adat} class:
-}\preformatted{##  [1] [            [[           [[<-         [<-          ==          
-##  [6] $            $<-          anti_join    arrange      count       
-## [11] filter       full_join    getAnalytes  getMeta      group_by    
-## [16] inner_join   is_seqFormat left_join    Math         median      
-## [21] mutate       Ops          print        rename       right_join  
-## [26] sample_frac  sample_n     select       semi_join    separate    
-## [31] slice_sample slice        summary      Summary      transform   
-## [36] ungroup      unite       
-## see '?methods' for accessing help and source code
 }
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{#>  [1] [            [[           [[<-         [<-          ==          
+#>  [6] $            $<-          anti_join    arrange      count       
+#> [11] filter       full_join    getAnalytes  getMeta      group_by    
+#> [16] inner_join   is_seqFormat left_join    Math         median      
+#> [21] mutate       Ops          print        rename       right_join  
+#> [26] sample_frac  sample_n     select       semi_join    separate    
+#> [31] slice_sample slice        summary      Summary      transform   
+#> [36] ungroup      unite       
+#> see '?methods' for accessing help and source code
+}\if{html}{\out{</div>}}
 
 S3 \code{\link[=print]{print()}} method returns summary information parsed from the object
 attributes, if present, followed by a dispatch to the \code{\link[=tibble]{tibble()}} print method.

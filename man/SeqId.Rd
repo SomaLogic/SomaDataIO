@@ -95,38 +95,38 @@ and manipulate \code{SeqIds} across assay runs and/or versions.
 }
 \section{Functions}{
 \itemize{
-\item \code{getSeqId}: Extracts/captures the the \code{SeqId} match from an analyte column identifier,
+\item \code{getSeqId()}: Extracts/captures the the \code{SeqId} match from an analyte column identifier,
 i.e. column name of an ADAT loaded with \code{\link[=read_adat]{read_adat()}}. Assumes the
 \code{SeqId} pattern occurs at the end of the string, which for
 the vast majority of cases will be true. For edge cases, see the
 \code{trailing} argument to \code{\link[=locateSeqId]{locateSeqId()}}.
 
-\item \code{regexSeqId}: Generates a pre-formatted regular expression for
+\item \code{regexSeqId()}: Generates a pre-formatted regular expression for
 matching of \code{SeqIds}. Note the \emph{trailing} match, which is most
 commonly required, but \code{\link[=locateSeqId]{locateSeqId()}} offers
 an alternative to mach \emph{anywhere} in a string.
 Used internally in \emph{many} utility functions
 
-\item \code{locateSeqId}: Generates a data frame of the positional \code{SeqId} matches. Specifically
+\item \code{locateSeqId()}: Generates a data frame of the positional \code{SeqId} matches. Specifically
 designed to facilitate \code{SeqId} extraction via \code{\link[=substr]{substr()}}.
 Similar to \code{\link[stringr:str_locate]{stringr::str_locate()}}.
 
-\item \code{seqid2apt}: Converts a \code{SeqId} into anonymous-AptName format, i.e.
+\item \code{seqid2apt()}: Converts a \code{SeqId} into anonymous-AptName format, i.e.
 \code{1234-56} -> \code{seq.1234.56}. Versions, i.e. \verb{1234-56_ver}, are trimmed.
 
-\item \code{is.apt}: Regular expression match to determine if a string \emph{contains}
+\item \code{is.apt()}: Regular expression match to determine if a string \emph{contains}
 a \code{SeqId}, and thus is probably an \code{AptName} format string. Both
 legacy \code{EntrezGeneSymbol-SeqId} combinations or newer
 \code{"anonymous-AptNames"} formats (\code{seq.1234.45}) are matched.
 
-\item \code{is.SeqId}: Tests for \code{SeqId} format. Values returned from \code{\link[=getSeqId]{getSeqId()}}
+\item \code{is.SeqId()}: Tests for \code{SeqId} format. Values returned from \code{\link[=getSeqId]{getSeqId()}}
 evaluate to \code{TRUE}.
 
-\item \code{matchSeqIds}: Matches two character vectors on the basis of their
+\item \code{matchSeqIds()}: Matches two character vectors on the basis of their
 intersecting \code{SeqIds}. Note that elements in \code{y} not
 containing a \code{SeqId} regular expression are silently dropped.
 
-\item \code{getSeqIdMatches}: Matches two character vectors on the basis of their intersecting \emph{SeqIds}
+\item \code{getSeqIdMatches()}: Matches two character vectors on the basis of their intersecting \emph{SeqIds}
 only (irrespective of the \code{GeneID}-prefix). This produces a two-column
 data frame which then can be used as to map between the two sets.
 
@@ -135,8 +135,8 @@ corresponding to the \emph{first} argument (\code{x}).
 
 By default the data frame is invisibly returned to
 avoid dumping excess output to the console (see the \verb{show =} argument.)
-}}
 
+}}
 \examples{
 x <- c("ABDC.3948.48.2", "3948.88",
        "3948.48.2", "3948-48_2", "3948.48.2",
