@@ -28,7 +28,9 @@ as appropriate.}
 \item{base}{A positive or complex number: the base with respect to
 which logarithms are computed.}
 
-\item{na.rm}{logical: should missing values be removed?}
+\item{e1, e2}{Objects.}
+
+\item{na.rm}{Logical. Should missing values be removed?}
 }
 \value{
 A \code{soma_adat} object with the same dimensions of the input

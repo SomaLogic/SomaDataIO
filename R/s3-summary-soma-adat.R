@@ -36,6 +36,7 @@
 #' anno <- getAnalyteInfo(my_adat)
 #' summary(my_adat[, mmps], tbl = anno)
 #' @importFrom stats IQR mad sd
+#' @importFrom dplyr select all_of
 #' @importFrom stats setNames
 #' @export
 summary.soma_adat <- function(object, tbl = NULL,

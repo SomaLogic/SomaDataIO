@@ -37,9 +37,9 @@
 #'   * `max()`, `min()`, `range()`, `sum()`, `any()`
 #'
 #' @name groupGenerics
-#' @inheritParams base::Ops
-#' @inheritParams base::Summary
 #' @param x The `soma_adat` class object to perform the transformation.
+#' @param e1,e2 Objects.
+#' @param na.rm Logical. Should missing values be removed?
 #' @param base A positive or complex number: the base with respect to
 #' which logarithms are computed.
 #' @param ... Additional arguments passed to the various group generics

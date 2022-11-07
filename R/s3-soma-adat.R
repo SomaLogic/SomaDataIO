@@ -48,9 +48,13 @@ NULL
 #' with the newly created object.
 #'
 #' @rdname soma_adat
-#' @inheritParams base::`[`
+#' @param i,j Row and column indices. If `j` is omitted,
+#'   `i` is used as the column index.
+#' @param ... Ignored.
+#' @param drop Coerce to a vector if fetching one column via `tbl[, j]`.
+#'   Default `FALSE`, ignored when accessing a column via `tbl[j]`.
 #' @export
-`[.soma_adat` <- function(x, i, j, drop = TRUE) {
+`[.soma_adat` <- function(x, i, j, drop = TRUE, ...) {
 
   if ( missing(j) ) {
     # not sub-setting columns
@@ -96,6 +100,7 @@ NULL
 #' `data.frame` method, partial matching is *not* allowed for class `soma_adat`.
 #'
 #' @rdname soma_adat
+#' @param name A [name] or a string.
 #' @export
 `$.soma_adat` <- function(x, name) {
   if ( is.character(name) ) {
@@ -144,6 +149,7 @@ NULL
 #' S3 assignment via `[` is fully supported for class `soma_adat`.
 #'
 #' @rdname soma_adat
+#' @param value A value to store in a row, column, range or cell.
 #' @export
 `[<-.soma_adat` <- function(x, i, j, ..., value) {
   anames <- names(attributes(x))

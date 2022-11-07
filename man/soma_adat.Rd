@@ -18,7 +18,7 @@
 
 \method{summary}{soma_adat}(object, tbl = NULL, digits = max(3L, getOption("digits") - 3L), ...)
 
-\method{[}{soma_adat}(x, i, j, drop = TRUE)
+\method{[}{soma_adat}(x, i, j, drop = TRUE, ...)
 
 \method{$}{soma_adat}(x, name)
 
@@ -38,8 +38,7 @@
 \item{show_header}{Logical. Should all the \verb{Header Data} information
 be displayed instead of the data frame (\code{tibble}) object?}
 
-\item{...}{potentially further arguments for methods; not used in
-    the default method.}
+\item{...}{Ignored.}
 
 \item{tbl}{An annotations table. If \code{NULL} (default),
 annotation information is extracted from the object itself (if possible).
@@ -48,23 +47,17 @@ which Target names can be extracted.}
 
 \item{digits}{Integer. Used for number formatting with \code{\link[=signif]{signif()}}.}
 
-\item{drop}{For matrices and arrays.  If \code{TRUE} the result is
-    coerced to the lowest possible dimension (see the examples).  This
-    only works for extracting elements, not for the replacement.  See
-    \code{\link[base]{drop}} for further details.
-  }
+\item{i, j}{Row and column indices. If \code{j} is omitted,
+\code{i} is used as the column index.}
 
-\item{name}{
-    A literal character string or a \link[base]{name} (possibly \link[base]{backtick}
-    quoted).  For extraction, this is normally (see under
-    \sQuote{Environments}) partially matched to the \code{\link[base]{names}}
-    of the object.
-  }
+\item{drop}{Coerce to a vector if fetching one column via \code{tbl[, j]}.
+Default \code{FALSE}, ignored when accessing a column via \code{tbl[j]}.}
+
+\item{name}{A \link{name} or a string.}
 
 \item{exact}{Ignored with a \code{\link[=warning]{warning()}}.}
 
-\item{value}{typically an array-like \R object of a similar class as
-    \code{x}.}
+\item{value}{A value to store in a row, column, range or cell.}
 
 \item{na.rm}{a logical value indicating whether \code{NA}
     values should be stripped before the computation proceeds.}

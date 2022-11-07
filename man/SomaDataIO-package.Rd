@@ -8,7 +8,11 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-The SomaDataIO package loads the SomaLogic Operating Co., Inc. proprietary data file, called an ADAT file ('*.adat'). It also provides auxiliary functions for extracting and manipulating relevant information from an ADAT, as well as exporting a modified ADAT to file.
+The SomaDataIO package loads the SomaLogic Operating Co., Inc.
+    proprietary data file, called an ADAT file ('*.adat'). It also
+    provides auxiliary functions for extracting and manipulating relevant
+    information from an ADAT, as well as exporting a modified ADAT to
+    file.
 }
 \details{
 Load an ADAT file into the global workspace with a call
