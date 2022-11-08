@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 ![GitHub
-version](https://img.shields.io/badge/Version-5.3.1-success.svg?style=flat&logo=github)
+version](https://img.shields.io/badge/Version-5.3.1.9000-success.svg?style=flat&logo=github)
 [![CRAN
 badge](https://img.shields.io/badge/CRAN-No-red.svg)](https://cran.r-project.org)
 [![R-CMD-check](https://github.com/SomaLogic/SomaDataIO/workflows/R-CMD-check/badge.svg)](https://github.com/SomaLogic/SomaDataIO/actions)
@@ -37,7 +37,7 @@ persists we encourage you to consult the
 [issues](https://github.com/SomaLogic/SomaDataIO/issues/) page and, if
 appropriate, submit an issue and/or feature request.
 
------
+------------------------------------------------------------------------
 
 ## Usage
 
@@ -46,7 +46,7 @@ and is intended solely for research use only (“RUO”) purposes. The code
 contained herein may *not* be used for diagnostic, clinical,
 therapeutic, or other commercial purposes.
 
------
+------------------------------------------------------------------------
 
 ## Installation
 
@@ -88,16 +88,16 @@ which `SomaDataIO` was developed. If you run into any unexpected
 behavior, please ensure that the following package dependencies are
 pre-installed:
 
-  - `R (>= 4.1.0)`
-  - `cli (v2.5.0)`
-  - `crayon (v1.4.1)`
-  - `dplyr (v1.0.6)`
-  - `lifecycle (v1.0.0)`
-  - `magrittr (v2.0.1)`
-  - `readxl (v1.3.1)`
-  - `tibble (v3.1.2)`
-  - `tidyr (v1.1.3)`
-  - `usethis (v2.0.1)`
+- `R (>= 4.1.0)`
+- `cli (v2.5.0)`
+- `crayon (v1.4.1)`
+- `dplyr (v1.0.6)`
+- `lifecycle (v1.0.0)`
+- `magrittr (v2.0.1)`
+- `readxl (v1.3.1)`
+- `tibble (v3.1.2)`
+- `tidyr (v1.1.3)`
+- `usethis (v2.0.1)`
 
 #### Biobase
 
@@ -138,29 +138,28 @@ The `SomaDataIO` package comes with 4 internal objects available to
 users to run canned examples (or analyses). They can be accessed once
 `SomaDataIO` has been attached via `library()`. They are:
 
-  - `example_data`
-  - `ex_analytes`
-  - `ex_anno_tbl`
-  - `ex_target_names`
-  - See `?SomaDataObjects`
+- `example_data`
+- `ex_analytes`
+- `ex_anno_tbl`
+- `ex_target_names`
+- See `?SomaDataObjects`
 
------
+------------------------------------------------------------------------
 
 ## Main Features (I/O)
 
-  - Loading data (Import)
-      - parse and import a `*.adat` text file into an `R` session as a
-        `soma_adat` object.
-  - Wrangling data (manipulation)
-      - subset, reorder, and list various fields of a `soma_adat`
-        object.
-      - `?SeqId` analyte (feature) matching.
-      - `dplyr` and `tidyr` verb S3 methods for the `soma_adat` class.
-      - `?rownames` helpers that do not break `soma_adat` attributes.
-  - Exporting data (Output)
-      - write out a `soma_adat` object as a `*.adat` text file.
+- Loading data (Import)
+  - parse and import a `*.adat` text file into an `R` session as a
+    `soma_adat` object.
+- Wrangling data (manipulation)
+  - subset, reorder, and list various fields of a `soma_adat` object.
+  - `?SeqId` analyte (feature) matching.
+  - `dplyr` and `tidyr` verb S3 methods for the `soma_adat` class.
+  - `?rownames` helpers that do not break `soma_adat` attributes.
+- Exporting data (Output)
+  - write out a `soma_adat` object as a `*.adat` text file.
 
------
+------------------------------------------------------------------------
 
 ### Loading an ADAT
 
@@ -200,8 +199,7 @@ my_adat
 #> 10 258495800… Exampl… 2020-0… SG1521… H11     2.58e11       3 170261  Calibr…      20 <NA>    NA     
 #> # … with 182 more rows, 5,307 more variables: Barcode2d <chr>, SampleName <lgl>, SampleNotes <lgl>,
 #> #   AliquotingNotes <lgl>, SampleDescription <chr>, AssayNotes <lgl>, TimePoint <lgl>,
-#> #   ExtIdentifier <lgl>, SsfExtId <lgl>, SampleGroup <lgl>, SiteId <lgl>, TubeUniqueID <lgl>,
-#> #   CLI <lgl>, HybControlNormScale <dbl>, RowCheck <chr>, …, and abbreviated variable names
+#> #   ExtIdentifier <lgl>, SsfExtId <lgl>, SampleGroup <lgl>, …, and abbreviated variable names
 #> #   ¹​PlateRunDate, ²​ScannerID, ³​PlatePosition, ⁴​Subarray, ⁵​SampleId, ⁶​SampleType, ⁷​PercentDilution,
 #> #   ⁸​SampleMatrix
 #> ═════════════════════════════════════════════════════════════════════════════════════════════════════
@@ -483,10 +481,10 @@ is.intact.attributes(my_adat)     # attributes MUST be intact to write to file
 
 write_adat(my_adat, file = tempfile("my-adat-", fileext = ".adat"))
 #> ✔ ADAT passed all checks and traps.
-#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpDzBy2L/my-adat-16346747cece.adat'
+#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpK0o63G/my-adat-175d42e09709.adat'
 ```
 
------
+------------------------------------------------------------------------
 
 # Typical Analyses
 
@@ -498,9 +496,9 @@ parts or extensions of these techniques. Many variations of the
 workflows below exist, however the framework highlights how one could
 perform standard *preliminary* analyses on SomaLogic data for:
 
-  - Two-group differential expression (*t*-test)
-  - Binary classification (logistic regression)
-  - Linear regression
+- Two-group differential expression (*t*-test)
+- Binary classification (logistic regression)
+- Linear regression
 
 #### Data Preparation
 
@@ -701,7 +699,7 @@ LR_tbl
 #> # … with 5,274 more rows, and abbreviated variable names ¹​EntrezGeneSymbol, ²​beta_hat
 ```
 
-#### Fit Model | Calculate Performance
+#### Fit Model \| Calculate Performance
 
 Next, select features for the model fit. We have a good idea of
 reasonable `Sex` markers from prior knowledge (`CGA*`), and fortunately
@@ -782,7 +780,7 @@ LinR_tbl
 #> # … with 5,274 more rows, and abbreviated variable name ¹​EntrezGeneSymbol
 ```
 
-#### Fit Model | Calculate Performance
+#### Fit Model \| Calculate Performance
 
 Fit an 8-marker model with the top 8 features from `LinR_tbl`:
 
@@ -841,20 +839,22 @@ res %>%
   theme(plot.title = element_text(size = 21, face = "bold"),
         axis.title.x = element_text(size = 14),
         axis.title.y = element_text(size = 14))
+#> Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+#> ℹ Please use `linewidth` instead.
 ```
 
 ![](man/figures/README-linreg-plot-1.png)<!-- -->
 
------
+------------------------------------------------------------------------
 
 ## MIT LICENSE
 
-  - See [LICENSE](LICENSE.md)
-  - The MIT License:
-      - <https://choosealicense.com/licenses/mit/>
-      - [https://tldrlegal.com/license/mit-license/](https://tldrlegal.com/license/mit-license)
+- See [LICENSE](LICENSE.md)
+- The MIT License:
+  - <https://choosealicense.com/licenses/mit/>
+  - [https://tldrlegal.com/license/mit-license/](https://tldrlegal.com/license/mit-license)
 
------
+------------------------------------------------------------------------
 
 Created by [Rmarkdown](https://github.com/rstudio/rmarkdown) (v2.17) and
-R version 4.2.1 (2022-06-23).
+R version 4.2.2 (2022-10-31).
