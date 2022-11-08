@@ -15,7 +15,7 @@ library(ggplot2)
 library(dplyr)
 library(tidyr)
 library(purrr)
-set.seed(1)   # set seed for ggplot() jitter below so Git doesn't trigger every time
+set.seed(1)   # set seed for geom::jitter() below so that Git doesn't trigger every time
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
