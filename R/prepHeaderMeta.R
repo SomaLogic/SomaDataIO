@@ -7,7 +7,6 @@
 #' @param x A `soma_adat` to be written.
 #' @return The ADAT attributes after `Header.Meta` and `Col.Meta` clean up.
 #' @author Stu Field
-#' @keywords internal
 #' @noRd
 prepHeaderMeta <- function(data) {
 
@@ -15,17 +14,24 @@ prepHeaderMeta <- function(data) {
     x <- attributes(data)
     x$Col.Meta$Dilution2 <- NULL   # rm Dilution2
   } else {
-    # this is a bit of a KLUGE :(
+    call <- sys.calls()[[max(1L, sys.nframe() - 1L)]]   # get parent call
+    obj  <- deparse(call[[2L]])
     if ( interactive() ) {
       cat(
-        "\n Please fix ADAT attributes prior to calling",
-        .code("write_adat()"), "\n Calling",
-        .code("is.intact.attributes(data)"), "must be TRUE\n Perhaps",
-        .code("createChildAttributes()"), "can help?\n Example:\n  ",
-        .code("data <- createChildAttributes(data, parent)"), "\n\n"
+        "\n  Please fix ADAT attributes prior to calling",
+        .code(deparse(call)), "\n ",
+        .code(sprintf("is.intact.attributes(%s)", obj)), "must be", .value("TRUE")
       )
+      if ( utils::packageName() == "SomaReadr" ) {
+        cat(
+          "\n  Perhaps", .code("createChildAttributes()"),
+          "can help?\n  Example:\n   ",
+          .code(sprintf("data <- createChildAttributes(%s, parent)", obj))
+        )
+      }
+      cat("\n\n")
     }
-    stop("Stopping while you fix the attributes of `data`.", call. = FALSE)
+    stop("Stopping while you fix the attributes of `", obj, "`.", call. = FALSE)
   }
 
   key_map_header <- lapply(x$Header.Meta$HEADER, attr, which = "raw_key")

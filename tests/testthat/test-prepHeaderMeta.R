@@ -52,9 +52,11 @@ test_that("`prepHeaderMeta()` wrangles the correct fields", {
 })
 
 test_that("an error is thrown if new data has broken attributes", {
+  expect_output(
+    prepHeaderMeta(data.frame(1:10))
+  ) |>
   expect_error(
-    prepHeaderMeta(data.frame(1:10)),
-    "Stopping while you fix the attributes of `data`."
+    "Stopping while you fix the attributes of `.*`."
   )
 })
 
