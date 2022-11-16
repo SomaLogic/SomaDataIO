@@ -82,7 +82,21 @@ roxygen:
 test:
 	@ $(RSCRIPT) \
 	-e "Sys.setenv(TZ = 'America/Denver')" \
-	-e "devtools::test(reporter = 'check', stop_on_failure = TRUE)"
+	-e "path <- Sys.getenv('R_LIBS_DEV')" \
+	-e "path <- normalizePath(path, winslash = '/', mustWork = TRUE)" \
+	-e "message('Dev mode: ON')" \
+	-e ".libPaths(c(path, .libPaths()))" \
+	-e "devtools::test(reporter = 'summary', stop_on_failure = TRUE)"
+
+test_file:
+	@ Rscript \
+	-e "Sys.setenv(TZ = 'America/Denver')" \
+	-e "path <- Sys.getenv('R_LIBS_DEV')" \
+	-e "path <- normalizePath(path, winslash = '/', mustWork = TRUE)" \
+	-e "message('Dev mode: ON')" \
+	-e ".libPaths(c(path, .libPaths()))" \
+	-e "devtools::load_all()" \
+	-e "testthat::test_file('$(FILE)', reporter = 'summary', stop_on_failure = TRUE)"
 
 build: roxygen
 	@ cd ..;\
