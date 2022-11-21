@@ -30,7 +30,7 @@ represents the key index between the table and soma_adat from which it comes.'><
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SomaDataIO</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">5.3.0.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">5.3.1.9000</span>
       </span>
     </div>
 
@@ -70,18 +70,25 @@ represents the key index between the table and <code>soma_adat</code> from which
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">getAnalyteInfo</span><span class="op">(</span><span class="va">adat</span><span class="op">)</span>
-
-<span class="fu">getTargetNames</span><span class="op">(</span><span class="va">tbl</span><span class="op">)</span>
-
-<span class="fu">getFeatureData</span><span class="op">(</span><span class="va">adat</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">getAnalyteInfo</span><span class="op">(</span><span class="va">adat</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">getTargetNames</span><span class="op">(</span><span class="va">tbl</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">getFeatureData</span><span class="op">(</span><span class="va">adat</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
-<p></p>
-    </div>
+    <dl><dt>adat</dt>
+<dd><p>A <code>soma_adat</code> object (with intact attributes),
+typically created using <code><a href="read_adat.html">read_adat()</a></code>.</p></dd>
+
+
+<dt>tbl</dt>
+<dd><p>A <code>tibble</code> object containing analyte target annotation
+information. This is usually the result of a call to <code>getAnalyteInfo()</code>.</p></dd>
+
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     
@@ -92,14 +99,14 @@ to the column meta data entries in the <code>soma_adat</code>; 1 row per analyte
     <div id="functions">
     <h2>Functions</h2>
     
-<ul><li><p><code>getTargetNames</code>: creates a lookup table (or dictionary) as a named list object of <code>AptNames</code>
+<ul><li><p><code>getTargetNames()</code>: creates a lookup table (or dictionary) as a named list object of <code>AptNames</code>
 and Target names in key-value pairs.
 This is a convenient tool to quickly access a <code>TargetName</code> given
 the <code>AptName</code> in which the key-value pairs map the <code>seq.XXXX.XX</code>
 to its corresponding <code>TargetName</code> in <code>tbl</code>.
 This structure which provides a convenient auto-completion mechanism at
 the command line or for generating plot titles.</p></li>
-<li><p><code>getFeatureData</code>: renamed in <span class="pkg">SomaDataIO v5.1.0</span>. Exported
+<li><p><code>getFeatureData()</code>: renamed in <span class="pkg">SomaDataIO v5.1.0</span>. Exported
 (with life-cycle warning) to maintain backward compatibility.
 Please adjust your code accordingly.</p></li>
 </ul></div>
@@ -114,32 +121,32 @@ Please adjust your code accordingly.</p></li>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Get Aptamer table</span></span>
-<span class="r-in"><span class="va">anno_tbl</span> <span class="op">&lt;-</span> <span class="fu">getAnalyteInfo</span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">anno_tbl</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Get Aptamer table</span></span></span>
+<span class="r-in"><span><span class="va">anno_tbl</span> <span class="op">&lt;-</span> <span class="fu">getAnalyteInfo</span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">anno_tbl</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5,284 × 22</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    AptName  SeqId SeqIdVersion SomaId TargetFullName Target UniProt EntrezGeneID</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> seq.100… 1000…            3 SL019… Beta-crystall… CRBB2  P43320  <span style="color: #949494;">"</span>1415<span style="color: #949494;">"</span>      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> seq.100… 1000…            3 SL002… RAF proto-onc… c-Raf  P04049  <span style="color: #949494;">"</span>5894<span style="color: #949494;">"</span>      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> seq.100… 1000…            3 SL019… Zinc finger p… ZNF41  P51814  <span style="color: #949494;">"</span>7592<span style="color: #949494;">"</span>      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> seq.100… 1000…            3 SL019… ETS domain-co… ELK1   P19419  <span style="color: #949494;">"</span>2002<span style="color: #949494;">"</span>      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> seq.100… 1000…            3 SL019… Guanylyl cycl… GUC1A  P43080  <span style="color: #949494;">"</span>2978<span style="color: #949494;">"</span>      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> seq.100… 1001…            3 SL019… Inositol poly… OCRL   Q01968  <span style="color: #949494;">"</span>4952<span style="color: #949494;">"</span>      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> seq.100… 1001…            3 SL014… SAM pointed d… SPDEF  O95238  <span style="color: #949494;">"</span>25803<span style="color: #949494;">"</span>     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> seq.100… 1001…            3 SL025… Fc_MOUSE       Fc_MO… Q99LC4  <span style="color: #949494;">""</span>          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> seq.100… 1001…            3 SL007… Zinc finger p… SLUG   O43623  <span style="color: #949494;">"</span>6591<span style="color: #949494;">"</span>      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> seq.100… 1001…            3 SL014… Voltage-gated… KCAB2  Q13303  <span style="color: #949494;">"</span>8514<span style="color: #949494;">"</span>      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 5,274 more rows, and 14 more variables: EntrezGeneSymbol &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Organism &lt;chr&gt;, Units &lt;chr&gt;, Type &lt;chr&gt;, Dilution &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   PlateScale_Reference &lt;dbl&gt;, CalReference &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    AptName   SeqId SeqId…¹ SomaId Targe…² Target UniProt Entre…³ Entre…⁴ Organ…⁵</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> seq.1000… 1000…       3 SL019… Beta-c… CRBB2  P43320  <span style="color: #949494;">"</span>1415<span style="color: #949494;">"</span>  <span style="color: #949494;">"</span>CRYBB… Human  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> seq.1000… 1000…       3 SL002… RAF pr… c-Raf  P04049  <span style="color: #949494;">"</span>5894<span style="color: #949494;">"</span>  <span style="color: #949494;">"</span>RAF1<span style="color: #949494;">"</span>  Human  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> seq.1000… 1000…       3 SL019… Zinc f… ZNF41  P51814  <span style="color: #949494;">"</span>7592<span style="color: #949494;">"</span>  <span style="color: #949494;">"</span>ZNF41<span style="color: #949494;">"</span> Human  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> seq.1000… 1000…       3 SL019… ETS do… ELK1   P19419  <span style="color: #949494;">"</span>2002<span style="color: #949494;">"</span>  <span style="color: #949494;">"</span>ELK1<span style="color: #949494;">"</span>  Human  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> seq.1000… 1000…       3 SL019… Guanyl… GUC1A  P43080  <span style="color: #949494;">"</span>2978<span style="color: #949494;">"</span>  <span style="color: #949494;">"</span>GUCA1… Human  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> seq.1001… 1001…       3 SL019… Inosit… OCRL   Q01968  <span style="color: #949494;">"</span>4952<span style="color: #949494;">"</span>  <span style="color: #949494;">"</span>OCRL<span style="color: #949494;">"</span>  Human  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> seq.1001… 1001…       3 SL014… SAM po… SPDEF  O95238  <span style="color: #949494;">"</span>25803<span style="color: #949494;">"</span> <span style="color: #949494;">"</span>SPDEF<span style="color: #949494;">"</span> Human  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> seq.1001… 1001…       3 SL025… Fc_MOU… Fc_MO… Q99LC4  <span style="color: #949494;">""</span>      <span style="color: #949494;">""</span>      Mouse  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> seq.1001… 1001…       3 SL007… Zinc f… SLUG   O43623  <span style="color: #949494;">"</span>6591<span style="color: #949494;">"</span>  <span style="color: #949494;">"</span>SNAI2<span style="color: #949494;">"</span> Human  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> seq.1001… 1001…       3 SL014… Voltag… KCAB2  Q13303  <span style="color: #949494;">"</span>8514<span style="color: #949494;">"</span>  <span style="color: #949494;">"</span>KCNAB… Human  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 5,274 more rows, 12 more variables: Units &lt;chr&gt;, Type &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Dilution &lt;chr&gt;, PlateScale_Reference &lt;dbl&gt;, CalReference &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Cal_Example_Adat_Set001 &lt;dbl&gt;, ColCheck &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   CalQcRatio_Example_Adat_Set001_170255 &lt;dbl&gt;, QcReference_170255 &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Cal_Example_Adat_Set002 &lt;dbl&gt;, CalQcRatio_Example_Adat_Set002_170255 &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Dilution2 &lt;dbl&gt;</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Use `dplyr::group_by()`</span></span>
-<span class="r-in"><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">tally</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">anno_tbl</span>, <span class="va">Dilution</span><span class="op">)</span><span class="op">)</span>     <span class="co"># Print summary by dilution</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Dilution2 &lt;dbl&gt;, and abbreviated variable names ¹​SeqIdVersion,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ²​TargetFullName, ³​EntrezGeneID, ⁴​EntrezGeneSymbol, ⁵​Organism</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Use `dplyr::group_by()`</span></span></span>
+<span class="r-in"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">tally</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">anno_tbl</span>, <span class="va">Dilution</span><span class="op">)</span><span class="op">)</span>     <span class="co"># Print summary by dilution</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Dilution     n</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
@@ -147,9 +154,9 @@ Please adjust your code accordingly.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 0.005      173</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 0.5        828</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 20        <span style="text-decoration: underline;">4</span>271</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Columns containing "Target"</span></span>
-<span class="r-in"><span class="va">anno_tbl</span> |&gt; <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">contains</a></span><span class="op">(</span><span class="st">"Target"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Columns containing "Target"</span></span></span>
+<span class="r-in"><span><span class="va">anno_tbl</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">contains</a></span><span class="op">(</span><span class="st">"Target"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5,284 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    TargetFullName                                         Target  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span>
@@ -164,57 +171,58 @@ Please adjust your code accordingly.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Zinc finger protein SNAI2                              SLUG    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Voltage-gated potassium channel subunit beta-2         KCAB2   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 5,274 more rows</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Rows of "Target" starting with MMP</span></span>
-<span class="r-in"><span class="va">anno_tbl</span> |&gt; <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"^MMP"</span>, <span class="va">Target</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Rows of "Target" starting with MMP</span></span></span>
+<span class="r-in"><span><span class="va">anno_tbl</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"^MMP"</span>, <span class="va">Target</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 15 × 22</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    AptName  SeqId SeqIdVersion SomaId TargetFullName Target UniProt EntrezGeneID</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> seq.154… 1541…            3 SL012… Matrix metall… MMP20  O60882  9313        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> seq.257… 2579…            5 SL000… Matrix metall… MMP-9  P14780  4318        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> seq.278… 2788…            1 SL000… Stromelysin-1  MMP-3  P08254  4314        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> seq.278… 2789…            2 SL000… Matrilysin     MMP-7  P09237  4316        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> seq.283… 2838…            1 SL003… Matrix metall… MMP-17 Q9ULZ9  4326        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> seq.416… 4160…            1 SL000… 72 kDa type I… MMP-2  P08253  4313        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> seq.449… 4496…            2 SL000… Macrophage me… MMP-12 P39900  4321        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> seq.492… 4924…            1 SL000… Interstitial … MMP-1  P03956  4312        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> seq.492… 4925…            2 SL000… Collagenase 3  MMP-13 P45452  4322        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> seq.500… 5002…            1 SL002… Matrix metall… MMP-14 P50281  4323        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> seq.526… 5268…            3 SL003… Matrix metall… MMP-16 P51512  4325        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> seq.642… 6425…            3 SL007… Matrix metall… MMP19  Q99542  4327        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> seq.847… 8479…            3 SL000… Stromelysin-2  MMP-10 P09238  4319        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> seq.917… 9172…            3 SL000… Neutrophil co… MMP-8  P22894  4317        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> seq.971… 9719…            3 SL003… Matrix metall… MMP-16 P51512  4325        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 14 more variables: EntrezGeneSymbol &lt;chr&gt;, Organism &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Units &lt;chr&gt;, Type &lt;chr&gt;, Dilution &lt;chr&gt;, PlateScale_Reference &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   CalReference &lt;dbl&gt;, Cal_Example_Adat_Set001 &lt;dbl&gt;, ColCheck &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    AptName   SeqId SeqId…¹ SomaId Targe…² Target UniProt Entre…³ Entre…⁴ Organ…⁵</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> seq.1541… 1541…       3 SL012… Matrix… MMP20  O60882  9313    MMP20   Human  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> seq.2579… 2579…       5 SL000… Matrix… MMP-9  P14780  4318    MMP9    Human  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> seq.2788… 2788…       1 SL000… Strome… MMP-3  P08254  4314    MMP3    Human  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> seq.2789… 2789…       2 SL000… Matril… MMP-7  P09237  4316    MMP7    Human  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> seq.2838… 2838…       1 SL003… Matrix… MMP-17 Q9ULZ9  4326    MMP17   Human  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> seq.4160… 4160…       1 SL000… 72 kDa… MMP-2  P08253  4313    MMP2    Human  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> seq.4496… 4496…       2 SL000… Macrop… MMP-12 P39900  4321    MMP12   Human  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> seq.4924… 4924…       1 SL000… Inters… MMP-1  P03956  4312    MMP1    Human  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> seq.4925… 4925…       2 SL000… Collag… MMP-13 P45452  4322    MMP13   Human  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> seq.5002… 5002…       1 SL002… Matrix… MMP-14 P50281  4323    MMP14   Human  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> seq.5268… 5268…       3 SL003… Matrix… MMP-16 P51512  4325    MMP16   Human  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> seq.6425… 6425…       3 SL007… Matrix… MMP19  Q99542  4327    MMP19   Human  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> seq.8479… 8479…       3 SL000… Strome… MMP-10 P09238  4319    MMP10   Human  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> seq.9172… 9172…       3 SL000… Neutro… MMP-8  P22894  4317    MMP8    Human  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> seq.9719… 9719…       3 SL003… Matrix… MMP-16 P51512  4325    MMP16   Human  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 12 more variables: Units &lt;chr&gt;, Type &lt;chr&gt;, Dilution &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   PlateScale_Reference &lt;dbl&gt;, CalReference &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Cal_Example_Adat_Set001 &lt;dbl&gt;, ColCheck &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   CalQcRatio_Example_Adat_Set001_170255 &lt;dbl&gt;, QcReference_170255 &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Cal_Example_Adat_Set002 &lt;dbl&gt;, CalQcRatio_Example_Adat_Set002_170255 &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Dilution2 &lt;dbl&gt;</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Target names</span></span>
-<span class="r-in"><span class="va">tg</span> <span class="op">&lt;-</span> <span class="fu">getTargetNames</span><span class="op">(</span><span class="va">anno_tbl</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># how to use for plotting</span></span>
-<span class="r-in"><span class="va">feats</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">anno_tbl</span><span class="op">$</span><span class="va">AptName</span>, <span class="fl">6</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">feats</span>, <span class="kw">function</span><span class="op">(</span><span class="va">.x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, main <span class="op">=</span> <span class="va">tg</span><span class="op">[[</span><span class="va">.x</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Dilution2 &lt;dbl&gt;, and abbreviated variable names ¹​SeqIdVersion,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ²​TargetFullName, ³​EntrezGeneID, ⁴​EntrezGeneSymbol, ⁵​Organism</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Target names</span></span></span>
+<span class="r-in"><span><span class="va">tg</span> <span class="op">&lt;-</span> <span class="fu">getTargetNames</span><span class="op">(</span><span class="va">anno_tbl</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># how to use for plotting</span></span></span>
+<span class="r-in"><span><span class="va">feats</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">anno_tbl</span><span class="op">$</span><span class="va">AptName</span>, <span class="fl">6</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">feats</span>, <span class="kw">function</span><span class="op">(</span><span class="va">.x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, main <span class="op">=</span> <span class="va">tg</span><span class="op">[[</span><span class="va">.x</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="getAnalyteInfo-1.png" alt="" width="700" height="433"></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.5656.53</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.2837.3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.11365.17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.15300.66</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.3348.49</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.6549.60</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.14616.16</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.19335.2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.9580.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.9040.144</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.12411.60</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.10054.3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
@@ -231,7 +239,7 @@ Please adjust your code accordingly.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

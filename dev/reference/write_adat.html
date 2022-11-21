@@ -26,7 +26,7 @@ attributes, see is.intact.attributes()."><meta property="og:image" content="http
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SomaDataIO</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">5.3.0.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">5.3.1.9000</span>
       </span>
     </div>
 
@@ -62,14 +62,21 @@ attributes, see <code><a href="is.intact.attributes.html">is.intact.attributes()
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">write_adat</span><span class="op">(</span><span class="va">x</span>, <span class="va">file</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">write_adat</span><span class="op">(</span><span class="va">x</span>, <span class="va">file</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
-<p></p>
-    </div>
+    <dl><dt>x</dt>
+<dd><p>An object of class <code>"soma_adat"</code>. Both <code><a href="read_adat.html">is.soma_adat()</a></code> and
+<code><a href="is.intact.attributes.html">is.intact.attributes()</a></code> must be <code>TRUE</code>.</p></dd>
+
+
+<dt>file</dt>
+<dd><p>Character. File path where the object should be written.
+For example, extensions should be <code>*.adat</code>.</p></dd>
+
+</dl></div>
     <div id="details">
     <h2>Details</h2>
     <p>The ADAT specification <em>no longer</em> requires Windows
@@ -106,7 +113,7 @@ For reference, see the EOL encoding for operating systems below:<br></p><table c
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

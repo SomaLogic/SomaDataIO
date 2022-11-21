@@ -29,7 +29,7 @@ See inherits()."><meta property="og:image" content="https://github.com/SomaLogic
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SomaDataIO</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">5.3.0.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">5.3.1.9000</span>
       </span>
     </div>
 
@@ -68,21 +68,40 @@ See <code><a href="https://rdrr.io/r/base/class.html" class="external-link">inhe
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">read_adat</span><span class="op">(</span><span class="va">file</span>, debug <span class="op">=</span> <span class="cn">FALSE</span>, verbose <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"verbose"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="fu">read.adat</span><span class="op">(</span><span class="va">file</span>, debug <span class="op">=</span> <span class="cn">FALSE</span>, verbose <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"verbose"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="fu">is.soma_adat</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">read_adat</span><span class="op">(</span><span class="va">file</span>, debug <span class="op">=</span> <span class="cn">FALSE</span>, verbose <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"verbose"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">read.adat</span><span class="op">(</span><span class="va">file</span>, debug <span class="op">=</span> <span class="cn">FALSE</span>, verbose <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"verbose"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">is.soma_adat</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-    </div>
+    <dl><dt>file</dt>
+<dd><p>Character. The elaborated path and file name of the <code>*.adat</code>
+file to be loaded into an R workspace.</p></dd>
+
+
+<dt>debug</dt>
+<dd><p>Logical. Used for debugging and development of an ADAT that
+fails to load, particularly out-of-spec, poorly modified, or legacy ADATs.</p></dd>
+
+
+<dt>verbose</dt>
+<dd><p>Logical. Should the function call be run in <em>verbose</em>
+mode, printing relevant diagnostic call information to the console.</p></dd>
+
+
+<dt>...</dt>
+<dd><p>Additional arguments passed ultimately to
+<code><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.delim()</a></code>, or additional arguments passed to either
+other S3 print or summary methods as required by those generics.</p></dd>
+
+
+<dt>x</dt>
+<dd><p>An <code>R</code> object to test.</p></dd>
+
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     
@@ -115,14 +134,14 @@ columns, and samples as rows. Row names are labeled with the unique ID
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"example"</span>, <span class="st">"example_data.adat"</span>,</span>
-<span class="r-in">                 package <span class="op">=</span> <span class="st">"SomaDataIO"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">my_adat</span> <span class="op">&lt;-</span> <span class="fu">read_adat</span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">is.soma_adat</span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"example"</span>, <span class="st">"example_data.adat"</span>,</span></span>
+<span class="r-in"><span>                 package <span class="op">=</span> <span class="st">"SomaDataIO"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">my_adat</span> <span class="op">&lt;-</span> <span class="fu">read_adat</span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">is.soma_adat</span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># S3 print method</span></span>
-<span class="r-in"><span class="va">my_adat</span>                             <span class="co"># redirect uses `tibble` method</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># S3 print method</span></span></span>
+<span class="r-in"><span><span class="va">my_adat</span>                             <span class="co"># redirect uses `tibble` method</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">══</span> <span style="font-weight: bold;">SomaScan Data</span> <span style="color: #0000BB;">═══════════════════════════════════════════════════════════════</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Attributes intact    <span style="color: #00BB00;">✓</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Rows                 <span style="color: #00BBBB;">192</span></span>
@@ -138,25 +157,25 @@ columns, and samples as rows. Row names are labeled with the unique ID
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Dilution2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">──</span> <span style="font-weight: bold;">Tibble</span> <span style="color: #BB00BB;">──────────────────────────────────────────────────────────────────────</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 192 × 5,319</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    row_names      PlateId  PlateRunDate ScannerID PlatePosition SlideId Subarray</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 258495800012_3 Example… 2020-06-18   SG152144… H9            2.58<span style="color: #949494;">e</span>11        3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 258495800004_7 Example… 2020-06-18   SG152144… H8            2.58<span style="color: #949494;">e</span>11        7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 258495800010_8 Example… 2020-06-18   SG152144… H7            2.58<span style="color: #949494;">e</span>11        8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 258495800003_4 Example… 2020-06-18   SG152144… H6            2.58<span style="color: #949494;">e</span>11        4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 258495800009_4 Example… 2020-06-18   SG152144… H5            2.58<span style="color: #949494;">e</span>11        4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 258495800012_8 Example… 2020-06-18   SG152144… H4            2.58<span style="color: #949494;">e</span>11        8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 258495800001_3 Example… 2020-06-18   SG152144… H3            2.58<span style="color: #949494;">e</span>11        3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 258495800004_8 Example… 2020-06-18   SG152144… H2            2.58<span style="color: #949494;">e</span>11        8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 258495800001_8 Example… 2020-06-18   SG152144… H12           2.58<span style="color: #949494;">e</span>11        8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 258495800004_3 Example… 2020-06-18   SG152144… H11           2.58<span style="color: #949494;">e</span>11        3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 182 more rows, and 5,312 more variables: SampleId &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   SampleType &lt;chr&gt;, PercentDilution &lt;int&gt;, SampleMatrix &lt;chr&gt;, Barcode &lt;lgl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Barcode2d &lt;chr&gt;, SampleName &lt;lgl&gt;, SampleNotes &lt;lgl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   AliquotingNotes &lt;lgl&gt;, SampleDescription &lt;chr&gt;, AssayNotes &lt;lgl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   TimePoint &lt;lgl&gt;, ExtIdentifier &lt;lgl&gt;, SsfExtId &lt;lgl&gt;, SampleGroup &lt;lgl&gt;, …</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    row_names     PlateId Plate…¹ Scann…² Plate…³ SlideId Subar…⁴ Sampl…⁵ Sampl…⁶</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 258495800012… Exampl… 2020-0… SG1521… H9      2.58<span style="color: #949494;">e</span>11       3 1       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 258495800004… Exampl… 2020-0… SG1521… H8      2.58<span style="color: #949494;">e</span>11       7 2       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 258495800010… Exampl… 2020-0… SG1521… H7      2.58<span style="color: #949494;">e</span>11       8 3       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 258495800003… Exampl… 2020-0… SG1521… H6      2.58<span style="color: #949494;">e</span>11       4 4       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 258495800009… Exampl… 2020-0… SG1521… H5      2.58<span style="color: #949494;">e</span>11       4 5       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 258495800012… Exampl… 2020-0… SG1521… H4      2.58<span style="color: #949494;">e</span>11       8 6       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 258495800001… Exampl… 2020-0… SG1521… H3      2.58<span style="color: #949494;">e</span>11       3 7       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 258495800004… Exampl… 2020-0… SG1521… H2      2.58<span style="color: #949494;">e</span>11       8 8       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 258495800001… Exampl… 2020-0… SG1521… H12     2.58<span style="color: #949494;">e</span>11       8 9       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 258495800004… Exampl… 2020-0… SG1521… H11     2.58<span style="color: #949494;">e</span>11       3 170261  Calibr…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 182 more rows, 5,310 more variables: PercentDilution &lt;int&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   SampleMatrix &lt;chr&gt;, Barcode &lt;lgl&gt;, Barcode2d &lt;chr&gt;, SampleName &lt;lgl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   SampleNotes &lt;lgl&gt;, AliquotingNotes &lt;lgl&gt;, SampleDescription &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   AssayNotes &lt;lgl&gt;, TimePoint &lt;lgl&gt;, …, and abbreviated variable names</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ¹​PlateRunDate, ²​ScannerID, ³​PlatePosition, ⁴​Subarray, ⁵​SampleId, …</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">════════════════════════════════════════════════════════════════════════════════</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">my_adat</span>, show_header <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>  <span class="co"># show the header info; no RFU data</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">my_adat</span>, show_header <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>  <span class="co"># show the header info; no RFU data</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">══</span> <span style="font-weight: bold;">SomaScan Data</span> <span style="color: #0000BB;">═══════════════════════════════════════════════════════════════</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Attributes intact    <span style="color: #00BB00;">✓</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Rows                 <span style="color: #00BBBB;">192</span></span>
@@ -191,15 +210,15 @@ columns, and samples as rows. Row names are labeled with the unique ID
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> StudyMatrix          EDTA Plasma                                             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 20 more rows</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">════════════════════════════════════════════════════════════════════════════════</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># write ADAT to file</span></span>
-<span class="r-in"><span class="va">fout</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".adat"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="write_adat.html">write_adat</a></span><span class="op">(</span><span class="va">my_adat</span>, file <span class="op">=</span> <span class="va">fout</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># write ADAT to file</span></span></span>
+<span class="r-in"><span><span class="va">fout</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".adat"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="write_adat.html">write_adat</a></span><span class="op">(</span><span class="va">my_adat</span>, file <span class="op">=</span> <span class="va">fout</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> ADAT passed all checks and traps.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> ADAT written to: <span style="color: #0000BB;">'/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpDqflfU/file7c52292095c.adat'</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># read same file back in as check</span></span>
-<span class="r-in"><span class="fu">read_adat</span><span class="op">(</span><span class="va">fout</span><span class="op">)</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> ADAT written to: <span style="color: #0000BB;">'/tmp/Rtmpw7MWXH/file41d76cdcea95.adat'</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># read same file back in as check</span></span></span>
+<span class="r-in"><span><span class="fu">read_adat</span><span class="op">(</span><span class="va">fout</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">══</span> <span style="font-weight: bold;">SomaScan Data</span> <span style="color: #0000BB;">═══════════════════════════════════════════════════════════════</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Attributes intact    <span style="color: #00BB00;">✓</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Rows                 <span style="color: #00BBBB;">192</span></span>
@@ -215,25 +234,25 @@ columns, and samples as rows. Row names are labeled with the unique ID
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Dilution2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">──</span> <span style="font-weight: bold;">Tibble</span> <span style="color: #BB00BB;">──────────────────────────────────────────────────────────────────────</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 192 × 5,319</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    row_names      PlateId  PlateRunDate ScannerID PlatePosition SlideId Subarray</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 258495800012_3 Example… 2020-06-18   SG152144… H9            2.58<span style="color: #949494;">e</span>11        3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 258495800004_7 Example… 2020-06-18   SG152144… H8            2.58<span style="color: #949494;">e</span>11        7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 258495800010_8 Example… 2020-06-18   SG152144… H7            2.58<span style="color: #949494;">e</span>11        8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 258495800003_4 Example… 2020-06-18   SG152144… H6            2.58<span style="color: #949494;">e</span>11        4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 258495800009_4 Example… 2020-06-18   SG152144… H5            2.58<span style="color: #949494;">e</span>11        4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 258495800012_8 Example… 2020-06-18   SG152144… H4            2.58<span style="color: #949494;">e</span>11        8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 258495800001_3 Example… 2020-06-18   SG152144… H3            2.58<span style="color: #949494;">e</span>11        3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 258495800004_8 Example… 2020-06-18   SG152144… H2            2.58<span style="color: #949494;">e</span>11        8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 258495800001_8 Example… 2020-06-18   SG152144… H12           2.58<span style="color: #949494;">e</span>11        8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 258495800004_3 Example… 2020-06-18   SG152144… H11           2.58<span style="color: #949494;">e</span>11        3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 182 more rows, and 5,312 more variables: SampleId &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   SampleType &lt;chr&gt;, PercentDilution &lt;int&gt;, SampleMatrix &lt;chr&gt;, Barcode &lt;lgl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Barcode2d &lt;chr&gt;, SampleName &lt;lgl&gt;, SampleNotes &lt;lgl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   AliquotingNotes &lt;lgl&gt;, SampleDescription &lt;chr&gt;, AssayNotes &lt;lgl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   TimePoint &lt;lgl&gt;, ExtIdentifier &lt;lgl&gt;, SsfExtId &lt;lgl&gt;, SampleGroup &lt;lgl&gt;, …</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    row_names     PlateId Plate…¹ Scann…² Plate…³ SlideId Subar…⁴ Sampl…⁵ Sampl…⁶</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 258495800012… Exampl… 2020-0… SG1521… H9      2.58<span style="color: #949494;">e</span>11       3 1       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 258495800004… Exampl… 2020-0… SG1521… H8      2.58<span style="color: #949494;">e</span>11       7 2       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 258495800010… Exampl… 2020-0… SG1521… H7      2.58<span style="color: #949494;">e</span>11       8 3       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 258495800003… Exampl… 2020-0… SG1521… H6      2.58<span style="color: #949494;">e</span>11       4 4       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 258495800009… Exampl… 2020-0… SG1521… H5      2.58<span style="color: #949494;">e</span>11       4 5       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 258495800012… Exampl… 2020-0… SG1521… H4      2.58<span style="color: #949494;">e</span>11       8 6       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 258495800001… Exampl… 2020-0… SG1521… H3      2.58<span style="color: #949494;">e</span>11       3 7       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 258495800004… Exampl… 2020-0… SG1521… H2      2.58<span style="color: #949494;">e</span>11       8 8       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 258495800001… Exampl… 2020-0… SG1521… H12     2.58<span style="color: #949494;">e</span>11       8 9       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 258495800004… Exampl… 2020-0… SG1521… H11     2.58<span style="color: #949494;">e</span>11       3 170261  Calibr…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 182 more rows, 5,310 more variables: PercentDilution &lt;int&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   SampleMatrix &lt;chr&gt;, Barcode &lt;lgl&gt;, Barcode2d &lt;chr&gt;, SampleName &lt;lgl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   SampleNotes &lt;lgl&gt;, AliquotingNotes &lt;lgl&gt;, SampleDescription &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   AssayNotes &lt;lgl&gt;, TimePoint &lt;lgl&gt;, …, and abbreviated variable names</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ¹​PlateRunDate, ²​ScannerID, ³​PlatePosition, ⁴​Subarray, ⁵​SampleId, …</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">════════════════════════════════════════════════════════════════════════════════</span></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -248,7 +267,7 @@ columns, and samples as rows. Row names are labeled with the unique ID
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

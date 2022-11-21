@@ -25,7 +25,7 @@ the intersect of the column meta data or feature data is considered"><meta prope
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SomaDataIO</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">5.3.0.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">5.3.1.9000</span>
       </span>
     </div>
 
@@ -60,15 +60,24 @@ the intersect of the column meta data or feature data is considered</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">diffAdats</span><span class="op">(</span><span class="va">adat1</span>, <span class="va">adat2</span>, tolerance <span class="op">=</span> <span class="fl">1e-06</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">diffAdats</span><span class="op">(</span><span class="va">adat1</span>, <span class="va">adat2</span>, tolerance <span class="op">=</span> <span class="fl">1e-06</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
-<p></p>
-<p></p>
-    </div>
+    <dl><dt>adat1</dt>
+<dd><p>First <code>soma_adat</code> object.</p></dd>
+
+
+<dt>adat2</dt>
+<dd><p>Second <code>soma_adat</code> object.</p></dd>
+
+
+<dt>tolerance</dt>
+<dd><p>Tolerance for the difference between
+numeric vectors (i.e. SOMAmer/feature data). Passed to <code><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal()</a></code>.</p></dd>
+
+</dl></div>
     <div id="note">
     <h2>Note</h2>
     <p>Diffs of the column <em>intersect</em> names are considered.</p>
@@ -80,7 +89,7 @@ the intersect of the column meta data or feature data is considered</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">diffAdats</span><span class="op">(</span><span class="va">example_data</span>, <span class="va">example_data</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">diffAdats</span><span class="op">(</span><span class="va">example_data</span>, <span class="va">example_data</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">══</span> Checking ADAT attributes &amp; characteristics <span style="color: #0000BB;">══════════════════════════════════</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">•</span> Attribute names are identical       <span style="color: #00BB00;">✓</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">•</span> Attributes are identical            <span style="color: #00BB00;">✓</span></span>
@@ -92,10 +101,10 @@ the intersect of the column meta data or feature data is considered</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">•</span> All Clinical data is identical      <span style="color: #00BB00;">✓</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">•</span> All Feature data is identical       <span style="color: #00BB00;">✓</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">════════════════════════════════════════════════════════════════════════════════</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># remove random column</span></span>
-<span class="r-in"><span class="va">rm</span> <span class="op">&lt;-</span> <span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_seed.html" class="external-link">with_seed</a></span><span class="op">(</span><span class="fl">123</span>, <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">diffAdats</span><span class="op">(</span><span class="va">example_data</span>, <span class="va">example_data</span><span class="op">[</span>, <span class="op">-</span><span class="va">rm</span><span class="op">]</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># remove random column</span></span></span>
+<span class="r-in"><span><span class="va">rm</span> <span class="op">&lt;-</span> <span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_seed.html" class="external-link">with_seed</a></span><span class="op">(</span><span class="fl">123</span>, <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">diffAdats</span><span class="op">(</span><span class="va">example_data</span>, <span class="va">example_data</span><span class="op">[</span>, <span class="op">-</span><span class="va">rm</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">══</span> Checking ADAT attributes &amp; characteristics <span style="color: #0000BB;">══════════════════════════════════</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">•</span> Attribute names are identical       <span style="color: #00BB00;">✓</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">•</span> Attributes are identical            <span style="color: #BB0000;">✖</span></span>
@@ -115,9 +124,9 @@ the intersect of the column meta data or feature data is considered</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">•</span> All Clinical data is identical      <span style="color: #00BB00;">✓</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">•</span> All Feature data is identical       <span style="color: #00BB00;">✓</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">════════════════════════════════════════════════════════════════════════════════</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># change Subarray randomly</span></span>
-<span class="r-in"><span class="fu">diffAdats</span><span class="op">(</span><span class="va">example_data</span>, <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="va">example_data</span>, Subarray <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">Subarray</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># change Subarray randomly</span></span></span>
+<span class="r-in"><span><span class="fu">diffAdats</span><span class="op">(</span><span class="va">example_data</span>, <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="va">example_data</span>, Subarray <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">Subarray</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">══</span> Checking ADAT attributes &amp; characteristics <span style="color: #0000BB;">══════════════════════════════════</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">•</span> Attribute names are identical       <span style="color: #00BB00;">✓</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">•</span> Attributes are identical            <span style="color: #00BB00;">✓</span></span>
@@ -132,11 +141,11 @@ the intersect of the column meta data or feature data is considered</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">'Subarray'</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">•</span> All Feature data is identical       <span style="color: #00BB00;">✓</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">════════════════════════════════════════════════════════════════════════════════</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># modify 2 RFUs randomly</span></span>
-<span class="r-in"><span class="va">new</span> <span class="op">&lt;-</span> <span class="va">example_data</span></span>
-<span class="r-in"><span class="va">new</span><span class="op">[</span><span class="fl">5</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">rm</span>, <span class="va">rm</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">999</span></span>
-<span class="r-in"><span class="fu">diffAdats</span><span class="op">(</span><span class="va">example_data</span>, <span class="va">new</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># modify 2 RFUs randomly</span></span></span>
+<span class="r-in"><span><span class="va">new</span> <span class="op">&lt;-</span> <span class="va">example_data</span></span></span>
+<span class="r-in"><span><span class="va">new</span><span class="op">[</span><span class="fl">5</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">rm</span>, <span class="va">rm</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">999</span></span></span>
+<span class="r-in"><span><span class="fu">diffAdats</span><span class="op">(</span><span class="va">example_data</span>, <span class="va">new</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">══</span> Checking ADAT attributes &amp; characteristics <span style="color: #0000BB;">══════════════════════════════════</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">•</span> Attribute names are identical       <span style="color: #00BB00;">✓</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">•</span> Attributes are identical            <span style="color: #00BB00;">✓</span></span>
@@ -165,7 +174,7 @@ the intersect of the column meta data or feature data is considered</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

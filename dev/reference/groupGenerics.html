@@ -27,7 +27,7 @@ Summary() group. See groupGeneric()."><meta property="og:image" content="https:/
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SomaDataIO</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">5.3.0.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">5.3.1.9000</span>
       </span>
     </div>
 
@@ -81,13 +81,28 @@ Summary(..., na.rm = FALSE)</code></pre></div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-    </div>
+    <dl><dt>x</dt>
+<dd><p>The <code>soma_adat</code> class object to perform the transformation.</p></dd>
+
+
+<dt>...</dt>
+<dd><p>Additional arguments passed to the various group generics
+as appropriate.</p></dd>
+
+
+<dt>base</dt>
+<dd><p>A positive or complex number: the base with respect to
+which logarithms are computed.</p></dd>
+
+
+<dt>e1, e2</dt>
+<dd><p>Objects.</p></dd>
+
+
+<dt>na.rm</dt>
+<dd><p>Logical. Should missing values be removed?</p></dd>
+
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     
@@ -98,25 +113,25 @@ object with the feature columns transformed by the specified generic.</p>
     <div id="functions">
     <h2>Functions</h2>
     
-<ul><li><p><code>antilog</code>: Performs the inverse or anti-log transform for a numeric vector of
+<ul><li><p><code>antilog()</code>: Performs the inverse or anti-log transform for a numeric vector of
 <code>soma_adat</code> object. <strong>note:</strong> default is <code>base = 10</code>, which differs from
 the <code><a href="https://rdrr.io/r/base/Log.html" class="external-link">log()</a></code> default base <em>e</em>.</p></li>
-<li><p><code>Ops.soma_adat</code>: Performs binary mathematical operations on class <code>soma_adat</code>. See <code><a href="https://rdrr.io/r/base/groupGeneric.html" class="external-link">Ops()</a></code>.</p></li>
-<li><p><code>==.soma_adat</code>: Compares left- and right-hand sides of the operator <em>unless</em> the RHS
+<li><p><code>Ops(soma_adat)</code>: Performs binary mathematical operations on class <code>soma_adat</code>. See <code><a href="https://rdrr.io/r/base/groupGeneric.html" class="external-link">Ops()</a></code>.</p></li>
+<li><p><code> == </code>: Compares left- and right-hand sides of the operator <em>unless</em> the RHS
 is also a <code>soma_adat</code>, in which case <code><a href="diffAdats.html">diffAdats()</a></code> is invoked.</p></li>
-<li><p><code>Summary.soma_adat</code>: Performs summary calculations on class <code>soma_adat</code>. See <code><a href="https://rdrr.io/r/base/groupGeneric.html" class="external-link">Summary()</a></code>.</p></li>
+<li><p><code>Summary(soma_adat)</code>: Performs summary calculations on class <code>soma_adat</code>. See <code><a href="https://rdrr.io/r/base/groupGeneric.html" class="external-link">Summary()</a></code>.</p></li>
 </ul></div>
     <div id="math">
     <h2>Math</h2>
     
 
-<p>Group members:</p><div class="sourceCode"><pre><code><span class="co">##  [1] "abs"      "acos"     "acosh"    "asin"     "asinh"    "atan"    </span>
-<span class="co">##  [7] "atanh"    "ceiling"  "cos"      "cosh"     "cospi"    "cummax"  </span>
-<span class="co">## [13] "cummin"   "cumprod"  "cumsum"   "digamma"  "exp"      "expm1"   </span>
-<span class="co">## [19] "floor"    "gamma"    "lgamma"   "log"      "log10"    "log1p"   </span>
-<span class="co">## [25] "log2"     "sign"     "sin"      "sinh"     "sinpi"    "sqrt"    </span>
-<span class="co">## [31] "tan"      "tanh"     "tanpi"    "trigamma" "trunc"</span></code></pre></div>
-
+<p>Group members:</p>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] "abs"      "acos"     "acosh"    "asin"     "asinh"    "atan"    </span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] "atanh"    "ceiling"  "cos"      "cosh"     "cospi"    "cummax"  </span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] "cummin"   "cumprod"  "cumsum"   "digamma"  "exp"      "expm1"   </span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [19] "floor"    "gamma"    "lgamma"   "log"      "log10"    "log1p"   </span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25] "log2"     "sign"     "sin"      "sinh"     "sinpi"    "sqrt"    </span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [31] "tan"      "tanh"     "tanpi"    "trigamma" "trunc"</span></span></code></pre><p></p></div>
 <p>Commonly used generics of this group include:</p><ul><li><p><code><a href="https://rdrr.io/r/base/Log.html" class="external-link">log()</a></code>, <code><a href="https://rdrr.io/r/base/Log.html" class="external-link">log10()</a></code>, <code><a href="https://rdrr.io/r/base/Log.html" class="external-link">log2()</a></code>, <code>antilog()</code>,
 <code><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs()</a></code>, <code><a href="https://rdrr.io/r/base/sign.html" class="external-link">sign()</a></code>, <code><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor()</a></code>, <code><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt()</a></code>, <code><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp()</a></code></p></li>
 </ul></div>
@@ -124,9 +139,9 @@ is also a <code>soma_adat</code>, in which case <code><a href="diffAdats.html">d
     <h2>Ops</h2>
     
 
-<p>Group members:</p><div class="sourceCode"><pre><code><span class="co">##  [1] "+"   "-"   "*"   "^"   "%%"  "%/%" "/"   "=="  "&gt;"   "&lt;"   "!="  "&lt;=" </span>
-<span class="co">## [13] "&gt;="</span></code></pre></div>
-
+<p>Group members:</p>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] "+"   "-"   "*"   "^"   "%%"  "%/%" "/"   "=="  "&gt;"   "&lt;"   "!="  "&lt;=" </span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] "&gt;="</span></span></code></pre><p></p></div>
 <p>Note that for the <code>`==`</code> method if the RHS is also a <code>soma_adat</code>,
 <code><a href="diffAdats.html">diffAdats()</a></code> is invoked which compares LHS vs. RHS.
 Commonly used generics of this group include:</p><ul><li><p><code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>^</code>, <code>==</code>, <code>&gt;</code>, <code>&lt;</code></p></li>
@@ -135,8 +150,8 @@ Commonly used generics of this group include:</p><ul><li><p><code>+</code>, <cod
     <h2>Summary</h2>
     
 
-<p>Group members:</p><div class="sourceCode"><pre><code><span class="co">## [1] "all"   "any"   "max"   "min"   "prod"  "range" "sum"</span></code></pre></div>
-
+<p>Group members:</p>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "all"   "any"   "max"   "min"   "prod"  "range" "sum"</span></span></code></pre><p></p></div>
 <p>Commonly used generics of this group include:</p><ul><li><p><code><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max()</a></code>, <code><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min()</a></code>, <code><a href="https://rdrr.io/r/base/range.html" class="external-link">range()</a></code>, <code><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum()</a></code>, <code><a href="https://rdrr.io/r/base/any.html" class="external-link">any()</a></code></p></li>
 </ul></div>
     <div id="see-also">
@@ -150,7 +165,7 @@ Commonly used generics of this group include:</p><ul><li><p><code>+</code>, <cod
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">example_data</span><span class="op">$</span><span class="va">seq.3343.1</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">example_data</span><span class="op">$</span><span class="va">seq.3343.1</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [1]  5282.8  2014.8  2046.6  6008.1  2198.3  1736.4  2365.1  1439.2  1923.2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [10]  3027.9  2077.1  1993.5    47.5  2736.3  2532.1  3303.4  2541.4  6327.7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [19]  4006.8  2509.7  3643.7  3205.4  4353.5  3603.0  1881.8  4022.0  4326.9</span>
@@ -173,12 +188,12 @@ Commonly used generics of this group include:</p><ul><li><p><code>+</code>, <cod
 <span class="r-out co"><span class="r-pr">#&gt;</span> [172]  1874.8    43.4  2034.7  6400.8  1855.7  3850.4  1803.2  1182.4  3034.9</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [181]  2962.1  1425.9  2598.0  5532.3  3482.9  6883.1  1026.4  2126.6  1388.7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [190]  2084.4  1358.0  1867.5</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Math Generics:</span></span>
-<span class="r-in"><span class="co"># -------------</span></span>
-<span class="r-in"><span class="co"># log-transformation</span></span>
-<span class="r-in"><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">a</span><span class="op">$</span><span class="va">seq.3343.1</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Math Generics:</span></span></span>
+<span class="r-in"><span><span class="co"># -------------</span></span></span>
+<span class="r-in"><span><span class="co"># log-transformation</span></span></span>
+<span class="r-in"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">a</span><span class="op">$</span><span class="va">seq.3343.1</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [1] 8.572212 7.608275 7.623935 8.700864 7.695440 7.459569 7.768576 7.271843</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [9] 7.561746 8.015625 7.638728 7.597647 3.860730 7.914362 7.836804 8.102708</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [17] 7.840470 8.752692 8.295748 7.827919 8.200755 8.072592 8.378735 8.189522</span>
@@ -203,9 +218,9 @@ Commonly used generics of this group include:</p><ul><li><p><code>+</code>, <cod
 <span class="r-out co"><span class="r-pr">#&gt;</span> [169] 7.601152 8.356884 7.972259 7.536257 3.770459 7.618104 8.764178 7.526017</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [177] 8.255932 7.497318 7.075302 8.017934 7.993654 7.262558 7.862497 8.618359</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [185] 8.155621 8.836824 6.933813 7.662280 7.236123 7.642236 7.213768 7.532356</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log10</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">b</span><span class="op">$</span><span class="va">seq.3343.1</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log10</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">b</span><span class="op">$</span><span class="va">seq.3343.1</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [1] 3.722864 3.304232 3.311033 3.778737 3.342087 3.239650 3.373850 3.158121</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [9] 3.284024 3.481142 3.317457 3.299616 1.676694 3.437164 3.403481 3.518961</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [17] 3.405073 3.801246 3.602798 3.399622 3.561543 3.505882 3.638839 3.556664</span>
@@ -230,12 +245,12 @@ Commonly used generics of this group include:</p><ul><li><p><code>+</code>, <cod
 <span class="r-out co"><span class="r-pr">#&gt;</span> [169] 3.301139 3.629348 3.462308 3.272955 1.637490 3.308500 3.806234 3.268508</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [177] 3.585506 3.256044 3.072764 3.482144 3.471600 3.154089 3.414639 3.742906</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [185] 3.541941 3.837784 3.011317 3.327686 3.142608 3.318981 3.132900 3.271261</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Logic.html" class="external-link">isTRUE</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">b</span>, <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">example_data</span>, base <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Logic.html" class="external-link">isTRUE</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">b</span>, <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">example_data</span>, base <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># floor</span></span>
-<span class="r-in"><span class="va">c</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">c</span><span class="op">$</span><span class="va">seq.3343.1</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># floor</span></span></span>
+<span class="r-in"><span><span class="va">c</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">floor</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">c</span><span class="op">$</span><span class="va">seq.3343.1</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [1]  5282  2014  2046  6008  2198  1736  2365  1439  1923  3027  2077  1993</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [13]    47  2736  2532  3303  2541  6327  4006  2509  3643  3205  4353  3603</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [25]  1881  4022  4326   858   943   967  2372  1271  2433  1805  3064  3034</span>
@@ -252,10 +267,10 @@ Commonly used generics of this group include:</p><ul><li><p><code>+</code>, <cod
 <span class="r-out co"><span class="r-pr">#&gt;</span> [157]  5631  1540  3317  2182  2131  1709  1839  5028  5104  4564  2815  2727</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [169]  2000  4259  2899  1874    43  2034  6400  1855  3850  1803  1182  3034</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [181]  2962  1425  2598  5532  3482  6883  1026  2126  1388  2084  1358  1867</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># square-root</span></span>
-<span class="r-in"><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">d</span><span class="op">$</span><span class="va">seq.3343.1</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># square-root</span></span></span>
+<span class="r-in"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">d</span><span class="op">$</span><span class="va">seq.3343.1</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [1]  72.682873  44.886524  45.239363  77.511935  46.886032  41.670133</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [7]  48.632294  37.936790  43.854304  55.026357  45.575213  44.648628</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [13]   6.892024  52.309655  50.319976  57.475212  50.412300  79.546842</span>
@@ -288,10 +303,10 @@ Commonly used generics of this group include:</p><ul><li><p><code>+</code>, <cod
 <span class="r-out co"><span class="r-pr">#&gt;</span> [175]  80.005000  43.077837  62.051591  42.464102  34.386044  55.089926</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [181]  54.425178  37.761091  50.970580  74.379433  59.016099  82.964450</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [187]  32.037478  46.115073  37.265265  45.655230  36.851052  43.214581</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># rounding</span></span>
-<span class="r-in"><span class="va">e</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">e</span><span class="op">$</span><span class="va">seq.3343.1</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># rounding</span></span></span>
+<span class="r-in"><span><span class="va">e</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">e</span><span class="op">$</span><span class="va">seq.3343.1</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [1]  5283  2015  2047  6008  2198  1736  2365  1439  1923  3028  2077  1994</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [13]    48  2736  2532  3303  2541  6328  4007  2510  3644  3205  4354  3603</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [25]  1882  4022  4327   858   943   968  2373  1272  2433  1806  3064  3035</span>
@@ -308,26 +323,26 @@ Commonly used generics of this group include:</p><ul><li><p><code>+</code>, <cod
 <span class="r-out co"><span class="r-pr">#&gt;</span> [157]  5631  1540  3318  2182  2132  1709  1840  5028  5104  4565  2815  2728</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [169]  2000  4259  2899  1875    43  2035  6401  1856  3850  1803  1182  3035</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [181]  2962  1426  2598  5532  3483  6883  1026  2127  1389  2084  1358  1868</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># inverse log</span></span>
-<span class="r-in"><span class="fu">antilog</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># inverse log</span></span></span>
+<span class="r-in"><span><span class="fu">antilog</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]    10   100  1000 10000</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">alog</span> <span class="op">&lt;-</span> <span class="fu">antilog</span><span class="op">(</span><span class="va">b</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">example_data</span>, <span class="va">alog</span><span class="op">)</span>    <span class="co"># return `b` -&gt; linear space</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">alog</span> <span class="op">&lt;-</span> <span class="fu">antilog</span><span class="op">(</span><span class="va">b</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">example_data</span>, <span class="va">alog</span><span class="op">)</span>    <span class="co"># return `b` -&gt; linear space</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Ops Generics:</span></span>
-<span class="r-in"><span class="co"># -------------</span></span>
-<span class="r-in"><span class="va">plus1</span> <span class="op">&lt;-</span> <span class="va">example_data</span> <span class="op">+</span> <span class="fl">1</span></span>
-<span class="r-in"><span class="va">times2</span> <span class="op">&lt;-</span> <span class="va">example_data</span> <span class="op">*</span> <span class="fl">2</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">sq</span> <span class="op">&lt;-</span> <span class="va">example_data</span><span class="op">^</span><span class="fl">2</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">sq</span><span class="op">)</span>, <span class="va">example_data</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Ops Generics:</span></span></span>
+<span class="r-in"><span><span class="co"># -------------</span></span></span>
+<span class="r-in"><span><span class="va">plus1</span> <span class="op">&lt;-</span> <span class="va">example_data</span> <span class="op">+</span> <span class="fl">1</span></span></span>
+<span class="r-in"><span><span class="va">times2</span> <span class="op">&lt;-</span> <span class="va">example_data</span> <span class="op">*</span> <span class="fl">2</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">sq</span> <span class="op">&lt;-</span> <span class="va">example_data</span><span class="op">^</span><span class="fl">2</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">sq</span><span class="op">)</span>, <span class="va">example_data</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">gt100k</span> <span class="op">&lt;-</span> <span class="va">example_data</span> <span class="op">&gt;</span> <span class="fl">100000</span></span>
-<span class="r-in"><span class="va">gt100k</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">gt100k</span> <span class="op">&lt;-</span> <span class="va">example_data</span> <span class="op">&gt;</span> <span class="fl">100000</span></span></span>
+<span class="r-in"><span><span class="va">gt100k</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">══</span> <span style="font-weight: bold;">SomaScan Data</span> <span style="color: #0000BB;">═══════════════════════════════════════════════════════════════</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Attributes intact    <span style="color: #00BB00;">✓</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Rows                 <span style="color: #00BBBB;">192</span></span>
@@ -343,26 +358,26 @@ Commonly used generics of this group include:</p><ul><li><p><code>+</code>, <cod
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Dilution2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">──</span> <span style="font-weight: bold;">Tibble</span> <span style="color: #BB00BB;">──────────────────────────────────────────────────────────────────────</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 192 × 5,319</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    row_names      PlateId  PlateRunDate ScannerID PlatePosition SlideId Subarray</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 258495800012_3 Example… 2020-06-18   SG152144… H9            2.58<span style="color: #949494;">e</span>11        3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 258495800004_7 Example… 2020-06-18   SG152144… H8            2.58<span style="color: #949494;">e</span>11        7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 258495800010_8 Example… 2020-06-18   SG152144… H7            2.58<span style="color: #949494;">e</span>11        8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 258495800003_4 Example… 2020-06-18   SG152144… H6            2.58<span style="color: #949494;">e</span>11        4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 258495800009_4 Example… 2020-06-18   SG152144… H5            2.58<span style="color: #949494;">e</span>11        4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 258495800012_8 Example… 2020-06-18   SG152144… H4            2.58<span style="color: #949494;">e</span>11        8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 258495800001_3 Example… 2020-06-18   SG152144… H3            2.58<span style="color: #949494;">e</span>11        3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 258495800004_8 Example… 2020-06-18   SG152144… H2            2.58<span style="color: #949494;">e</span>11        8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 258495800001_8 Example… 2020-06-18   SG152144… H12           2.58<span style="color: #949494;">e</span>11        8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 258495800004_3 Example… 2020-06-18   SG152144… H11           2.58<span style="color: #949494;">e</span>11        3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 182 more rows, and 5,312 more variables: SampleId &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   SampleType &lt;chr&gt;, PercentDilution &lt;int&gt;, SampleMatrix &lt;chr&gt;, Barcode &lt;lgl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Barcode2d &lt;lgl&gt;, SampleName &lt;lgl&gt;, SampleNotes &lt;lgl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   AliquotingNotes &lt;lgl&gt;, SampleDescription &lt;chr&gt;, AssayNotes &lt;lgl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   TimePoint &lt;lgl&gt;, ExtIdentifier &lt;lgl&gt;, SsfExtId &lt;lgl&gt;, SampleGroup &lt;lgl&gt;, …</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    row_names     PlateId Plate…¹ Scann…² Plate…³ SlideId Subar…⁴ Sampl…⁵ Sampl…⁶</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 258495800012… Exampl… 2020-0… SG1521… H9      2.58<span style="color: #949494;">e</span>11       3 1       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 258495800004… Exampl… 2020-0… SG1521… H8      2.58<span style="color: #949494;">e</span>11       7 2       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 258495800010… Exampl… 2020-0… SG1521… H7      2.58<span style="color: #949494;">e</span>11       8 3       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 258495800003… Exampl… 2020-0… SG1521… H6      2.58<span style="color: #949494;">e</span>11       4 4       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 258495800009… Exampl… 2020-0… SG1521… H5      2.58<span style="color: #949494;">e</span>11       4 5       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 258495800012… Exampl… 2020-0… SG1521… H4      2.58<span style="color: #949494;">e</span>11       8 6       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 258495800001… Exampl… 2020-0… SG1521… H3      2.58<span style="color: #949494;">e</span>11       3 7       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 258495800004… Exampl… 2020-0… SG1521… H2      2.58<span style="color: #949494;">e</span>11       8 8       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 258495800001… Exampl… 2020-0… SG1521… H12     2.58<span style="color: #949494;">e</span>11       8 9       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 258495800004… Exampl… 2020-0… SG1521… H11     2.58<span style="color: #949494;">e</span>11       3 170261  Calibr…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 182 more rows, 5,310 more variables: PercentDilution &lt;int&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   SampleMatrix &lt;chr&gt;, Barcode &lt;lgl&gt;, Barcode2d &lt;chr&gt;, SampleName &lt;lgl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   SampleNotes &lt;lgl&gt;, AliquotingNotes &lt;lgl&gt;, SampleDescription &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   AssayNotes &lt;lgl&gt;, TimePoint &lt;lgl&gt;, …, and abbreviated variable names</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ¹​PlateRunDate, ²​ScannerID, ³​PlatePosition, ⁴​Subarray, ⁵​SampleId, …</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">════════════════════════════════════════════════════════════════════════════════</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">example_data</span> <span class="op">==</span> <span class="va">example_data</span>   <span class="co"># invokes diffAdats()</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">example_data</span> <span class="op">==</span> <span class="va">example_data</span>   <span class="co"># invokes diffAdats()</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">══</span> Checking ADAT attributes &amp; characteristics <span style="color: #0000BB;">══════════════════════════════════</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">•</span> Attribute names are identical       <span style="color: #00BB00;">✓</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">•</span> Attributes are identical            <span style="color: #00BB00;">✓</span></span>
@@ -375,31 +390,31 @@ Commonly used generics of this group include:</p><ul><li><p><code>+</code>, <cod
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">•</span> All Feature data is identical       <span style="color: #00BB00;">✓</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">════════════════════════════════════════════════════════════════════════════════</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Summary Generics:</span></span>
-<span class="r-in"><span class="co"># -------------</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Summary Generics:</span></span></span>
+<span class="r-in"><span><span class="co"># -------------</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5031475869</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/any.html" class="external-link">any</a></span><span class="op">(</span><span class="va">example_data</span> <span class="op">&lt;</span> <span class="fl">100</span><span class="op">)</span>  <span class="co"># low RFU analytes</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/any.html" class="external-link">any</a></span><span class="op">(</span><span class="va">example_data</span> <span class="op">&lt;</span> <span class="fl">100</span><span class="op">)</span>  <span class="co"># low RFU analytes</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">example_data</span> <span class="op">&lt;</span> <span class="fl">100</span><span class="op">)</span>  <span class="co"># how many</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">example_data</span> <span class="op">&lt;</span> <span class="fl">100</span><span class="op">)</span>  <span class="co"># how many</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 41721</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.2</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">example_data</span>, <span class="fl">0</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">example_data</span>, <span class="fl">0</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 264534.5</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">example_data</span>, <span class="fl">1e+7</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">example_data</span>, <span class="fl">1e+7</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1e+07</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]      1.2 264534.5</span>
 </code></pre></div>
     </div>
@@ -415,7 +430,7 @@ Commonly used generics of this group include:</p><ul><li><p><code>+</code>, <cod
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

@@ -35,7 +35,7 @@ and manipulate SeqIds across assay runs and/or versions.'><meta property="og:ima
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SomaDataIO</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">5.3.0.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">5.3.1.9000</span>
       </span>
     </div>
 
@@ -76,32 +76,59 @@ and manipulate <code>SeqIds</code> across assay runs and/or versions.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">getSeqId</span><span class="op">(</span><span class="va">x</span>, trim.version <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="fu">regexSeqId</span><span class="op">(</span><span class="op">)</span>
-
-<span class="fu">locateSeqId</span><span class="op">(</span><span class="va">x</span>, trailing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-
-<span class="fu">seqid2apt</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
-
-<span class="fu">is.apt</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
-
-<span class="fu">is.SeqId</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
-
-<span class="fu">matchSeqIds</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, order.by.x <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-
-<span class="fu">getSeqIdMatches</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, show <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">getSeqId</span><span class="op">(</span><span class="va">x</span>, trim.version <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">regexSeqId</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">locateSeqId</span><span class="op">(</span><span class="va">x</span>, trailing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">seqid2apt</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">is.apt</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">is.SeqId</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">matchSeqIds</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, order.by.x <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">getSeqIdMatches</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, show <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-    </div>
+    <dl><dt>x</dt>
+<dd><p>Character. A vector of strings, usually analyte/feature column
+names, <code>AptNames</code>, or <code>SeqIds</code>. For <code>seqid2apt()</code>, a vector of <code>SeqIds</code>.
+For <code>matchSeqIds()</code>, a vector of pattern matches containing <code>SeqIds</code>.
+Can be <code>AptNames</code> with <code>GeneIDs</code> or <code>seq.XXXX</code> format, or even
+"naked" <code>SeqIds</code>.</p></dd>
+
+
+<dt>trim.version</dt>
+<dd><p>Logical. Whether to remove the version number,
+i.e. "1234-56_7" -&gt; "1234-56". Primarily for legacy ADATs.</p></dd>
+
+
+<dt>trailing</dt>
+<dd><p>Logical. Should the regular expression explicitly specify
+<em>trailing</em> <code>SeqId</code> pattern match, i.e. <code>"regex$"</code>?
+This is the most common case and the default.</p></dd>
+
+
+<dt>y</dt>
+<dd><p>Character. A second vector of <code>AptNames</code> containing <code>SeqIds</code>
+to match against those in contained in <code>x</code>.
+For <code>matchSeqIds()</code> these values are returned if there are matching elements.</p></dd>
+
+
+<dt>order.by.x</dt>
+<dd><p>Logical. Order the returned character string by
+the <code>x</code> (first) argument?</p></dd>
+
+
+<dt>show</dt>
+<dd><p>Logical. Return the data frame visibly?</p></dd>
+
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     
@@ -138,31 +165,31 @@ The data frame is named by the passed arguments, <code>x</code> and <code>y</cod
     <div id="functions">
     <h2>Functions</h2>
     
-<ul><li><p><code>getSeqId</code>: Extracts/captures the the <code>SeqId</code> match from an analyte column identifier,
+<ul><li><p><code>getSeqId()</code>: Extracts/captures the the <code>SeqId</code> match from an analyte column identifier,
 i.e. column name of an ADAT loaded with <code><a href="read_adat.html">read_adat()</a></code>. Assumes the
 <code>SeqId</code> pattern occurs at the end of the string, which for
 the vast majority of cases will be true. For edge cases, see the
 <code>trailing</code> argument to <code>locateSeqId()</code>.</p></li>
-<li><p><code>regexSeqId</code>: Generates a pre-formatted regular expression for
+<li><p><code>regexSeqId()</code>: Generates a pre-formatted regular expression for
 matching of <code>SeqIds</code>. Note the <em>trailing</em> match, which is most
 commonly required, but <code>locateSeqId()</code> offers
 an alternative to mach <em>anywhere</em> in a string.
 Used internally in <em>many</em> utility functions</p></li>
-<li><p><code>locateSeqId</code>: Generates a data frame of the positional <code>SeqId</code> matches. Specifically
+<li><p><code>locateSeqId()</code>: Generates a data frame of the positional <code>SeqId</code> matches. Specifically
 designed to facilitate <code>SeqId</code> extraction via <code><a href="https://rdrr.io/r/base/substr.html" class="external-link">substr()</a></code>.
 Similar to <code><a href="https://stringr.tidyverse.org/reference/str_locate.html" class="external-link">stringr::str_locate()</a></code>.</p></li>
-<li><p><code>seqid2apt</code>: Converts a <code>SeqId</code> into anonymous-AptName format, i.e.
+<li><p><code>seqid2apt()</code>: Converts a <code>SeqId</code> into anonymous-AptName format, i.e.
 <code>1234-56</code> -&gt; <code>seq.1234.56</code>. Versions, i.e. <code>1234-56_ver</code>, are trimmed.</p></li>
-<li><p><code>is.apt</code>: Regular expression match to determine if a string <em>contains</em>
+<li><p><code>is.apt()</code>: Regular expression match to determine if a string <em>contains</em>
 a <code>SeqId</code>, and thus is probably an <code>AptName</code> format string. Both
 legacy <code>EntrezGeneSymbol-SeqId</code> combinations or newer
 <code>"anonymous-AptNames"</code> formats (<code>seq.1234.45</code>) are matched.</p></li>
-<li><p><code>is.SeqId</code>: Tests for <code>SeqId</code> format. Values returned from <code>getSeqId()</code>
+<li><p><code>is.SeqId()</code>: Tests for <code>SeqId</code> format. Values returned from <code>getSeqId()</code>
 evaluate to <code>TRUE</code>.</p></li>
-<li><p><code>matchSeqIds</code>: Matches two character vectors on the basis of their
+<li><p><code>matchSeqIds()</code>: Matches two character vectors on the basis of their
 intersecting <code>SeqIds</code>. Note that elements in <code>y</code> not
 containing a <code>SeqId</code> regular expression are silently dropped.</p></li>
-<li><p><code>getSeqIdMatches</code>: Matches two character vectors on the basis of their intersecting <em>SeqIds</em>
+<li><p><code>getSeqIdMatches()</code>: Matches two character vectors on the basis of their intersecting <em>SeqIds</em>
 only (irrespective of the <code>GeneID</code>-prefix). This produces a two-column
 data frame which then can be used as to map between the two sets.</p>
 <p>The final order of the matches/rows is by the input
@@ -181,15 +208,15 @@ avoid dumping excess output to the console (see the <code>show =</code> argument
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ABDC.3948.48.2"</span>, <span class="st">"3948.88"</span>,</span>
-<span class="r-in">       <span class="st">"3948.48.2"</span>, <span class="st">"3948-48_2"</span>, <span class="st">"3948.48.2"</span>,</span>
-<span class="r-in">       <span class="st">"3948-48_2"</span>, <span class="st">"3948-88"</span>,</span>
-<span class="r-in">       <span class="st">"My.Favorite.Apt.3948.88.9"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>orig       <span class="op">=</span> <span class="va">x</span>,</span>
-<span class="r-in">               SeqId      <span class="op">=</span> <span class="fu">getSeqId</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>,</span>
-<span class="r-in">               SeqId_trim <span class="op">=</span> <span class="fu">getSeqId</span><span class="op">(</span><span class="va">x</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span>
-<span class="r-in">               AptName    <span class="op">=</span> <span class="fu">seqid2apt</span><span class="op">(</span><span class="va">SeqId</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ABDC.3948.48.2"</span>, <span class="st">"3948.88"</span>,</span></span>
+<span class="r-in"><span>       <span class="st">"3948.48.2"</span>, <span class="st">"3948-48_2"</span>, <span class="st">"3948.48.2"</span>,</span></span>
+<span class="r-in"><span>       <span class="st">"3948-48_2"</span>, <span class="st">"3948-88"</span>,</span></span>
+<span class="r-in"><span>       <span class="st">"My.Favorite.Apt.3948.88.9"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>orig       <span class="op">=</span> <span class="va">x</span>,</span></span>
+<span class="r-in"><span>               SeqId      <span class="op">=</span> <span class="fu">getSeqId</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>               SeqId_trim <span class="op">=</span> <span class="fu">getSeqId</span><span class="op">(</span><span class="va">x</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>               AptName    <span class="op">=</span> <span class="fu">seqid2apt</span><span class="op">(</span><span class="va">SeqId</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 8 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   orig                      SeqId     SeqId_trim AptName    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
@@ -201,31 +228,31 @@ avoid dumping excess output to the console (see the <code>show =</code> argument
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 3948-48_2                 3948-48_2 3948-48    seq.3948.48</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> 3948-88                   3948-88   3948-88    seq.3948.88</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> My.Favorite.Apt.3948.88.9 3948-88_9 3948-88    seq.3948.88</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Logical Matching</span></span>
-<span class="r-in"><span class="fu">is.apt</span><span class="op">(</span><span class="st">"AGR2.4959.2"</span><span class="op">)</span> <span class="co"># TRUE</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Logical Matching</span></span></span>
+<span class="r-in"><span><span class="fu">is.apt</span><span class="op">(</span><span class="st">"AGR2.4959.2"</span><span class="op">)</span> <span class="co"># TRUE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span class="fu">is.apt</span><span class="op">(</span><span class="st">"seq.4959.2"</span><span class="op">)</span>  <span class="co"># TRUE</span></span>
+<span class="r-in"><span><span class="fu">is.apt</span><span class="op">(</span><span class="st">"seq.4959.2"</span><span class="op">)</span>  <span class="co"># TRUE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span class="fu">is.apt</span><span class="op">(</span><span class="st">"4959-2"</span><span class="op">)</span>      <span class="co"># TRUE</span></span>
+<span class="r-in"><span><span class="fu">is.apt</span><span class="op">(</span><span class="st">"4959-2"</span><span class="op">)</span>      <span class="co"># TRUE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span class="fu">is.apt</span><span class="op">(</span><span class="st">"AGR2"</span><span class="op">)</span>        <span class="co"># FALSE</span></span>
+<span class="r-in"><span><span class="fu">is.apt</span><span class="op">(</span><span class="st">"AGR2"</span><span class="op">)</span>        <span class="co"># FALSE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># SeqId Matching</span></span>
-<span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"seq.4554.56"</span>, <span class="st">"seq.3714.49"</span>, <span class="st">"PlateId"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Group"</span>, <span class="st">"3714-49"</span>, <span class="st">"Assay"</span>, <span class="st">"4554-56"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">matchSeqIds</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># SeqId Matching</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"seq.4554.56"</span>, <span class="st">"seq.3714.49"</span>, <span class="st">"PlateId"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Group"</span>, <span class="st">"3714-49"</span>, <span class="st">"Assay"</span>, <span class="st">"4554-56"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">matchSeqIds</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "4554-56" "3714-49"</span>
-<span class="r-in"><span class="fu">matchSeqIds</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, order.by.x <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">matchSeqIds</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, order.by.x <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "3714-49" "4554-56"</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># vector of features</span></span>
-<span class="r-in"><span class="va">feats</span> <span class="op">&lt;-</span> <span class="fu"><a href="getAnalytes.html">getAnalytes</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">match_df</span> <span class="op">&lt;-</span> <span class="fu">getSeqIdMatches</span><span class="op">(</span><span class="va">feats</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">]</span>, <span class="va">feats</span><span class="op">[</span><span class="fl">90</span><span class="op">:</span><span class="fl">500</span><span class="op">]</span><span class="op">)</span>  <span class="co"># 11 overlapping</span></span>
-<span class="r-in"><span class="va">match_df</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># vector of features</span></span></span>
+<span class="r-in"><span><span class="va">feats</span> <span class="op">&lt;-</span> <span class="fu"><a href="getAnalytes.html">getAnalytes</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">match_df</span> <span class="op">&lt;-</span> <span class="fu">getSeqIdMatches</span><span class="op">(</span><span class="va">feats</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">]</span>, <span class="va">feats</span><span class="op">[</span><span class="fl">90</span><span class="op">:</span><span class="fl">500</span><span class="op">]</span><span class="op">)</span>  <span class="co"># 11 overlapping</span></span></span>
+<span class="r-in"><span><span class="va">match_df</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     feats[1:100] feats[90:500]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1   seq.10461.57  seq.10461.57</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2   seq.10462.14  seq.10462.14</span>
@@ -238,10 +265,10 @@ avoid dumping excess output to the console (see the <code>show =</code> argument
 <span class="r-out co"><span class="r-pr">#&gt;</span> 9   seq.10489.19  seq.10489.19</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10   seq.10490.3   seq.10490.3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11  seq.10491.21  seq.10491.21</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">feats</span>, <span class="fl">15</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_seed.html" class="external-link">with_seed</a></span><span class="op">(</span><span class="fl">99</span>, <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu">getSeqId</span><span class="op">(</span><span class="va">a</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>   <span class="co"># =&gt; SeqId &amp; shuffle</span></span>
-<span class="r-in"><span class="op">(</span><span class="fu">getSeqIdMatches</span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span><span class="op">)</span><span class="op">)</span>                          <span class="co"># sorted by first vector "a"</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">feats</span>, <span class="fl">15</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">b</span> <span class="op">&lt;-</span> <span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_seed.html" class="external-link">with_seed</a></span><span class="op">(</span><span class="fl">99</span>, <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu">getSeqId</span><span class="op">(</span><span class="va">a</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>   <span class="co"># =&gt; SeqId &amp; shuffle</span></span></span>
+<span class="r-in"><span><span class="op">(</span><span class="fu">getSeqIdMatches</span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span><span class="op">)</span><span class="op">)</span>                          <span class="co"># sorted by first vector "a"</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                a         b</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1   seq.10000.28  10000-28</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2    seq.10001.7   10001-7</span>
@@ -272,7 +299,7 @@ avoid dumping excess output to the console (see the <code>show =</code> argument
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

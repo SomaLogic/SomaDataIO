@@ -26,7 +26,7 @@ https://www.bioconductor.org/packages/release/bioc/html/Biobase.html."><meta pro
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SomaDataIO</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">5.3.0.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">5.3.1.9000</span>
       </span>
     </div>
 
@@ -62,13 +62,16 @@ from <strong>Bioconductor</strong>:
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">adat2eSet</span><span class="op">(</span><span class="va">adat</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">adat2eSet</span><span class="op">(</span><span class="va">adat</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
-    </div>
+    <dl><dt>adat</dt>
+<dd><p>A <code>soma_adat</code> class object as read into the R
+environment using <code><a href="read_adat.html">read_adat()</a></code>.</p></dd>
+
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     
@@ -78,11 +81,11 @@ from <strong>Bioconductor</strong>:
     <div id="details">
     <h2>Details</h2>
     <p>The <span class="pkg">Biobase</span> package is required and must be installed from
-<strong>Bioconductor</strong> via the following at the R console:</p><div class="sourceCode"><pre><code><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span>
-<span class="op">}</span>
-<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"Biobase"</span>, version <span class="op">=</span> <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/bioc_install_repos.html" class="external-link">bioc_version</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-
+<strong>Bioconductor</strong> via the following at the R console:</p>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"BiocManager"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="st">"BiocManager"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">"Biobase"</span>, <span class="at">version =</span> remotes<span class="sc">::</span><span class="fu">bioc_version</span>())</span></code></pre><p></p></div>
     </div>
     <div id="references">
     <h2>References</h2>
@@ -100,12 +103,12 @@ from <strong>Bioconductor</strong>:
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">eSet</span> <span class="op">&lt;-</span> <span class="fu">adat2eSet</span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">eSet</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">eSet</span> <span class="op">&lt;-</span> <span class="fu">adat2eSet</span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">eSet</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "ExpressionSet"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"package")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Biobase"</span>
-<span class="r-in"><span class="va">eSet</span></span>
+<span class="r-in"><span><span class="va">eSet</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ExpressionSet (storageMode: lockedEnvironment)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> assayData: 5284 features, 192 samples </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   element names: exprs </span>
@@ -121,9 +124,9 @@ from <strong>Bioconductor</strong>:
 <span class="r-out co"><span class="r-pr">#&gt;</span>   fvarMetadata: labelDescription</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> experimentData: use 'experimentData(object)'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Annotation:  </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">ft</span> <span class="op">&lt;-</span> <span class="fu">Biobase</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/exprs.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">eSet</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ft</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>, <span class="fl">10</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">ft</span> <span class="op">&lt;-</span> <span class="fu">Biobase</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/exprs.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">eSet</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ft</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>, <span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               258495800012_3 258495800004_7 258495800010_8 258495800003_4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> seq.10000.28           476.5          474.4          415.6          442.6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> seq.10001.7            310.1          293.5          299.6          247.9</span>
@@ -171,7 +174,7 @@ from <strong>Bioconductor</strong>:
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
