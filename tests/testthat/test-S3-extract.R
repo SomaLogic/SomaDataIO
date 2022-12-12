@@ -22,10 +22,10 @@ test_that("extract charcter method within-type produces correct output", {
   expect_named(new, chr)
   expect_true(is.intact.attributes(new))
   expect_s3_class(new, "soma_adat")
-  expect_equal(dim(new), c(6, 3))
+  expect_equal(dim(new), c(6L, 3L))
   expect_equal(rownames(new), rownames(adat))
   atts <- attributes(new)
-  expect_equal(dim(atts$Col.Meta), c(length(chr), 9))
+  expect_equal(dim(atts$Col.Meta), c(length(chr), 9L))
   expect_equal(atts$Col.Meta$Target, c("MMP-1", "MMP-2", "MMP-3"))
 })
 
@@ -36,10 +36,10 @@ test_that("extract charcter method cross-types produces correct output", {
   expect_named(new, chr)
   expect_true(is.intact.attributes(new))
   expect_s3_class(new, "soma_adat")
-  expect_equal(dim(new), c(6, length(chr)))
+  expect_equal(dim(new), c(6L, length(chr)))
   expect_equal(rownames(new), rownames(adat))
   atts <- attributes(new)
-  expect_equal(dim(atts$Col.Meta), c(2, 9))
+  expect_equal(dim(atts$Col.Meta), c(2L, 9L))
   expect_equal(atts$Col.Meta$Target, c("MMP-3", "MMP-1"))
 })
 
@@ -52,10 +52,10 @@ test_that("extract numeric method within-type produces correct output", {
   expect_s3_class(new, "soma_adat")
   expect_equal(dim(new), c(nrow(adat), length(idx)))
   expect_equal(rownames(new), rownames(adat))
-  expect_equal(dim(attr(new, "Col.Meta")), c(0, 9))
+  expect_equal(dim(attr(new, "Col.Meta")), c(0L, 9L))
 
   # Analytes only
-  idx <- c(8, 10)
+  idx <- c(8L, 10L)
   new <- adat[, idx]
   expect_named(new, names(adat)[idx])
   expect_true(is.intact.attributes(new))
@@ -63,12 +63,12 @@ test_that("extract numeric method within-type produces correct output", {
   expect_equal(dim(new), c(nrow(adat), length(idx)))
   expect_equal(rownames(new), rownames(adat))
   atts <- attributes(new)
-  expect_equal(dim(atts$Col.Meta), c(length(idx), 9))
+  expect_equal(dim(atts$Col.Meta), c(length(idx), 9L))
   expect_equal(getSeqId(names(adat)[idx]), getSeqId(atts$Col.Meta$SeqId, TRUE))
 })
 
 test_that("extract numeric method cross-types produces correct output", {
-  idx <- c(1, 2, 3, 8, 10)
+  idx <- c(1L, 2L, 3L, 8L, 10L)
   new <- adat[, idx]
   expect_named(new, names(adat)[idx])
   expect_s3_class(new, "soma_adat")
@@ -76,27 +76,27 @@ test_that("extract numeric method cross-types produces correct output", {
   expect_equal(dim(new), c(nrow(adat), length(idx)))
   expect_equal(rownames(new), rownames(adat))
   atts <- attributes(new)
-  expect_equal(dim(atts$Col.Meta), c(2, 9))
-  expect_equal(getSeqId(names(adat)[c(8, 10)]), atts$Col.Meta$SeqId)
+  expect_equal(dim(atts$Col.Meta), c(2L, 9L))
+  expect_equal(getSeqId(names(adat)[c(8L, 10L)]), atts$Col.Meta$SeqId)
 })
 
 test_that("negative numeric indices do not break attributes", {
   # single negative
-  new <- adat[, -9]
+  new <- adat[, -9L]
   expect_true(is.intact.attributes(new))
   expect_s3_class(new, "soma_adat")
-  expect_equal(dim(new), c(nrow(adat), ncol(adat) - 1))
-  expect_equal(dim(attr(new, "Col.Meta")), c(2, 9))
+  expect_equal(dim(new), c(nrow(adat), ncol(adat) - 1L))
+  expect_equal(dim(attr(new, "Col.Meta")), c(2L, 9L))
 
   # vector negative
-  idx <- c(8, 10)
+  idx <- c(8L, 10L)
   new <- adat[, -idx]
   expect_true(is.intact.attributes(new))
   expect_s3_class(new, "soma_adat")
   expect_equal(dim(new), c(nrow(adat), ncol(adat) - length(idx)))
   atts <- attributes(new)
   expect_equal(dim(atts$Col.Meta),
-               c(getAnalytes(adat, n = TRUE) - length(idx), 9))
+               c(getAnalytes(adat, n = TRUE) - length(idx), 9L))
 })
 
 test_that("the `drop = FALSE` argument is working correctly", {
@@ -147,7 +147,7 @@ test_that("extract logical method within-type produces correct output", {
   expect_s3_class(new, "soma_adat")
   expect_equal(dim(new), c(nrow(adat), sum(lgl)))
   expect_equal(rownames(new), rownames(adat))
-  expect_equal(dim(attr(new, "Col.Meta")), c(0, 9))
+  expect_equal(dim(attr(new, "Col.Meta")), c(0L, 9L))
 
   # Aptamers only
   lgl <- seq_len(ncol(adat)) %in% c(8, 10)   # pick 2
@@ -158,12 +158,12 @@ test_that("extract logical method within-type produces correct output", {
   expect_equal(dim(new), c(nrow(adat), sum(lgl)))
   expect_equal(rownames(new), rownames(adat))
   atts <- attributes(new)
-  expect_equal(dim(atts$Col.Meta), c(sum(lgl), 9))
+  expect_equal(dim(atts$Col.Meta), c(sum(lgl), 9L))
   expect_equal(getSeqId(names(adat)[lgl]), atts$Col.Meta$SeqId)
 })
 
 test_that("extract logical method cross-type produces correct output", {
-  lgl <- seq_len(ncol(adat)) %in% c(1, 2, 3, 9, 10)
+  lgl <- seq_len(ncol(adat)) %in% c(1L, 2L, 3L, 9L, 10L)
   new <- adat[, lgl]
   expect_named(new, names(adat)[lgl])
   expect_s3_class(new, "soma_adat")
@@ -171,8 +171,8 @@ test_that("extract logical method cross-type produces correct output", {
   expect_equal(dim(new), c(nrow(adat), sum(lgl)))
   expect_equal(rownames(new), rownames(adat))
   atts <- attributes(new)
-  expect_equal(dim(atts$Col.Meta), c(2, 9))
-  expect_equal(getSeqId(names(adat)[c(9, 10)]), atts$Col.Meta$SeqId)
+  expect_equal(dim(atts$Col.Meta), c(2L, 9L))
+  expect_equal(getSeqId(names(adat)[c(9L, 10L)]), atts$Col.Meta$SeqId)
 })
 
 test_that("attributes already broken, return normal data.frame method", {
@@ -183,11 +183,11 @@ test_that("attributes already broken, return normal data.frame method", {
   attributes(adat)$file_specs  <- NULL
   expect_false(is.intact.attributes(adat))   # just to be sure
   expect_equal(sum(adat[, 3L]), 12)   # sum Subarray
-  expect_equal(dim(adat[5L, ]), c(1, 10))
+  expect_equal(dim(adat[5L, ]), c(1L, 10L))
 })
 
 test_that("attribute elements are not re-ordered by extract; same order", {
-  new <- adat[, 10:8]
+  new <- adat[, 10:8L]
   expect_equal(names(attributes(new)), names(attributes(adat)))
 })
 
@@ -233,16 +233,16 @@ test_that("`[[` trips error when `j` or negative indices are passed", {
            "Please use `x[5, 3]` instead."), fixed = TRUE
   )
   expect_error(
-    adat[[5, 2:8]],
+    adat[[5L, 2:8L]],
     paste0("Passing jth column index not supported via `[[` for `soma_adat`.\n",
-           "Please use `x[5, 2:8]` instead."), fixed = TRUE
+           "Please use `x[5L, 2:8L]` instead."), fixed = TRUE
   )
   expect_error(
-    adat[[5, foo]],
+    adat[[5L, foo]],
     paste0("Passing jth column index not supported via `[[` for `soma_adat`.\n",
-           "Please use `x[5, foo]` instead."), fixed = TRUE
+           "Please use `x[5L, foo]` instead."), fixed = TRUE
   )
-  expect_error(adat[[9000]], "subscript out of bounds")
+  expect_error(adat[[9000L]], "subscript out of bounds")
   expect_error(adat[[-1]], "invalid negative subscript in get1index")
 })
 
@@ -250,8 +250,8 @@ test_that("Three `*<-.soma_adat` assignment methods preserve attribute order", {
   true_names <- names(attributes(adat))
   # [
   new <- adat
-  new[4, 9] <- 999
-  expect_equal(new[4, 9], 999)
+  new[4L, 9L] <- 999
+  expect_equal(new[4L, 9L], 999)
   expect_equal(names(attributes(new)), true_names)
   # $
   new <- adat

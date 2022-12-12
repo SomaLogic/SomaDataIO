@@ -35,9 +35,8 @@
 #' # Alternatively pass annotations with Target info
 #' anno <- getAnalyteInfo(my_adat)
 #' summary(my_adat[, mmps], tbl = anno)
-#' @importFrom stats IQR mad sd
+#' @importFrom stats IQR mad sd setNames
 #' @importFrom dplyr select all_of
-#' @importFrom stats setNames
 #' @export
 summary.soma_adat <- function(object, tbl = NULL,
                               digits = max(3L, getOption("digits") - 3L), ...) {

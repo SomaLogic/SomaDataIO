@@ -75,7 +75,7 @@ test_that("is.apt returns FALSE when SeqId is not trailing", {
 test_that("is.apt vectorized version works", {
   x <- is.apt(c("Super", "HB1A.9", "Sample", "ABCD.2343.2.12", "MMP.4342.12.1"))
   expect_type(x, "logical")
-  expect_length(x, 5)
+  expect_length(x, 5L)
   expect_equal(x, c(FALSE, FALSE, FALSE, TRUE, TRUE))
   expect_equal(sum(is.apt(names(mock_adat()))), 3)  # all analytes in `soma_adat`
 })

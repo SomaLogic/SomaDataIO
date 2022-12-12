@@ -113,7 +113,7 @@ parseHeader <- function(file) {
     } else if ( section == "EXIT" ) {
       # if at end of Col.Meta section, break loop & stop parsing
       # 1st check that all lengths Col.Meta are equal (or as_tibble() will fail)
-      if ( diff(range(lengths(ret$Col.Meta))) != 0 ) {
+      if ( diff(range(lengths(ret$Col.Meta))) != 0L ) {
         if ( interactive() ) {
           print(enframe(lengths(ret$Col.Meta), name = "Field", value = "\t"))
         }

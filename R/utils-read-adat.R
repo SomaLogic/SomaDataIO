@@ -104,7 +104,7 @@ catchFile <- function(x) {
     )
   }
 
-  if ( !is.numeric(x$table_begin) || length(x$table_begin) != 1 ) {
+  if ( !is.numeric(x$table_begin) || length(x$table_begin) != 1L ) {
     stop(
       "The `table_begin` entry of `file_specs` should be ",
       "class numeric AND length 1: ", .value(x$table_begin), ".",
@@ -125,7 +125,7 @@ catchFile <- function(x) {
               "col_meta_shift" %in% names(x),
               "data_begin" %in% names(x))
 
-    if ( !is.numeric(x$col_meta_start) || length(x$col_meta_start) != 1 ) {
+    if ( !is.numeric(x$col_meta_start) || length(x$col_meta_start) != 1L ) {
       stop(
         "The `col_meta_start` entry of `file_specs` should ",
         "be class numeric AND length 1: ", .value(x$col_meta_start),
@@ -133,7 +133,7 @@ catchFile <- function(x) {
       )
     }
 
-    if ( !is.numeric(x$col_meta_shift) || length(x$col_meta_shift) != 1 ) {
+    if ( !is.numeric(x$col_meta_shift) || length(x$col_meta_shift) != 1L ) {
       stop(
         "The `col_meta_shift` entry of `file_specs` should ",
         "be class numeric AND length 1: ", .value(x$col_meta_shift),
@@ -141,7 +141,7 @@ catchFile <- function(x) {
       )
     }
 
-    if ( !is.numeric(x$data_begin) || length(x$data_begin) != 1 ) {
+    if ( !is.numeric(x$data_begin) || length(x$data_begin) != 1L ) {
       stop(
         "The `data_begin` entry of `file_specs` should ",
         "be class numeric AND length 1: ", .value(x$data_begin),

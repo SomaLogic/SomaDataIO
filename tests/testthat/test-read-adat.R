@@ -48,11 +48,11 @@ test_that("`read_adat()` attributes are correct", {
                  'CalQcRatio_Example_Adat_Set001_170255', 'QcReference_170255',
                  'Cal_Example_Adat_Set002',
                  'CalQcRatio_Example_Adat_Set002_170255', 'Dilution2'))
-  expect_true(all(lengths(atts$Col.Meta) == 5284))
+  expect_true(all(lengths(atts$Col.Meta) == 5284L))
 })
 
 test_that("`read_adat()` the dimensions of the 'soma_adat' object are correct", {
-  expect_equal(dim(adat), c(1, 5318))
+  expect_equal(dim(adat), c(1L, 5318L))
   expect_equal(adat$Sex, "M")
 })
 

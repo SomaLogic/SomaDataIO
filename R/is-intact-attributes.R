@@ -38,7 +38,7 @@ is.intact.attributes <- function(adat, verbose = interactive()) {
       )
     }
     FALSE
-  } else if ( length(atts) <= 3 ) {
+  } else if ( length(atts) <= 3L ) {
     if ( verbose ) {
       .oops(
         "Attributes has only 3 entries: {.value(names(atts))}"

@@ -6,7 +6,7 @@ adat <- mock_adat()
 test_that("`getMeta()` S3 `soma_adat` method", {
   meta <- getMeta(adat)
   expect_type(meta, "character")
-  expect_length(meta, 7)
+  expect_length(meta, 7L)
   expect_true(sum(is.apt(meta)) == 0)
 })
 
@@ -17,7 +17,7 @@ test_that("`getMeta()` `n` argument works", {
 test_that("`getMeta()` S3 'character' method", {
   meta <- getMeta(names(adat))
   expect_type(meta, "character")
-  expect_length(meta, 7)
+  expect_length(meta, 7L)
   expect_true(sum(is.apt(meta)) == 0)
 })
 

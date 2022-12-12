@@ -47,7 +47,7 @@ NULL
 #' whether they are explicit or implicit.
 #' @export
 rn2col <- function(data, name = ".rn") {
-  stopifnot(is.data.frame(data), length(name) == 1)
+  stopifnot(is.data.frame(data), length(name) == 1L)
   nc <- ncol(data)
   data[[name]] <- rownames(data)
   data <- data[, c(nc + 1L, seq_len(nc))]
@@ -59,7 +59,7 @@ rn2col <- function(data, name = ".rn") {
 #' will be overwritten (with warning).
 #' @export
 col2rn <- function(data, name = ".rn") {
-  stopifnot(is.data.frame(data), length(name) == 1)
+  stopifnot(is.data.frame(data), length(name) == 1L)
   if ( has_rn(data) ) {
     warning(
       "`data` already has assigned row names. They will be over-written.",
@@ -112,7 +112,7 @@ set_rn <- function(data, value) {
 #' (please code accordingly).
 #' @export
 add_rowid <- function(data, name = ".rowid") {
-  stopifnot(is.data.frame(data), length(name) == 1)
+  stopifnot(is.data.frame(data), length(name) == 1L)
   nc <- ncol(data)
   data[[name]] <- seq_len(nrow(data))
   data <- data[, c(nc + 1L, seq_len(nc))]
