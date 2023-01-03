@@ -481,7 +481,7 @@ is.intact.attributes(my_adat)     # attributes MUST be intact to write to file
 
 write_adat(my_adat, file = tempfile("my-adat-", fileext = ".adat"))
 #> ✔ ADAT passed all checks and traps.
-#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpK0o63G/my-adat-175d42e09709.adat'
+#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpuf5FNm/my-adat-15046f82ae95.adat'
 ```
 
 ------------------------------------------------------------------------
@@ -856,5 +856,5 @@ res %>%
 
 ------------------------------------------------------------------------
 
-Created by [Rmarkdown](https://github.com/rstudio/rmarkdown) (v2.17) and
+Created by [Rmarkdown](https://github.com/rstudio/rmarkdown) (v2.19) and
 R version 4.2.2 (2022-10-31).
