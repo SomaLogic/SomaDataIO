@@ -22,7 +22,7 @@ prepHeaderMeta <- function(data) {
         .code(deparse(call)), "\n ",
         .code(sprintf("is.intact.attributes(%s)", obj)), "must be", .value("TRUE")
       )
-      if ( utils::packageName() == "SomaReadr" ) {
+      if ( utils::packageName() == "SomaDataIO" ) {
         cat(
           "\n  Perhaps", .code("createChildAttributes()"),
           "can help?\n  Example:\n   ",
@@ -60,28 +60,6 @@ prepHeaderMeta <- function(data) {
   #idx <- which(vapply(x$Col.Meta, is.character, NA))
   #for ( i in idx ) x$Col.Meta[[i]] <- gsub(",", ";", x$Col.Meta[[i]])
 
-  if ( "CreatedByHistory" %in% names(x$Header.Meta$HEADER) ) {
-    x$Header.Meta$HEADER$CreatedByHistory <-
-      paste0(x$Header.Meta$HEADER$CreatedBy, "|",
-             x$Header.Meta$HEADER$CreatedByHistory)
-  } else {
-    idx <- which(names(x$Header.Meta$HEADER) == "CreatedBy")
-    x$Header.Meta$HEADER <- append(x$Header.Meta$HEADER,
-                                   list(CreatedByHistory = x$Header.Meta$HEADER$CreatedBy),
-                                   after = idx)
-  }
-
-  if ( "CreatedDateHistory" %in% names(x$Header.Meta$HEADER) ) {
-    x$Header.Meta$HEADER$CreatedDateHistory <-
-      paste0(x$Header.Meta$HEADER$CreatedDate, "|",
-             x$Header.Meta$HEADER$CreatedDateHistory)
-  } else {
-    idx <- which(names(x$Header.Meta$HEADER) == "CreatedDate")
-    x$Header.Meta$HEADER <- append(x$Header.Meta$HEADER,
-                                   list(CreatedDateHistory = x$Header.Meta$HEADER$CreatedDate),
-                                   after = idx)
-  }
-
   # version number stuff
   if ( !("Version" %in% names(x$Header.Meta$HEADER) &&
          x$Header.Meta$HEADER$Version == "1.2") ) {
@@ -89,15 +67,22 @@ prepHeaderMeta <- function(data) {
     .done("Updating ADAT version to: {.value('1.2')}")
   }
 
+  if ( "CreatedBy" %in% names(x$Header.Meta$HEADER) ) {
+    new <- c(paste(x$Header.Meta$HEADER$CreatedBy,
+                   sprintf("(%s)", x$Header.Meta$HEADER$CreatedDate)),
+             x$Header.Meta$HEADER$CreatedByHistory)
+    x$Header.Meta$HEADER$CreatedByHistory <- paste(new, collapse = " | ")
+  }
+
   x$Header.Meta$HEADER$CreatedDate <- format(Sys.time(), "%Y-%m-%d")
+
   user <- ifelse(grepl("linux|darwin", R.version$platform), Sys.getenv("USER"),
                  Sys.getenv("USERNAME"))
   pkg <- utils::packageName()
-  pkg_ver <- as.character(utils::packageVersion(pkg))
-
+  pkg_ver <- utils::packageDescription(pkg, fields = "Version")
   x$Header.Meta$HEADER$CreatedBy <-
-    sprintf("User: %s; Package: %s_%s; using %s; Platform: %s",
-            user, pkg, pkg_ver, R.version$version.string, R.version$system)
+    sprintf("User: %s; Package: %s v%s; R %s.%s; OS: %s",
+            user, pkg, pkg_ver, R.version$major, R.version$minor, R.version$os)
 
   # map orig 'key'-names of key-value pairs back to their orig values
   names(x$Header.Meta$HEADER) <- .map_names(x$Header.Meta$HEADER, key_map_header)

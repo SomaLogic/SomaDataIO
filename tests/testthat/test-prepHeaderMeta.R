@@ -7,7 +7,7 @@ x$Header.Meta$HEADER$CreatedBy <- "DonTrump"
 x$Header.Meta$HEADER$Version <- "1.0"
 col <- c("SeqId", "Target", "Units", "Dilution")
 x$Header.Meta$COL_DATA$Name <- c(col, "UniProt", "Dilution2")
-x$Header.Meta$COL_DATA$Type <- rep_len("string", length(col) + 2)
+x$Header.Meta$COL_DATA$Type <- rep_len("string", length(col) + 2L)
 x$Header.Meta$ROW_DATA$Name <- c("a", "b")
 x$Col.Meta <- tibble::tibble(SeqId = "1234-56", Target = "MyProtein",
                              Units = "RFU", Dilution = 0.01, Dilution2 = 1)
@@ -23,21 +23,21 @@ test_that("`prepHeaderMeta()` wrangles the correct fields", {
   expect_type(z, "list")
   expect_equal(z$Header.Meta$HEADER$CreatedDate, format(Sys.time(), "%Y-%m-%d"))
   expect_equal(z$Header.Meta$HEADER$Version, "1.2")
-  expect_equal(z$Header.Meta$HEADER$CreatedDateHistory, "1999-12-31")
-  expect_equal(z$Header.Meta$HEADER$CreatedByHistory, "DonTrump")
+  expect_equal(z$Header.Meta$HEADER$CreatedByHistory,
+               paste0("DonTrump (", x$Header.Meta$HEADER$CreatedDate, ")"))
 
   by <- strsplit(z$Header.Meta$HEADER$CreatedBy, "; ", fixed = TRUE)[[1L]]
   expect_length(by, 4L)
   expect_match(by[1L], "^User:")
-  expect_match(by[2L], "^Package: SomaDataIO_[0-9][.][0-9][.][0-9]")
+  expect_match(by[2L], "^Package: SomaDataIO v[0-9][.][0-9][.][0-9]")
   expect_match(by[3L],
-    "^using R version [3-7][.][0-9][.][0-9]|^using R Under development",
+    "^R [3-7][.][0-9][.][0-9]|^using R Under development",
     ignore.case = TRUE
   )
-  expect_match(by[4L], "^Platform:")
+  expect_match(by[4L], "^OS:")
 
   expect_equal(z$Header.Meta$COL_DATA$Name, col)   # UniProt + Dilution2 removed
-  expect_equal(z$Header.Meta$COL_DATA$Type, rep_len("string", 4))
+  expect_equal(z$Header.Meta$COL_DATA$Type, rep_len("string", 4L))
   expect_equal(z$Header.Meta$ROW_DATA$Name, getMeta(y))
   expect_equal(z$Header.Meta$ROW_DATA$Type, c(a = "integer",
                                               b = "character",
