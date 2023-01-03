@@ -57,7 +57,7 @@ test_that("`read_adat()` the dimensions of the 'soma_adat' object are correct", 
 })
 
 test_that("`read_adat()` produces the correct RFU values", {
-  expect_equal(median(adat$seq.3343.1), 2046.6)
+  expect_equal(adat$seq.3343.1, 2046.6)
   apts <- getAnalytes(adat)
   expect_equal(sum(adat[, apts]), 21311516)
 })
