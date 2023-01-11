@@ -11,7 +11,7 @@ version](https://img.shields.io/badge/Version-5.3.1.9000-success.svg?style=flat&
 badge](https://img.shields.io/badge/CRAN-No-red.svg)](https://cran.r-project.org)
 [![R-CMD-check](https://github.com/SomaLogic/SomaDataIO/workflows/R-CMD-check/badge.svg)](https://github.com/SomaLogic/SomaDataIO/actions)
 [![Codecov test
-coverage](https://app.codecov.io/gh/SomaLogic/SomaDataIO/branch/master/graph/badge.svg)](https://app.codecov.io/gh/SomaLogic/SomaDataIO?branch=master)
+coverage](https://codecov.io/gh/SomaLogic/SomaDataIO/branch/main/graph/badge.svg)](https://app.codecov.io/gh/SomaLogic/SomaDataIO?branch=main)
 [![Lifecycle
 Status](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![License:
@@ -478,7 +478,7 @@ is.intact.attributes(my_adat)     # attributes MUST be intact to write to file
 
 write_adat(my_adat, file = tempfile("my-adat-", fileext = ".adat"))
 #> ✔ ADAT passed all checks and traps.
-#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpG3StlG/my-adat-7ef01b56bd6a.adat'
+#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpWyTYfL/my-adat-775674a4f330.adat'
 ```
 
 ------------------------------------------------------------------------
