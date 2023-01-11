@@ -15,7 +15,7 @@ Description: Providing utilities to load and export 'SomaScan' data via
     for manipulating, wrangling, and extracting relevant information from
     an ADAT object once in memory.
 License: MIT + file LICENSE
-URL: https://somalogic.github.io/SomaDataIO/, https://www.somalogic.com
+URL: https://somalogic.github.io/SomaDataIO/, https://somalogic.com
 BugReports: https://github.com/SomaLogic/SomaDataIO/issues
 Depends:
     R (>= 4.1.0)
