@@ -8,13 +8,14 @@
 \alias{getSomamerData}
 \title{Deprecated function(s) of the \pkg{SomaDataIO} package}
 \arguments{
-\item{...}{A simple pass-through to a replacement alternative if available.}
+\item{...}{A simple argument pass-through to an alternative replacement
+function if available.}
 }
 \description{
 These functions are provided for compatibility with
-older versions of the \code{SomaDataIO} package.
+older versions of the \pkg{SomaDataIO} package.
 They may eventually be completely removed, so
-please re-code your scripts accordingly as soon as possible.
+please re-code your scripts accordingly.
 }
 \details{
 \tabular{rl}{

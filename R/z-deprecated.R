@@ -1,9 +1,9 @@
 #' Deprecated function(s) of the \pkg{SomaDataIO} package
 #'
 #' These functions are provided for compatibility with
-#' older versions of the `SomaDataIO` package.
+#' older versions of the \pkg{SomaDataIO} package.
 #' They may eventually be completely removed, so
-#' please re-code your scripts accordingly as soon as possible.
+#' please re-code your scripts accordingly.
 #'
 #' \tabular{rl}{
 #'   `meltExpressionSet()` \tab now use [pivotExpressionSet()] \cr
@@ -17,11 +17,14 @@
 #' @name SomaDataIO-deprecated
 #' @docType package
 #' @author Stu Field
-#' @param ... A simple pass-through to a replacement alternative if available.
+#' @param ... A simple argument pass-through to an alternative replacement
+#'   function if available.
 #' @aliases meltExpressionSet getSomamers getSomamerData
 #' @export meltExpressionSet getSomamers getSomamerData
-#' @importFrom lifecycle deprecate_warn
+#' @importFrom lifecycle deprecate_warn deprecate_stop
 NULL
+
+
 
 #' @describeIn getAnalyteInfo renamed in \pkg{SomaDataIO v5.1.0}. Exported
 #' (with life-cycle warning) to maintain backward compatibility.
@@ -42,19 +45,16 @@ getFeatures <- function(x, n = FALSE, rm.controls = FALSE) {
 }
 
 #' @noRd
-getSomamers <- function(...) {
-  deprecate_warn("5.0.0", "SomaDataIO::getSomamers()", "getAnalytes()")
-  getAnalytes(...)
-}
-#' @noRd
 meltExpressionSet <- function(...) {
-  deprecate_warn("5.0.0", "SomaDataIO::meltExpressionSet()",
-                 "pivotExpressionSet()")
-  pivotExpressionSet(...)
+  deprecate_stop("5.0.0", "SomaDataIO::meltExpressionSet()", "pivotExpressionSet()")
+}
+
+#' @noRd
+getSomamers <- function(...) {
+  deprecate_stop("5.0.0", "SomaDataIO::getSomamers()", "getAnalytes()")
 }
 
 #' @noRd
 getSomamerData <- function(...) {
-  deprecate_warn("5.0.0", "SomaDataIO::getSomamerData()", "getFeatureData()")
-  getFeatureData(...)
+  deprecate_stop("5.0.0", "SomaDataIO::getSomamerData()", "getAnalyteInfo()")
 }
