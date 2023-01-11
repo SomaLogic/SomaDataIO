@@ -6,7 +6,7 @@
 #' SomaScan data deliverable. It is **not** intended to be used as a control
 #' group for studies or provide any metrics for SomaScan data in general.
 #'
-#' @name SomaDataObjects
+#' @name SomaScanObjects
 #' @aliases example_data ex_analytes ex_anno_tbl ex_target_names
 #' @docType data
 #'
