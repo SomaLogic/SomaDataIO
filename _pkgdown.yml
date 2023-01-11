@@ -73,11 +73,12 @@ reference:
   - title: Data Objects
     desc: Objects provided with `SomaDataIO`.
     contents:
-    - SomaDataObjects
+    - SomaScanObjects
 
   - title: Deprecated
     desc: >
-      Functions that have been deprecated (sunset) in the current `SomaDataIO` release.
+      Functions that have been deprecated (sunset) in the
+      current `SomaDataIO` release.
     contents:
     - SomaDataIO-deprecated
 
