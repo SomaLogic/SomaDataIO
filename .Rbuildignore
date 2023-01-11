@@ -7,3 +7,4 @@
 ^\.covrignore$
 ^\.github$
 ^Makefile$
+^cran-comments\.md$
