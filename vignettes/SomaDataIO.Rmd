@@ -17,10 +17,10 @@ knitr::opts_chunk$set(
 
 
 
-This document accompanies the R package `SomaDataIO`, which loads the 
+This document accompanies the `SomaDataIO` R package, which loads the 
 SomaLogic Operating Co., Inc. proprietary data file called an `*.adat`.
-The package provides auxiliary functions for extracting relevant information 
-from the ADAT object once in the R environment.
+The package provides auxiliary functions for extracting, manipulating,
+and wrangling relevant information from the ADAT object once in the R environment.
 Basic familiarity with the R environment is assumed, as is the ability to install
 contributed packages from the Comprehensive R Archive Network (CRAN).
 
@@ -51,7 +51,7 @@ contributed packages from the Comprehensive R Archive Network (CRAN).
 
 SomaDataIO™
 
-Copyright © 2022 SomaLogic Operating Co., Inc.
+Copyright © 2023 SomaLogic Operating Co., Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of the SomaDataIO software and associated documentation files

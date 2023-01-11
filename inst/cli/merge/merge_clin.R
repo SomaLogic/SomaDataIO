@@ -12,7 +12,7 @@
 #      to use for the *.adat (`key1`) and *.csv (`key2`) respectively
 #
 # Copyright:
-#   Copyright (c) 2022 SomaLogic Operating Co., Inc.
+#   Copyright (c) 2023 SomaLogic Operating Co., Inc.
 # Author:
 #   Stu Field
 #

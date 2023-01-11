@@ -2,7 +2,7 @@
 
 SomaDataIO™
 
-Copyright © 2022 SomaLogic Operating Co., Inc.
+Copyright © 2023 SomaLogic Operating Co., Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of the SomaDataIO software and associated documentation files
