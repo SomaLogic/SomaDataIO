@@ -11,7 +11,7 @@ version](https://img.shields.io/badge/Version-5.3.1.9000-success.svg?style=flat&
 badge](https://img.shields.io/badge/CRAN-No-red.svg)](https://cran.r-project.org)
 [![R-CMD-check](https://github.com/SomaLogic/SomaDataIO/workflows/R-CMD-check/badge.svg)](https://github.com/SomaLogic/SomaDataIO/actions)
 [![Codecov test
-coverage](https://codecov.io/gh/SomaLogic/SomaDataIO/branch/master/graph/badge.svg)](https://codecov.io/gh/SomaLogic/SomaDataIO?branch=master)
+coverage](https://app.codecov.io/gh/SomaLogic/SomaDataIO/branch/master/graph/badge.svg)](https://app.codecov.io/gh/SomaLogic/SomaDataIO?branch=master)
 [![Lifecycle
 Status](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![License:
@@ -20,13 +20,13 @@ MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://choosealicense.
 
 ## Overview
 
-This document accompanies the R package `SomaDataIO`, which loads the
+This document accompanies the `SomaDataIO` R package, which loads the
 SomaLogic Operating Co., Inc. proprietary data file called an `*.adat`.
-The package provides auxiliary functions for extracting relevant
-information from the ADAT object once in the R environment. Basic
-familiarity with the R environment is assumed, as is the ability to
-install contributed packages from the Comprehensive R Archive Network
-(CRAN).
+The package provides auxiliary functions for manipulating, wrangling,
+and extracting relevant information from the ADAT object once in the R
+environment. Basic familiarity with the R environment is assumed, as is
+the ability to install contributed packages from the Comprehensive R
+Archive Network (CRAN).
 
 If you run into any issues/problems with `SomaDataIO` full documentation
 of the most recent
@@ -51,7 +51,13 @@ therapeutic, or other commercial purposes.
 ## Installation
 
 The easiest way to install `SomaDataIO` is to install directly from
-GitHub:
+CRAN:
+
+``` r
+install.packages("SomaDataIO")
+```
+
+Alternatively from GitHub:
 
 ``` r
 devtools::install_github("SomaLogic/SomaDataIO")
@@ -70,34 +76,25 @@ To install a *specific* tagged release, use:
 devtools::install_github("SomaLogic/SomaDataIO@v5.3.0")
 ```
 
-Alternatively you may clone the repository and install manually:
-
-``` bash
-git clone https://github.com/SomaLogic/SomaDataIO.git SomaDataIO
-R CMD INSTALL --use-vanilla --resave-data SomaDataIO
-```
-
 #### Package Dependencies
 
-The `SomaDataIO` package was intentionally developed to run slightly
-behind the bleeding edge of The Comprehensive R Archive Network
-(`CRAN`). This allows lead time to identify and fix bugs as well as
-simplifying software life-cycle. This may change in the future, however
-for the time being, the dependencies below represent the environment in
-which `SomaDataIO` was developed. If you run into any unexpected
-behavior, please ensure that the following package dependencies are
-pre-installed:
+The `SomaDataIO` package was intentionally developed to contain a
+limited number of dependencies from CRAN. This makes the package more
+stable to external software design changes but also limits its contained
+feature set. With this in mind, `SomaDataIO` aims to strike a balance
+providing long(er)-term stability and a limited set of features. Below
+are the package dependencies (see also the `DESCRIPTION` file):
 
 - `R (>= 4.1.0)`
-- `cli (v2.5.0)`
-- `crayon (v1.4.1)`
-- `dplyr (v1.0.6)`
-- `lifecycle (v1.0.0)`
-- `magrittr (v2.0.1)`
-- `readxl (v1.3.1)`
-- `tibble (v3.1.2)`
-- `tidyr (v1.1.3)`
-- `usethis (v2.0.1)`
+- `cli`
+- `crayon`
+- `dplyr`
+- `lifecycle`
+- `magrittr`
+- `readxl`
+- `tibble`
+- `tidyr`
+- `usethis`
 
 #### Biobase
 
@@ -132,17 +129,17 @@ For an index of available commands:
 library(help = SomaDataIO)
 ```
 
-#### Internal Objects
+#### Exported Objects
 
-The `SomaDataIO` package comes with 4 internal objects available to
-users to run canned examples (or analyses). They can be accessed once
-`SomaDataIO` has been attached via `library()`. They are:
+The `SomaDataIO` package comes with 4 objects available to users to run
+canned examples (or analyses). They can be accessed once `SomaDataIO`
+has been attached via `library()`. They are:
 
 - `example_data`
 - `ex_analytes`
 - `ex_anno_tbl`
 - `ex_target_names`
-- See `?SomaDataObjects`
+- See `?SomaScanObjects`
 
 ------------------------------------------------------------------------
 
@@ -481,7 +478,7 @@ is.intact.attributes(my_adat)     # attributes MUST be intact to write to file
 
 write_adat(my_adat, file = tempfile("my-adat-", fileext = ".adat"))
 #> ✔ ADAT passed all checks and traps.
-#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmpuf5FNm/my-adat-15046f82ae95.adat'
+#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpG3StlG/my-adat-7ef01b56bd6a.adat'
 ```
 
 ------------------------------------------------------------------------
