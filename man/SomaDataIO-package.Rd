@@ -52,7 +52,9 @@ anno_tbl |> dplyr::filter(grepl("^MMP", Target))
 \seealso{
 Useful links:
 \itemize{
-  \item \url{www.somalogic.com}
+  \item \url{https://somalogic.github.io/SomaDataIO/}
+  \item \url{https://www.somalogic.com}
+  \item Report bugs at \url{https://github.com/SomaLogic/SomaDataIO/issues}
 }
 
 }
