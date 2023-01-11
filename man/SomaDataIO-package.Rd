@@ -4,11 +4,11 @@
 \name{SomaDataIO-package}
 \alias{SomaDataIO}
 \alias{SomaDataIO-package}
-\title{SomaDataIO: SomaData Input/Output Package}
+\title{SomaDataIO: Input/Output SomaScan Data}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-The SomaDataIO package loads the SomaLogic Operating Co., Inc. proprietary data file, called an ADAT file ('*.adat'). It also provides auxiliary functions for extracting and manipulating relevant information from an ADAT, as well as exporting a modified ADAT to file.
+Providing utilities to load and export 'SomaScan' data via the SomaLogic Operating Co., Inc. proprietary text file called an ADAT ('*.adat'). This also exports auxiliary functions for manipulating, wrangling, and extracting relevant information from an ADAT object once in memory.
 }
 \details{
 Load an ADAT file into the global workspace with a call

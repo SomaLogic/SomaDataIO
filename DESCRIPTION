@@ -1,6 +1,6 @@
 Type: Package
 Package: SomaDataIO
-Title: SomaData Input/Output Package
+Title: Input/Output SomaScan Data
 Version: 5.3.1.9000
 Authors@R: 
     c(person(given  = "Stu",
@@ -9,10 +9,11 @@ Authors@R:
              email  = "stu.g.field@gmail.com"),
       person(given  = "SomaLogic Operating Co., Inc.",
              role   = c("cph", "fnd")))
-Description: The SomaDataIO package loads the SomaLogic Operating Co., Inc.
-    proprietary data file, called an ADAT file ('*.adat'). It also
-    provides auxiliary functions for extracting and manipulating relevant
-    information from an ADAT, as well as exporting a modified ADAT to file.
+Description: Providing utilities to load and export 'SomaScan' data via
+    the SomaLogic Operating Co., Inc. proprietary text file
+    called an ADAT ('*.adat'). This also exports auxiliary functions
+    for manipulating, wrangling, and extracting relevant information from
+    an ADAT object once in memory.
 License: MIT + file LICENSE
 URL: www.somalogic.com
 Depends:
