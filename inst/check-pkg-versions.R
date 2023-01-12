@@ -1,18 +1,25 @@
 # ------------------
 # check versions of:
-#   1)  current required version (DESCRIPTION)
-#   2)  current installed version (system)
-#   3)  current available version (CRAN)
-# update requierd if installed < required
+#   1)  package required version ('version' -> DESCRIPTION)
+#   2)  current installed version ('installed_version' -> system)
+#   3)  latest available version ('latest_available' -> CRAN/BioC)
+#
+# * 'needs_update' if 'installed_version' < 'version'
 # ------------------
-# Stu Field
+# Usage:
+#   Rscript --vanilla inst/check-pkg-versions.R
+# ------------------
+# Author:
+#   Stu Field
 # ------------------
 
 tbl <- desc::desc("DESCRIPTION")$get_deps()
 
 tbl$installed_version <- sapply(tbl$package, function(.x) {
-  x <- if (.x == "R") getRversion() else packageVersion(.x)
-  as.character(x)
+  if (.x == "R")
+    paste(R.Version()[c("major", "minor")], collapse = ".")
+  else
+    utils::packageDescription(.x, fields = "Version")
 }, USE.NAMES = FALSE)
 tbl$installed_version <- package_version(tbl$installed_version)
 
@@ -27,7 +34,7 @@ latest_r <- strsplit(latest_r, "-")[[1L]]
 latest_r <- grep("[0-9][.][0-9][.][0-9]", latest_r, value = TRUE)
 
 cran <- utils::available.packages(repos = "https://cloud.r-project.org/")
-bioc <- utils::available.packages(repos = BiocManager::repositories()[1L])
+bioc <- utils::available.packages(repos = BiocManager::repositories(version = remotes::bioc_version())[1L])
 
 cran_ver <- sapply(tbl$package, function(.x) {
   if (.x %in% rownames(cran)) {
@@ -38,6 +45,6 @@ cran_ver <- sapply(tbl$package, function(.x) {
     bioc["Biobase", "Version"]
   }
 }, USE.NAMES = FALSE)
-tbl$cran_version <- package_version(cran_ver)
+tbl$latest_available <- package_version(cran_ver)
 tbl <- tibble::as_tibble(tbl)
 tbl
