@@ -20,13 +20,14 @@ MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://choosealicense.
 
 ## Overview
 
-This document accompanies the `SomaDataIO` R package, which loads the
-SomaLogic Operating Co., Inc. proprietary data file called an `*.adat`.
-The package provides auxiliary functions for manipulating, wrangling,
-and extracting relevant information from the ADAT object once in the R
-environment. Basic familiarity with the R environment is assumed, as is
-the ability to install contributed packages from the Comprehensive R
-Archive Network (CRAN).
+This document accompanies the `SomaDataIO` R package, which loads and
+exports ‘SomaScan’ data via the SomaLogic Operating Co., Inc.
+proprietary text file called an ADAT (`*.adat`). The package also
+exports auxiliary functions for manipulating, wrangling, and extracting
+relevant information from an ADAT object once in memory. Basic
+familiarity with the R environment is assumed, as is the ability to
+install contributed packages from the Comprehensive R Archive Network
+(CRAN).
 
 If you run into any issues/problems with `SomaDataIO` full documentation
 of the most recent
@@ -478,7 +479,7 @@ is.intact.attributes(my_adat)     # attributes MUST be intact to write to file
 
 write_adat(my_adat, file = tempfile("my-adat-", fileext = ".adat"))
 #> ✔ ADAT passed all checks and traps.
-#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpWyTYfL/my-adat-775674a4f330.adat'
+#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpJf1V2c/my-adat-72483c6a78e.adat'
 ```
 
 ------------------------------------------------------------------------
@@ -830,14 +831,12 @@ res %>%
   geom_point(colour = "#24135F", alpha = 0.5, size = 4) +
   expand_limits(x = lims, y = lims) +                # make square
   geom_abline(slope = 1, colour = "black") +         # add unit line
-  geom_rug(colour = "#286d9b", size = 0.2) +
+  geom_rug(colour = "#286d9b", linewidth = 0.2) +
   labs(y = "Predicted Age", x = "Actual Age") +
   ggtitle("Concordance in Predicted vs. Actual Age") +
   theme(plot.title = element_text(size = 21, face = "bold"),
         axis.title.x = element_text(size = 14),
         axis.title.y = element_text(size = 14))
-#> Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-#> ℹ Please use `linewidth` instead.
 ```
 
 ![](man/figures/README-linreg-plot-1.png)<!-- -->
