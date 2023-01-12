@@ -41,10 +41,11 @@ ver <- paste0("https://img.shields.io/badge/Version-", ver,
 
 ## Overview
 
-This document accompanies the `SomaDataIO` R package, which loads the 
-SomaLogic Operating Co., Inc. proprietary data file called an `*.adat`.
-The package provides auxiliary functions for manipulating, wrangling, and
-extracting relevant information from the ADAT object once in the R environment.
+This document accompanies the `SomaDataIO` R package, which loads
+and exports 'SomaScan' data via the SomaLogic Operating Co., Inc.
+proprietary text file called an ADAT (`*.adat`).
+The package also exports auxiliary functions for manipulating, wrangling,
+and extracting relevant information from an ADAT object once in memory.
 Basic familiarity with the R environment is assumed, as is the ability to install
 contributed packages from the Comprehensive R Archive Network (CRAN).
 

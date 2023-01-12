@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Providing utilities to load and export 'SomaScan' data via the SomaLogic Operating Co., Inc. proprietary text file called an ADAT ('*.adat'). This also exports auxiliary functions for manipulating, wrangling, and extracting relevant information from an ADAT object once in memory.
+Load and export 'SomaScan' data via the 'SomaLogic Operating Co., Inc.' proprietary text file called an ADAT ('*.adat'). The package also exports auxiliary functions for manipulating, wrangling, and extracting relevant information from an ADAT object once in memory.
 }
 \details{
 Load an ADAT file into the global workspace with a call
