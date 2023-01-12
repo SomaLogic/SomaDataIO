@@ -553,7 +553,7 @@ res %>%
   geom_point(colour = "#24135F", alpha = 0.5, size = 4) +
   expand_limits(x = lims, y = lims) +                # make square
   geom_abline(slope = 1, colour = "black") +         # add unit line
-  geom_rug(colour = "#286d9b", size = 0.2) +
+  geom_rug(colour = "#286d9b", linewidth = 0.2) +
   labs(y = "Predicted Age", x = "Actual Age") +
   ggtitle("Concordance in Predicted vs. Actual Age") +
   theme(plot.title = element_text(size = 21, face = "bold"),
