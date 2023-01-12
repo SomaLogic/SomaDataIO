@@ -70,7 +70,6 @@ object with leading columns as clinical variables and SomaScan RFU data
 as the remaining variables. Two main attributes corresponding to analyte
 and SomaScan run information contained in the \verb{*.adat} file are added:
 \itemize{
-\itemize{
 \item \code{Header.Meta}: information about the SomaScan run, see \code{\link[=parseHeader]{parseHeader()}}
 or \code{attr(x, "Header.Meta")}
 \item \code{Col.Meta}: annotations information about the SomaScan reagents/analytes,
@@ -87,7 +86,6 @@ dispatched on class \code{soma_adat}.
 \cr\cr
 Below is a list of \emph{all} currently available S3 methods that dispatch on
 the \code{soma_adat} class:
-}
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{#>  [1] [            [[           [[<-         [<-          ==          
 #>  [6] $            $<-          anti_join    arrange      count       

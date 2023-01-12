@@ -8,12 +8,12 @@
 #' as the remaining variables. Two main attributes corresponding to analyte
 #' and SomaScan run information contained in the `*.adat` file are added:
 #' \itemize{
-#'   * `Header.Meta`: information about the SomaScan run, see [parseHeader()]
+#'   \item `Header.Meta`: information about the SomaScan run, see [parseHeader()]
 #'     or `attr(x, "Header.Meta")`
-#'   * `Col.Meta`: annotations information about the SomaScan reagents/analytes,
+#'   \item `Col.Meta`: annotations information about the SomaScan reagents/analytes,
 #'     see [getAnalyteInfo()] or `attr(x, "Col.Meta")`
-#'   * `file_specs`: parsing specifications for the ingested `*.adat` file
-#'   * `row_meta`: the names of the non-RFU fields. See [getMeta()].
+#'   \item `file_specs`: parsing specifications for the ingested `*.adat` file
+#'   \item `row_meta`: the names of the non-RFU fields. See [getMeta()].
 #' }
 #' See [groupGenerics()] for a details on [Math()], [Ops()], and [Summary()]
 #' methods that dispatch on class `soma_adat`.
