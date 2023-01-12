@@ -3,14 +3,13 @@ on:
     branches: [main, master]
     paths:
       - 'README.Rmd'
-      - 'DESCRIPTION'
 
 name: Render README
 
 jobs:
   render:
     name: Render README
-    runs-on: macOS-latest   # macOS important for syslibs 'curl'
+    runs-on: macOS-12   # macOS important for syslibs 'curl'
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
