@@ -49,6 +49,12 @@
 #' @author Stu Field
 #' @seealso [groupGeneric()], [getGroupMembers()], [getGroup()]
 #' @examples
+#' # trim to random 1000 analytes for speed
+#' example_data <- withr::with_seed(3L,
+#'   dplyr::select(example_data,
+#'                 getMeta(example_data),                    # keep meta
+#'                 sample(getAnalytes(example_data), 1000L)) # 1000 sample analytes
+#' ) |> head()
 #' example_data$seq.3343.1
 #'
 #' # Math Generics:
