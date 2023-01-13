@@ -42,5 +42,5 @@ is_seqFormat.data.frame <- is_seqFormat.soma_adat
 #' @noRd
 #' @export
 is_seqFormat.character <- function(x) {
-  ifelse(length(x) == 0, FALSE, all(grepl("^seq\\.", x)))
+  ifelse(length(x) == 0L, FALSE, all(grepl("^seq\\.", x)))
 }

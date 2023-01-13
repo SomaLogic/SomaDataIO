@@ -43,7 +43,7 @@ cr_yellow <- crayon::yellow
 
 # friendly version of ifelse
 `%||%` <- function(x, y) {
-  if ( is.null(x) || length(x) <= 0 ) {
+  if ( is.null(x) || length(x) <= 0L ) {
     y
   } else {
     x

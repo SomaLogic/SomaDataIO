@@ -45,7 +45,7 @@ print.soma_adat <- function(x, show_header = FALSE, ...) {
     if ( show_header ) {
       # Header Meta Data
       writeLines(cli_rule(cr_bold("Header Data"), line_col = "magenta"))
-      notempty <- function(x) length(x) != 0
+      notempty <- function(x) length(x) != 0L
       A <- Filter(notempty, (x %@@% "Header.Meta")$HEADER)
       print(tibble::enframe(unlist(A), name = "Key", value = "Value"), n = 15)
     }

@@ -36,7 +36,7 @@ matchSeqIds <- function(x, y, order.by.x = TRUE) {
   } else {
     order_seqs <- intersect(y_seqIds, x_seqIds)
   }
-  if ( length(order_seqs) == 0 ) {
+  if ( length(order_seqs) == 0L ) {
     return(character(0))
   }
   unname(y_lookup[order_seqs])
@@ -82,7 +82,7 @@ getSeqIdMatches <- function(x, y, show = FALSE) {
   L1       <- matchSeqIds(inter, x, order.by.x = TRUE)
   L2       <- matchSeqIds(inter, y, order.by.x = TRUE)
 
-  if ( length(c(L1, L2)) == 0 ) {
+  if ( length(c(L1, L2)) == 0L ) {
     .oops("No matches between lists")
     show <- TRUE
   }
