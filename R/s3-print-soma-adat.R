@@ -66,7 +66,7 @@ print.soma_adat <- function(x, show_header = FALSE, ...) {
     print(
       tibble::as_tibble(x, rownames = ifelse(has_rn(x), "row_names", NA)),
       max_extra_cols   = 10,
-      max_footer_lines = 5
+      max_footer_lines = 6
     )
   }
 

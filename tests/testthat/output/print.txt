@@ -28,5 +28,6 @@ i Cal_Example_Adat_Set002, CalQcRatio_Example_Adat_Set002_170255, Dilution2
 #   SampleMatrix <chr>, Barcode <lgl>, Barcode2d <chr>, SampleName <lgl>,
 #   SampleNotes <lgl>, AliquotingNotes <lgl>, SampleDescription <chr>,
 #   AssayNotes <lgl>, TimePoint <lgl>, ..., and abbreviated variable names
-#   1: PlateRunDate, 2: ScannerID, 3: PlatePosition, 4: Subarray, ...
+#   1: PlateRunDate, 2: ScannerID, 3: PlatePosition, 4: Subarray, 5: SampleId,
+#   6: SampleType
 ================================================================================
