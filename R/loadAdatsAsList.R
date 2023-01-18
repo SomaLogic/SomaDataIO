@@ -72,14 +72,14 @@ loadAdatsAsList <- function(files, collapse = FALSE, verbose = interactive(), ..
 #' See `Examples` below.
 #'
 #' @param x A list of `soma_adat` class objects loaded via [loadAdatsAsList()].
-#' @importFrom dplyr select
+#' @importFrom dplyr select all_of
 #' @export
 collapseAdats <- function(x) {
   is_adat <- vapply(x, is.soma_adat, FUN.VALUE = NA)
   stopifnot(all(is_adat))
   common <- Reduce(intersect, lapply(x, names))   # nolint common df names
   # rm names so rownames are re-constructed via `rbind()`
-  new <- lapply(unname(x), function(.x) dplyr::select(.x, common))
+  new <- lapply(unname(x), function(.x) dplyr::select(.x, all_of(common)))
   new <- do.call(rbind, new)
   new_header <- lapply(x, attr, which = "Header.Meta") |>
     lapply(`[[`, "HEADER")
