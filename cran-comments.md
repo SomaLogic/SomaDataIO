@@ -1,15 +1,23 @@
 
-* This is a new release to CRAN.
+# This is a new release to CRAN.
+
+## R timings
+
+* a few of the examples seemed to run a long
+  on (> 5s) during `rhub::check_for_cran()` however
+  this was not reproduced locally. I assume this
+  was due to resource limitation of the build container
+  during some I/O processes.
 
 ## R CMD check results
 
 ```
 0 errors | 0 warnings | 1 note
 
-NOTE:
-  installed size is 11.7Mb
+* checking installed package size ... NOTE
+  installed size is 11.5Mb
   sub-directories of 1Mb or more:
-    data      3.1Mb
+    data      2.8Mb
     example   8.0Mb
 ```
 
