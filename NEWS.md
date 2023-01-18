@@ -1,9 +1,51 @@
+# SomaDataIO (devel version) :tada:
+
+* We are now on CRAN! :partying_face: 
+
+### New changes
+
+* New clinical data merge CLI tool (@stufield, #25)
+  - `Rscript --vanilla merge_clin.R` for merging clinical variables
+    into existing `*.adat` SomaScan data files
+  - added 2 new example `meta.csv` and `meta2.csv` files
+    to run examples with random data but with valid index keys
+  - see `dir(system.file("cli", "merge", package = "SomaDataIO"))`
+
+* `SomaDataObjects` was renamed and is now `SomaScanObjects` (@stufield)
+  - updated in documentation 
+
+* lifecycle for soft-deprecated `warn()` -> `stop()` for functions 
+  that have been been soft deprecated since `v5.0.0` (@stufield)
+  - `getSomamers()`
+  - `getSomamerData()`
+  - `meltExpressionSet()`
+
+* New S3 print method default (@stufield)
+  - `tibble` has new `max_extra_cols =` argument, which
+    is set to `6` for the `print.soma_adat` method
+
+* Code hardening for `prepHeaderMeta()` (@stufield)
+  - some ADATs do not have `CreatedDate` and `CreatedBy`
+    in the HEADER entry. This currently breaks the writer
+  - simplified to make more robust but also refactor
+    to be more convenient (for abnormal ADATs not generated
+    by standard SomaScan processing)
+  - `CreatedDateHistory` was removed as an entry from written ADATs
+  - `CreatedByHistory` was combined and dated for written ADATs
+  - `NULL` behavior remains if keys are missing
+  - `CreatedBy` and `CreatedDate` will be generated either
+    as new entries or over-written as appropriate
+
+* Numerous non-user-facing (API) changes internal package
+  maintenance, efficiency, and structural upgrades were included
+
+
 # SomaDataIO 5.3.1
 
-* Bug-fix release related to `write_adat()`: (@stufield)
+* Bug-fix release related to `write_adat()`:
   - fixed bug in `write_adat()` that resulted from
     adding/removing clinical (non-SomaScan) variables to an
-    ADAT. Export via `write_adat()` resulted in a broken ADAT file (#18) 
+    ADAT. Export via `write_adat()` resulted in a broken ADAT file (@stufield, #18) 
   - `write_adat()` now has much higher fidelity to original
     text file (`*.adat`) in full-cycle read-write-read operations;
     particularly in presence of bangs (`!`) in the Header
@@ -29,7 +71,7 @@
     for backward compatibility, but this should not be considered
     permanent. Please code accordingly
 
-* Migration to the default branch in GitHub from `master` -> `main`
+* Migration to the default branch in GitHub from `master` -> `main` (@stufield, #19)
 
 * Numerous non-user-facing (API) changes internal package
   maintenance, efficiency, and structural upgrades were included

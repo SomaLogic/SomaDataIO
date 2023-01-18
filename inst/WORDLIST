@@ -5,8 +5,10 @@ Analyte
 Analytes
 AptName
 Biobase
+CLI
 CMD
 Codecov
+CRAN
 dplyr
 EDTA
 EOL
@@ -34,6 +36,7 @@ SomaScan
 SomaScan’
 Subarray
 Tabacman
+tada
 th
 adat
 analyte
