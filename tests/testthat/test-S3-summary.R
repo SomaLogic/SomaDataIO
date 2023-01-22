@@ -49,5 +49,5 @@ test_that("summary method returns correct values when annotations tbl is passed"
 test_that("the printed output is as expected", {
   withr::local_options(c(cli.unicode = FALSE, cli.num_colors = 1L,
                          pillar.bold = FALSE, pillar.subtle  = TRUE, width = 50))
-  expect_known_output(summ, test_path("output/summary.txt"), print = TRUE)
+  expect_snapshot_output(summ)
 })

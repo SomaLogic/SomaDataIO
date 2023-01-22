@@ -16,15 +16,16 @@ test_that("`soma_adat` S3 print method returns known output", {
   adat <- read_adat(system.file("example", "example_data.adat",
                     package = "SomaDataIO", mustWork = TRUE))
   # default
-  expect_known_output(adat, test_path("output/print.txt"), print = TRUE)
+  expect_snapshot_output(adat)
+
   # head
-  expect_known_output(head(adat), test_path("output/print_head.txt"), print = TRUE)
+  expect_snapshot_output(head(adat))
+
   # show_header is TRUE
-  expect_known_output(print(adat, show_header = TRUE),
-                      test_path("output/print_show_header.txt"), print = TRUE)
+  expect_snapshot_output(print(adat, show_header = TRUE))
+
   # break atts
   attributes(adat)$Header.Meta <- NULL
   expect_false(is.intact.attributes(adat))
-  expect_known_output(adat, test_path("output/print_broken_atts.txt"),
-                      print = TRUE)
+  expect_snapshot_output(adat)
 })
