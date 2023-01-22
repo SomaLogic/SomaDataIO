@@ -75,7 +75,7 @@ test_that("an empty ADAT is correctly handled", {
           "Returning a `tibble` object with Column Meta data only."),
   )
   expect_s3_class(tbl, "tbl_df")
-  expect_equal(tbl, attr(adat, "Col.Meta"), check.attributes = FALSE)
+  expect_equal(tbl, attr(adat, "Col.Meta"), ignore_attr = TRUE)
 })
 
 # print.soma_adat -------

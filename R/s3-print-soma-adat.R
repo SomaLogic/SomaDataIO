@@ -20,8 +20,8 @@ print.soma_adat <- function(x, show_header = FALSE, ...) {
 
   writeLines(cli_rule(cr_bold("SomaScan Data"), line = 2, line_col = "blue"))
   attsTRUE    <- is.intact.attributes(x, verbose = FALSE)
-  col_f       <- if ( attsTRUE ) cr_green else cr_red       # nolint
-  atts_symbol <- if ( attsTRUE ) symb_tick else symb_cross  # nolint
+  col_f       <- if ( attsTRUE ) cr_green else cr_red
+  atts_symbol <- if ( attsTRUE ) symb_tick else symb_cross
   meta   <- getMeta(x)
   n_apts <- getAnalytes(x, n = TRUE)
   pad    <- strrep(" ", 5)
@@ -46,8 +46,8 @@ print.soma_adat <- function(x, show_header = FALSE, ...) {
       # Header Meta Data
       writeLines(cli_rule(cr_bold("Header Data"), line_col = "magenta"))
       notempty <- function(x) length(x) != 0L
-      A <- Filter(notempty, (x %@@% "Header.Meta")$HEADER)
-      print(tibble::enframe(unlist(A), name = "Key", value = "Value"), n = 15)
+      filtered <- Filter(notempty, (x %@@% "Header.Meta")$HEADER)
+      print(tibble::enframe(unlist(filtered), name = "Key", value = "Value"), n = 15)
     }
 
   } else {

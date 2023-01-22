@@ -57,8 +57,10 @@ prepHeaderMeta <- function(data) {
   names(x$Header.Meta$ROW_DATA) <- .map_names(x$Header.Meta$ROW_DATA, key_map_row)
 
   # zap commas with semicolons in chr Col.Meta
+  # nolint start
   #idx <- which(vapply(x$Col.Meta, is.character, NA))
   #for ( i in idx ) x$Col.Meta[[i]] <- gsub(",", ";", x$Col.Meta[[i]])
+  # nolint end
 
   # version number stuff
   if ( !("Version" %in% names(x$Header.Meta$HEADER) &&

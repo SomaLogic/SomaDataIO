@@ -62,8 +62,9 @@ summary.soma_adat <- function(object, tbl = NULL,
     lapply(function(.x) ifelse(is.null(look[[.x]]), "", look[[.x]]))  # if NULL -> ""
 
   setNames(nm, nm) |>
-    lapply(function(.col)
-      paste(labs, ":", .pad(c(tgts[[.col]], vals[[.col]]), width = 10))) |>
+    lapply(function(.col) {
+      paste(labs, ":", .pad(c(tgts[[.col]], vals[[.col]]), width = 10))
+    }) |>
     data.frame() |>
     addClass("adat_summary")
 }

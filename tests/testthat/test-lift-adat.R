@@ -23,7 +23,7 @@ test_that("a mock table of scalars transforms to correct, rounded values", {
 test_that("a reference vector of 1.0 scalars returns identical adat", {
   tbl$`Plasma Scalar v4.0 to v4.1` <- 1.0
   a <- lift_adat(adat, tbl)
-  expect_equivalent(a, adat)          # Header.Meta modified
+  expect_equal(a, adat, ignore_attr = TRUE)  # Header.Meta modified
   # check that header entries were added correctly
   expect_equal(attr(a, "Header")$HEADER$SignalSpace, "v4.1")
   expect_match(attr(a, "Header")$HEADER$ProcessSteps, "Annotation Lift")

@@ -68,7 +68,7 @@ parseHeader <- function(file) {
       free_field <- gsub("^[^A-Za-z]+", "", free_field)
       next
     }
-    #print(section)
+    #print(section)  # nolint: commented_code_linter, comment_nospace_linter.
 
     # leading tab-space means within Col.Meta block
     leading_tab <- grepl("^\t", row_data)
@@ -87,7 +87,7 @@ parseHeader <- function(file) {
     tokens <- strsplit(row_data, "\t", fixed = TRUE)[[1L]]
     # pad trailing match; strsplit() does not pad empty string with trailing match
     if ( grepl("\t$", row_data) ) tokens <- c(tokens, "")
-    #print(tokens)
+    #print(tokens)  # nolint: commented_code_linter, comment_nospace_linter.
 
     if ( section == "HEADER" && all(tokens == "") ) {
       warning(
@@ -103,7 +103,7 @@ parseHeader <- function(file) {
     if ( section == "HEADER" ) {
       ret$Header.Meta[[section]][[cur_name]] <- list()
       ret$Header.Meta[[section]][[cur_name]] <- .setAttr(tokens[-1L], tokens[1L])
-    } else if ( section == "COL_DATA" | section == "ROW_DATA" ) {
+    } else if ( section == "COL_DATA" || section == "ROW_DATA" ) {
       ret$Header.Meta[[section]][[cur_name]] <- .setAttr(tokens[-1L], tokens[1L])
     } else if ( section == "Free.Form" ) {
       ret$Header.Meta[[free_field]][[cur_name]] <- list()

@@ -18,7 +18,7 @@ test_that("the rowname helpers move rownames safely", {
   expect_true(implicit_rn(new))                             # now implicit rn
 
   # moving columns
-  x <- expect_warning(col2rn(example_data, "SampleId"))   # over-write warning
+  expect_warning(x <- col2rn(example_data, "SampleId"))   # over-write warning
   expect_s3_class(x, "soma_adat")
   expect_true(is.intact.attributes(x))
   expect_equal(rownames(x), make.unique(example_data$SampleId, "-"))

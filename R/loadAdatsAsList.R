@@ -77,7 +77,7 @@ loadAdatsAsList <- function(files, collapse = FALSE, verbose = interactive(), ..
 collapseAdats <- function(x) {
   is_adat <- vapply(x, is.soma_adat, FUN.VALUE = NA)
   stopifnot(all(is_adat))
-  common <- Reduce(intersect, lapply(x, names))   # nolint common df names
+  common <- Reduce(intersect, lapply(x, names))   # common df names
   # rm names so rownames are re-constructed via `rbind()`
   new <- lapply(unname(x), function(.x) dplyr::select(.x, all_of(common)))
   new <- do.call(rbind, new)

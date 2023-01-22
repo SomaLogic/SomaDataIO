@@ -52,7 +52,7 @@ is.intact.attributes <- function(adat, verbose = interactive()) {
     FALSE
   } else if ( !all(c("HEADER", "COL_DATA", "ROW_DATA") %in% names(atts$Header.Meta)) ) {
     if ( verbose ) {
-      diff <- setdiff(c("HEADER", "COL_DATA", "ROW_DATA"), names(atts$Header.Meta)) # nolint
+      diff <- setdiff(c("HEADER", "COL_DATA", "ROW_DATA"), names(atts$Header.Meta))
       .oops("Header.Meta missing: {.value(diff)}")
     }
     FALSE

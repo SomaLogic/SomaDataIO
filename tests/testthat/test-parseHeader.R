@@ -19,9 +19,11 @@ test_that("`parseHeader()` correctly parses header information of an ADAT", {
   expect_equal(header$file_specs$col_meta_shift, 35)
   expect_equal(header$file_specs$data_begin, 66)
   expect_false(header$file_specs$old_adat)
-  expect_equivalent(header$Header.Meta$ROW_DATA$Name, header$row_meta)
+  expect_equal(header$Header.Meta$ROW_DATA$Name, header$row_meta,
+               ignore_attr = TRUE)
   expect_equal(attr(header$Header.Meta$ROW_DATA$Name, "raw_key"), "!Name")
-  expect_equivalent(header$Header.Meta$COL_DATA$Name, names(header$Col.Meta))
+  expect_equal(header$Header.Meta$COL_DATA$Name, names(header$Col.Meta),
+               ignore_attr = TRUE)
   expect_equal(attr(header$Header.Meta$COL_DATA$Name, "raw_key"), "!Name")
   expect_equal(header$file_specs$data_begin -
                (header$file_specs$table_begin + 1),
@@ -88,7 +90,7 @@ test_that("`parseHeader()` correctly parses header information of an ADAT", {
   )
   expect_true("ReportConfig" %in% names(HD))   # test that it's there
   i <- which(names(HD) == "ReportConfig")
-  expect_equivalent(HD[-i], tbl)   # don't test attributes; skip ReportConfig
+  expect_equal(HD[-i], tbl, ignore_attr = TRUE)  # don't test attr; skip ReportConfig
   expect_equal(header$Header.Meta$TABLE_BEGIN, basename(file))
 })
 

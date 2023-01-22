@@ -61,7 +61,7 @@ NULL
     return(NextMethod())
   } else if ( is.intact.attributes(x) ) {
     # sub-setting columns & attributes to worry about
-    if ( length(j) == 1 && j > 0 ) {
+    if ( length(j) == 1L && j > 0 ) {
       # if extracting a single column
       # this behavior may change one day to match `tibbles`
       # where you output is what you input, i.e. `drop = FALSE` by default
@@ -79,7 +79,7 @@ NULL
   if ( is.character(j) ) {
     # Character case
     k <- match(j[j %in% apts], apts)
-  } else if ( is.numeric(j) | is.logical(j) ) {
+  } else if ( is.numeric(j) || is.logical(j) ) {
     # Integer/Logical case
     # this is tricky
     # must figure out which numeric indices are feature data; which meta data

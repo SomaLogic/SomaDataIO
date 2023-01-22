@@ -1,14 +1,14 @@
 
 suppressPackageStartupMessages(library(Biobase))
 
-sub_adat <- example_data[1:10, c(1:5, 35:37)]
+sub_adat <- example_data[1:10L, c(1:5L, 35:37L)]
 
 test_that("`adat2eSet()` converts `soma_adt` -> eSet correctly", {
   eSet <- adat2eSet(sub_adat)
   expect_s4_class(eSet, "ExpressionSet")
-  expect_is(eSet@assayData$exprs, "matrix")
-  expect_equal(dim(eSet@assayData$exprs), c(3, 10))
-  expect_is(eSet@experimentData@other, "list")
+  expect_true(is.matrix(eSet@assayData$exprs))
+  expect_equal(dim(eSet@assayData$exprs), c(3L, 10L))
+  expect_type(eSet@experimentData@other, "list")
   expect_equal(eSet@experimentData@url, "www.somalogic.com")
   expect_equal(eSet@experimentData@title, "Example Adat Set001, Example Adat Set002")
   expect_equal(eSet@experimentData@lab, "SomaLogic Operating Co., Inc.")
@@ -21,7 +21,7 @@ test_that("`adat2eSet()` converts `soma_adt` -> eSet correctly", {
   expect_equal(eSet@experimentData@other$CreatedBy, "PharmaServices")
   expect_equal(eSet@experimentData@other$CalibratorId, "170261")
   expect_equal(eSet@experimentData@title, eSet@experimentData@other$Title)
-  anno <- getAnalyteInfo(sub_adat) %>% data.frame() %>% col2rn("AptName")
+  anno <- getAnalyteInfo(sub_adat) |> data.frame() |> col2rn("AptName")
   expect_equal(rownames(eSet@featureData@varMetadata), names(anno))
   expect_equal(rownames(eSet@featureData@data), getAnalytes(sub_adat))
   expect_equal(eSet@featureData@data, anno)

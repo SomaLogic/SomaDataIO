@@ -26,7 +26,7 @@ test_that("`write_adat()` produces unchanged in -> out -> in", {
   write_adat(adat, file = f_check)
   # some attributes are expected to be false:
   #   TABLE_BEGIN will shift due to CreatedBy & CreatedDate changes
-  expect_equivalent(read_adat(f_check), adat)
+  expect_equal(read_adat(f_check), adat, ignore_attr = TRUE)
   unlink(f_check)
 })
 
@@ -56,7 +56,7 @@ test_that("`write_adat()` shifts Col.Meta correctly when clinical data added/rem
                            SlideId, Subarray, SampleGroup,
                            seq.2182.54, seq.2190.55)
   write_adat(short, file = f_check)
-  expect_equivalent(read_adat(f_check), short)
+  expect_equal(read_adat(f_check), short, ignore_attr = TRUE)
   expect_equal(getMeta(short), getMeta(read_adat(f_check)))
   unlink(f_check)
 
@@ -66,7 +66,7 @@ test_that("`write_adat()` shifts Col.Meta correctly when clinical data added/rem
   long$foo <- "bar"
   write_adat(long, file = f_check2)  # write_adat() re-orders meta to come 1st!
   new <- read_adat(f_check2)
-  expect_equivalent(new[, getMeta(new)], long[, getMeta(long)])
-  expect_equivalent(new[, getAnalytes(new)], long[, getAnalytes(long)])
+  expect_equal(new[, getMeta(new)], long[, getMeta(long)], ignore_attr = TRUE)
+  expect_equal(new[, getAnalytes(new)], long[, getAnalytes(long)], ignore_attr = TRUE)
   unlink(f_check2)
 })

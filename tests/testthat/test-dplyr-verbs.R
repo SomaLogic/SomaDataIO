@@ -159,7 +159,7 @@ test_that("`anti_join()` method generates expected output", {
 
 # slice ----
 test_that("`slice()` method is correctly dispatched", {
-  new <- slice(data, c(1:3))
+  new <- slice(data, 1:3)
   expect_true(is.soma_adat(new))
   expect_s3_class(new, "soma_adat")
   expect_equal(class(new), class(data))
