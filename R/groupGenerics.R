@@ -119,8 +119,7 @@
 Math.soma_adat <- function(x, ...) {
   .apts   <- getAnalytes(x)
   class   <- class(x)
-  mode_ok <- vapply(x[, .apts], function(.x)
-                    is.numeric(.x) || is.complex(.x), NA)
+  mode_ok <- vapply(x[, .apts], function(.x) is.numeric(.x) || is.complex(.x), NA)
   if ( all(mode_ok) ) {
     x[, .apts] <- lapply(X = x[, .apts], FUN = .Generic, ...)
   } else {
@@ -161,20 +160,6 @@ Ops.soma_adat <- function(e1, e2 = NULL) {
 }
 
 #' @describeIn groupGenerics
-#' Compares left- and right-hand sides of the operator *unless* the RHS
-#' is also a `soma_adat`, in which case [diffAdats()] is invoked.
-#' @export
-`==.soma_adat` <- function(e1, e2) {
-  if ( is.soma_adat(e2) ) {
-    diffAdats(e1, e2)
-  } else {
-    .apts <- getAnalytes(e1)
-    e1[, .apts] <- do.call(.Generic, list(e1 = data.frame(e1[, .apts]), e2 = e2))
-    e1
-  }
-}
-
-#' @describeIn groupGenerics
 #' Performs summary calculations on class `soma_adat`. See [Summary()].
 #' @export
 Summary.soma_adat <- function(..., na.rm = FALSE) {
@@ -193,18 +178,30 @@ Summary.soma_adat <- function(..., na.rm = FALSE) {
   do.call(.Generic, c(args, na.rm = na.rm))
 }
 
-#' @importFrom lifecycle deprecate_warn
+#' @describeIn groupGenerics
+#' Compares left- and right-hand sides of the operator *unless* the RHS
+#' is also a `soma_adat`, in which case [diffAdats()] is invoked.
+#' @export
+`==.soma_adat` <- function(e1, e2) {  # nolint: bad name
+  if ( is.soma_adat(e2) ) {
+    diffAdats(e1, e2)
+  } else {
+    .apts <- getAnalytes(e1)
+    e1[, .apts] <- do.call(.Generic, list(e1 = data.frame(e1[, .apts]), e2 = e2))
+    e1
+  }
+}
+
+#' @importFrom lifecycle deprecate_stop
 #' @method Math soma.adat
 #' @export
 Math.soma.adat <- function(x, ...) {
   .msg <- paste(
-    "The", .value("soma.adat"), "class is now", .value("soma_adat."),
-    "This math generic will be deprecated.\n",
-    "Please either:\n",
+    "The", .value("soma.adat"), "class is now", .value("soma_adat"),
+    "\nPlease either:\n",
     "  1) Re-class with x <- addClass(x, 'soma_adat')\n",
-    "  2) Re-call 'x <- read_adat(file)' to pick up the new 'soma_adat' class."
+    "  2) Re-call 'x <- read_adat(file)' to pick up the new 'soma_adat' class.\n"
   )
-  deprecate_warn("2019-01-31", "SomaDataIO::Math.soma.adat()", details = .msg)
-  class(x) <- c("soma_adat", "data.frame")
-  do.call(.Generic, list(x = x, ...))
+  cat(.msg)
+  deprecate_stop("2019-01-31", "SomaDataIO::Math.soma.adat()")
 }
