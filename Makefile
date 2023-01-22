@@ -9,57 +9,7 @@ RM = rm -rf
 MV = mv -f
 RCMD = R --vanilla CMD
 RSCRIPT = Rscript --vanilla
-DIR := tmp
-FILES := $(addprefix $(DIR)/R/, \
-	dplyr-reexports.R \
-	dplyr-verbs.R \
-	is-seqFormat.R \
-	is-intact-attributes.R \
-	getAnalytes.R \
-	getAnalyteInfo.R \
-	getMeta.R \
-	getTargetNames.R \
-	matchSeqIds.R \
-	loadAdatsAsList.R \
-	groupGenerics.R \
-	parseHeader.R \
-	prepHeaderMeta.R \
-	read-adat.R \
-	rownames.R \
-	SeqId.R \
-	s3-soma-adat.R \
-	s3-print-soma-adat.R \
-	s3-summary-soma-adat.R \
-	tidyr-reexports.R \
-	tidyr-verbs.R \
-	utils.R \
-	utils-read-adat.R \
-	write-adat.R)
-
-TESTFILES := $(addprefix $(DIR)/tests/testthat/, \
-	helper.R \
-	test-rownames.R \
-	test-read-adat.R \
-	test-write-adat.R \
-	test-dplyr-verbs.R \
-	test-tidyr-verbs.R \
-	test-is-apt.R \
-	test-checkADAT.R \
-	test-genRownames.R \
-	test-getAdatVersion.R \
-	test-getMeta.R \
-	test-getAnalytes.R \
-	test-getSeqIdMatches.R \
-	test-groupGenerics.R \
-	test-locateSeqId.R \
-	test-matchSeqIds.R \
-	test-prepHeaderMeta.R \
-	test-S3-extract.R \
-	test-S3-median.R \
-	test-S3-print.R \
-	test-S3-summary.R \
-	test-SeqId.R \
-	test-syncColMeta.R)
+DIR := tmpdir
 
 SYSFILES := $(addprefix $(DIR)/R/, \
 	addAttributes.R \
@@ -72,7 +22,7 @@ SYSFILES := $(addprefix $(DIR)/R/, \
 	scaleAnalytes.R \
 	syncColMeta.R)
 
-all: roxygen check clean
+all: check clean
 update: sync sysdata objects
 
 roxygen:
@@ -106,35 +56,7 @@ check: build
 	@ cd ..;\
 	$(RCMD) check --no-manual $(PKGNAME)_$(PKGVERS).tar.gz
 
-# copy SomaLogic internal source code from private bitbucket repository
-# modify to purpose: sample.adat -> example_data, etc.
-# must be inside SL VPN with SSH keys set up to run 'make sync'
-sync:
-	@ echo "Syncing somaverse files ..."
-	@ git clone --depth=1 ssh://git@bitbucket.sladmin.com:7999/sv/somareadr.git $(DIR)
-	@ $(RSCRIPT) \
-	-e "files <- commandArgs(TRUE)" \
-	-e "for (f in files) {" \
-	-e "  x <- gsub('sample[.]adat', 'example_data', readLines(f))" \
-	-e "  x <- gsub('sample_adat_controls', 'example_data', x)" \
-	-e "  x <- gsub('data-raw', 'example', x)" \
-	-e "  x <- gsub('SomaReadr', 'SomaDataIO', x)" \
-	-e "  x <- gsub('SampleGroup', 'Sex', x)" \
-	-e "  writeLines(enc2utf8(x), file.path('R', basename(f)))" \
-	-e "}" $(FILES)
-	@ $(RSCRIPT) \
-	-e "files <- commandArgs(TRUE)" \
-	-e "for (f in files) {" \
-	-e "  x <- gsub('sample[.]adat', 'example_data', readLines(f))" \
-	-e "  x <- gsub('sample_adat[.]adat', 'example_data.adat', x)" \
-	-e "  x <- gsub('data-raw', 'example', x)" \
-	-e "  x <- gsub('SomaReadr', 'SomaDataIO', x)" \
-	-e "  writeLines(enc2utf8(x), file.path('tests/testthat', basename(f)))" \
-	-e "}" $(TESTFILES)
-	@ $(RM) $(DIR)
-	@ echo "File sync complete ..."
-
-# create package objects for SomaDataIO and save in data/
+# create SomaDataIO package objects and re-save in data/
 objects:
 	@ echo "Creating package objects ..."
 	@ $(RSCRIPT) \
@@ -165,11 +87,6 @@ sysdata:
 
 check_versions:
 	@ $(RSCRIPT) inst/check-pkg-versions.R
-
-install_deps:
-	@ $(RSCRIPT) \
-	-e "if (!requireNamespace('remotes')) install.packages('remotes')" \
-	-e "remotes::install_deps(dependencies = TRUE)"
 
 install:
 	@ R CMD INSTALL --use-vanilla --preclean --resave-data .
