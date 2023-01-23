@@ -4,4 +4,5 @@
 ^r\\.Rproj$
 \.Rhistory
 \.RData
+sync-somareadr\.sh
 inst/doc
