@@ -3,6 +3,7 @@
 f <- system.file("example", "single_sample.adat",
                  package = "SomaDataIO", mustWork = TRUE)
 adat <- read_adat(f)
+withr::local_options(list(usethis.quiet = TRUE))  # silence ui signalling
 
 # Testing ----
 test_that("`write_adat()` produces unchanged out -> in -> out", {

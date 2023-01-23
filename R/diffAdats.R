@@ -27,7 +27,7 @@
 #' @export
 diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
 
-  if ( !(inherits(adat1, "data.frame") & inherits(adat2, "data.frame")) ) {
+  if ( !(inherits(adat1, "data.frame") && inherits(adat2, "data.frame")) ) {
     stop(
       "Both `adat1` & `adat2` must inherit from class `data.frame`.",
       call. = FALSE
@@ -47,7 +47,7 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
   # Attribute names ----
   pad <- 35
   mark <- names(attributes(adat1)) %==% names(attributes(adat2))
-  msg  <- .pad("Attribute names are identical", width = pad) # nolint
+  msg  <- .pad("Attribute names are identical", width = pad)
   .todo("{msg} {map_mark(mark)}")
 
   # Attributes ----
@@ -93,14 +93,14 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
   msg <- .pad("ADATs contain same Meta Fields", width = pad)
   .todo("{msg} {map_mark(same_meta_names)}")
 
-  if ( !(same_meta_names & same_ft_names) ) {
+  if ( !(same_meta_names && same_ft_names) ) {
     ipad    <- 20   # internal padding
     apts1_2 <- setdiff(getAnalytes(adat1), getAnalytes(adat2))
     apts2_1 <- setdiff(getAnalytes(adat2), getAnalytes(adat1))
     meta1_2 <- setdiff(getMeta(adat1), getMeta(adat2))
     meta2_1 <- setdiff(getMeta(adat2), getMeta(adat1))
 
-    if ( length(apts1_2) > 0 ) {
+    if ( length(apts1_2) > 0L ) {
       sprintf(
         "Features in %s but not %s:",
         .value(deparse(substitute(adat1))),
@@ -109,7 +109,7 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
       lapply(.pad(apts1_2, ipad, "left"), writeLines)
     }
 
-    if ( length(apts2_1) > 0 ) {
+    if ( length(apts2_1) > 0L ) {
       sprintf(
         "Features in %s but not %s:",
         .value(deparse(substitute(adat2))),
@@ -118,7 +118,7 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
       lapply(.pad(apts2_1, ipad, "left"), writeLines)
     }
 
-    if ( length(meta1_2) > 0 ) {
+    if ( length(meta1_2) > 0L ) {
       sprintf(
         "Meta data in %s but not %s:",
         .value(deparse(substitute(adat1))),
@@ -127,7 +127,7 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
       lapply(.pad(meta1_2, ipad, "left"), writeLines)
     }
 
-    if ( length(meta2_1) > 0 ) {
+    if ( length(meta2_1) > 0L ) {
       sprintf(
         "Meta data in %s but not %s:",
         .value(deparse(substitute(adat2))),

@@ -29,16 +29,19 @@ test_that("adats list is named properly", {
 # loadAdatsAsList() -----
 test_that("throws warning when failure to load adat", {
   expect_message(
-    bad <- loadAdatsAsList(c(files, "test.adat", "fail.adat")),
-    "Failed to load:"
+    bad <- loadAdatsAsList(c(files, "fail.adat")),
+    "Failed to load: 'fail.adat'", fixed = TRUE
   )
   # failed file names are not returned
   expect_equal(bad, adats)
 
-  # no valid files
+  # two invalid files
   expect_message(
-    bad2 <- loadAdatsAsList(c("a.adat", "b.adat", "c.adat")),
-    "Failed to load:"
+    expect_message(
+      bad2 <- loadAdatsAsList(c("a.adat", "b.adat")),
+      "Failed to load: 'a.adat'", fixed = TRUE
+    ),
+    "Failed to load: 'b.adat'", fixed = TRUE
   )
   expect_named(bad2, character(0))
   expect_length(bad2, 0L)

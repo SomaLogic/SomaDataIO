@@ -150,8 +150,9 @@ test_that("the `Ops()` group generic generates the expected output", {
     adat <= adat,
     "The RHS ('adat') of `<=` cannot be a `soma_adat` class.", fixed = TRUE
   )
-  expect_error(
-    capture_output(adat == adat), NA   # expect NO errors! diffAdats()
+
+  expect_snapshot(
+    expect_error(adat == adat, NA)   # expect error-free; invokes `diffAdats()`
   )
 
   foo <- adat[, getAnalytes(adat)]

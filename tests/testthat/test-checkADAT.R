@@ -5,6 +5,7 @@ adat <- mock_adat()
 # Testing ----
 test_that("`.checkADAT()` produces an error when it should", {
   # Success
+  withr::local_options(list(usethis.quiet = TRUE))
   expect_null(.checkADAT(adat))        # NULL
   expect_error(.checkADAT(adat), NA)   # NA; no errors
   expect_invisible(.checkADAT(adat))   # invisible
@@ -27,6 +28,7 @@ test_that("`.checkADAT()` produces an error if Col.Meta-Apts are out of sync", {
 })
 
 test_that("`.checkADAT()` produces a warning if ADAT has no rows", {
+  withr::local_options(list(usethis.quiet = TRUE))
   expect_warning(
     .checkADAT(adat[0L, ]),
     "ADAT has no rows! Writing just header and column meta data."
