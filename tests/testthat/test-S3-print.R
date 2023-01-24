@@ -7,14 +7,10 @@
 
 # Testing ----
 test_that("`soma_adat` S3 print method returns known output", {
-  withr::local_options(list(cli.num_colors = 1L,
-                            cli.unicode    = FALSE,
-                            pillar.bold    = FALSE,
-                            pillar.subtle  = TRUE,
-                            tibble.width   = 80))
+  testthat::local_reproducible_output()
 
-  adat <- read_adat(system.file("example", "example_data.adat",
-                    package = "SomaDataIO", mustWork = TRUE))
+  adat <- example_data
+
   # default
   expect_snapshot_output(adat)
 

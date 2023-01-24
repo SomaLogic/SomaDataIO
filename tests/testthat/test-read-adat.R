@@ -78,7 +78,7 @@ test_that("an empty ADAT is correctly handled", {
   expect_equal(tbl, attr(adat, "Col.Meta"), ignore_attr = TRUE)
 })
 
-# print.soma_adat -------
+# print.soma_adat ----
 test_that("print.soma_adat() returns original object", {
   dump <- tempfile(pattern = "tmp-")
   withr::local_output_sink(dump)    # dump console output
@@ -89,7 +89,7 @@ test_that("print.soma_adat() returns original object", {
   unlink(dump)
 })
 
-# is.soma_adat -------
+# is.soma_adat ----
 test_that("is.soma_adat() checks class correctly", {
   expect_true(is.soma_adat(adat))
   expect_false(is.soma_adat(unclass(adat)))
