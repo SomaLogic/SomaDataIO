@@ -5,8 +5,8 @@
 \alias{Math.soma_adat}
 \alias{antilog}
 \alias{Ops.soma_adat}
-\alias{==.soma_adat}
 \alias{Summary.soma_adat}
+\alias{==.soma_adat}
 \title{Group Generics for \code{soma_adat} Class Objects}
 \usage{
 \method{Math}{soma_adat}(x, ...)
@@ -15,9 +15,9 @@ antilog(x, base = 10)
 
 \method{Ops}{soma_adat}(e1, e2 = NULL)
 
-\method{==}{soma_adat}(e1, e2)
-
 \method{Summary}{soma_adat}(..., na.rm = FALSE)
+
+\method{==}{soma_adat}(e1, e2)
 }
 \arguments{
 \item{x}{The \code{soma_adat} class object to perform the transformation.}
@@ -51,10 +51,10 @@ the \code{\link[=log]{log()}} default base \emph{e}.
 
 \item \code{Ops(soma_adat)}: Performs binary mathematical operations on class \code{soma_adat}. See \code{\link[=Ops]{Ops()}}.
 
+\item \code{Summary(soma_adat)}: Performs summary calculations on class \code{soma_adat}. See \code{\link[=Summary]{Summary()}}.
+
 \item \code{ == }: Compares left- and right-hand sides of the operator \emph{unless} the RHS
 is also a \code{soma_adat}, in which case \code{\link[=diffAdats]{diffAdats()}} is invoked.
-
-\item \code{Summary(soma_adat)}: Performs summary calculations on class \code{soma_adat}. See \code{\link[=Summary]{Summary()}}.
 
 }}
 \section{Math}{
