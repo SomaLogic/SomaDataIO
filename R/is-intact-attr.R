@@ -21,12 +21,12 @@
 #' @examples
 #' # checking attributes
 #' my_adat <- example_data
-#' is.intact.attributes(my_adat)           # TRUE
-#' is.intact.attributes(my_adat[, -303])   # doesn't break atts; TRUE
+#' is_intact_attr(my_adat)           # TRUE
+#' is_intact_attr(my_adat[, -303])   # doesn't break atts; TRUE
 #' attributes(my_adat)$Col.Meta$Target <- NULL    # break attributes
-#' is.intact.attributes(my_adat, verbose = TRUE)  # FALSE (Target missing)
+#' is_intact_attr(my_adat, verbose = TRUE)  # FALSE (Target missing)
 #' @export
-is.intact.attributes <- function(adat, verbose = interactive()) {
+is_intact_attr <- function(adat, verbose = interactive()) {
 
   atts <- attributes(adat)
   col_meta_checks <- c("SeqId", "Dilution", "Target", "Units")
@@ -70,6 +70,16 @@ is.intact.attributes <- function(adat, verbose = interactive()) {
     }
     FALSE
   } else {
-    TRUE  # Everything looks good!
+    TRUE  # everything looks good!
   }
+}
+
+#' @describeIn is_intact_attr
+#'   has been superseded by a more convenient, current, tidy syntax.
+#' @importFrom lifecycle deprecate_soft
+#' @export
+is.intact.attributes <- function(adat, verbose = interactive()) {
+  deprecate_soft("7.3.0", "SomaDataIO::is.intact.attributes()",
+                 "SomaDataIO::is_intact_attr()")
+  is_intact_attr(adat, verbose)
 }
