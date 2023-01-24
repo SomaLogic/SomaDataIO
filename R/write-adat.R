@@ -91,8 +91,8 @@ write_adat <- function(x, file) {
 
   # Write out header row
   # Skip rest if "Empty ADAT"
-  if ( nrow(x) > 0 ) {
-    if ( n_meta < 1 ) {
+  if ( nrow(x) > 0L ) {
+    if ( n_meta < 1L ) {
       warning(
         "\nYou are writing an ADAT without any meta data.\n",
         "This may cause this file (", .value(file), ") ",
@@ -153,7 +153,7 @@ write_adat <- function(x, file) {
       "then try again.", call. = FALSE
     )
   }
-  if ( nrow(adat) == 0 ) {
+  if ( nrow(adat) == 0L ) {
     warning(
       "ADAT has no rows! Writing just header and column meta data.",
       call. = FALSE
