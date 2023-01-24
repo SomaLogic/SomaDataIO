@@ -62,10 +62,10 @@ test_that("`read_adat()` produces the correct RFU values", {
   expect_equal(sum(adat[, apts]), 21311516)
 })
 
-test_that("is.intact.attributes produces an error when it should", {
-  expect_true(is.intact.attributes(adat))          # good attributes
-  attributes(adat) <- attributes(adat)[ -c(5, 6)]  # break attributes
-  expect_false(is.intact.attributes(adat))
+test_that("`is_intact_attr()` produces an error when it should", {
+  expect_true(is_intact_attr(adat))                  # good attributes
+  attributes(adat) <- attributes(adat)[ -c(5L, 6L)]  # break attributes
+  expect_false(is_intact_attr(adat))
 })
 
 test_that("an empty ADAT is correctly handled", {

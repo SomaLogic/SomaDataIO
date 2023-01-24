@@ -59,7 +59,7 @@ NULL
   if ( missing(j) ) {
     # not sub-setting columns
     return(NextMethod())
-  } else if ( is.intact.attributes(x) ) {
+  } else if ( is_intact_attr(x) ) {
     # sub-setting columns & attributes to worry about
     if ( length(j) == 1L && j > 0 ) {
       # if extracting a single column

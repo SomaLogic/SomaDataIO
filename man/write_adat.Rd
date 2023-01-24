@@ -8,7 +8,7 @@ write_adat(x, file)
 }
 \arguments{
 \item{x}{An object of class \code{"soma_adat"}. Both \code{\link[=is.soma_adat]{is.soma_adat()}} and
-\code{\link[=is.intact.attributes]{is.intact.attributes()}} must be \code{TRUE}.}
+\code{\link[=is_intact_attr]{is_intact_attr()}} must be \code{TRUE}.}
 
 \item{file}{Character. File path where the object should be written.
 For example, extensions should be \verb{*.adat}.}
@@ -17,7 +17,7 @@ For example, extensions should be \verb{*.adat}.}
 One can write an existing modified internal ADAT
 (\code{soma_adat} R object) to an external file.
 However the ADAT object itself \emph{must} have intact
-attributes, see \code{\link[=is.intact.attributes]{is.intact.attributes()}}.
+attributes, see \code{\link[=is_intact_attr]{is_intact_attr()}}.
 }
 \details{
 The ADAT specification \emph{no longer} requires Windows
@@ -36,7 +36,7 @@ CRLF   \tab DOS/Windows \tab \verb{"\r\n"}
 }
 }
 \seealso{
-\code{\link[=read_adat]{read_adat()}}, \code{\link[=is.intact.attributes]{is.intact.attributes()}}
+\code{\link[=read_adat]{read_adat()}}, \code{\link[=is_intact_attr]{is_intact_attr()}}
 
 Other IO: 
 \code{\link{loadAdatsAsList}()},

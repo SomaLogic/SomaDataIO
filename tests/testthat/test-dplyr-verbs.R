@@ -35,7 +35,7 @@ test_that("`arrange()` method produces expected output", {
   new_rn <- rownames(data)[order(data$NormScale)]
   expect_equal(rownames(new), new_rn)
   expect_equal(sort(data$NormScale), new$NormScale)
-  expect_true(is.intact.attributes(new))
+  expect_true(is_intact_attr(new))
   expect_equal(names(attributes(new)), names(attributes(data))) # atts order preserved
   # check the arrange happened correctly
   expect_equal(new$SampleId, c("005", "001", "002", "003", "004", "006"))
@@ -46,7 +46,7 @@ test_that("`rename()` method produces expected output", {
   new <- rename(data, PID = PlateId)
   expect_true(is.soma_adat(new))
   expect_s3_class(new, "soma_adat")
-  expect_true(is.intact.attributes(new))
+  expect_true(is_intact_attr(new))
   expect_equal(class(new), class(data))
   expect_equal(dim(new), dim(data))
   expect_true("PID" %in% names(new))
@@ -57,7 +57,7 @@ test_that("`rename()` method produces expected output", {
     new2 <- rename(data, PID = PlateId, seq.1111.11 = seq.3333.33),
     "You are renaming analytes. Modify the SomaScan menu with care."
   )
-  expect_true(is.intact.attributes(new2))
+  expect_true(is_intact_attr(new2))
   new_cm <- attr(data, "Col.Meta")
   new_cm[2L, ] <- NA   # 3333-33 is renamed, NAs in Col.Meta row
   expect_equal(attr(new2, "Col.Meta"), new_cm)
@@ -73,7 +73,7 @@ test_that("`filter()` method produces expected output", {
   expect_equal(dim(new), c(3, ncol(data)))
   expect_equal(new$NormScale, c(1.1, 1.8, 1.8))
   expect_true(all(rownames(new) %in% rownames(data)))
-  expect_true(is.intact.attributes(new))
+  expect_true(is_intact_attr(new))
   expect_equal(names(attributes(new)), names(attributes(data))) # atts order preserved
 })
 
@@ -88,7 +88,7 @@ test_that("`mutate()` method produces expected output", {
   expect_equal(dim(new), dim(data) + c(0, 1))   # new column
   expect_equal(rownames(new), rownames(data))
   expect_equal(new$Subarray_2x, new$Subarray * 2)
-  expect_true(is.intact.attributes(new))
+  expect_true(is_intact_attr(new))
   expect_equal(names(attributes(new)), names(attributes(data))) # atts order preserved
 })
 
@@ -105,7 +105,7 @@ test_that("`select()` method produces expected output", {
   expect_equal(getAnalytes(new, n = TRUE), length(apts))
   expect_length(setdiff(names(new), getAnalytes(new)), length(meta))
   expect_true(all(rownames(new) %in% rownames(data)))
-  expect_true(is.intact.attributes(new))
+  expect_true(is_intact_attr(new))
   ad <- attributes(new)$Col.Meta
   expect_equal(dim(ad), c(2, 9))
   expect_equal(ad$SeqId, getSeqId(apts))  # apt data sync'd?
@@ -130,7 +130,7 @@ test_that("`left_join()` method produces expected output", {
   expect_equal("NewData", tail(names(new), 1))
   expect_equal("NewData", tail(getMeta(new), 1))
   expect_equal(getAnalytes(new), getAnalytes(data))
-  expect_true(is.intact.attributes(new))
+  expect_true(is_intact_attr(new))
   expect_equal(names(attributes(new)), names(attributes(data))) # atts order preserved
 })
 
@@ -235,10 +235,10 @@ test_that("`ungroup()` method generates expected output", {
   expect_true(is.soma_adat(df))
   expect_s3_class(df, "soma_adat")
   expect_s3_class(df, "grouped_df")
-  expect_true(is.intact.attributes(df))
+  expect_true(is_intact_attr(df))
   expect_equal(rownames(df), rownames(data))
   un <- ungroup(df)
-  expect_true(is.intact.attributes(un))
+  expect_true(is_intact_attr(un))
   expect_s3_class(un, "soma_adat")
   expect_equal(rownames(un), rownames(df))
 })

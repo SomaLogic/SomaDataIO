@@ -10,7 +10,7 @@ data$b <- paste0(data$a, "-", data$d)
 test_that("separate() method produces expected output", {
   new <- separate(data, b, into = c("b", "c"))
   expect_s3_class(new, "soma_adat")
-  expect_true(is.intact.attributes(new))
+  expect_true(is_intact_attr(new))
   expect_equal(class(new), class(data))
   expect_equal(dim(new), dim(data) + c(0, 1))   # 1 new column
   expect_true("c" %in% names(new))
@@ -34,7 +34,7 @@ test_that("lazy eval works identically among 3 main inputs for `col=`", {
 test_that("unite() method produces expected output", {
   new <- unite(data, "combo", c("a", "d"), sep = "-")
   expect_s3_class(new, "soma_adat")
-  expect_true(is.intact.attributes(new))
+  expect_true(is_intact_attr(new))
   expect_equal(class(new), class(data))
   expect_equal(dim(new), dim(data) + c(0, -1))   # 1 less column
   expect_true("combo" %in% names(new))

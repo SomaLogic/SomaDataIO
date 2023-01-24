@@ -38,7 +38,7 @@ adat2eSet <- function(adat) {
     )
   }
 
-  stopifnot(is.intact.attributes(adat))
+  stopifnot("`adat` must have intact attributes." = is_intact_attr(adat))
   atts        <- attributes(adat)
   apts        <- getAnalytes(adat)
   lst         <- list()

@@ -10,7 +10,7 @@
 #' @noRd
 prepHeaderMeta <- function(data) {
 
-  if ( is.intact.attributes(data) ) {
+  if ( is_intact_attr(data) ) {
     x <- attributes(data)
     x$Col.Meta$Dilution2 <- NULL   # rm Dilution2
   } else {
@@ -20,7 +20,7 @@ prepHeaderMeta <- function(data) {
       cat(
         "\n  Please fix ADAT attributes prior to calling",
         .code(deparse(call)), "\n ",
-        .code(sprintf("is.intact.attributes(%s)", obj)), "must be", .value("TRUE")
+        .code(sprintf("is_intact_attr(%s)", obj)), "must be", .value("TRUE")
       )
       if ( utils::packageName() == "SomaDataIO" ) {
         cat(

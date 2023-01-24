@@ -8,7 +8,7 @@ test_that("extract charcter method within-type produces correct output", {
   chr <- c("PlateId", "SlideId", "Subarray", "SampleGroup")
   new <- adat[, chr]
   expect_named(new, chr)
-  expect_true(is.intact.attributes(new))
+  expect_true(is_intact_attr(new))
   expect_s3_class(new, "soma_adat")
   expect_equal(dim(new), c(6, 4))
   expect_equal(rownames(new), rownames(adat))
@@ -20,7 +20,7 @@ test_that("extract charcter method within-type produces correct output", {
   chr <- c("seq.1234.56", "seq.3333.33", "seq.9898.99")
   new <- adat[, chr]
   expect_named(new, chr)
-  expect_true(is.intact.attributes(new))
+  expect_true(is_intact_attr(new))
   expect_s3_class(new, "soma_adat")
   expect_equal(dim(new), c(6L, 3L))
   expect_equal(rownames(new), rownames(adat))
@@ -34,7 +34,7 @@ test_that("extract charcter method cross-types produces correct output", {
            "seq.9898.99", "seq.1234.56")   # also out of order; rm 3333-33
   new <- adat[, chr]
   expect_named(new, chr)
-  expect_true(is.intact.attributes(new))
+  expect_true(is_intact_attr(new))
   expect_s3_class(new, "soma_adat")
   expect_equal(dim(new), c(6L, length(chr)))
   expect_equal(rownames(new), rownames(adat))
@@ -48,7 +48,7 @@ test_that("extract numeric method within-type produces correct output", {
   idx <- seq(1, 7, by = 2)
   new <- adat[, idx]
   expect_named(new, names(adat)[idx])
-  expect_true(is.intact.attributes(new))
+  expect_true(is_intact_attr(new))
   expect_s3_class(new, "soma_adat")
   expect_equal(dim(new), c(nrow(adat), length(idx)))
   expect_equal(rownames(new), rownames(adat))
@@ -58,7 +58,7 @@ test_that("extract numeric method within-type produces correct output", {
   idx <- c(8L, 10L)
   new <- adat[, idx]
   expect_named(new, names(adat)[idx])
-  expect_true(is.intact.attributes(new))
+  expect_true(is_intact_attr(new))
   expect_s3_class(new, "soma_adat")
   expect_equal(dim(new), c(nrow(adat), length(idx)))
   expect_equal(rownames(new), rownames(adat))
@@ -72,7 +72,7 @@ test_that("extract numeric method cross-types produces correct output", {
   new <- adat[, idx]
   expect_named(new, names(adat)[idx])
   expect_s3_class(new, "soma_adat")
-  expect_true(is.intact.attributes(new))
+  expect_true(is_intact_attr(new))
   expect_equal(dim(new), c(nrow(adat), length(idx)))
   expect_equal(rownames(new), rownames(adat))
   atts <- attributes(new)
@@ -83,7 +83,7 @@ test_that("extract numeric method cross-types produces correct output", {
 test_that("negative numeric indices do not break attributes", {
   # single negative
   new <- adat[, -9L]
-  expect_true(is.intact.attributes(new))
+  expect_true(is_intact_attr(new))
   expect_s3_class(new, "soma_adat")
   expect_equal(dim(new), c(nrow(adat), ncol(adat) - 1L))
   expect_equal(dim(attr(new, "Col.Meta")), c(2L, 9L))
@@ -91,7 +91,7 @@ test_that("negative numeric indices do not break attributes", {
   # vector negative
   idx <- c(8L, 10L)
   new <- adat[, -idx]
-  expect_true(is.intact.attributes(new))
+  expect_true(is_intact_attr(new))
   expect_s3_class(new, "soma_adat")
   expect_equal(dim(new), c(nrow(adat), ncol(adat) - length(idx)))
   atts <- attributes(new)
@@ -117,7 +117,7 @@ test_that("the `drop = FALSE` argument is working correctly", {
 test_that("extracting a single row does not change the object class", {
   expect_s3_class(adat[3L, ], "soma_adat")
   expect_s3_class(adat[5L, ], "data.frame")
-  expect_true(is.intact.attributes(adat[5L, ]))
+  expect_true(is_intact_attr(adat[5L, ]))
   expect_equal(dim(adat[3L, ]), c(1, 10))
   expect_named(adat[3L, seq(1, 7, 2)], c("PlateId", "Subarray",
                                         "SampleGroup", "NormScale"))
@@ -143,7 +143,7 @@ test_that("extract logical method within-type produces correct output", {
   lgl <- seq_len(ncol(adat)) %in% seq(1, 7, by = 2)
   new <- adat[, lgl]
   expect_named(new, names(adat)[lgl])
-  expect_true(is.intact.attributes(new))
+  expect_true(is_intact_attr(new))
   expect_s3_class(new, "soma_adat")
   expect_equal(dim(new), c(nrow(adat), sum(lgl)))
   expect_equal(rownames(new), rownames(adat))
@@ -153,7 +153,7 @@ test_that("extract logical method within-type produces correct output", {
   lgl <- seq_len(ncol(adat)) %in% c(8, 10)   # pick 2
   new <- adat[, lgl]
   expect_named(new, names(adat)[lgl])
-  expect_true(is.intact.attributes(new))
+  expect_true(is_intact_attr(new))
   expect_s3_class(new, "soma_adat")
   expect_equal(dim(new), c(nrow(adat), sum(lgl)))
   expect_equal(rownames(new), rownames(adat))
@@ -167,7 +167,7 @@ test_that("extract logical method cross-type produces correct output", {
   new <- adat[, lgl]
   expect_named(new, names(adat)[lgl])
   expect_s3_class(new, "soma_adat")
-  expect_true(is.intact.attributes(new))
+  expect_true(is_intact_attr(new))
   expect_equal(dim(new), c(nrow(adat), sum(lgl)))
   expect_equal(rownames(new), rownames(adat))
   atts <- attributes(new)
@@ -181,7 +181,7 @@ test_that("attributes already broken, return normal data.frame method", {
   attributes(adat)$Col.Meta    <- NULL
   attributes(adat)$row_meta    <- NULL
   attributes(adat)$file_specs  <- NULL
-  expect_false(is.intact.attributes(adat))   # just to be sure
+  expect_false(is_intact_attr(adat))   # just to be sure
   expect_equal(sum(adat[, 3L]), 12)   # sum Subarray
   expect_equal(dim(adat[5L, ]), c(1L, 10L))
 })

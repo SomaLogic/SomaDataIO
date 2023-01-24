@@ -18,7 +18,7 @@ arrange.soma_adat <- function(.data, ...) {
   .data <- rn2col(.data, ".arrange_rn")
   .data <- NextMethod()
   .data <- col2rn(.data, ".arrange_rn")
-  stopifnot(is.intact.attributes(.data))
+  stopifnot(is_intact_attr(.data))
   .data
 }
 
@@ -28,7 +28,7 @@ filter.soma_adat <- function(.data, ...) {
   .data <- rn2col(.data, ".filter_rn")
   .data <- NextMethod()
   .data <- col2rn(.data, ".filter_rn")
-  stopifnot(is.intact.attributes(.data))
+  stopifnot(is_intact_attr(.data))
   .data
 }
 
@@ -40,7 +40,7 @@ mutate.soma_adat <- function(.data, ...) {
   .data <- addAttributes(.data, atts)
   .data <- col2rn(.data, ".mutate_rn")
   attributes(.data) <- attributes(.data)[names(atts)]   # orig order
-  stopifnot(is.intact.attributes(.data))
+  stopifnot(is_intact_attr(.data))
   .data
 }
 
@@ -51,7 +51,7 @@ select.soma_adat <- function(.data, ...) {
   .data <- NextMethod()
   .data <- syncColMeta(addAttributes(.data, atts))
   attributes(.data) <- attributes(.data)[names(atts)]   # orig order
-  stopifnot(is.intact.attributes(.data))
+  stopifnot(is_intact_attr(.data))
   .data
 }
 
@@ -66,7 +66,7 @@ rename.soma_adat <- function(.data, ...) {
     )
     .data <- syncColMeta(.data)
   }
-  stopifnot(is.intact.attributes(.data))
+  stopifnot(is_intact_attr(.data))
   .data
 }
 
@@ -109,7 +109,7 @@ slice.soma_adat <- function(.data, ..., .preserve = FALSE) {
   .data <- rn2col(.data, ".slice_rn")
   .data <- NextMethod()
   .data <- col2rn(.data, ".slice_rn")
-  stopifnot(is.intact.attributes(.data))
+  stopifnot(is_intact_attr(.data))
   .data
 }
 
@@ -118,7 +118,7 @@ slice_sample.soma_adat <- function(.data, ..., n, prop, weight_by = NULL,
                                    replace = FALSE) {
   # now just a pass-thru; slice() does the work; just check atts
   .data <- NextMethod()
-  stopifnot(is.intact.attributes(.data))
+  stopifnot(is_intact_attr(.data))
   .data
 }
 
@@ -127,7 +127,7 @@ sample_frac.soma_adat <- function(tbl, size = 1, replace = FALSE,
                                   weight = NULL, .env = NULL, ...) {
   # now just a pass-thru; slice() does the work; just check atts
   tbl     <- NextMethod()
-  stopifnot(is.intact.attributes(tbl))
+  stopifnot(is_intact_attr(tbl))
   tbl
 }
 
@@ -136,7 +136,7 @@ sample_n.soma_adat <- function(tbl, size, replace = FALSE,
                                weight = NULL, .env = NULL, ...) {
   # now just a pass-thru; slice() does the work; just check atts
   tbl <- NextMethod()
-  stopifnot(is.intact.attributes(tbl))
+  stopifnot(is_intact_attr(tbl))
   tbl
 }
 
@@ -147,7 +147,7 @@ group_by.soma_adat <- function(.data, ..., .add = FALSE,
   .data <- NextMethod()
   .data <- structure(.data, row.names = .rn,
                      class = c("soma_adat", class(.data)))
-  stopifnot(is.intact.attributes(.data))
+  stopifnot(is_intact_attr(.data))
   addClass(.data, "soma_adat")
 }
 
@@ -158,6 +158,6 @@ ungroup.soma_adat <- function(x, ...) {
   .data <- addAttributes(.data, atts)
   .data <- structure(.data, row.names = atts$row.names,
                      class = c("soma_adat", "data.frame"))
-  stopifnot(is.intact.attributes(.data))
+  stopifnot(is_intact_attr(.data))
   .data
 }

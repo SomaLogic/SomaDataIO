@@ -71,7 +71,7 @@ feats <- sample(anno_tbl$AptName, 6)
 par(mfrow = 2:3); sapply(feats, function(.x) plot(1:10, main = tg[[.x]]))
 }
 \seealso{
-\code{\link[=getAnalytes]{getAnalytes()}}, \code{\link[=is.intact.attributes]{is.intact.attributes()}}, \code{\link[=read_adat]{read_adat()}}
+\code{\link[=getAnalytes]{getAnalytes()}}, \code{\link[=is_intact_attr]{is_intact_attr()}}, \code{\link[=read_adat]{read_adat()}}
 }
 \author{
 Stu Field

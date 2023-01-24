@@ -14,7 +14,7 @@
 #' @return A `tibble` object with columns corresponding
 #' to the column meta data entries in the `soma_adat`; 1 row per analyte.
 #' @author Stu Field
-#' @seealso [getAnalytes()], [is.intact.attributes()], [read_adat()]
+#' @seealso [getAnalytes()], [is_intact_attr()], [read_adat()]
 #' @examples
 #' # Get Aptamer table
 #' anno_tbl <- getAnalyteInfo(example_data)

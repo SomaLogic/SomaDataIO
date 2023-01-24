@@ -12,7 +12,7 @@ skip_on_jenkins <- function() {
 }
 
 # mock up dummy data.frame -> soma_adat
-# minimal set of attributes to trick `is.intact.attributes()` to be TRUE
+# minimal set of attributes to trick `is_intact_attr()` to be TRUE
 mock_adat <- function() {
   data <- data.frame(
     PlateId     = rep_len("Set A", 6),

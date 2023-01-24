@@ -19,7 +19,7 @@
 print.soma_adat <- function(x, show_header = FALSE, ...) {
 
   writeLines(cli_rule(cr_bold("SomaScan Data"), line = 2, line_col = "blue"))
-  attsTRUE    <- is.intact.attributes(x, verbose = FALSE)
+  attsTRUE    <- is_intact_attr(x, verbose = FALSE)
   col_f       <- if ( attsTRUE ) cr_green else cr_red
   atts_symbol <- if ( attsTRUE ) symb_tick else symb_cross
   meta   <- getMeta(x)

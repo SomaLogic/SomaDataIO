@@ -3,7 +3,7 @@
 #' One can write an existing modified internal ADAT
 #' (`soma_adat` R object) to an external file.
 #' However the ADAT object itself *must* have intact
-#' attributes, see [is.intact.attributes()].
+#' attributes, see [is_intact_attr()].
 #'
 #' The ADAT specification *no longer* requires Windows
 #' end of line (EOL) characters (\verb{"\r\n"}).
@@ -22,12 +22,12 @@
 #'
 #' @family IO
 #' @param x An object of class `"soma_adat"`. Both [is.soma_adat()] and
-#' [is.intact.attributes()] must be `TRUE`.
+#' [is_intact_attr()] must be `TRUE`.
 #' @param file Character. File path where the object should be written.
 #' For example, extensions should be `*.adat`.
 #' @author Stu Field
 #' @importFrom utils write.table
-#' @seealso [read_adat()], [is.intact.attributes()]
+#' @seealso [read_adat()], [is_intact_attr()]
 #' @export
 write_adat <- function(x, file) {
 

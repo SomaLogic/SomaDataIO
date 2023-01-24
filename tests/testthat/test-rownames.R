@@ -2,7 +2,7 @@
 test_that("the rowname helpers move rownames safely", {
   new <- rn2col(example_data)    # default `name`
   expect_s3_class(new, "soma_adat")
-  expect_true(is.intact.attributes(new))
+  expect_true(is_intact_attr(new))
   expect_equal(new$.rn, rownames(example_data))
   expect_true(".rn" %in% names(new))
   expect_equal(.row_names_info(new, type = 0L), c(NA, -192)) # now implicit rn
@@ -11,7 +11,7 @@ test_that("the rowname helpers move rownames safely", {
   # `name` argument
   new <- rn2col(example_data, "foo")
   expect_s3_class(new, "soma_adat")
-  expect_true(is.intact.attributes(new))
+  expect_true(is_intact_attr(new))
   expect_equal(new$foo, rownames(example_data))
   expect_true("foo" %in% names(new))
   expect_equal(.row_names_info(new, type = 0L), c(NA, -192)) # now implicit rn
@@ -20,7 +20,7 @@ test_that("the rowname helpers move rownames safely", {
   # moving columns
   expect_warning(x <- col2rn(example_data, "SampleId"))   # over-write warning
   expect_s3_class(x, "soma_adat")
-  expect_true(is.intact.attributes(x))
+  expect_true(is_intact_attr(x))
   expect_equal(rownames(x), make.unique(example_data$SampleId, "-"))
   expect_false("SampleId" %in% rownames(x))
 
