@@ -23,10 +23,10 @@
 #'
 #' @name SeqId
 #' @param x Character. A vector of strings, usually analyte/feature column
-#' names, `AptNames`, or `SeqIds`. For [seqid2apt()], a vector of `SeqIds`.
-#' For [matchSeqIds()], a vector of pattern matches containing `SeqIds`.
-#' Can be `AptNames` with `GeneIDs` or `seq.XXXX` format, or even
-#' "naked" `SeqIds`.
+#'   names, `AptNames`, or `SeqIds`. For [seqid2apt()], a vector of `SeqIds`.
+#'   For [matchSeqIds()], a vector of pattern matches containing `SeqIds`.
+#'   Can be `AptNames` with `GeneIDs` or `seq.XXXX` format, or even
+#'   "naked" `SeqIds`.
 NULL
 
 
@@ -34,14 +34,14 @@ NULL
 #' Extract the `SeqId` String
 #'
 #' @describeIn SeqId
-#' Extracts/captures the the `SeqId` match from an analyte column identifier,
-#' i.e. column name of an ADAT loaded with [read_adat()]. Assumes the
-#' `SeqId` pattern occurs at the end of the string, which for
-#' the vast majority of cases will be true. For edge cases, see the
-#' `trailing` argument to [locateSeqId()].
+#'   extracts/captures the the `SeqId` match from an analyte column identifier,
+#'   i.e. column name of an ADAT loaded with [read_adat()]. Assumes the
+#'   `SeqId` pattern occurs at the end of the string, which for
+#'   the vast majority of cases will be true. For edge cases, see the
+#'   `trailing` argument to [locateSeqId()].
 #'
 #' @param trim.version Logical. Whether to remove the version number,
-#' i.e. "1234-56_7" -> "1234-56". Primarily for legacy ADATs.
+#'   i.e. "1234-56_7" -> "1234-56". Primarily for legacy ADATs.
 #' @return [getSeqId()]: a character vector of `SeqId` capture from a string.
 #' @author Stu Field
 #' @examples
@@ -75,13 +75,13 @@ getSeqId <- function(x, trim.version = FALSE) {
 #' Regular expression match for `SeqIds`
 #'
 #' @describeIn SeqId
-#' Generates a pre-formatted regular expression for
-#' matching of `SeqIds`. Note the *trailing* match, which is most
-#' commonly required, but [locateSeqId()] offers
-#' an alternative to mach *anywhere* in a string.
-#' Used internally in *many* utility functions
+#'   generates a pre-formatted regular expression for
+#'   matching of `SeqIds`. Note the *trailing* match, which is most
+#'   commonly required, but [locateSeqId()] offers
+#'   an alternative to mach *anywhere* in a string.
+#'   Used internally in *many* utility functions
 #' @return [regexSeqId()]: a regular expression (`regex`) string
-#' pre-defined to match SomaLogic the `SeqId` pattern.
+#'   pre-defined to match SomaLogic the `SeqId` pattern.
 #' @export
 regexSeqId <- function() {
   #  Pool ------- Clone ------- Version (optional)
@@ -92,14 +92,14 @@ regexSeqId <- function() {
 #' Locate string positions of `SeqIds`
 #'
 #' @describeIn SeqId
-#' Generates a data frame of the positional `SeqId` matches. Specifically
-#' designed to facilitate `SeqId` extraction via [substr()].
-#' Similar to [stringr::str_locate()].
+#'   generates a data frame of the positional `SeqId` matches. Specifically
+#'   designed to facilitate `SeqId` extraction via [substr()].
+#'   Similar to [stringr::str_locate()].
 #' @param trailing Logical. Should the regular expression explicitly specify
-#' *trailing* `SeqId` pattern match, i.e. `"regex$"`?
-#' This is the most common case and the default.
+#'   *trailing* `SeqId` pattern match, i.e. `"regex$"`?
+#'   This is the most common case and the default.
 #' @return [locateSeqId()]: a data frame containing the `start` and `stop`
-#' integer positions for `SeqId` matches at each value of `x`.
+#'   integer positions for `SeqId` matches at each value of `x`.
 #' @export
 locateSeqId <- function(x, trailing = TRUE) {
   pattern <- regexSeqId()
@@ -115,8 +115,8 @@ locateSeqId <- function(x, trailing = TRUE) {
 
 
 #' @describeIn SeqId
-#' Converts a `SeqId` into anonymous-AptName format, i.e.
-#' `1234-56` -> `seq.1234.56`. Versions, i.e. `1234-56_ver`, are trimmed.
+#'   converts a `SeqId` into anonymous-AptName format, i.e.
+#'   `1234-56` -> `seq.1234.56`. Versions, i.e. `1234-56_ver`, are trimmed.
 #' @export
 seqid2apt <- function(x) {
   stopifnot(inherits(x, "character"))
@@ -136,10 +136,10 @@ seqid2apt <- function(x) {
 #' Does a string contain a `SeqId`?
 #'
 #' @describeIn SeqId
-#' Regular expression match to determine if a string *contains*
-#' a `SeqId`, and thus is probably an `AptName` format string. Both
-#' legacy `EntrezGeneSymbol-SeqId` combinations or newer
-#' `"anonymous-AptNames"` formats (`seq.1234.45`) are matched.
+#'   regular expression match to determine if a string *contains*
+#'   a `SeqId`, and thus is probably an `AptName` format string. Both
+#'   legacy `EntrezGeneSymbol-SeqId` combinations or newer
+#'   so-called `"anonymous-AptNames"` formats (`seq.1234.45`) are matched.
 #'
 #' @return [is.apt()], [is.SeqId()]: Logical. `TRUE` or `FALSE`.
 #' @examples
@@ -157,8 +157,8 @@ is.apt <- function(x) {
 
 
 #' @describeIn SeqId
-#' Tests for `SeqId` format. Values returned from [getSeqId()]
-#' evaluate to `TRUE`.
+#'   tests for `SeqId` format, i.e. values returned from [getSeqId()]
+#'   will always return `TRUE`.
 #' @export
 is.SeqId <- function(x) {
   grepl("^[0-9]{4,5}-[0-9]{1,3}(_[0-9]{1,3})?$", x)

@@ -1,18 +1,18 @@
 #' Match SeqIds
 #'
 #' @describeIn SeqId
-#' Matches two character vectors on the basis of their
-#' intersecting `SeqIds`. Note that elements in `y` not
-#' containing a `SeqId` regular expression are silently dropped.
+#'   matches two character vectors on the basis of their
+#'   intersecting `SeqIds`. Note that elements in `y` not
+#'   containing a `SeqId` regular expression are silently dropped.
 #'
 #' @param y Character. A second vector of `AptNames` containing `SeqIds`
-#' to match against those in contained in `x`.
-#' For [matchSeqIds()] these values are returned if there are matching elements.
+#'   to match against those in contained in `x`.
+#'   For [matchSeqIds()] these values are returned if there are matching elements.
 #' @param order.by.x Logical. Order the returned character string by
-#' the `x` (first) argument?
+#'   the `x` (first) argument?
 #' @return [matchSeqIds()]: a character string corresponding to values
-#' in `y` of the intersect of `x` and `y`. If no matches are
-#' found, `character(0)`.
+#'   in `y` of the intersect of `x` and `y`. If no matches are
+#'   found, `character(0)`.
 #' @seealso [intersect()]
 #' @examples
 #'
@@ -46,20 +46,20 @@ matchSeqIds <- function(x, y, order.by.x = TRUE) {
 #' Get SeqId Matches
 #'
 #' @describeIn SeqId
-#' Matches two character vectors on the basis of their intersecting *SeqIds*
-#' only (irrespective of the `GeneID`-prefix). This produces a two-column
-#' data frame which then can be used as to map between the two sets.
+#'   matches two character vectors on the basis of their intersecting *SeqIds*
+#'   only (irrespective of the `GeneID`-prefix). This produces a two-column
+#'   data frame which then can be used as to map between the two sets.
 #'
-#' The final order of the matches/rows is by the input
-#' corresponding to the *first* argument (`x`).
+#'   The final order of the matches/rows is by the input
+#'   corresponding to the *first* argument (`x`).
 #'
-#' By default the data frame is invisibly returned to
-#' avoid dumping excess output to the console (see the `show =` argument.)
+#'   By default the data frame is invisibly returned to
+#'   avoid dumping excess output to the console (see the `show =` argument.)
 #'
 #' @param show Logical. Return the data frame visibly?
 #' @return [getSeqIdMatches()]: a \eqn{n x 2} data frame, where `n` is the
-#' length of the intersect of the matching `SeqIds`.
-#' The data frame is named by the passed arguments, `x` and `y`.
+#'   length of the intersect of the matching `SeqIds`.
+#'   The data frame is named by the passed arguments, `x` and `y`.
 #' @examples
 #' # vector of features
 #' feats <- getAnalytes(example_data)
