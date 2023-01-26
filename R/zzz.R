@@ -1,5 +1,5 @@
 
-.dummy <- function() { }  # nolint
+.dummy <- function() { }  # nolint: brace_linter.
 
 .onLoad <- function(libname, pkgname) {
   # this is to make the active binding switch between
