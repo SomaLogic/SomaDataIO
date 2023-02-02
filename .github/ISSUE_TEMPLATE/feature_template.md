@@ -12,12 +12,12 @@ labels: feature
 
 
 ## Problem
-- Please briefly describe the problem you have encountered
+Please briefly describe the problem you have encountered ...
 
 
 ## Feature
-- Please briefly describe the proposed new feature and
-  how it solves the problem above
+Please briefly describe the proposed new feature and
+how it solves the problem above ...
 
 
 ## R code
@@ -32,6 +32,6 @@ Please add more evidence with R code if appropriate ...
 - [ ] Medium
 - [ ] Low
 
--------
+---
 
 Thanks for contributing :partying_face:!

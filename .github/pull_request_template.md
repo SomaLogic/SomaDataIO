@@ -2,45 +2,9 @@
 ## Overview of Pull Request
 General description of the purpose for this pull request ...
 
-Fixes # (issue)
+Fixes SomaLogic/SomaDataIO#<issue_number>
 
-
-### Main changes
-
-- bullet 1
-- bullet 2
-- bullet 3
-
-
-## Reviewer Stakeholders by Team
-
-| Change Type   | BI                  | Info.Sec. | Legal      | Marketing     | Regulatory |
-|:------------- |:------------------- |:--------- |:---------- |:------------- |:---------- |
-| Code          | @KirkDSL, @stufield | @trhein   |            |               |            |
-| Documentation | @KirkDSL, @stufield |           | @SLbmangum | @kmurugesan14 |            |
-| README        |                     | @trhein   | @SLbmangum | @kmurugesan14 | @nmcnabbSL |
-| LICENSE       |                     |           | @SLbmangum |               |            |
-
-
-## Reviewer List
-Below is a list of *all* possible SomaLogic Organization reviewers.
-
-Use the table above and check which are appropriate for this pull request.
-
-Remember (!) you *must* actually add them as reviewers
-in the top-right drop-down menu:
-
-- [ ] @KirkDSL
-- [ ] @stufield
-- [ ] @trhein
-- [ ] @SLbmangum
-- [ ] @kmurugesan14
-- [ ] @nmcnabbSL
-- [ ] @SarahAnderson23
-- [ ] @ajw-somalogic
-
-
-## Change Type
+### Change type
 Please check the relevant box(es):
 
 - [ ] New feature (non-breaking change which adds functionality)
@@ -50,3 +14,43 @@ Please check the relevant box(es):
 - [ ] Package maintenance (structural, non-code, non-breaking changes)
 - [ ] README change
 - [ ] LICENSE changes
+
+
+### Code
+```r
+head(mtcars)
+```
+
+
+### Main changes
+
+- bullet 1
+- bullet 2
+- bullet 3
+
+
+---
+
+---
+
+
+## Admin only
+### Reviewer list
+Below is a list of possible SomaLogic Operating Co., Inc. reviewers:
+
+- [ ] @KirkDSL
+- [ ] @stufield
+- [ ] @SLbmangum
+- [ ] @kmurugesan14
+- [ ] @nmcnabbSL
+
+
+### Reviewer stakeholders by team
+
+| Change Type   | BI                  | Info.Sec. | Legal      | Marketing     | Regulatory |
+|:------------- |:------------------- |:--------- |:---------- |:------------- |:---------- |
+| Code          | @KirkDSL, @stufield | @trhein   |            |               |            |
+| Documentation | @KirkDSL, @stufield |           | @SLbmangum | @kmurugesan14 |            |
+| README        |                     | @trhein   | @SLbmangum | @kmurugesan14 | @nmcnabbSL |
+| LICENSE       |                     |           | @SLbmangum |               |            |
+

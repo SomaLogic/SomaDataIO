@@ -1,19 +1,21 @@
 ---
-name: Questions
-about: Ask a question about `SomaDataIO`
+name: Question
+about: Ask a question about SomaDataIO
 labels: question
 ---
 
-- You're using SomaDataIO (:partying_face:) and have hit a
-  road block :anguished:
+- You are using `SomaDataIO` :partying_face: ... but have hit a road block :weary:
 - Please search previous issues before creating a new one,
-  to ensure yours is not a duplicate
+  to ensure yours is not a duplicate. You can
+  [edit the qualifiers](https://help.github.com/articles/searching-issues-and-pull-requests/),
+  `is:pr`, `is:closed`, etc., as needed, e.g. you'd simply remove `is:open` to
+  search _all_ issues in the repo, open or closed.
 
--------
+---
 
 
 ## Description
-Brief description of the problem ... use bullets if necessary ...
+Brief description of the problem ... use bullets if necessary:
 
 - bullet 1
 - bullet 2
@@ -31,6 +33,6 @@ Please describe your question with R code if appropriate:
 - [ ] Medium
 - [ ] Low
 
--------
+---
 
-Thanks for using SomaDataIO!
+Thank you for using `SomaDataIO` :pray:!
