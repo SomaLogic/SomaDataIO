@@ -26,6 +26,7 @@
 .oops <- usethis::ui_oops
 # -------------------------- #
 cli_rule  <- cli::rule
+# -------------------------- #
 cr_bold   <- crayon::bold
 cr_green  <- crayon::green
 cr_cyan   <- crayon::cyan

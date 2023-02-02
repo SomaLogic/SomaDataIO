@@ -18,20 +18,20 @@ BugReports: https://github.com/SomaLogic/SomaDataIO/issues
 Depends:
     R (>= 4.1.0)
 Imports:
+    cli,
+    crayon,
     dplyr (>= 1.0.6),
     lifecycle (>= 1.0.0),
     magrittr (>= 2.0.1),
     methods,
+    readxl (>= 1.3.1),
     tibble (>= 3.1.2),
     tidyr (>= 1.1.3),
     usethis (>= 2.0.1)
 Suggests:
     Biobase,
-    cli,
-    crayon,
     ggplot2,
     knitr,
-    readxl (>= 1.3.1),
     recipes,
     rmarkdown,
     spelling,
