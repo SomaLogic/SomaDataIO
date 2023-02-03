@@ -10,12 +10,11 @@
 #' @family IO
 #' @param files A character string of files to load.
 #' @param collapse Logical. Should the resulting list of ADATs be
-#' collapsed into a single ADAT object?
-#' @param verbose Logical. Should the function call be run in *verbose*
-#' mode.
+#'   collapsed into a single ADAT object?
+#' @param verbose Logical. Should the function call be run in *verbose* mode.
 #' @param ... Additional arguments passed to [read_adat()].
-#' @return A list of ADATs, each a `soma_adat` object corresponding to a file
-#' in of the argument `files`. The list names are derived from the file names.
+#' @return A list of ADATs named by `files`, each a `soma_adat` object
+#'   corresponding to an individual file in `files`.
 #' @author Stu Field
 #' @seealso [read_adat()]
 #' @examples
@@ -63,19 +62,19 @@ loadAdatsAsList <- function(files, collapse = FALSE, verbose = interactive(), ..
 
 #' @rdname loadAdatsAsList
 #' @details
-#' __Note 1:__ the `rbind` occurs on the  *intersect* of the common columns
-#' names, unique columns are silently dropped.
+#'   __Note 1:__ the `rbind` occurs on the  *intersect* of the common columns
+#'   names, unique columns are silently dropped.
 #'
-#' __Note 2:__ If `rbind` on the *union* is desired, use [bind_rows()],
-#' however this results in `NAs` in non-intersecting columns. For many files
-#' with little variable intersection, a sparse RFU-matrix will result.
-#' See `Examples` below.
+#'   __Note 2:__ If `rbind` on the *union* is desired, use [bind_rows()],
+#'   however this results in `NAs` in non-intersecting columns. For many files
+#'   with little variable intersection, a sparse RFU-matrix will result.
+#'   See `Examples` below.
 #'
 #' @param x A list of `soma_adat` class objects loaded via [loadAdatsAsList()].
 #' @importFrom dplyr select all_of
 #' @export
 collapseAdats <- function(x) {
-  is_adat <- vapply(x, is.soma_adat, FUN.VALUE = NA)
+  is_adat <- vapply(x, is.soma_adat, NA)
   stopifnot(all(is_adat))
   common <- Reduce(intersect, lapply(x, names))   # common df names
   # rm names so rownames are re-constructed via `rbind()`

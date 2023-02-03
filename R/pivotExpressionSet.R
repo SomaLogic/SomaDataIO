@@ -7,7 +7,7 @@
 #' @family eSet
 #' @param eSet An `ExpressionSet` class object, created using [adat2eSet()].
 #' @return A `tibble` consisting of the long format
-#' conversion of an `ExpressionSet` object.
+#'   conversion of an `ExpressionSet` object.
 #' @author Stu Field
 #' @examples
 #' # subset into a reduced mini-ADAT object

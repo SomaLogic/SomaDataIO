@@ -22,7 +22,7 @@ information. This is usually the result of a call to \code{\link[=getAnalyteInfo
 }
 \value{
 A \code{tibble} object with columns corresponding
-to the column meta data entries in the \code{soma_adat}; 1 row per analyte.
+to the column meta data entries in the \code{soma_adat}. One row per analyte.
 }
 \description{
 Uses the \code{Col.Meta} attribute (analyte annotation data that appears above

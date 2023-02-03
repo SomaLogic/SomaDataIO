@@ -1,12 +1,12 @@
 #' Import a SomaLogic Annotations File
 #'
 #' @param file A path to an annotations file location.
-#' This is a sanctioned, versioned file provided by
-#' SomaLogic Operating Co., Inc. and should be an unmodified
-#' `*.xlsx` file.
+#'   This is a sanctioned, versioned file provided by
+#'   SomaLogic Operating Co., Inc. and should be an unmodified
+#'   `*.xlsx` file.
 #' @return A `tibble` containing analyte-specific annotations and
-#' related information (e.g. lift/scale information), keyed on SomaLogic
-#' `"SeqId"` which is a unique analyte identifier.
+#'   related information (e.g. lift/scale information), keyed on SomaLogic
+#'   `"SeqId"` which is a unique analyte identifier.
 #' @examples
 #' \dontrun{
 #' anno <- read_annotations("~/Desktop/SomaScan_V4.1_7K_Annotated_Content_20210616.xlsx")

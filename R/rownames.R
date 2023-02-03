@@ -11,13 +11,13 @@
 #'
 #' @name rownames
 #' @param data An object that inherits from class `data.frame`. Typically
-#' a `soma_adat` class object.
+#'   a `soma_adat` class object.
 #' @param name Character. The name of the column to move.
 #' @param value Character. The new set of names for the data frame.
-#' If duplicates exist they are modified on-the-fly via [make.unique()].
+#'   If duplicates exist they are modified on-the-fly via [make.unique()].
 #' @return All functions attempt to return an object of the same class as
-#' the input with fully intact and unmodified attributes (aside from those
-#' required by the desired action). [has_rn()] returns a scalar logical.
+#'   the input with fully intact and unmodified attributes (aside from those
+#'   required by the desired action). [has_rn()] returns a scalar logical.
 #' @examples
 #' df <- data.frame(a = 1:5, b = rnorm(5), row.names = LETTERS[1:5])
 #' df
@@ -43,8 +43,8 @@ NULL
 
 
 #' @describeIn rownames
-#' moves the row names of `data` to an explicit column
-#' whether they are explicit or implicit.
+#'   moves the row names of `data` to an explicit column
+#'   whether they are explicit or implicit.
 #' @export
 rn2col <- function(data, name = ".rn") {
   stopifnot(is.data.frame(data), length(name) == 1L)
@@ -55,8 +55,8 @@ rn2col <- function(data, name = ".rn") {
 }
 
 #' @describeIn rownames
-#' is the inverse of [rn2col()]. If row names exist, they
-#' will be overwritten (with warning).
+#'   is the inverse of [rn2col()]. If row names exist, they
+#'   will be overwritten (with warning).
 #' @export
 col2rn <- function(data, name = ".rn") {
   stopifnot(is.data.frame(data), length(name) == 1L)
@@ -73,8 +73,8 @@ col2rn <- function(data, name = ".rn") {
 }
 
 #' @describeIn rownames
-#' returns a boolean indicating whether the data frame
-#' has explicit row names assigned.
+#'   returns a boolean indicating whether the data frame
+#'   has explicit row names assigned.
 #' @export
 has_rn <- function(data) {
   .row_names_info(data, 1L) > 0L && !is.na(.row_names_info(data, 0L)[[1L]])
@@ -86,7 +86,7 @@ implicit_rn <- function(data) {
 }
 
 #' @describeIn rownames
-#' removes existing row names, leaving only "implicit" row names.
+#'   removes existing row names, leaving only "implicit" row names.
 #' @export
 rm_rn <- function(data) {
   stopifnot(is.data.frame(data))
@@ -95,7 +95,7 @@ rm_rn <- function(data) {
 }
 
 #' @describeIn rownames
-#' sets (and overwrites) existing row names for data frames only.
+#'   sets (and overwrites) existing row names for data frames only.
 #' @export
 set_rn <- function(data, value) {
   stopifnot(is.data.frame(data))
@@ -107,9 +107,9 @@ set_rn <- function(data, value) {
 }
 
 #' @describeIn rownames
-#' adds a sequential integer row identifier; starting at `1:nrow(data)`.
-#' It does *not* remove existing row names currently, but may in the future
-#' (please code accordingly).
+#'   adds a sequential integer row identifier; starting at `1:nrow(data)`.
+#'   It does *not* remove existing row names currently, but may in the future
+#'   (please code accordingly).
 #' @export
 add_rowid <- function(data, name = ".rowid") {
   stopifnot(is.data.frame(data), length(name) == 1L)

@@ -10,9 +10,9 @@
 #' represents the key index between the table and `soma_adat` from which it comes.
 #'
 #' @param adat A `soma_adat` object (with intact attributes),
-#' typically created using [read_adat()].
+#'   typically created using [read_adat()].
 #' @return A `tibble` object with columns corresponding
-#' to the column meta data entries in the `soma_adat`; 1 row per analyte.
+#' to the column meta data entries in the `soma_adat`. One row per analyte.
 #' @author Stu Field
 #' @seealso [getAnalytes()], [is_intact_attr()], [read_adat()]
 #' @examples

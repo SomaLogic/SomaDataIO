@@ -4,11 +4,10 @@
 #' When diffs of the table *values* are interrogated, **only**
 #' the intersect of the column meta data or feature data is considered
 #'
-#' @param adat1 First `soma_adat` object.
-#' @param adat2 Second `soma_adat` object.
-#' @param tolerance Tolerance for the difference between
-#' numeric vectors (i.e. SOMAmer/feature data). Passed to [all.equal()].
-#' @note Diffs of the column *intersect* names are considered.
+#' @param adat1,adat2 Two `soma_adat` objects to compare.
+#' @param tolerance Numeric `> 0`. Differences smaller than tolerance are
+#'   not triggered. See [all.equal()].
+#' @note Only diffs of the column name _intersect_ are reported.
 #' @author Stu Field
 #' @examples
 #' diffAdats(example_data, example_data)

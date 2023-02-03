@@ -13,6 +13,9 @@ write_adat(x, file)
 \item{file}{Character. File path where the object should be written.
 For example, extensions should be \verb{*.adat}.}
 }
+\value{
+Invisibly returns the input \code{x}.
+}
 \description{
 One can write an existing modified internal ADAT
 (\code{soma_adat} R object) to an external file.

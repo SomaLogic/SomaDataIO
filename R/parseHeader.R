@@ -4,9 +4,9 @@
 #'
 #' @family IO
 #' @param file Character. The elaborated path and file name of the
-#' `*.adat` file to be loaded into an R workspace environment.
+#'   `*.adat` file to be loaded into an R workspace environment.
 #' @return A list of relevant file information required by [read_adat()]
-#' in order to complete loading the ADAT file, including:
+#'   in order to complete loading the ADAT file, including:
 #' \item{Header.Meta}{list of notes and other information about the adat}
 #' \item{Col.Meta}{list of vectors that contain the column meta
 #'   data about individual analytes, includes information about the target

@@ -10,10 +10,10 @@
 #'
 #' @param x Typically a `soma_adat` class object created using [read_adat()].
 #' @param n Logical. Return an integer corresponding to the *length*
-#' of the features?
+#'   of the features?
 #' @param rm.controls Logical. Should all control and non-human analytes
-#' (e.g. `HybControls`, `Non-Human`, `Non-Biotin`, `Spuriomer`) be removed
-#' from the returned value?
+#'   (e.g. `HybControls`, `Non-Human`, `Non-Biotin`, `Spuriomer`) be removed
+#'   from the returned value?
 #' @return `getAnalytes()` returns character vector of ADAT feature
 #' ("analyte") names.
 #' @author Stu Field

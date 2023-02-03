@@ -1,4 +1,3 @@
-
 #' Get Meta
 #'
 #' [getMeta()] returns the inverse, a character vector of string

@@ -60,6 +60,9 @@ pre-defined to match SomaLogic the \code{SeqId} pattern.
 \code{\link[=locateSeqId]{locateSeqId()}}: a data frame containing the \code{start} and \code{stop}
 integer positions for \code{SeqId} matches at each value of \code{x}.
 
+\code{\link[=seqid2apt]{seqid2apt()}}: a character vector with the \verb{seq.*} prefix, i.e.
+the inverse of \code{\link[=getSeqId]{getSeqId()}}.
+
 \code{\link[=is.apt]{is.apt()}}, \code{\link[=is.SeqId]{is.SeqId()}}: Logical. \code{TRUE} or \code{FALSE}.
 
 \code{\link[=matchSeqIds]{matchSeqIds()}}: a character string corresponding to values

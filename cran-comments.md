@@ -3,8 +3,8 @@
 
 ## R timings
 
-* a few of the examples seemed to run a long
-  on (> 5s) during `rhub::check_for_cran()` however
+* a few of the examples seemed to run long
+  (> 5s) during `rhub::check_for_cran()` however
   this was not reproduced locally. I assume this
   was due to resource limitation of the build container
   during some I/O processes.

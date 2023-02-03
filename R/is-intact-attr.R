@@ -79,7 +79,7 @@ is_intact_attr <- function(adat, verbose = interactive()) {
 #' @importFrom lifecycle deprecate_soft
 #' @export
 is.intact.attributes <- function(adat, verbose = interactive()) {
-  deprecate_soft("7.3.0", "SomaDataIO::is.intact.attributes()",
+  deprecate_soft("6.0.0", "SomaDataIO::is.intact.attributes()",
                  "SomaDataIO::is_intact_attr()")
   is_intact_attr(adat, verbose)
 }

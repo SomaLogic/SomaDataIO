@@ -24,7 +24,8 @@
 #' @param x An object of class `"soma_adat"`. Both [is.soma_adat()] and
 #' [is_intact_attr()] must be `TRUE`.
 #' @param file Character. File path where the object should be written.
-#' For example, extensions should be `*.adat`.
+#'   For example, extensions should be `*.adat`.
+#' @return Invisibly returns the input `x`.
 #' @author Stu Field
 #' @importFrom utils write.table
 #' @seealso [read_adat()], [is_intact_attr()]

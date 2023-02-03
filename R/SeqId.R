@@ -117,6 +117,8 @@ locateSeqId <- function(x, trailing = TRUE) {
 #' @describeIn SeqId
 #'   converts a `SeqId` into anonymous-AptName format, i.e.
 #'   `1234-56` -> `seq.1234.56`. Versions, i.e. `1234-56_ver`, are trimmed.
+#' @return [seqid2apt()]: a character vector with the `seq.*` prefix, i.e.
+#'   the inverse of [getSeqId()].
 #' @export
 seqid2apt <- function(x) {
   stopifnot(inherits(x, "character"))

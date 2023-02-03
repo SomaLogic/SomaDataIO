@@ -7,12 +7,10 @@
 diffAdats(adat1, adat2, tolerance = 1e-06)
 }
 \arguments{
-\item{adat1}{First \code{soma_adat} object.}
+\item{adat1, adat2}{Two \code{soma_adat} objects to compare.}
 
-\item{adat2}{Second \code{soma_adat} object.}
-
-\item{tolerance}{Tolerance for the difference between
-numeric vectors (i.e. SOMAmer/feature data). Passed to \code{\link[=all.equal]{all.equal()}}.}
+\item{tolerance}{Numeric \verb{> 0}. Differences smaller than tolerance are
+not triggered. See \code{\link[=all.equal]{all.equal()}}.}
 }
 \description{
 Diff tool for the differences between two \code{soma_adat} objects.
@@ -20,7 +18,7 @@ When diffs of the table \emph{values} are interrogated, \strong{only}
 the intersect of the column meta data or feature data is considered
 }
 \note{
-Diffs of the column \emph{intersect} names are considered.
+Only diffs of the column name \emph{intersect} are reported.
 }
 \examples{
 diffAdats(example_data, example_data)

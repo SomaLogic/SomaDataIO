@@ -15,16 +15,15 @@ collapseAdats(x)
 \item{collapse}{Logical. Should the resulting list of ADATs be
 collapsed into a single ADAT object?}
 
-\item{verbose}{Logical. Should the function call be run in \emph{verbose}
-mode.}
+\item{verbose}{Logical. Should the function call be run in \emph{verbose} mode.}
 
 \item{...}{Additional arguments passed to \code{\link[=read_adat]{read_adat()}}.}
 
 \item{x}{A list of \code{soma_adat} class objects loaded via \code{\link[=loadAdatsAsList]{loadAdatsAsList()}}.}
 }
 \value{
-A list of ADATs, each a \code{soma_adat} object corresponding to a file
-in of the argument \code{files}. The list names are derived from the file names.
+A list of ADATs named by \code{files}, each a \code{soma_adat} object
+corresponding to an individual file in \code{files}.
 }
 \description{
 Load a series of ADATs and return a list of \code{soma_adat}
