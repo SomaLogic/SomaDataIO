@@ -6,20 +6,20 @@
 #'
 #' @family IO
 #' @param file Character. The elaborated path and file name of the `*.adat`
-#' file to be loaded into an R workspace.
+#'   file to be loaded into an R workspace.
 #' @param debug Logical. Used for debugging and development of an ADAT that
-#' fails to load, particularly out-of-spec, poorly modified, or legacy ADATs.
+#'   fails to load, particularly out-of-spec, poorly modified, or legacy ADATs.
 #' @param verbose Logical. Should the function call be run in *verbose*
-#' mode, printing relevant diagnostic call information to the console.
+#'   mode, printing relevant diagnostic call information to the console.
 #' @param ... Additional arguments passed ultimately to
-#' [read.delim()], or additional arguments passed to either
-#' other S3 print or summary methods as required by those generics.
+#'   [read.delim()], or additional arguments passed to either
+#'   other S3 print or summary methods as required by those generics.
 #' @return A `data.frame`-like object of class `soma_adat`
-#' consisting of SomaLogic RFU (feature) data and clinical meta data as
-#' columns, and samples as rows. Row names are labeled with the unique ID
-#' "SlideId_Subarray" concatenation. The sections of the ADAT header (e.g.,
-#' "Header.Meta", "Col.Meta", ...) are stored as attributes (e.g.
-#' `attributes(x)$Header.Meta`).
+#'   consisting of SomaLogic RFU (feature) data and clinical meta data as
+#'   columns, and samples as rows. Row names are labeled with the unique ID
+#'   "SlideId_Subarray" concatenation. The sections of the ADAT header (e.g.,
+#'   "Header.Meta", "Col.Meta", ...) are stored as attributes (e.g.
+#'   `attributes(x)$Header.Meta`).
 #' @author Stu Field
 #' @seealso [read.delim()]
 #' @examples
@@ -137,12 +137,18 @@ read_adat <- function(file, debug = FALSE, verbose = getOption("verbose"), ...) 
 
 #' Alias to `read.adat`
 #'
-#' [read.adat()] is a convenient alias for [read_adat()] designed to enable
-#' backward compatibility to older versions of `SomaDataIO`.
+#' [read.adat()] is a convenient backward compatibility alias for
+#' [read_adat()] to enable use of older versions of `SomaDataIO`. It will likely
+#' never go away completely, but you strongly encouraged to shift your code
+#' to use [read_adat()].
 #'
 #' @rdname read_adat
+#' @importFrom lifecycle deprecate_soft
 #' @export
-read.adat <- read_adat
+read.adat <- function(file, debug = FALSE, verbose = getOption("verbose"), ...) {
+  deprecate_soft("6.0.0", "SomaDataIO::read.adat()", "SomaDataIO::read_adat()")
+  read_adat(file, debug, verbose, ...)
+}
 
 #' Test for Object type "soma_adat"
 #'
@@ -151,6 +157,6 @@ read.adat <- read_adat
 #'
 #' @rdname read_adat
 #' @param x An `R` object to test.
-#' @return A logical indicating whether `x` inherits from class `soma_adat`.
+#' @return Logical. Whether `x` inherits from class `soma_adat`.
 #' @export
 is.soma_adat <- function(x) inherits(x, "soma_adat")
