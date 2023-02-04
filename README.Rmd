@@ -105,7 +105,7 @@ devtools::install_github("SomaLogic/SomaDataIO@v5.3.0")
 
 #### Package Dependencies
 
-The `SomaDataIO` package was intentionally developed to contain a 
+The `SomaDataIO` package was intentionally developed to contain a
 limited number of dependencies from CRAN. This makes
 the package more stable to external software design changes but
 also limits its contained feature set. With this in mind, `SomaDataIO`
@@ -127,11 +127,11 @@ Below are the package dependencies (see also the `DESCRIPTION` file):
 
 #### Biobase
 
-The `Biobase` package is *suggested*, being required by only 
-two functions, `pivotExpressionSet()` and `adat2eSet()`. 
+The `Biobase` package is *suggested*, being required by only
+two functions, `pivotExpressionSet()` and `adat2eSet()`.
 [Biobase](https://www.bioconductor.org/packages/release/bioc/html/Biobase.html)
-must be installed separately from 
-[Bioconductor](https://www.bioconductor.org) 
+must be installed separately from
+[Bioconductor](https://www.bioconductor.org)
 by entering the following from the `R` console:
 
 ```{r biobase, eval = FALSE}
@@ -155,7 +155,7 @@ library(SomaDataIO)
 For an index of available commands:
 ```{r help, eval = FALSE}
 library(help = SomaDataIO)
-``` 
+```
 
 
 #### Exported Objects
@@ -210,27 +210,27 @@ seqs <- tail(names(my_adat), 3)
 summary(my_adat[, seqs])
 
 # Summarize by Sex
-my_adat[, seqs] %>%
-  split(my_adat$Sex) %>%
+my_adat[, seqs] |>
+  split(my_adat$Sex) |>
   lapply(summary)
 ```
 
 
-### Wrangling 
+### Wrangling
 #### Attributes Contain File and Feature Information
 ```{r atts}
 names(attributes(my_adat))
 
-# The `Col.Meta` attribute contains 
+# The `Col.Meta` attribute contains
 # target annotation information
 attr(my_adat, "Col.Meta")
 ```
 
 #### Analyte Features (`seq.xxxx.xx`)
 ```{r feats}
-getAnalytes(my_adat) %>% head(20)     # first 20 analytes; see AptName above
-getAnalytes(my_adat) %>% length()     # how many analytes 
-getAnalytes(my_adat, n = TRUE)        # the `n` argument; no. analytes
+getAnalytes(my_adat) |> head(20L)    # first 20 analytes; see AptName above
+getAnalytes(my_adat) |> length()     # how many analytes
+getAnalytes(my_adat, n = TRUE)       # the `n` argument; no. analytes
 ```
 
 #### Feature Data
@@ -277,7 +277,7 @@ all.equal(my_adat, antilog(log10(my_adat)))
 
 #### Full Complement of [dplyr](https://dplyr.tidyverse.org) S3 Methods
 The `soma_adat` also comes with numerous class specific methods to the most
-popular [dplyr](https://dplyr.tidyverse.org) generics that make working 
+popular [dplyr](https://dplyr.tidyverse.org) generics that make working
 with `soma_adat` objects simpler for those familiar with this standard toolkit:
 
 ```{r dplyr}
@@ -285,7 +285,7 @@ dim(my_adat)
 males <- dplyr::filter(my_adat, Sex == "M")
 dim(males)
 
-males %>% 
+males |>
   dplyr::select(SampleType, SampleMatrix, starts_with("NormScale"))
 ```
 
@@ -297,7 +297,7 @@ methods(class = "soma_adat")
 
 ### Writing a `soma_adat`
 ```{r write}
-is.intact.attributes(my_adat)     # attributes MUST be intact to write to file
+is_intact_attr(my_adat)   # MUST have intact attrs
 
 write_adat(my_adat, file = tempfile("my-adat-", fileext = ".adat"))
 ```
@@ -309,11 +309,11 @@ write_adat(my_adat, file = tempfile("my-adat-", fileext = ".adat"))
 
 # Typical Analyses
 
-Although it is beyond the scope of the `SomaDataIO` package, below are 3 
+Although it is beyond the scope of the `SomaDataIO` package, below are 3
 sample analyses that typical users/clients would perform on SomaLogic data.
-They are not intended to be a definitive guide in statistical 
+They are not intended to be a definitive guide in statistical
 analysis and existing packages do exist in the `R` universe that perform parts
-or extensions of these techniques. Many variations of the workflows below 
+or extensions of these techniques. Many variations of the workflows below
 exist, however the framework highlights how one could perform standard
 *preliminary* analyses on SomaLogic data for:
 
@@ -334,11 +334,11 @@ cs <- function(.x) {    # center/scale vector
 }
 
 # Prepare data set for analysis
-cleanData <- example_data %>%
-  filter(SampleType == "Sample") %>%                # rm control samples
-  drop_na(Sex) %>%                                  # rm NAs if present
-  log10() %>%                                       # log10-transform (Math Generic)
-  mutate(Group = as.numeric(factor(Sex)) - 1) %>%   # map Sex -> 0/1
+cleanData <- example_data |>
+  filter(SampleType == "Sample") |>                # rm control samples
+  drop_na(Sex) |>                                  # rm NAs if present
+  log10() |>                                       # log10-transform (Math Generic)
+  mutate(Group = as.numeric(factor(Sex)) - 1) %>%  # map Sex -> 0/1
   modify_if(is_seq(names(.)), cs)
 
 table(cleanData$Sex)
@@ -350,11 +350,11 @@ table(cleanData$Group)    # F = 0; M = 1
 #### Get annotations via `getAnalyteInfo()`:
 
 ```{r get-anno}
-t_tests <- getAnalyteInfo(cleanData) %>% 
+t_tests <- getAnalyteInfo(cleanData) |>
   select(AptName, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt)
 
 # Feature data info:
-#   Subset via dplyr::filter(t_tests, ...) here to 
+#   Subset via dplyr::filter(t_tests, ...) here to
 #   restrict analysis to only certain analytes
 t_tests
 ```
@@ -364,15 +364,15 @@ Use a "list columns" approach via nested tibble object using `dplyr`, `purrr`,
 and `stats::t.test()`
 
 ```{r t-tests}
-t_tests <- t_tests %>% 
+t_tests <- t_tests |>
   mutate(
     formula = map(AptName, ~ as.formula(paste(.x, "~ Sex"))), # create formula
     t_test  = map(formula, ~ stats::t.test(.x, data = cleanData)),  # fit t-tests
     t_stat  = map_dbl(t_test, "statistic"),            # pull out t-statistic
     p.value = map_dbl(t_test, "p.value"),              # pull out p-values
     fdr     = p.adjust(p.value, method = "BH")         # FDR for multiple testing
-  ) %>%
-  arrange(p.value) %>%           # re-order by `p-value`
+  ) |>
+  arrange(p.value) |>            # re-order by `p-value`
   mutate(rank = row_number())    # add numeric ranks
 
 # View analysis tibble
@@ -383,16 +383,16 @@ t_tests
 Create a plotting tibble in the "long" format for `ggplot2`:
 
 ```{r ggplot-data}
-target_map <- head(t_tests, 12) %>%     # mapping table
+target_map <- head(t_tests, 12L) |>     # mapping table
   select(AptName, Target)               # SeqId -> Target
 
-plot_tbl <- example_data %>%
-  filter(SampleType == "Sample") %>%          # rm control samples
-  drop_na(Sex) %>%                            # rm NAs if present
-  log10() %>%                                 # log10-transform for plotting
-  select(Sex, target_map$AptName) %>%         # top 12 analytes
-  pivot_longer(cols = -Sex, names_to = "AptName", values_to = "RFU") %>% 
-  dplyr::left_join(target_map) %>%
+plot_tbl <- example_data |>
+  filter(SampleType == "Sample") |>     # rm control samples
+  drop_na(Sex) |>                       # rm NAs if present
+  log10() |>                            # log10-transform for plotting
+  select(Sex, target_map$AptName) |>    # top 12 analytes
+  pivot_longer(cols = -Sex, names_to = "AptName", values_to = "RFU") |>
+  dplyr::left_join(target_map) |>
   # order factor levels by 't_tests' rank to order plots below
   mutate(Target = factor(Target, levels = target_map$Target))
 
@@ -400,7 +400,7 @@ plot_tbl
 ```
 
 ```{r ggplot-boxes, fig.width = 10, fig.height = 10}
-plot_tbl %>%
+plot_tbl |>
   ggplot(aes(x = Sex, y = RFU, fill = Sex)) +
   geom_boxplot(alpha = 0.5, outlier.shape = NA) +
   scale_fill_manual(values = c("#24135F", "#00A499")) +
@@ -430,8 +430,8 @@ isTRUE(
   all.equal(intersect(rownames(train), rownames(test)), character(0))
 )
 
-LR_tbl <- getAnalyteInfo(train) %>%
-  select(AptName, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt) %>%
+LR_tbl <- getAnalyteInfo(train) |>
+  select(AptName, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt) |>
   mutate(
     formula  = map(AptName, ~ as.formula(paste("Group ~", .x))),  # create formula
     model    = map(formula, ~ stats::glm(.x, data = train, family = "binomial", model = FALSE)),  # fit glm()
@@ -439,9 +439,9 @@ LR_tbl <- getAnalyteInfo(train) %>%
     p.value  = map2_dbl(model, AptName, ~ {
       summary(.x)$coefficients[.y, "Pr(>|z|)"] }),  # pull out p-values
     fdr      = p.adjust(p.value, method = "BH")     # FDR correction multiple testing
-  ) %>%
-  arrange(p.value) %>%            # re-order by `p-value`
-  mutate(rank = row_number())     # add numeric ranks
+  ) |>
+  arrange(p.value) |>            # re-order by `p-value`
+  mutate(rank = row_number())    # add numeric ranks
 
 LR_tbl
 ```
@@ -451,7 +451,7 @@ LR_tbl
 
 Next, select features for the model fit. We have a good idea of reasonable `Sex`
 markers from prior knowledge (`CGA*`), and fortunately many of these are highly
-ranked in `LR_tbl`. Below we fit a 4-marker logistic regression model from 
+ranked in `LR_tbl`. Below we fit a 4-marker logistic regression model from
 cherry-picked gender-related features:
 
 ```{r fit-logreg}
@@ -489,8 +489,8 @@ logistic regression analysis above.
 
 #### Predict Age
 ```{r linreg-tbl}
-LinR_tbl <- getAnalyteInfo(train) %>%               # `train` from above
-  select(AptName, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt) %>%
+LinR_tbl <- getAnalyteInfo(train) |>                # `train` from above
+  select(AptName, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt) |>
   mutate(
     formula = map(AptName, ~ as.formula(paste("Age ~", .x, collapse = " + "))),
     model   = map(formula, ~ lm(.x, data = train, model = FALSE)),  # fit linear models
@@ -498,8 +498,8 @@ LinR_tbl <- getAnalyteInfo(train) %>%               # `train` from above
     p.value = map2_dbl(model, AptName, ~ {
       summary(.x)$coefficients[.y, "Pr(>|t|)"] }),  # pull out p-values
     fdr     = p.adjust(p.value, method = "BH")      # FDR for multiple testing
-  ) %>%
-  arrange(p.value) %>%           # re-order by `p-value`
+  ) |>
+  arrange(p.value) |>            # re-order by `p-value`
   mutate(rank = row_number())    # add numeric ranks
 
 LinR_tbl
@@ -548,7 +548,7 @@ tibble(
 #### Visualize Concordance
 ```{r linreg-plot, fig.width = 7, fig.height = 7}
 lims <- range(res$true_age, res$pred_age)
-res %>%
+res |>
   ggplot(aes(x = true_age, y = pred_age)) +
   geom_point(colour = "#24135F", alpha = 0.5, size = 4) +
   expand_limits(x = lims, y = lims) +                # make square
@@ -576,4 +576,4 @@ res %>%
 
 
 Created by [Rmarkdown](https://github.com/rstudio/rmarkdown)
-(v`r utils::packageVersion("rmarkdown")`) and `r R.version$version.string`. 
+(v`r utils::packageVersion("rmarkdown")`) and `r R.version$version.string`.
