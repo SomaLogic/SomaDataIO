@@ -33,19 +33,28 @@ contributed packages from the Comprehensive R Archive Network (CRAN).
 ## Main Features (I/O)
 
 * Loading data (Import)
-  + Import a text file in the `*.adat` format into an `R` session
-    as a `soma_adat` object.
+    + parse and import a `*.adat` text file into an `R` session
+      as a `soma_adat` object.
+
 * Wrangling data (manipulation)
-  + Subset, reorder, and list various fields of a `soma_adat` object.
+    + subset, reorder, and list various fields of a `soma_adat` object.
+    + `?SeqId` analyte (feature) matching.
+    + `dplyr` and `tidyr` verb S3 methods for the `soma_adat` class.
+    + `?rownames` helpers that do not break `soma_adat` attributes.
+
 * Exporting data (Output)
-  + Write out a `soma_adat` object as a `*.adat` text file.
+    + write out a `soma_adat` object as a `*.adat` text file.
 
 
 ----------------------
 
-## TODO: Complete Later
+## Workflows and Analysis (TODO)
+This section will become more fleshed out in future versions of
+`SomaDataIO`
 
-#### In the meantime see [README](README.md)
+#### In the meantime please see the package
+[README](https://github.com/SomaLogic/SomaDataIO/blob/main/README.md)
+
 
 ---------------------
 

@@ -64,7 +64,8 @@ page and, if appropriate, submit an issue and/or feature request.
 
 ## Usage
 
-The `SomaDataIO` package is licensed under the [MIT](LICENSE.md)
+The `SomaDataIO` package is licensed under the
+[MIT](https://github.com/SomaLogic/SomaDataIO/blob/main/LICENSE.md)
 license and is intended solely for research use only (“RUO”) purposes.
 The code contained herein may *not* be used for diagnostic, clinical,
 therapeutic, or other commercial purposes.
@@ -566,8 +567,8 @@ res |>
 ---------------------
 
 ## MIT LICENSE
-* See [LICENSE](LICENSE.md)
-* The MIT License: 
+* See [LICENSE](https://github.com/SomaLogic/SomaDataIO/blob/main/LICENSE.md)
+* The MIT License:
   - [https://choosealicense.com/licenses/mit/](https://choosealicense.com/licenses/mit/)
   - [https://tldrlegal.com/license/mit-license/](https://tldrlegal.com/license/mit-license)
 

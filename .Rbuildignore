@@ -10,3 +10,4 @@
 ^Makefile$
 ^cran-comments\.md$
 ^sync-somareadr\.sh$
+^CRAN-SUBMISSION$
