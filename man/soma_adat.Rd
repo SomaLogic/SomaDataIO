@@ -91,10 +91,10 @@ the \code{soma_adat} class:
 #>  [6] $            $<-          anti_join    arrange      count       
 #> [11] filter       full_join    getAnalytes  getMeta      group_by    
 #> [16] inner_join   is_seqFormat left_join    Math         median      
-#> [21] mutate       Ops          print        rename       right_join  
-#> [26] sample_frac  sample_n     select       semi_join    separate    
-#> [31] slice_sample slice        summary      Summary      transform   
-#> [36] ungroup      unite       
+#> [21] merge        mutate       Ops          print        rename      
+#> [26] right_join   sample_frac  sample_n     select       semi_join   
+#> [31] separate     slice_sample slice        summary      Summary     
+#> [36] transform    ungroup      unite       
 #> see '?methods' for accessing help and source code
 }\if{html}{\out{</div>}}
 
