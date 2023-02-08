@@ -42,9 +42,10 @@ appropriate, submit an issue and/or feature request.
 
 ## Usage
 
-The `SomaDataIO` package is licensed under the [MIT](LICENSE.md) license
-and is intended solely for research use only (“RUO”) purposes. The code
-contained herein may *not* be used for diagnostic, clinical,
+The `SomaDataIO` package is licensed under the
+[MIT](https://github.com/SomaLogic/SomaDataIO/blob/main/LICENSE.md)
+license and is intended solely for research use only (“RUO”) purposes.
+The code contained herein may *not* be used for diagnostic, clinical,
 therapeutic, or other commercial purposes.
 
 ------------------------------------------------------------------------
@@ -253,8 +254,8 @@ summary(my_adat[, seqs])
 #>  IQR    :  6815.8    IQR    : 29471.2    IQR    : 2885.2
 
 # Summarize by Sex
-my_adat[, seqs] %>%
-  split(my_adat$Sex) %>%
+my_adat[, seqs] |>
+  split(my_adat$Sex) |>
   lapply(summary)
 #> $F
 #>  seq.9995.6          seq.9997.12         seq.9999.1          
@@ -291,7 +292,7 @@ my_adat[, seqs] %>%
 names(attributes(my_adat))
 #> [1] "names"       "class"       "row.names"   "Header.Meta" "Col.Meta"    "file_specs"  "row_meta"
 
-# The `Col.Meta` attribute contains 
+# The `Col.Meta` attribute contains
 # target annotation information
 attr(my_adat, "Col.Meta")
 #> # A tibble: 5,284 × 21
@@ -317,14 +318,14 @@ attr(my_adat, "Col.Meta")
 #### Analyte Features (`seq.xxxx.xx`)
 
 ``` r
-getAnalytes(my_adat) %>% head(20)     # first 20 analytes; see AptName above
+getAnalytes(my_adat) |> head(20L)    # first 20 analytes; see AptName above
 #>  [1] "seq.10000.28"  "seq.10001.7"   "seq.10003.15"  "seq.10006.25"  "seq.10008.43"  "seq.10011.65" 
 #>  [7] "seq.10012.5"   "seq.10013.34"  "seq.10014.31"  "seq.10015.119" "seq.10021.1"   "seq.10022.207"
 #> [13] "seq.10023.32"  "seq.10024.44"  "seq.10030.8"   "seq.10034.16"  "seq.10035.6"   "seq.10036.201"
 #> [19] "seq.10037.98"  "seq.10040.63"
-getAnalytes(my_adat) %>% length()     # how many analytes 
+getAnalytes(my_adat) |> length()     # how many analytes
 #> [1] 5284
-getAnalytes(my_adat, n = TRUE)        # the `n` argument; no. analytes
+getAnalytes(my_adat, n = TRUE)       # the `n` argument; no. analytes
 #> [1] 5284
 ```
 
@@ -426,7 +427,7 @@ males <- dplyr::filter(my_adat, Sex == "M")
 dim(males)
 #> [1]   85 5318
 
-males %>% 
+males |>
   dplyr::select(SampleType, SampleMatrix, starts_with("NormScale"))
 #> ══ SomaScan Data ════════════════════════════════════════════════════════════════════════════════════
 #>      Attributes intact    ✓
@@ -464,22 +465,22 @@ males %>%
 methods(class = "soma_adat")
 #>  [1] [            [[           [[<-         [<-          ==           $            $<-         
 #>  [8] anti_join    arrange      count        filter       full_join    getAnalytes  getMeta     
-#> [15] group_by     inner_join   is_seqFormat left_join    Math         median       mutate      
-#> [22] Ops          print        rename       right_join   sample_frac  sample_n     select      
-#> [29] semi_join    separate     slice_sample slice        summary      Summary      transform   
-#> [36] ungroup      unite       
+#> [15] group_by     inner_join   is_seqFormat left_join    Math         median       merge       
+#> [22] mutate       Ops          print        rename       right_join   sample_frac  sample_n    
+#> [29] select       semi_join    separate     slice_sample slice        summary      Summary     
+#> [36] transform    ungroup      unite       
 #> see '?methods' for accessing help and source code
 ```
 
 ### Writing a `soma_adat`
 
 ``` r
-is.intact.attributes(my_adat)     # attributes MUST be intact to write to file
+is_intact_attr(my_adat)   # MUST have intact attrs
 #> [1] TRUE
 
 write_adat(my_adat, file = tempfile("my-adat-", fileext = ".adat"))
 #> ✔ ADAT passed all checks and traps.
-#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpbOhPuL/my-adat-74ec745fd8d8.adat'
+#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmp8s7SYi/my-adat-13416d98c609.adat'
 ```
 
 ------------------------------------------------------------------------
@@ -516,11 +517,11 @@ cs <- function(.x) {    # center/scale vector
 }
 
 # Prepare data set for analysis
-cleanData <- example_data %>%
-  filter(SampleType == "Sample") %>%                # rm control samples
-  drop_na(Sex) %>%                                  # rm NAs if present
-  log10() %>%                                       # log10-transform (Math Generic)
-  mutate(Group = as.numeric(factor(Sex)) - 1) %>%   # map Sex -> 0/1
+cleanData <- example_data |>
+  filter(SampleType == "Sample") |>                # rm control samples
+  drop_na(Sex) |>                                  # rm NAs if present
+  log10() |>                                       # log10-transform (Math Generic)
+  mutate(Group = as.numeric(factor(Sex)) - 1) %>%  # map Sex -> 0/1
   modify_if(is_seq(names(.)), cs)
 
 table(cleanData$Sex)
@@ -539,11 +540,11 @@ table(cleanData$Group)    # F = 0; M = 1
 #### Get annotations via `getAnalyteInfo()`:
 
 ``` r
-t_tests <- getAnalyteInfo(cleanData) %>% 
+t_tests <- getAnalyteInfo(cleanData) |>
   select(AptName, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt)
 
 # Feature data info:
-#   Subset via dplyr::filter(t_tests, ...) here to 
+#   Subset via dplyr::filter(t_tests, ...) here to
 #   restrict analysis to only certain analytes
 t_tests
 #> # A tibble: 5,284 × 5
@@ -568,15 +569,15 @@ Use a “list columns” approach via nested tibble object using `dplyr`,
 `purrr`, and `stats::t.test()`
 
 ``` r
-t_tests <- t_tests %>% 
+t_tests <- t_tests |>
   mutate(
     formula = map(AptName, ~ as.formula(paste(.x, "~ Sex"))), # create formula
     t_test  = map(formula, ~ stats::t.test(.x, data = cleanData)),  # fit t-tests
     t_stat  = map_dbl(t_test, "statistic"),            # pull out t-statistic
     p.value = map_dbl(t_test, "p.value"),              # pull out p-values
     fdr     = p.adjust(p.value, method = "BH")         # FDR for multiple testing
-  ) %>%
-  arrange(p.value) %>%           # re-order by `p-value`
+  ) |>
+  arrange(p.value) |>            # re-order by `p-value`
   mutate(rank = row_number())    # add numeric ranks
 
 # View analysis tibble
@@ -602,19 +603,19 @@ t_tests
 Create a plotting tibble in the “long” format for `ggplot2`:
 
 ``` r
-target_map <- head(t_tests, 12) %>%     # mapping table
+target_map <- head(t_tests, 12L) |>     # mapping table
   select(AptName, Target)               # SeqId -> Target
 
-plot_tbl <- example_data %>%
-  filter(SampleType == "Sample") %>%          # rm control samples
-  drop_na(Sex) %>%                            # rm NAs if present
-  log10() %>%                                 # log10-transform for plotting
-  select(Sex, target_map$AptName) %>%         # top 12 analytes
-  pivot_longer(cols = -Sex, names_to = "AptName", values_to = "RFU") %>% 
-  dplyr::left_join(target_map) %>%
+plot_tbl <- example_data |>
+  filter(SampleType == "Sample") |>     # rm control samples
+  drop_na(Sex) |>                       # rm NAs if present
+  log10() |>                            # log10-transform for plotting
+  select(Sex, target_map$AptName) |>    # top 12 analytes
+  pivot_longer(cols = -Sex, names_to = "AptName", values_to = "RFU") |>
+  dplyr::left_join(target_map) |>
   # order factor levels by 't_tests' rank to order plots below
   mutate(Target = factor(Target, levels = target_map$Target))
-#> Joining, by = "AptName"
+#> Joining with `by = join_by(AptName)`
 
 plot_tbl
 #> # A tibble: 2,040 × 4
@@ -634,7 +635,7 @@ plot_tbl
 ```
 
 ``` r
-plot_tbl %>%
+plot_tbl |>
   ggplot(aes(x = Sex, y = RFU, fill = Sex)) +
   geom_boxplot(alpha = 0.5, outlier.shape = NA) +
   scale_fill_manual(values = c("#24135F", "#00A499")) +
@@ -667,8 +668,8 @@ isTRUE(
 )
 #> [1] TRUE
 
-LR_tbl <- getAnalyteInfo(train) %>%
-  select(AptName, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt) %>%
+LR_tbl <- getAnalyteInfo(train) |>
+  select(AptName, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt) |>
   mutate(
     formula  = map(AptName, ~ as.formula(paste("Group ~", .x))),  # create formula
     model    = map(formula, ~ stats::glm(.x, data = train, family = "binomial", model = FALSE)),  # fit glm()
@@ -676,9 +677,9 @@ LR_tbl <- getAnalyteInfo(train) %>%
     p.value  = map2_dbl(model, AptName, ~ {
       summary(.x)$coefficients[.y, "Pr(>|z|)"] }),  # pull out p-values
     fdr      = p.adjust(p.value, method = "BH")     # FDR correction multiple testing
-  ) %>%
-  arrange(p.value) %>%            # re-order by `p-value`
-  mutate(rank = row_number())     # add numeric ranks
+  ) |>
+  arrange(p.value) |>            # re-order by `p-value`
+  mutate(rank = row_number())    # add numeric ranks
 
 LR_tbl
 #> # A tibble: 5,284 × 11
@@ -748,8 +749,8 @@ logistic regression analysis above.
 #### Predict Age
 
 ``` r
-LinR_tbl <- getAnalyteInfo(train) %>%               # `train` from above
-  select(AptName, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt) %>%
+LinR_tbl <- getAnalyteInfo(train) |>                # `train` from above
+  select(AptName, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt) |>
   mutate(
     formula = map(AptName, ~ as.formula(paste("Age ~", .x, collapse = " + "))),
     model   = map(formula, ~ lm(.x, data = train, model = FALSE)),  # fit linear models
@@ -757,8 +758,8 @@ LinR_tbl <- getAnalyteInfo(train) %>%               # `train` from above
     p.value = map2_dbl(model, AptName, ~ {
       summary(.x)$coefficients[.y, "Pr(>|t|)"] }),  # pull out p-values
     fdr     = p.adjust(p.value, method = "BH")      # FDR for multiple testing
-  ) %>%
-  arrange(p.value) %>%           # re-order by `p-value`
+  ) |>
+  arrange(p.value) |>            # re-order by `p-value`
   mutate(rank = row_number())    # add numeric ranks
 
 LinR_tbl
@@ -826,7 +827,7 @@ tibble(
 
 ``` r
 lims <- range(res$true_age, res$pred_age)
-res %>%
+res |>
   ggplot(aes(x = true_age, y = pred_age)) +
   geom_point(colour = "#24135F", alpha = 0.5, size = 4) +
   expand_limits(x = lims, y = lims) +                # make square
@@ -845,12 +846,13 @@ res %>%
 
 ## MIT LICENSE
 
-- See [LICENSE](LICENSE.md)
+- See
+  [LICENSE](https://github.com/SomaLogic/SomaDataIO/blob/main/LICENSE.md)
 - The MIT License:
   - <https://choosealicense.com/licenses/mit/>
   - [https://tldrlegal.com/license/mit-license/](https://tldrlegal.com/license/mit-license)
 
 ------------------------------------------------------------------------
 
-Created by [Rmarkdown](https://github.com/rstudio/rmarkdown) (v2.19) and
+Created by [Rmarkdown](https://github.com/rstudio/rmarkdown) (v2.20) and
 R version 4.2.2 (2022-10-31).
