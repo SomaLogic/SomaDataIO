@@ -56,18 +56,14 @@ check: build
 	@ cd ..;\
 	$(RCMD) check --no-manual $(PKGNAME)_$(PKGVERS).tar.gz
 
-# create SomaDataIO package objects and re-save in data/
+# create SomaDataIO package objects and re-save as 'data/*.rda'
+# requires an internet connection to pull from the SomaLogic-Data repository
 objects:
 	@ echo "Creating package objects ..."
-	@ $(RSCRIPT) \
-	-e "devtools::load_all('.')" \
-	-e "example_data <- read_adat('inst/example/example_data.adat')" \
-	-e "ex_analytes  <- getAnalytes(example_data)" \
-	-e "ex_anno_tbl  <- getAnalyteInfo(example_data)" \
-	-e "ex_target_names <- getTargetNames(ex_anno_tbl)" \
-	-e "save(example_data, file = 'data/example_data.rda', compress = 'xz')" \
-	-e "save(ex_analytes, ex_anno_tbl, ex_target_names, file = 'data/data_objects.rda', compress = 'xz')"
+	@ wget https://raw.githubusercontent.com/SomaLogic/SomaLogic-Data/master/example_data.adat
+	@ $(RSCRIPT) data-raw/SomaScanObjects.R
 	@ echo "Saving objects to 'data/*.rda' ..."
+	@ $(RM) example_data.adat
 
 # necessary to decouple the function from the namespace
 # avoids loading of source package when 'sysdata.rda' is loaded
