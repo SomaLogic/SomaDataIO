@@ -131,17 +131,36 @@ For an index of available commands:
 library(help = SomaDataIO)
 ```
 
-#### Exported Objects
+------------------------------------------------------------------------
 
-The `SomaDataIO` package comes with 4 objects available to users to run
-canned examples (or analyses). They can be accessed once `SomaDataIO`
-has been attached via `library()`. They are:
+## Objects and Data
 
-- `example_data`
-- `ex_analytes`
-- `ex_anno_tbl`
-- `ex_target_names`
-- See `?SomaScanObjects`
+The `SomaDataIO` package comes with four (4) objects available to users
+to run canned examples (or analyses). They can be accessed once
+`SomaDataIO` has been attached via `library()`. They are:
+
+- `example_data`: the original ‘SomaScan’ file (`example_data.adat`) can
+  be found [here](https://github.com/SomaLogic/SomaLogic-Data) or
+  downloaded directly via:
+
+  ``` bash
+  wget https://raw.githubusercontent.com/SomaLogic/SomaLogic-Data/master/example_data.adat
+  ```
+
+  - it has been replaced by an abbreviated, light-weight version
+    containing only the first 10 samples and can be found at:
+
+    ``` r
+    system.file("extdata", "example_data10.adat", package = "SomaDataIO")
+    ```
+
+- `ex_analytes`: the analyte (feature) variables in `example_data`
+
+- `ex_anno_tbl`: the annotations table associated with `example_data`
+
+- `ex_target_names`: a mapping object for analyte -\> target
+
+- See also `?SomaScanObjects`
 
 ------------------------------------------------------------------------
 
@@ -158,13 +177,12 @@ has been attached via `library()`. They are:
 - Exporting data (Output)
   - write out a `soma_adat` object as a `*.adat` text file.
 
-------------------------------------------------------------------------
-
 ### Loading an ADAT
 
 ``` r
 # Sample file name
-f <- system.file("example", "example_data.adat", package = "SomaDataIO", mustWork = TRUE)
+f <- system.file("extdata", "example_data10.adat",
+                 package = "SomaDataIO", mustWork = TRUE)
 my_adat <- read_adat(f)
 is.soma_adat(my_adat)
 #> [1] TRUE
@@ -173,7 +191,7 @@ is.soma_adat(my_adat)
 my_adat
 #> ══ SomaScan Data ════════════════════════════════════════════════════════════════════════════════════
 #>      Attributes intact    ✓
-#>      Rows                 192
+#>      Rows                 10
 #>      Columns              5318
 #>      Clinical Data        34
 #>      Features             5284
@@ -183,7 +201,7 @@ my_adat
 #> ℹ ColCheck, CalQcRatio_Example_Adat_Set001_170255, QcReference_170255, Cal_Example_Adat_Set002,
 #> ℹ CalQcRatio_Example_Adat_Set002_170255, Dilution2
 #> ── Tibble ───────────────────────────────────────────────────────────────────────────────────────────
-#> # A tibble: 192 × 5,319
+#> # A tibble: 10 × 5,319
 #>    row_names  PlateId Plate…¹ Scann…² Plate…³ SlideId Subar…⁴ Sampl…⁵ Sampl…⁶ Perce…⁷ Sampl…⁸ Barcode
 #>    <chr>      <chr>   <chr>   <chr>   <chr>     <dbl>   <dbl> <chr>   <chr>     <int> <chr>   <lgl>  
 #>  1 258495800… Exampl… 2020-0… SG1521… H9      2.58e11       3 1       Sample       20 Plasma… NA     
@@ -196,7 +214,7 @@ my_adat
 #>  8 258495800… Exampl… 2020-0… SG1521… H2      2.58e11       8 8       Sample       20 Plasma… NA     
 #>  9 258495800… Exampl… 2020-0… SG1521… H12     2.58e11       8 9       Sample       20 Plasma… NA     
 #> 10 258495800… Exampl… 2020-0… SG1521… H11     2.58e11       3 170261  Calibr…      20 <NA>    NA     
-#> # … with 182 more rows, 5,307 more variables: Barcode2d <chr>, SampleName <lgl>, SampleNotes <lgl>,
+#> # … with 5,307 more variables: Barcode2d <chr>, SampleName <lgl>, SampleNotes <lgl>,
 #> #   AliquotingNotes <lgl>, SampleDescription <chr>, AssayNotes <lgl>, TimePoint <lgl>,
 #> #   ExtIdentifier <lgl>, SsfExtId <lgl>, SampleGroup <lgl>, …, and abbreviated variable names
 #> #   ¹​PlateRunDate, ²​ScannerID, ³​PlatePosition, ⁴​Subarray, ⁵​SampleId, ⁶​SampleType, ⁷​PercentDilution,
@@ -206,7 +224,7 @@ my_adat
 print(my_adat, show_header = TRUE)  # if simply wish to see Header info
 #> ══ SomaScan Data ════════════════════════════════════════════════════════════════════════════════════
 #>      Attributes intact    ✓
-#>      Rows                 192
+#>      Rows                 10
 #>      Columns              5318
 #>      Clinical Data        34
 #>      Features             5284
@@ -239,19 +257,19 @@ print(my_adat, show_header = TRUE)  # if simply wish to see Header info
 
 # S3 summary method
 # View Target and summary statistics
-seqs <- tail(names(my_adat), 3)
+seqs <- tail(names(my_adat), 3L)
 summary(my_adat[, seqs])
 #>  seq.9995.6          seq.9997.12         seq.9999.1          
 #>  Target : DUT        Target : UBXN4      Target : IRF6       
-#>  Min    :    81.9    Min    :    28.1    Min    :   36.7     
-#>  1Q     :  1637.0    1Q     : 10172.4    1Q     : 1395.2     
-#>  Median :  4425.3    Median : 23352.8    Median : 2576.6     
-#>  Mean   :  5512.7    Mean   : 25230.0    Mean   : 2966.0     
-#>  3Q     :  8452.8    3Q     : 39643.7    3Q     : 4280.5     
-#>  Max    : 26905.6    Max    : 63583.3    Max    : 8480.1     
-#>  sd     :  4484.2    sd     : 16463.8    sd     : 1869.7     
-#>  MAD    :  4537.9    MAD    : 20865.2    MAD    : 2041.0     
-#>  IQR    :  6815.8    IQR    : 29471.2    IQR    : 2885.2
+#>  Min    :  1138      Min    :  4427      Min    :  851.9     
+#>  1Q     :  1535      1Q     : 12423      1Q     : 1306.6     
+#>  Median :  3861      Median : 20292      Median : 2847.9     
+#>  Mean   :  5189      Mean   : 26058      Mean   : 3206.0     
+#>  3Q     :  9343      3Q     : 41184      3Q     : 4641.7     
+#>  Max    : 10171      Max    : 50390      Max    : 6978.9     
+#>  sd     :  3983      sd     : 17420      sd     : 2164.4     
+#>  MAD    :  3938      MAD    : 19516      MAD    : 2387.2     
+#>  IQR    :  7807      IQR    : 28761      IQR    : 3335.1
 
 # Summarize by Sex
 my_adat[, seqs] |>
@@ -260,28 +278,28 @@ my_adat[, seqs] |>
 #> $F
 #>  seq.9995.6          seq.9997.12         seq.9999.1          
 #>  Target : DUT        Target : UBXN4      Target : IRF6       
-#>  Min    :  1130      Min    :  5353      Min    :  889.8     
-#>  1Q     :  2114      1Q     : 12830      1Q     : 1652.1     
-#>  Median :  6466      Median : 32204      Median : 3264.7     
-#>  Mean   :  6306      Mean   : 29141      Mean   : 3333.2     
-#>  3Q     :  8763      3Q     : 42488      3Q     : 4366.0     
-#>  Max    : 26906      Max    : 63583      Max    : 7801.8     
-#>  sd     :  4537      sd     : 15693      sd     : 1780.5     
-#>  MAD    :  4834      MAD    : 20822      MAD    : 2183.0     
-#>  IQR    :  6649      IQR    : 29658      IQR    : 2713.9     
+#>  Min    :  2104      Min    : 13742      Min    : 1253       
+#>  1Q     :  3898      1Q     : 20719      1Q     : 2190       
+#>  Median :  9211      Median : 40743      Median : 4546       
+#>  Mean   :  7104      Mean   : 34683      Mean   : 4048       
+#>  3Q     :  9652      3Q     : 46513      3Q     : 5307       
+#>  Max    : 10171      Max    : 50390      Max    : 6979       
+#>  sd     :  3851      sd     : 16464      sd     : 2268       
+#>  MAD    :  1082      MAD    : 12636      MAD    : 2508       
+#>  IQR    :  5754      IQR    : 25794      IQR    : 3116       
 #> 
 #> $M
 #>  seq.9995.6          seq.9997.12         seq.9999.1          
 #>  Target : DUT        Target : UBXN4      Target : IRF6       
-#>  Min    :  1121      Min    :  5206      Min    :  853.9     
-#>  1Q     :  2282      1Q     : 12492      1Q     : 1703.1     
-#>  Median :  4902      Median : 24027      Median : 2872.5     
-#>  Mean   :  5922      Mean   : 26936      Mean   : 3189.8     
-#>  3Q     :  8325      3Q     : 38187      3Q     : 4423.1     
-#>  Max    : 21190      Max    : 60322      Max    : 8480.1     
-#>  sd     :  4316      sd     : 15065      sd     : 1784.2     
-#>  MAD    :  4538      MAD    : 19345      MAD    : 1996.9     
-#>  IQR    :  6043      IQR    : 25695      IQR    : 2720.0
+#>  Min    : 1137.7     Min    :  9829      Min    : 1222.8     
+#>  1Q     : 1241.7     1Q     : 10906      1Q     : 1482.1     
+#>  Median : 1345.6     Median : 11983      Median : 1741.4     
+#>  Mean   : 2663.8     Mean   : 16019      Mean   : 2306.2     
+#>  3Q     : 3426.8     3Q     : 19114      3Q     : 2847.9     
+#>  Max    : 5508.0     Max    : 26246      Max    : 3954.3     
+#>  sd     : 2465.4     sd     :  8922      sd     : 1450.7     
+#>  MAD    :  308.2     MAD    :  3193      MAD    :  768.9     
+#>  IQR    : 2185.2     IQR    :  8208      IQR    : 1365.8
 ```
 
 ### Wrangling
@@ -404,7 +422,7 @@ antilog(1:4)
 #> [1]    10   100  1000 10000
 
 sum(my_adat < 100)  # low signalling values
-#> [1] 41721
+#> [1] 693
 
 all.equal(my_adat, sqrt(my_adat^2))
 #> [1] TRUE
@@ -422,16 +440,16 @@ standard toolkit:
 
 ``` r
 dim(my_adat)
-#> [1]  192 5318
+#> [1]   10 5318
 males <- dplyr::filter(my_adat, Sex == "M")
 dim(males)
-#> [1]   85 5318
+#> [1]    3 5318
 
 males |>
   dplyr::select(SampleType, SampleMatrix, starts_with("NormScale"))
 #> ══ SomaScan Data ════════════════════════════════════════════════════════════════════════════════════
 #>      Attributes intact    ✓
-#>      Rows                 85
+#>      Rows                 3
 #>      Columns              5
 #>      Clinical Data        5
 #>      Features             0
@@ -441,20 +459,12 @@ males |>
 #> ℹ ColCheck, CalQcRatio_Example_Adat_Set001_170255, QcReference_170255, Cal_Example_Adat_Set002,
 #> ℹ CalQcRatio_Example_Adat_Set002_170255, Dilution2
 #> ── Tibble ───────────────────────────────────────────────────────────────────────────────────────────
-#> # A tibble: 85 × 6
-#>    row_names      SampleType SampleMatrix NormScale_20 NormScale_0_005 NormScale_0_5
-#>    <chr>          <chr>      <chr>               <dbl>           <dbl>         <dbl>
-#>  1 258495800010_8 Sample     Plasma-PPT          0.984           1.03          0.915
-#>  2 258495800003_4 Sample     Plasma-PPT          1.08            0.946         0.912
-#>  3 258495800001_3 Sample     Plasma-PPT          0.921           1.13          0.953
-#>  4 258495800012_5 Sample     Plasma-PPT          0.861           1.08          0.829
-#>  5 258495800006_2 Sample     Plasma-PPT          0.874           1.01          0.822
-#>  6 258495800011_3 Sample     Plasma-PPT          0.928           1.13          0.930
-#>  7 258495800003_2 Sample     Plasma-PPT          1.12            1.15          0.943
-#>  8 258495800005_2 Sample     Plasma-PPT          0.884           0.921         0.762
-#>  9 258495800008_4 Sample     Plasma-PPT          0.991           0.979         0.920
-#> 10 258495800006_6 Sample     Plasma-PPT          0.862           0.964         0.999
-#> # … with 75 more rows
+#> # A tibble: 3 × 6
+#>   row_names      SampleType SampleMatrix NormScale_20 NormScale_0_005 NormScale_0_5
+#>   <chr>          <chr>      <chr>               <dbl>           <dbl>         <dbl>
+#> 1 258495800010_8 Sample     Plasma-PPT          0.984           1.03          0.915
+#> 2 258495800003_4 Sample     Plasma-PPT          1.08            0.946         0.912
+#> 3 258495800001_3 Sample     Plasma-PPT          0.921           1.13          0.953
 #> ═════════════════════════════════════════════════════════════════════════════════════════════════════
 ```
 
@@ -480,7 +490,7 @@ is_intact_attr(my_adat)   # MUST have intact attrs
 
 write_adat(my_adat, file = tempfile("my-adat-", fileext = ".adat"))
 #> ✔ ADAT passed all checks and traps.
-#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmp8s7SYi/my-adat-13416d98c609.adat'
+#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpXg4xXe/my-adat-165d55ca5318.adat'
 ```
 
 ------------------------------------------------------------------------
@@ -488,12 +498,12 @@ write_adat(my_adat, file = tempfile("my-adat-", fileext = ".adat"))
 # Typical Analyses
 
 Although it is beyond the scope of the `SomaDataIO` package, below are 3
-sample analyses that typical users/clients would perform on SomaLogic
+sample analyses that typical users/clients would perform on ‘SomaScan’
 data. They are not intended to be a definitive guide in statistical
-analysis and existing packages do exist in the `R` universe that perform
-parts or extensions of these techniques. Many variations of the
+analysis and existing packages do exist in the `R` ecosystem that
+perform parts or extensions of these techniques. Many variations of the
 workflows below exist, however the framework highlights how one could
-perform standard *preliminary* analyses on SomaLogic data for:
+perform standard *preliminary* analyses on ‘SomaScan’ data for:
 
 - Two-group differential expression (*t*-test)
 - Binary classification (logistic regression)
@@ -502,7 +512,7 @@ perform standard *preliminary* analyses on SomaLogic data for:
 #### Data Preparation
 
 ``` r
-# `example_data` comes with SomaDataIO
+# the `example_data` object package data
 dim(example_data)
 #> [1]  192 5318
 table(example_data$SampleType)
@@ -510,8 +520,8 @@ table(example_data$SampleType)
 #>     Buffer Calibrator         QC     Sample 
 #>          6         10          6        170
 
-is_seq <- function(.x) grepl("^seq\\.[0-9]{4}", .x) # regex for analytes
-cs <- function(.x) {    # center/scale vector
+is_seq <- function(.x) grepl("^seq\\.[0-9]{4}", .x) # regexp for analytes
+cs <- function(.x) {    # .x = numeric vector
   out <- .x - mean(.x)  # center
   out / sd(out)         # scale
 }
@@ -784,7 +794,7 @@ LinR_tbl
 Fit an 8-marker model with the top 8 features from `LinR_tbl`:
 
 ``` r
-feats <- head(LinR_tbl$AptName, 8)
+feats <- head(LinR_tbl$AptName, 8L)
 form  <- as.formula(paste("Age ~", paste(feats, collapse = "+")))
 fit   <- lm(form, data = train, model = FALSE)
 n     <- nrow(test)
