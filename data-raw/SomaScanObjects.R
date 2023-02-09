@@ -1,0 +1,7 @@
+args <- commandArgs(trailingOnly = TRUE)
+example_data <- read_adat("inst/example/example_data.adat")
+ex_analytes  <- getAnalytes(example_data)
+ex_anno_tbl  <- getAnalyteInfo(example_data)
+ex_target_names <- getTargetNames(ex_anno_tbl)
+save(example_data, file = "data/example_data.rda", compress = "xz")
+save(ex_analytes, ex_anno_tbl, ex_target_names, file = "data/data_objects.rda", compress = "xz")

@@ -1,7 +1,6 @@
 
 # Setup ----
-file   <- system.file("example", "example_data.adat",
-                      package = "SomaDataIO", mustWork = TRUE)
+file <- test_path("testdata", "single_sample.adat")
 header <- parseHeader(file)
 
 # Testing ----
@@ -14,10 +13,10 @@ test_that("`parseHeader()` correctly parses header information of an ADAT", {
                  "col_meta_start", "col_meta_shift",
                  "data_begin", "old_adat"))
   expect_false(header$file_specs$empty_adat)
-  expect_equal(header$file_specs$table_begin, 45)
-  expect_equal(header$file_specs$col_meta_start, 46)
+  expect_equal(header$file_specs$table_begin, 20)
+  expect_equal(header$file_specs$col_meta_start, 21)
   expect_equal(header$file_specs$col_meta_shift, 35)
-  expect_equal(header$file_specs$data_begin, 66)
+  expect_equal(header$file_specs$data_begin, 41)
   expect_false(header$file_specs$old_adat)
   expect_equal(header$Header.Meta$ROW_DATA$Name, header$row_meta,
                ignore_attr = TRUE)
@@ -40,10 +39,10 @@ test_that("`parseHeader()` correctly parses header information of an ADAT", {
   expect_true(all(lengths(header$Col.Meta) == 5284))
   expect_type(header$Header.Meta$HEADER, "list")
   # HEADER entry
-  expect_length(header$Header.Meta$HEADER, 37L)
+  expect_length(header$Header.Meta$HEADER, 12L)
   HD <- header$Header.Meta$HEADER
   tbl <- list(
-    AdatId              = "GID-1234-56-789-abcdef",
+    AdatId              = "GID-1234-56-7890-abcdef",
     Version             = "1.2",
     AssayType           = "PharmaServices",
     AssayVersion        = "V4",
@@ -53,44 +52,13 @@ test_that("`parseHeader()` correctly parses header information of an ADAT", {
                                 "Information (PII) and comply with existing",
                                 "privacy laws."),
     CreatedBy           = "PharmaServices",
-    CreatedDate         = "2020-07-24",
-    EnteredBy           = "Technician1",
-    ExpDate             = "2020-06-18, 2020-07-20",
+    CreatedDate         = "2020-07-25",
+    EnteredBy           = "Technician2",
     GeneratedBy         = "Px (Build:  : ), Canopy_0.1.1",
-    RunNotes            = paste("2 columns ('Age' and 'Sex') have been added",
-                                "to this ADAT. Age has been randomly",
-                                "increased or decreased by 1-2 years to",
-                                "protect patient information"),
-    ProcessSteps        = paste("Raw RFU, Hyb Normalization, medNormInt",
-                                "(SampleId), plateScale, Calibration, anmlQC,",
-                                "qcCheck, anmlSMP"),
-   ProteinEffectiveDate = "2019-08-06",
     StudyMatrix         = "EDTA Plasma",
-    PlateType           = character(0),
-    LabLocation         = "SLUS",
-    StudyOrganism       = character(0),
-    Title               = "Example Adat Set001, Example Adat Set002",
-    AssaySite           = "SW",
-    CalibratorId        = "170261",
-    HybNormReference    = "intraplate",
-    MedNormReference    = "intraplate",
-    NormalizationAlgorithm                  = "ANML",
-    PlateScale_ReferenceSource              = "Reference_v4_Plasma_Calibrator_170261",
-    PlateScale_Scalar_Example_Adat_Set001   = "1.08091554",
-    PlateScale_PassFlag_Example_Adat_Set001 = "PASS",
-    CalibrationReference                    = "Reference_v4_Plasma_Calibrator_170261",
-    CalPlateTailPercent_Example_Adat_Set001 = "0.1",
-    PlateTailPercent_Example_Adat_Set001    = "1.2",
-    PlateTailTest_Example_Adat_Set001       = "PASS",
-    PlateScale_Scalar_Example_Adat_Set002   = "1.09915270",
-    PlateScale_PassFlag_Example_Adat_Set002 = "PASS",
-    CalPlateTailPercent_Example_Adat_Set002 = "2.6",
-    PlateTailPercent_Example_Adat_Set002    = "4.2",
-    PlateTailTest_Example_Adat_Set002       = "PASS"
+    Title               = "Example Adat Set001, Example Adat Set002"
   )
-  expect_true("ReportConfig" %in% names(HD))   # test that it's there
-  i <- which(names(HD) == "ReportConfig")
-  expect_equal(HD[-i], tbl, ignore_attr = TRUE)  # don't test attr; skip ReportConfig
+  expect_equal(HD, tbl, ignore_attr = TRUE)  # don't test attr
   expect_equal(header$Header.Meta$TABLE_BEGIN, basename(file))
 })
 
@@ -203,21 +171,21 @@ test_that("`.getHeaderLines()` grabs the header correctly, not the whole file", 
 
 test_that("`.getHeaderLines()` grabs header correctly, with actual ADAT", {
   lines <- .getHeaderLines(file)
-  expect_length(lines, 80L)
+  expect_length(lines, 42L)
   rowmetaline <- paste0(header$row_meta, collapse = "\t")
   L <- header$file_specs$data_begin
   expect_equal(trimws(lines[L]), rowmetaline)
   expect_match(
-    squish(lines[L + 2L]),  # pick sample #2
-    paste("Example Adat Set001 2020-06-18 SG15214400 H8 258495800004 7 2",
-          "Sample 20 Plasma-PPT 0.96671829 PASS 0.96022505 0.84858420",
-          "0.85201953 [0-9\\. ]+")
+    squish(lines[L + 1L]),  # pick the single sample
+    paste("Example Adat Set001 2020-06-18 SG15214400 H7 258495800010 8 3",
+          "Sample 20 Plasma-PPT 1.00193072 PASS 0.98411617 1.03270156",
+          "0.91519153 [0-9\\. ]+")
   )
 })
 
 # empty ADAT ----
 test_that("an empty ADAT is correctly handled", {
-  file <- test_path("testdata/empty.adat")
+  file <- test_path("testdata", "empty.adat")
   x <- .getHeaderLines(file)
   expect_length(x, 40L)
   x <- parseHeader(file)

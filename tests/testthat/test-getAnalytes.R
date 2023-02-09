@@ -1,8 +1,7 @@
 
 # Setup ----
 # Get full adat with controls
-full <- system.file("example", "example_data.adat",
-                    package = "SomaDataIO", mustWork = TRUE) |> read_adat()
+full <- read_adat(test_path("testdata", "single_sample.adat"))
 
 # First 6 features of 'example_data' with controls
 seq_vec <- c("seq.10000.28", "seq.10001.7", "seq.10003.15",

@@ -9,10 +9,10 @@ test_that("the default collation order has been set properly", {
   expect_equal(Sys.getlocale("LC_COLLATE"), "C")
 })
 
-files <- system.file("example", package = "SomaDataIO") |>
-  list.files(pattern = "[.]adat$", full.names = TRUE) |>
-  normalizePath()
-
+files <- system.file("example", package = "SomaDataIO", mustWork = TRUE) |>
+  list.files(pattern = "[.]adat$", full.names = TRUE)
+files <- c(files, test_path("testdata", "single_sample.adat"))
+files <- normalizePath(files)
 adats <- loadAdatsAsList(files)
 foo   <- collapseAdats(adats)
 atts  <- attributes(foo)
@@ -21,8 +21,8 @@ atts  <- attributes(foo)
 test_that("adats list is named properly", {
   expect_named(adats, cleanNames(basename(files)))
   expect_equal(lapply(adats, dim),
-               list(example_data.adat = c(192L, 5318L),
-                    single_sample.adat = c(1L, 5318L))
+               list(example_data10.adat = c(10L, 5318L),
+                    single_sample.adat  = c(1L, 5318L))
   )
 })
 
@@ -48,10 +48,7 @@ test_that("throws warning when failure to load adat", {
 })
 
 test_that("collapse argument works same as collapseAdats(x)", {
-  foo2 <- system.file("example", package = "SomaDataIO") |>
-    list.files(pattern = "[.]adat$", full.names = TRUE) |>
-    normalizePath() |>
-    loadAdatsAsList(collapse = TRUE)
+  foo2 <- loadAdatsAsList(files, collapse = TRUE)
   expect_equal(foo2, foo)
 })
 

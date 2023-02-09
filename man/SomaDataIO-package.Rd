@@ -23,22 +23,22 @@ Those familiar with micro-array data analysis and associated packages, e.g.
 \pkg{Biobase}, will notice that the feature data (proteins) are arranged as
 columns and the samples (arrays) are the rows. This is the
 transpose of typical micro-array data. This conflict can be easily solved
-using the transpose function, \code{\link[=t]{t()}}, which is part of the \code{base} R.
+using the transpose function, \code{\link[=t]{t()}}, which is part of the \verb{base R}.
 In addition, those familiar with the standard \code{ExpressionSet} object,
 available from \code{Bioconductor}, might find the functions \code{\link[=adat2eSet]{adat2eSet()}} and
 \code{\link[=pivotExpressionSet]{pivotExpressionSet()}} particularly useful.
 }
 \examples{
-# For a listing of all SomaDataIO functions
+# a listing of all pkg functions
 library(help = SomaDataIO)
 
-# To load an original adat call read_adat():
-# There is a sample *.adat file provided in SomaDataIO
-file <- system.file("example", "example_data.adat",
+# load an original adat call read_adat():
+#   there is a sample *.adat file provided
+file <- system.file("example", "example_data10.adat",
                     package = "SomaDataIO", mustWork = TRUE)
 my_adat <- read_adat(file)
 
-# Object class `soma_adat`
+# the `soma_adat` class
 class(my_adat)
 is.soma_adat(my_adat)
 
@@ -47,7 +47,7 @@ anno_tbl <- getAnalyteInfo(my_adat)
 anno_tbl
 
 # Find all analytes starting with "MMP" in `anno_tbl`
-anno_tbl |> dplyr::filter(grepl("^MMP", Target))
+dplyr::filter(anno_tbl, grepl("^MMP", Target))
 }
 \seealso{
 Useful links:

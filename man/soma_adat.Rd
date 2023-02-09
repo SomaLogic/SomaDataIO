@@ -140,7 +140,7 @@ S3 assignment via \code{[[} is fully supported for class \code{soma_adat}.
 S3 \code{\link[=median]{median()}} is currently unavailable for the \code{soma_adat} class.
 }
 \examples{
-my_adat <- system.file("example", "example_data.adat",
+my_adat <- system.file("example", "example_data10.adat",
                        package = "SomaDataIO", mustWork = TRUE) |> read_adat()
 # S3 print method
 my_adat

@@ -1,7 +1,6 @@
 
 # Setup ----
-f <- system.file("example", "single_sample.adat",
-                 package = "SomaDataIO", mustWork = TRUE)
+f <- test_path("testdata", "single_sample.adat")
 adat <- read_adat(f)
 withr::local_options(list(usethis.quiet = TRUE))  # silence ui signalling
 

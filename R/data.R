@@ -11,58 +11,62 @@
 #' @docType data
 #'
 #' @section Data Description:
-#' The `example_data` object contains a SomaScan V4 study from healthy
-#' normal individuals. The RFU measurements themselves and other identifiers
-#' have been altered to protect personally identifiable information (PII),
-#' but also retain underlying biological signal as much as possible.
-#' There are 192 total EDTA-plasma samples across two 96-well plate runs
-#' which are broken down by the following types:
-#' * 170 clinical samples (client study samples)
-#' * 10 calibrators (replicate controls for combining data across runs)
-#' * 6 QC samples (replicate controls used to assess run quality)
-#' * 6 Buffer samples (no protein controls)
+#'   The `example_data` object contains a SomaScan V4 study from healthy
+#'   normal individuals. The RFU measurements themselves and other identifiers
+#'   have been altered to protect personally identifiable information (PII),
+#'   but also retain underlying biological signal as much as possible.
+#'   There are 192 total EDTA-plasma samples across two 96-well plate runs
+#'   which are broken down by the following types:
+#'   * 170 clinical samples (client study samples)
+#'   * 10 calibrators (replicate controls for combining data across runs)
+#'   * 6 QC samples (replicate controls used to assess run quality)
+#'   * 6 Buffer samples (no protein controls)
 #'
 #' @section Data Processing:
-#' The standard V4 data normalization procedure for EDTA-plasma samples was
-#' applied to this dataset. For more details on the data standardization process
-#' see the Data Standardization and File Specification Technical Note. General
-#' details are outlined above.
+#'   The standard V4 data normalization procedure for EDTA-plasma samples was
+#'   applied to this dataset. For more details on the data standardization process
+#'   see the Data Standardization and File Specification Technical Note. General
+#'   details are outlined above.
 #'
 #' @format
 #' \describe{
 #'   \item{example_data}{a `soma_adat` parsed via [read_adat()] containing
-#'   192 samples (see below for breakdown of sample type). There are 5318
-#'   columns containing 5284 analyte features and 34 clinical meta data fields.
-#'   These data have been pre-processed via the following steps:
-#'     \itemize{
-#'       \item hybridization normalized (all samples)
-#'       \item calibrators and buffers median normalized
-#'       \item plate scaled
-#'       \item calibrated
-#'       \item Adaptive Normalization by Maximum Likelihood (ANML) of
-#'         QC and clinical samples
-#'     }
-#'   **Note1:** The `Age` and `Sex` (`M`/`F`) fields contain simulated values
-#'   designed to contain biological signal.
+#'     192 samples (see below for breakdown of sample type). There are 5318
+#'     columns containing 5284 analyte features and 34 clinical meta data fields.
+#'     These data have been pre-processed via the following steps:
+#'       \itemize{
+#'         \item hybridization normalized (all samples)
+#'         \item calibrators and buffers median normalized
+#'         \item plate scaled
+#'         \item calibrated
+#'         \item Adaptive Normalization by Maximum Likelihood (ANML) of
+#'           QC and clinical samples
+#'       }
+#'     **Note1:** The `Age` and `Sex` (`M`/`F`) fields contain simulated values
+#'     designed to contain biological signal.
 #'
-#'   **Note2:** The `SampleType` column contains sample source/type information
-#'   and usually the `SampleType == Sample` represents the "client" samples.
+#'     **Note2:** The `SampleType` column contains sample source/type information
+#'     and usually the `SampleType == Sample` represents the "client" samples.
+#'
+#'     **Note3:** The original source file can be found at
+#'     \url{https://github.com/SomaLogic/SomaLogic-Data}.
 #'   }
 #'
 #'   \item{ex_analytes}{character string of the analyte features contained
-#'   in the `soma_adat` object, derived from a call to [getAnalytes()].}
+#'     in the `soma_adat` object, derived from a call to [getAnalytes()].}
 #'
 #'   \item{ex_anno_tbl}{a lookup table corresponding to a
-#'   transposed data frame of the "Col.Meta" attribute of an ADAT, with an
-#'   index key field `AptName` included in column 1, derived from a call to
-#'   [getAnalyteInfo()].}
+#'     transposed data frame of the "Col.Meta" attribute of an ADAT, with an
+#'     index key field `AptName` included in column 1, derived from a call to
+#'     [getAnalyteInfo()].}
 #'
 #'   \item{ex_target_names}{A lookup table mapping `SeqId` feature names ->
-#'   target names contained in `example_data`. This object (or one like it) is
-#'   convenient at the console via auto-complete for labeling and/or creating
-#'   plot titles on the fly.}
+#'     target names contained in `example_data`. This object (or one like it) is
+#'     convenient at the console via auto-complete for labeling and/or creating
+#'     plot titles on the fly.}
 #' }
 #'
+#' @source \url{https://github.com/SomaLogic/SomaLogic-Data}
 #' @source SomaLogic Operating Co., Inc.
 #' @keywords datasets
 #' @examples
@@ -75,13 +79,13 @@
 #' class(example_data)
 #'
 #' # Features/Analytes
-#' head(ex_analytes, 20)
+#' head(ex_analytes, 20L)
 #'
 #' # Feature info table (annotations)
 #' ex_anno_tbl
 #'
 #' # Search via `filter()`
-#' ex_anno_tbl |> dplyr::filter(grepl("^MMP", Target))
+#' dplyr::filter(ex_anno_tbl, grepl("^MMP", Target))
 #'
 #' # Lookup table -> targets
 #' # MMP-9

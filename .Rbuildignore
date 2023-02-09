@@ -1,5 +1,8 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^data-raw$
+^revdep$
+^notes$
 ^pkgdown$
 ^README\.Rmd$
 ^LICENSE\.md$

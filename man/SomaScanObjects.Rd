@@ -25,8 +25,13 @@ QC and clinical samples
 \strong{Note1:} The \code{Age} and \code{Sex} (\code{M}/\code{F}) fields contain simulated values
 designed to contain biological signal.
 
-\strong{Note2:} The \code{SampleType} column contains sample source/type information
-and usually the \code{SampleType == Sample} represents the "client" samples.
+\if{html}{\out{<div class="sourceCode">}}\preformatted{**Note2:** The `SampleType` column contains sample source/type information
+and usually the `SampleType == Sample` represents the "client" samples.
+
+**Note3:** The original source file can be found at
+\url{https://github.com/SomaLogic/SomaLogic-Data}.
+}\if{html}{\out{</div>}}
+
 }
 
 \item{ex_analytes}{character string of the analyte features contained
@@ -44,6 +49,8 @@ plot titles on the fly.}
 }
 }
 \source{
+\url{https://github.com/SomaLogic/SomaLogic-Data}
+
 SomaLogic Operating Co., Inc.
 }
 \description{
@@ -87,13 +94,13 @@ print(example_data, show_header = TRUE)
 class(example_data)
 
 # Features/Analytes
-head(ex_analytes, 20)
+head(ex_analytes, 20L)
 
 # Feature info table (annotations)
 ex_anno_tbl
 
 # Search via `filter()`
-ex_anno_tbl |> dplyr::filter(grepl("^MMP", Target))
+dplyr::filter(ex_anno_tbl, grepl("^MMP", Target))
 
 # Lookup table -> targets
 # MMP-9

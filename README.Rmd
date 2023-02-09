@@ -159,17 +159,20 @@ library(help = SomaDataIO)
 ```
 
 
-#### Exported Objects
+#### Objects and Data
 
-The `SomaDataIO` package comes with 4 objects available
+The `SomaDataIO` package comes with four (4) objects available
 to users to run canned examples (or analyses). They can be accessed once
 `SomaDataIO` has been attached via `library()`. They are:
 
-* `example_data`
-* `ex_analytes`
-* `ex_anno_tbl`
-* `ex_target_names`
-* See `?SomaScanObjects`
+* `example_data`: the original 'SomaScan' file (`example_data.adat`) can
+  be found [here](https://github.com/SomaLogic/SomaLogic-Data)
+  - an abbreviated, light-weight version containing only the first 10 samples
+    can be found at `inst/extdata/example_data10.adat`
+* `ex_analytes`: the analyte (feature) variables in `example_data`
+* `ex_anno_tbl`: the annotations table associated with `example_data`
+* `ex_target_names`: a mapping object for analyte -> target
+* See also `?SomaScanObjects`
 
 
 ---------------------
@@ -181,11 +184,13 @@ to users to run canned examples (or analyses). They can be accessed once
 * Loading data (Import)
     + parse and import a `*.adat` text file into an `R` session
       as a `soma_adat` object.
+
 * Wrangling data (manipulation)
     + subset, reorder, and list various fields of a `soma_adat` object.
     + `?SeqId` analyte (feature) matching.
     + `dplyr` and `tidyr` verb S3 methods for the `soma_adat` class.
     + `?rownames` helpers that do not break `soma_adat` attributes.
+
 * Exporting data (Output)
     + write out a `soma_adat` object as a `*.adat` text file.
 
@@ -196,7 +201,8 @@ to users to run canned examples (or analyses). They can be accessed once
 ### Loading an ADAT
 ```{r read-adat}
 # Sample file name
-f <- system.file("example", "example_data.adat", package = "SomaDataIO", mustWork = TRUE)
+f <- system.file("example", "example_data10.adat",
+                 package = "SomaDataIO", mustWork = TRUE)
 my_adat <- read_adat(f)
 is.soma_adat(my_adat)
 
@@ -207,7 +213,7 @@ print(my_adat, show_header = TRUE)  # if simply wish to see Header info
 
 # S3 summary method
 # View Target and summary statistics
-seqs <- tail(names(my_adat), 3)
+seqs <- tail(names(my_adat), 3L)
 summary(my_adat[, seqs])
 
 # Summarize by Sex
@@ -311,12 +317,12 @@ write_adat(my_adat, file = tempfile("my-adat-", fileext = ".adat"))
 # Typical Analyses
 
 Although it is beyond the scope of the `SomaDataIO` package, below are 3
-sample analyses that typical users/clients would perform on SomaLogic data.
+sample analyses that typical users/clients would perform on 'SomaScan' data.
 They are not intended to be a definitive guide in statistical
-analysis and existing packages do exist in the `R` universe that perform parts
-or extensions of these techniques. Many variations of the workflows below
-exist, however the framework highlights how one could perform standard
-*preliminary* analyses on SomaLogic data for:
+analysis and existing packages do exist in the `R` ecosystem that perform
+parts or extensions of these techniques. Many variations of the workflows
+below exist, however the framework highlights how one could perform standard
+_preliminary_ analyses on 'SomaScan' data for:
 
 * Two-group differential expression (*t*-test)
 * Binary classification (logistic regression)
@@ -324,12 +330,12 @@ exist, however the framework highlights how one could perform standard
 
 #### Data Preparation
 ```{r data-prep}
-# `example_data` comes with SomaDataIO
+# the `example_data` object package data
 dim(example_data)
 table(example_data$SampleType)
 
-is_seq <- function(.x) grepl("^seq\\.[0-9]{4}", .x) # regex for analytes
-cs <- function(.x) {    # center/scale vector
+is_seq <- function(.x) grepl("^seq\\.[0-9]{4}", .x) # regexp for analytes
+cs <- function(.x) {    # .x = numeric vector
   out <- .x - mean(.x)  # center
   out / sd(out)         # scale
 }
@@ -511,7 +517,7 @@ LinR_tbl
 Fit an 8-marker model with the top 8 features from `LinR_tbl`:
 
 ```{r linreg-fit}
-feats <- head(LinR_tbl$AptName, 8)
+feats <- head(LinR_tbl$AptName, 8L)
 form  <- as.formula(paste("Age ~", paste(feats, collapse = "+")))
 fit   <- lm(form, data = train, model = FALSE)
 n     <- nrow(test)
