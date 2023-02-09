@@ -43,7 +43,7 @@ with little variable intersection, a sparse RFU-matrix will result.
 See \code{Examples} below.
 }
 \examples{
-files <- system.file("example", package = "SomaDataIO") |>
+files <- system.file("extdata", package = "SomaDataIO") |>
   dir(pattern = "[.]adat$", full.names = TRUE) |> rev()
 
 # 2 files in directory

@@ -9,7 +9,7 @@ test_that("the default collation order has been set properly", {
   expect_equal(Sys.getlocale("LC_COLLATE"), "C")
 })
 
-files <- system.file("example", package = "SomaDataIO", mustWork = TRUE) |>
+files <- system.file("extdata", package = "SomaDataIO", mustWork = TRUE) |>
   list.files(pattern = "[.]adat$", full.names = TRUE)
 files <- c(files, test_path("testdata", "single_sample.adat"))
 files <- normalizePath(files)

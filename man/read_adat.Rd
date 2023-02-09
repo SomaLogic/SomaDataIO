@@ -52,7 +52,7 @@ to use \code{\link[=read_adat]{read_adat()}}.
 See \code{\link[=inherits]{inherits()}}.
 }
 \examples{
-f <- system.file("example", "example_data10.adat",
+f <- system.file("extdata", "example_data10.adat",
                  package = "SomaDataIO", mustWork = TRUE)
 my_adat <- read_adat(f)
 is.soma_adat(my_adat)

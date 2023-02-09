@@ -23,7 +23,7 @@
 #' @author Stu Field
 #' @seealso [read.delim()]
 #' @examples
-#' f <- system.file("example", "example_data10.adat",
+#' f <- system.file("extdata", "example_data10.adat",
 #'                  package = "SomaDataIO", mustWork = TRUE)
 #' my_adat <- read_adat(f)
 #' is.soma_adat(my_adat)

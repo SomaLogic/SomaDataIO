@@ -28,7 +28,7 @@
 #'
 #' # load an original adat call read_adat():
 #' #   there is a sample *.adat file provided
-#' file <- system.file("example", "example_data10.adat",
+#' file <- system.file("extdata", "example_data10.adat",
 #'                     package = "SomaDataIO", mustWork = TRUE)
 #' my_adat <- read_adat(file)
 #'

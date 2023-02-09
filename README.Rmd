@@ -60,7 +60,7 @@ If the issue persists we encourage you to consult the
 page and, if appropriate, submit an issue and/or feature request.
 
 
--------------------
+---------------------
 
 ## Usage
 
@@ -71,7 +71,7 @@ The code contained herein may *not* be used for diagnostic, clinical,
 therapeutic, or other commercial purposes.
 
 
--------------------
+---------------------
 
 
 ## Installation
@@ -100,8 +100,6 @@ To install a *specific* tagged release, use:
 ```{r install-version, eval = FALSE}
 devtools::install_github("SomaLogic/SomaDataIO@v5.3.0")
 ```
-
-
 
 
 #### Package Dependencies
@@ -159,16 +157,26 @@ library(help = SomaDataIO)
 ```
 
 
-#### Objects and Data
+---------------------
+
+
+## Objects and Data
 
 The `SomaDataIO` package comes with four (4) objects available
 to users to run canned examples (or analyses). They can be accessed once
 `SomaDataIO` has been attached via `library()`. They are:
 
 * `example_data`: the original 'SomaScan' file (`example_data.adat`) can
-  be found [here](https://github.com/SomaLogic/SomaLogic-Data)
-  - an abbreviated, light-weight version containing only the first 10 samples
-    can be found at `inst/extdata/example_data10.adat`
+  be found [here](https://github.com/SomaLogic/SomaLogic-Data) or downloaded
+  directly via:
+  ```bash
+  wget https://raw.githubusercontent.com/SomaLogic/SomaLogic-Data/master/example_data.adat
+  ```
+  - it has been replaced by an abbreviated, light-weight version containing
+    only the first 10 samples and can be found at:
+    ```r
+    system.file("extdata", "example_data10.adat", package = "SomaDataIO")
+    ```
 * `ex_analytes`: the analyte (feature) variables in `example_data`
 * `ex_anno_tbl`: the annotations table associated with `example_data`
 * `ex_target_names`: a mapping object for analyte -> target
@@ -176,7 +184,6 @@ to users to run canned examples (or analyses). They can be accessed once
 
 
 ---------------------
-
 
 
 ## Main Features (I/O)
@@ -195,13 +202,11 @@ to users to run canned examples (or analyses). They can be accessed once
     + write out a `soma_adat` object as a `*.adat` text file.
 
 
-----------------------
-
 
 ### Loading an ADAT
 ```{r read-adat}
 # Sample file name
-f <- system.file("example", "example_data10.adat",
+f <- system.file("extdata", "example_data10.adat",
                  package = "SomaDataIO", mustWork = TRUE)
 my_adat <- read_adat(f)
 is.soma_adat(my_adat)
@@ -311,7 +316,7 @@ write_adat(my_adat, file = tempfile("my-adat-", fileext = ".adat"))
 
 
 
------------------
+---------------------
 
 
 # Typical Analyses

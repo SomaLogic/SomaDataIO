@@ -9,7 +9,7 @@
 #' @param show_header Logical. Should all the `Header Data` information
 #'   be displayed instead of the data frame (`tibble`) object?
 #' @examples
-#' my_adat <- system.file("example", "example_data10.adat",
+#' my_adat <- system.file("extdata", "example_data10.adat",
 #'                        package = "SomaDataIO", mustWork = TRUE) |> read_adat()
 #' # S3 print method
 #' my_adat
