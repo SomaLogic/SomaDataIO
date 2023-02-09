@@ -10,7 +10,7 @@ merge.soma_adat <- function(x, y, by = intersect(names(x), names(y)),
   call <- match.call()
   call[[1L]] <- str2lang("dplyr::left_join")
   deprecate_stop(
-    "7.3.0", I("Using `merge()` on a `soma_adat`"),
+    "6.0.0", I("Using `merge()` on a `soma_adat`"),
     I("any of the `dplyr::*_join()` alternatives"),
     details = paste0("Perhaps ", .code(deparse(call)), "?")
   )
