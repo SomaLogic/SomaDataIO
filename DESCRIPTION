@@ -3,7 +3,11 @@ Package: SomaDataIO
 Title: Input/Output SomaScan Data
 Version: 5.3.1.9000
 Authors@R: c(
-    person("Stu", "Field", email = "stu.g.field@gmail.com", role = c("aut", "cre")), 
+    person(given = "Stu",
+           family = "Field",
+           role = c("aut", "cre"),
+           email = "stu.g.field@gmail.com",
+           comment = c(ORCID = "0000-0002-1024-5859")),
     person(given = "SomaLogic Operating Co., Inc.", role = c("cph", "fnd"))
     )
 Description: Load and export 'SomaScan' data via the

@@ -53,7 +53,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Stu Field \email{stu.g.field@gmail.com}
+\strong{Maintainer}: Stu Field \email{stu.g.field@gmail.com} (\href{https://orcid.org/0000-0002-1024-5859}{ORCID})
 
 Other contributors:
 \itemize{
