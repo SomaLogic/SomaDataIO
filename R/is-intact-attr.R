@@ -53,13 +53,13 @@ is_intact_attr <- function(adat, verbose = interactive()) {
   } else if ( !all(c("HEADER", "COL_DATA", "ROW_DATA") %in% names(atts$Header.Meta)) ) {
     if ( verbose ) {
       diff <- setdiff(c("HEADER", "COL_DATA", "ROW_DATA"), names(atts$Header.Meta))
-      .oops("Header.Meta missing: {.value(diff)}")
+      .oops(paste("Header.Meta is missing:", .value(diff)))
     }
     FALSE
   } else if ( !all(col_meta_checks %in% names(atts$Col.Meta)) ) {
     if ( verbose ) {
       diff <- setdiff(col_meta_checks, names(atts$Col.Meta))
-      .oops("Col.Meta is missing: {.value(diff)}")
+      .oops(paste("Col.Meta is missing:", .value(diff)))
     }
     FALSE
   } else if ( !inherits(atts$Col.Meta, "tbl_df") ) {

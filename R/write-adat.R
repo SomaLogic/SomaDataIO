@@ -21,12 +21,17 @@
 #' }
 #'
 #' @family IO
-#' @param x An object of class `"soma_adat"`. Both [is.soma_adat()] and
-#' [is_intact_attr()] must be `TRUE`.
+#' @param x An object of class `soma_adat`.
+#'   Both [is.soma_adat()] and [is_intact_attr()] must be `TRUE`.
 #' @param file Character. File path where the object should be written.
 #'   For example, extensions should be `*.adat`.
 #' @return Invisibly returns the input `x`.
 #' @author Stu Field
+#' @examples
+#' # attributes must(!) be intact to write
+#' is_intact_attr(example_data)
+#'
+#' write_adat(example_data, file = tempfile(fileext = ".adat"))
 #' @importFrom utils write.table
 #' @seealso [read_adat()], [is_intact_attr()]
 #' @export

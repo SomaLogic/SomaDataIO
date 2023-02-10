@@ -26,19 +26,14 @@
 #' f <- system.file("extdata", "example_data10.adat",
 #'                  package = "SomaDataIO", mustWork = TRUE)
 #' my_adat <- read_adat(f)
+#'
 #' is.soma_adat(my_adat)
 #'
 #' # S3 print method
-#' my_adat                             # redirect uses `tibble` method
-#' print(my_adat, show_header = TRUE)  # show the header info; no RFU data
+#' my_adat            # uses `tibble` method
 #'
-#' # write ADAT to file
-#' fout <- tempfile(fileext = ".adat")
-#' write_adat(my_adat, file = fout)
-#'
-#' # read same file back in as check
-#' read_adat(fout)
-#'
+#' # show the header info; no RFU data
+#' print(my_adat, show_header = TRUE)
 #' @importFrom stats setNames
 #' @importFrom utils read.delim
 #' @export

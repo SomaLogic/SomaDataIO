@@ -54,14 +54,14 @@ adats <- loadAdatsAsList(files)
 # collapse into 1 ADAT
 all <- collapseAdats(adats)
 
-# Alternativly use the `collapse = TRUE`
-coll <- loadAdatsAsList(files, collapse = TRUE)
-
-identical(coll, all)
+# Alternatively use the `collapse = TRUE`
+\dontrun{
+loadAdatsAsList(files, collapse = TRUE)
+}
 
 # Lastly, `rbind` on the `union` of columns also possible
 # but produces numerous NAs for missing cells
-# And will break the ADAT attributes
+# (and breaks ADAT attributes)
 union_adat <- dplyr::bind_rows(adats, .id = "SourceFile")
 }
 \seealso{

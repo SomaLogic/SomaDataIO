@@ -7,8 +7,8 @@
 write_adat(x, file)
 }
 \arguments{
-\item{x}{An object of class \code{"soma_adat"}. Both \code{\link[=is.soma_adat]{is.soma_adat()}} and
-\code{\link[=is_intact_attr]{is_intact_attr()}} must be \code{TRUE}.}
+\item{x}{An object of class \code{soma_adat}.
+Both \code{\link[=is.soma_adat]{is.soma_adat()}} and \code{\link[=is_intact_attr]{is_intact_attr()}} must be \code{TRUE}.}
 
 \item{file}{Character. File path where the object should be written.
 For example, extensions should be \verb{*.adat}.}
@@ -37,6 +37,12 @@ LF     \tab Linux       \tab \verb{"\n"} \cr
 CR     \tab MacOS       \tab \verb{"\r"} \cr
 CRLF   \tab DOS/Windows \tab \verb{"\r\n"}
 }
+}
+\examples{
+# attributes must(!) be intact to write
+is_intact_attr(example_data)
+
+write_adat(example_data, file = tempfile(fileext = ".adat"))
 }
 \seealso{
 \code{\link[=read_adat]{read_adat()}}, \code{\link[=is_intact_attr]{is_intact_attr()}}
