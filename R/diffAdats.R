@@ -10,19 +10,26 @@
 #' @note Only diffs of the column name _intersect_ are reported.
 #' @author Stu Field
 #' @examples
-#' diffAdats(example_data, example_data)
+#' # subset `example_data` for speed
+#' # all SeqIds from 2000 -> 2999
+#' seqs <- grep("^seq\\.2[0-9]{3}", names(example_data), value = TRUE)
+#' ex_data_small <- head(example_data[, c(getMeta(example_data), seqs)], 10L)
+#' dim(ex_data_small)
+#'
+#' # no diff to itself
+#' diffAdats(ex_data_small, ex_data_small)
 #'
 #' # remove random column
-#' rm <- withr::with_seed(123, sample(1:ncol(example_data), 1))
-#' diffAdats(example_data, example_data[, -rm])
+#' rm <- withr::with_seed(123, sample(1:ncol(ex_data_small), 1))
+#' diffAdats(ex_data_small, ex_data_small[, -rm])
 #'
-#' # change Subarray randomly
-#' diffAdats(example_data, dplyr::mutate(example_data, Subarray = sample(Subarray)))
+#' # randomly shuffle Subarray
+#' diffAdats(ex_data_small, dplyr::mutate(ex_data_small, Subarray = sample(Subarray)))
 #'
 #' # modify 2 RFUs randomly
-#' new <- example_data
-#' new[5, c(rm, rm + 1)] <- 999
-#' diffAdats(example_data, new)
+#' new <- ex_data_small
+#' new[5L, c(rm, rm + 1L)] <- 999
+#' diffAdats(ex_data_small, new)
 #' @export
 diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
 

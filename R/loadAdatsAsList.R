@@ -7,6 +7,22 @@
 #' element). This makes writing out the final object possible without the
 #' loss of `HEADER` information.
 #'
+#' \describe{
+#'   \item{__Note 1__:}{The default behavior is to "vertically bind"
+#'     ([rbind()]) on the  *intersect* of the column variables, with
+#'     unique columns silently dropped.}
+#'   \item{__Note 2__:}{If "vertically binding" on the column *union* is
+#'     desired, use [bind_rows()], however this results in `NAs` in
+#'     non-intersecting columns. For many files with little variable
+#'     intersection, a sparse RFU-matrix will result
+#'     (and will likely break ADAT attributes):
+#'   ```{r, eval = FALSE}
+#'   adats <- loadAdatsAsList(files)
+#'   union_adat <- dplyr::bind_rows(adats, .id = "SourceFile")
+#'   ```
+#'   }
+#' }
+#'
 #' @family IO
 #' @param files A character string of files to load.
 #' @param collapse Logical. Should the resulting list of ADATs be
@@ -14,30 +30,28 @@
 #' @param verbose Logical. Should the function call be run in *verbose* mode.
 #' @param ... Additional arguments passed to [read_adat()].
 #' @return A list of ADATs named by `files`, each a `soma_adat` object
-#'   corresponding to an individual file in `files`.
+#'   corresponding to an individual file in `files`. For [collapseAdats()],
+#'   a single, collapsed `soma_adat` object.
 #' @author Stu Field
 #' @seealso [read_adat()]
 #' @examples
+#' # only 1 file in directory
+#' dir(system.file("extdata", package = "SomaDataIO"))
+#'
 #' files <- system.file("extdata", package = "SomaDataIO") |>
 #'   dir(pattern = "[.]adat$", full.names = TRUE) |> rev()
 #'
-#' # 2 files in directory
-#' files
-#'
 #' adats <- loadAdatsAsList(files)
+#' class(adats)
 #'
 #' # collapse into 1 ADAT
-#' all <- collapseAdats(adats)
+#' collapsed <- collapseAdats(adats)
+#' class(collapsed)
 #'
-#' # Alternatively use the `collapse = TRUE`
+#' # Alternatively use `collapse = TRUE`
 #' \dontrun{
 #' loadAdatsAsList(files, collapse = TRUE)
 #' }
-#'
-#' # Lastly, `rbind` on the `union` of columns also possible
-#' # but produces numerous NAs for missing cells
-#' # (and breaks ADAT attributes)
-#' union_adat <- dplyr::bind_rows(adats, .id = "SourceFile")
 #' @importFrom stats setNames
 #' @export
 loadAdatsAsList <- function(files, collapse = FALSE, verbose = interactive(), ...) {
@@ -60,17 +74,10 @@ loadAdatsAsList <- function(files, collapse = FALSE, verbose = interactive(), ..
   }
 }
 
+
 #' @rdname loadAdatsAsList
-#' @details
-#'   __Note 1:__ the `rbind` occurs on the  *intersect* of the common columns
-#'   names, unique columns are silently dropped.
-#'
-#'   __Note 2:__ If `rbind` on the *union* is desired, use [bind_rows()],
-#'   however this results in `NAs` in non-intersecting columns. For many files
-#'   with little variable intersection, a sparse RFU-matrix will result.
-#'   See `Examples` below.
-#'
-#' @param x A list of `soma_adat` class objects loaded via [loadAdatsAsList()].
+#' @param x A list of `soma_adat` class objects returned from
+#'   [loadAdatsAsList()].
 #' @importFrom dplyr select all_of
 #' @export
 collapseAdats <- function(x) {

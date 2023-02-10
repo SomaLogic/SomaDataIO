@@ -28,12 +28,6 @@
 #' my_adat <- read_adat(f)
 #'
 #' is.soma_adat(my_adat)
-#'
-#' # S3 print method
-#' my_adat            # uses `tibble` method
-#'
-#' # show the header info; no RFU data
-#' print(my_adat, show_header = TRUE)
 #' @importFrom stats setNames
 #' @importFrom utils read.delim
 #' @export

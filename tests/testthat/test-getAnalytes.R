@@ -20,6 +20,7 @@ test_that("`getAnalytes()` S3 `soma_adat` and `data.frame` methods", {
 })
 
 test_that("`getAnalytes()` S3 `recipe` methods work", {
+  skip_on_cran()
   rec  <- recipes::recipe(~ ., data = full)
   apts <- getAnalytes(rec)
   expect_equal(typeof(apts), "character")

@@ -16,7 +16,7 @@ to \code{\link[=read_adat]{read_adat()}}. This function parses the main data
 table into a \code{data.frame} object and assigns the remaining data from
 the file as object \code{attributes}, i.e. call \code{attributes(adat)}.
 Other functions in the package are designed to make extracting,
-manipulating, and wrangling data in the newly created \code{soma_adat}
+manipulating, and wrangling data in the newly created \link{soma_adat}
 object more convenient.
 
 Those familiar with micro-array data analysis and associated packages, e.g.
@@ -32,18 +32,12 @@ available from \code{Bioconductor}, might find the functions \code{\link[=adat2e
 # a listing of all pkg functions
 library(help = SomaDataIO)
 
-# load an original adat call read_adat():
-#   there is a sample *.adat file provided
-file <- system.file("extdata", "example_data10.adat",
-                    package = "SomaDataIO", mustWork = TRUE)
-my_adat <- read_adat(file)
-
 # the `soma_adat` class
-class(my_adat)
-is.soma_adat(my_adat)
+class(example_data)
+is.soma_adat(example_data)
 
 # Annotations Lookup Table
-anno_tbl <- getAnalyteInfo(my_adat)
+anno_tbl <- getAnalyteInfo(example_data)
 anno_tbl
 
 # Find all analytes starting with "MMP" in `anno_tbl`

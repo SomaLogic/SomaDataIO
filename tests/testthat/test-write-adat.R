@@ -16,8 +16,7 @@ test_that("`write_adat()` produces unchanged out -> in -> out", {
                      invert = TRUE, value = TRUE)
   true_lines <- grep("^!?Created[DB][ay]", true_lines,
                      invert = TRUE, value = TRUE)
-  # ln17 is String -> double, character, etc. conversion; do not check
-  expect_equal(true_lines[-17L], test_lines[-17L])
+  expect_equal(true_lines, test_lines)
   unlink(f_check)
 })
 

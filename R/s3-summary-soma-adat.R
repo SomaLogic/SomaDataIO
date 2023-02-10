@@ -1,18 +1,19 @@
-
 #' S3 Summary
 #'
-#' S3 [summary()] method returns the following for each column of the ADAT
+#' The S3 [summary()] method returns the following for each column of the ADAT
 #' object containing SOMAmer data (clinical meta data is *excluded*):
-#'   * Target (if available)
-#'   * Minimum value
-#'   * 1st Quantile
-#'   * Median
-#'   * Mean
-#'   * 3rd Quantile
-#'   * Maximum value
-#'   * Standard deviation
-#'   * Median absolute deviation ([mad()])
-#'   * Interquartile range ([IQR()])
+#' \itemize{
+#'   \item Target (if available)
+#'   \item Minimum value
+#'   \item 1st Quantile
+#'   \item Median
+#'   \item Mean
+#'   \item 3rd Quantile
+#'   \item Maximum value
+#'   \item Standard deviation
+#'   \item Median absolute deviation ([mad()])
+#'   \item Interquartile range ([IQR()])
+#' }
 #'
 #' @rdname soma_adat
 #' @order 3
@@ -23,18 +24,19 @@
 #' @param digits Integer. Used for number formatting with [signif()].
 #' @examples
 #' # S3 summary method
-#' # MMP (4) analytes
+#' # MMP analytes (4)
 #' mmps <- c("seq.2579.17", "seq.2788.55", "seq.2789.26", "seq.4925.54")
-#' summary(my_adat[, mmps])
+#' mmp_adat <- example_data[, c("Sex", mmps)]
+#' summary(mmp_adat)
 #'
 #' # Summarize by group
-#' my_adat[, mmps] |>
-#'   split(my_adat$Sex) |>
+#' mmp_adat |>
+#'   split(mmp_adat$Sex) |>
 #'   lapply(summary)
 #'
 #' # Alternatively pass annotations with Target info
-#' anno <- getAnalyteInfo(my_adat)
-#' summary(my_adat[, mmps], tbl = anno)
+#' anno <- getAnalyteInfo(mmp_adat)
+#' summary(mmp_adat, tbl = anno)
 #' @importFrom stats IQR mad sd setNames
 #' @importFrom dplyr select all_of
 #' @export

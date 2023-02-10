@@ -19,11 +19,13 @@ collapsed into a single ADAT object?}
 
 \item{...}{Additional arguments passed to \code{\link[=read_adat]{read_adat()}}.}
 
-\item{x}{A list of \code{soma_adat} class objects loaded via \code{\link[=loadAdatsAsList]{loadAdatsAsList()}}.}
+\item{x}{A list of \code{soma_adat} class objects returned from
+\code{\link[=loadAdatsAsList]{loadAdatsAsList()}}.}
 }
 \value{
 A list of ADATs named by \code{files}, each a \code{soma_adat} object
-corresponding to an individual file in \code{files}.
+corresponding to an individual file in \code{files}. For \code{\link[=collapseAdats]{collapseAdats()}},
+a single, collapsed \code{soma_adat} object.
 }
 \description{
 Load a series of ADATs and return a list of \code{soma_adat}
@@ -34,35 +36,41 @@ element). This makes writing out the final object possible without the
 loss of \code{HEADER} information.
 }
 \details{
-\strong{Note 1:} the \code{rbind} occurs on the  \emph{intersect} of the common columns
-names, unique columns are silently dropped.
+\describe{
+\item{\strong{Note 1}:}{The default behavior is to "vertically bind"
+(\code{\link[=rbind]{rbind()}}) on the  \emph{intersect} of the column variables, with
+unique columns silently dropped.}
+\item{\strong{Note 2}:}{If "vertically binding" on the column \emph{union} is
+desired, use \code{\link[=bind_rows]{bind_rows()}}, however this results in \code{NAs} in
+non-intersecting columns. For many files with little variable
+intersection, a sparse RFU-matrix will result
+(and will likely break ADAT attributes):
 
-\strong{Note 2:} If \code{rbind} on the \emph{union} is desired, use \code{\link[=bind_rows]{bind_rows()}},
-however this results in \code{NAs} in non-intersecting columns. For many files
-with little variable intersection, a sparse RFU-matrix will result.
-See \code{Examples} below.
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{adats <- loadAdatsAsList(files)
+union_adat <- dplyr::bind_rows(adats, .id = "SourceFile")
+}\if{html}{\out{</div>}}
+
+}
+}
 }
 \examples{
+# only 1 file in directory
+dir(system.file("extdata", package = "SomaDataIO"))
+
 files <- system.file("extdata", package = "SomaDataIO") |>
   dir(pattern = "[.]adat$", full.names = TRUE) |> rev()
 
-# 2 files in directory
-files
-
 adats <- loadAdatsAsList(files)
+class(adats)
 
 # collapse into 1 ADAT
-all <- collapseAdats(adats)
+collapsed <- collapseAdats(adats)
+class(collapsed)
 
-# Alternatively use the `collapse = TRUE`
+# Alternatively use `collapse = TRUE`
 \dontrun{
 loadAdatsAsList(files, collapse = TRUE)
 }
-
-# Lastly, `rbind` on the `union` of columns also possible
-# but produces numerous NAs for missing cells
-# (and breaks ADAT attributes)
-union_adat <- dplyr::bind_rows(adats, .id = "SourceFile")
 }
 \seealso{
 \code{\link[=read_adat]{read_adat()}}

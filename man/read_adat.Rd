@@ -57,12 +57,6 @@ f <- system.file("extdata", "example_data10.adat",
 my_adat <- read_adat(f)
 
 is.soma_adat(my_adat)
-
-# S3 print method
-my_adat            # uses `tibble` method
-
-# show the header info; no RFU data
-print(my_adat, show_header = TRUE)
 }
 \seealso{
 \code{\link[=read.delim]{read.delim()}}

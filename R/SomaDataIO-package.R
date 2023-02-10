@@ -11,7 +11,7 @@
 #' table into a `data.frame` object and assigns the remaining data from
 #' the file as object `attributes`, i.e. call `attributes(adat)`.
 #' Other functions in the package are designed to make extracting,
-#' manipulating, and wrangling data in the newly created `soma_adat`
+#' manipulating, and wrangling data in the newly created [SomaDataIO::soma_adat]
 #' object more convenient.
 #'
 #' Those familiar with micro-array data analysis and associated packages, e.g.
@@ -22,22 +22,17 @@
 #' In addition, those familiar with the standard `ExpressionSet` object,
 #' available from `Bioconductor`, might find the functions [adat2eSet()] and
 #' [pivotExpressionSet()] particularly useful.
+#'
 #' @examples
 #' # a listing of all pkg functions
 #' library(help = SomaDataIO)
 #'
-#' # load an original adat call read_adat():
-#' #   there is a sample *.adat file provided
-#' file <- system.file("extdata", "example_data10.adat",
-#'                     package = "SomaDataIO", mustWork = TRUE)
-#' my_adat <- read_adat(file)
-#'
 #' # the `soma_adat` class
-#' class(my_adat)
-#' is.soma_adat(my_adat)
+#' class(example_data)
+#' is.soma_adat(example_data)
 #'
 #' # Annotations Lookup Table
-#' anno_tbl <- getAnalyteInfo(my_adat)
+#' anno_tbl <- getAnalyteInfo(example_data)
 #' anno_tbl
 #'
 #' # Find all analytes starting with "MMP" in `anno_tbl`

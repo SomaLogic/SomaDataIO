@@ -41,80 +41,80 @@
 #' @param e1,e2 Objects.
 #' @param na.rm Logical. Should missing values be removed?
 #' @param base A positive or complex number: the base with respect to
-#' which logarithms are computed.
+#'   which logarithms are computed.
 #' @param ... Additional arguments passed to the various group generics
-#' as appropriate.
+#'   as appropriate.
 #' @return A `soma_adat` object with the same dimensions of the input
-#' object with the feature columns transformed by the specified generic.
+#'   object with the feature columns transformed by the specified generic.
 #' @author Stu Field
 #' @seealso [groupGeneric()], [getGroupMembers()], [getGroup()]
 #' @examples
-#' # trim to random 1000 analytes for speed
-#' example_data <- withr::with_seed(3L,
-#'   dplyr::select(example_data,
-#'                 getMeta(example_data),                    # keep meta
-#'                 sample(getAnalytes(example_data), 1000L)) # 1000 sample analytes
-#' ) |> head()
-#' example_data$seq.3343.1
+#' # subset `example_data` for speed
+#' # all SeqIds from 2000 -> 2999
+#' seqs <- grep("^seq\\.2[0-9]{3}", names(example_data), value = TRUE)
+#' ex_data_small <- head(example_data[, c(getMeta(example_data), seqs)], 10L)
+#' dim(ex_data_small)
+#'
+#' ex_data_small$seq.2991.9
 #'
 #' # Math Generics:
 #' # -------------
 #' # log-transformation
-#' a <- log(example_data)
-#' a$seq.3343.1
+#' a <- log(ex_data_small)
+#' a$seq.2991.9
 #'
-#' b <- log10(example_data)
-#' b$seq.3343.1
-#' isTRUE(all.equal(b, log(example_data, base = 10)))
+#' b <- log10(ex_data_small)
+#' b$seq.2991.9
+#' isTRUE(all.equal(b, log(ex_data_small, base = 10)))
 #'
 #' # floor
-#' c <- floor(example_data)
-#' c$seq.3343.1
+#' c <- floor(ex_data_small)
+#' c$seq.2991.9
 #'
 #' # square-root
-#' d <- sqrt(example_data)
-#' d$seq.3343.1
+#' d <- sqrt(ex_data_small)
+#' d$seq.2991.9
 #'
 #' # rounding
-#' e <- round(example_data)
-#' e$seq.3343.1
+#' e <- round(ex_data_small)
+#' e$seq.2991.9
 #'
 #' # inverse log
 #' antilog(1:4)
 #'
 #' alog <- antilog(b)
-#' all.equal(example_data, alog)    # return `b` -> linear space
+#' all.equal(ex_data_small, alog)    # return `b` -> linear space
 #'
 #' # Ops Generics:
 #' # -------------
-#' plus1 <- example_data + 1
-#' times2 <- example_data * 2
+#' plus1 <- ex_data_small + 1
+#' times2 <- ex_data_small * 2
 #'
-#' sq <- example_data^2
-#' all.equal(sqrt(sq), example_data)
+#' sq <- ex_data_small^2
+#' all.equal(sqrt(sq), ex_data_small)
 #'
-#' gt100k <- example_data > 100000
+#' gt100k <- ex_data_small > 100000
 #' gt100k
 #'
-#' example_data == example_data   # invokes diffAdats()
+#' ex_data_small == ex_data_small   # invokes diffAdats()
 #'
 #' # Summary Generics:
 #' # -------------
-#' sum(example_data)
+#' sum(ex_data_small)
 #'
-#' any(example_data < 100)  # low RFU analytes
+#' any(ex_data_small < 100)  # low RFU analytes
 #'
-#' sum(example_data < 100)  # how many
+#' sum(ex_data_small < 100)  # how many
 #'
-#' min(example_data)
+#' min(ex_data_small)
 #'
-#' min(example_data, 0)
+#' min(ex_data_small, 0)
 #'
-#' max(example_data)
+#' max(ex_data_small)
 #'
-#' max(example_data, 1e+7)
+#' max(ex_data_small, 1e+7)
 #'
-#' range(example_data)
+#' range(ex_data_small)
 #' @export
 Math.soma_adat <- function(x, ...) {
   .apts   <- getAnalytes(x)
@@ -133,9 +133,9 @@ Math.soma_adat <- function(x, ...) {
 }
 
 #' @describeIn groupGenerics
-#' Performs the inverse or anti-log transform for a numeric vector of
-#' `soma_adat` object. **note:** default is `base = 10`, which differs from
-#' the [log()] default base *e*.
+#'   performs the inverse or anti-log transform for a numeric vector of
+#'   `soma_adat` object. **note:** default is `base = 10`, which differs from
+#'   the [log()] default base *e*.
 #' @importFrom methods setGeneric
 #' @export
 setGeneric(
@@ -145,7 +145,7 @@ setGeneric(
 )
 
 #' @describeIn groupGenerics
-#' Performs binary mathematical operations on class `soma_adat`. See [Ops()].
+#'   performs binary mathematical operations on class `soma_adat`. See [Ops()].
 #' @export
 Ops.soma_adat <- function(e1, e2 = NULL) {
   if ( is.soma_adat(e2) ) {
@@ -160,7 +160,7 @@ Ops.soma_adat <- function(e1, e2 = NULL) {
 }
 
 #' @describeIn groupGenerics
-#' Performs summary calculations on class `soma_adat`. See [Summary()].
+#'   performs summary calculations on class `soma_adat`. See [Summary()].
 #' @export
 Summary.soma_adat <- function(..., na.rm = FALSE) {
   args <- lapply(list(...), function(x) {
@@ -179,8 +179,8 @@ Summary.soma_adat <- function(..., na.rm = FALSE) {
 }
 
 #' @describeIn groupGenerics
-#' Compares left- and right-hand sides of the operator *unless* the RHS
-#' is also a `soma_adat`, in which case [diffAdats()] is invoked.
+#'   compares left- and right-hand sides of the operator *unless* the RHS
+#'   is also a `soma_adat`, in which case [diffAdats()] is invoked.
 #' @export
 `==.soma_adat` <- function(e1, e2) {  # nolint: bad name
   if ( is.soma_adat(e2) ) {

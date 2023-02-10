@@ -1,3 +1,4 @@
+
 #' These are `tidyr` verb methods for `soma_adat` class
 #' @noRd
 NULL

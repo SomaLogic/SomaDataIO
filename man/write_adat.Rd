@@ -39,10 +39,13 @@ CRLF   \tab DOS/Windows \tab \verb{"\r\n"}
 }
 }
 \examples{
-# attributes must(!) be intact to write
-is_intact_attr(example_data)
+# trim to 1 sample for speed
+adat_out <- head(example_data, 1L)
 
-write_adat(example_data, file = tempfile(fileext = ".adat"))
+# attributes must(!) be intact to write
+is_intact_attr(adat_out)
+
+write_adat(adat_out, file = tempfile(fileext = ".adat"))
 }
 \seealso{
 \code{\link[=read_adat]{read_adat()}}, \code{\link[=is_intact_attr]{is_intact_attr()}}

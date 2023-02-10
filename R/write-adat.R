@@ -28,10 +28,13 @@
 #' @return Invisibly returns the input `x`.
 #' @author Stu Field
 #' @examples
-#' # attributes must(!) be intact to write
-#' is_intact_attr(example_data)
+#' # trim to 1 sample for speed
+#' adat_out <- head(example_data, 1L)
 #'
-#' write_adat(example_data, file = tempfile(fileext = ".adat"))
+#' # attributes must(!) be intact to write
+#' is_intact_attr(adat_out)
+#'
+#' write_adat(adat_out, file = tempfile(fileext = ".adat"))
 #' @importFrom utils write.table
 #' @seealso [read_adat()], [is_intact_attr()]
 #' @export

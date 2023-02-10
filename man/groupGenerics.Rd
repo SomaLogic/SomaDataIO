@@ -45,15 +45,15 @@ the returned object (\code{\link[=Math]{Math()}} and \code{\link[=Ops]{Ops()}}) 
 }
 \section{Functions}{
 \itemize{
-\item \code{antilog()}: Performs the inverse or anti-log transform for a numeric vector of
+\item \code{antilog()}: performs the inverse or anti-log transform for a numeric vector of
 \code{soma_adat} object. \strong{note:} default is \code{base = 10}, which differs from
 the \code{\link[=log]{log()}} default base \emph{e}.
 
-\item \code{Ops(soma_adat)}: Performs binary mathematical operations on class \code{soma_adat}. See \code{\link[=Ops]{Ops()}}.
+\item \code{Ops(soma_adat)}: performs binary mathematical operations on class \code{soma_adat}. See \code{\link[=Ops]{Ops()}}.
 
-\item \code{Summary(soma_adat)}: Performs summary calculations on class \code{soma_adat}. See \code{\link[=Summary]{Summary()}}.
+\item \code{Summary(soma_adat)}: performs summary calculations on class \code{soma_adat}. See \code{\link[=Summary]{Summary()}}.
 
-\item \code{ == }: Compares left- and right-hand sides of the operator \emph{unless} the RHS
+\item \code{ == }: compares left- and right-hand sides of the operator \emph{unless} the RHS
 is also a \code{soma_adat}, in which case \code{\link[=diffAdats]{diffAdats()}} is invoked.
 
 }}
@@ -106,72 +106,72 @@ Commonly used generics of this group include:
 }
 
 \examples{
-# trim to random 1000 analytes for speed
-example_data <- withr::with_seed(3L,
-  dplyr::select(example_data,
-                getMeta(example_data),                    # keep meta
-                sample(getAnalytes(example_data), 1000L)) # 1000 sample analytes
-) |> head()
-example_data$seq.3343.1
+# subset `example_data` for speed
+# all SeqIds from 2000 -> 2999
+seqs <- grep("^seq\\\\.2[0-9]{3}", names(example_data), value = TRUE)
+ex_data_small <- head(example_data[, c(getMeta(example_data), seqs)], 10L)
+dim(ex_data_small)
+
+ex_data_small$seq.2991.9
 
 # Math Generics:
 # -------------
 # log-transformation
-a <- log(example_data)
-a$seq.3343.1
+a <- log(ex_data_small)
+a$seq.2991.9
 
-b <- log10(example_data)
-b$seq.3343.1
-isTRUE(all.equal(b, log(example_data, base = 10)))
+b <- log10(ex_data_small)
+b$seq.2991.9
+isTRUE(all.equal(b, log(ex_data_small, base = 10)))
 
 # floor
-c <- floor(example_data)
-c$seq.3343.1
+c <- floor(ex_data_small)
+c$seq.2991.9
 
 # square-root
-d <- sqrt(example_data)
-d$seq.3343.1
+d <- sqrt(ex_data_small)
+d$seq.2991.9
 
 # rounding
-e <- round(example_data)
-e$seq.3343.1
+e <- round(ex_data_small)
+e$seq.2991.9
 
 # inverse log
 antilog(1:4)
 
 alog <- antilog(b)
-all.equal(example_data, alog)    # return `b` -> linear space
+all.equal(ex_data_small, alog)    # return `b` -> linear space
 
 # Ops Generics:
 # -------------
-plus1 <- example_data + 1
-times2 <- example_data * 2
+plus1 <- ex_data_small + 1
+times2 <- ex_data_small * 2
 
-sq <- example_data^2
-all.equal(sqrt(sq), example_data)
+sq <- ex_data_small^2
+all.equal(sqrt(sq), ex_data_small)
 
-gt100k <- example_data > 100000
+gt100k <- ex_data_small > 100000
 gt100k
 
-example_data == example_data   # invokes diffAdats()
+ex_data_small == ex_data_small   # invokes diffAdats()
 
 # Summary Generics:
 # -------------
-sum(example_data)
+sum(ex_data_small)
 
-any(example_data < 100)  # low RFU analytes
+any(ex_data_small < 100)  # low RFU analytes
 
-sum(example_data < 100)  # how many
+sum(ex_data_small < 100)  # how many
 
-min(example_data)
+min(ex_data_small)
 
-min(example_data, 0)
+min(ex_data_small, 0)
 
-max(example_data)
+max(ex_data_small)
 
-max(example_data, 1e+7)
+max(ex_data_small, 1e+7)
 
-range(example_data)
+range(ex_data_small)
 }
 \seealso{
 \code{\link[=groupGeneric]{groupGeneric()}}, \code{\link[=getGroupMembers]{getGroupMembers()}}, \code{\link[=getGroup]{getGroup()}}

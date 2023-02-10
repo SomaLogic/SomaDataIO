@@ -1,5 +1,4 @@
-
-#' The `soma_adat`Class and S3 Methods
+#' The `soma_adat` Class and S3 Methods
 #'
 #' The `soma_adat` data structure is the primary internal `R` representation
 #' of SomaScan data. A `soma_adat` is automatically created via [read_adat()]
@@ -31,7 +30,6 @@
 #'
 #' @family IO
 #' @name soma_adat
-# @param i Numeric index or Character for the column desired.
 #' @order 1
 #' @param x,object A `soma_adat` class object.
 #' @seealso [groupGenerics()]
@@ -42,13 +40,13 @@ NULL
 
 #' S3 extract method for class `soma_adat`.
 #'
-#' S3 [Extract()] method is used for sub-setting a `soma_adat`
+#' The S3 [Extract()] method is used for sub-setting a `soma_adat`
 #' object and relies heavily on the `[` method that maintains the `soma_adat`
 #' attributes intact *and* subsets the `Col.Meta` so that it is consistent
 #' with the newly created object.
 #'
 #' @rdname soma_adat
-#' @param i,j Row and column indices. If `j` is omitted,
+#' @param i,j Row and column indices respectively. If `j` is omitted,
 #'   `i` is used as the column index.
 #' @param ... Ignored.
 #' @param drop Coerce to a vector if fetching one column via `tbl[, j]`.
@@ -96,8 +94,9 @@ NULL
 
 #' S3 extract with `$`
 #'
-#' S3 extraction via `$` is fully supported, however, as opposed to the
-#' `data.frame` method, partial matching is *not* allowed for class `soma_adat`.
+#' S3 extraction via `$` is fully supported, however,
+#' as opposed to the `data.frame` method, partial matching
+#' is *not* allowed for class `soma_adat`.
 #'
 #' @rdname soma_adat
 #' @param name A [name] or a string.
@@ -118,7 +117,7 @@ NULL
 
 #' S3 extract with `[[`
 #'
-#' S3 extraction via `[[` is fully supported, however, we restrict
+#' S3 extraction via `[[` is supported, however, we restrict
 #' the usage of `[[` for `soma_adat`. Use only a numeric index (e.g. `1L`)
 #' or a character identifying the column (e.g. `"SampleID"`).
 #' Do not use `[[i,j]]` syntax with `[[`, use `[` instead.
@@ -146,7 +145,7 @@ NULL
 
 #' S3 assignment with `[`
 #'
-#' S3 assignment via `[` is fully supported for class `soma_adat`.
+#' S3 assignment via `[` is supported for class `soma_adat`.
 #'
 #' @rdname soma_adat
 #' @param value A value to store in a row, column, range or cell.
@@ -169,7 +168,7 @@ NULL
 
 #' S3 assignment with `[[`
 #'
-#' S3 assignment via `[[` is fully supported for class `soma_adat`.
+#' S3 assignment via `[[` is supported for class `soma_adat`.
 #'
 #' @rdname soma_adat
 #' @export
@@ -178,7 +177,8 @@ NULL
 
 #' S3 `median` method
 #'
-#' S3 [median()] is currently unavailable for the `soma_adat` class.
+#' S3 [median()] is *not* currently supported for the `soma_adat` class,
+#' however a dispatch is in place to direct users to alternatives.
 #'
 #' @rdname soma_adat
 #' @importFrom stats median
@@ -186,11 +186,11 @@ NULL
 #' @export
 median.soma_adat <- function(x, na.rm = FALSE, ...) {
   warning(
-    "As with the `data.frame` class, numeric data is required for `median()`.\n",
-    "Please use either:\n\n",
-    "  `median(data.matrix(x[, getAnalytes(x)]))`\n\n",
-    "  OR\n\n",
-    "  `apply(x[, getAnalytes(x)] 2, median)`", call. = FALSE
+    "As with the `data.frame` class, numeric data is required for `stats::median()`.\n",
+    "Please use either:\n\n   ",
+    .code("median(data.matrix(x[, getAnalytes(x)]))"),
+    "\nOR\n   ",
+    .code("apply(x[, getAnalytes(x)] 2, median)"), call. = FALSE
   )
   invisible()
 }

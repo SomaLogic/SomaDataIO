@@ -12,7 +12,7 @@
 \alias{$<-.soma_adat}
 \alias{[[<-.soma_adat}
 \alias{median.soma_adat}
-\title{The \code{soma_adat}Class and S3 Methods}
+\title{The \code{soma_adat} Class and S3 Methods}
 \usage{
 \method{print}{soma_adat}(x, show_header = FALSE, ...)
 
@@ -47,7 +47,7 @@ which Target names can be extracted.}
 
 \item{digits}{Integer. Used for number formatting with \code{\link[=signif]{signif()}}.}
 
-\item{i, j}{Row and column indices. If \code{j} is omitted,
+\item{i, j}{Row and column indices respectively. If \code{j} is omitted,
 \code{i} is used as the column index.}
 
 \item{drop}{Coerce to a vector if fetching one column via \code{tbl[, j]}.
@@ -98,11 +98,11 @@ the \code{soma_adat} class:
 #> see '?methods' for accessing help and source code
 }\if{html}{\out{</div>}}
 
-S3 \code{\link[=print]{print()}} method returns summary information parsed from the object
+The S3 \code{\link[=print]{print()}} method returns summary information parsed from the object
 attributes, if present, followed by a dispatch to the \code{\link[=tibble]{tibble()}} print method.
 Rownames are printed as the first column in the print method only.
 
-S3 \code{\link[=summary]{summary()}} method returns the following for each column of the ADAT
+The S3 \code{\link[=summary]{summary()}} method returns the following for each column of the ADAT
 object containing SOMAmer data (clinical meta data is \emph{excluded}):
 \itemize{
 \item Target (if available)
@@ -117,47 +117,51 @@ object containing SOMAmer data (clinical meta data is \emph{excluded}):
 \item Interquartile range (\code{\link[=IQR]{IQR()}})
 }
 
-S3 \code{\link[=Extract]{Extract()}} method is used for sub-setting a \code{soma_adat}
+The S3 \code{\link[=Extract]{Extract()}} method is used for sub-setting a \code{soma_adat}
 object and relies heavily on the \code{[} method that maintains the \code{soma_adat}
 attributes intact \emph{and} subsets the \code{Col.Meta} so that it is consistent
 with the newly created object.
 
-S3 extraction via \code{$} is fully supported, however, as opposed to the
-\code{data.frame} method, partial matching is \emph{not} allowed for class \code{soma_adat}.
+S3 extraction via \code{$} is fully supported, however,
+as opposed to the \code{data.frame} method, partial matching
+is \emph{not} allowed for class \code{soma_adat}.
 
-S3 extraction via \code{[[} is fully supported, however, we restrict
+S3 extraction via \code{[[} is supported, however, we restrict
 the usage of \code{[[} for \code{soma_adat}. Use only a numeric index (e.g. \code{1L})
 or a character identifying the column (e.g. \code{"SampleID"}).
 Do not use \verb{[[i,j]]} syntax with \code{[[}, use \code{[} instead.
 As with \code{$}, partial matching is \emph{not} allowed.
 
-S3 assignment via \code{[} is fully supported for class \code{soma_adat}.
+S3 assignment via \code{[} is supported for class \code{soma_adat}.
 
 S3 assignment via \code{$} is fully supported for class \code{soma_adat}.
 
-S3 assignment via \code{[[} is fully supported for class \code{soma_adat}.
+S3 assignment via \code{[[} is supported for class \code{soma_adat}.
 
-S3 \code{\link[=median]{median()}} is currently unavailable for the \code{soma_adat} class.
+S3 \code{\link[=median]{median()}} is \emph{not} currently supported for the \code{soma_adat} class,
+however a dispatch is in place to direct users to alternatives.
 }
 \examples{
-my_adat <- system.file("extdata", "example_data10.adat",
-                       package = "SomaDataIO", mustWork = TRUE) |> read_adat()
 # S3 print method
-my_adat
+example_data
+
+# show the header info (no RFU data)
+print(example_data, show_header = TRUE)
 
 # S3 summary method
-# MMP (4) analytes
+# MMP analytes (4)
 mmps <- c("seq.2579.17", "seq.2788.55", "seq.2789.26", "seq.4925.54")
-summary(my_adat[, mmps])
+mmp_adat <- example_data[, c("Sex", mmps)]
+summary(mmp_adat)
 
 # Summarize by group
-my_adat[, mmps] |>
-  split(my_adat$Sex) |>
+mmp_adat |>
+  split(mmp_adat$Sex) |>
   lapply(summary)
 
 # Alternatively pass annotations with Target info
-anno <- getAnalyteInfo(my_adat)
-summary(my_adat[, mmps], tbl = anno)
+anno <- getAnalyteInfo(mmp_adat)
+summary(mmp_adat, tbl = anno)
 }
 \seealso{
 \code{\link[=groupGenerics]{groupGenerics()}}

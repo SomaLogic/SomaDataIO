@@ -1,6 +1,6 @@
 #' S3 Print
 #'
-#' S3 [print()] method returns summary information parsed from the object
+#' The S3 [print()] method returns summary information parsed from the object
 #' attributes, if present, followed by a dispatch to the [tibble()] print method.
 #' Rownames are printed as the first column in the print method only.
 #'
@@ -9,10 +9,11 @@
 #' @param show_header Logical. Should all the `Header Data` information
 #'   be displayed instead of the data frame (`tibble`) object?
 #' @examples
-#' my_adat <- system.file("extdata", "example_data10.adat",
-#'                        package = "SomaDataIO", mustWork = TRUE) |> read_adat()
 #' # S3 print method
-#' my_adat
+#' example_data
+#'
+#' # show the header info (no RFU data)
+#' print(example_data, show_header = TRUE)
 #'
 #' @export
 print.soma_adat <- function(x, show_header = FALSE, ...) {
