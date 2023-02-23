@@ -9,6 +9,7 @@
 version](https://img.shields.io/badge/Version-5.3.1.9000-success.svg?style=flat&logo=github)
 [![CRAN
 status](http://www.r-pkg.org/badges/version/SomaDataIO)](https://cran.r-project.org/package=SomaDataIO)
+[![](https://cranlogs.r-pkg.org/badges/grand-total/SomaDataIO)](https://cran.r-project.org/package=SomaDataIO)
 [![R-CMD-check](https://github.com/SomaLogic/SomaDataIO/workflows/R-CMD-check/badge.svg)](https://github.com/SomaLogic/SomaDataIO/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/SomaLogic/SomaDataIO/branch/main/graph/badge.svg)](https://app.codecov.io/gh/SomaLogic/SomaDataIO?branch=main)
@@ -490,7 +491,7 @@ is_intact_attr(my_adat)   # MUST have intact attrs
 
 write_adat(my_adat, file = tempfile("my-adat-", fileext = ".adat"))
 #> ✔ ADAT passed all checks and traps.
-#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpXg4xXe/my-adat-165d55ca5318.adat'
+#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmptqN1MV/my-adat-1d5a1605e06c.adat'
 ```
 
 ------------------------------------------------------------------------
