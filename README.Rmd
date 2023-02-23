@@ -31,6 +31,7 @@ ver <- paste0("https://img.shields.io/badge/Version-", ver,
 <!-- badges: start -->
 ![GitHub version](`r ver`)
 [![CRAN status](http://www.r-pkg.org/badges/version/SomaDataIO)](https://cran.r-project.org/package=SomaDataIO)
+[![](https://cranlogs.r-pkg.org/badges/grand-total/SomaDataIO)](https://cran.r-project.org/package=SomaDataIO)
 [![R-CMD-check](https://github.com/SomaLogic/SomaDataIO/workflows/R-CMD-check/badge.svg)](https://github.com/SomaLogic/SomaDataIO/actions)
 [![Codecov test coverage](https://codecov.io/gh/SomaLogic/SomaDataIO/branch/main/graph/badge.svg)](https://app.codecov.io/gh/SomaLogic/SomaDataIO?branch=main)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
