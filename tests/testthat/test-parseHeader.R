@@ -1,65 +1,32 @@
 
 # Setup ----
-file <- test_path("testdata", "single_sample.adat")
+file   <- test_path("testdata", "single_sample.adat")
 header <- parseHeader(file)
 
 # Testing ----
 test_that("`parseHeader()` correctly parses header information of an ADAT", {
-  expect_type(header, "list")
-  expect_type(header$file_specs, "list")
+  # test the Col.Meta entry up front (too big)
+  expect_equal(header$file_specs$data_begin - (header$file_specs$table_begin + 1),
+               length(header$Col.Meta))
   expect_named(header, c("Header.Meta", "Col.Meta", "file_specs", "row_meta"))
-  expect_named(header$file_specs,
-               c("empty_adat", "table_begin",
-                 "col_meta_start", "col_meta_shift",
-                 "data_begin", "old_adat"))
-  expect_false(header$file_specs$empty_adat)
-  expect_equal(header$file_specs$table_begin, 20)
-  expect_equal(header$file_specs$col_meta_start, 21)
-  expect_equal(header$file_specs$col_meta_shift, 35)
-  expect_equal(header$file_specs$data_begin, 41)
-  expect_false(header$file_specs$old_adat)
-  expect_equal(header$Header.Meta$ROW_DATA$Name, header$row_meta,
-               ignore_attr = TRUE)
-  expect_equal(attr(header$Header.Meta$ROW_DATA$Name, "raw_key"), "!Name")
+  expect_true(all(lengths(header$Col.Meta) == 5284L))
+  expect_named(header$Col.Meta, c("SeqId", "SeqIdVersion", "SomaId",
+                                  "TargetFullName", "Target", "UniProt",
+                                  "EntrezGeneID", "EntrezGeneSymbol",
+                                  "Organism", "Units", "Type", "Dilution",
+                                  "PlateScale_Reference", "CalReference",
+                                  "Cal_Example_Adat_Set001", "ColCheck",
+                                  "CalQcRatio_Example_Adat_Set001_170255",
+                                  "QcReference_170255",
+                                  "Cal_Example_Adat_Set002",
+                                  "CalQcRatio_Example_Adat_Set002_170255"))
+
   expect_equal(header$Header.Meta$COL_DATA$Name, names(header$Col.Meta),
                ignore_attr = TRUE)
-  expect_equal(attr(header$Header.Meta$COL_DATA$Name, "raw_key"), "!Name")
-  expect_equal(header$file_specs$data_begin -
-               (header$file_specs$table_begin + 1),
-               length(header$Col.Meta))
-  expect_named(header$Header.Meta,
-               c("HEADER", "COL_DATA", "ROW_DATA", "TABLE_BEGIN"))
-  expect_named(header$Col.Meta,
-               c("SeqId", "SeqIdVersion", "SomaId", "TargetFullName",
-                 "Target", "UniProt", "EntrezGeneID", "EntrezGeneSymbol",
-                 "Organism", "Units", "Type", "Dilution", "PlateScale_Reference",
-                 "CalReference", "Cal_Example_Adat_Set001", "ColCheck",
-                 "CalQcRatio_Example_Adat_Set001_170255", "QcReference_170255",
-                 "Cal_Example_Adat_Set002", "CalQcRatio_Example_Adat_Set002_170255"))
-  expect_true(all(lengths(header$Col.Meta) == 5284))
-  expect_type(header$Header.Meta$HEADER, "list")
-  # HEADER entry
-  expect_length(header$Header.Meta$HEADER, 12L)
-  HD <- header$Header.Meta$HEADER
-  tbl <- list(
-    AdatId              = "GID-1234-56-7890-abcdef",
-    Version             = "1.2",
-    AssayType           = "PharmaServices",
-    AssayVersion        = "V4",
-    AssayRobot          = "Fluent 1 L-307",
-    Legal               = paste("Experiment details and data have been",
-                                "processed to protect Personally Identifiable",
-                                "Information (PII) and comply with existing",
-                                "privacy laws."),
-    CreatedBy           = "PharmaServices",
-    CreatedDate         = "2020-07-25",
-    EnteredBy           = "Technician2",
-    GeneratedBy         = "Px (Build:  : ), Canopy_0.1.1",
-    StudyMatrix         = "EDTA Plasma",
-    Title               = "Example Adat Set001, Example Adat Set002"
-  )
-  expect_equal(HD, tbl, ignore_attr = TRUE)  # don't test attr
-  expect_equal(header$Header.Meta$TABLE_BEGIN, basename(file))
+
+  # remove Col.Meta entry and snapshot
+  header <- header[names(header) != "Col.Meta"]
+  expect_snapshot(header)
 })
 
 
@@ -165,7 +132,7 @@ test_that("`.getHeaderLines()` grabs the header correctly, not the whole file", 
   colmeta <- paste0(strrep("\t", 25L), "SeqId", strrep("\t1234-7", 1000L), "\n")
   plate   <- paste0("PlateId", strrep("\t", 500L), "\n")
   cat(header, "TABLE_BEGIN\n", colmeta, plate, file = fil, sep = "")
-  expect_length(.getHeaderLines(fil), 43)
+  expect_length(.getHeaderLines(fil), 43L)
   expect_equal(.getHeaderLines(fil)[43L], trimws(plate, whitespace = "[\r\n]"))
 })
 

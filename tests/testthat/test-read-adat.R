@@ -11,43 +11,23 @@ test_that("`read_adat()` is the correct class", {
 
 test_that("`read_adat()` attributes are correct", {
   atts <- attributes(adat)
-  expect_named(atts,
-               c("names",
-                 "class",
-                 "row.names",
-                 "Header.Meta",
-                 "Col.Meta",
-                 "file_specs",
-                 "row_meta"))
-  expect_named(atts$file_specs,
-               c("empty_adat",
-                 "table_begin",
-                 "col_meta_start",
-                 "col_meta_shift",
-                 "data_begin",
-                 "old_adat"))
-  expect_false(atts$file_specs$empty_adat)
-  expect_equal(atts$file_specs$table_begin, 20)
-  expect_equal(atts$file_specs$col_meta_start, 21)
+  expect_named(atts, c("names", "class", "row.names", "Header.Meta",
+                       "Col.Meta", "file_specs", "row_meta"))
   expect_equal(atts$Header.Meta$TABLE_BEGIN, basename(f))
-  expect_equal(atts$file_specs$col_meta_shift, 35)
-  expect_equal(atts$file_specs$data_begin, 41)
-  expect_false(atts$file_specs$old_adat)
-  expect_equal(atts$row_meta, utils::head(names(adat), 34L))
-  expect_equal(atts$Header.Meta$ROW_DATA$Name,
-               .setAttr(utils::head(names(adat), 34L), "!Name"))
-  expect_named(atts$Header.Meta,
-               c("HEADER", "COL_DATA", "ROW_DATA", "TABLE_BEGIN"))
-  expect_named(atts$Col.Meta,
-               c('SeqId', 'SeqIdVersion', 'SomaId', 'TargetFullName',
-                 'Target', 'UniProt', 'EntrezGeneID', 'EntrezGeneSymbol',
-                 'Organism', 'Units', 'Type', 'Dilution',
-                 'PlateScale_Reference', 'CalReference',
-                 'Cal_Example_Adat_Set001', 'ColCheck',
-                 'CalQcRatio_Example_Adat_Set001_170255', 'QcReference_170255',
-                 'Cal_Example_Adat_Set002',
-                 'CalQcRatio_Example_Adat_Set002_170255', 'Dilution2'))
+  expect_equal(atts$Header.Meta$ROW_DATA$Name, .setAttr(getMeta(adat), "!Name"))
+  expect_named(atts$Header.Meta, c("HEADER", "COL_DATA", "ROW_DATA", "TABLE_BEGIN"))
+  expect_named(atts$Col.Meta,c("SeqId", "SeqIdVersion", "SomaId", "TargetFullName",
+                               "Target", "UniProt", "EntrezGeneID", "EntrezGeneSymbol",
+                               "Organism", "Units", "Type", "Dilution",
+                               "PlateScale_Reference", "CalReference",
+                               "Cal_Example_Adat_Set001", "ColCheck",
+                               "CalQcRatio_Example_Adat_Set001_170255",
+                               "QcReference_170255", "Cal_Example_Adat_Set002",
+                               "CalQcRatio_Example_Adat_Set002_170255", "Dilution2"))
   expect_true(all(lengths(atts$Col.Meta) == 5284L))
+  # do not test here -> too much output
+  slim_atts <- atts[!names(atts) %in% c("names", "Col.Meta")]
+  expect_snapshot( slim_atts )
 })
 
 test_that("`read_adat()` the dimensions of the 'soma_adat' object are correct", {
@@ -56,9 +36,9 @@ test_that("`read_adat()` the dimensions of the 'soma_adat' object are correct", 
 })
 
 test_that("`read_adat()` produces the correct RFU values", {
-  expect_equal(adat$seq.3343.1, 2046.6)
-  apts <- getAnalytes(adat)
-  expect_equal(sum(adat[, apts]), 21311516)
+  withr::local_options(list(digits = 14))
+  expect_snapshot(adat$seq.3343.1)                 # random specific analyte
+  expect_snapshot(sum(adat[, getAnalytes(adat)]))  # sum of all analytes
 })
 
 test_that("`is_intact_attr()` produces an error when it should", {
