@@ -1,4 +1,4 @@
-# SomaDataIO (devel version) :tada:
+# SomaDataIO 6.0.0 :tada:
 
 * We are now on CRAN! :partying_face: 
 
@@ -11,18 +11,36 @@
     to run examples with random data but with valid index keys
   - see `dir(system.file("cli", "merge", package = "SomaDataIO"))`
 
-* `SomaDataObjects` was renamed and is now `SomaScanObjects` (@stufield)
-  - updated in documentation 
+* Package data objects (@stufield, #32)
+  - `example_data.adat` was reduced in size to `n = 10` samples (from 192)
+    to conform to CRAN size requirements (< 5MB)
+  - the current file was renamed `example_data10.adat` to reflect this change
+  - this likely has far-reaching consequences for users who access
+    this flat file via `system.file()`
+  - the `example_data` object itself however remains true to its original
+    file (`https://github.com/SomaLogic/SomaLogic-Data/blob/master/example_data.adat`)
+  - the directory location `inst/example/` was renamed `inst/extdata/`
+    to conform to CRAN package standard naming conventions
+  - the file `single_sample.adat` was removed from package data
+    as it is now redundant (however still used in unit testing)
+  - `SomaDataObjects` was renamed and is now `SomaScanObjects`
 
-* lifecycle for soft-deprecated `warn()` -> `stop()` for functions 
-  that have been been soft deprecated since `v5.0.0` (@stufield)
-  - `getSomamers()`
-  - `getSomamerData()`
-  - `meltExpressionSet()`
+* Gradual deprecation (@stufield)
+  - `read.adat()` is now soft-deprecated; please use `read_adat() instead`
+  - lifecycle for soft-deprecated `warn()` -> `stop()` for functions
+    that have been been soft deprecated since `v5.0.0`
+    - `getSomamers()`
+    - `getSomamerData()`
+    - `meltExpressionSet()`
 
 * New S3 print method default (@stufield)
   - `tibble` has new `max_extra_cols =` argument, which
     is set to `6` for the `print.soma_adat` method
+
+* New S3 merge method (@stufield, #31)
+  - calling `base::merge()` on a `soma_adat` is strongly discouraged
+  - we now redirect users to use `dplyr::*_join()` alternatives
+    which are designed to preserve `soma_adat` attributes
 
 * Code hardening for `prepHeaderMeta()` (@stufield)
   - some ADATs do not have `CreatedDate` and `CreatedBy`
