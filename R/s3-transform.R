@@ -1,11 +1,12 @@
 #' Scale Transform `soma_adat` Columns/Rows
 #'
 #' Scale the *i-th* row or column of a `soma_adat` object by the *i-th*
-#' element of a vector. Designed to transform the SomaLogic `soma_adat` objects
-#' and thus only transforms the analyte/RFU entries of the data matrix.
-#' If scaling the analytes (columns), `v` *must* have
-#' `getAnalytes(adat, n = TRUE)` elements; if scaling the rows,
-#' `v` *must* have `nrow(adat)` elements.
+#' element of a vector. Designed to facilitate linear transformations
+#' of _only_ the analyte/RFU entries by scaling the data matrix.
+#' If scaling the analytes/RFU (columns), `v` _must_ have
+#' `getAnalytes(adat, n = TRUE)` elements.
+#' If scaling the samples (rows), `v` _must_
+#' have `nrow(_data)` elements.
 #'
 #' Performs the following operations (quickly):
 #'
@@ -13,6 +14,7 @@
 #' \deqn{
 #'   M_{nxp} = A_{nxp} * diag(v)_{pxp}
 #' }
+#'
 #' Rows:
 #' \deqn{
 #'   M_{nxp} = diag(v)_{nxn} * A_{nxp}
@@ -22,11 +24,13 @@
 #' @param _data A `soma_adat` object.
 #' @param v A numeric vector of the appropriate length corresponding to `dim`.
 #' @param dim Integer. The dimension to apply elements of `v` to.
-#' `1` = rows; `2` = columns (default).
+#'   `1` = rows; `2` = columns (default).
 #' @param ... Currently not used but required by the S3 generic.
+#' @return A modified value of `_data` with either the rows or columns
+#'   linearly transformed by `v`.
 #' @note This method in intentionally naive, and assumes the user has
-#' ordered `v` to match the columns/rows of `_data` appropriately.
-#' This must be done upstream.
+#'   ordered `v` to match the columns/rows of `_data` appropriately.
+#'   This must be done upstream.
 #' @seealso [apply()], [sweep()]
 #' @examples
 #' # simplified example of underlying operations
@@ -51,16 +55,16 @@
 #' trans <- transform(adat, v)
 #' data.frame(trans)
 #' @export
-transform.soma_adat <- function(`_data`, v, dim = 2, ...) {
+transform.soma_adat <- function(`_data`, v, dim = 2L, ...) {
+  stopifnot(dim %in% 1:2L)
   x <- `_data`
   .apts <- getAnalytes(x)
-  fx <- function(.x) .x * v
-  if ( dim == 2 ) {
+  if ( dim == 2L ) {
     stopifnot(length(v) == length(.apts))   # check cols
-    x[, .apts] <- t(apply(x[, .apts], 1, fx))
+    x[, .apts] <- t( t(x[, .apts]) * v )
   } else {
     stopifnot(length(v) == nrow(x))         # check rows
-    x[, .apts] <- apply(x[, .apts], 2, fx)
+    x[, .apts] <- as.matrix(x[, .apts]) * v
   }
   x
 }

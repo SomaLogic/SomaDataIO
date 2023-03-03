@@ -1,6 +1,7 @@
 
 # Setup ----
-# mock up a dummy ADAT object; smaller than `example_data` for speed/simplicity
+# mock up a dummy ADAT object
+# smaller than `example_data` for speed/simplicity
 data <- mock_adat()
 
 
@@ -10,7 +11,7 @@ test_that("count method produces expected output", {
   new <- count(data, SampleGroup)
   expect_false(is.soma_adat(new))
   expect_s3_class(new, "tbl_df")
-  expect_equal(dim(new), c(2, 2))
+  expect_equal(dim(new), c(2L, 2L))
   expect_named(new, c("SampleGroup", "n"))
   expect_equal(new$n, c(3, 3))
 
@@ -18,9 +19,9 @@ test_that("count method produces expected output", {
   expect_false(is.soma_adat(new))
   expect_s3_class(new, "tbl_df")
   expect_equal(new, tibble::tibble(
-                      SampleGroup = c("F", "F", "M", "M"),
+                      SampleGroup = c("A", "A", "B", "B"),
                       TimePoint   = c("after", "before", "after", "before"),
-                      n           = c(2L, 1L, 1L, 2L))
+                      n           = c(1L, 2L, 2L, 1L))
   )
 })
 
@@ -70,7 +71,7 @@ test_that("`filter()` method produces expected output", {
   expect_s3_class(new, "soma_adat")
   expect_equal(class(new), class(data))
   expect_equal(names(new), names(data))
-  expect_equal(dim(new), c(3, ncol(data)))
+  expect_equal(dim(new), c(3L, ncol(data)))
   expect_equal(new$NormScale, c(1.1, 1.8, 1.8))
   expect_true(all(rownames(new) %in% rownames(data)))
   expect_true(is_intact_attr(new))
@@ -85,7 +86,7 @@ test_that("`mutate()` method produces expected output", {
   expect_equal(class(new), class(data))
   expect_true("Subarray_2x" %in% names(new))    # new column
   expect_equal("Subarray_2x", setdiff(names(new), names(data)))
-  expect_equal(dim(new), dim(data) + c(0, 1))   # new column
+  expect_equal(dim(new), dim(data) + c(0L, 1L))   # new column
   expect_equal(rownames(new), rownames(data))
   expect_equal(new$Subarray_2x, new$Subarray * 2)
   expect_true(is_intact_attr(new))
@@ -101,13 +102,13 @@ test_that("`select()` method produces expected output", {
   expect_s3_class(new, "soma_adat")
   expect_equal(class(new), class(data))
   expect_named(new, c(meta, apts))
-  expect_equal(dim(new), c(nrow(data), 5))
+  expect_equal(dim(new), c(nrow(data), 5L))
   expect_equal(getAnalytes(new, n = TRUE), length(apts))
   expect_length(setdiff(names(new), getAnalytes(new)), length(meta))
   expect_true(all(rownames(new) %in% rownames(data)))
   expect_true(is_intact_attr(new))
   ad <- attributes(new)$Col.Meta
-  expect_equal(dim(ad), c(2, 9))
+  expect_equal(dim(ad), c(2L, 9L))
   expect_equal(ad$SeqId, getSeqId(apts))  # apt data sync'd?
   expect_equal(names(attributes(new)), names(attributes(data))) # atts order preserved
 })
@@ -120,7 +121,7 @@ test_that("`left_join()` method produces expected output", {
   new <- left_join(data, merge_data, by = "SampleId")
   expect_true(is.soma_adat(new))
   expect_equal(class(new), class(data))
-  expect_equal(dim(new), dim(data) + c(0, 1))   # new column
+  expect_equal(dim(new), dim(data) + c(0L, 1L))   # new column
   expect_true("NewData" %in% names(new))        # new column
   expect_equal(rownames(new), rownames(data))
   expect_equal(sum(new$NewData), sum(merge_data$NewData))
@@ -163,9 +164,8 @@ test_that("`slice()` method is correctly dispatched", {
   expect_true(is.soma_adat(new))
   expect_s3_class(new, "soma_adat")
   expect_equal(class(new), class(data))
-  expect_equal(dim(new), c(3, ncol(data)))
-  expect_equal(rownames(new),
-               c("253856411709_1", "253856411710_2", "253856411711_3"))
+  expect_equal(dim(new), c(3L, ncol(data)))
+  expect_equal(rownames(new), c("12345_1", "12346_2", "12347_3"))
   # atts order preserved
   expect_equal(names(attributes(new)), names(attributes(data)))
 
@@ -173,10 +173,8 @@ test_that("`slice()` method is correctly dispatched", {
   new <- slice(data, c(2, 2, 2))   # same row 3x
   expect_s3_class(new, "soma_adat")
   expect_equal(class(new), class(data))
-  expect_equal(dim(new), c(3, ncol(data)))
-  expect_equal(rownames(new), c("253856411710_2",
-                                "253856411710_2-1",
-                                "253856411710_2-2"))
+  expect_equal(dim(new), c(3L, ncol(data)))
+  expect_equal(rownames(new), c("12346_2", "12346_2-1", "12346_2-2"))
 })
 
 # slice_sample ----
@@ -187,10 +185,7 @@ test_that("`slice_sample()` method is correctly dispatched", {
   expect_s3_class(new, "soma_adat")
   expect_equal(class(new), class(data))
   expect_equal(dim(new), c(n, ncol(data)))
-  expect_equal(rownames(new),
-               c("253856411709_1", "253856411714_3",
-                 "253856411710_2", "253856411711_3")
-  )
+  expect_equal(rownames(new), c("12345_1", "12350_3", "12346_2", "12347_3"))
   # atts order preserved
   expect_equal(names(attributes(new)), names(attributes(data)))
 })
@@ -202,14 +197,10 @@ test_that("`sample_frac()` method is correctly dispatched", {
   expect_s3_class(new, "soma_adat")
   expect_equal(class(new), class(data))
   expect_equal(dim(new), dim(data))
-  expect_equal(rownames(new),
-               c("253856411709_1",
-                 "253856411709_1-1",
-                 "253856411714_3",
-                 "253856411709_1-2",
-                 "253856411710_2",
-                 "253856411713_2")
-    )
+  expect_equal(
+    rownames(new),
+    c("12345_1", "12345_1-1", "12350_3", "12345_1-2", "12346_2", "12349_2")
+  )
   # atts order preserved
   expect_equal(names(attributes(new)), names(attributes(data)))
 })
@@ -221,10 +212,7 @@ test_that("`sample_n()` method is correctly dispatched", {
   expect_s3_class(new, "soma_adat")
   expect_equal(class(new), class(data))
   expect_equal(dim(new), c(n, ncol(data)))
-  expect_equal(rownames(new),
-               c("253856411709_1", "253856411714_3",
-                 "253856411710_2", "253856411711_3")
-    )
+  expect_equal(rownames(new), c("12345_1", "12350_3", "12346_2", "12347_3"))
   # atts order preserved
   expect_equal(names(attributes(new)), names(attributes(data)))
 })

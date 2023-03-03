@@ -6,7 +6,7 @@ withr::local_options(list(usethis.quiet = TRUE))  # silence ui signalling
 
 # Testing ----
 test_that("`write_adat()` produces unchanged out -> in -> out", {
-  f_check <- tempfile(fileext = ".adat")
+  f_check <- tempfile("write-", fileext = ".adat")
   true_lines <- readLines(f)
   write_adat(adat, file = f_check)
   test_lines <- readLines(f_check)
@@ -21,7 +21,7 @@ test_that("`write_adat()` produces unchanged out -> in -> out", {
 })
 
 test_that("`write_adat()` produces unchanged in -> out -> in", {
-  f_check <- tempfile(fileext = ".adat")
+  f_check <- tempfile("write-", fileext = ".adat")
   write_adat(adat, file = f_check)
   # some attributes are expected to be false:
   #   TABLE_BEGIN will shift due to CreatedBy & CreatedDate changes
@@ -34,7 +34,7 @@ test_that("`write_adat()` throws error when no file name is passed", {
 })
 
 test_that("`write_adat()` throws warning when passing invalid file format", {
-  bad_ext <- tempfile(fileext = ".txt")
+  bad_ext <- tempfile("write-", fileext = ".txt")
   if (  tolower(Sys.info()[["sysname"]]) == "windows" ) {
     # path sep '\` on windows gets messy with the warning match
     match <- "File extension is not `*.adat`"
@@ -50,7 +50,7 @@ test_that("`write_adat()` throws warning when passing invalid file format", {
 
 test_that("`write_adat()` shifts Col.Meta correctly when clinical data added/removed", {
   # rm meta data
-  f_check <- tempfile(fileext = ".adat")
+  f_check <- tempfile("write-", fileext = ".adat")
   short   <- dplyr::select(head(adat),
                            SlideId, Subarray, SampleGroup,
                            seq.2182.54, seq.2190.55)
@@ -60,7 +60,7 @@ test_that("`write_adat()` shifts Col.Meta correctly when clinical data added/rem
   unlink(f_check)
 
   # add meta data
-  f_check2 <- tempfile(fileext = ".adat")
+  f_check2 <- tempfile("write-", fileext = ".adat")
   long     <- head(adat)
   long$foo <- "bar"
   write_adat(long, file = f_check2)  # write_adat() re-orders meta to come 1st!

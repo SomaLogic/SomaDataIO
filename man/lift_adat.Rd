@@ -37,8 +37,8 @@ Likewise, "lifting" from \code{v4.0} -> \code{v4.1} requires
 a separate annotations file and a \code{soma_adat} from SomaScan \code{v4.0}.
 }
 \examples{
-# `example_data` is assay V4
-adat <- head(example_data, 3)
+# `example_data` is SomaScan V4
+adat <- head(example_data, 3L)
 
 # read in version specific annotations file
 # containing scaling values between assay versions
@@ -54,12 +54,12 @@ tbl <- tibble::tibble(SeqId = getSeqId(getAnalytes(adat)),
 attr(tbl, "version") <- "SL-99999999-rev99-1999-01"
 
 # perform the 'lifting'
-lift <- lift_adat(adat, tbl)
+lifted <- lift_adat(adat, tbl)
 
-# `tbl` contained all scalars = 1.0; same RFUs
-all.equal(adat, lift, check.attributes = FALSE)
+# `tbl` contained all scalars = 1.0 (same RFUs)
+all.equal(adat, lifted, check.attributes = FALSE)
 
 # attributes updated to reflect the 'lift'
-attr(lift, "Header")$HEADER$ProcessSteps
-attr(lift, "Header")$HEADER$SignalSpace
+attr(lifted, "Header")$HEADER$ProcessSteps
+attr(lifted, "Header")$HEADER$SignalSpace
 }

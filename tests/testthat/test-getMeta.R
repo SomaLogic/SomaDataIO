@@ -22,7 +22,6 @@ test_that("`getMeta()` S3 'character' method", {
 })
 
 test_that("`getMeta()` S3 default method kicks in", {
-  withr::local_options(list(cli.num_colors = 1L))
   expect_error(
     getMeta(factor("A")),
     "Couldn't find a S3 method for this class object: 'factor'"

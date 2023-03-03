@@ -5,7 +5,7 @@
 \alias{transform.soma_adat}
 \title{Scale Transform \code{soma_adat} Columns/Rows}
 \usage{
-\method{transform}{soma_adat}(`_data`, v, dim = 2, ...)
+\method{transform}{soma_adat}(`_data`, v, dim = 2L, ...)
 }
 \arguments{
 \item{_data}{A \code{soma_adat} object.}
@@ -17,13 +17,18 @@
 
 \item{...}{Currently not used but required by the S3 generic.}
 }
+\value{
+A modified value of \verb{_data} with either the rows or columns
+linearly transformed by \code{v}.
+}
 \description{
 Scale the \emph{i-th} row or column of a \code{soma_adat} object by the \emph{i-th}
-element of a vector. Designed to transform the SomaLogic \code{soma_adat} objects
-and thus only transforms the analyte/RFU entries of the data matrix.
-If scaling the analytes (columns), \code{v} \emph{must} have
-\code{getAnalytes(adat, n = TRUE)} elements; if scaling the rows,
-\code{v} \emph{must} have \code{nrow(adat)} elements.
+element of a vector. Designed to facilitate linear transformations
+of \emph{only} the analyte/RFU entries by scaling the data matrix.
+If scaling the analytes/RFU (columns), \code{v} \emph{must} have
+\code{getAnalytes(adat, n = TRUE)} elements.
+If scaling the samples (rows), \code{v} \emph{must}
+have \verb{nrow(_data)} elements.
 }
 \details{
 Performs the following operations (quickly):
@@ -32,6 +37,7 @@ Columns:
 \deqn{
   M_{nxp} = A_{nxp} * diag(v)_{pxp}
 }
+
 Rows:
 \deqn{
   M_{nxp} = diag(v)_{nxn} * A_{nxp}

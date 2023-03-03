@@ -42,7 +42,7 @@ If any of the above they are altered or missing, \code{FALSE} is returned.
 # checking attributes
 my_adat <- example_data
 is_intact_attr(my_adat)           # TRUE
-is_intact_attr(my_adat[, -303])   # doesn't break atts; TRUE
+is_intact_attr(my_adat[, -303L])   # doesn't break atts; TRUE
 attributes(my_adat)$Col.Meta$Target <- NULL    # break attributes
 is_intact_attr(my_adat, verbose = TRUE)  # FALSE (Target missing)
 }

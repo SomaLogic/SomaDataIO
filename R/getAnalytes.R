@@ -14,11 +14,11 @@
 #' @param rm.controls Logical. Should all control and non-human analytes
 #'   (e.g. `HybControls`, `Non-Human`, `Non-Biotin`, `Spuriomer`) be removed
 #'   from the returned value?
-#' @return `getAnalytes()` returns character vector of ADAT feature
-#' ("analyte") names.
+#' @return [getAnalytes()]: a character vector of ADAT feature ("analyte") names.
 #' @author Stu Field
 #' @seealso [is.apt()]
 #' @examples
+#' # RFU feature variables
 #' apts <- getAnalytes(example_data)
 #' head(apts)
 #' getAnalytes(example_data, n = TRUE)
@@ -28,7 +28,7 @@
 #' all.equal(apts, bb)
 #'
 #' # create some control sequences
-#' #           Spuriomer      HybControl
+#' # ~~~~~~~~~ Spuriomer ~~~ HybControl ~~~
 #' apts2 <- c("seq.2053.2", "seq.2171.12", head(apts))
 #' apts2
 #' no_crtl <- getAnalytes(apts2, rm.controls = TRUE)

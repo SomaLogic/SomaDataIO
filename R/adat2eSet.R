@@ -16,7 +16,7 @@
 #'
 #' @family eSet
 #' @param adat A `soma_adat` class object as read into the R
-#' environment using [read_adat()].
+#'   environment using [read_adat()].
 #' @return A Bioconductor object of class `ExpressionSet`.
 #' @author Stu Field
 #' @references \url{https://bioconductor.org/install/}
@@ -26,7 +26,7 @@
 #' eSet
 #'
 #' ft <- Biobase::exprs(eSet)
-#' head(ft[, 1:10], 10)
+#' head(ft[, 1:10L], 10L)
 #' @importFrom methods validObject new
 #' @export
 adat2eSet <- function(adat) {

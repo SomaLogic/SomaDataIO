@@ -84,7 +84,6 @@ test_that("`getSeqId()` properly does nothing when there is no version number", 
 })
 
 test_that("`seqid2apt()` properly generates AptNames in new format", {
-  withr::local_options(list(cli.num_colors = 1L))
   expect_equal(seqid2apt("1234-45"), "seq.1234.45")
   expect_equal(seqid2apt("1234-45_8"), "seq.1234.45")   # version stripped
   # error trips

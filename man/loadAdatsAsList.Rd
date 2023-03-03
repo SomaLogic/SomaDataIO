@@ -67,8 +67,8 @@ class(adats)
 collapsed <- collapseAdats(adats)
 class(collapsed)
 
+\donttest{
 # Alternatively use `collapse = TRUE`
-\dontrun{
 loadAdatsAsList(files, collapse = TRUE)
 }
 }

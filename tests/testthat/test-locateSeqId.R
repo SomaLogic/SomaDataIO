@@ -1,7 +1,6 @@
 
 # Setup ----
 # locateSeqId() and regexSeqId() are both tested here
-withr::local_options(list(stringsAsFactors = FALSE))   # if R < 4.0.0
 
 # Testing ----
 test_that("locateSeqId() returns NAs and integers with/without SeqId", {

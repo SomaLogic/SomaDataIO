@@ -62,6 +62,10 @@ Default \code{FALSE}, ignored when accessing a column via \code{tbl[j]}.}
 \item{na.rm}{a logical value indicating whether \code{NA}
     values should be stripped before the computation proceeds.}
 }
+\value{
+The set of S3 methods above return the \code{soma_adat} object with
+the corresponding S3 method applied.
+}
 \description{
 The \code{soma_adat} data structure is the primary internal \code{R} representation
 of SomaScan data. A \code{soma_adat} is automatically created via \code{\link[=read_adat]{read_adat()}}

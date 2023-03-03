@@ -10,7 +10,7 @@
 #' the command line or for generating plot titles.
 #'
 #' @param tbl A `tibble` object containing analyte target annotation
-#' information. This is usually the result of a call to [getAnalyteInfo()].
+#'   information. This is usually the result of a call to [getAnalyteInfo()].
 #' @examples
 #'
 #' # Target names
@@ -18,7 +18,9 @@
 #'
 #' # how to use for plotting
 #' feats <- sample(anno_tbl$AptName, 6)
-#' par(mfrow = 2:3); sapply(feats, function(.x) plot(1:10, main = tg[[.x]]))
+#' op <- par(mfrow = c(2, 3))
+#' sapply(feats, function(.x) plot(1:10, main = tg[[.x]]))
+#' par(op)
 #' @export
 getTargetNames <- function(tbl) {
   stopifnot(

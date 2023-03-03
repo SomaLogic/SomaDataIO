@@ -24,7 +24,7 @@
 #' Below is a list of *all* currently available S3 methods that dispatch on
 #' the `soma_adat` class:
 #' ```{r methods, echo = FALSE}
-#' options(width = 80)
+#' options(width = 70)
 #' withr::with_collate("en_US.UTF-8", methods(class = "soma_adat"))
 #' ```
 #'
@@ -32,6 +32,8 @@
 #' @name soma_adat
 #' @order 1
 #' @param x,object A `soma_adat` class object.
+#' @return The set of S3 methods above return the `soma_adat` object with
+#'   the corresponding S3 method applied.
 #' @seealso [groupGenerics()]
 NULL
 

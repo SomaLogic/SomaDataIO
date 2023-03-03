@@ -59,7 +59,7 @@ test_that("an empty ADAT is correctly handled", {
 
 # print.soma_adat ----
 test_that("print.soma_adat() returns original object", {
-  dump <- tempfile(pattern = "tmp-")
+  dump <- tempfile("print-", fileext = ".txt")
   withr::local_output_sink(dump)    # dump console output
   y <- print(adat)
   z <- print(adat, show_header = TRUE)

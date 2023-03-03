@@ -35,7 +35,7 @@ class(eSet)
 eSet
 
 ft <- Biobase::exprs(eSet)
-head(ft[, 1:10], 10)
+head(ft[, 1:10L], 10L)
 }
 \references{
 \url{https://bioconductor.org/install/}

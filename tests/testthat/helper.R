@@ -5,21 +5,15 @@ skip_on_check <- function() {
   testthat::skip_if(on_check, "On devtools::check() / rcmdcheck::rcmdcheck()")
 }
 
-# skip if during Jenkins build
-skip_on_jenkins <- function() {
-  on_jenkins <- identical(tolower(Sys.getenv("ON_JENKINS")),  "true")
-  testthat::skip_if(on_jenkins, "On Jenkins!")
-}
-
 # mock up dummy data.frame -> soma_adat
 # minimal set of attributes to trick `is_intact_attr()` to be TRUE
 mock_adat <- function() {
   data <- data.frame(
     PlateId     = rep_len("Set A", 6),
-    SlideId     = 253856411709:253856411714,
+    SlideId     = (12345 + 0:5),
     Subarray    = rep(1:3, 2),
     SampleId    = sprintf("%03i", 1:6),
-    SampleGroup = rep(c("M", "F"), 3),
+    SampleGroup = rep(c("A", "B"), 3),
     TimePoint   = rep(c("before", "after"), each = 3),
     NormScale   = round(withr::with_seed(1, runif(6, 0, 2)), 1L),
     seq.1234.56 = round(withr::with_seed(2, rnorm(6, 2500, 500)), 1L),

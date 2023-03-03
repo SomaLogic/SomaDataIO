@@ -23,10 +23,9 @@ of the features?}
 from the returned value?}
 }
 \value{
-\code{getAnalytes()} returns character vector of ADAT feature
-("analyte") names.
+\code{\link[=getAnalytes]{getAnalytes()}}: a character vector of ADAT feature ("analyte") names.
 
-\code{getMeta()} returns character vector of ADAT meta data names.
+\code{\link[=getMeta]{getMeta()}}: a character vector of ADAT clinical ("meta") data names.
 
 For both, if \code{n = TRUE}, an integer corresponding to the
 \strong{length} of the character vector.
@@ -44,7 +43,7 @@ S3 methods also exist for these classes:
 
 \code{\link[=getMeta]{getMeta()}} returns the inverse, a character vector of string
 names of \emph{non}-analyte feature columns/variables, which typically
-correspond to the clinical "meta" data variables.
+correspond to the clinical ("meta") data variables.
 S3 methods exist for these classes:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{#> [1] getMeta.character  getMeta.data.frame getMeta.default    getMeta.list      
@@ -60,6 +59,7 @@ Please adjust your code accordingly.
 
 }}
 \examples{
+# RFU feature variables
 apts <- getAnalytes(example_data)
 head(apts)
 getAnalytes(example_data, n = TRUE)
@@ -69,19 +69,19 @@ bb <- getAnalytes(names(example_data))
 all.equal(apts, bb)
 
 # create some control sequences
-#           Spuriomer      HybControl
+# ~~~~~~~~~ Spuriomer ~~~ HybControl ~~~
 apts2 <- c("seq.2053.2", "seq.2171.12", head(apts))
 apts2
 no_crtl <- getAnalytes(apts2, rm.controls = TRUE)
 no_crtl
 setdiff(apts2, no_crtl)
 
-# getMeta()
+# clinical variables
 mvec <- getMeta(example_data)
 head(mvec, 10)
 getMeta(example_data, n = TRUE)
 
-# test data.frame and character S3 methods
+# test 'data.frame' and 'character' S3 methods are identical
 identical(getMeta(example_data), getMeta(names(example_data))) # TRUE
 }
 \seealso{

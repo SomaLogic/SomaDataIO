@@ -19,13 +19,13 @@
 #'
 #' @param adat A `soma_adat` class object.
 #' @param anno.tbl A table of annotations, typically the result of a call
-#' to [read_annotations()].
+#'   to [read_annotations()].
 #' @return A "lifted" `soma_adat` object corresponding to the scaling
-#' reference in the `anno.tbl`. RFU values are rounded to 1 decimal to
-#' match standard SomaScan delivery format.
+#'   reference in the `anno.tbl`. RFU values are rounded to 1 decimal to
+#'   match standard SomaScan delivery format.
 #' @examples
-#' # `example_data` is assay V4
-#' adat <- head(example_data, 3)
+#' # `example_data` is SomaScan V4
+#' adat <- head(example_data, 3L)
 #'
 #' # read in version specific annotations file
 #' # containing scaling values between assay versions
@@ -41,14 +41,14 @@
 #' attr(tbl, "version") <- "SL-99999999-rev99-1999-01"
 #'
 #' # perform the 'lifting'
-#' lift <- lift_adat(adat, tbl)
+#' lifted <- lift_adat(adat, tbl)
 #'
-#' # `tbl` contained all scalars = 1.0; same RFUs
-#' all.equal(adat, lift, check.attributes = FALSE)
+#' # `tbl` contained all scalars = 1.0 (same RFUs)
+#' all.equal(adat, lifted, check.attributes = FALSE)
 #'
 #' # attributes updated to reflect the 'lift'
-#' attr(lift, "Header")$HEADER$ProcessSteps
-#' attr(lift, "Header")$HEADER$SignalSpace
+#' attr(lifted, "Header")$HEADER$ProcessSteps
+#' attr(lifted, "Header")$HEADER$SignalSpace
 #' @importFrom tibble enframe deframe
 #' @export
 lift_adat <- function(adat, anno.tbl) {

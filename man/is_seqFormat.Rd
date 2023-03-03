@@ -19,7 +19,7 @@ Test whether an object is in the new \code{seq.XXXX.XX} format.
 \examples{
 # character S3 method
 is_seqFormat(names(example_data))   # no; meta data not ^seq.
-is_seqFormat(tail(names(example_data), -20))   # yes
+is_seqFormat(tail(names(example_data), -20L))   # yes
 
 # soma_adat S3 method
 is_seqFormat(example_data)

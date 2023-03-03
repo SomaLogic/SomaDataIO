@@ -8,7 +8,7 @@ test_that("getAnnoVer() parses the version correctly", {
 test_that("read_annotations() parses the annotations file correctly", {
   tbl <- read_annotations(file)
   expect_s3_class(tbl, "tbl_df")
-  expect_equal(dim(tbl), c(1, 43))
+  expect_equal(dim(tbl), c(1L, 43L))
   ver <- attr(tbl, "version")
   expect_equal(ver, "SL-12345678-rev0-2021-01")
   expect_true(ver_dict[[ver]]$col_serum == names(tbl)[ver_dict[[ver]]$which_serum])

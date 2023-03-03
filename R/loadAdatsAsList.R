@@ -48,8 +48,8 @@
 #' collapsed <- collapseAdats(adats)
 #' class(collapsed)
 #'
+#' \donttest{
 #' # Alternatively use `collapse = TRUE`
-#' \dontrun{
 #' loadAdatsAsList(files, collapse = TRUE)
 #' }
 #' @importFrom stats setNames

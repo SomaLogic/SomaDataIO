@@ -55,20 +55,24 @@ anno_tbl <- getAnalyteInfo(example_data)
 anno_tbl
 
 # Use `dplyr::group_by()`
-dplyr::tally(dplyr::group_by(anno_tbl, Dilution))     # Print summary by dilution
+dplyr::tally(dplyr::group_by(anno_tbl, Dilution))  # print summary by dilution
 
 # Columns containing "Target"
-anno_tbl |> dplyr::select(dplyr::contains("Target"))
+anno_tbl |>
+  dplyr::select(dplyr::contains("Target"))
 
 # Rows of "Target" starting with MMP
-anno_tbl |> dplyr::filter(grepl("^MMP", Target))
+anno_tbl |>
+  dplyr::filter(grepl("^MMP", Target))
 
 # Target names
 tg <- getTargetNames(anno_tbl)
 
 # how to use for plotting
 feats <- sample(anno_tbl$AptName, 6)
-par(mfrow = 2:3); sapply(feats, function(.x) plot(1:10, main = tg[[.x]]))
+op <- par(mfrow = c(2, 3))
+sapply(feats, function(.x) plot(1:10, main = tg[[.x]]))
+par(op)
 }
 \seealso{
 \code{\link[=getAnalytes]{getAnalytes()}}, \code{\link[=is_intact_attr]{is_intact_attr()}}, \code{\link[=read_adat]{read_adat()}}

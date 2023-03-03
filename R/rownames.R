@@ -26,7 +26,7 @@
 #'
 #' # moving columns
 #' df$mtcars <- sample(names(mtcars), 5)
-#' col2rn(df, "mtcars")
+#' col2rn(df, "mtcars")   # with a warning
 #'
 #' # Move back and forth easily
 #' # Leaves original object un-modified

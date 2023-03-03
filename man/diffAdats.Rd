@@ -12,6 +12,9 @@ diffAdats(adat1, adat2, tolerance = 1e-06)
 \item{tolerance}{Numeric \verb{> 0}. Differences smaller than tolerance are
 not triggered. See \code{\link[=all.equal]{all.equal()}}.}
 }
+\value{
+\code{NULL}, invisibly. Called for side effects.
+}
 \description{
 Diff tool for the differences between two \code{soma_adat} objects.
 When diffs of the table \emph{values} are interrogated, \strong{only}
