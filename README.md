@@ -491,7 +491,7 @@ is_intact_attr(my_adat)   # MUST have intact attrs
 
 write_adat(my_adat, file = tempfile("my-adat-", fileext = ".adat"))
 #> ✔ ADAT passed all checks and traps.
-#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmptqN1MV/my-adat-1d5a1605e06c.adat'
+#> ✔ ADAT written to: '/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpLyNMaf/my-adat-1a9542f9ae8e.adat'
 ```
 
 ------------------------------------------------------------------------
@@ -861,7 +861,7 @@ res |>
   [LICENSE](https://github.com/SomaLogic/SomaDataIO/blob/main/LICENSE.md)
 - The MIT License:
   - <https://choosealicense.com/licenses/mit/>
-  - [https://tldrlegal.com/license/mit-license/](https://tldrlegal.com/license/mit-license)
+  - [https://www.tldrlegal.com/license/mit-license/](https://www.tldrlegal.com/license/mit-license)
 
 ------------------------------------------------------------------------
 
