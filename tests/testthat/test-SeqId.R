@@ -90,14 +90,52 @@ test_that("`seqid2apt()` properly generates AptNames in new format", {
   expect_error(seqid2apt(1), "inherits(x, \"character\") is not TRUE", fixed = TRUE)
   expect_error(
     seqid2apt("ABCD.1234.56"),
-    paste("As least some values are not in 'SeqId' format.\nTry running",
+    paste("At least some values are not in 'SeqId' format.\nTry running",
           "`getSeqId()` for: 'ABCD.1234.56'"), fixed = TRUE
   )
   expect_error(
     seqid2apt("1234.56"),
-    paste("As least some values are not in 'SeqId' format.\nTry running",
+    paste("At least some values are not in 'SeqId' format.\nTry running",
           "`getSeqId()` for: '1234.56'"), fixed = TRUE
   )
+})
+
+test_that("`apt2seqid()` properly generates SeqIds in new format", {
+  expect_equal(apt2seqid("seq.1234.45"), "1234-45")
+  expect_equal(apt2seqid("seq.1234.45.8"), "1234-45")   # version stripped
+
+  # error trips
+  expect_error(apt2seqid(1), "inherits(x, \"character\") is not TRUE", fixed = TRUE)
+  expect_error(
+    apt2seqid("1234_56"),
+    paste("Some values of `x` do not contain 'SeqIds'.\nPlease check: '1234_56'")
+  )
+
+  meta_vec <- c("SampleId", "TimePoint", "seq.1234.45", "seq.5678.89.9")
+  expect_error(
+    apt2seqid(meta_vec),
+    paste("Some values of `x` do not contain 'SeqIds'.\nPlease check:",
+          "'SampleId', 'TimePoint'")
+  )
+
+  na_vec <- c("seq.1234.45", NA_character_, "seq.5678.89")
+  expect_error(
+    apt2seqid(na_vec),
+    paste("Some values of `x` do not contain 'SeqIds'.\nPlease check: NA")
+  )
+
+  expect_error(apt2seqid(NULL))
+  expect_error(apt2seqid(45))
+})
+
+test_that("apt2seqid() returns a seqId, when one is present in a vector", {
+  seq_vec <- c("1234-56", "seq.5678.89", "9012-23", "seq.2345.67", "8910-01")
+  expect_equal(apt2seqid(seq_vec), c("1234-56", "5678-89", "9012-23", "2345-67", "8910-01"))
+})
+
+test_that("apt2seqid() returns a warning when only seqIds are provided", {
+  seq_vec <- c("1234-56", "9012-23", "8910-01")
+  expect_warning(apt2seqid(seq_vec), "All values are already in 'SeqId' format.")
 })
 
 test_that("`is.SeqId()` properly returns matches", {
