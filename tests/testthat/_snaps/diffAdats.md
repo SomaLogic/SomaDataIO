@@ -112,10 +112,10 @@
     Output
       ================================================================================
 
-# `diffAdats()` generates correct output with 1 variable scrambled
+# `diffAdats()` generates correct output with 1 variable changed
 
     Code
-      diffAdats(adat, dplyr::mutate(adat, Subarray = sample(Subarray)))
+      diffAdats(adat, dplyr::mutate(adat, Subarray = rev(Subarray)))
     Output
       == Checking ADAT attributes & characteristics ==================================
     Message <rlang_message>

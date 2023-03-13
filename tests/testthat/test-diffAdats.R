@@ -24,10 +24,10 @@ test_that("`diffAdats()` generates correct output with 1 clin variable added", {
   expect_snapshot(diffAdats(adat, new))
 })
 
-test_that("`diffAdats()` generates correct output with 1 variable scrambled", {
-  # scramble Subarray variable
+test_that("`diffAdats()` generates correct output with 1 variable changed", {
+  # change 'Subarray' variable
   expect_snapshot(
-    diffAdats(adat, dplyr::mutate(adat, Subarray = sample(Subarray)))
+    diffAdats(adat, dplyr::mutate(adat, Subarray = rev(Subarray)))
   )
 })
 
