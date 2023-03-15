@@ -7,6 +7,12 @@
     <loc>https://github.com/SomaLogic/SomaDataIO/LICENSE.html</loc>
   </url>
   <url>
+    <loc>https://github.com/SomaLogic/SomaDataIO/SECURITY.html</loc>
+  </url>
+  <url>
+    <loc>https://github.com/SomaLogic/SomaDataIO/SUPPORT.html</loc>
+  </url>
+  <url>
     <loc>https://github.com/SomaLogic/SomaDataIO/articles/SomaDataIO.html</loc>
   </url>
   <url>
@@ -37,7 +43,7 @@
     <loc>https://github.com/SomaLogic/SomaDataIO/reference/SomaDataIO-package.html</loc>
   </url>
   <url>
-    <loc>https://github.com/SomaLogic/SomaDataIO/reference/SomaDataObjects.html</loc>
+    <loc>https://github.com/SomaLogic/SomaDataIO/reference/SomaScanObjects.html</loc>
   </url>
   <url>
     <loc>https://github.com/SomaLogic/SomaDataIO/reference/adat2eSet.html</loc>
@@ -58,7 +64,7 @@
     <loc>https://github.com/SomaLogic/SomaDataIO/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://github.com/SomaLogic/SomaDataIO/reference/is.intact.attributes.html</loc>
+    <loc>https://github.com/SomaLogic/SomaDataIO/reference/is_intact_attr.html</loc>
   </url>
   <url>
     <loc>https://github.com/SomaLogic/SomaDataIO/reference/is_seqFormat.html</loc>

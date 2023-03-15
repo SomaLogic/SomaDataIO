@@ -26,7 +26,7 @@ https://www.bioconductor.org/packages/release/bioc/html/Biobase.html."><meta pro
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SomaDataIO</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">5.3.1.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">6.0.0.9000</span>
       </span>
     </div>
 
@@ -40,7 +40,13 @@ https://www.bioconductor.org/packages/release/bioc/html/Biobase.html."><meta pro
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-      </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
+      </ul><ul class="nav navbar-nav navbar-right"><li>
+  <a href="https://github.com/SomaLogic/SomaDataIO/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
@@ -50,7 +56,7 @@ https://www.bioconductor.org/packages/release/bioc/html/Biobase.html."><meta pro
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Convert ADAT to ExpressionSet Object</h1>
-    
+    <small class="dont-index">Source: <a href="https://github.com/SomaLogic/SomaDataIO/blob/HEAD/R/adat2eSet.R"><code>R/adat2eSet.R</code></a></small>
     <div class="hidden name"><code>adat2eSet.Rd</code></div>
     </div>
 
@@ -126,7 +132,7 @@ environment using <code><a href="read_adat.html">read_adat()</a></code>.</p></dd
 <span class="r-out co"><span class="r-pr">#&gt;</span> Annotation:  </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">ft</span> <span class="op">&lt;-</span> <span class="fu">Biobase</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/exprs.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">eSet</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ft</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>, <span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ft</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">10L</span><span class="op">]</span>, <span class="fl">10L</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               258495800012_3 258495800004_7 258495800010_8 258495800003_4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> seq.10000.28           476.5          474.4          415.6          442.6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> seq.10001.7            310.1          293.5          299.6          247.9</span>
@@ -174,7 +180,7 @@ environment using <code><a href="read_adat.html">read_adat()</a></code>.</p></dd
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

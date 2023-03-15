@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SomaDataIO</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">5.3.1.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">6.0.0.9000</span>
       </span>
     </div>
 
@@ -37,7 +37,13 @@
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-      </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
+      </ul><ul class="nav navbar-nav navbar-right"><li>
+  <a href="https://github.com/SomaLogic/SomaDataIO/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
@@ -47,14 +53,74 @@
   <div class="col-md-9 contents">
     <div class="page-header">
       <h1 data-toc-skip>Changelog <small></small></h1>
-      
+      <small>Source: <a href="https://github.com/SomaLogic/SomaDataIO/blob/HEAD/NEWS.md"><code>NEWS.md</code></a></small>
     </div>
 
     <div class="section level2">
+<h2 class="page-header" data-toc-text="6.0.0" id="somadataio-600-tada">SomaDataIO 6.0.0 <span class="emoji" data-emoji="tada">🎉</span>
+<small>2023-03-15</small><a class="anchor" aria-label="anchor" href="#somadataio-600-tada"></a></h2>
+<ul><li>We are now on CRAN! <span class="emoji" data-emoji="partying_face">🥳</span>
+</li>
+</ul><div class="section level4">
+<h4 id="new-changes-6-0-0">New changes<a class="anchor" aria-label="anchor" href="#new-changes-6-0-0"></a></h4>
+<ul><li>New clinical data merge CLI tool (<a href="https://github.com/stufield" class="external-link">@stufield</a>, <a href="https://github.com/SomaLogic/SomaDataIO/issues/25">#25</a>)
+<ul><li>
+<code>Rscript --vanilla merge_clin.R</code> for merging clinical variables into existing <code>*.adat</code> SomaScan data files</li>
+<li>added 2 new example <code>meta.csv</code> and <code>meta2.csv</code> files to run examples with random data but with valid index keys</li>
+<li>see <code>dir(system.file("cli", "merge", package = "SomaDataIO"))</code>
+</li>
+</ul></li>
+<li>Package data objects (<a href="https://github.com/stufield" class="external-link">@stufield</a>, <a href="https://github.com/SomaLogic/SomaDataIO/issues/32">#32</a>)
+<ul><li>
+<code>example_data.adat</code> was reduced in size to <code>n = 10</code> samples (from 192) to conform to CRAN size requirements (&lt; 5MB)</li>
+<li>the current file was renamed <code>example_data10.adat</code> to reflect this change</li>
+<li>this likely has far-reaching consequences for users who access this flat file via <code><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file()</a></code>
+</li>
+<li>the <code>example_data</code> object itself however remains true to its original file (<code>https://github.com/SomaLogic/SomaLogic-Data/blob/master/example_data.adat</code>)</li>
+<li>the directory location <code>inst/example/</code> was renamed <code>inst/extdata/</code> to conform to CRAN package standard naming conventions</li>
+<li>the file <code>single_sample.adat</code> was removed from package data as it is now redundant (however still used in unit testing)</li>
+<li>
+<code>SomaDataObjects</code> was renamed and is now <code>SomaScanObjects</code>
+</li>
+</ul></li>
+<li>Gradual deprecation (<a href="https://github.com/stufield" class="external-link">@stufield</a>)
+<ul><li>
+<code><a href="../reference/read_adat.html">read.adat()</a></code> is now soft-deprecated; please use <code>read_adat() instead</code>
+</li>
+<li>lifecycle for soft-deprecated <code>warn()</code> -&gt; <code><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop()</a></code> for functions that have been been soft deprecated since <code>v5.0.0</code>
+<ul><li><code><a href="../reference/SomaDataIO-deprecated.html">getSomamers()</a></code></li>
+<li><code><a href="../reference/SomaDataIO-deprecated.html">getSomamerData()</a></code></li>
+<li><code><a href="../reference/SomaDataIO-deprecated.html">meltExpressionSet()</a></code></li>
+</ul></li>
+</ul></li>
+<li>New S3 print method default (<a href="https://github.com/stufield" class="external-link">@stufield</a>)
+<ul><li>
+<code>tibble</code> has new <code>max_extra_cols =</code> argument, which is set to <code>6</code> for the <code>print.soma_adat</code> method</li>
+</ul></li>
+<li>New S3 merge method (<a href="https://github.com/stufield" class="external-link">@stufield</a>, <a href="https://github.com/SomaLogic/SomaDataIO/issues/31">#31</a>)
+<ul><li>calling <code><a href="https://rdrr.io/r/base/merge.html" class="external-link">base::merge()</a></code> on a <code>soma_adat</code> is strongly discouraged</li>
+<li>we now redirect users to use <code>dplyr::*_join()</code> alternatives which are designed to preserve <code>soma_adat</code> attributes</li>
+</ul></li>
+<li>Code hardening for <code>prepHeaderMeta()</code> (<a href="https://github.com/stufield" class="external-link">@stufield</a>)
+<ul><li>some ADATs do not have <code>CreatedDate</code> and <code>CreatedBy</code> in the HEADER entry. This currently breaks the writer</li>
+<li>simplified to make more robust but also refactor to be more convenient (for abnormal ADATs not generated by standard SomaScan processing)</li>
+<li>
+<code>CreatedDateHistory</code> was removed as an entry from written ADATs</li>
+<li>
+<code>CreatedByHistory</code> was combined and dated for written ADATs</li>
+<li>
+<code>NULL</code> behavior remains if keys are missing</li>
+<li>
+<code>CreatedBy</code> and <code>CreatedDate</code> will be generated either as new entries or over-written as appropriate</li>
+</ul></li>
+<li>Numerous non-user-facing (API) changes internal package maintenance, efficiency, and structural upgrades were included</li>
+</ul></div>
+</div>
+    <div class="section level2">
 <h2 class="page-header" data-toc-text="5.3.1" id="somadataio-531">SomaDataIO 5.3.1<a class="anchor" aria-label="anchor" href="#somadataio-531"></a></h2>
 <ul><li>
-<p>Bug-fix release related to <code><a href="../reference/write_adat.html">write_adat()</a></code>: (@stufield)</p>
-<ul><li>fixed bug in <code><a href="../reference/write_adat.html">write_adat()</a></code> that resulted from adding/removing clinical (non-SomaScan) variables to an ADAT. Export via <code><a href="../reference/write_adat.html">write_adat()</a></code> resulted in a broken ADAT file (#18)</li>
+<p>Bug-fix release related to <code><a href="../reference/write_adat.html">write_adat()</a></code>:</p>
+<ul><li>fixed bug in <code><a href="../reference/write_adat.html">write_adat()</a></code> that resulted from adding/removing clinical (non-SomaScan) variables to an ADAT. Export via <code><a href="../reference/write_adat.html">write_adat()</a></code> resulted in a broken ADAT file (<a href="https://github.com/stufield" class="external-link">@stufield</a>, <a href="https://github.com/SomaLogic/SomaDataIO/issues/18">#18</a>)</li>
 <li>
 <code><a href="../reference/write_adat.html">write_adat()</a></code> now has much higher fidelity to original text file (<code>*.adat</code>) in full-cycle read-write-read operations; particularly in presence of bangs (<code>!</code>) in the Header section and in floating point decimals in the <code><a href="../reference/Col.Meta.html">?Col.Meta</a></code> section</li>
 <li>
@@ -68,13 +134,13 @@
 <ul><li>
 <code>SomaDataIO</code> will continue to re-export <code>magrittr</code> pipes for backward compatibility, but this should not be considered permanent. Please code accordingly</li>
 </ul></li>
-<li><p>Migration to the default branch in GitHub from <code>master</code> -&gt; <code>main</code></p></li>
+<li><p>Migration to the default branch in GitHub from <code>master</code> -&gt; <code>main</code> (<a href="https://github.com/stufield" class="external-link">@stufield</a>, <a href="https://github.com/SomaLogic/SomaDataIO/issues/19">#19</a>)</p></li>
 <li><p>Numerous non-user-facing (API) changes internal package maintenance, efficiency, and structural upgrades were included</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="5.3.0" id="somadataio-530">SomaDataIO 5.3.0<a class="anchor" aria-label="anchor" href="#somadataio-530"></a></h2>
 <ul><li>
-<p>Upgrades primarily from improvements to SomaLogic internal code base, including: (@stufield)</p>
+<p>Upgrades primarily from improvements to SomaLogic internal code base, including: (<a href="https://github.com/stufield" class="external-link">@stufield</a>)</p>
 <ul><li>general reduction on external package dependency to improve code stability</li>
 <li>internal usage of base R alternatives to the <code>readr</code> package for parsing and importing ADATs (e.g. <code><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.delim()</a></code> over <code>readr::read_delim()</code>). This is mostly for code simplification, but can often result in marked speed improvements. As the SomaScan <code>plex</code> size increases, this speed improvement will become more important.</li>
 <li>
@@ -86,52 +152,52 @@
 <li>encoding for all input/output (I/O) is assumed to be <code>UTF-8</code>.</li>
 </ul></li>
 <li><p>New <code><a href="../reference/getAnalytes.html">getAnalytes()</a></code> S3 method for class <code>recipe</code> from the <code>recipes</code> package.</p></li>
-<li><p>New <code><a href="../reference/loadAdatsAsList.html">loadAdatsAsList()</a></code> to load multiple ADAT files in a single call and optionally collapse them into a single data frame (@stufield, #8).</p></li>
+<li><p>New <code><a href="../reference/loadAdatsAsList.html">loadAdatsAsList()</a></code> to load multiple ADAT files in a single call and optionally collapse them into a single data frame (<a href="https://github.com/stufield" class="external-link">@stufield</a>, <a href="https://github.com/SomaLogic/SomaDataIO/issues/8">#8</a>).</p></li>
 <li><p>New <code><a href="../reference/getAnalyteInfo.html">getTargetNames()</a></code> function to map ADAT <code>seq.XXXX.XX</code> names to corresponding protein targets from the annotations table</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="5.2.0" id="somadataio-520">SomaDataIO 5.2.0<a class="anchor" aria-label="anchor" href="#somadataio-520"></a></h2>
 <ul><li><p>SomaLogic Inc. is now SomaLogic Operating Co. Inc.</p></li>
 <li>
-<p>Added new documentation regarding <code>Col.Meta</code> (@stufield, #12).</p>
+<p>Added new documentation regarding <code>Col.Meta</code> (<a href="https://github.com/stufield" class="external-link">@stufield</a>, <a href="https://github.com/SomaLogic/SomaDataIO/issues/12">#12</a>).</p>
 <ul><li>documentation around column meta data, row meta data, where they are found in an ADAT, and how to access them.</li>
 </ul></li>
-<li><p>Research Use Only (“RUO”) language was added to the README (@stufield, #10).</p></li>
+<li><p>Research Use Only (“RUO”) language was added to the README (<a href="https://github.com/stufield" class="external-link">@stufield</a>, <a href="https://github.com/SomaLogic/SomaDataIO/issues/10">#10</a>).</p></li>
 <li>
-<p>Numerous internal code improvements from SomaLogic code-base (@stufield)</p>
+<p>Numerous internal code improvements from SomaLogic code-base (<a href="https://github.com/stufield" class="external-link">@stufield</a>)</p>
 <ul><li>the consisted of reducing usage of external dependencies, e.g. using <code><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop()</a></code> over <code>ui_stop()</code> and <code><a href="https://rdrr.io/r/base/warning.html" class="external-link">warning()</a></code> over <code>ui_warn()</code>, using <code>usethis</code>, <code>cli</code>, and <code>crayon</code> shims aliases.</li>
 <li>package uses <code>purrr</code> very selectively and no longer uses <code>stringr</code>.</li>
 <li>using base R alternatives in favor of increased stability for underlying, non-user-facing code.</li>
 </ul></li>
 <li>
-<p>New <code><a href="../reference/lift_adat.html">lift_adat()</a></code> was added to provided ‘lifting’ functionality (@stufield, #11)</p>
+<p>New <code><a href="../reference/lift_adat.html">lift_adat()</a></code> was added to provided ‘lifting’ functionality (<a href="https://github.com/stufield" class="external-link">@stufield</a>, <a href="https://github.com/SomaLogic/SomaDataIO/issues/11">#11</a>)</p>
 <ul><li>provides mechanism to convert RFU space between SomaScan versions (e.g. v4.1 -&gt; v4.0).</li>
 <li>added new S3 <code><a href="../reference/transform.html">transform.soma_adat()</a></code> method which simplifies linear scaling of <code>soma_adat</code> columns (analytes).</li>
 <li>uses an “Annotations file” (Excel) as source of scalars for transformation.</li>
 </ul></li>
 <li>
-<p>Minor improvements and updates to the <code>README.Rmd</code> (@stufield, #7)</p>
-<ul><li>fixed a broken <code><a href="../reference/adat2eSet.html">adat2eSet()</a></code> link in README (#5).</li>
+<p>Minor improvements and updates to the <code>README.Rmd</code> (<a href="https://github.com/stufield" class="external-link">@stufield</a>, <a href="https://github.com/SomaLogic/SomaDataIO/issues/7">#7</a>)</p>
+<ul><li>fixed a broken <code><a href="../reference/adat2eSet.html">adat2eSet()</a></code> link in README (<a href="https://github.com/SomaLogic/SomaDataIO/issues/5">#5</a>).</li>
 <li>clearer text to the <code>README</code> regarding <code>Biobase</code> installation.</li>
 <li>added new links to external Bioconductor website in installation section of README.</li>
-<li>new <code>pkgdown</code> and links to Issues (#4).</li>
+<li>new <code>pkgdown</code> and links to Issues (<a href="https://github.com/SomaLogic/SomaDataIO/issues/4">#4</a>).</li>
 <li>SomaLogic logo was added to README.</li>
 <li>a lifecycle (“maturing”) badge was added.</li>
 </ul></li>
-<li><p>Startup message was improved with dynamic width (@stufield).</p></li>
-<li><p>New <code><a href="../reference/SeqId.html">locateSeqId()</a></code> function to pull out <code>SeqId</code> regex. (@stufield).</p></li>
+<li><p>Startup message was improved with dynamic width (<a href="https://github.com/stufield" class="external-link">@stufield</a>).</p></li>
+<li><p>New <code><a href="../reference/SeqId.html">locateSeqId()</a></code> function to pull out <code>SeqId</code> regex. (<a href="https://github.com/stufield" class="external-link">@stufield</a>).</p></li>
 <li>
-<p>New <code><a href="../reference/read_annotations.html">read_annotations()</a></code> function (@stufield, #2)</p>
+<p>New <code><a href="../reference/read_annotations.html">read_annotations()</a></code> function (<a href="https://github.com/stufield" class="external-link">@stufield</a>, <a href="https://github.com/SomaLogic/SomaDataIO/issues/2">#2</a>)</p>
 <ul><li>new function to parse/import SomaLogic annotations files (<code>*.xlsx</code>).</li>
 </ul></li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="5.1.0" id="somadataio-510">SomaDataIO 5.1.0<a class="anchor" aria-label="anchor" href="#somadataio-510"></a></h2>
 <ul><li><p>New <code><a href="../reference/rownames.html">set_rn()</a></code> drop-in replacement for <code><a href="https://magrittr.tidyverse.org/reference/aliases.html" class="external-link">magrittr::set_rownames()</a></code></p></li>
-<li><p><code><a href="../reference/getAnalytes.html">getFeatures()</a></code> was renamed to be less ambiguous and better align with internal SomaLogic code usage. Now use <code><a href="../reference/getAnalytes.html">getAnalytes()</a></code> (@stufield)</p></li>
-<li><p><code><a href="../reference/getAnalyteInfo.html">getFeatureData()</a></code> was also renamed to <code><a href="../reference/getAnalyteInfo.html">getAnalyteInfo()</a></code> (@stufield)</p></li>
+<li><p><code><a href="../reference/getAnalytes.html">getFeatures()</a></code> was renamed to be less ambiguous and better align with internal SomaLogic code usage. Now use <code><a href="../reference/getAnalytes.html">getAnalytes()</a></code> (<a href="https://github.com/stufield" class="external-link">@stufield</a>)</p></li>
+<li><p><code><a href="../reference/getAnalyteInfo.html">getFeatureData()</a></code> was also renamed to <code><a href="../reference/getAnalyteInfo.html">getAnalyteInfo()</a></code> (<a href="https://github.com/stufield" class="external-link">@stufield</a>)</p></li>
 <li><p>various upgrades as required by code changes in external package dependencies, e.g. <code>tidyverse</code>.</p></li>
-<li><p>new alias for <code><a href="../reference/read_adat.html">read_adat()</a></code>, <code><a href="../reference/read_adat.html">read.adat()</a></code>, for backward compatibility to previous versions of <code>SomaDataIO</code> (@stufield)</p></li>
+<li><p>new alias for <code><a href="../reference/read_adat.html">read_adat()</a></code>, <code><a href="../reference/read_adat.html">read.adat()</a></code>, for backward compatibility to previous versions of <code>SomaDataIO</code> (<a href="https://github.com/stufield" class="external-link">@stufield</a>)</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="5.0.0" id="somadataio-500">SomaDataIO 5.0.0<a class="anchor" aria-label="anchor" href="#somadataio-500"></a></h2>
@@ -151,7 +217,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
