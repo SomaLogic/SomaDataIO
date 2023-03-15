@@ -46,7 +46,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SomaDataIO</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">6.0.0</span>
       </span>
     </div>
 
@@ -62,7 +62,14 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/SomaLogic/SomaDataIO/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -72,20 +79,28 @@
 
       
 
-      </header><script src="SomaDataIO_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction to SomaDataIO</h1>
             
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/SomaLogic/SomaDataIO/blob/HEAD/vignettes/SomaDataIO.Rmd"><code>vignettes/SomaDataIO.Rmd</code></a></small>
       <div class="hidden name"><code>SomaDataIO.Rmd</code></div>
 
     </div>
 
     
     
-<p>This document accompanies the R package <code>SomaDataIO</code>, which loads the SomaLogic Operating Co., Inc. proprietary data file called an <code>*.adat</code>. The package provides auxiliary functions for extracting relevant information from the ADAT object once in the R environment. Basic familiarity with the R environment is assumed, as is the ability to install contributed packages from the Comprehensive R Archive Network (CRAN).</p>
+<p>This document accompanies the <code>SomaDataIO</code> R package,
+which loads and exports ‘SomaScan’ data via the SomaLogic Operating Co.,
+Inc. proprietary text file called an ADAT (<code>*.adat</code>). For
+file format see <a href="https://github.com/SomaLogic/SomaLogic-Data/blob/master/README.md" class="external-link">here</a>.
+The package also exports auxiliary functions for manipulating,
+wrangling, and extracting relevant information from an ADAT object once
+in memory. Basic familiarity with the R environment is assumed, as is
+the ability to install contributed packages from the Comprehensive R
+Archive Network (CRAN).</p>
 <hr>
 <div class="section level2">
 <h2 id="main-features-io">Main Features (I/O)<a class="anchor" aria-label="anchor" href="#main-features-io"></a>
@@ -93,28 +108,42 @@
 <ul>
 <li>Loading data (Import)
 <ul>
-<li>Import a text file in the <code>*.adat</code> format into an <code>R</code> session as a <code>soma_adat</code> object.</li>
+<li>parse and import a <code>*.adat</code> text file into an
+<code>R</code> session as a <code>soma_adat</code> object.</li>
 </ul>
 </li>
 <li>Wrangling data (manipulation)
 <ul>
-<li>Subset, reorder, and list various fields of a <code>soma_adat</code> object.</li>
+<li>subset, reorder, and list various fields of a <code>soma_adat</code>
+object.</li>
+<li>
+<code><a href="../reference/SeqId.html">?SeqId</a></code> analyte (feature) matching.</li>
+<li>
+<code>dplyr</code> and <code>tidyr</code> verb S3 methods for the
+<code>soma_adat</code> class.</li>
+<li>
+<code><a href="../reference/rownames.html">?rownames</a></code> helpers that do not break
+<code>soma_adat</code> attributes.</li>
 </ul>
 </li>
 <li>Exporting data (Output)
 <ul>
-<li>Write out a <code>soma_adat</code> object as a <code>*.adat</code> text file.</li>
+<li>write out a <code>soma_adat</code> object as a <code>*.adat</code>
+text file.</li>
 </ul>
 </li>
 </ul>
 <hr>
 </div>
 <div class="section level2">
-<h2 id="todo-complete-later">TODO: Complete Later<a class="anchor" aria-label="anchor" href="#todo-complete-later"></a>
+<h2 id="workflows-and-analysis-todo">Workflows and Analysis (TODO)<a class="anchor" aria-label="anchor" href="#workflows-and-analysis-todo"></a>
 </h2>
+<p>This section will become more fleshed out in future versions of
+<code>SomaDataIO</code></p>
 <div class="section level4">
-<h4 id="in-the-meantime-see-readme">In the meantime see <a href="README.html">README</a><a class="anchor" aria-label="anchor" href="#in-the-meantime-see-readme"></a>
+<h4 id="in-the-meantime-please-see-the-package">In the meantime please see the package<a class="anchor" aria-label="anchor" href="#in-the-meantime-please-see-the-package"></a>
 </h4>
+<p><a href="https://github.com/SomaLogic/SomaDataIO/blob/main/README.md">README</a></p>
 <hr>
 </div>
 </div>
@@ -122,12 +151,30 @@
 <h2 id="mit-license">MIT LICENSE<a class="anchor" aria-label="anchor" href="#mit-license"></a>
 </h2>
 <p>SomaDataIO™</p>
-<p>Copyright © 2022 SomaLogic Operating Co., Inc.</p>
-<p>Permission is hereby granted, free of charge, to any person obtaining a copy of the SomaDataIO software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sub-license, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions outlined below. Further, SomaDataIO and SomaLogic are trademarks owned by SomaLogic Operating Co., Inc. No license is hereby granted to these trademarks other than for purposes of identifying the origin or source of the Software.</p>
-<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
-<p>THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDER(S) BE LIABLE FOR ANY CLAIM, DAMAGES, WHETHER DIRECT OR INDIRECT, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+<p>Copyright © 2023 SomaLogic Operating Co., Inc.</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining
+a copy of the SomaDataIO software and associated documentation files
+(the “Software”), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sub-license, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions outlined below. Further, SomaDataIO and
+SomaLogic are trademarks owned by SomaLogic Operating Co., Inc. No
+license is hereby granted to these trademarks other than for purposes of
+identifying the origin or source of the Software.</p>
+<p>The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDER(S) BE LIABLE FOR ANY
+CLAIM, DAMAGES, WHETHER DIRECT OR INDIRECT, OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.</p>
 <hr>
-<p>Created by <a href="https://github.com/rstudio/rmarkdown" class="external-link">Rmarkdown</a> (v2.17) and R version 4.2.1 (2022-06-23).</p>
+<p>Created by <a href="https://github.com/rstudio/rmarkdown" class="external-link">Rmarkdown</a> (v2.20) and R
+version 4.2.3 (2023-03-15).</p>
 </div>
   </div>
 
@@ -148,7 +195,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

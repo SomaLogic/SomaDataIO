@@ -8,7 +8,7 @@ PoolCloneVersion
 
 See Details below for the definition of each sub-unit.
 The &amp;lt;Pool&amp;gt;-&amp;lt;Clone&amp;gt; combination is sufficient to uniquely identify a
-specific analyte and therefore versions are no longer in provided (though
+specific analyte and therefore versions are no longer provided (though
 they may be present in legacy ADATs).
 The tools below enable users to extract, test, identify, compare,
 and manipulate SeqIds across assay runs and/or versions.'><meta property="og:image" content="https://github.com/SomaLogic/SomaDataIO/logo.png"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -35,7 +35,7 @@ and manipulate SeqIds across assay runs and/or versions.'><meta property="og:ima
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SomaDataIO</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">6.0.0</span>
       </span>
     </div>
 
@@ -49,7 +49,13 @@ and manipulate SeqIds across assay runs and/or versions.'><meta property="og:ima
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-      </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
+      </ul><ul class="nav navbar-nav navbar-right"><li>
+  <a href="https://github.com/SomaLogic/SomaDataIO/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
@@ -59,7 +65,7 @@ and manipulate SeqIds across assay runs and/or versions.'><meta property="og:ima
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Working with SomaLogic SeqIds</h1>
-    
+    <small class="dont-index">Source: <a href="https://github.com/SomaLogic/SomaDataIO/blob/HEAD/R/SeqId.R"><code>R/SeqId.R</code></a>, <a href="https://github.com/SomaLogic/SomaDataIO/blob/HEAD/R/matchSeqIds.R"><code>R/matchSeqIds.R</code></a></small>
     <div class="hidden name"><code>SeqId.Rd</code></div>
     </div>
 
@@ -69,7 +75,7 @@ SomaLogic analytes.
 <code>SeqIds</code> follow the format <strong><code>&lt;Pool&gt;-&lt;Clone&gt;_&lt;Version&gt;</code></strong>, for example
 <code>"1234-56_7"</code> can be represented as:</p><table class="table table"><tr><td><strong>Pool</strong></td><td><strong>Clone</strong></td><td><strong>Version</strong></td></tr><tr><td><code>1234</code></td><td><code>56</code></td><td><code>7</code></td></tr></table><p>See <strong>Details</strong> below for the definition of each sub-unit.
 The <strong><code>&lt;Pool&gt;-&lt;Clone&gt;</code></strong> combination is sufficient to uniquely identify a
-specific analyte and therefore versions are no longer in provided (though
+specific analyte and therefore versions are no longer provided (though
 they may be present in legacy ADATs).
 The tools below enable users to extract, test, identify, compare,
 and manipulate <code>SeqIds</code> across assay runs and/or versions.</p>
@@ -84,6 +90,8 @@ and manipulate <code>SeqIds</code> across assay runs and/or versions.</p>
 <span></span>
 <span><span class="fu">seqid2apt</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span></span>
+<span><span class="fu">apt2seqid</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">is.apt</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">is.SeqId</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
@@ -97,10 +105,11 @@ and manipulate <code>SeqIds</code> across assay runs and/or versions.</p>
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>Character. A vector of strings, usually analyte/feature column
-names, <code>AptNames</code>, or <code>SeqIds</code>. For <code>seqid2apt()</code>, a vector of <code>SeqIds</code>.
+names, <code>AptNames</code>, or <code>SeqIds</code>. For <code>seqid2apt()</code>, a vector <em>of</em> <code>SeqIds</code>.
+For <code>apt2seqid()</code>, a character vector <em>containing</em> <code>SeqIds</code>.
 For <code>matchSeqIds()</code>, a vector of pattern matches containing <code>SeqIds</code>.
-Can be <code>AptNames</code> with <code>GeneIDs</code> or <code>seq.XXXX</code> format, or even
-"naked" <code>SeqIds</code>.</p></dd>
+Can be <code>AptNames</code> with <code>GeneIDs</code>, the <code>seq.XXXX</code> format,
+or even "naked" <code>SeqIds</code>.</p></dd>
 
 
 <dt>trim.version</dt>
@@ -133,7 +142,7 @@ the <code>x</code> (first) argument?</p></dd>
     <h2>Value</h2>
     
 
-<p><code>getSeqId()</code>: a character vector of <code>SeqId</code> capture from a string.</p>
+<p><code>getSeqId()</code>: a character vector of <code>SeqIds</code> captured from a string.</p>
 
 
 <p><code>regexSeqId()</code>: a regular expression (<code>regex</code>) string
@@ -144,6 +153,14 @@ pre-defined to match SomaLogic the <code>SeqId</code> pattern.</p>
 
 
 <p>integer positions for <code>SeqId</code> matches at each value of <code>x</code>.</p>
+
+
+<p><code>seqid2apt()</code>: a character vector with the <code>seq.*</code> prefix, i.e.
+the inverse of <code>getSeqId()</code>.</p>
+
+
+<p><code>apt2seqid()</code>: a character vector of <code>SeqIds</code>. <code>is.SeqId()</code> will
+return <code>TRUE</code> for all elements.</p>
 
 
 <p><code>is.apt()</code>, <code>is.SeqId()</code>: Logical. <code>TRUE</code> or <code>FALSE</code>.</p>
@@ -161,35 +178,45 @@ The data frame is named by the passed arguments, <code>x</code> and <code>y</cod
     <div id="details">
     <h2>Details</h2>
     
-<table class="table table"><tr><td><strong>Pool:</strong></td><td>ties back to the original well during <strong>SELEX</strong></td></tr><tr><td><strong>Clone:</strong></td><td>ties to the specific sequence within a pool</td></tr><tr><td><strong>Version:</strong></td><td>refers to custom modifications (optional/defunct)</td></tr></table></div>
+<table class="table table"><tr><td><strong>Pool:</strong></td><td>ties back to the original well during <strong>SELEX</strong></td></tr><tr><td><strong>Clone:</strong></td><td>ties to the specific sequence within a pool</td></tr><tr><td><strong>Version:</strong></td><td>refers to custom modifications (optional/defunct)</td></tr></table><dl><dt><code>AptName</code></dt>
+<dd><p>a <code>SeqId</code> combined with a string, usually a <code>GeneId</code>- or
+<code>seq.</code>-prefix, for convenient, human-readable
+manipulation from within <code>R</code>.</p></dd>
+
+
+</dl></div>
     <div id="functions">
     <h2>Functions</h2>
     
-<ul><li><p><code>getSeqId</code>: Extracts/captures the the <code>SeqId</code> match from an analyte column identifier,
+<ul><li><p><code>getSeqId()</code>: extracts/captures the the <code>SeqId</code> match from an analyte column identifier,
 i.e. column name of an ADAT loaded with <code><a href="read_adat.html">read_adat()</a></code>. Assumes the
 <code>SeqId</code> pattern occurs at the end of the string, which for
 the vast majority of cases will be true. For edge cases, see the
 <code>trailing</code> argument to <code>locateSeqId()</code>.</p></li>
-<li><p><code>regexSeqId</code>: Generates a pre-formatted regular expression for
+<li><p><code>regexSeqId()</code>: generates a pre-formatted regular expression for
 matching of <code>SeqIds</code>. Note the <em>trailing</em> match, which is most
 commonly required, but <code>locateSeqId()</code> offers
 an alternative to mach <em>anywhere</em> in a string.
 Used internally in <em>many</em> utility functions</p></li>
-<li><p><code>locateSeqId</code>: Generates a data frame of the positional <code>SeqId</code> matches. Specifically
+<li><p><code>locateSeqId()</code>: generates a data frame of the positional <code>SeqId</code> matches. Specifically
 designed to facilitate <code>SeqId</code> extraction via <code><a href="https://rdrr.io/r/base/substr.html" class="external-link">substr()</a></code>.
 Similar to <code><a href="https://stringr.tidyverse.org/reference/str_locate.html" class="external-link">stringr::str_locate()</a></code>.</p></li>
-<li><p><code>seqid2apt</code>: Converts a <code>SeqId</code> into anonymous-AptName format, i.e.
-<code>1234-56</code> -&gt; <code>seq.1234.56</code>. Versions, i.e. <code>1234-56_ver</code>, are trimmed.</p></li>
-<li><p><code>is.apt</code>: Regular expression match to determine if a string <em>contains</em>
+<li><p><code>seqid2apt()</code>: converts a <code>SeqId</code> into anonymous-AptName format, i.e.
+<code>1234-56</code> -&gt; <code>seq.1234.56</code>. Version numbers (<code>1234-56_ver</code>)
+are always trimmed when present.</p></li>
+<li><p><code>apt2seqid()</code>: converts an anonymous-AptName into <code>SeqId</code> format, i.e.
+<code>seq.1234.56</code> -&gt; <code>1234-56</code>. Version numbers (<code>seq.1234.56.ver</code>)
+are always trimmed when present.</p></li>
+<li><p><code>is.apt()</code>: regular expression match to determine if a string <em>contains</em>
 a <code>SeqId</code>, and thus is probably an <code>AptName</code> format string. Both
 legacy <code>EntrezGeneSymbol-SeqId</code> combinations or newer
-<code>"anonymous-AptNames"</code> formats (<code>seq.1234.45</code>) are matched.</p></li>
-<li><p><code>is.SeqId</code>: Tests for <code>SeqId</code> format. Values returned from <code>getSeqId()</code>
-evaluate to <code>TRUE</code>.</p></li>
-<li><p><code>matchSeqIds</code>: Matches two character vectors on the basis of their
+so-called <code>"anonymous-AptNames"</code> formats (<code>seq.1234.45</code>) are matched.</p></li>
+<li><p><code>is.SeqId()</code>: tests for <code>SeqId</code> format, i.e. values returned from <code>getSeqId()</code>
+will always return <code>TRUE</code>.</p></li>
+<li><p><code>matchSeqIds()</code>: matches two character vectors on the basis of their
 intersecting <code>SeqIds</code>. Note that elements in <code>y</code> not
 containing a <code>SeqId</code> regular expression are silently dropped.</p></li>
-<li><p><code>getSeqIdMatches</code>: Matches two character vectors on the basis of their intersecting <em>SeqIds</em>
+<li><p><code>getSeqIdMatches()</code>: matches two character vectors on the basis of their intersecting <em>SeqIds</em>
 only (irrespective of the <code>GeneID</code>-prefix). This produces a two-column
 data frame which then can be used as to map between the two sets.</p>
 <p>The final order of the matches/rows is by the input
@@ -299,7 +326,7 @@ avoid dumping excess output to the console (see the <code>show =</code> argument
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

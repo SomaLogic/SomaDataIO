@@ -30,7 +30,7 @@ via *.xlsx file, which can be parsed via read_annotations(). See Details.'><meta
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SomaDataIO</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">6.0.0</span>
       </span>
     </div>
 
@@ -44,7 +44,13 @@ via *.xlsx file, which can be parsed via read_annotations(). See Details.'><meta
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-      </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
+      </ul><ul class="nav navbar-nav navbar-right"><li>
+  <a href="https://github.com/SomaLogic/SomaDataIO/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
@@ -54,7 +60,7 @@ via *.xlsx file, which can be parsed via read_annotations(). See Details.'><meta
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Lift an ADAT Between Assay Versions</h1>
-    
+    <small class="dont-index">Source: <a href="https://github.com/SomaLogic/SomaDataIO/blob/HEAD/R/lift-adat.R"><code>R/lift-adat.R</code></a></small>
     <div class="hidden name"><code>lift_adat.Rd</code></div>
     </div>
 
@@ -105,8 +111,8 @@ a separate annotations file and a <code>soma_adat</code> from SomaScan <code>v4.
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># `example_data` is assay V4</span></span></span>
-<span class="r-in"><span><span class="va">adat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">example_data</span>, <span class="fl">3</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># `example_data` is SomaScan V4</span></span></span>
+<span class="r-in"><span><span class="va">adat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">example_data</span>, <span class="fl">3L</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># read in version specific annotations file</span></span></span>
 <span class="r-in"><span><span class="co"># containing scaling values between assay versions</span></span></span>
@@ -122,16 +128,16 @@ a separate annotations file and a <code>soma_adat</code> from SomaScan <code>v4.
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">tbl</span>, <span class="st">"version"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"SL-99999999-rev99-1999-01"</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># perform the 'lifting'</span></span></span>
-<span class="r-in"><span><span class="va">lift</span> <span class="op">&lt;-</span> <span class="fu">lift_adat</span><span class="op">(</span><span class="va">adat</span>, <span class="va">tbl</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">lifted</span> <span class="op">&lt;-</span> <span class="fu">lift_adat</span><span class="op">(</span><span class="va">adat</span>, <span class="va">tbl</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># `tbl` contained all scalars = 1.0; same RFUs</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">adat</span>, <span class="va">lift</span>, check.attributes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># `tbl` contained all scalars = 1.0 (same RFUs)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">adat</span>, <span class="va">lifted</span>, check.attributes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># attributes updated to reflect the 'lift'</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">lift</span>, <span class="st">"Header"</span><span class="op">)</span><span class="op">$</span><span class="va">HEADER</span><span class="op">$</span><span class="va">ProcessSteps</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">lifted</span>, <span class="st">"Header"</span><span class="op">)</span><span class="op">$</span><span class="va">HEADER</span><span class="op">$</span><span class="va">ProcessSteps</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Raw RFU, Hyb Normalization, medNormInt (SampleId), plateScale, Calibration, anmlQC, qcCheck, anmlSMP, Annotation Lift (v4 to v4.1)"</span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">lift</span>, <span class="st">"Header"</span><span class="op">)</span><span class="op">$</span><span class="va">HEADER</span><span class="op">$</span><span class="va">SignalSpace</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">lifted</span>, <span class="st">"Header"</span><span class="op">)</span><span class="op">$</span><span class="va">HEADER</span><span class="op">$</span><span class="va">SignalSpace</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "v4.1"</span>
 </code></pre></div>
     </div>
@@ -147,7 +153,7 @@ a separate annotations file and a <code>soma_adat</code> from SomaScan <code>v4.
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

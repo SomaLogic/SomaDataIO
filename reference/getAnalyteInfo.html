@@ -30,7 +30,7 @@ represents the key index between the table and soma_adat from which it comes.'><
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SomaDataIO</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">6.0.0</span>
       </span>
     </div>
 
@@ -44,7 +44,13 @@ represents the key index between the table and soma_adat from which it comes.'><
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-      </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
+      </ul><ul class="nav navbar-nav navbar-right"><li>
+  <a href="https://github.com/SomaLogic/SomaDataIO/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
@@ -54,7 +60,7 @@ represents the key index between the table and soma_adat from which it comes.'><
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Get Analyte Annotation Information</h1>
-    
+    <small class="dont-index">Source: <a href="https://github.com/SomaLogic/SomaDataIO/blob/HEAD/R/getAnalyteInfo.R"><code>R/getAnalyteInfo.R</code></a>, <a href="https://github.com/SomaLogic/SomaDataIO/blob/HEAD/R/getTargetNames.R"><code>R/getTargetNames.R</code></a>, <a href="https://github.com/SomaLogic/SomaDataIO/blob/HEAD/R/z-deprecated.R"><code>R/z-deprecated.R</code></a></small>
     <div class="hidden name"><code>getAnalyteInfo.Rd</code></div>
     </div>
 
@@ -94,25 +100,25 @@ information. This is usually the result of a call to <code>getAnalyteInfo()</cod
     
 
 <p>A <code>tibble</code> object with columns corresponding
-to the column meta data entries in the <code>soma_adat</code>; 1 row per analyte.</p>
+to the column meta data entries in the <code>soma_adat</code>. One row per analyte.</p>
     </div>
     <div id="functions">
     <h2>Functions</h2>
     
-<ul><li><p><code>getTargetNames</code>: creates a lookup table (or dictionary) as a named list object of <code>AptNames</code>
+<ul><li><p><code>getTargetNames()</code>: creates a lookup table (or dictionary) as a named list object of <code>AptNames</code>
 and Target names in key-value pairs.
 This is a convenient tool to quickly access a <code>TargetName</code> given
 the <code>AptName</code> in which the key-value pairs map the <code>seq.XXXX.XX</code>
 to its corresponding <code>TargetName</code> in <code>tbl</code>.
 This structure which provides a convenient auto-completion mechanism at
 the command line or for generating plot titles.</p></li>
-<li><p><code>getFeatureData</code>: renamed in <span class="pkg">SomaDataIO v5.1.0</span>. Exported
+<li><p><code>getFeatureData()</code>: renamed in <span class="pkg">SomaDataIO v5.1.0</span>. Exported
 (with life-cycle warning) to maintain backward compatibility.
 Please adjust your code accordingly.</p></li>
 </ul></div>
     <div id="see-also">
     <h2>See also</h2>
-    <div class="dont-index"><p><code><a href="getAnalytes.html">getAnalytes()</a></code>, <code><a href="is.intact.attributes.html">is.intact.attributes()</a></code>, <code><a href="read_adat.html">read_adat()</a></code></p></div>
+    <div class="dont-index"><p><code><a href="getAnalytes.html">getAnalytes()</a></code>, <code><a href="is_intact_attr.html">is_intact_attr()</a></code>, <code><a href="read_adat.html">read_adat()</a></code></p></div>
     </div>
     <div id="author">
     <h2>Author</h2>
@@ -146,7 +152,7 @@ Please adjust your code accordingly.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ²​TargetFullName, ³​EntrezGeneID, ⁴​EntrezGeneSymbol, ⁵​Organism</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Use `dplyr::group_by()`</span></span></span>
-<span class="r-in"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">tally</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">anno_tbl</span>, <span class="va">Dilution</span><span class="op">)</span><span class="op">)</span>     <span class="co"># Print summary by dilution</span></span></span>
+<span class="r-in"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">tally</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">anno_tbl</span>, <span class="va">Dilution</span><span class="op">)</span><span class="op">)</span>  <span class="co"># print summary by dilution</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Dilution     n</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
@@ -156,7 +162,8 @@ Please adjust your code accordingly.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 20        <span style="text-decoration: underline;">4</span>271</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Columns containing "Target"</span></span></span>
-<span class="r-in"><span><span class="va">anno_tbl</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">contains</a></span><span class="op">(</span><span class="st">"Target"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">anno_tbl</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">contains</a></span><span class="op">(</span><span class="st">"Target"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5,284 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    TargetFullName                                         Target  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span>
@@ -173,7 +180,8 @@ Please adjust your code accordingly.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 5,274 more rows</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Rows of "Target" starting with MMP</span></span></span>
-<span class="r-in"><span><span class="va">anno_tbl</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"^MMP"</span>, <span class="va">Target</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">anno_tbl</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"^MMP"</span>, <span class="va">Target</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 15 × 22</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    AptName   SeqId SeqId…¹ SomaId Targe…² Target UniProt Entre…³ Entre…⁴ Organ…⁵</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
@@ -205,26 +213,28 @@ Please adjust your code accordingly.</p></li>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># how to use for plotting</span></span></span>
 <span class="r-in"><span><span class="va">feats</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">anno_tbl</span><span class="op">$</span><span class="va">AptName</span>, <span class="fl">6</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">feats</span>, <span class="kw">function</span><span class="op">(</span><span class="va">.x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, main <span class="op">=</span> <span class="va">tg</span><span class="op">[[</span><span class="va">.x</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">op</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">feats</span>, <span class="kw">function</span><span class="op">(</span><span class="va">.x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, main <span class="op">=</span> <span class="va">tg</span><span class="op">[[</span><span class="va">.x</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="getAnalyteInfo-1.png" alt="" width="700" height="433"></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.12493.42</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.9786.310</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.13495.48</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.9057.19</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.12740.55</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.6103.70</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.19215.7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.5593.11</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.8755.202</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.4568.17</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.8967.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $seq.4970.55</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">op</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -239,7 +249,7 @@ Please adjust your code accordingly.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

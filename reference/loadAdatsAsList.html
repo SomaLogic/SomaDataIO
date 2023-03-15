@@ -28,7 +28,7 @@ loss of HEADER information."><meta property="og:image" content="https://github.c
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SomaDataIO</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">6.0.0</span>
       </span>
     </div>
 
@@ -42,7 +42,13 @@ loss of HEADER information."><meta property="og:image" content="https://github.c
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-      </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
+      </ul><ul class="nav navbar-nav navbar-right"><li>
+  <a href="https://github.com/SomaLogic/SomaDataIO/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
@@ -52,7 +58,7 @@ loss of HEADER information."><meta property="og:image" content="https://github.c
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Load ADAT files as a list</h1>
-    
+    <small class="dont-index">Source: <a href="https://github.com/SomaLogic/SomaDataIO/blob/HEAD/R/loadAdatsAsList.R"><code>R/loadAdatsAsList.R</code></a></small>
     <div class="hidden name"><code>loadAdatsAsList.Rd</code></div>
     </div>
 
@@ -83,8 +89,7 @@ collapsed into a single ADAT object?</p></dd>
 
 
 <dt>verbose</dt>
-<dd><p>Logical. Should the function call be run in <em>verbose</em>
-mode.</p></dd>
+<dd><p>Logical. Should the function call be run in <em>verbose</em> mode.</p></dd>
 
 
 <dt>...</dt>
@@ -92,25 +97,37 @@ mode.</p></dd>
 
 
 <dt>x</dt>
-<dd><p>A list of <code>soma_adat</code> class objects loaded via <code>loadAdatsAsList()</code>.</p></dd>
+<dd><p>A list of <code>soma_adat</code> class objects returned from
+<code>loadAdatsAsList()</code>.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
     
 
-<p>A list of ADATs, each a <code>soma_adat</code> object corresponding to a file
-in of the argument <code>files</code>. The list names are derived from the file names.</p>
+<p>A list of ADATs named by <code>files</code>, each a <code>soma_adat</code> object
+corresponding to an individual file in <code>files</code>. For <code>collapseAdats()</code>,
+a single, collapsed <code>soma_adat</code> object.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
-    <p><strong>Note 1:</strong> the <code>rbind</code> occurs on the  <em>intersect</em> of the common columns
-names, unique columns are silently dropped.</p>
-<p><strong>Note 2:</strong> If <code>rbind</code> on the <em>union</em> is desired, use <code>bind_rows()</code>,
-however this results in <code>NAs</code> in non-intersecting columns. For many files
-with little variable intersection, a sparse RFU-matrix will result.
-See <code>Examples</code> below.</p>
-    </div>
+    
+<dl><dt><strong>Note 1</strong>:</dt>
+<dd><p>The default behavior is to "vertically bind"
+(<code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind()</a></code>) on the  <em>intersect</em> of the column variables, with
+unique columns silently dropped.</p></dd>
+
+<dt><strong>Note 2</strong>:</dt>
+<dd><p>If "vertically binding" on the column <em>union</em> is
+desired, use <code>bind_rows()</code>, however this results in <code>NAs</code> in
+non-intersecting columns. For many files with little variable
+intersection, a sparse RFU-matrix will result
+(and will likely break ADAT attributes):</p>
+<p></p><div class="sourceCode r"><pre><code><span><span class="va">adats</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/loadAdatsAsList.html">loadAdatsAsList</a></span><span class="op">(</span><span class="va">files</span><span class="op">)</span></span>
+<span><span class="va">union_adat</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">adats</span>, .id <span class="op">=</span> <span class="st">"SourceFile"</span><span class="op">)</span></span></code></pre><p></p></div></dd>
+
+
+</dl></div>
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p><code><a href="read_adat.html">read_adat()</a></code></p>
@@ -127,29 +144,59 @@ See <code>Examples</code> below.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"example"</span>, package <span class="op">=</span> <span class="st">"SomaDataIO"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># only 1 file in directory</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">dir</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"SomaDataIO"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "example_data10.adat"</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"SomaDataIO"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">dir</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"[.]adat$"</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># 2 files in directory</span></span></span>
-<span class="r-in"><span><span class="va">files</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/Users/runner/work/_temp/Library/SomaDataIO/example/single_sample.adat"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "/Users/runner/work/_temp/Library/SomaDataIO/example/example_data.adat" </span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">adats</span> <span class="op">&lt;-</span> <span class="fu">loadAdatsAsList</span><span class="op">(</span><span class="va">files</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">adats</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "list"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># collapse into 1 ADAT</span></span></span>
-<span class="r-in"><span><span class="va">all</span> <span class="op">&lt;-</span> <span class="fu">collapseAdats</span><span class="op">(</span><span class="va">adats</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">collapsed</span> <span class="op">&lt;-</span> <span class="fu">collapseAdats</span><span class="op">(</span><span class="va">adats</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">collapsed</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "soma_adat"  "data.frame"</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Alternativly use the `collapse = TRUE`</span></span></span>
-<span class="r-in"><span><span class="va">coll</span> <span class="op">&lt;-</span> <span class="fu">loadAdatsAsList</span><span class="op">(</span><span class="va">files</span>, collapse <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">coll</span>, <span class="va">all</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Lastly, `rbind` on the `union` of columns also possible</span></span></span>
-<span class="r-in"><span><span class="co"># but produces numerous NAs for missing cells</span></span></span>
-<span class="r-in"><span><span class="co"># And will break the ADAT attributes</span></span></span>
-<span class="r-in"><span><span class="va">union_adat</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">adats</span>, .id <span class="op">=</span> <span class="st">"SourceFile"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="co"># Alternatively use `collapse = TRUE`</span></span></span>
+<span class="r-in"><span><span class="fu">loadAdatsAsList</span><span class="op">(</span><span class="va">files</span>, collapse <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">══</span> <span style="font-weight: bold;">SomaScan Data</span> <span style="color: #0000BB;">═══════════════════════════════════════════════════════════════</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      Attributes intact    <span style="color: #00BB00;">✓</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      Rows                 <span style="color: #00BBBB;">10</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      Columns              <span style="color: #00BBBB;">5318</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      Clinical Data        <span style="color: #00BBBB;">34</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      Features             <span style="color: #00BBBB;">5284</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">──</span> <span style="font-weight: bold;">Column Meta</span> <span style="color: #BB00BB;">─────────────────────────────────────────────────────────────────</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> SeqId, SeqIdVersion, SomaId, TargetFullName, Target, UniProt,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> EntrezGeneID, EntrezGeneSymbol, Organism, Units, Type, Dilution,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> PlateScale_Reference, CalReference, Cal_Example_Adat_Set001,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> ColCheck, CalQcRatio_Example_Adat_Set001_170255, QcReference_170255,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Cal_Example_Adat_Set002, CalQcRatio_Example_Adat_Set002_170255,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Dilution2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">──</span> <span style="font-weight: bold;">Tibble</span> <span style="color: #BB00BB;">──────────────────────────────────────────────────────────────────────</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 10 × 5,319</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    row_names     PlateId Plate…¹ Scann…² Plate…³ SlideId Subar…⁴ Sampl…⁵ Sampl…⁶</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 258495800012… Exampl… 2020-0… SG1521… H9      2.58<span style="color: #949494;">e</span>11       3 1       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 258495800004… Exampl… 2020-0… SG1521… H8      2.58<span style="color: #949494;">e</span>11       7 2       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 258495800010… Exampl… 2020-0… SG1521… H7      2.58<span style="color: #949494;">e</span>11       8 3       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 258495800003… Exampl… 2020-0… SG1521… H6      2.58<span style="color: #949494;">e</span>11       4 4       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 258495800009… Exampl… 2020-0… SG1521… H5      2.58<span style="color: #949494;">e</span>11       4 5       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 258495800012… Exampl… 2020-0… SG1521… H4      2.58<span style="color: #949494;">e</span>11       8 6       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 258495800001… Exampl… 2020-0… SG1521… H3      2.58<span style="color: #949494;">e</span>11       3 7       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 258495800004… Exampl… 2020-0… SG1521… H2      2.58<span style="color: #949494;">e</span>11       8 8       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 258495800001… Exampl… 2020-0… SG1521… H12     2.58<span style="color: #949494;">e</span>11       8 9       Sample </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 258495800004… Exampl… 2020-0… SG1521… H11     2.58<span style="color: #949494;">e</span>11       3 170261  Calibr…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 5,310 more variables: PercentDilution &lt;int&gt;, SampleMatrix &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Barcode &lt;lgl&gt;, Barcode2d &lt;chr&gt;, SampleName &lt;lgl&gt;, SampleNotes &lt;lgl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   AliquotingNotes &lt;lgl&gt;, SampleDescription &lt;chr&gt;, AssayNotes &lt;lgl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   TimePoint &lt;lgl&gt;, …, and abbreviated variable names ¹​PlateRunDate,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ²​ScannerID, ³​PlatePosition, ⁴​Subarray, ⁵​SampleId, ⁶​SampleType</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">════════════════════════════════════════════════════════════════════════════════</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -164,7 +211,7 @@ See <code>Examples</code> below.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

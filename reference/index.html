@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">SomaDataIO</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">6.0.0</span>
       </span>
     </div>
 
@@ -37,7 +37,13 @@
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-      </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
+      </ul><ul class="nav navbar-nav navbar-right"><li>
+  <a href="https://github.com/SomaLogic/SomaDataIO/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
@@ -64,7 +70,7 @@
       </tr><tr><td>
           <p><code><a href="soma_adat.html">print(<i>&lt;soma_adat&gt;</i>)</a></code> <code><a href="soma_adat.html">summary(<i>&lt;soma_adat&gt;</i>)</a></code> <code><a href="soma_adat.html">`[`(<i>&lt;soma_adat&gt;</i>)</a></code> <code><a href="soma_adat.html">`$`(<i>&lt;soma_adat&gt;</i>)</a></code> <code><a href="soma_adat.html">`[[`(<i>&lt;soma_adat&gt;</i>)</a></code> <code><a href="soma_adat.html">`[&lt;-`(<i>&lt;soma_adat&gt;</i>)</a></code> <code><a href="soma_adat.html">`$&lt;-`(<i>&lt;soma_adat&gt;</i>)</a></code> <code><a href="soma_adat.html">`[[&lt;-`(<i>&lt;soma_adat&gt;</i>)</a></code> <code><a href="soma_adat.html">median(<i>&lt;soma_adat&gt;</i>)</a></code> </p>
         </td>
-        <td><p>The <code>soma_adat</code>Class and S3 Methods</p></td>
+        <td><p>The <code>soma_adat</code> Class and S3 Methods</p></td>
       </tr><tr><td>
           <p><code><a href="loadAdatsAsList.html">loadAdatsAsList()</a></code> <code><a href="loadAdatsAsList.html">collapseAdats()</a></code> </p>
         </td>
@@ -82,11 +88,11 @@
         </td>
         <td><p>Analyte Annotations, Col.Meta, and Row Info</p></td>
       </tr><tr><td>
-          <p><code><a href="is.intact.attributes.html">is.intact.attributes()</a></code> </p>
+          <p><code><a href="is_intact_attr.html">is_intact_attr()</a></code> <code><a href="is_intact_attr.html">is.intact.attributes()</a></code> </p>
         </td>
         <td><p>Are Attributes Intact?</p></td>
       </tr><tr><td>
-          <p><code><a href="groupGenerics.html">Math(<i>&lt;soma_adat&gt;</i>)</a></code> <code><a href="groupGenerics.html">antilog()</a></code> <code><a href="groupGenerics.html">Ops(<i>&lt;soma_adat&gt;</i>)</a></code> <code><a href="groupGenerics.html">`==`(<i>&lt;soma_adat&gt;</i>)</a></code> <code><a href="groupGenerics.html">Summary(<i>&lt;soma_adat&gt;</i>)</a></code> </p>
+          <p><code><a href="groupGenerics.html">Math(<i>&lt;soma_adat&gt;</i>)</a></code> <code><a href="groupGenerics.html">antilog()</a></code> <code><a href="groupGenerics.html">Ops(<i>&lt;soma_adat&gt;</i>)</a></code> <code><a href="groupGenerics.html">Summary(<i>&lt;soma_adat&gt;</i>)</a></code> <code><a href="groupGenerics.html">`==`(<i>&lt;soma_adat&gt;</i>)</a></code> </p>
         </td>
         <td><p>Group Generics for <code>soma_adat</code> Class Objects</p></td>
       </tr><tr><td>
@@ -98,7 +104,7 @@
           <p class="section-desc"></p><p>Functions that allow filtering, wrangling, and subset selection of ADAT objects.</p>
         </th>
       </tr></tbody><tbody><tr><td>
-          <p><code><a href="SeqId.html">getSeqId()</a></code> <code><a href="SeqId.html">regexSeqId()</a></code> <code><a href="SeqId.html">locateSeqId()</a></code> <code><a href="SeqId.html">seqid2apt()</a></code> <code><a href="SeqId.html">is.apt()</a></code> <code><a href="SeqId.html">is.SeqId()</a></code> <code><a href="SeqId.html">matchSeqIds()</a></code> <code><a href="SeqId.html">getSeqIdMatches()</a></code> </p>
+          <p><code><a href="SeqId.html">getSeqId()</a></code> <code><a href="SeqId.html">regexSeqId()</a></code> <code><a href="SeqId.html">locateSeqId()</a></code> <code><a href="SeqId.html">seqid2apt()</a></code> <code><a href="SeqId.html">apt2seqid()</a></code> <code><a href="SeqId.html">is.apt()</a></code> <code><a href="SeqId.html">is.SeqId()</a></code> <code><a href="SeqId.html">matchSeqIds()</a></code> <code><a href="SeqId.html">getSeqIdMatches()</a></code> </p>
         </td>
         <td><p>Working with SomaLogic SeqIds</p></td>
       </tr><tr><td>
@@ -150,7 +156,7 @@
           <p class="section-desc"></p><p>Objects provided with <code>SomaDataIO</code>.</p>
         </th>
       </tr></tbody><tbody><tr><td>
-          <p><code><a href="SomaDataObjects.html">SomaDataObjects</a></code> <code><a href="SomaDataObjects.html">example_data</a></code> <code><a href="SomaDataObjects.html">ex_analytes</a></code> <code><a href="SomaDataObjects.html">ex_anno_tbl</a></code> <code><a href="SomaDataObjects.html">ex_target_names</a></code> </p>
+          <p><code><a href="SomaScanObjects.html">SomaScanObjects</a></code> <code><a href="SomaScanObjects.html">example_data</a></code> <code><a href="SomaScanObjects.html">ex_analytes</a></code> <code><a href="SomaScanObjects.html">ex_anno_tbl</a></code> <code><a href="SomaScanObjects.html">ex_target_names</a></code> </p>
         </td>
         <td><p>Example Data and Objects</p></td>
       </tr></tbody><tbody><tr><th colspan="2">
@@ -174,7 +180,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
