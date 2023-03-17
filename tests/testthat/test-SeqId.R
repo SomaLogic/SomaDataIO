@@ -1,24 +1,24 @@
 
-test_that("getSeqId deals with Aptamer names", {
+test_that("`getSeqId()` deals with AptNames correctly", {
   expect_equal(getSeqId("ABDC.3948.48.2"), "3948-48_2")
   expect_equal(getSeqId("My.Favorite.Apt.3948.88.9"), "3948-88_9")
 })
 
-test_that("getSeqId deals with SeqIds of various sorts", {
+test_that("`getSeqId()` deals with SeqIds of various sorts", {
   expect_equal(getSeqId("3948.48.2"), "3948-48_2")
   expect_equal(getSeqId("3948-48_2"), "3948-48_2")
   expect_equal(getSeqId("3948-48"), "3948-48")
   expect_equal(getSeqId("3948.48"), "3948-48")
 })
 
-test_that("getSeqId trim argument works properly", {
+test_that("`getSeqId()` trim argument works properly", {
   expect_equal(getSeqId("ABDC.3948.48.2", TRUE), "3948-48")
   expect_equal(getSeqId("My.Favorite.Apt.3948.88.9", TRUE), "3948-88")
   expect_equal(getSeqId("3948.48.2", TRUE), "3948-48")
   expect_equal(getSeqId("3948-48_2", TRUE), "3948-48")
 })
 
-test_that("getSeqId trim argument works even when there is no version #", {
+test_that("`getSeqId()` trim argument works even when there is no version #", {
   expect_equal(getSeqId("ABDC.3948.48", TRUE), getSeqId("3948-48", TRUE))
   expect_equal(getSeqId("My.Favorite.Apt.3948.88", TRUE),
                getSeqId("3948-88_12", TRUE))
@@ -58,7 +58,7 @@ test_that("`getSeqId()` type conversion for factors and lists", {
 
 
 # New AptName format ----
-test_that("`getSeqId` properly strips SeqId prefixes from 'Aptnames'", {
+test_that("`getSeqId()` properly strips SeqId prefixes from 'Aptnames'", {
   test_vec <- c("seq.2182-54_1", "seq.2190-55_1", "seq.2192-63_10",
                 "seq.2201-17_6", "seq.2211-9_6", "seq.2212-69_1")
   expect_equal(getSeqId(test_vec), c("2182-54_1", "2190-55_1",
@@ -66,7 +66,7 @@ test_that("`getSeqId` properly strips SeqId prefixes from 'Aptnames'", {
                                      "2211-9_6", "2212-69_1"))
 })
 
-test_that("`getSeqId` properly strips the version number of SeqId", {
+test_that("`getSeqId()` properly strips the version number of SeqId", {
   test_vec <- c("seq.2182-54_1", "seq.2190-55_1", "seq.2192-63_10",
                 "seq.2201-17_6", "seq.2211-9_6", "seq.2212-69_1")
   expect_equal(getSeqId(test_vec, TRUE),
@@ -84,8 +84,8 @@ test_that("`getSeqId()` properly does nothing when there is no version number", 
 })
 
 test_that("`seqid2apt()` properly generates AptNames in new format", {
-  expect_equal(seqid2apt("1234-45"), "seq.1234.45")
-  expect_equal(seqid2apt("1234-45_8"), "seq.1234.45")   # version stripped
+  expect_equal(seqid2apt("1234-56"), "seq.1234.56")
+  expect_equal(seqid2apt("1234-56_7"), "seq.1234.56")   # version stripped
   # error trips
   expect_error(seqid2apt(1), "inherits(x, \"character\") is not TRUE", fixed = TRUE)
   expect_error(
@@ -101,41 +101,44 @@ test_that("`seqid2apt()` properly generates AptNames in new format", {
 })
 
 test_that("`apt2seqid()` properly generates SeqIds in new format", {
-  expect_equal(apt2seqid("seq.1234.45"), "1234-45")
-  expect_equal(apt2seqid("seq.1234.45.8"), "1234-45")   # version stripped
+  expect_equal(apt2seqid("seq.1234.56"), "1234-56")
+  expect_equal(apt2seqid("seq.1234.56.7"), "1234-56")   # version stripped
 
   # error trips
   expect_error(apt2seqid(1), "inherits(x, \"character\") is not TRUE", fixed = TRUE)
   expect_error(
     apt2seqid("1234_56"),
-    paste("Some values of `x` do not contain 'SeqIds'.\nPlease check: '1234_56'")
+    "Some values of `x` do not contain 'SeqIds'.\nPlease check: '1234_56'"
   )
 
-  meta_vec <- c("SampleId", "TimePoint", "seq.1234.45", "seq.5678.89.9")
+  meta_vec <- c("SampleId", "TimePoint", "seq.1234.56", "seq.5678.99.9")
   expect_error(
     apt2seqid(meta_vec),
-    paste("Some values of `x` do not contain 'SeqIds'.\nPlease check:",
-          "'SampleId', 'TimePoint'")
+    "Some values of `x` do not contain 'SeqIds'.\nPlease check: 'SampleId', 'TimePoint'"
   )
 
-  na_vec <- c("seq.1234.45", NA_character_, "seq.5678.89")
+  na_vec <- c("seq.1234.56", NA_character_, "seq.5678.99")
   expect_error(
     apt2seqid(na_vec),
-    paste("Some values of `x` do not contain 'SeqIds'.\nPlease check: NA")
+    "Some values of `x` do not contain 'SeqIds'.\nPlease check: NA"
   )
 
   expect_error(apt2seqid(NULL))
   expect_error(apt2seqid(45))
 })
 
-test_that("apt2seqid() returns a seqId, when one is present in a vector", {
-  seq_vec <- c("1234-56", "seq.5678.89", "9012-23", "seq.2345.67", "8910-01")
-  expect_equal(apt2seqid(seq_vec), c("1234-56", "5678-89", "9012-23", "2345-67", "8910-01"))
+test_that("`apt2seqid()` returns seqIds when present in a mixed vector", {
+  seq_vec <- c("1234-56", "seq.5678.99", "9012-23", "seq.2345.67")
+  expect_equal(apt2seqid(seq_vec), c("1234-56", "5678-99", "9012-23", "2345-67"))
 })
 
-test_that("apt2seqid() returns a warning when only seqIds are provided", {
-  seq_vec <- c("1234-56", "9012-23", "8910-01")
-  expect_warning(apt2seqid(seq_vec), "All values are already in 'SeqId' format.")
+test_that("`apt2seqid()` trips warning and returns `x` when only seqIds are provided", {
+  seq_vec <- c("1234-56", "9012-23", "8910-11")
+  expect_warning(
+    out <- apt2seqid(seq_vec),
+    "All values are already in 'SeqId' format."
+  )
+  expect_equal(seq_vec, out)
 })
 
 test_that("`is.SeqId()` properly returns matches", {
