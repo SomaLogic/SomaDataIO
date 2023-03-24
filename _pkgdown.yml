@@ -39,7 +39,7 @@ reference:
     - parseHeader
     - rownames
     - Col.Meta
-    - is.intact.attributes
+    - is_intact_attr
     - groupGenerics
     - reexports
 
