@@ -3,7 +3,7 @@ pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   SomaDataIO: SomaDataIO.html
-last_built: 2023-03-15T17:01Z
+last_built: 2023-03-27T18:54Z
 urls:
   reference: https://github.com/SomaLogic/SomaDataIO/reference
   article: https://github.com/SomaLogic/SomaDataIO/articles

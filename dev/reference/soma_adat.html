@@ -302,24 +302,23 @@ the corresponding S3 method applied.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Dilution2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">──</span> <span style="font-weight: bold;">Tibble</span> <span style="color: #BB00BB;">──────────────────────────────────────────────────────────────────────</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 192 × 5,319</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    row_names     PlateId Plate…¹ Scann…² Plate…³ SlideId Subar…⁴ Sampl…⁵ Sampl…⁶</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 258495800012… Exampl… 2020-0… SG1521… H9      2.58<span style="color: #949494;">e</span>11       3 1       Sample </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 258495800004… Exampl… 2020-0… SG1521… H8      2.58<span style="color: #949494;">e</span>11       7 2       Sample </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 258495800010… Exampl… 2020-0… SG1521… H7      2.58<span style="color: #949494;">e</span>11       8 3       Sample </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 258495800003… Exampl… 2020-0… SG1521… H6      2.58<span style="color: #949494;">e</span>11       4 4       Sample </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 258495800009… Exampl… 2020-0… SG1521… H5      2.58<span style="color: #949494;">e</span>11       4 5       Sample </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 258495800012… Exampl… 2020-0… SG1521… H4      2.58<span style="color: #949494;">e</span>11       8 6       Sample </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 258495800001… Exampl… 2020-0… SG1521… H3      2.58<span style="color: #949494;">e</span>11       3 7       Sample </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 258495800004… Exampl… 2020-0… SG1521… H2      2.58<span style="color: #949494;">e</span>11       8 8       Sample </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 258495800001… Exampl… 2020-0… SG1521… H12     2.58<span style="color: #949494;">e</span>11       8 9       Sample </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 258495800004… Exampl… 2020-0… SG1521… H11     2.58<span style="color: #949494;">e</span>11       3 170261  Calibr…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 182 more rows, 5,310 more variables: PercentDilution &lt;int&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   SampleMatrix &lt;chr&gt;, Barcode &lt;lgl&gt;, Barcode2d &lt;chr&gt;, SampleName &lt;lgl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   SampleNotes &lt;lgl&gt;, AliquotingNotes &lt;lgl&gt;, SampleDescription &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   AssayNotes &lt;lgl&gt;, TimePoint &lt;lgl&gt;, …, and abbreviated variable names</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ¹​PlateRunDate, ²​ScannerID, ³​PlatePosition, ⁴​Subarray, ⁵​SampleId,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ⁶​SampleType</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    row_names      PlateId  PlateRunDate ScannerID PlatePosition SlideId Subarray</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 258495800012_3 Example… 2020-06-18   SG152144… H9            2.58<span style="color: #949494;">e</span>11        3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 258495800004_7 Example… 2020-06-18   SG152144… H8            2.58<span style="color: #949494;">e</span>11        7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 258495800010_8 Example… 2020-06-18   SG152144… H7            2.58<span style="color: #949494;">e</span>11        8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 258495800003_4 Example… 2020-06-18   SG152144… H6            2.58<span style="color: #949494;">e</span>11        4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 258495800009_4 Example… 2020-06-18   SG152144… H5            2.58<span style="color: #949494;">e</span>11        4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 258495800012_8 Example… 2020-06-18   SG152144… H4            2.58<span style="color: #949494;">e</span>11        8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 258495800001_3 Example… 2020-06-18   SG152144… H3            2.58<span style="color: #949494;">e</span>11        3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 258495800004_8 Example… 2020-06-18   SG152144… H2            2.58<span style="color: #949494;">e</span>11        8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 258495800001_8 Example… 2020-06-18   SG152144… H12           2.58<span style="color: #949494;">e</span>11        8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 258495800004_3 Example… 2020-06-18   SG152144… H11           2.58<span style="color: #949494;">e</span>11        3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 182 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 5,312 more variables: SampleId &lt;chr&gt;, SampleType &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   PercentDilution &lt;int&gt;, SampleMatrix &lt;chr&gt;, Barcode &lt;lgl&gt;, Barcode2d &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   SampleName &lt;lgl&gt;, SampleNotes &lt;lgl&gt;, AliquotingNotes &lt;lgl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   SampleDescription &lt;chr&gt;, …</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">════════════════════════════════════════════════════════════════════════════════</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># show the header info (no RFU data)</span></span></span>
@@ -356,7 +355,7 @@ the corresponding S3 method applied.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> ProcessSteps         Raw RFU, Hyb Normalization, medNormInt (SampleId), plat…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> ProteinEffectiveDate 2019-08-06                                              </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> StudyMatrix          EDTA Plasma                                             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 20 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 20 more rows</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">════════════════════════════════════════════════════════════════════════════════</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># S3 summary method</span></span></span>
