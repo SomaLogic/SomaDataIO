@@ -48,6 +48,9 @@ test_file:
 	-e "devtools::load_all()" \
 	-e "testthat::test_file('$(FILE)', reporter = 'summary', stop_on_failure = TRUE)"
 
+accept_snapshots:
+	@ Rscript -e "testthat::snapshot_accept()"
+
 build: roxygen
 	@ cd ..;\
 	$(RCMD) build --resave-data $(PKGSRC)
