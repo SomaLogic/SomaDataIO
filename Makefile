@@ -40,7 +40,7 @@ test:
 
 test_file:
 	@ Rscript \
-	-e "Sys.setenv(TZ = 'America/Denver')" \
+	-e "Sys.setenv(TZ = 'America/Denver', NOT_CRAN = 'true')" \
 	-e "path <- Sys.getenv('R_LIBS_DEV')" \
 	-e "path <- normalizePath(path, winslash = '/', mustWork = TRUE)" \
 	-e "message('Dev mode: ON')" \
