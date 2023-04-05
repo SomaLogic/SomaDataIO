@@ -1,0 +1,171 @@
+---
+title: "Linear Regression"
+author: "Stu Field, SomaLogic Operating Co., Inc."
+output:
+  rmarkdown::html_vignette:
+    fig_caption: yes
+vignette: >
+  %\VignetteIndexEntry{Linear Regression}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+library(SomaDataIO)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(purrr)
+knitr::opts_chunk$set(
+  echo = TRUE,
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "figures/linear-reg-"
+)
+```
+
+
+--------------
+
+
+## Regression of Continuous Variables
+
+Although targeted statistical analyses are beyond the scope of 
+the `SomaDataIO` package, below is an example analysis
+that typical users/customers would perform on 'SomaScan' data.
+
+It is not intended to be a definitive guide in statistical
+analysis and existing packages do exist in the `R` ecosystem that perform
+parts or extensions of these techniques. Many variations of the workflow
+below exist, however the framework highlights how one could perform standard
+_preliminary_ analyses on 'SomaScan' data.
+
+
+## Data Preparation
+```{r data-prep}
+# the `example_data` package data
+dim(example_data)
+
+table(example_data$SampleType)
+
+# center/scale
+cs <- function(.x) {    # .x = numeric vector
+  out <- .x - mean(.x)  # center
+  out / sd(out)         # scale
+}
+
+# prepare data set for analysis
+cleanData <- example_data |>
+  filter(SampleType == "Sample") |>               # rm control samples
+  drop_na(Sex) |>                                 # rm NAs if present
+  log10() |>                                      # log10-transform (Math Generic)
+  mutate(Group = as.numeric(factor(Sex)) - 1) |>  # map Sex -> 0/1
+  modify_at(getAnalytes(example_data), cs)
+
+table(cleanData$Sex)
+
+table(cleanData$Group)    # F = 0; M = 1
+```
+
+
+## Set up Train/Test Data
+
+```{r train-test}
+# idx = hold-out 
+# seed resulting in 50/50 class balance
+idx   <- withr::with_seed(3, sample(1:nrow(cleanData), size = nrow(cleanData) - 50))
+train <- cleanData[idx, ]
+test  <- cleanData[-idx, ]
+
+# assert no overlap
+isTRUE(
+  all.equal(intersect(rownames(train), rownames(test)), character(0))
+)
+```
+
+
+## Linear Regression
+We use the `cleanData`, `train`, and `test` data objects from above.
+
+### Predict Age
+```{r linreg-tbl}
+LinR_tbl <- getAnalyteInfo(train) |>                # `train` from above
+  select(AptName, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt) |>
+  mutate(
+    formula = map(AptName, ~ as.formula(paste("Age ~", .x, collapse = " + "))),
+    model   = map(formula, ~ lm(.x, data = train, model = FALSE)),  # fit linear models
+    slope   = map_dbl(model, ~ coef(.x)[2L]),       # pull out B_1
+    p.value = map2_dbl(model, AptName, ~ {
+      summary(.x)$coefficients[.y, "Pr(>|t|)"] }),  # pull out p-values
+    fdr     = p.adjust(p.value, method = "BH")      # FDR for multiple testing
+  ) |>
+  arrange(p.value) |>            # re-order by `p-value`
+  mutate(rank = row_number())    # add numeric ranks
+
+LinR_tbl
+```
+
+
+### Fit Model | Calculate Performance
+Fit an 8-marker model with the top 8 features from `LinR_tbl`:
+
+```{r linreg-fit}
+feats <- head(LinR_tbl$AptName, 8L)
+form  <- as.formula(paste("Age ~", paste(feats, collapse = "+")))
+fit   <- lm(form, data = train, model = FALSE)
+n     <- nrow(test)
+p     <- length(feats)
+
+# Results
+res   <- tibble(
+  true_age   = test$Age,
+  pred_age   = predict(fit, newdata = test),
+  pred_error = pred_age - true_age
+)
+
+# Lin's Concordance Correl. Coef.
+# Accounts for location + scale shifts
+linCCC <- function(x, y) {
+  stopifnot(length(x) == length(y))
+  a <- 2 * cor(x, y) * sd(x) * sd(y)
+  b <- var(x) + var(y) + (mean(x) - mean(y))^2
+  a / b
+}
+
+# Regression metrics
+tibble(
+  rss  = sum(res$pred_error^2),                 # residual sum of squares
+  tss  = sum((test$Age - mean(test$Age))^2),    # total sum of squares
+  rsq  = 1 - (rss / tss),                       # R-squared
+  rsqadj = max(0, 1 - (1 - rsq) * (n - 1) / (n - p - 1)), # Adjusted R-squared
+  R2   = stats::cor(res$true_age, res$pred_age)^2,        # R-squared Pearson approx.
+  MAE  = mean(abs(res$pred_error)),             # Mean Absolute Error
+  RMSE = sqrt(mean(res$pred_error^2)),          # Root Mean Squared Error
+  CCC  = linCCC(res$true_age, res$pred_age)     # Lin's CCC
+)
+```
+
+
+### Visualize Concordance
+```{r linreg-plot, fig.width = 7, fig.height = 7, fig.align = "center"}
+lims <- range(res$true_age, res$pred_age)
+res |>
+  ggplot(aes(x = true_age, y = pred_age)) +
+  geom_point(colour = "#24135F", alpha = 0.5, size = 4) +
+  expand_limits(x = lims, y = lims) +                # make square
+  geom_abline(slope = 1, colour = "black") +         # add unit line
+  geom_rug(colour = "#286d9b", linewidth = 0.2) +
+  labs(y = "Predicted Age", x = "Actual Age") +
+  ggtitle("Concordance in Predicted vs. Actual Age") +
+  theme(plot.title = element_text(size = 21, face = "bold"),
+        axis.title.x = element_text(size = 14),
+        axis.title.y = element_text(size = 14))
+```
+
+
+
+---------------------
+
+
+Created by [Rmarkdown](https://github.com/rstudio/rmarkdown)
+(v`r utils::packageVersion("rmarkdown")`) and `r R.version$version.string`.

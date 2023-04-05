@@ -1,0 +1,176 @@
+---
+title: "Loading and Wrangling 'SomaScan'"
+author: "Stu Field, SomaLogic Operating Co., Inc."
+output:
+  rmarkdown::html_vignette:
+    fig_caption: yes
+vignette: >
+  %\VignetteIndexEntry{Loading and Wrangling 'SomaScan'}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, echo = FALSE, results = FALSE, message = FALSE}
+options(width = 80)
+#Sys.setlocale("LC_COLLATE", "C")
+Sys.setlocale("LC_COLLATE", "en_US.UTF-8") # ensure common sorting envir
+library(SomaDataIO)
+knitr::opts_chunk$set(
+  echo = TRUE,
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "figures/wrangling-"
+)
+```
+
+
+## Loading an ADAT
+
+```{r read-adat}
+# Sample file name
+f <- system.file("extdata", "example_data10.adat",
+                 package = "SomaDataIO", mustWork = TRUE)
+my_adat <- read_adat(f)
+is.soma_adat(my_adat)
+
+# S3 print method forwards -> tibble
+my_adat
+
+print(my_adat, show_header = TRUE)  # if simply wish to see Header info
+
+# S3 summary method
+# View Target and summary statistics
+seqs <- tail(names(my_adat), 3L)
+summary(my_adat[, seqs])
+
+# Summarize by Sex
+my_adat[, seqs] |>
+  split(my_adat$Sex) |>
+  lapply(summary)
+```
+
+
+---------------------
+
+
+## Wrangling
+### Attributes Contain File and Feature Information
+```{r atts}
+names(attributes(my_adat))
+
+# The `Col.Meta` attribute contains
+# target annotation information
+attr(my_adat, "Col.Meta")
+```
+
+### Analyte Features (`seq.xxxx.xx`)
+```{r feats}
+getAnalytes(my_adat) |> head(20L)    # first 20 analytes; see AptName above
+getAnalytes(my_adat) |> length()     # how many analytes
+getAnalytes(my_adat, n = TRUE)       # the `n` argument; no. analytes
+```
+
+### Feature Data
+The `getAnalyteInfo()` function creates a lookup table that links
+analyte feature names in the `soma_adat` object to the annotation
+data in `?Col.Meta` via the common index-key, `AptName`, in column 1:
+
+```{r annotations}
+getAnalyteInfo(my_adat)
+```
+
+
+### Clinical Data
+```{r meta}
+getMeta(my_adat)             # clinical meta data for each sample
+getMeta(my_adat, n = TRUE)   # also an `n` argument
+```
+
+
+### ADAT structure
+
+The `soma_adat` object also contains specific structure that are useful
+to users. Please also see `?colmeta` or `?annotations` for further
+details about these fields.
+
+---------------------
+
+
+
+### Group Generics
+You may perform basic mathematical transformations on the feature data _only_
+with special `soma_adat` S3 methods (see `?groupGenerics`):
+
+```{r group-generics}
+head(my_adat$seq.2429.27)
+
+logData <- log10(my_adat)    # a typical log10() transform
+head(logData$seq.2429.27)
+
+roundData <- round(my_adat)
+head(roundData$seq.2429.27)
+
+sqData <- sqrt(my_adat)
+head(sqData$seq.2429.27)
+
+antilog(1:4)
+
+sum(my_adat < 100)  # low signalling values
+
+all.equal(my_adat, sqrt(my_adat^2))
+
+all.equal(my_adat, antilog(log10(my_adat)))
+```
+
+
+#### Math Generics
+
+```{r math}
+getGroupMembers("Math")
+
+getGroupMembers("Compare")
+
+getGroupMembers("Arith")
+
+getGroupMembers("Summary")
+```
+
+
+### Full Complement of [dplyr](https://dplyr.tidyverse.org) S3 Methods
+
+The `soma_adat` also comes with numerous class specific methods to the most
+popular [dplyr](https://dplyr.tidyverse.org) generics that make working
+with `soma_adat` objects simpler for those familiar with this standard toolkit:
+
+```{r dplyr}
+dim(my_adat)
+males <- dplyr::filter(my_adat, Sex == "M")
+dim(males)
+
+males |>
+  dplyr::select(SampleType, SampleMatrix, starts_with("NormScale"))
+```
+
+
+### Available S3 Methods `soma_adat`
+```{r methods}
+# see full complement of `soma_adat` methods
+methods(class = "soma_adat")
+```
+
+
+---------------------
+
+## Writing a `soma_adat`
+```{r write}
+is_intact_attr(my_adat)   # MUST have intact attrs
+
+write_adat(my_adat, file = tempfile("my-adat-", fileext = ".adat"))
+```
+
+
+---------------------
+
+
+Created by [Rmarkdown](https://github.com/rstudio/rmarkdown)
+(v`r utils::packageVersion("rmarkdown")`) and `r R.version$version.string`.
