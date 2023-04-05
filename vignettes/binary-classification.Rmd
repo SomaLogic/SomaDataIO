@@ -1,0 +1,148 @@
+---
+title: "Binary Classification"
+author: "Stu Field, SomaLogic Operating Co., Inc."
+output:
+  rmarkdown::html_vignette:
+    fig_caption: yes
+vignette: >
+  %\VignetteIndexEntry{Binary Classification}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+library(SomaDataIO)
+library(dplyr)
+library(tidyr)
+library(purrr)
+knitr::opts_chunk$set(
+  echo = TRUE,
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "figures/classify-"
+)
+```
+
+
+----------------
+
+
+## Classification via Logistic Regression
+
+
+Although targeted statistical analyses are beyond the scope of 
+the `SomaDataIO` package, below is an example analysis
+that typical users/customers would perform on 'SomaScan' data.
+
+It is not intended to be a definitive guide in statistical
+analysis and existing packages do exist in the `R` ecosystem that perform
+parts or extensions of these techniques. Many variations of the workflow
+below exist, however the framework highlights how one could perform standard
+_preliminary_ analyses on 'SomaScan' data.
+
+
+## Data Preparation
+```{r data-prep}
+# the `example_data` package data
+dim(example_data)
+
+table(example_data$SampleType)
+
+# center/scale
+cs <- function(.x) {    # .x = numeric vector
+  out <- .x - mean(.x)  # center
+  out / sd(out)         # scale
+}
+
+# prepare data set for analysis
+cleanData <- example_data |>
+  filter(SampleType == "Sample") |>               # rm control samples
+  drop_na(Sex) |>                                 # rm NAs if present
+  log10() |>                                      # log10-transform (Math Generic)
+  mutate(Group = as.numeric(factor(Sex)) - 1) |>  # map Sex -> 0/1
+  modify_at(getAnalytes(example_data), cs)
+
+table(cleanData$Sex)
+
+table(cleanData$Group)    # F = 0; M = 1
+```
+
+## Set up Train/Test Data
+
+```{r train-test}
+# idx = hold-out 
+# seed resulting in 50/50 class balance
+idx   <- withr::with_seed(3, sample(1:nrow(cleanData), size = nrow(cleanData) - 50))
+train <- cleanData[idx, ]
+test  <- cleanData[-idx, ]
+
+# assert no overlap
+isTRUE(
+  all.equal(intersect(rownames(train), rownames(test)), character(0))
+)
+```
+
+
+## Logistic Regression
+We use the `cleanData`, `train`, and `test` data objects from above.
+
+### Predict Sex
+```{r logreg-tbl}
+LR_tbl <- getAnalyteInfo(train) |>
+  select(AptName, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt) |>
+  mutate(
+    formula  = map(AptName, ~ as.formula(paste("Group ~", .x))),  # create formula
+    model    = map(formula, ~ stats::glm(.x, data = train, family = "binomial", model = FALSE)),  # fit glm()
+    beta_hat = map_dbl(model, ~ coef(.x)[2L]),      # pull out coef Beta
+    p.value  = map2_dbl(model, AptName, ~ {
+      summary(.x)$coefficients[.y, "Pr(>|z|)"] }),  # pull out p-values
+    fdr      = p.adjust(p.value, method = "BH")     # FDR correction multiple testing
+  ) |>
+  arrange(p.value) |>            # re-order by `p-value`
+  mutate(rank = row_number())    # add numeric ranks
+
+LR_tbl
+```
+
+
+### Fit Model | Calculate Performance
+
+Next, select features for the model fit. We have a good idea of reasonable `Sex`
+markers from prior knowledge (`CGA*`), and fortunately many of these are highly
+ranked in `LR_tbl`. Below we fit a 4-marker logistic regression model from
+cherry-picked gender-related features:
+
+```{r fit-logreg}
+# AptName is index key between `LR_tbl` and `train`
+feats <- LR_tbl$AptName[c(1L, 3L, 5L, 7L)]
+form  <- as.formula(paste("Group ~", paste(feats, collapse = "+")))
+fit   <- glm(form, data = train, family = "binomial", model = FALSE)
+pred  <- tibble(
+  true_class = test$Sex,                                         # orig class label
+  pred       = predict(fit, newdata = test, type = "response"),  # prob. 'Male'
+  pred_class = ifelse(pred < 0.5, "F", "M"),                     # class label
+)
+conf <- table(pred$true_class, pred$pred_class, dnn = list("Actual", "Predicted"))
+tp   <- conf[2L, 2L]
+tn   <- conf[1L, 1L]
+fp   <- conf[1L, 2L]
+fn   <- conf[2L, 1L]
+
+# Confusion matrix
+conf
+
+# Classification metrics
+tibble(Sensitivity = tp / (tp + fn),
+       Specificity = tn / (tn + fp),
+       Accuracy    = (tp + tn) / sum(conf),
+       PPV         = tp / (tp + fp),
+       NPV         = tn / (tn + fn)
+)
+```
+
+
+---------------------
+
+
+Created by [Rmarkdown](https://github.com/rstudio/rmarkdown)
+(v`r utils::packageVersion("rmarkdown")`) and `r R.version$version.string`.

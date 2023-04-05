@@ -27,6 +27,35 @@ articles:
     contents:
     - SomaDataIO
 
+  - title: Loading and Wrangling
+    navbar: ~
+    desc: >
+      How to load and manipulate a 'SomaScan' flat text file into 
+      and R environment.
+    contents:
+    - loading-and-wrangling
+
+  - title: Two-group Comparison
+    navbar: ~
+    desc: >
+      Typical two-group comparison of 'SomaScan' data.
+    contents:
+    - two-group-comparison
+
+  - title: Binary Classification
+    navbar: ~
+    desc: >
+      Typical binary classification of 'SomaScan' data.
+    contents:
+    - binary-classification
+
+  - title: Linear Regression
+    navbar: ~
+    desc: >
+      Typical linear regression of continuous 'SomaScan' data.
+    contents:
+    - linear-regression
+
 reference:
   - title: Load an ADAT
     desc: >

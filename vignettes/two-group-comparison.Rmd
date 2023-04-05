@@ -1,0 +1,155 @@
+---
+title: "Two-Group Comparison"
+author: "Stu Field, SomaLogic Operating Co., Inc."
+output:
+  rmarkdown::html_vignette:
+    fig_caption: yes
+vignette: >
+  %\VignetteIndexEntry{Two-Group Comparison}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+library(SomaDataIO)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(purrr)
+knitr::opts_chunk$set(
+  echo = TRUE,
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "figures/two-group-"
+)
+```
+
+
+--------------
+
+
+## Differential Expression via *t*-test
+
+Although targeted statistical analyses are beyond the scope of 
+the `SomaDataIO` package, below is an example analysis
+that typical users/customers would perform on 'SomaScan' data.
+
+It is not intended to be a definitive guide in statistical
+analysis and existing packages do exist in the `R` ecosystem that perform
+parts or extensions of these techniques. Many variations of the workflow
+below exist, however the framework highlights how one could perform standard
+_preliminary_ analyses on 'SomaScan' data.
+
+
+## Data Preparation
+```{r data-prep}
+# the `example_data` package data
+dim(example_data)
+
+table(example_data$SampleType)
+
+# center/scale
+cs <- function(.x) {    # .x = numeric vector
+  out <- .x - mean(.x)  # center
+  out / sd(out)         # scale
+}
+
+# prepare data set for analysis
+cleanData <- example_data |>
+  filter(SampleType == "Sample") |>               # rm control samples
+  drop_na(Sex) |>                                 # rm NAs if present
+  log10() |>                                      # log10-transform (Math Generic)
+  mutate(Group = as.numeric(factor(Sex)) - 1) |>  # map Sex -> 0/1
+  modify_at(getAnalytes(example_data), cs)
+
+table(cleanData$Sex)
+
+table(cleanData$Group)    # F = 0; M = 1
+```
+
+
+
+## Compare Two Groups (`M`/`F`)
+### Get annotations via `getAnalyteInfo()`:
+
+```{r get-anno}
+t_tests <- getAnalyteInfo(cleanData) |>
+  select(AptName, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt)
+
+# Feature data info:
+#   Subset via dplyr::filter(t_tests, ...) here to
+#   restrict analysis to only certain analytes
+t_tests
+```
+
+
+
+### Calculate `t-tests`
+Use a "list columns" approach via nested tibble object
+using `dplyr`, `purrr`, and `stats::t.test()`
+
+```{r t-tests}
+t_tests <- t_tests |>
+  mutate(
+    formula = map(AptName, ~ as.formula(paste(.x, "~ Sex"))), # create formula
+    t_test  = map(formula, ~ stats::t.test(.x, data = cleanData)),  # fit t-tests
+    t_stat  = map_dbl(t_test, "statistic"),            # pull out t-statistic
+    p.value = map_dbl(t_test, "p.value"),              # pull out p-values
+    fdr     = p.adjust(p.value, method = "BH")         # FDR for multiple testing
+  ) |>
+  arrange(p.value) |>            # re-order by `p-value`
+  mutate(rank = row_number())    # add numeric ranks
+
+# View analysis tibble
+t_tests
+```
+
+
+
+### Visualize with `ggplot2()`
+Create a plotting tibble in the "long" format for `ggplot2`:
+
+```{r ggplot-data}
+target_map <- head(t_tests, 12L) |>     # mapping table
+  select(AptName, Target)               # SeqId -> Target
+
+plot_tbl <- example_data |>
+  filter(SampleType == "Sample") |>     # rm control samples
+  drop_na(Sex) |>                       # rm NAs if present
+  log10() |>                            # log10-transform for plotting
+  select(Sex, target_map$AptName) |>    # top 12 analytes
+  pivot_longer(cols = -Sex, names_to = "AptName", values_to = "RFU") |>
+  dplyr::left_join(target_map, by = "AptName") |>
+  # order factor levels by 't_tests' rank to order plots below
+  mutate(Target = factor(Target, levels = target_map$Target))
+
+plot_tbl
+```
+
+```{r seed, include = FALSE}
+# seed for geom::jitter() so Git isn't triggered every time
+set.seed(1)
+```
+
+```{r ggplot-boxes, fig.width = 7, fig.height = 7, fig.align = "center"}
+plot_tbl |>
+  ggplot(aes(x = Sex, y = RFU, fill = Sex)) +
+  geom_boxplot(alpha = 0.5, outlier.shape = NA) +
+  scale_fill_manual(values = c("#24135F", "#00A499")) +
+  geom_jitter(shape = 16, width = 0.1, alpha = 0.5) +
+  facet_wrap(~ Target) +
+  ggtitle("Boxplots of Top Analytes by t-test") +
+  labs(y = "log10(RFU)") +
+  theme(plot.title = element_text(size = 21, face = "bold"),
+        axis.title.x = element_text(size = 14),
+        axis.title.y = element_text(size = 14),
+        legend.position = "top"
+  )
+```
+
+
+---------------------
+
+
+Created by [Rmarkdown](https://github.com/rstudio/rmarkdown)
+(v`r utils::packageVersion("rmarkdown")`) and `r R.version$version.string`.

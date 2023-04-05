@@ -37,6 +37,7 @@ Suggests:
     Biobase,
     ggplot2,
     knitr,
+    purrr,
     recipes,
     rmarkdown,
     spelling,

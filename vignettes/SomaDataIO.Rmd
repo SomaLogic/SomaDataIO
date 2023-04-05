@@ -1,6 +1,8 @@
 ---
 title: "Introduction to SomaDataIO"
-output: rmarkdown::html_vignette
+output:
+  rmarkdown::html_vignette:
+    fig_caption: yes
 vignette: >
   %\VignetteIndexEntry{Introduction to SomaDataIO}
   %\VignetteEngine{knitr::rmarkdown}
@@ -8,8 +10,8 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
-library(SomaDataIO)
 knitr::opts_chunk$set(
+  echo = TRUE,
   collapse = TRUE,
   comment = "#>"
 )
@@ -20,7 +22,8 @@ knitr::opts_chunk$set(
 This document accompanies the `SomaDataIO` R package, which loads
 and exports 'SomaScan' data via the SomaLogic Operating Co., Inc.
 proprietary text file called an ADAT (`*.adat`).
-For file format see [here](https://github.com/SomaLogic/SomaLogic-Data/blob/master/README.md).
+For file format see
+[here](https://github.com/SomaLogic/SomaLogic-Data/blob/master/README.md).
 The package also exports auxiliary functions for manipulating, wrangling,
 and extracting relevant information from an ADAT object once in memory.
 Basic familiarity with the R environment is assumed, as is the ability to install
@@ -42,6 +45,7 @@ contributed packages from the Comprehensive R Archive Network (CRAN).
     + `?SeqId` analyte (feature) matching.
     + `dplyr` and `tidyr` verb S3 methods for the `soma_adat` class.
     + `?rownames` helpers that do not break `soma_adat` attributes.
+    + please see vignette `vignette("loading-and-wrangling", package = "SomaDataIO")`
 
 * Exporting data (Output)
     + write out a `soma_adat` object as a `*.adat` text file.
@@ -49,12 +53,20 @@ contributed packages from the Comprehensive R Archive Network (CRAN).
 
 ----------------------
 
-## Workflows and Analysis (TODO)
+## Workflows and Analysis
 This section will become more fleshed out in future versions of
-`SomaDataIO`
+`SomaDataIO`. In the meantime, below are 3 examples of typical
+primary statistical analyses that are commonly performed on
+'SomaScan' data:
 
-#### In the meantime please see the package
-[README](https://github.com/SomaLogic/SomaDataIO/blob/main/README.md)
+- Two-group comparison (e.g. differential expression) via *t*-test
+  + see vignette `vignette("two-group-comparison", package = "SomaDataIO")`
+
+- Binary classification
+  + see vignette `vignette("binary-classification", package = "SomaDataIO")`
+
+- Linear regression
+  + see vignette `vignette("linear-regression", package = "SomaDataIO")`
 
 
 ---------------------
