@@ -29,6 +29,14 @@ roxygen:
 	@ $(RSCRIPT) \
 	-e "devtools::document(roclets = c('rd', 'collate', 'namespace'))"
 
+readme:
+	@ echo "Rendering README.Rmd"
+	@ $(RSCRIPT) \
+	-e "Sys.setenv(RSTUDIO_PANDOC='/Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools')" \
+	-e "options(cli.width = 80L)" \
+	-e "rmarkdown::render('README.Rmd', quiet = TRUE)"
+	@ $(RM) README.html
+
 test:
 	@ $(RSCRIPT) \
 	-e "Sys.setenv(TZ = 'America/Denver')" \
