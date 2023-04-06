@@ -1,3 +1,11 @@
+
+# SomaDataIO (development)
+
+* The `README` has been significantly reduced,
+  simplifying the sample analyses into independent
+  vignettes (#35)
+
+
 # SomaDataIO 6.0.0 :tada:
 
 * We are now on CRAN! :partying_face: 
