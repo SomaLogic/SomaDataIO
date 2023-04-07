@@ -34,6 +34,25 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu"><li>
+      <a href="articles/loading-and-wrangling.html">Loading and Wrangling 'SomaScan'</a>
+    </li>
+    <li>
+      <a href="articles/two-group-comparison.html">Two-Group Comparison</a>
+    </li>
+    <li>
+      <a href="articles/binary-classification.html">Binary Classification</a>
+    </li>
+    <li>
+      <a href="articles/linear-regression.html">Linear Regression</a>
+    </li>
+  </ul></li>
 <li>
   <a href="news/index.html">Changelog</a>
 </li>
@@ -55,92 +74,74 @@
       <h1>NA</h1>
     </div>
 
-
 <div class="section level2">
 <h2 id="overview-of-pull-request">Overview of Pull Request<a class="anchor" aria-label="anchor" href="#overview-of-pull-request"></a></h2>
 <p>General description of the purpose for this pull request …</p>
-<p>Fixes SomaLogic/SomaDataIO#<issue_number></issue_number></p>
-<div class="section level3">
-<h3 id="change-type">Change type<a class="anchor" aria-label="anchor" href="#change-type"></a></h3>
-<p>Please check the relevant box(es):</p>
-<ul class="task-list"><li>
-<input type="checkbox" disabled>New feature (non-breaking change which adds functionality)</li>
-<li>
-<input type="checkbox" disabled>Bug fix (non-breaking change which fixes an issue)</li>
-<li>
-<input type="checkbox" disabled>Breaking change (fix or feature causing an API change)</li>
-<li>
-<input type="checkbox" disabled>Documentation update</li>
-<li>
-<input type="checkbox" disabled>Package maintenance (structural, non-code, non-breaking changes)</li>
-<li>
-<input type="checkbox" disabled>README change</li>
-<li>
-<input type="checkbox" disabled>LICENSE changes</li>
-</ul></div>
-<div class="section level3">
-<h3 id="code">Code<a class="anchor" aria-label="anchor" href="#code"></a></h3>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span></code></pre></div>
-</div>
+<p>Fixes #<issue_number></issue_number></p>
 <div class="section level3">
 <h3 id="main-changes">Main changes<a class="anchor" aria-label="anchor" href="#main-changes"></a></h3>
 <ul><li>bullet 1</li>
 <li>bullet 2</li>
-<li>bullet 3</li>
-</ul><hr><hr></div>
-</div>
-<div class="section level2">
-<h2 id="admin-only">Admin only<a class="anchor" aria-label="anchor" href="#admin-only"></a></h2>
+</ul></div>
 <div class="section level3">
-<h3 id="reviewer-list">Reviewer list<a class="anchor" aria-label="anchor" href="#reviewer-list"></a></h3>
-<p>Below is a list of possible SomaLogic Operating Co., Inc. reviewers:</p>
+<h3 id="change-type">Change type<a class="anchor" aria-label="anchor" href="#change-type"></a></h3>
+<p>Please check the relevant box(es):</p>
 <ul class="task-list"><li>
-<input type="checkbox" disabled>@KirkDSL</li>
+<input type="checkbox" disabled>New feature (no API change; @stufield)</li>
 <li>
+<input type="checkbox" disabled>Bug fix (no API change -&gt; fixes an issue; @stufield)</li>
+<li>
+<input type="checkbox" disabled>Breaking change (fix or feature with API change; @stufield)</li>
+<li>
+<input type="checkbox" disabled>Documentation update (@SLbmangum, @kmurugesan14)</li>
+<li>
+<input type="checkbox" disabled>Package maintenance (structural, non-code, non-breaking changes; @stufield)</li>
+<li>
+<input type="checkbox" disabled>README change (@SLbmangum, @kmurugesan14, @nmcnabbSL)</li>
+<li>
+<input type="checkbox" disabled>LICENSE changes (@SLbmangum)</li>
+</ul></div>
+<div class="section level3">
+<h3 id="choose-reviewers">Choose reviewer(s)<a class="anchor" aria-label="anchor" href="#choose-reviewers"></a></h3>
+<ul class="task-list"><li>
 <input type="checkbox" disabled>@stufield</li>
 <li>
 <input type="checkbox" disabled>@SLbmangum</li>
+<li>
+<input type="checkbox" disabled>@trhein</li>
 <li>
 <input type="checkbox" disabled>@kmurugesan14</li>
 <li>
 <input type="checkbox" disabled>@nmcnabbSL</li>
 </ul></div>
 <div class="section level3">
-<h3 id="reviewer-stakeholders-by-team">Reviewer stakeholders by team<a class="anchor" aria-label="anchor" href="#reviewer-stakeholders-by-team"></a></h3>
-<table class="table"><colgroup><col width="17%"><col width="25%"><col width="12%"><col width="13%"><col width="17%"><col width="13%"></colgroup><thead><tr class="header"><th align="left">Change Type</th>
-<th align="left">BI</th>
-<th align="left">Info.Sec.</th>
-<th align="left">Legal</th>
-<th align="left">Marketing</th>
-<th align="left">Regulatory</th>
-</tr></thead><tbody><tr class="odd"><td align="left">Code</td>
-<td align="left">@KirkDSL, @stufield</td>
+<h3 id="reviewer-by-department">Reviewer by Department<a class="anchor" aria-label="anchor" href="#reviewer-by-department"></a></h3>
+<table class="table"><thead><tr class="header"><th align="left">Department</th>
+<th align="left">Reviewer</th>
+<th>Change Type</th>
+</tr></thead><tbody><tr class="odd"><td align="left">Bioinformatics</td>
+<td align="left">@stufield</td>
+<td>Code, bugs, features</td>
+</tr><tr class="even"><td align="left">Info. Sec.</td>
 <td align="left">@trhein</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-</tr><tr class="even"><td align="left">Documentation</td>
-<td align="left">@KirkDSL, @stufield</td>
-<td align="left"></td>
+<td>LICENSE</td>
+</tr><tr class="odd"><td align="left">Legal</td>
 <td align="left">@SLbmangum</td>
+<td>LICENSE</td>
+</tr><tr class="even"><td align="left">Marketing</td>
 <td align="left">@kmurugesan14</td>
-<td align="left"></td>
-</tr><tr class="odd"><td align="left">README</td>
-<td align="left"></td>
-<td align="left">@trhein</td>
-<td align="left">@SLbmangum</td>
-<td align="left">@kmurugesan14</td>
+<td>Documentation</td>
+</tr><tr class="odd"><td align="left">Regulatory</td>
 <td align="left">@nmcnabbSL</td>
-</tr><tr class="even"><td align="left">LICENSE</td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left">@SLbmangum</td>
-<td align="left"></td>
-<td align="left"></td>
-</tr></tbody></table></div>
+<td>Documentation</td>
+</tr></tbody></table><hr></div>
+<div class="section level3">
+<h3 id="code">Code<a class="anchor" aria-label="anchor" href="#code"></a></h3>
+<p>Please add any relevant code …</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span></code></pre></div>
 </div>
-
+</div>
 
   </div>
 
