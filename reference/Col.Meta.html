@@ -42,6 +42,25 @@ row-specific meta data about the samples (see section below)."><meta property="o
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/loading-and-wrangling.html">Loading and Wrangling 'SomaScan'</a>
+    </li>
+    <li>
+      <a href="../articles/two-group-comparison.html">Two-Group Comparison</a>
+    </li>
+    <li>
+      <a href="../articles/binary-classification.html">Binary Classification</a>
+    </li>
+    <li>
+      <a href="../articles/linear-regression.html">Linear Regression</a>
+    </li>
+  </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -101,25 +120,25 @@ some examples of what may be present in this section:</p><table class="table tab
 <span class="r-in"><span><span class="va">tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="getAnalyteInfo.html">getAnalyteInfo</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">tbl</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5,284 × 22</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    AptName   SeqId SeqId…¹ SomaId Targe…² Target UniProt Entre…³ Entre…⁴ Organ…⁵</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> seq.1000… 1000…       3 SL019… Beta-c… CRBB2  P43320  <span style="color: #949494;">"</span>1415<span style="color: #949494;">"</span>  <span style="color: #949494;">"</span>CRYBB… Human  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> seq.1000… 1000…       3 SL002… RAF pr… c-Raf  P04049  <span style="color: #949494;">"</span>5894<span style="color: #949494;">"</span>  <span style="color: #949494;">"</span>RAF1<span style="color: #949494;">"</span>  Human  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> seq.1000… 1000…       3 SL019… Zinc f… ZNF41  P51814  <span style="color: #949494;">"</span>7592<span style="color: #949494;">"</span>  <span style="color: #949494;">"</span>ZNF41<span style="color: #949494;">"</span> Human  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> seq.1000… 1000…       3 SL019… ETS do… ELK1   P19419  <span style="color: #949494;">"</span>2002<span style="color: #949494;">"</span>  <span style="color: #949494;">"</span>ELK1<span style="color: #949494;">"</span>  Human  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> seq.1000… 1000…       3 SL019… Guanyl… GUC1A  P43080  <span style="color: #949494;">"</span>2978<span style="color: #949494;">"</span>  <span style="color: #949494;">"</span>GUCA1… Human  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> seq.1001… 1001…       3 SL019… Inosit… OCRL   Q01968  <span style="color: #949494;">"</span>4952<span style="color: #949494;">"</span>  <span style="color: #949494;">"</span>OCRL<span style="color: #949494;">"</span>  Human  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> seq.1001… 1001…       3 SL014… SAM po… SPDEF  O95238  <span style="color: #949494;">"</span>25803<span style="color: #949494;">"</span> <span style="color: #949494;">"</span>SPDEF<span style="color: #949494;">"</span> Human  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> seq.1001… 1001…       3 SL025… Fc_MOU… Fc_MO… Q99LC4  <span style="color: #949494;">""</span>      <span style="color: #949494;">""</span>      Mouse  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> seq.1001… 1001…       3 SL007… Zinc f… SLUG   O43623  <span style="color: #949494;">"</span>6591<span style="color: #949494;">"</span>  <span style="color: #949494;">"</span>SNAI2<span style="color: #949494;">"</span> Human  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> seq.1001… 1001…       3 SL014… Voltag… KCAB2  Q13303  <span style="color: #949494;">"</span>8514<span style="color: #949494;">"</span>  <span style="color: #949494;">"</span>KCNAB… Human  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 5,274 more rows, 12 more variables: Units &lt;chr&gt;, Type &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Dilution &lt;chr&gt;, PlateScale_Reference &lt;dbl&gt;, CalReference &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    AptName  SeqId SeqIdVersion SomaId TargetFullName Target UniProt EntrezGeneID</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> seq.100… 1000…            3 SL019… Beta-crystall… CRBB2  P43320  <span style="color: #949494;">"</span>1415<span style="color: #949494;">"</span>      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> seq.100… 1000…            3 SL002… RAF proto-onc… c-Raf  P04049  <span style="color: #949494;">"</span>5894<span style="color: #949494;">"</span>      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> seq.100… 1000…            3 SL019… Zinc finger p… ZNF41  P51814  <span style="color: #949494;">"</span>7592<span style="color: #949494;">"</span>      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> seq.100… 1000…            3 SL019… ETS domain-co… ELK1   P19419  <span style="color: #949494;">"</span>2002<span style="color: #949494;">"</span>      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> seq.100… 1000…            3 SL019… Guanylyl cycl… GUC1A  P43080  <span style="color: #949494;">"</span>2978<span style="color: #949494;">"</span>      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> seq.100… 1001…            3 SL019… Inositol poly… OCRL   Q01968  <span style="color: #949494;">"</span>4952<span style="color: #949494;">"</span>      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> seq.100… 1001…            3 SL014… SAM pointed d… SPDEF  O95238  <span style="color: #949494;">"</span>25803<span style="color: #949494;">"</span>     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> seq.100… 1001…            3 SL025… Fc_MOUSE       Fc_MO… Q99LC4  <span style="color: #949494;">""</span>          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> seq.100… 1001…            3 SL007… Zinc finger p… SLUG   O43623  <span style="color: #949494;">"</span>6591<span style="color: #949494;">"</span>      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> seq.100… 1001…            3 SL014… Voltage-gated… KCAB2  Q13303  <span style="color: #949494;">"</span>8514<span style="color: #949494;">"</span>      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 5,274 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 14 more variables: EntrezGeneSymbol &lt;chr&gt;, Organism &lt;chr&gt;, Units &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Type &lt;chr&gt;, Dilution &lt;chr&gt;, PlateScale_Reference &lt;dbl&gt;, CalReference &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Cal_Example_Adat_Set001 &lt;dbl&gt;, ColCheck &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   CalQcRatio_Example_Adat_Set001_170255 &lt;dbl&gt;, QcReference_170255 &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Cal_Example_Adat_Set002 &lt;dbl&gt;, CalQcRatio_Example_Adat_Set002_170255 &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Dilution2 &lt;dbl&gt;, and abbreviated variable names ¹​SeqIdVersion,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ²​TargetFullName, ³​EntrezGeneID, ⁴​EntrezGeneSymbol, ⁵​Organism</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Dilution2 &lt;dbl&gt;</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Row/sample Meta</span></span></span>
 <span class="r-in"><span><span class="va">r_m</span> <span class="op">&lt;-</span> <span class="fu"><a href="getAnalytes.html">getMeta</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span></span>
@@ -149,13 +168,11 @@ some examples of what may be present in this section:</p><table class="table tab
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Dilution2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB00BB;">──</span> <span style="font-weight: bold;">Tibble</span> <span style="color: #BB00BB;">──────────────────────────────────────────────────────────────────────</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 7</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   row_names      PlateId             PlateRunD…¹ Scann…² Plate…³ SlideId Subar…⁴</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 258495800012_3 Example Adat Set001 2020-06-18  SG1521… H9      2.58<span style="color: #949494;">e</span>11       3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 258495800004_7 Example Adat Set001 2020-06-18  SG1521… H8      2.58<span style="color: #949494;">e</span>11       7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 258495800010_8 Example Adat Set001 2020-06-18  SG1521… H7      2.58<span style="color: #949494;">e</span>11       8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable names ¹​PlateRunDate, ²​ScannerID, ³​PlatePosition,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ⁴​Subarray</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   row_names      PlateId   PlateRunDate ScannerID PlatePosition SlideId Subarray</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 258495800012_3 Example … 2020-06-18   SG152144… H9            2.58<span style="color: #949494;">e</span>11        3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 258495800004_7 Example … 2020-06-18   SG152144… H8            2.58<span style="color: #949494;">e</span>11        7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 258495800010_8 Example … 2020-06-18   SG152144… H7            2.58<span style="color: #949494;">e</span>11        8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">════════════════════════════════════════════════════════════════════════════════</span></span>
 </code></pre></div>
     </div>

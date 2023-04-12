@@ -58,6 +58,27 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="../articles/loading-and-wrangling.html">Loading and Wrangling 'SomaScan'</a>
+    </li>
+    <li>
+      <a href="../articles/two-group-comparison.html">Two-Group Comparison</a>
+    </li>
+    <li>
+      <a href="../articles/binary-classification.html">Binary Classification</a>
+    </li>
+    <li>
+      <a href="../articles/linear-regression.html">Linear Regression</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -124,6 +145,9 @@ object.</li>
 <li>
 <code><a href="../reference/rownames.html">?rownames</a></code> helpers that do not break
 <code>soma_adat</code> attributes.</li>
+<li>please see vignette
+<code><a href="../articles/loading-and-wrangling.html">vignette("loading-and-wrangling", package = "SomaDataIO")</a></code>
+</li>
 </ul>
 </li>
 <li>Exporting data (Output)
@@ -136,16 +160,37 @@ text file.</li>
 <hr>
 </div>
 <div class="section level2">
-<h2 id="workflows-and-analysis-todo">Workflows and Analysis (TODO)<a class="anchor" aria-label="anchor" href="#workflows-and-analysis-todo"></a>
+<h2 id="workflows-and-analysis">Workflows and Analysis<a class="anchor" aria-label="anchor" href="#workflows-and-analysis"></a>
 </h2>
 <p>This section will become more fleshed out in future versions of
-<code>SomaDataIO</code></p>
-<div class="section level4">
-<h4 id="in-the-meantime-please-see-the-package">In the meantime please see the package<a class="anchor" aria-label="anchor" href="#in-the-meantime-please-see-the-package"></a>
-</h4>
-<p><a href="https://github.com/SomaLogic/SomaDataIO/blob/main/README.md">README</a></p>
+<code>SomaDataIO</code>. In the meantime, below are 3 examples of
+typical primary statistical analyses that are commonly performed on
+‘SomaScan’ data:</p>
+<ul>
+<li>Two-group comparison (e.g. differential expression) via
+<em>t</em>-test
+<ul>
+<li>see vignette
+<code><a href="../articles/two-group-comparison.html">vignette("two-group-comparison", package = "SomaDataIO")</a></code>
+</li>
+</ul>
+</li>
+<li>Binary classification
+<ul>
+<li>see vignette
+<code><a href="../articles/binary-classification.html">vignette("binary-classification", package = "SomaDataIO")</a></code>
+</li>
+</ul>
+</li>
+<li>Linear regression
+<ul>
+<li>see vignette
+<code><a href="../articles/linear-regression.html">vignette("linear-regression", package = "SomaDataIO")</a></code>
+</li>
+</ul>
+</li>
+</ul>
 <hr>
-</div>
 </div>
 <div class="section level2">
 <h2 id="mit-license">MIT LICENSE<a class="anchor" aria-label="anchor" href="#mit-license"></a>
@@ -173,7 +218,7 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.</p>
 <hr>
-<p>Created by <a href="https://github.com/rstudio/rmarkdown" class="external-link">Rmarkdown</a> (v2.20) and R
+<p>Created by <a href="https://github.com/rstudio/rmarkdown" class="external-link">Rmarkdown</a> (v2.21) and R
 version 4.2.3 (2023-03-15).</p>
 </div>
   </div>
