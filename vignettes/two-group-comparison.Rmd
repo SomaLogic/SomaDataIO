@@ -59,12 +59,9 @@ cleanData <- example_data |>
   filter(SampleType == "Sample") |>               # rm control samples
   drop_na(Sex) |>                                 # rm NAs if present
   log10() |>                                      # log10-transform (Math Generic)
-  mutate(Group = as.numeric(factor(Sex)) - 1) |>  # map Sex -> 0/1
   modify_at(getAnalytes(example_data), cs)
 
 table(cleanData$Sex)
-
-table(cleanData$Group)    # F = 0; M = 1
 ```
 
 
