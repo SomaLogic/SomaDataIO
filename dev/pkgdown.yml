@@ -7,7 +7,7 @@ articles:
   linear-regression: linear-regression.html
   loading-and-wrangling: loading-and-wrangling.html
   two-group-comparison: two-group-comparison.html
-last_built: 2023-04-07T17:15Z
+last_built: 2023-04-13T02:18Z
 urls:
   reference: https://github.com/SomaLogic/SomaDataIO/reference
   article: https://github.com/SomaLogic/SomaDataIO/articles
