@@ -1,6 +1,6 @@
 on:
   push:
-    branches: [main, master, build-pkgdown]
+    branches: [main, force-pkgdown]
     paths:
       - 'man/**'
       - 'vignettes/**'
