@@ -3,6 +3,7 @@ on:
     branches: [main, force-pkgdown]
     paths:
       - 'man/**'
+      - 'DESCRIPTION'
       - 'vignettes/**'
       - '_pkgdown.yml'
       - 'NEWS.md'
@@ -12,7 +13,7 @@ name: Deploy pkgdown -> gh-pages
 
 jobs:
   pkgdown:
-    runs-on: ubuntu-latest
+    runs-on: macOS-12   # macOS important Bootstrap/bslib themes
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
