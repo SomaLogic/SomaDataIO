@@ -3,19 +3,23 @@ url: https://github.com/SomaLogic/SomaDataIO
 home:
   strip_header: true
   links:
-  - text: Report a bug
-    href: https://github.com/SomaLogic/SomaDataIO/issues
-  - text: Learn more about us
+  - text: Learn more about SomaScan
     href: http://www.somalogic.com
-  - text: The tidyverse
-    href: https://www.tidyverse.org
+  - text: Contact Us
+    href: https://somalogic.com/contact-us/
 
 template:
-  params:
-    ganalytics: UA-115082821-1
+  bootstrap: 5
+  bslib:
+    #bg: "#202123"      # dark theme
+    #fg: "#B8BCC2"      # dark theme
+    primary: "#0054AD"
+    border-radius: 0.5rem
+    btn-border-radius: 0.25rem
+    base_font: {google: "Roboto"}
 
 authors:
-  "Stu Field":
+  Stu Field:
     href: https://github.com/stufield
 
 development:
