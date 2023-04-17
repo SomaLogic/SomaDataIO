@@ -1,13 +1,14 @@
-# This is a basic workflow to sync release branch to public repository.
+# This is a basic workflow to sync release branch to public repository
+# with the new workflows, this GHA is seldom used
+# as we do not sync between internal-public repos
 
-name: Public Repo Sync
+name: Internal -> Public Sync
 
-# Triggers the workflow on push to the release branch
 on:
   push:
-    branches: [ release ]
+    branches:
+      - release
 
-# Job run
 jobs:
   repo-sync:
     runs-on: ubuntu-latest
