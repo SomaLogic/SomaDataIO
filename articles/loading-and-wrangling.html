@@ -99,11 +99,14 @@ SomaLogic Operating Co., Inc.</h4>
 <div class="section level2">
 <h2 id="loading-an-adat">Loading an ADAT<a class="anchor" aria-label="anchor" href="#loading-an-adat"></a>
 </h2>
+<p>Load an ADAT text file into <code>R</code> memory with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Sample file name</span></span>
 <span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"example_data10.adat"</span>,</span>
 <span>                 package <span class="op">=</span> <span class="st">"SomaDataIO"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">my_adat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_adat.html">read_adat</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># class test</span></span>
 <span><span class="fu"><a href="../reference/read_adat.html">is.soma_adat</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span>
 <span></span>
@@ -223,7 +226,49 @@ SomaLogic Operating Co., Inc.</h4>
 <span><span class="co">#&gt;  sd     : 2465.4     sd     :  8922      sd     : 1450.7     </span></span>
 <span><span class="co">#&gt;  MAD    :  308.2     MAD    :  3193      MAD    :  768.9     </span></span>
 <span><span class="co">#&gt;  IQR    : 2185.2     IQR    :  8208      IQR    : 1365.8</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="debugging">Debugging<a class="anchor" aria-label="anchor" href="#debugging"></a>
+</h3>
+<p>Occasionally “problematic” ADATs can be difficult to parse. For this
+purpose a convenient <code>debug = TRUE</code> argument to
+<code><a href="../reference/read_adat.html">read_adat()</a></code> that allows you to inspect the file
+specifications that <code>R</code> <em>thinks</em> exist in the file.
+This can be useful in identifying where/why/how a parse failure has
+occurred. It is recommended to view this output and compare to the
+physical text file itself to identify any mis-identified or mis-matched
+landmarks:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/read_adat.html">read_adat</a></span><span class="op">(</span><span class="va">f</span>, debug <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #0000BB;">══</span> <span style="font-weight: bold;">Parsing Specs</span> <span style="color: #0000BB;">═══════════════════════════════════════════════════════════════</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BB0000;">•</span> Table Begin               <span style="color: #0000BB;">45</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BB0000;">•</span> Col.Meta Start            <span style="color: #0000BB;">46</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BB0000;">•</span> Col.Meta Shift            <span style="color: #0000BB;">35</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BB0000;">•</span> Header Row                <span style="color: #0000BB;">66</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BB0000;">•</span> Rows of the Col Meta      <span style="color: #0000BB;">46</span>, <span style="color: #0000BB;">47</span>, <span style="color: #0000BB;">48</span>, <span style="color: #0000BB;">49</span>, <span style="color: #0000BB;">50</span>, <span style="color: #0000BB;">51</span>, <span style="color: #0000BB;">52</span>, <span style="color: #0000BB;">53</span>, <span style="color: #0000BB;">54</span>, <span style="color: #0000BB;">55</span>, <span style="color: #0000BB;">56</span>, <span style="color: #0000BB;">57</span>, <span style="color: #0000BB;">58</span>, <span style="color: #0000BB;">59</span>, <span style="color: #0000BB;">60</span>, <span style="color: #0000BB;">61</span>, <span style="color: #0000BB;">62</span>, <span style="color: #0000BB;">63</span>, <span style="color: #0000BB;">64</span>, <span style="color: #0000BB;">65</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BB00BB;">──</span> <span style="font-weight: bold;">Col Meta</span> <span style="color: #BB00BB;">──────────────────────────────────────────────────────────────</span> 20 <span style="color: #BB00BB;">──</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> SeqId, SeqIdVersion, SomaId, TargetFullName, Target, UniProt,</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> EntrezGeneID, EntrezGeneSymbol, Organism, Units, Type, Dilution,</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> PlateScale_Reference, CalReference, Cal_Example_Adat_Set001,</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> ColCheck, CalQcRatio_Example_Adat_Set001_170255, QcReference_170255,</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Cal_Example_Adat_Set002, CalQcRatio_Example_Adat_Set002_170255</span></span>
+<span><span class="co">#&gt; <span style="color: #BB00BB;">──</span> <span style="font-weight: bold;">Row Meta</span> <span style="color: #BB00BB;">──────────────────────────────────────────────────────────────</span> 34 <span style="color: #BB00BB;">──</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> PlateId, PlateRunDate, ScannerID, PlatePosition, SlideId, Subarray,</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> SampleId, SampleType, PercentDilution, SampleMatrix, Barcode,</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Barcode2d, SampleName, SampleNotes, AliquotingNotes,</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> SampleDescription, AssayNotes, TimePoint, ExtIdentifier, SsfExtId,</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> SampleGroup, SiteId, TubeUniqueID, CLI, HybControlNormScale,</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> RowCheck, NormScale_20, NormScale_0_005, NormScale_0_5,</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> ANMLFractionUsed_20, ANMLFractionUsed_0_005, ANMLFractionUsed_0_5,</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Age, Sex</span></span>
+<span><span class="co">#&gt; <span style="color: #0000BB;">──</span> <span style="font-weight: bold;">Empty Strings Detected in Col.Meta</span> <span style="color: #0000BB;">─────────────────────────────────────</span> <span style="color: #BB0000;">!</span> <span style="color: #0000BB;">──</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BB0000;">•</span> Visually inspect the following Col.Meta rows:</span></span>
+<span><span class="co">#&gt; <span style="color: #0000BB;">'TargetFullName'</span>, <span style="color: #0000BB;">'UniProt'</span>, <span style="color: #0000BB;">'EntrezGeneID'</span>,</span></span>
+<span><span class="co">#&gt; <span style="color: #0000BB;">'EntrezGeneSymbol'</span></span></span>
+<span><span class="co">#&gt; ℹ They may be missing in: <span style="color: #0000BB;">'Spuriomers'</span>, <span style="color: #0000BB;">'HybControls'</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BB0000;">•</span> This is non-critical in ADATs with new <span style="color: #0000BB;">'seq.1234.56'</span> format.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">══</span> Parse Diagnostic Complete <span style="color: #00BB00;">═══════════════════════════════════════════════════</span></span></span></code></pre></div>
 <hr>
+</div>
 </div>
 <div class="section level2">
 <h2 id="wrangling">Wrangling<a class="anchor" aria-label="anchor" href="#wrangling"></a>
@@ -231,7 +276,7 @@ SomaLogic Operating Co., Inc.</h4>
 <div class="section level3">
 <h3 id="attributes-contain-file-and-feature-information">Attributes Contain File and Feature Information<a class="anchor" aria-label="anchor" href="#attributes-contain-file-and-feature-information"></a>
 </h3>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "names"       "class"       "row.names"   "Header.Meta" "Col.Meta"   </span></span>
 <span><span class="co">#&gt; [6] "file_specs"  "row_meta"</span></span>
@@ -263,7 +308,7 @@ SomaLogic Operating Co., Inc.</h4>
 <div class="section level3">
 <h3 id="analyte-features-seq-xxxx-xx">Analyte Features (<code>seq.xxxx.xx</code>)<a class="anchor" aria-label="anchor" href="#analyte-features-seq-xxxx-xx"></a>
 </h3>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getAnalytes.html">getAnalytes</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">20L</span><span class="op">)</span>    <span class="co"># first 20 analytes; see AptName above</span></span>
 <span><span class="co">#&gt;  [1] "seq.10000.28"  "seq.10001.7"   "seq.10003.15"  "seq.10006.25" </span></span>
 <span><span class="co">#&gt;  [5] "seq.10008.43"  "seq.10011.65"  "seq.10012.5"   "seq.10013.34" </span></span>
@@ -282,7 +327,7 @@ SomaLogic Operating Co., Inc.</h4>
 that links analyte feature names in the <code>soma_adat</code> object to
 the annotation data in <code><a href="../reference/Col.Meta.html">?Col.Meta</a></code> via the common index-key,
 <code>AptName</code>, in column 1:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getAnalyteInfo.html">getAnalyteInfo</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5,284 × 22</span></span></span>
 <span><span class="co">#&gt;    AptName  SeqId SeqIdVersion SomaId TargetFullName Target UniProt EntrezGeneID</span></span>
@@ -308,7 +353,7 @@ the annotation data in <code><a href="../reference/Col.Meta.html">?Col.Meta</a><
 <div class="section level3">
 <h3 id="clinical-data">Clinical Data<a class="anchor" aria-label="anchor" href="#clinical-data"></a>
 </h3>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getAnalytes.html">getMeta</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span>             <span class="co"># clinical meta data for each sample</span></span>
 <span><span class="co">#&gt;  [1] "PlateId"                "PlateRunDate"           "ScannerID"             </span></span>
 <span><span class="co">#&gt;  [4] "PlatePosition"          "SlideId"                "Subarray"              </span></span>
@@ -339,7 +384,7 @@ that are useful to users. Please also see <code><a href="../reference/Col.Meta.h
 <p>You may perform basic mathematical transformations on the feature
 data <em>only</em> with special <code>soma_adat</code> S3 methods (see
 <code><a href="../reference/groupGenerics.html">?groupGenerics</a></code>):</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">$</span><span class="va">seq.2429.27</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1]  8642.3 12472.1 14627.7 13579.8  8938.8  6738.8</span></span>
 <span></span>
@@ -369,7 +414,7 @@ data <em>only</em> with special <code>soma_adat</code> S3 methods (see
 <div class="section level4">
 <h4 id="math-generics">Math Generics<a class="anchor" aria-label="anchor" href="#math-generics"></a>
 </h4>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">getGroupMembers</span><span class="op">(</span><span class="st">"Math"</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  [1] "abs"      "sign"     "sqrt"     "ceiling"  "floor"    "trunc"   </span></span>
 <span><span class="co">#&gt;  [7] "cummax"   "cummin"   "cumprod"  "cumsum"   "exp"      "expm1"   </span></span>
@@ -396,7 +441,7 @@ S3 Methods<a class="anchor" aria-label="anchor" href="#full-complement-of-dplyr-
 methods to the most popular <a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a> generics that make working
 with <code>soma_adat</code> objects simpler for those familiar with this
 standard toolkit:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1]   10 5318</span></span>
 <span><span class="va">males</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">my_adat</span>, <span class="va">Sex</span> <span class="op">==</span> <span class="st">"M"</span><span class="op">)</span></span>
@@ -430,7 +475,7 @@ standard toolkit:</p>
 <div class="section level3">
 <h3 id="available-s3-methods-soma_adat">Available S3 Methods <code>soma_adat</code><a class="anchor" aria-label="anchor" href="#available-s3-methods-soma_adat"></a>
 </h3>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># see full complement of `soma_adat` methods</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/methods.html" class="external-link">methods</a></span><span class="op">(</span>class <span class="op">=</span> <span class="st">"soma_adat"</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  [1] [            [[           [[&lt;-         [&lt;-          ==          </span></span>
@@ -448,13 +493,13 @@ standard toolkit:</p>
 <div class="section level2">
 <h2 id="writing-a-soma_adat">Writing a <code>soma_adat</code><a class="anchor" aria-label="anchor" href="#writing-a-soma_adat"></a>
 </h2>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/is_intact_attr.html">is_intact_attr</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span>   <span class="co"># MUST have intact attrs</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/write_adat.html">write_adat</a></span><span class="op">(</span><span class="va">my_adat</span>, file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="st">"my-adat-"</span>, fileext <span class="op">=</span> <span class="st">".adat"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> ADAT passed all checks and traps.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> ADAT written to: <span style="color: #0000BB;">'/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpSQ1hcc/my-adat-266e6c69785b.adat'</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> ADAT written to: <span style="color: #0000BB;">'/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpsJz9wY/my-adat-22df51acd6ad.adat'</span></span></span></code></pre></div>
 <hr>
 <p>Created by <a href="https://github.com/rstudio/rmarkdown" class="external-link">Rmarkdown</a> (v2.21) and R
 version 4.2.3 (2023-03-15).</p>
