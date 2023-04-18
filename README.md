@@ -189,6 +189,8 @@ Loading an ADAT text file is simple using `read_adat()`:
 f <- system.file("extdata", "example_data10.adat",
                  package = "SomaDataIO", mustWork = TRUE)
 my_adat <- read_adat(f)
+
+# test object class
 is.soma_adat(my_adat)
 #> [1] TRUE
 
