@@ -26,11 +26,15 @@ knitr::opts_chunk$set(
 
 ## Loading an ADAT
 
+Load an ADAT text file into `R` memory with:
+
 ```{r read-adat}
 # Sample file name
 f <- system.file("extdata", "example_data10.adat",
                  package = "SomaDataIO", mustWork = TRUE)
 my_adat <- read_adat(f)
+
+# class test
 is.soma_adat(my_adat)
 
 # S3 print method forwards -> tibble
@@ -49,12 +53,26 @@ my_adat[, seqs] |>
   lapply(summary)
 ```
 
+### Debugging
+
+Occasionally "problematic" ADATs can be difficult to parse. For this
+purpose a convenient `debug = TRUE` argument to `read_adat()` that allows you
+to inspect the file specifications that `R` _thinks_ exist in the file.
+This can be useful in identifying where/why/how a parse failure has occurred.
+It is recommended to view this output and compare to the physical
+text file itself to identify any mis-identified or mis-matched landmarks:
+
+```{r debug}
+read_adat(f, debug = TRUE)
+```
+
 
 ---------------------
 
 
 ## Wrangling
 ### Attributes Contain File and Feature Information
+
 ```{r atts}
 names(attributes(my_adat))
 
@@ -64,6 +82,7 @@ attr(my_adat, "Col.Meta")
 ```
 
 ### Analyte Features (`seq.xxxx.xx`)
+
 ```{r feats}
 getAnalytes(my_adat) |> head(20L)    # first 20 analytes; see AptName above
 getAnalytes(my_adat) |> length()     # how many analytes
@@ -71,6 +90,7 @@ getAnalytes(my_adat, n = TRUE)       # the `n` argument; no. analytes
 ```
 
 ### Feature Data
+
 The `getAnalyteInfo()` function creates a lookup table that links
 analyte feature names in the `soma_adat` object to the annotation
 data in `?Col.Meta` via the common index-key, `AptName`, in column 1:
@@ -81,6 +101,7 @@ getAnalyteInfo(my_adat)
 
 
 ### Clinical Data
+
 ```{r meta}
 getMeta(my_adat)             # clinical meta data for each sample
 getMeta(my_adat, n = TRUE)   # also an `n` argument
@@ -98,6 +119,7 @@ details about these fields.
 
 
 ### Group Generics
+
 You may perform basic mathematical transformations on the feature data _only_
 with special `soma_adat` S3 methods (see `?groupGenerics`):
 
@@ -153,6 +175,7 @@ males |>
 
 
 ### Available S3 Methods `soma_adat`
+
 ```{r methods}
 # see full complement of `soma_adat` methods
 methods(class = "soma_adat")
@@ -162,6 +185,7 @@ methods(class = "soma_adat")
 ---------------------
 
 ## Writing a `soma_adat`
+
 ```{r write}
 is_intact_attr(my_adat)   # MUST have intact attrs
 
