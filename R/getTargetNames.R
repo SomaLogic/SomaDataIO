@@ -24,8 +24,9 @@
 #' @export
 getTargetNames <- function(tbl) {
   stopifnot(
-    sum(c("TargetFullName", "Target") %in% names(tbl)) > 0,
-    "AptName" %in% names(tbl)
+    "`tbl` must contain Target info." =
+      sum(c("TargetFullName", "Target") %in% names(tbl)) > 0,
+    "`tbl` must contain an `AptName` column." = "AptName" %in% names(tbl)
   )
   targets <- tbl$TargetFullName %||% tbl$Target
   structure(as.list(targets), names = tbl$AptName, class = "target_map")
