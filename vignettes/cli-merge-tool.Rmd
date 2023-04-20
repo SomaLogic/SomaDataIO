@@ -1,0 +1,259 @@
+---
+title: "Command Line Merge Tool"
+author: "Stu Field, SomaLogic Operating Co., Inc."
+output:
+  rmarkdown::html_vignette:
+    fig_caption: yes
+vignette: >
+  %\VignetteIndexEntry{Command Line Merge Tool}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+library(SomaDataIO)
+library(withr)
+Sys.setlocale("LC_COLLATE", "en_US.UTF-8")
+knitr::opts_chunk$set(
+  echo = TRUE,
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+# Overview
+
+Occasionally, additional clinical data is obtained _after_ samples have been
+submitted to SomaLogic, Inc. or even after 'SomaScan' results have
+been delivered. 
+
+This requires the new clinical, i.e. non-proteomic, data to be merged
+with the 'SomaScan' data into a "new" ADAT prior to analysis.
+For this purpose, a command-line interface ("CLI") tool has been included
+with [SomaDataIO](https://CRAN.R-project.org/package=SomaDataIO)
+in the `cli/merge/` directory, which allows one to
+generate an updated `*.adat` file via the command-line without
+having to open an integrated development environment ("IDE"), e.g. `RStudio`.
+
+
+----------------
+
+
+## Setup
+
+The clinical merge tool is an `R script` that comes with an installation
+of [SomaDataIO](https://CRAN.R-project.org/package=SomaDataIO):
+
+```{r merge-script}
+dir(system.file("cli", "merge", package = "SomaDataIO"))
+
+f <- system.file("cli", "merge", "merge_clin.R", package = "SomaDataIO")
+f
+```
+
+First create a temporary "analysis" directory:
+
+```{r create-dir}
+analysis_dir <- tempfile(pattern = "somascan-")
+# create directory
+dir.create(analysis_dir)
+
+# sanity check
+dir.exists(analysis_dir)
+
+# copy merge tool into analysis directory
+file.copy(f, to = analysis_dir)
+```
+
+Let's create some dummy 'SomaScan' data derived from the `example_data` object
+from [SomaDataIO](https://CRAN.R-project.org/package=SomaDataIO)
+First we reduce its size to 9 samples and 5 proteomic features each, and
+then write to text with `write_adat()`.
+This will be the "new" starting point for the clinical
+data merge and represents where customers would begin their analysis.
+
+```{r save-data}
+feats <- withr::with_seed(3, sample(getAnalytes(example_data), 5))
+sub_adat <- dplyr::select(example_data, PlateId, SlideId, Subarray,
+                          SampleId, Age, all_of(feats)) |> head(9L)
+withr::with_dir(analysis_dir,
+  write_adat(sub_adat, file = "ex-data-9.adat")
+)
+```
+
+Now we create random clinical data with a common key (this is typically
+the `SampleId` identifier but it could be any common key).
+
+```{r create-clin-1}
+df <- data.frame(SampleId = as.character(seq(1, 9, by = 2)),  # common key
+                 group    = c("a", "b", "a", "b", "a"),
+                 newvar   = withr::with_seed(1, rnorm(5)))
+df
+
+# write clinical data to file
+withr::with_dir(analysis_dir,
+  write.csv(df, file = "clin-data.csv", row.names = FALSE)
+)
+```
+
+
+At this point we have 3 files in a temporary analysis directory:
+
+```{r ls1}
+dir(analysis_dir)
+```
+
+1. `clin-data.csv`:
+    + new data containing 3 columns:
+    + a common key: `SampleId`
+    + a new variable with grouping information: `group`
+    + a new variable with a continuous variable: `newvar`
+1. `ex-data-9.adat`:
+    + ADAT with 9 samples containing 5 'SomaScan' proteomic
+      features and 5 pre-existing variables we would like to merge into
+    + `PlateId`, `SlideId`, `Subarray`, `SampleId`, and `Age`
+    + __note:__  `PlateId`, `SlideId`, and `Subarray` are key fields common
+      to _almost all_ ADATs; removing them could yield unintended results
+    + the common key `SampleId` is required
+1. `merge_clin.R` the merge script engine itself 
+
+
+## Merging Clinical Data
+
+The clinical data merge tool is simple to use at most common command line
+terminals (`BASH`, `ZSH`, etc.). You must have `R` installed
+(and available) with [SomaDataIO](https://CRAN.R-project.org/package=SomaDataIO)
+and its dependencies installed.
+
+### Arguments
+
+The merge script takes 4 ordered arguments:
+
+1. path to the original ADAT (`*.adat`) file
+1. path to clinical data (`*.csv`) file
+1. common key variable name (e.g. `SampleId`)
+1. output file name (`*.adat`) for new ADAT
+
+
+
+---------------
+
+
+### Standard Syntax
+
+The primary syntax is for when the common key in __both__ files,
+(ADAT and CSV), has the _same_ variable name:
+
+
+```bash
+# change directory to the analysis path
+cd `r analysis_dir`
+
+# run the Rscript:
+# - we recommend using the --vanilla flag
+Rscript --vanilla merge_clin.R ex-data-9.adat clin-data.csv SampleId ex-data-9-merged.adat
+```
+
+```{r sys-call1, include = FALSE}
+withr::with_dir(analysis_dir,
+  base::system2(
+    "Rscript",
+    c("--vanilla",
+      "merge_clin.R",
+      "ex-data-9.adat",
+      "clin-data.csv",
+      "SampleId",
+      "ex-data-9-merged.adat")
+  )
+)
+```
+
+```{r ls2}
+dir(analysis_dir)
+```
+
+
+#### Alternative Syntax
+
+In certain instances you may have the common key under a _different_ variable
+name in their respective files. This is handled by a modification to
+argument 3, which now takes the form `key1=key2` where `key1` contains the
+common keys in the `*.adat` file, and `key2` contains keys for the `*.csv` file.
+
+First let's create a new clinical data file with a different
+variable name, `ClinID`:
+
+```{r create-clin-2}
+names(df) <- c("ClinID", "letter", "size")   # rename original `df`
+df
+
+# write clinical data to file
+withr::with_dir(analysis_dir,
+  write.csv(df, file = "clin-data2.csv", row.names = FALSE)
+)
+```
+
+We can now execute the merge script at the command line as follows:
+
+```bash
+Rscript --vanilla merge_clin.R ex-data-9.adat clin-data2.csv SampleId=ClinID ex-data-9-merged2.adat
+```
+
+```{r sys-call2, include = FALSE}
+withr::with_dir(analysis_dir,
+  base::system2(
+    "Rscript",
+    c("--vanilla",
+      "merge_clin.R",
+      "ex-data-9.adat",
+      "clin-data2.csv",
+      "SampleId=ClinID",
+      "ex-data-9-merged2.adat")
+  )
+)
+```
+
+```{r ls3}
+dir(analysis_dir)
+```
+
+## Check Results
+
+Now let's check that the merge was successful and yields the expected
+`*.adat`:
+
+```{r new-adat}
+new <- withr::with_dir(analysis_dir,
+  read_adat("ex-data-9-merged2.adat")
+)
+new
+
+getMeta(new)
+
+getAnalytes(new)
+```
+
+
+## Closing
+
+Merging newly obtained clinical variables into existing 'SomaScan' ADATs
+is easy via the `merge_clin.R` script provided with
+[SomaDataIO](https://CRAN.R-project.org/package=SomaDataIO).
+If you run into any trouble please do not hesitate to reach out
+to <techsupport@somalogic.com> or
+[file an issue](https://github.com/SomaLogic/SomaDataIO/issues/new) on
+our [GitHub](https://github.com/SomaLogic/SomaDataIO) repository.
+
+
+```{r teardown, include = FALSE}
+if ( dir.exists(analysis_dir) ) {
+  unlink(analysis_dir, force = TRUE)
+}
+```
+
+---------------------
+
+
+Created by [Rmarkdown](https://github.com/rstudio/rmarkdown)
+(v`r utils::packageVersion("rmarkdown")`) and `r R.version$version.string`.
