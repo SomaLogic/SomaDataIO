@@ -23,6 +23,7 @@ test_that("`is_seqFormat()` character(0) is false", {
 })
 
 test_that("`is_seqFormat()` default method is tripped for unknown classes", {
+  withr::local_options(list(cli.num_colors = 1L))
   expect_error(
     is_seqFormat(1:10),
     "Couldn't find a S3 method for this class object: 'integer'"
