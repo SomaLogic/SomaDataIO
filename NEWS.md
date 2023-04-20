@@ -5,6 +5,9 @@
   simplifying the sample analyses into independent
   vignettes (#35)
 
+* New vignette on how to use the CLI merge tool
+  to merge clinical data into existing ADAT files (#45)
+
 
 # SomaDataIO 6.0.0 :tada:
 

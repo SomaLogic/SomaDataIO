@@ -60,6 +60,14 @@ articles:
     contents:
     - linear-regression
 
+  - title: Command Line Merge Tool
+    navbar: ~
+    desc: >
+      A convenient CLI merge tool to add new clinical data
+      to 'SomaScan' data.
+    contents:
+    - cli-merge-tool
+
 reference:
   - title: Load an ADAT
     desc: >
