@@ -8,8 +8,8 @@
 #' @param tolerance Numeric `> 0`. Differences smaller than tolerance are
 #'   not triggered. See [all.equal()].
 #' @note Only diffs of the column name _intersect_ are reported.
-#' @author Stu Field
 #' @return `NULL`, invisibly. Called for side effects.
+#' @author Stu Field
 #' @examples
 #' # subset `example_data` for speed
 #' # all SeqIds from 2000 -> 2999
