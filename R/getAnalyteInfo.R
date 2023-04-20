@@ -30,23 +30,18 @@
 #' # Rows of "Target" starting with MMP
 #' anno_tbl |>
 #'   dplyr::filter(grepl("^MMP", Target))
-#' @importFrom tibble tibble as_tibble
+#' @importFrom tibble tibble
 #' @export
 getAnalyteInfo <- function(adat) {
 
-  colmeta <- adat %@@% "Col.Meta"
-  stopifnot(!is.null(colmeta), inherits(colmeta, "tbl_df"))
-  colmeta <- dplyr::ungroup(colmeta)  # safety; previously a 'grouped_df'
+  colmeta <- attr(adat, "Col.Meta")
+  stopifnot(
+    "`Col.Meta` is absent from ADAT." = !is.null(colmeta),
+    "`Col.Meta` must be a `tbl_df`."  = inherits(colmeta, "tbl_df")
+  )
+  colmeta <- dplyr::ungroup(colmeta)  # for safety (previously a 'grouped_df')
   # AptName is the key index that links AnalyteInfo -> ADAT
   tbl <- tibble(AptName = getAnalytes(adat), SeqId = getSeqId(AptName, TRUE))
-
-  L <- range(lengths(colmeta, use.names = FALSE))
-  if ( diff(L) > .Machine$double.eps^0.5 ) {
-    # now that colmeta is `tbl_df` never enters this branch
-    warning("Unequal lengths in column meta data", call. = FALSE)
-    .jagged <- function(x) as_tibble(lapply(x, "length<-", max(lengths(x))))
-    colmeta <- .jagged(colmeta)
-  }
 
   if ( nrow(tbl) != nrow(colmeta) ) {
     warning(
