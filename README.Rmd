@@ -105,7 +105,9 @@ the package more stable to external software design changes but
 also limits its contained feature set. With this in mind, `SomaDataIO`
 aims to strike a balance providing long(er)-term stability and a
 limited set of features.
-Below are the package dependencies (see also the `DESCRIPTION` file):
+Below are the package dependencies
+(see also the [DESCRIPTION](https://github.com/SomaLogic/SomaDataIO/blob/main/DESCRIPTION)
+file):
 
 * [R (>= 4.1.0)](https://cran.r-project.org/)
 * [cli](https://cran.r-project.org/package=cli)
