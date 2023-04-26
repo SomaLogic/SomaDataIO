@@ -60,7 +60,7 @@ purpose a convenient `debug = TRUE` argument to `read_adat()` allows you
 to inspect the file specifications that `R` _thinks_ exist in the file.
 This can be useful in identifying where/why/how a parse failure has occurred.
 It is recommended to view this output and compare to the physical
-text file itself to identify any mis-identified or mis-matched landmarks:
+text file itself to identify any misidentified or mismatched landmarks:
 
 ```{r debug}
 read_adat(f, debug = TRUE)
