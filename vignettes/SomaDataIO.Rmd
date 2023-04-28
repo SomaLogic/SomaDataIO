@@ -18,7 +18,6 @@ knitr::opts_chunk$set(
 ```
 
 
-
 This document accompanies the `SomaDataIO` R package, which loads
 and exports 'SomaScan' data via the SomaLogic Operating Co., Inc.
 proprietary text file called an ADAT (`*.adat`).
@@ -28,7 +27,6 @@ The package also exports auxiliary functions for manipulating, wrangling,
 and extracting relevant information from an ADAT object once in memory.
 Basic familiarity with the R environment is assumed, as is the ability to install
 contributed packages from the Comprehensive R Archive Network (CRAN).
-
 
 
 -------------------
@@ -54,22 +52,31 @@ contributed packages from the Comprehensive R Archive Network (CRAN).
 ----------------------
 
 ## Workflows and Analysis
+
 This section will become more fleshed out in future versions of
-`SomaDataIO`. In the meantime, below are 3 examples of typical
+`SomaDataIO`. In the meantime, below are 4 examples of typical
 primary statistical analyses that are commonly performed on
 'SomaScan' data:
 
 - Two-group comparison (e.g. differential expression) via *t*-test
-  + see vignette `vignette("two-group-comparison", package = "SomaDataIO")`
+  + see `stats::t.test()`
+  + see vignette `vignette("stat-two-group-comparison", package = "SomaDataIO")`
+
+- Milti-group comparison (e.g. differential expression) via ANOVA
+  + see `stats::aov()`
+  + see vignette `vignette("stat-three-group-analysis-anova", package = "SomaDataIO")`
 
 - Binary classification
-  + see vignette `vignette("binary-classification", package = "SomaDataIO")`
+  + see `stats::glm()`
+  + see vignette `vignette("stat-binary-classification", package = "SomaDataIO")`
 
 - Linear regression
-  + see vignette `vignette("linear-regression", package = "SomaDataIO")`
+  + see `stats::lm()`
+  + see vignette `vignette("stat-linear-regression", package = "SomaDataIO")`
 
 
 ---------------------
+
 
 ## MIT LICENSE
 
@@ -99,10 +106,4 @@ ANY CLAIM, DAMAGES, WHETHER DIRECT OR INDIRECT, OR OTHER LIABILITY,
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 IN THE SOFTWARE.
-
-
------------------------------
-
-Created by [Rmarkdown](https://github.com/rstudio/rmarkdown)
-(v`r utils::packageVersion("rmarkdown")`) and `r R.version$version.string`.
 

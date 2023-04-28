@@ -11,7 +11,7 @@ on:
       - 'NEWS.md'
       - 'README.md'
 
-name: Deploy pkgdown -> gh-pages
+name: Deploy pkgdown
 
 jobs:
   pkgdown:
