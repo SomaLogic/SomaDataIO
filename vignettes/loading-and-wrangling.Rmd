@@ -1,6 +1,9 @@
 ---
 title: "Loading and Wrangling 'SomaScan'"
 author: "Stu Field, SomaLogic Operating Co., Inc."
+description: >
+  How to load and manipulate a 'SomaScan' flat text file into
+  and R environment.
 output:
   rmarkdown::html_vignette:
     fig_caption: yes

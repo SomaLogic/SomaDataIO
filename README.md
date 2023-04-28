@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# `SomaDataIO` from SomaLogic Operating Co., Inc. <img src="man/figures/logo.png" align="right" height="100" width="100"/>
+# SomaDataIO <a href="https://somalogic.github.io/SomaDataIO"><img src="man/figures/logo.png" align="right" height="138" alt="" /></a>
 
 <!-- badges: start -->
 
@@ -19,16 +19,13 @@ stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://
 MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://choosealicense.com/licenses/mit/)
 <!-- badges: end -->
 
-## Overview
-
-This document accompanies the `SomaDataIO` R package, which loads and
-exports ‘SomaScan’ data via the SomaLogic Operating Co., Inc.
-proprietary text file called an ADAT (`*.adat`). The package also
-exports auxiliary functions for manipulating, wrangling, and extracting
-relevant information from an ADAT object once in memory. Basic
-familiarity with the R environment is assumed, as is the ability to
-install contributed packages from the Comprehensive R Archive Network
-(CRAN).
+The `SomaDataIO` R package loads and exports ‘SomaScan’ data via the
+SomaLogic Operating Co., Inc. proprietary text file called an ADAT
+(`*.adat`). The package also exports auxiliary functions for
+manipulating, wrangling, and extracting relevant information from an
+ADAT object once in memory. Basic familiarity with the R environment is
+assumed, as is the ability to install contributed packages from the
+Comprehensive R Archive Network (CRAN).
 
 If you run into any issues/problems with `SomaDataIO` full documentation
 of the most recent
@@ -48,8 +45,6 @@ The `SomaDataIO` package is licensed under the
 license and is intended solely for research use only (“RUO”) purposes.
 The code contained herein may *not* be used for diagnostic, clinical,
 therapeutic, or other commercial purposes.
-
-------------------------------------------------------------------------
 
 ## Installation
 
@@ -270,17 +265,25 @@ details about these fields.
 
 ## Typical ‘SomaScan’ Analysis
 
-This section now lives in individual package vignettes. For further
+This section now lives in individual package articles. For further
 detail please see:
 
 - Two-group comparison (e.g. differential expression) via *t*-test
+  - see `stats::t.test()`
   - see vignette
-    `vignette("two-group-comparison", package = "SomaDataIO")`
+    `vignette("stat-two-group-comparison", package = "SomaDataIO")`
+- Milti-group comparison (e.g. differential expression) via ANOVA
+  - see `stats::aov()`
+  - see vignette
+    `vignette("stat-three-group-analysis-anova", package = "SomaDataIO")`
 - Binary classification
+  - see `stats::glm()`
   - see vignette
-    `vignette("binary-classification", package = "SomaDataIO")`
+    `vignette("stat-binary-classification", package = "SomaDataIO")`
 - Linear regression
-  - see vignette `vignette("linear-regression", package = "SomaDataIO")`
+  - see `stats::lm()`
+  - see vignette
+    `vignette("stat-linear-regression", package = "SomaDataIO")`
 
 ------------------------------------------------------------------------
 
@@ -291,8 +294,3 @@ detail please see:
 - The MIT License:
   - <https://choosealicense.com/licenses/mit/>
   - [https://www.tldrlegal.com/license/mit-license/](https://www.tldrlegal.com/license/mit-license)
-
-------------------------------------------------------------------------
-
-Created by [Rmarkdown](https://github.com/rstudio/rmarkdown) (v2.20) and
-R version 4.2.2 (2022-10-31).

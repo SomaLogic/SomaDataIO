@@ -20,7 +20,9 @@ ver <- paste0("https://img.shields.io/badge/Version-", ver,
               "-success.svg?style=flat&logo=github")
 ```
 
-# `SomaDataIO` from SomaLogic Operating Co., Inc. <img src="man/figures/logo.png" align="right" height="100" width="100"/>
+
+# SomaDataIO <a href="https://somalogic.github.io/SomaDataIO"><img src="man/figures/logo.png" align="right" height="138" alt="" /></a>
+
 
 <!-- badges: start -->
 ![GitHub version](`r ver`)
@@ -33,12 +35,8 @@ ver <- paste0("https://img.shields.io/badge/Version-", ver,
 <!-- badges: end -->
 
 
-
-## Overview
-
-This document accompanies the `SomaDataIO` R package, which loads
-and exports 'SomaScan' data via the SomaLogic Operating Co., Inc.
-proprietary text file called an ADAT (`*.adat`).
+The `SomaDataIO` R package loads and exports 'SomaScan' data via the
+SomaLogic Operating Co., Inc.  proprietary text file called an ADAT (`*.adat`).
 The package also exports auxiliary functions for manipulating, wrangling,
 and extracting relevant information from an ADAT object once in memory.
 Basic familiarity with the R environment is assumed, as is the ability to install
@@ -57,6 +55,7 @@ page and, if appropriate, submit an issue and/or feature request.
 
 ---------------------
 
+
 ## Usage
 
 The `SomaDataIO` package is licensed under the
@@ -64,9 +63,6 @@ The `SomaDataIO` package is licensed under the
 license and is intended solely for research use only (“RUO”) purposes.
 The code contained herein may _not_ be used for diagnostic, clinical,
 therapeutic, or other commercial purposes.
-
-
----------------------
 
 
 ## Installation
@@ -201,7 +197,6 @@ to users to run canned examples (or analyses). They can be accessed once
     + write out a `soma_adat` object as a `*.adat` text file.
 
 
-
 ## Loading an ADAT
 
 Loading an ADAT text file is simple using `read_adat()`:
@@ -246,38 +241,39 @@ to users. Please also see `?colmeta` or `?annotations` for further
 details about these fields.
 
 
-
 ---------------------
 
 
 ## Typical 'SomaScan' Analysis
 
-This section now lives in individual package vignettes.
+This section now lives in individual package articles.
 For further detail please see:
 
 - Two-group comparison (e.g. differential expression) via *t*-test
-  + see vignette `vignette("two-group-comparison", package = "SomaDataIO")`
+  + see `stats::t.test()`
+  + see vignette `vignette("stat-two-group-comparison", package = "SomaDataIO")`
+
+- Milti-group comparison (e.g. differential expression) via ANOVA
+  + see `stats::aov()`
+  + see vignette `vignette("stat-three-group-analysis-anova", package = "SomaDataIO")`
 
 - Binary classification
-  + see vignette `vignette("binary-classification", package = "SomaDataIO")`
+  + see `stats::glm()`
+  + see vignette `vignette("stat-binary-classification", package = "SomaDataIO")`
 
 - Linear regression
-  + see vignette `vignette("linear-regression", package = "SomaDataIO")`
-
+  + see `stats::lm()`
+  + see vignette `vignette("stat-linear-regression", package = "SomaDataIO")`
 
 
 ---------------------
 
 
 ## MIT LICENSE
+
 * See [LICENSE](https://github.com/SomaLogic/SomaDataIO/blob/main/LICENSE.md)
 * The MIT License:
   - [https://choosealicense.com/licenses/mit/](https://choosealicense.com/licenses/mit/)
   - [https://www.tldrlegal.com/license/mit-license/](https://www.tldrlegal.com/license/mit-license)
 
 
----------------------
-
-
-Created by [Rmarkdown](https://github.com/rstudio/rmarkdown)
-(v`r utils::packageVersion("rmarkdown")`) and `r R.version$version.string`.

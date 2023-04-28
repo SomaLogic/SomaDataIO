@@ -52,5 +52,6 @@ LazyData: true
 LazyDataCompression: xz
 LazyLoad: true
 Config/testthat/edition: 3
+Config/Needs/website: tidyverse/tidytemplate
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3

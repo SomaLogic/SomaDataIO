@@ -1,15 +1,15 @@
-url: https://github.com/SomaLogic/SomaDataIO
+url: https://somalogic.github.io/SomaDataIO
 
-home:
-  strip_header: true
-  links:
-  - text: Learn more about SomaScan
-    href: http://www.somalogic.com
-  - text: Contact Us
-    href: https://somalogic.com/contact-us/
+development:
+  mode: auto
+
+authors:
+  Stu Field:
+    href: https://github.com/stufield
 
 template:
   bootstrap: 5
+  package: tidytemplate
   bslib:
     #bg: "#202123"      # dark theme
     #fg: "#B8BCC2"      # dark theme
@@ -18,56 +18,45 @@ template:
     btn-border-radius: 0.25rem
     base_font: {google: "Roboto"}
 
-authors:
-  Stu Field:
-    href: https://github.com/stufield
+home:
+  links:
+  - text: Learn more about SomaScan
+    href: http://www.somalogic.com
+  - text: Contact Us
+    href: https://somalogic.com/contact-us/
 
-development:
-  mode: auto
+navbar:
+  structure:
+    left: [intro, reference, articles, workflows, news]
+    right: [search, github]
+  components:
+    workflows:
+      text: Workflows
+      menu:
+      - text: Two-Group Comparison
+        href: articles/stat-two-group-comparison.html
+      - text: ANOVA Three-Group Analysis
+        href: articles/stat-three-group-analysis-anova.html
+      - text: -------
+      - text: Binary Classification
+        href: articles/stat-binary-classification.html
+      - text: Linear Regression
+        href: articles/stat-linear-regression.html
 
 articles:
-  - title: Getting Started
-    navbar: ~
-    contents:
-    - SomaDataIO
-
   - title: Loading and Wrangling
     navbar: ~
-    desc: >
-      How to load and manipulate a 'SomaScan' flat text file into 
-      and R environment.
     contents:
     - loading-and-wrangling
 
-  - title: Two-group Comparison
-    navbar: ~
-    desc: >
-      Typical two-group comparison of 'SomaScan' data.
-    contents:
-    - two-group-comparison
-    - three-group-analysis-anova
-
-  - title: Binary Classification
-    navbar: ~
-    desc: >
-      Typical binary classification of 'SomaScan' data.
-    contents:
-    - binary-classification
-
-  - title: Linear Regression
-    navbar: ~
-    desc: >
-      Typical linear regression of continuous 'SomaScan' data.
-    contents:
-    - linear-regression
-
   - title: Command Line Merge Tool
     navbar: ~
-    desc: >
-      A convenient CLI merge tool to add new clinical data
-      to 'SomaScan' data.
     contents:
     - cli-merge-tool
+
+  - title: Statistical Workflow Examples
+    contents:
+    - starts_with("articles/stat-")
 
 reference:
   - title: Load an ADAT
