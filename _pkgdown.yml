@@ -45,6 +45,7 @@ articles:
       Typical two-group comparison of 'SomaScan' data.
     contents:
     - two-group-comparison
+    - three-group-analysis-anova
 
   - title: Binary Classification
     navbar: ~

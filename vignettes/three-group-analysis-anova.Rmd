@@ -1,0 +1,153 @@
+---
+title: "ANOVA Three-Group Analysis"
+author: "Stu Field, SomaLogic Operating Co., Inc."
+output:
+  rmarkdown::html_vignette:
+    fig_caption: yes
+vignette: >
+  %\VignetteIndexEntry{ANOVA Three-Group Analysis}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include = FALSE}
+library(SomaDataIO)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(purrr)
+knitr::opts_chunk$set(
+  echo = TRUE,
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "figures/three-group-"
+)
+```
+
+
+--------------
+
+
+## Differential Expression via ANVOA
+
+Although targeted statistical analyses are beyond the scope of 
+the `SomaDataIO` package, below is an example analysis
+that typical users/customers would perform on 'SomaScan' data.
+
+It is not intended to be a definitive guide in statistical
+analysis and existing packages do exist in the `R` ecosystem that perform
+parts or extensions of these techniques. Many variations of the workflow
+below exist, however the framework highlights how one could perform standard
+_preliminary_ analyses on 'SomaScan' data.
+
+
+## Data Preparation
+```{r data-prep}
+# the `example_data` package data
+dim(example_data)
+
+table(example_data$SampleType)
+
+# center/scale
+cs <- function(.x) {    # .x = numeric vector
+  out <- .x - mean(.x)  # center
+  out / sd(out)         # scale
+}
+
+# prepare data set for analysis
+cleanData <- example_data |>
+  filter(SampleType == "Sample") |>         # rm control samples
+  drop_na(Sex) |>                           # rm NAs if present
+  log10() |>                                # log10-transform (Math Generic)
+  modify_at(getAnalytes(example_data), cs)  # center/scale analytes
+
+# dummy 3 group setup
+# set up semi-random 3-group with structure
+# based on the `Sex` variable (with known structure)
+cleanData$Group <- ifelse(cleanData$Sex == "F", "A", "B")
+g3 <- withr::with_seed(123, sample(1:nrow(cleanData), size = round(nrow(cleanData) / 3)))
+cleanData$Group[g3] <- "C"
+table(cleanData$Group)
+```
+
+
+
+## Compare Three Groups (`A`/`B`/`C`)
+### Get annotations via `getAnalyteInfo()`:
+
+```{r get-anno}
+aov_tbl <- getAnalyteInfo(cleanData) |>
+  select(AptName, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt)
+
+# Feature data info:
+#   Subset via dplyr::filter(aov_tbl, ...) here to
+#   restrict analysis to only certain analytes
+
+aov_tbl
+```
+
+
+
+### Calculate ANOVAs
+Use a "list columns" approach via nested tibble object
+using `dplyr`, `purrr`, and `stats::aov()`
+
+```{r anova-models}
+aov_tbl <- aov_tbl |>
+  mutate(
+    formula   = map(AptName, ~ as.formula(paste(.x, "~ Group"))), # create formula
+    aov_model = map(formula, ~ stats::aov(.x, data = cleanData)),  # fit ANOVA-models
+    aov_smry  = map(aov_model, summary) |> map(1L),      # summary() method
+    F.stat    = map(aov_smry, "F value") |> map_dbl(1L), # pull out F-statistic
+    p.value   = map(aov_smry, "Pr(>F)") |> map_dbl(1L),  # pull out p-values
+    fdr       = p.adjust(p.value, method = "BH")         # FDR multiple testing
+  ) |>
+  arrange(p.value) |>            # re-order by `p-value`
+  mutate(rank = row_number())    # add numeric ranks
+
+# View analysis tibble
+aov_tbl
+```
+
+
+
+### Visualize with `ggplot2()`
+Create a plotting tibble in the "long" format for `ggplot2`:
+
+```{r ggplot-data}
+target_map <- head(aov_tbl, 12L) |>     # mapping table
+  select(AptName, Target)               # SeqId -> Target
+
+plot_tbl <- cleanData |>
+  select(Group, target_map$AptName) |>    # top 12 analytes
+  pivot_longer(cols = -Group, names_to = "AptName", values_to = "RFU") |>
+  left_join(target_map, by = "AptName") |>
+  # order factor levels by 'aov_tbl' rank to order plots below
+  mutate(Target = factor(Target, levels = target_map$Target))
+
+plot_tbl
+```
+
+```{r ggplot-pdfs, fig.width = 7, fig.height = 7, fig.align = "center"}
+plot_tbl |>
+  ggplot(aes(x = RFU, fill = Group)) +
+  geom_density(linetype = 0, alpha = 0.25) +
+  scale_fill_manual(values = c("#24135F", "#00A499", "#006BA6")) +
+  facet_wrap(~ Target, ncol = 3) +
+  ggtitle("Probability Density of Top Analytes by ANOVA") +
+  labs(y = "log10(RFU)") +
+  theme(plot.title = element_text(size = 21, face = "bold"),
+        axis.title.x = element_text(size = 14),
+        axis.title.y = element_text(size = 14),
+        legend.position = "top"
+  )
+```
+
+
+---------------------
+
+
+Created by [Rmarkdown](https://github.com/rstudio/rmarkdown)
+(v`r utils::packageVersion("rmarkdown")`) and `r R.version$version.string`.
