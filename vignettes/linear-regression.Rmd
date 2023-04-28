@@ -56,10 +56,10 @@ cs <- function(.x) {    # .x = numeric vector
 
 # prepare data set for analysis
 cleanData <- example_data |>
-  filter(SampleType == "Sample") |>               # rm control samples
-  drop_na(Age) |>                                 # rm NAs if present
-  log10() |>                                      # log10-transform (Math Generic)
-  modify_at(getAnalytes(example_data), cs)
+  filter(SampleType == "Sample") |>          # rm control samples
+  drop_na(Age) |>                            # rm NAs if present
+  log10() |>                                 # log10-transform (Math Generic)
+  modify_at(getAnalytes(example_data), cs)   # center/scale analytes
 
 summary(cleanData$Age)
 ```
@@ -89,11 +89,11 @@ LinR_tbl <- getAnalyteInfo(train) |>                # `train` from above
   select(AptName, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt) |>
   mutate(
     formula = map(AptName, ~ as.formula(paste("Age ~", .x, collapse = " + "))),
-    model   = map(formula, ~ lm(.x, data = train, model = FALSE)),  # fit linear models
-    slope   = map_dbl(model, ~ coef(.x)[2L]),       # pull out B_1
+    model   = map(formula, ~ stats::lm(.x, data = train, model = FALSE)), # fit models
+    slope   = map(model, coef) |> map_dbl(2L),     # pull out B_1
     p.value = map2_dbl(model, AptName, ~ {
-      summary(.x)$coefficients[.y, "Pr(>|t|)"] }),  # pull out p-values
-    fdr     = p.adjust(p.value, method = "BH")      # FDR for multiple testing
+      summary(.x)$coefficients[.y, "Pr(>|t|)"] }), # pull out p-values
+    fdr     = p.adjust(p.value, method = "BH")     # FDR for multiple testing
   ) |>
   arrange(p.value) |>            # re-order by `p-value`
   mutate(rank = row_number())    # add numeric ranks
@@ -108,7 +108,7 @@ Fit an 8-marker model with the top 8 features from `LinR_tbl`:
 ```{r linreg-fit}
 feats <- head(LinR_tbl$AptName, 8L)
 form  <- as.formula(paste("Age ~", paste(feats, collapse = "+")))
-fit   <- lm(form, data = train, model = FALSE)
+fit   <- stats::lm(form, data = train, model = FALSE)
 n     <- nrow(test)
 p     <- length(feats)
 

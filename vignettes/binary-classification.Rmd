@@ -60,7 +60,7 @@ cleanData <- example_data |>
   drop_na(Sex) |>                                 # rm NAs if present
   log10() |>                                      # log10-transform (Math Generic)
   mutate(Group = as.numeric(factor(Sex)) - 1) |>  # map Sex -> 0/1
-  modify_at(getAnalytes(example_data), cs)
+  modify_at(getAnalytes(example_data), cs)        # center/scale analytes
 
 table(cleanData$Sex)
 
@@ -93,7 +93,7 @@ LR_tbl <- getAnalyteInfo(train) |>
   mutate(
     formula  = map(AptName, ~ as.formula(paste("Group ~", .x))),  # create formula
     model    = map(formula, ~ stats::glm(.x, data = train, family = "binomial", model = FALSE)),  # fit glm()
-    beta_hat = map_dbl(model, ~ coef(.x)[2L]),      # pull out coef Beta
+    beta_hat = map(model, coef) |> map_dbl(2L),     # pull out coef Beta
     p.value  = map2_dbl(model, AptName, ~ {
       summary(.x)$coefficients[.y, "Pr(>|z|)"] }),  # pull out p-values
     fdr      = p.adjust(p.value, method = "BH")     # FDR correction multiple testing
