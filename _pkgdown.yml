@@ -33,11 +33,14 @@ navbar:
     workflows:
       text: Workflows
       menu:
+      - text: Difference Testing
       - text: Two-Group Comparison
         href: articles/stat-two-group-comparison.html
       - text: ANOVA Three-Group Analysis
         href: articles/stat-three-group-analysis-anova.html
-      - text: -------
+      - text: ---
+
+      - text: Making Predictions
       - text: Binary Classification
         href: articles/stat-binary-classification.html
       - text: Linear Regression
