@@ -50,9 +50,11 @@ does not affect row names, which differs from tibble::rowid_to_column()."><meta 
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-workflows">Workflows</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-workflows">
+    <h6 class="dropdown-header" data-toc-skip>Difference Testing</h6>
     <a class="dropdown-item" href="../articles/stat-two-group-comparison.html">Two-Group Comparison</a>
     <a class="dropdown-item" href="../articles/stat-three-group-analysis-anova.html">ANOVA Three-Group Analysis</a>
     <div class="dropdown-divider"></div>
+    <h6 class="dropdown-header" data-toc-skip>Making Predictions</h6>
     <a class="dropdown-item" href="../articles/stat-binary-classification.html">Binary Classification</a>
     <a class="dropdown-item" href="../articles/stat-linear-regression.html">Linear Regression</a>
   </div>
@@ -151,37 +153,37 @@ It does <em>not</em> remove existing row names currently, but may in the future
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, b <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>, row.names <span class="op">=</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">df</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   a          b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> A 1 -2.2752074</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> B 2  0.4684760</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> C 3 -1.1378867</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> D 4 -0.5622216</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> E 5  0.1399135</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   a           b</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> A 1  0.24770426</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> B 2  0.88096526</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> C 3 -1.04259083</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> D 4 -0.40337716</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> E 5 -0.07110942</span>
 <span class="r-in"><span><span class="fu">rn2col</span><span class="op">(</span><span class="va">df</span><span class="op">)</span>              <span class="co"># default name is `.rn`</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   .rn a          b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   A 1 -2.2752074</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   B 2  0.4684760</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   C 3 -1.1378867</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4   D 4 -0.5622216</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   E 5  0.1399135</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   .rn a           b</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   A 1  0.24770426</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   B 2  0.88096526</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   C 3 -1.04259083</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   D 4 -0.40337716</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   E 5 -0.07110942</span>
 <span class="r-in"><span><span class="fu">rn2col</span><span class="op">(</span><span class="va">df</span>, <span class="st">"AptName"</span><span class="op">)</span>   <span class="co"># pass `name =`</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   AptName a          b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       A 1 -2.2752074</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       B 2  0.4684760</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       C 3 -1.1378867</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       D 4 -0.5622216</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5       E 5  0.1399135</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   AptName a           b</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1       A 1  0.24770426</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2       B 2  0.88096526</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3       C 3 -1.04259083</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4       D 4 -0.40337716</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5       E 5 -0.07110942</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># moving columns</span></span></span>
 <span class="r-in"><span><span class="va">df</span><span class="op">$</span><span class="va">mtcars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">col2rn</span><span class="op">(</span><span class="va">df</span>, <span class="st">"mtcars"</span><span class="op">)</span>   <span class="co"># with a warning</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`data` already has assigned row names. They will be over-written.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      a          b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> qsec 1 -2.2752074</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> cyl  2  0.4684760</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> wt   3 -1.1378867</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> drat 4 -0.5622216</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mpg  5  0.1399135</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      a           b</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> cyl  1  0.24770426</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mpg  2  0.88096526</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> gear 3 -1.04259083</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> vs   4 -0.40337716</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> drat 5 -0.07110942</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Move back and forth easily</span></span></span>
 <span class="r-in"><span><span class="co"># Leaves original object un-modified</span></span></span>
