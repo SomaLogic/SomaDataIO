@@ -148,8 +148,3 @@ plot_tbl |>
 ```
 
 
----------------------
-
-
-Created by [Rmarkdown](https://github.com/rstudio/rmarkdown)
-(v`r utils::packageVersion("rmarkdown")`) and `r R.version$version.string`.

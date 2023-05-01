@@ -142,9 +142,3 @@ tibble(Sensitivity = tp / (tp + fn),
 )
 ```
 
-
----------------------
-
-
-Created by [Rmarkdown](https://github.com/rstudio/rmarkdown)
-(v`r utils::packageVersion("rmarkdown")`) and `r R.version$version.string`.

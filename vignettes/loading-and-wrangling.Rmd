@@ -196,8 +196,3 @@ write_adat(my_adat, file = tempfile("my-adat-", fileext = ".adat"))
 ```
 
 
----------------------
-
-
-Created by [Rmarkdown](https://github.com/rstudio/rmarkdown)
-(v`r utils::packageVersion("rmarkdown")`) and `r R.version$version.string`.

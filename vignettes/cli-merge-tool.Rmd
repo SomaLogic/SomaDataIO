@@ -238,7 +238,7 @@ getAnalytes(new)
 ```
 
 
-## Closing
+## Summary
 
 Merging newly obtained clinical variables into existing 'SomaScan' ADATs
 is easy via the `merge_clin.R` script provided with
@@ -255,8 +255,3 @@ if ( dir.exists(analysis_dir) ) {
 }
 ```
 
----------------------
-
-
-Created by [Rmarkdown](https://github.com/rstudio/rmarkdown)
-(v`r utils::packageVersion("rmarkdown")`) and `r R.version$version.string`.
