@@ -26,8 +26,7 @@ all: check clean
 update: sync sysdata objects
 
 roxygen:
-	@ $(RSCRIPT) \
-	-e "devtools::document(roclets = c('rd', 'collate', 'namespace'))"
+	@ $(RSCRIPT) -e "roxygen2::roxygenise()"
 
 readme:
 	@ echo "Rendering README.Rmd"
