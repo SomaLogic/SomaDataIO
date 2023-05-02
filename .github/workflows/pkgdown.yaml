@@ -36,12 +36,6 @@ jobs:
             local::.
           needs: website
 
-#      - name: Install Biobase
-#        run: |
-#          remotes::install_cran("BiocManager")
-#          BiocManager::install("Biobase", version = "3.15")
-#        shell: Rscript {0}
-
       - name: Install package
         run: |
           R CMD INSTALL --use-vanilla .

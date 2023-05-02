@@ -1,14 +1,11 @@
-# This is a basic workflow to sync release branch to public repository
-# with the new workflows, this GHA is seldom used
-# as we do not sync between internal-public repos
+# This is a basic workflow to sync the public repository to SomaDataIO-internal
+# With new workflows, this GHA is seldom used
+# We do not sync between internal-public repos often
+# It is now only manually triggered
+
+on: workflow_dispatch
 
 name: Public -> Internal
-
-on:
-  push:
-    branches:
-      - release
-  workflow_dispatch:
 
 jobs:
   repo-sync:
