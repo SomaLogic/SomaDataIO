@@ -3,13 +3,14 @@ pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   SomaDataIO: SomaDataIO.html
-  binary-classification: binary-classification.html
+  stat-binary-classification: stat-binary-classification.html
+  stat-linear-regression: stat-linear-regression.html
+  stat-three-group-analysis-anova: stat-three-group-analysis-anova.html
+  stat-two-group-comparison: stat-two-group-comparison.html
   cli-merge-tool: cli-merge-tool.html
-  linear-regression: linear-regression.html
   loading-and-wrangling: loading-and-wrangling.html
-  two-group-comparison: two-group-comparison.html
-last_built: 2023-04-28T14:10Z
+last_built: 2023-05-02T14:07Z
 urls:
-  reference: https://github.com/SomaLogic/SomaDataIO/reference
-  article: https://github.com/SomaLogic/SomaDataIO/articles
+  reference: https://somalogic.github.io/SomaDataIO/reference
+  article: https://somalogic.github.io/SomaDataIO/articles
 

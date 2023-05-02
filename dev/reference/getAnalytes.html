@@ -14,7 +14,7 @@ S3 methods exist for these classes:
 #&amp;gt; [1] getMeta.character  getMeta.data.frame getMeta.default    getMeta.list      
 #&amp;gt; [5] getMeta.matrix     getMeta.soma_adat 
 #&amp;gt; see '?methods' for accessing help and source code
-"><title>Get Analytes — getAnalytes • SomaDataIO</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.5/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Get Analytes — getAnalytes"><meta property="og:description" content="Return the feature names (i.e. the column names for
+"><title>Get Analytes — getAnalytes • SomaDataIO</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.5/font.css" rel="stylesheet"><link href="../deps/Source_Code_Pro-0.4.5/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Get Analytes — getAnalytes"><meta property="og:description" content="Return the feature names (i.e. the column names for
 SOMAmer reagent analytes) from a soma_adat.
 S3 methods also exist for these classes:
 #&amp;gt; [1] getAnalytes.character  getAnalytes.data.frame getAnalytes.default   
@@ -29,14 +29,14 @@ S3 methods exist for these classes:
 #&amp;gt; [1] getMeta.character  getMeta.data.frame getMeta.default    getMeta.list      
 #&amp;gt; [5] getMeta.matrix     getMeta.soma_adat 
 #&amp;gt; see '?methods' for accessing help and source code
-"><meta property="og:image" content="https://github.com/SomaLogic/SomaDataIO/logo.png"><meta name="robots" content="noindex"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
+"><meta property="og:image" content="https://somalogic.github.io/SomaDataIO/logo.png"><meta name="robots" content="noindex"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body>
-    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
+    <a href="#container" class="visually-hidden-focusable">Skip to content</a>
     
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-none"><div class="container">
     
     <a class="navbar-brand me-2" href="../index.html">SomaDataIO</a>
 
@@ -58,10 +58,21 @@ S3 methods exist for these classes:
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/loading-and-wrangling.html">Loading and Wrangling 'SomaScan'</a>
-    <a class="dropdown-item" href="../articles/two-group-comparison.html">Two-Group Comparison</a>
-    <a class="dropdown-item" href="../articles/binary-classification.html">Binary Classification</a>
-    <a class="dropdown-item" href="../articles/linear-regression.html">Linear Regression</a>
     <a class="dropdown-item" href="../articles/cli-merge-tool.html">Command Line Merge Tool</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="../articles/index.html">More articles...</a>
+  </div>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-workflows">Workflows</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-workflows">
+    <h6 class="dropdown-header" data-toc-skip>Difference Testing</h6>
+    <a class="dropdown-item" href="../articles/stat-two-group-comparison.html">Two-Group Comparison</a>
+    <a class="dropdown-item" href="../articles/stat-three-group-analysis-anova.html">ANOVA Three-Group Analysis</a>
+    <div class="dropdown-divider"></div>
+    <h6 class="dropdown-header" data-toc-skip>Making Predictions</h6>
+    <a class="dropdown-item" href="../articles/stat-binary-classification.html">Binary Classification</a>
+    <a class="dropdown-item" href="../articles/stat-linear-regression.html">Linear Regression</a>
   </div>
 </li>
 <li class="nav-item">
@@ -71,7 +82,7 @@ S3 methods exist for these classes:
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
       <ul class="navbar-nav"><li class="nav-item">
-  <a class="nav-link" href="https://github.com/SomaLogic/SomaDataIO/" aria-label="github">
+  <a class="external-link nav-link" href="https://github.com/SomaLogic/SomaDataIO/" aria-label="github">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -80,11 +91,11 @@ S3 methods exist for these classes:
 
     
   </div>
-</nav><div class="container template-reference-topic">
+</nav><div class="container template-reference-topic" id="container">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Get Analytes</h1>
-      <small class="dont-index">Source: <a href="https://github.com/SomaLogic/SomaDataIO/blob/HEAD/R/getAnalytes.R"><code>R/getAnalytes.R</code></a>, <a href="https://github.com/SomaLogic/SomaDataIO/blob/HEAD/R/getMeta.R"><code>R/getMeta.R</code></a>, <a href="https://github.com/SomaLogic/SomaDataIO/blob/HEAD/R/z-deprecated.R"><code>R/z-deprecated.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/SomaLogic/SomaDataIO/blob/HEAD/R/getAnalytes.R" class="external-link"><code>R/getAnalytes.R</code></a>, <a href="https://github.com/SomaLogic/SomaDataIO/blob/HEAD/R/getMeta.R" class="external-link"><code>R/getMeta.R</code></a>, <a href="https://github.com/SomaLogic/SomaDataIO/blob/HEAD/R/z-deprecated.R" class="external-link"><code>R/z-deprecated.R</code></a></small>
       <div class="d-none name"><code>getAnalytes.Rd</code></div>
     </div>
 
@@ -165,8 +176,8 @@ Please adjust your code accordingly.</p></li>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># RFU feature variables</span></span></span>
 <span class="r-in"><span><span class="va">apts</span> <span class="op">&lt;-</span> <span class="fu">getAnalytes</span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">apts</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "seq.10000.28" "seq.10001.7"  "seq.10003.15" "seq.10006.25" "seq.10008.43"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6] "seq.10011.65"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "seq.10000.28" "seq.10001.7"  "seq.10003.15" "seq.10006.25"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "seq.10008.43" "seq.10011.65"</span>
 <span class="r-in"><span><span class="fu">getAnalytes</span><span class="op">(</span><span class="va">example_data</span>, n <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5284</span>
 <span class="r-in"><span></span></span>
@@ -179,21 +190,22 @@ Please adjust your code accordingly.</p></li>
 <span class="r-in"><span><span class="co"># ~~~~~~~~~ Spuriomer ~~~ HybControl ~~~</span></span></span>
 <span class="r-in"><span><span class="va">apts2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"seq.2053.2"</span>, <span class="st">"seq.2171.12"</span>, <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">apts</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">apts2</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "seq.2053.2"   "seq.2171.12"  "seq.10000.28" "seq.10001.7"  "seq.10003.15"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6] "seq.10006.25" "seq.10008.43" "seq.10011.65"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "seq.2053.2"   "seq.2171.12"  "seq.10000.28" "seq.10001.7" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "seq.10003.15" "seq.10006.25" "seq.10008.43" "seq.10011.65"</span>
 <span class="r-in"><span><span class="va">no_crtl</span> <span class="op">&lt;-</span> <span class="fu">getAnalytes</span><span class="op">(</span><span class="va">apts2</span>, rm.controls <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">no_crtl</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "seq.10000.28" "seq.10001.7"  "seq.10003.15" "seq.10006.25" "seq.10008.43"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6] "seq.10011.65"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "seq.10000.28" "seq.10001.7"  "seq.10003.15" "seq.10006.25"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "seq.10008.43" "seq.10011.65"</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="va">apts2</span>, <span class="va">no_crtl</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "seq.2053.2"  "seq.2171.12"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># clinical variables</span></span></span>
 <span class="r-in"><span><span class="va">mvec</span> <span class="op">&lt;-</span> <span class="fu">getMeta</span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mvec</span>, <span class="fl">10</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "PlateId"         "PlateRunDate"    "ScannerID"       "PlatePosition"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [5] "SlideId"         "Subarray"        "SampleId"        "SampleType"     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9] "PercentDilution" "SampleMatrix"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "PlateId"         "PlateRunDate"    "ScannerID"      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4] "PlatePosition"   "SlideId"         "Subarray"       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "SampleId"        "SampleType"      "PercentDilution"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10] "SampleMatrix"   </span>
 <span class="r-in"><span><span class="fu">getMeta</span><span class="op">(</span><span class="va">example_data</span>, n <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 34</span>
 <span class="r-in"><span></span></span>
@@ -206,7 +218,9 @@ Please adjust your code accordingly.</p></li>
     </nav></aside></div>
 
 
-    <footer><div class="pkgdown-footer-left">
+   </div>
+  <footer><div class="container">
+  <div class="pkgdown-footer-left">
   <p></p><p>Developed by <a href="https://github.com/stufield" class="external-link">Stu Field</a>, SomaLogic Operating Co., Inc..</p>
 </div>
 
@@ -214,11 +228,5 @@ Please adjust your code accordingly.</p></li>
   <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
-    </footer></div>
-
-  
-
-  
-
-  </body></html>
+  </div></footer></body></html>
 
