@@ -35,9 +35,9 @@ Return the feature names (i.e. the column names for
 SOMAmer reagent analytes) from a \code{soma_adat}.
 S3 methods also exist for these classes:
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{#> [1] getAnalytes.character  getAnalytes.data.frame getAnalytes.default   
-#> [4] getAnalytes.list       getAnalytes.matrix     getAnalytes.recipe    
-#> [7] getAnalytes.soma_adat 
+\if{html}{\out{<div class="sourceCode">}}\preformatted{#> [1] getAnalytes.character*  getAnalytes.data.frame* getAnalytes.default*   
+#> [4] getAnalytes.list*       getAnalytes.matrix*     getAnalytes.recipe*    
+#> [7] getAnalytes.soma_adat* 
 #> see '?methods' for accessing help and source code
 }\if{html}{\out{</div>}}
 
@@ -46,8 +46,8 @@ names of \emph{non}-analyte feature columns/variables, which typically
 correspond to the clinical ("meta") data variables.
 S3 methods exist for these classes:
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{#> [1] getMeta.character  getMeta.data.frame getMeta.default    getMeta.list      
-#> [5] getMeta.matrix     getMeta.soma_adat 
+\if{html}{\out{<div class="sourceCode">}}\preformatted{#> [1] getMeta.character*  getMeta.data.frame* getMeta.default*   
+#> [4] getMeta.list*       getMeta.matrix*     getMeta.soma_adat* 
 #> see '?methods' for accessing help and source code
 }\if{html}{\out{</div>}}
 }
