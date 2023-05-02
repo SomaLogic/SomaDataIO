@@ -2,12 +2,13 @@
 # with the new workflows, this GHA is seldom used
 # as we do not sync between internal-public repos
 
-name: Internal -> Public Sync
+name: Public -> Internal
 
 on:
   push:
     branches:
       - release
+  workflow_dispatch:
 
 jobs:
   repo-sync:
@@ -27,4 +28,4 @@ jobs:
         echo "$ssh_private_key" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         git -c user.name="$GITHUB_ACTOR" -c user.email="$GITHUB_ACTOR"@users.noreply.github.com push \
-          git@github.com:SomaLogic/SomaDataIO.git "$GITHUB_REF":main
+          git@github.com:SomaLogic/SomaDataIO-internal.git "$GITHUB_REF":main

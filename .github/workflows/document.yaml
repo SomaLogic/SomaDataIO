@@ -12,6 +12,7 @@ on:
       - main
     paths:
       - 'R/**'
+  workflow_dispatch:
 
 name: Document
 

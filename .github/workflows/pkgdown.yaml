@@ -2,16 +2,16 @@ on:
   push:
     branches:
       - main
-      - force-pkgdown
+      - master
     paths:
-      - 'man/**'
       - 'DESCRIPTION'
-      - 'vignettes/**'
       - '_pkgdown.yml'
       - 'NEWS.md'
       - 'README.md'
+      - 'vignettes/**'
+  workflow_dispatch:
 
-name: Deploy pkgdown
+name: pkgdown
 
 jobs:
   pkgdown:

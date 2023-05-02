@@ -17,6 +17,7 @@ on:
       - 'tests/testthat/test-**.R'
       - '.covrignore'
       - '.github/workflows/test-coverage.yaml'
+  workflow_dispatch:
 
 name: test-coverage
 
