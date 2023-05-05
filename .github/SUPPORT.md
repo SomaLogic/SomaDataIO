@@ -18,17 +18,20 @@ For additional `reprex` pointers, check out the [Get help!](https://www.tidyvers
 
 Armed with your `reprex`, the next step is to figure out [where to ask](https://www.tidyverse.org/help/#where-to-ask). 
 
-* If it's a question: start with [community.rstudio.com](https://community.rstudio.com/)
+* If it's a `R` related question: start with [community.rstudio.com](https://community.rstudio.com/)
   and/or [StackOverflow](https://stackoverflow.com). There are more people there to answer questions.  
 
-* If it's a bug: you're in the right place -> [file an issue](https://github.com/SomaLogic/SomaDataIO/issues/new).
+* If it's a bug with [SomaDataIO](https://github.com/SomaLogic/SomaDataIO/): you're
+  in the right place; please [file an issue](https://github.com/SomaLogic/SomaDataIO/issues/new).
   
 * If you're not sure: let the community help you figure it out! 
-  If your problem _is_ a bug or a feature request, you can easily return here and report it. 
+  If your problem _is_ a bug or a feature request, you can easily return
+  [here](https://github.com/SomaLogic/SomaDataIO/issues/) and report it. 
 
-* For *non*-coding related feedback or inquiries please reach out to <techsupport@somalogic.com>.
+* For _non_-coding related feedback or inquiries please reach out to <techsupport@somalogic.com>.
 
-Before opening a new issue, be sure to [search issues and pull requests](https://github.com/SomaLogic/SomaDataIO/issues/)
+Before opening a new issue, be sure to
+[search issues and pull requests](https://github.com/SomaLogic/SomaDataIO/issues/)
 to make sure the bug hasn't been reported and/or already fixed in the development version. 
 By default, the search will be pre-populated with `is:issue is:open`. 
 You can [edit the qualifiers](https://help.github.com/articles/searching-issues-and-pull-requests/),
