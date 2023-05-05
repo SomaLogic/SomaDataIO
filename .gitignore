@@ -5,4 +5,5 @@
 \.Rhistory
 \.RData
 sync-somareadr\.sh
+back-update-website\.sh
 inst/doc
