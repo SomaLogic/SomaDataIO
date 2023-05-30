@@ -13,5 +13,6 @@
 ^Makefile$
 ^cran-comments\.md$
 ^sync-somareadr\.sh$
+^retro-update-pkgdown\.sh$
 ^CRAN-SUBMISSION$
 ^vignettes/articles$
