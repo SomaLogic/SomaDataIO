@@ -67,13 +67,6 @@ cr_yellow <- crayon::yellow
   attr(x, which = name, exact = TRUE)
 }
 
-# attr assignment. `attr(x, y) <- value`. `y` can be unquoted.
-`%@@%<-` <- function(x, y, value) {
-  name <- as.character(substitute(y))
-  attr(x, which = name) <- value
-  x
-}
-
 # for use with `usethis::use_release_issue`
 release_bullets <- function() {
   c(
