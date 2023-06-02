@@ -6,6 +6,24 @@ development:
 authors:
   Stu Field:
     href: https://github.com/stufield
+  SomaLogic Operating Co., Inc.:
+    href: http://www.somalogic.com
+  footer:
+    roles: [fnd]
+    text: "was developed by the Bioinformatics Dept.,"
+  sidebar:
+    roles: [cre, fnd]
+    before: "Special :pray: to:"
+    after: ":dna:"
+  before: "[SomaDataIO](https://github.com/SomaLogic/SomaDataIO/) is proudly brought to you by:"
+  after: ":dna:"
+
+footer:
+  structure:
+    left: [package, developed_by]
+    right: built_with
+  components:
+    logo: "<img src='man/figures/logo.png' width='20'> "
 
 template:
   bootstrap: 5
