@@ -36,7 +36,7 @@ ver <- paste0("https://img.shields.io/badge/Version-", ver,
 
 
 The `SomaDataIO` R package loads and exports 'SomaScan' data via the
-SomaLogic Operating Co., Inc.  proprietary text file called an ADAT (`*.adat`).
+SomaLogic Operating Co., Inc. structured text file called an ADAT (`*.adat`).
 The package also exports auxiliary functions for manipulating, wrangling,
 and extracting relevant information from an ADAT object once in memory.
 Basic familiarity with the R environment is assumed, as is the ability to install
