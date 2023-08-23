@@ -189,7 +189,8 @@ to users to run canned examples (or analyses). They can be accessed once
 * Wrangling data (manipulation)
     + subset, reorder, and list various fields of a `soma_adat` object.
     + `?SeqId` analyte (feature) matching.
-    + `dplyr` and `tidyr` verb S3 methods for the `soma_adat` class.
+    + [dplyr](https://dplyr.tidyverse.org) and [tidyr](https://tidyr.tidyverse.org) verb
+      S3 methods for the `soma_adat` class.
     + `?rownames` helpers that do not break `soma_adat` attributes.
     + please see vignette `vignette("loading-and-wrangling", package = "SomaDataIO")`
 
