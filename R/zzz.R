@@ -17,18 +17,6 @@
   makeActiveBinding("symb_warn", function() "\u26A0" %enc% "!", pkgenv)
   makeActiveBinding("symb_point", function() "\u276F" %enc% ">", pkgenv)
   makeActiveBinding("symb_info", function() "\u2139" %enc% "i", pkgenv)
-
-  .env_bind <- function(.env, x) { # x = env of fns from inside sysdata.rda
-    for ( i in names(x) ) {
-      environment(x[[i]]) <- .env  # re-assign binding env
-      .env[[i]] <- x[[i]]          # assign to .env
-    }
-    invisible()
-  }
-  # bind and assign the internal functions in `.__IO__env`
-  # from sysdata.rda to SomaDataIO namespace
-  # rlang::env_print(.__IO__env)
-  .env_bind(pkgenv, .__IO__env)
 }
 
 .onAttach <- function(libname, pkgname) {

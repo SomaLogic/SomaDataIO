@@ -23,7 +23,7 @@ SYSFILES := $(addprefix $(DIR)/R/, \
 	syncColMeta.R)
 
 all: check clean
-update: sync sysdata objects
+update: sync objects
 
 roxygen:
 	@ $(RSCRIPT) -e "roxygen2::roxygenise()"
@@ -74,22 +74,6 @@ objects:
 	@ $(RSCRIPT) data-raw/SomaScanObjects.R
 	@ echo "Saving objects to 'data/*.rda' ..."
 	@ $(RM) example_data.adat
-
-# necessary to decouple the function from the namespace
-# avoids loading of source package when 'sysdata.rda' is loaded
-# a bit hacky and could probably be improved (sgf)
-sysdata:
-	@ echo "Creating 'R/sysdata.rda' ..."
-	@ git clone --depth=1 ssh://git@bitbucket.sladmin.com:7999/sv/somareadr.git $(DIR)
-	@ git archive --format=tar --remote=ssh://git@bitbucket.sladmin.com:7999/sv/somaplyr \
-		master R/scaleAnalytes.R | tar -xf - -C $(DIR)
-	@ $(RSCRIPT) \
-	-e "files <- commandArgs(TRUE)" \
-	-e ".__IO__env <- new.env()" \
-	-e "invisible(lapply(files, sys.source, envir = .__IO__env, keep.source = TRUE))" \
-	-e "save(.__IO__env, file = 'R/sysdata.rda')" $(SYSFILES)
-	@ $(RM) $(DIR)
-	@ echo "Saving 'R/sysdata.rda' ..."
 
 check_versions:
 	@ $(RSCRIPT) inst/check-pkg-versions.R
