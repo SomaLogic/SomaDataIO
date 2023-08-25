@@ -20,7 +20,7 @@ MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://choosealicense.
 <!-- badges: end -->
 
 The `SomaDataIO` R package loads and exports ‘SomaScan’ data via the
-SomaLogic Operating Co., Inc. proprietary text file called an ADAT
+SomaLogic Operating Co., Inc. structured text file called an ADAT
 (`*.adat`). The package also exports auxiliary functions for
 manipulating, wrangling, and extracting relevant information from an
 ADAT object once in memory. Basic familiarity with the R environment is
@@ -170,7 +170,9 @@ to run canned examples (or analyses). They can be accessed once
 - Wrangling data (manipulation)
   - subset, reorder, and list various fields of a `soma_adat` object.
   - `?SeqId` analyte (feature) matching.
-  - `dplyr` and `tidyr` verb S3 methods for the `soma_adat` class.
+  - [dplyr](https://dplyr.tidyverse.org) and
+    [tidyr](https://tidyr.tidyverse.org) verb S3 methods for the
+    `soma_adat` class.
   - `?rownames` helpers that do not break `soma_adat` attributes.
   - please see vignette
     `vignette("loading-and-wrangling", package = "SomaDataIO")`
@@ -207,23 +209,22 @@ my_adat
 #> ℹ Cal_Example_Adat_Set002, CalQcRatio_Example_Adat_Set002_170255, Dilution2
 #> ── Tibble ──────────────────────────────────────────────────────────────────────
 #> # A tibble: 10 × 5,319
-#>    row_names     PlateId Plate…¹ Scann…² Plate…³ SlideId Subar…⁴ Sampl…⁵ Sampl…⁶
-#>    <chr>         <chr>   <chr>   <chr>   <chr>     <dbl>   <dbl> <chr>   <chr>  
-#>  1 258495800012… Exampl… 2020-0… SG1521… H9      2.58e11       3 1       Sample 
-#>  2 258495800004… Exampl… 2020-0… SG1521… H8      2.58e11       7 2       Sample 
-#>  3 258495800010… Exampl… 2020-0… SG1521… H7      2.58e11       8 3       Sample 
-#>  4 258495800003… Exampl… 2020-0… SG1521… H6      2.58e11       4 4       Sample 
-#>  5 258495800009… Exampl… 2020-0… SG1521… H5      2.58e11       4 5       Sample 
-#>  6 258495800012… Exampl… 2020-0… SG1521… H4      2.58e11       8 6       Sample 
-#>  7 258495800001… Exampl… 2020-0… SG1521… H3      2.58e11       3 7       Sample 
-#>  8 258495800004… Exampl… 2020-0… SG1521… H2      2.58e11       8 8       Sample 
-#>  9 258495800001… Exampl… 2020-0… SG1521… H12     2.58e11       8 9       Sample 
-#> 10 258495800004… Exampl… 2020-0… SG1521… H11     2.58e11       3 170261  Calibr…
-#> # … with 5,310 more variables: PercentDilution <int>, SampleMatrix <chr>,
-#> #   Barcode <lgl>, Barcode2d <chr>, SampleName <lgl>, SampleNotes <lgl>,
-#> #   AliquotingNotes <lgl>, SampleDescription <chr>, AssayNotes <lgl>,
-#> #   TimePoint <lgl>, …, and abbreviated variable names ¹​PlateRunDate,
-#> #   ²​ScannerID, ³​PlatePosition, ⁴​Subarray, ⁵​SampleId, ⁶​SampleType
+#>    row_names      PlateId  PlateRunDate ScannerID PlatePosition SlideId Subarray
+#>    <chr>          <chr>    <chr>        <chr>     <chr>           <dbl>    <dbl>
+#>  1 258495800012_3 Example… 2020-06-18   SG152144… H9            2.58e11        3
+#>  2 258495800004_7 Example… 2020-06-18   SG152144… H8            2.58e11        7
+#>  3 258495800010_8 Example… 2020-06-18   SG152144… H7            2.58e11        8
+#>  4 258495800003_4 Example… 2020-06-18   SG152144… H6            2.58e11        4
+#>  5 258495800009_4 Example… 2020-06-18   SG152144… H5            2.58e11        4
+#>  6 258495800012_8 Example… 2020-06-18   SG152144… H4            2.58e11        8
+#>  7 258495800001_3 Example… 2020-06-18   SG152144… H3            2.58e11        3
+#>  8 258495800004_8 Example… 2020-06-18   SG152144… H2            2.58e11        8
+#>  9 258495800001_8 Example… 2020-06-18   SG152144… H12           2.58e11        8
+#> 10 258495800004_3 Example… 2020-06-18   SG152144… H11           2.58e11        3
+#> # ℹ 5,312 more variables: SampleId <chr>, SampleType <chr>,
+#> #   PercentDilution <int>, SampleMatrix <chr>, Barcode <lgl>, Barcode2d <chr>,
+#> #   SampleName <lgl>, SampleNotes <lgl>, AliquotingNotes <lgl>,
+#> #   SampleDescription <chr>, …
 #> ════════════════════════════════════════════════════════════════════════════════
 ```
 
