@@ -122,6 +122,16 @@ reference:
     - adat2eSet
     - pivotExpressionSet
 
+  - title: Helpers
+    desc: >
+      Accessor functions to add, modify, or retreive attribute information.
+      Typically used internally but are exported for user convenience.
+    contents:
+    - addAttributes
+    - addClass
+    - cleanNames
+    - getAdatVersion
+
   - title: Data Objects
     desc: Objects provided with `SomaDataIO`.
     contents:
