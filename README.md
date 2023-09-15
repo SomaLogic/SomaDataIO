@@ -290,8 +290,13 @@ detail please see:
 
 ## MIT LICENSE
 
-- See
-  [LICENSE](https://github.com/SomaLogic/SomaDataIO/blob/main/LICENSE.md)
-- The MIT License:
+- See:
+  - [LICENSE](https://github.com/SomaLogic/SomaDataIO/blob/main/LICENSE.md)
+- The MIT license:
   - <https://choosealicense.com/licenses/mit/>
   - [https://www.tldrlegal.com/license/mit-license/](https://www.tldrlegal.com/license/mit-license)
+- Further:
+  - “SomaDataIO” and “SomaLogic” are trademarks owned by SomaLogic
+    Operating Co., Inc. No license is hereby granted to these trademarks
+    other than for purposes of identifying the origin or source of this
+    Software.
