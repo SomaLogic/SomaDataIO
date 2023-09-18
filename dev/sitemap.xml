@@ -67,7 +67,19 @@
     <loc>https://somalogic.github.io/SomaDataIO/dev/reference/adat2eSet.html</loc>
   </url>
   <url>
+    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/addAttributes.html</loc>
+  </url>
+  <url>
+    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/addClass.html</loc>
+  </url>
+  <url>
+    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/cleanNames.html</loc>
+  </url>
+  <url>
     <loc>https://somalogic.github.io/SomaDataIO/dev/reference/diffAdats.html</loc>
+  </url>
+  <url>
+    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/getAdatVersion.html</loc>
   </url>
   <url>
     <loc>https://somalogic.github.io/SomaDataIO/dev/reference/getAnalyteInfo.html</loc>

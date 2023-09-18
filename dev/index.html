@@ -114,7 +114,7 @@
 </div>
 <!-- badges: start -->
 
-<p>The <code>SomaDataIO</code> R package loads and exports ‘SomaScan’ data via the SomaLogic Operating Co., Inc. proprietary text file called an ADAT (<code>*.adat</code>). The package also exports auxiliary functions for manipulating, wrangling, and extracting relevant information from an ADAT object once in memory. Basic familiarity with the R environment is assumed, as is the ability to install contributed packages from the Comprehensive R Archive Network (CRAN).</p>
+<p>The <code>SomaDataIO</code> R package loads and exports ‘SomaScan’ data via the SomaLogic Operating Co., Inc. structured text file called an ADAT (<code>*.adat</code>). The package also exports auxiliary functions for manipulating, wrangling, and extracting relevant information from an ADAT object once in memory. Basic familiarity with the R environment is assumed, as is the ability to install contributed packages from the Comprehensive R Archive Network (CRAN).</p>
 <p>If you run into any issues/problems with <code>SomaDataIO</code> full documentation of the most recent <a href="https://github.com/SomaLogic/SomaDataIO/releases" class="external-link">release</a> can be found at our <a href="https://somalogic.github.io/SomaDataIO/">pkgdown</a> website hosted by <a href="https://github.com/SomaLogic/SomaDataIO/" class="external-link">GitHub</a>. If the issue persists we encourage you to consult the <a href="https://github.com/SomaLogic/SomaDataIO/issues/" class="external-link">issues</a> page and, if appropriate, submit an issue and/or feature request.</p>
 <hr>
 <div class="section level2">
@@ -215,7 +215,7 @@
 <li>
 <code><a href="reference/SeqId.html">?SeqId</a></code> analyte (feature) matching.</li>
 <li>
-<code>dplyr</code> and <code>tidyr</code> verb S3 methods for the <code>soma_adat</code> class.</li>
+<a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a> and <a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a> verb S3 methods for the <code>soma_adat</code> class.</li>
 <li>
 <code><a href="reference/rownames.html">?rownames</a></code> helpers that do not break <code>soma_adat</code> attributes.</li>
 <li>please see vignette <code><a href="articles/loading-and-wrangling.html">vignette("loading-and-wrangling", package = "SomaDataIO")</a></code>
@@ -259,23 +259,22 @@
 <span><span class="co">#&gt; ℹ Cal_Example_Adat_Set002, CalQcRatio_Example_Adat_Set002_170255, Dilution2</span></span>
 <span><span class="co">#&gt; ── Tibble ──────────────────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; # A tibble: 10 × 5,319</span></span>
-<span><span class="co">#&gt;    row_names     PlateId Plate…¹ Scann…² Plate…³ SlideId Subar…⁴ Sampl…⁵ Sampl…⁶</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;         &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;  </span></span>
-<span><span class="co">#&gt;  1 258495800012… Exampl… 2020-0… SG1521… H9      2.58e11       3 1       Sample </span></span>
-<span><span class="co">#&gt;  2 258495800004… Exampl… 2020-0… SG1521… H8      2.58e11       7 2       Sample </span></span>
-<span><span class="co">#&gt;  3 258495800010… Exampl… 2020-0… SG1521… H7      2.58e11       8 3       Sample </span></span>
-<span><span class="co">#&gt;  4 258495800003… Exampl… 2020-0… SG1521… H6      2.58e11       4 4       Sample </span></span>
-<span><span class="co">#&gt;  5 258495800009… Exampl… 2020-0… SG1521… H5      2.58e11       4 5       Sample </span></span>
-<span><span class="co">#&gt;  6 258495800012… Exampl… 2020-0… SG1521… H4      2.58e11       8 6       Sample </span></span>
-<span><span class="co">#&gt;  7 258495800001… Exampl… 2020-0… SG1521… H3      2.58e11       3 7       Sample </span></span>
-<span><span class="co">#&gt;  8 258495800004… Exampl… 2020-0… SG1521… H2      2.58e11       8 8       Sample </span></span>
-<span><span class="co">#&gt;  9 258495800001… Exampl… 2020-0… SG1521… H12     2.58e11       8 9       Sample </span></span>
-<span><span class="co">#&gt; 10 258495800004… Exampl… 2020-0… SG1521… H11     2.58e11       3 170261  Calibr…</span></span>
-<span><span class="co">#&gt; # … with 5,310 more variables: PercentDilution &lt;int&gt;, SampleMatrix &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   Barcode &lt;lgl&gt;, Barcode2d &lt;chr&gt;, SampleName &lt;lgl&gt;, SampleNotes &lt;lgl&gt;,</span></span>
-<span><span class="co">#&gt; #   AliquotingNotes &lt;lgl&gt;, SampleDescription &lt;chr&gt;, AssayNotes &lt;lgl&gt;,</span></span>
-<span><span class="co">#&gt; #   TimePoint &lt;lgl&gt;, …, and abbreviated variable names ¹​PlateRunDate,</span></span>
-<span><span class="co">#&gt; #   ²​ScannerID, ³​PlatePosition, ⁴​Subarray, ⁵​SampleId, ⁶​SampleType</span></span>
+<span><span class="co">#&gt;    row_names      PlateId  PlateRunDate ScannerID PlatePosition SlideId Subarray</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;          &lt;chr&gt;    &lt;chr&gt;        &lt;chr&gt;     &lt;chr&gt;           &lt;dbl&gt;    &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 258495800012_3 Example… 2020-06-18   SG152144… H9            2.58e11        3</span></span>
+<span><span class="co">#&gt;  2 258495800004_7 Example… 2020-06-18   SG152144… H8            2.58e11        7</span></span>
+<span><span class="co">#&gt;  3 258495800010_8 Example… 2020-06-18   SG152144… H7            2.58e11        8</span></span>
+<span><span class="co">#&gt;  4 258495800003_4 Example… 2020-06-18   SG152144… H6            2.58e11        4</span></span>
+<span><span class="co">#&gt;  5 258495800009_4 Example… 2020-06-18   SG152144… H5            2.58e11        4</span></span>
+<span><span class="co">#&gt;  6 258495800012_8 Example… 2020-06-18   SG152144… H4            2.58e11        8</span></span>
+<span><span class="co">#&gt;  7 258495800001_3 Example… 2020-06-18   SG152144… H3            2.58e11        3</span></span>
+<span><span class="co">#&gt;  8 258495800004_8 Example… 2020-06-18   SG152144… H2            2.58e11        8</span></span>
+<span><span class="co">#&gt;  9 258495800001_8 Example… 2020-06-18   SG152144… H12           2.58e11        8</span></span>
+<span><span class="co">#&gt; 10 258495800004_3 Example… 2020-06-18   SG152144… H11           2.58e11        3</span></span>
+<span><span class="co">#&gt; # ℹ 5,312 more variables: SampleId &lt;chr&gt;, SampleType &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   PercentDilution &lt;int&gt;, SampleMatrix &lt;chr&gt;, Barcode &lt;lgl&gt;, Barcode2d &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   SampleName &lt;lgl&gt;, SampleNotes &lt;lgl&gt;, AliquotingNotes &lt;lgl&gt;,</span></span>
+<span><span class="co">#&gt; #   SampleDescription &lt;chr&gt;, …</span></span>
 <span><span class="co">#&gt; ════════════════════════════════════════════════════════════════════════════════</span></span></code></pre></div>
 <p>Please see vignette <code><a href="articles/loading-and-wrangling.html">vignette("loading-and-wrangling", package = "SomaDataIO")</a></code> for more details and options.</p>
 </div>
@@ -347,12 +346,20 @@
 <h2 id="mit-license">MIT LICENSE<a class="anchor" aria-label="anchor" href="#mit-license"></a>
 </h2>
 <ul>
-<li>See <a href="https://github.com/SomaLogic/SomaDataIO/blob/main/LICENSE.md" class="external-link">LICENSE</a>
+<li>See:
+<ul>
+<li><a href="https://github.com/SomaLogic/SomaDataIO/blob/main/LICENSE.md" class="external-link">LICENSE</a></li>
+</ul>
 </li>
-<li>The MIT License:
+<li>The MIT license:
 <ul>
 <li><a href="https://choosealicense.com/licenses/mit/" class="external-link uri">https://choosealicense.com/licenses/mit/</a></li>
 <li><a href="https://www.tldrlegal.com/license/mit-license" class="external-link">https://www.tldrlegal.com/license/mit-license/</a></li>
+</ul>
+</li>
+<li>Further:
+<ul>
+<li>“SomaDataIO” and “SomaLogic” are trademarks owned by SomaLogic Operating Co., Inc. No license is hereby granted to these trademarks other than for purposes of identifying the origin or source of this Software.</li>
 </ul>
 </li>
 </ul>
