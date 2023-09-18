@@ -37,7 +37,7 @@ Please check the relevant box(es):
 | Bioinformatics | @stufield     | Code, bugs, features |
 | Info. Sec.     | @trhein       | LICENSE              |
 | Legal          | @SLbmangum    | LICENSE              | 
-| Marketing      | @kmurugesan14 | Documentation        |
+| Product        | @kmurugesan14 | Documentation        |
 | Regulatory     | @nmcnabbSL    | Documentation        |
 
 ------------
