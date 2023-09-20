@@ -9,7 +9,7 @@ on:
       - 'DESCRIPTION'
       - 'NAMESPACE'
       - 'R/**'
-      - 'tests/testthat/test-**.R'
+      - 'tests/testthat/**'
   pull_request:
     branches:
       - main
@@ -20,7 +20,7 @@ on:
       - 'DESCRIPTION'
       - 'NAMESPACE'
       - 'R/**'
-      - 'tests/testthat/test-**.R'
+      - 'tests/testthat/**'
       - 'vignettes/**'
   workflow_dispatch:
 

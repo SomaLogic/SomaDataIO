@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - 'R/**'
-      - 'tests/testthat/test-**.R'
+      - 'tests/testthat/**'
       - '.covrignore'
       - '.github/workflows/test-coverage.yaml'
   pull_request:
@@ -14,7 +14,7 @@ on:
       - main
     paths:
       - 'R/**'
-      - 'tests/testthat/test-**.R'
+      - 'tests/testthat/**'
       - '.covrignore'
       - '.github/workflows/test-coverage.yaml'
   workflow_dispatch:
