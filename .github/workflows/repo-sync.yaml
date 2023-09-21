@@ -26,7 +26,6 @@ jobs:
         mkdir ~/.ssh
         echo "$ssh_private_key" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-        echo "$GITHUB_REF"
         git \
           -c user.name="$GITHUB_ACTOR" \
           -c user.email="$GITHUB_ACTOR"@users.noreply.github.com \
