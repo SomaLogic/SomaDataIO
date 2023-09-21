@@ -1,7 +1,9 @@
-# This is a basic workflow to sync the public repository to SomaDataIO-internal
-# With new workflows, this GHA is seldom used
-# We do not sync between internal-public repos often
-# It is now only manually triggered
+# This is a basic workflow to sync the public repository -> SomaDataIO-internal
+# This GHA is seldom used but it should be run occasionally
+# to ensure the internal repo is up to date with the public side
+# This GHA must be manually triggered from the GUI inside
+#   git@github.com:SomaLogic/SomaDataIO-internal.git repository
+# Author: Stu Field
 
 on: workflow_dispatch
 
@@ -24,5 +26,8 @@ jobs:
         mkdir ~/.ssh
         echo "$ssh_private_key" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-        git -c user.name="$GITHUB_ACTOR" -c user.email="$GITHUB_ACTOR"@users.noreply.github.com push \
-          git@github.com:SomaLogic/SomaDataIO-internal.git "$GITHUB_REF":main
+        echo "$GITHUB_REF"
+        git \
+          -c user.name="$GITHUB_ACTOR" \
+          -c user.email="$GITHUB_ACTOR"@users.noreply.github.com \
+          pull git@github.com:SomaLogic/SomaDataIO.git main
