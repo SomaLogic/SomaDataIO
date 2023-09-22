@@ -30,3 +30,4 @@ jobs:
           -c user.name="$GITHUB_ACTOR" \
           -c user.email="$GITHUB_ACTOR"@users.noreply.github.com \
           pull git@github.com:SomaLogic/SomaDataIO.git main
+        git push origin main
