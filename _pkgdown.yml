@@ -45,7 +45,7 @@ home:
 
 navbar:
   structure:
-    left: [intro, reference, articles, workflows, news]
+    left: [intro, reference, articles, workflows, FAQs, news]
     right: [search, github]
   components:
     workflows:
@@ -63,12 +63,33 @@ navbar:
         href: articles/stat-binary-classification.html
       - text: Linear Regression
         href: articles/stat-linear-regression.html
+    
+    FAQs:
+      text: FAQs
+      menu:
+      - text: SomaScan FAQs
+      - text: Standard Process
+        href: articles/todo.html
+      - text: Limits of Detection (LoD)
+        href: articles/todo.html
+      - text: ---
+
+      - text: Best Practices
+      - text: Lifting SomaScan
+        href: articles/todo.html
+      - text: Non-Standard Matrices
+        href: articles/todo.html
+      - text: CSF
+        href: articles/todo.html
 
 articles:
   - title: Loading and Wrangling
     navbar: ~
     contents:
     - loading-and-wrangling
+    - safely-rename-df
+    - safely-map-values-join
+    - train-test-setup
 
   - title: Command Line Merge Tool
     navbar: ~

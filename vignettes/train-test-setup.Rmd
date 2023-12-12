@@ -1,0 +1,89 @@
+---
+title: "Common train-test data setups"
+author: "Stu Field, SomaLogic Operating Co., Inc."
+description: >
+  Simple code syntax for common machine learning (ML)
+  training vs test setups in R.
+output:
+  rmarkdown::html_vignette:
+    fig_caption: yes
+vignette: >
+  %\VignetteIndexEntry{Common train-test data setups}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+library(dplyr)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(width = 90)
+```
+
+
+# Introduction
+
+Most machine learning (ML) analyses require a random split of original data
+into training/test data sets, where the model is fit on the training data
+and performance is evaluated on the test data set. The split proportions can
+vary, though 80/20 training/test is common. It often depends on the number of
+available samples and the class distribution in the splits.
+
+Among many alternatives, there are 3 common approaches, all are equally
+viable and depend on the analyst's weighing of pros/cons of each.
+I recommend one of these below:
+
+1. base R data frame indexing with [sample()] and `[`
+1. use `dplyr::slice_sample()` or `dplyr::sample_frac()` in
+   combination with `dplyr::anti_join()`
+1. use the [rsample](https://rsample.tidymodels.org) package (not demonstrated)
+
+---------
+
+
+## Original Raw Data
+
+In most analyses, you typically start with a raw original data set that
+you must split randomly into training and test sets.
+
+```{r raw-data}
+raw <- SomaDataIO::rn2col(head(mtcars, 10L), "CarModel") |>
+  SomaDataIO::add_rowid("id") |> # set up identifier variable for the join()
+  tibble::as_tibble()
+raw
+```
+
+
+---------
+
+
+## Option #1: `sample()`
+
+```{r train-test1}
+n     <- nrow(raw)
+idx   <- withr::with_seed(1, sample(1:n, floor(n / 2))) # sample random 50% (n = 5)
+train <- raw[idx, ]
+test  <- raw[-idx, ]
+train
+
+test
+```
+
+
+## Option #2: `anti_join()`
+
+```{r train-test2}
+# sample random 50% (n = 5)
+train <- withr::with_seed(1, dplyr::slice_sample(raw, n = floor(n / 2)))
+
+# or using `dplyr::sample_frac()`
+# train <- withr::with_seed(1, dplyr::sample_frac(raw, size = 0.5))
+
+# use anti_join() to get the sample setdiff
+test <- dplyr::anti_join(raw, train, by = "id")
+train
+
+test
+```
