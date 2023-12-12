@@ -9,24 +9,14 @@ RM = rm -rf
 MV = mv -f
 RCMD = R --vanilla CMD
 RSCRIPT = Rscript --vanilla
-DIR := tmpdir
 
-SYSFILES := $(addprefix $(DIR)/R/, \
-	addAttributes.R \
-	addClass.R \
-	cleanNames.R \
-	convertColMeta.R \
-	genRowNames.R \
-	getAdatVersion.R \
-	parseCheck.R \
-	scaleAnalytes.R \
-	syncColMeta.R)
 
 all: check clean
-update: sync objects
+update: objects
+roxygen: docs
 
-roxygen:
-	@ $(RSCRIPT) -e "roxygen2::roxygenise()"
+docs:
+	@ $(RSCRIPT) -e "roxygen2::roxygenise(roclets = c('collate', 'namespace', 'rd'))"
 
 readme:
 	@ echo "Rendering README.Rmd"
@@ -41,8 +31,8 @@ test:
 	-e "Sys.setenv(TZ = 'America/Denver')" \
 	-e "path <- Sys.getenv('R_LIBS_DEV')" \
 	-e "path <- normalizePath(path, winslash = '/', mustWork = TRUE)" \
-	-e "message('Dev mode: ON')" \
 	-e ".libPaths(c(path, .libPaths()))" \
+	-e "message('Dev mode: ON')" \
 	-e "devtools::test(reporter = 'summary', stop_on_failure = TRUE)"
 
 test_file:
@@ -50,15 +40,15 @@ test_file:
 	-e "Sys.setenv(TZ = 'America/Denver', NOT_CRAN = 'true')" \
 	-e "path <- Sys.getenv('R_LIBS_DEV')" \
 	-e "path <- normalizePath(path, winslash = '/', mustWork = TRUE)" \
-	-e "message('Dev mode: ON')" \
 	-e ".libPaths(c(path, .libPaths()))" \
+	-e "message('Dev mode: ON')" \
 	-e "devtools::load_all()" \
 	-e "testthat::test_file('$(FILE)', reporter = 'summary', stop_on_failure = TRUE)"
 
 accept_snapshots:
 	@ Rscript -e "testthat::snapshot_accept()"
 
-build: roxygen
+build: docs
 	@ cd ..;\
 	$(RCMD) build --resave-data $(PKGSRC)
 
