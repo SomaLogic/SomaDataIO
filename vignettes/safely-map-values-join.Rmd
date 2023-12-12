@@ -1,0 +1,85 @@
+---
+title: "Safely Map Values via dplyr::left_join()"
+author: "Stu Field, SomaLogic Operating Co., Inc."
+description: >
+  How to safely and reliably map variable between
+  data frame columns.
+output:
+  rmarkdown::html_vignette:
+    fig_caption: yes
+vignette: >
+  %\VignetteIndexEntry{Safely Map Values via dplyr::left_join()}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+library(dplyr)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+# Introduction
+
+Mapping values in one column to specific values in another (new) column 
+of a data frame is a common task in data science. Doing so *safely* is
+often a struggle. There are some existing methods in the `tidyverse`
+that are useful, but in my opinion come with some drawbacks:
+
+  * `dplyr::recode()`
+    + can be clunky to implement -> LHS/RHS syntax 
+      difficult (for me) to remember
+  * `dplyr::case_when()`
+    + complex syntax -> difficult to remember; overkill
+      for mapping purposes
+
+Below is what I see is a *safe* way to map (re-code) values in an existing 
+column to a new column.
+
+
+--------------
+
+
+## Mapping Example
+
+```{r map-values}
+# wish to map values of 'x'
+df <- withr::with_seed(101, {
+  data.frame(id    = 1:10L,
+             value = rnorm(10),
+             x     = sample(letters[1:3L], 10, replace = TRUE)
+  )
+})
+df
+
+# create a [n x 2] lookup-table (aka hash map)
+# n = no. values to map
+# x = existing values to map
+# new_x = new mapped values for each `x`
+map <- data.frame(x = letters[1:4L], new_x = c("cat", "dog", "bird", "turtle"))
+map
+
+# use `dplyr::left_join()`
+# note: 'turtle' is absent because `d` is not in `df$x` (thus ignored)
+dplyr::left_join(df, map)
+```
+
+
+## Un-mapped Values -> `NAs`
+
+Notice that `b` maps to `NA`. This is because the mapping object now
+lacks a mapping for `b` (compare to row 2 above).
+Using a slightly different syntax via `tibble::enframe()`.
+
+```{r unmapped-NA}
+# note: `b` is missing in the map
+map_vec <- c(a = "cat", c = "bird", d = "turtle")
+map2 <- tibble::enframe(map_vec, name = "x", value = "new_x")
+map2
+
+# note: un-mapped values generate NAs: `b -> NA`
+dplyr::left_join(df, map2, by = "x")
+```
