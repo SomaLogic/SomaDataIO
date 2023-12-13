@@ -1,0 +1,385 @@
+---
+title: "Lifting and Bridging SomaScan"
+author: "Stu Field, SomaLogic Operating Co., Inc."
+description: >
+  A primer on lifting and bridging 'SomaScan' data.
+output:
+  rmarkdown::html_vignette:
+    fig_caption: yes
+vignette: >
+  %\VignetteIndexEntry{Lifting and Bridging SomaScan}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include = FALSE}
+library(SomaDataIO)
+library(ggplot2)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "figures/lifting-"
+)
+calc_ccc <- function(x, y) {
+  k   <- length(x)
+  sdx <- sd(x)
+  sdy <- sd(y)
+  rho <- stats::cor(x, y, method = "pearson")
+  v   <- sdx / sdy   # scale shift
+  sx2 <- stats::var(x) * (k - 1) / k
+  sy2 <- stats::var(y) * (k - 1) / k
+  # location shift relative to scale
+  u   <- ( mean(x) - mean(y) ) / ( (sx2 * sy2)^0.25 )
+  rho * ( (v + 1 / v + u^2 ) / 2 )^-1
+}
+```
+
+
+# Overview
+
+`SomaDataIO` contains functionality to bridge (aka "lift") between
+various SomaScan versions by linear transformations of RFU data.
+Lifting between various versions is essentially a calibration of the
+analytes/features in RFU space.
+
+
+## Why lift?
+
+The SomaScan platform continually improves its technical processes
+between assay versions. The primary change of interest is content expansion,
+and other protocol changes may be implemented including: changing reagents,
+liquid handling equipment, and well volumes.
+
+For any given analyte, these technical upgrades may result
+in minute measurement signal differences, requiring a
+calibration (aka "lifting" or "bridging") to bring RFU
+values into a comparable signal space. This is accomplished
+by applying an analyte-specific scalar, a linear transformation,
+to each analyte RFU measurement (column).
+
+### Current SomaScan Versions
+
+| **Version**   | **Commercial Name** | **Size**      |
+|:------------- |:------------------- |:------------- |
+|  `V4`         | 5k                  | 5284          |
+|  `v4.1`       | 7k                  | 7596          |
+|  `v5.0`       | 11k                 | 11083         |
+
+
+### Lifting Requirements
+
+There are 4 main requirements in order to reliably bridge
+across SomaScan signal space:
+
+1. the `soma_adat` object attributes, where SomaScan signal information is
+   stored, must be intact (see `is_intact_attr()`).
+1. the sample matrix must be either human serum or human EDTA-plasma.
+   No other matrices are currently supported. Additionally, bridging
+   must *not* be applied across matrices (i.e. serum $\leftrightarrow$ plasma).
+1. the RFU data must have been normalized by Adaptive Normalization via
+   Maximum-Likelihood (ANML). This is the standard normalization for
+   most SomaScan deliveries.
+1. the current SomaScan version and signal space must be one of those
+   above (see table), i.e. one of `5k`, `7k`, or `11k`. Older versions
+   of SomaScan are not supported.
+
+---------------
+
+## Lifting Scalars
+
+Lifting (aka "bridging") scalars are numeric values used to multiply a
+vector of RFU values to linearly transform them into another signal space.
+
+Lifting scalars are generated from matched samples (n $>$ 1000) from a
+healthy, normal reference population were run across assay versions.
+This experiment was run separately for both serum and plasma and all
+SomaScan runs were first normalized as per the standard normalization
+procedure, and flagged samples were removed prior to further analysis.
+
+For each analyte, the lifting scalar is computed as the ratio of
+population _medians_ between assay versions. For example,
+the linear scalar for the $i^{th}$ analyte translating from
+`11k` $\rightarrow$ `7k` is defined as:
+
+$$
+R_i = \frac{\hat\mu_{7k}}{\hat\mu_{11k}},
+$$
+
+where $\hat\mu$ is the _median_ signal for the $i^{th}$ analyte.
+Signals generated in `11k` space can be multiplied by this scale factor
+to translate into `7k` space.
+
+Below is a concordance plot of what this shift would look like for a single
+analyte on a _simulated_ reference population. Please see the section below
+on Lin's CCC for its definition and interpretation.
+
+```{r lift-concord, echo = FALSE, fig.width = 6, fig.height = 4, fig.cap = "Figure 1. Signal concordance for a single analyte pre- and post-lifting."}
+rfu  <- dplyr::filter(example_data, SampleType == "Sample")$seq.9016.12
+L    <- length(rfu)
+rfu2 <- rfu +
+  withr::with_seed(123, rnorm(L, mean = 500, sd = sd(rfu) / 3))
+sf   <- median(rfu) / median(rfu2)
+pre  <- data.frame(x = rfu, y = rfu2)
+pre$group <- sprintf("pre-lift (%0.3f)", calc_ccc(pre$x, pre$y))
+post <- data.frame(x = rfu, y = rfu2 * sf)
+post$group <- sprintf("post-lift (%0.3f)", calc_ccc(post$x, post$y))
+plot_df <- rbind(pre, post)
+plot_df$group <- factor(plot_df$group, levels = rev(sort(unique(plot_df$group))))
+lims <- range(plot_df[, -3L])
+plot_df |>
+  ggplot(aes(x = x, y = y, colour = group)) +
+  geom_point(alpha = 0.5, size = 3) +
+  scale_x_log10(guide = "axis_logticks") +
+  scale_y_log10(guide = "axis_logticks") +
+  scale_colour_manual(name = "CCC", values = c("#00A499", "#24135F")) +
+  expand_limits(x = lims, y = lims) +
+  labs(x = "SomaScan 7k", y = "SomaScan 11k",
+       title = sprintf("Lifting Concordance (Scalar = %0.3f)", sf)) +
+  geom_abline(slope = 1, intercept = 0, color = "black")
+```
+
+---------------
+
+## Lifting Concordance
+
+Measurements generated from the matched samples used to calculate
+the lifting scalars were also used to calculate the post-hoc
+Lin's Concordance Correlation Coefficient (CCC) estimates
+of the SomaScan bridge.
+
+Lin's CCC is calculated by computing the correlation between
+post-lift RFU values and the RFU values generated on the
+original SomaScan version, and is defined by:
+
+$$
+CCC = \frac{2\rho\hat\sigma_x\hat\sigma_y}{(\hat\mu_x - \hat\mu_y)^2 + \hat\sigma^2_x + \hat\sigma^2_y},
+$$
+
+where $\rho$, $\hat\mu$, and $\hat\sigma$ are the Pearson correlation
+coefficient, and the estimated mean and standard deviation from
+assay version groups _x_ and _y_ respectively.
+
+
+### Interpretation of CCC
+
+Lin's CCC was chosen to evaluate lifting performance because it is 
+characterized not only by correlation (Pearson's $\rho$), but
+also accounts for deviation from the $y = x$ unit line (diagonal). 
+CCC range is in $[-1, 1]$ and can be viewed as an estimate of the
+confidence in the bridging transformation (in normal reference
+samples) across SomaScan versions.
+Examples of factors that could affect lifting CCC are:
+
+- analytes/reagents with high intra-assay CV (Coefficient of Variation)
+- analytes/reagents signaling near background or saturation levels
+
+
+### Accessing CCC
+
+The `getSomaScanLiftCCC()` function retrieves these values
+from an internal object for either `"serum"` and `"plasma"`.
+
+```{r ccc}
+plasma <- getSomaScanLiftCCC("p")
+plasma
+
+serum <- getSomaScanLiftCCC("s")
+serum
+```
+
+```{r cdf-ccc, fig.width = 6, fig.height = 5, fig.cap = "Figure 2. Cumulative distribution function of CCC values for the 11k -> 7k lift."}
+cdf_df <- data.frame(
+  ccc    = c(plasma$plasma_11k_to_7k_ccc, serum$serum_11k_to_7k_ccc),
+  matrix = rep(c("plasma", "serum"), each = nrow(plasma))
+)
+cdf_df <- cdf_df[!is.na(cdf_df$ccc), ]   # rm NAs; non-comparable analytes
+ggplot(cdf_df, aes(x = ccc, colour = matrix)) +
+  stat_ecdf(linewidth = 0.75) +
+  scale_colour_manual(name = "", values = c("#00A499", "#24135F")) +
+  labs(title = "CDF of CCC Values",
+       x = "Lin's CCC (11k -> 7k)", y = "P(X < x)") +
+  coord_cartesian()
+```
+
+As shown in distribution above, for the `11k` $\rightarrow$ `7k` lift,
+post-bridging CCC values above 0.75 (considered high quality) are
+approximately 88% and 84% of the SomaScan menu for plasma
+and serum respectively. In fact, characterizing CCC lifting quality into 3
+categories (Low, Medium, High) yields the table below:
+
+```{r ecdf-table, echo = FALSE}
+fn <- function(x) {
+  cdf <- stats::ecdf(x)
+  data.frame(lo  = cdf(0.5), med = cdf(0.75) - cdf(0.5), hi  = 1 - cdf(0.75))
+}
+do.call(rbind, tapply(cdf_df$ccc, cdf_df$matrix, fn)) |>
+  round(3L) |>
+  set_rn(c("Plasma", "Serum")) |>
+  rn2col("Matrix") |>
+  knitr::kable(
+    col.names = c("Matrix", "Low [0, 0.5)", "Medium [0.5, 0.75)", "High [0.75, 1]"),
+    caption = "Table 1. The proportion of the SomaScan menu split into 3 categories by CCC."
+  )
+```
+
+
+## SomaScan Analyte Setdiff
+
+For any given bridge, there is a common, intersecting subset of
+analytes between SomaScan versions. Non-intersecting analytes will be
+either missing or added in the new signal space. As a result,
+bridging data across SomaScan may involve either skipping analytes (columns)
+or scaling by 1.0. `SomaDataIO` has internal checks that trigger
+warnings if these conditions are met.
+
+There are two scenarios to consider:
+
+* Newer versions of SomaScan typically have additional content,
+  i.e. new reagents added to the multi-plex assay that bind to additional
+  proteins. When lifting _to_ a previous SomaScan version,
+  new reagents that do _not_ exist in the "earlier" assay version
+  assay are scaled by 1.0, and thus are maintained, unmodified in
+  the returned object.
+  Downstream analysis may require removing these columns in order
+  to combine these data with a previous study from an earlier
+  SomaScan version, e.g. with `collapseAdats()`.
+* In the inverse scenario, lifting "forward" _from_ a previous, lower-plex
+  version, there will be extra reference values that are unnecessary
+  to perform the lift, and a warning is triggered. The resulting data
+  consists of RFU data in the "new" signal space, but with fewer analytes
+  than would otherwise be expected (e.g. `11k` space with only 5284
+  analytes; see example below).
+
+
+------------
+
+
+## Example: `5k` $\rightarrow$ `11k`
+
+Since `example_data` object was originally run on SomaScan 
+`r getSignalSpace(example_data)`, this vignette will demonstrate
+the lifting/bridging process _from_ a `5k` $\rightarrow$ `11k`
+signal space, the most recent SomaScan version.
+
+### Steps
+
+1. Determine that attributes are intact.
+   ```r
+   is_intact_attr(adat)
+   ```
+1. Determine the matrix type of the data (serum or plasma).
+   ```r
+   attr(adat, "Header.Meta")$HEADER$StudyMatrix
+   ```
+1. Ensure the current SomaScan signal space is lift-supported.
+   ```r
+   getSignalSpace(adat)
+   checkSomaScanVersion(getSignalSpace(adat))
+   ```
+1. Apply analyte-specific scalars to their corresponding
+   columns via `lift_adat()`.
+   ```r
+   lift_adat(adat, bridge = "<direction>")
+   ```
+   Current `bridge` options are: `r dQuote(eval(formals(lift_adat)$bridge))`.
+
+
+### Step 1
+```{r attr}
+# determine intact attributes
+# must be TRUE
+is_intact_attr(example_data)
+```
+
+### Step 2
+```{r matx}
+# determine study matrix
+# must be Human Serum or EDTA-Plasma
+attr(example_data, "Header.Meta")$HEADER$StudyMatrix |> as.character()
+```
+
+Confirm that the matrix of the SomaScan run was `"EDTA Plasma"`:
+
+### Step 3
+```{r version}
+# determine if current space can be lifted
+# must be V4, v4.1, or v5.0
+from_space <- getSignalSpace(example_data)
+from_space
+
+# must be NULL
+is.null(checkSomaScanVersion(from_space))
+```
+
+Finally, invoke `lift_adat()` to perform the bridge/transformation:
+
+### Step 4
+```{r lift}
+lift_11k <- lift_adat(example_data, bridge = "5k_to_11k")
+
+is_lifted(lift_11k)           # signal space was lifted
+
+is.soma_adat(lift_11k)        # preserves 'soma_adat' class
+
+getSignalSpace(lift_11k)      # current space
+
+getSomaScanVersion(lift_11k)  # original space
+```
+
+
+-------------
+
+
+## Caveats to Consider
+
+### Was the SomaScan bridge successful?
+
+Lifting SomaScan involves a simple linear transformation of a
+numeric vector (of RFU values), thus in one sense it will always
+be "successful". However, users often wish to know if this was
+the correct course of action for their data. 
+
+From the concordance plot in **Figure 1**, we can see that the
+transformation is *reducing* the `11k` RFU brightness
+by ~`r round(100*(1 - sf))`% in accordance with the median signal difference
+that existed in the reference population (of healthy normals).
+Rare edge cases aside, this is *usually* the desired outcome, otherwise
+downstream analysis would be confounded by the uncorrected shift in
+SomaScan space, and would likely result in significant differences related
+to signal space rather than actual biology.
+
+### Should you filter analytes?
+
+Users often ask if certain analytes be should removed based on a
+given CCC threshold *prior* to analysis. 
+The issue of choosing an appropriate threshold aside, unless
+there is prior knowledge justifying removal, we do not recommend 
+removing analytes based on CCC alone.
+
+This advice stems from how the CCC values are initially calculated; i.e.
+from a healthy, normal reference population sampled across two
+versions of SomaScan. Recall that CCC is influenced by CV and thus
+signaling range. For example, if a given analyte is near its
+limit of detection in a healthy population, and therefore likely
+has a high(er) CV, i.e. low CCC, removing this analyte may *not* be the
+desired course of action in a disease population where that
+analyte could be signaling in the linear range.
+
+Therefore, we currently recommend careful evaluation on a
+case by case basis using prior knowledge and orthogonal
+justification before filtering analytes from discovery or
+exploratory analyses.
+
+
+-------------
+
+## Questions
+
+As always, if you have any bridging or lifting questions,
+we are here to help. Please reach out to us via:
+
+* via GitHub [SUPPORT](https://somalogic.github.io/SomaDataIO/SUPPORT.html)
+* Global Scientific Engagement Team: <techsupport@somalogic.com>
+* General SomaScan inquiries: <support@somalogic.com>
