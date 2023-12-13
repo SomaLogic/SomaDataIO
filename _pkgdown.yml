@@ -79,7 +79,7 @@ navbar:
         href: articles/stat-binary-classification.html
       - text: Linear Regression
         href: articles/stat-linear-regression.html
-    
+
     FAQs:
       text: Coming Soon
       menu:
@@ -88,7 +88,6 @@ navbar:
       - text: Standard Process
       - text: Best Practices
       - text: ----
-      - text: Lifting SomaScan
       - text: Non-Standard Matrices
       - text: Limits of Detection (LoD)
 
@@ -105,6 +104,11 @@ articles:
     navbar: ~
     contents:
     - cli-merge-tool
+
+  - title: Lifting and Bridging
+    navbar: ~
+    contents:
+    - articles/lifting-and-bridging
 
   - title: Statistical Workflow Examples
     contents:
@@ -140,12 +144,14 @@ reference:
 
   - title: Transform Between SomaScan Versions
     desc: >
-      Functionality required to convert between SomaScan versions,
-      e.g. v4.1 -> v4.0, sometimes referred to as "lifting".
+      Functionality required to bridge between SomaScan versions,
+      e.g. 11k -> 7k, sometimes referred to as "lifting".
     contents:
-    - read_annotations
     - lift_adat
+    - read_annotations
     - transform
+    - starts_with("getSomaScan")
+    - getSignalSpace
 
   - title: Expression Data
     desc: >

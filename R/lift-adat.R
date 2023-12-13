@@ -5,7 +5,7 @@
 #' between assay versions; from changing reagents, liquid handling equipment,
 #' well volumes, and content expansion.
 #'
-#' Table of SomaScan Assay versions:
+#' Table of SomaScan assay versions:
 #'
 #' \tabular{lll}{
 #'   **Version**  \tab **Commercial Name** \tab **Size** \cr
@@ -36,36 +36,24 @@
 #' @details
 #' Matched samples across assay versions are used to calculate bridging
 #' scalars. For each analyte, this scalar is computed as the ratio of
-#' population _medians_ (\eqn{n > 1000}) between assay versions. For example,
-#' the linear scalar for the \eqn{i^{th}} analyte translating from `11k` -> `7k`
-#' is defined as:
-#'
-#' \deqn{R_i = \frac{\hat\mu_{7k}}{\hat\mu_{11k}}}
+#' population _medians_ across assay versions.
+#' Please see the lifting vignette
+#' `vignette("lifting-and-bridging", package = "SomaDataIO")`
+#' for more details.
 #'
 #' @section Lin's CCC:
-#'   Calculating analyte-specific bridging scalars involves a careful evaluation
-#'   of the correlation of post-lifting RFU values in the reference population
-#'   used to calculate the linear scalars. The Lin's Concordance Correlation
-#'   Coefficient (CCC) is calculated between matched samples from the original
-#'   SomaScan signal space and the identical lifted samples that have been
-#'   scaled back to the original signal space. This CCC value is an estimate
-#'   of how well an analyte can be bridged across specific SomaScan versions.
-#'   Factors affecting lifting CCCs are: reagents with high
-#'   intra-assay CV (Coefficient of Variation) and reagents signaling
-#'   near background or saturation levels.
+#'   The Lin's Concordance Correlation Coefficient (CCC) is calculated
+#'   by computing the correlation between post-lift RFU values and the
+#'   RFU values generated on the original SomaScan version.
+#'   This CCC estimate is a measure of how well an analyte can be bridged
+#'   across SomaScan versions.
+#'   See `vignette("lifting-and-bridging", package = "SomaDataIO")`.
 #'   As with the lifting scalars, if you have an annotations file
 #'   you may view the analyte-specific CCC values via [read_annotations()].
 #'   Alternatively, [getSomaScanLiftCCC()] retrieves these values
 #'   from an internal object for both `"serum"` and `"plasma"`.
-#'   Lin's CCC (\eqn{p_c}) is defined by:
 #'
-#'   \deqn{p_c = \frac{2\rho\hat\sigma_x\hat\sigma_y}{(\hat\mu_x - \hat\mu_y)^2 + \hat\sigma^2_x + \hat\sigma^2_y}}
-#'
-#'   where \eqn{\rho}, \eqn{\mu}, and \eqn{\sigma} are the Pearson correlation
-#'   coefficient, and estimated median and standard deviation estimates from
-#'   assay version groups \eqn{x} and \eqn{y} respectively.
-#'
-#' @section Column Setdiff:
+#' @section Analyte Setdiff:
 #' * Newer versions of SomaScan typically have additional content, i.e.
 #'   new reagents added to the multi-plex assay that bind to additional proteins.
 #'   When lifting _to_ a previous SomaScan version, new reagents that do _not_

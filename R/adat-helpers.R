@@ -8,7 +8,7 @@
 #' [checkSomaScanVersion()] determines if the version of
 #'   is a recognized version of SomaScan.\cr
 #' \cr
-#' Table of SomaScan Assay versions:
+#' Table of SomaScan assay versions:
 #' \tabular{lll}{
 #'   **Version**  \tab **Commercial Name** \tab **Size** \cr
 #'   `V4`         \tab 5k                  \tab 5284     \cr

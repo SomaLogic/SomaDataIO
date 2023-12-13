@@ -53,7 +53,7 @@ that generated RFU measurements within a \code{soma_adat} object.
 \code{\link[=checkSomaScanVersion]{checkSomaScanVersion()}} determines if the version of
 is a recognized version of SomaScan.\cr
 \cr
-Table of SomaScan Assay versions:
+Table of SomaScan assay versions:
 \tabular{lll}{
 \strong{Version}  \tab \strong{Commercial Name} \tab \strong{Size} \cr
 \code{V4}         \tab 5k                  \tab 5284     \cr
