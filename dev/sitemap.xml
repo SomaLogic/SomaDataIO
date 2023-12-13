@@ -25,6 +25,12 @@
     <loc>https://somalogic.github.io/SomaDataIO/dev/articles/loading-and-wrangling.html</loc>
   </url>
   <url>
+    <loc>https://somalogic.github.io/SomaDataIO/dev/articles/safely-map-values-join.html</loc>
+  </url>
+  <url>
+    <loc>https://somalogic.github.io/SomaDataIO/dev/articles/safely-rename-df.html</loc>
+  </url>
+  <url>
     <loc>https://somalogic.github.io/SomaDataIO/dev/articles/stat-binary-classification.html</loc>
   </url>
   <url>
@@ -35,6 +41,9 @@
   </url>
   <url>
     <loc>https://somalogic.github.io/SomaDataIO/dev/articles/stat-two-group-comparison.html</loc>
+  </url>
+  <url>
+    <loc>https://somalogic.github.io/SomaDataIO/dev/articles/train-test-setup.html</loc>
   </url>
   <url>
     <loc>https://somalogic.github.io/SomaDataIO/dev/authors.html</loc>
