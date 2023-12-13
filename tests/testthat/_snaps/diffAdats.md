@@ -4,7 +4,7 @@
       diffAdats(adat, adat)
     Output
       == Checking ADAT attributes & characteristics ==================================
-    Message <rlang_message>
+    Message
       * Attribute names are identical       v
       * Attributes are identical            v
       * ADAT dimensions are identical       v
@@ -13,7 +13,7 @@
       * ADATs contain same Meta Fields      v
     Output
       -- Checking the data matrix ----------------------------------------------------
-    Message <rlang_message>
+    Message
       * All Clinical data is identical      v
       * All Feature data is identical       v
     Output
@@ -25,7 +25,7 @@
       diffAdats(adat, adat[, -9L])
     Output
       == Checking ADAT attributes & characteristics ==================================
-    Message <rlang_message>
+    Message
       * Attribute names are identical       v
       * Attributes are identical            x
       * ADAT dimensions are identical       x
@@ -40,11 +40,11 @@
       Features in 'adat' but not 'adat[, -9L]':
                seq.3333.33
       
-    Message <rlang_message>
+    Message
       v Continuing on the '*INTERSECT*' of ADAT columns
     Output
       -- Checking the data matrix ----------------------------------------------------
-    Message <rlang_message>
+    Message
       * All Clinical data is identical      v
       * All Feature data is identical       v
     Output
@@ -56,7 +56,7 @@
       diffAdats(adat, adat[, -3L])
     Output
       == Checking ADAT attributes & characteristics ==================================
-    Message <rlang_message>
+    Message
       * Attribute names are identical       v
       * Attributes are identical            x
       * ADAT dimensions are identical       x
@@ -71,11 +71,11 @@
       Meta data in 'adat' but not 'adat[, -3L]':
                   Subarray
       
-    Message <rlang_message>
+    Message
       v Continuing on the '*INTERSECT*' of ADAT columns
     Output
       -- Checking the data matrix ----------------------------------------------------
-    Message <rlang_message>
+    Message
       * All Clinical data is identical      v
       * All Feature data is identical       v
     Output
@@ -87,7 +87,7 @@
       diffAdats(adat, new)
     Output
       == Checking ADAT attributes & characteristics ==================================
-    Message <rlang_message>
+    Message
       * Attribute names are identical       v
       * Attributes are identical            x
       * ADAT dimensions are identical       x
@@ -102,11 +102,11 @@
       Meta data in 'new' but not 'adat':
                        foo
       
-    Message <rlang_message>
+    Message
       v Continuing on the '*INTERSECT*' of ADAT columns
     Output
       -- Checking the data matrix ----------------------------------------------------
-    Message <rlang_message>
+    Message
       * All Clinical data is identical      v
       * All Feature data is identical       v
     Output
@@ -118,7 +118,7 @@
       diffAdats(adat, dplyr::mutate(adat, Subarray = rev(Subarray)))
     Output
       == Checking ADAT attributes & characteristics ==================================
-    Message <rlang_message>
+    Message
       * Attribute names are identical       v
       * Attributes are identical            v
       * ADAT dimensions are identical       v
@@ -127,13 +127,13 @@
       * ADATs contain same Meta Fields      v
     Output
       -- Checking the data matrix ----------------------------------------------------
-    Message <rlang_message>
+    Message
       * All Clinical data is identical      x
     Output
           No. fields that differ            1
       -- Clinical data diffs ---------------------------------------------------------
       [1] "'Subarray'"
-    Message <rlang_message>
+    Message
       * All Feature data is identical       v
     Output
       ================================================================================
@@ -144,7 +144,7 @@
       diffAdats(adat, new)
     Output
       == Checking ADAT attributes & characteristics ==================================
-    Message <rlang_message>
+    Message
       * Attribute names are identical       v
       * Attributes are identical            v
       * ADAT dimensions are identical       v
@@ -153,7 +153,7 @@
       * ADATs contain same Meta Fields      v
     Output
       -- Checking the data matrix ----------------------------------------------------
-    Message <rlang_message>
+    Message
       * All Clinical data is identical      v
       * All Feature data is identical       x
     Output

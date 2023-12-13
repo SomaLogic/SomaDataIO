@@ -4,7 +4,7 @@
       expect_error(adat == adat, NA)
     Output
       == Checking ADAT attributes & characteristics ==================================
-    Message <rlang_message>
+    Message
       * Attribute names are identical       v
       * Attributes are identical            v
       * ADAT dimensions are identical       v
@@ -13,7 +13,7 @@
       * ADATs contain same Meta Fields      v
     Output
       -- Checking the data matrix ----------------------------------------------------
-    Message <rlang_message>
+    Message
       * All Clinical data is identical      v
       * All Feature data is identical       v
     Output
