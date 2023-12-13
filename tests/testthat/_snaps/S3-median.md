@@ -2,7 +2,8 @@
 
     Code
       median(adat)
-    Warning <simpleWarning>
+    Condition
+      Warning:
       As with the `data.frame` class, numeric data is required for `stats::median()`.
       Please use either:
       

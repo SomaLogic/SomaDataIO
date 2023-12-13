@@ -14,14 +14,14 @@
 
     Code
       bad <- loadAdatsAsList(c(files, "fail.adat"))
-    Message <rlang_message>
+    Message
       x Failed to load: 'fail.adat'
 
 ---
 
     Code
       bad2 <- loadAdatsAsList(c("a.adat", "b.adat"))
-    Message <rlang_message>
+    Message
       x Failed to load: 'a.adat'
       x Failed to load: 'b.adat'
 
