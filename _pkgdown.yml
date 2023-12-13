@@ -37,9 +37,21 @@ template:
     base_font: {google: "Roboto"}
 
 home:
+  sidebar:
+    structure: [links, oss, license, community, citation, authors, dev, toc]
+    components:
+      oss:
+        title: Other Software
+        text: >
+          [SomaPlotr](https://somalogic.github.io/SomaPlotr/) <br />
+          [SomaScan.db](https://somalogic.github.io/SomaScan.db/) <br />
+          [Canopy-Python](https://github.com/SomaLogic/Canopy/) <br />
+          [DataDelve Statistics](https://somalogic.com/datadelve-statistics/)
   links:
   - text: Learn more about SomaScan
     href: http://www.somalogic.com
+  - text: Tech Notes
+    href: http://www.somalogic.com/tech-notes/
   - text: Contact Us
     href: https://somalogic.com/contact-us/
 
