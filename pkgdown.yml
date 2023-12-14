@@ -9,7 +9,10 @@ articles:
   stat-two-group-comparison: stat-two-group-comparison.html
   cli-merge-tool: cli-merge-tool.html
   loading-and-wrangling: loading-and-wrangling.html
-last_built: 2023-06-07T14:37Z
+  safely-map-values-join: safely-map-values-join.html
+  safely-rename-df: safely-rename-df.html
+  train-test-setup: train-test-setup.html
+last_built: 2023-12-14T18:54Z
 urls:
   reference: https://somalogic.github.io/SomaDataIO/reference
   article: https://somalogic.github.io/SomaDataIO/articles
