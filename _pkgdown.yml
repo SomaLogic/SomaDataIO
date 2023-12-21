@@ -10,7 +10,7 @@ authors:
     href: http://www.somalogic.com
   footer:
     roles: [fnd]
-    text: "was developed by the Bioinformatics Dept.,"
+    text: "was developed by the Bioinformatics Dept. at"
   sidebar:
     roles: [cre, fnd]
     before: "Special :pray: to:"
@@ -20,10 +20,10 @@ authors:
 
 footer:
   structure:
-    left: [package, developed_by]
+    left: [logo, package, developed_by]
     right: built_with
   components:
-    logo: "<img src='man/figures/logo.png' width='20'> "
+    logo: "<img src='favicon-16x16.png'>"
 
 template:
   bootstrap: 5
@@ -38,22 +38,26 @@ template:
 
 home:
   sidebar:
-    structure: [links, oss, license, community, citation, authors, dev, toc]
+    structure: [links, help, oss, license, citation, authors, dev, toc]
     components:
       oss:
         title: Other Software
         text: >
           [SomaPlotr](https://somalogic.github.io/SomaPlotr/) <br />
           [SomaScan.db](https://somalogic.github.io/SomaScan.db/) <br />
-          [Canopy-Python](https://github.com/SomaLogic/Canopy/) <br />
+          [Canopy (Python)](https://github.com/SomaLogic/Canopy/) <br />
           [DataDelve Statistics](https://somalogic.com/datadelve-statistics/)
+      help:
+        title: Getting Help
+        text: >
+          [Ask a question](https://somalogic.github.io/SomaDataIO/SUPPORT.html) <br />
+          [Report a bug](https://github.com/SomaLogic/SomaDataIO/issues)
+
   links:
   - text: Learn more about SomaScan
     href: http://www.somalogic.com
-  - text: Tech Notes
+  - text: Read SomaScan tech notes
     href: http://www.somalogic.com/tech-notes/
-  - text: Contact Us
-    href: https://somalogic.com/contact-us/
 
 navbar:
   structure:
@@ -77,22 +81,16 @@ navbar:
         href: articles/stat-linear-regression.html
     
     FAQs:
-      text: FAQs
+      text: Coming Soon
       menu:
       - text: SomaScan FAQs
-      - text: Standard Process
-        href: articles/todo.html
-      - text: Limits of Detection (LoD)
-        href: articles/todo.html
       - text: ---
-
+      - text: Standard Process
       - text: Best Practices
+      - text: ----
       - text: Lifting SomaScan
-        href: articles/todo.html
       - text: Non-Standard Matrices
-        href: articles/todo.html
-      - text: CSF
-        href: articles/todo.html
+      - text: Limits of Detection (LoD)
 
 articles:
   - title: Loading and Wrangling
