@@ -15,13 +15,16 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.path = "man/figures/README-"
 )
-ver <- desc::desc_get_version(".")
-ver <- paste0("https://img.shields.io/badge/Version-", ver,
+dcf <- read.dcf(file = file.path(".", "DESCRIPTION"))
+if ( nrow(dcf) < 1L)
+  stop("DESCRIPTION file of package is corrupt.", call. = FALSE)
+desc <- as.list(dcf[1L, ])
+ver <- paste0("https://img.shields.io/badge/Version-", desc$Version,
               "-success.svg?style=flat&logo=github")
 ```
 
 
-# SomaDataIO <a href="https://somalogic.github.io/SomaDataIO"><img src="man/figures/logo.png" align="right" height="138" alt="" /></a>
+# SomaDataIO <a href="https://somalogic.github.io/SomaDataIO"><img src="man/figures/logo.png" align="right" height="138" alt="SomaDataIO website" /></a>
 
 
 <!-- badges: start -->
