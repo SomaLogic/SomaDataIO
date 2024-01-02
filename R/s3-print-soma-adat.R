@@ -24,12 +24,21 @@ print.soma_adat <- function(x, show_header = FALSE, ...) {
   atts_symbol <- if ( attsTRUE ) symb_tick else symb_cross
   meta   <- getMeta(x)
   n_apts <- getAnalytes(x, n = TRUE)
-  pad    <- strrep(" ", 5)
-  dim_vars <- paste0(pad, .pad(c("Attributes intact", "Rows", "Columns",
-                                 "Clinical Data", "Features"), 20))
-  dim_vals <- c(col_f(atts_symbol), nrow(x), ncol(x), length(meta), n_apts) |>
-    as.character() |>
-    cr_cyan()
+  pad    <- strrep(" ", 5L)
+  dim_vars <- c("Attributes intact", "Rows", "Columns", "Clinical Data", "Features")
+  dim_vals <- c(col_f(atts_symbol), nrow(x), ncol(x), length(meta), n_apts)
+  if ( inherits(x, "grouped_df") && !is.null(attr(x, "groups")) ) {
+    dim_vars <- c(dim_vars, "Groups")
+    group_data <- attr(x, "groups")
+    dim_vals <- c(dim_vals,
+                  sprintf("%s [%s]",
+                          paste0(setdiff(names(group_data), ".rows"),
+                                 collapse = ", "),
+                          nrow(group_data)
+                  ))
+  }
+  dim_vars <- paste0(pad, .pad(dim_vars, 20L))
+  dim_vals <- cr_cyan(dim_vals)
   writeLines(paste(dim_vars, dim_vals))
 
   if ( attsTRUE ) {
