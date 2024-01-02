@@ -102,6 +102,42 @@
 ---
 
     == SomaScan Data ===============================================================
+         Attributes intact    v
+         Rows                 192
+         Columns              5318
+         Clinical Data        34
+         Features             5284
+         Groups               SampleType [4]
+    -- Column Meta -----------------------------------------------------------------
+    i SeqId, SeqIdVersion, SomaId, TargetFullName, Target, UniProt, EntrezGeneID,
+    i EntrezGeneSymbol, Organism, Units, Type, Dilution, PlateScale_Reference,
+    i CalReference, Cal_Example_Adat_Set001, ColCheck,
+    i CalQcRatio_Example_Adat_Set001_170255, QcReference_170255,
+    i Cal_Example_Adat_Set002, CalQcRatio_Example_Adat_Set002_170255, Dilution2
+    -- Tibble ----------------------------------------------------------------------
+    # A tibble: 192 x 5,318
+       PlateId        PlateRunDate ScannerID PlatePosition SlideId Subarray SampleId
+       <chr>          <chr>        <chr>     <chr>           <dbl>    <dbl> <chr>   
+     1 Example Adat ~ 2020-06-18   SG152144~ H9            2.58e11        3 1       
+     2 Example Adat ~ 2020-06-18   SG152144~ H8            2.58e11        7 2       
+     3 Example Adat ~ 2020-06-18   SG152144~ H7            2.58e11        8 3       
+     4 Example Adat ~ 2020-06-18   SG152144~ H6            2.58e11        4 4       
+     5 Example Adat ~ 2020-06-18   SG152144~ H5            2.58e11        4 5       
+     6 Example Adat ~ 2020-06-18   SG152144~ H4            2.58e11        8 6       
+     7 Example Adat ~ 2020-06-18   SG152144~ H3            2.58e11        3 7       
+     8 Example Adat ~ 2020-06-18   SG152144~ H2            2.58e11        8 8       
+     9 Example Adat ~ 2020-06-18   SG152144~ H12           2.58e11        8 9       
+    10 Example Adat ~ 2020-06-18   SG152144~ H11           2.58e11        3 170261  
+    # i 182 more rows
+    # i 5,311 more variables: SampleType <chr>, PercentDilution <int>,
+    #   SampleMatrix <chr>, Barcode <lgl>, Barcode2d <chr>, SampleName <lgl>,
+    #   SampleNotes <lgl>, AliquotingNotes <lgl>, SampleDescription <chr>,
+    #   AssayNotes <lgl>, ...
+    ================================================================================
+
+---
+
+    == SomaScan Data ===============================================================
          Attributes intact    x
          Rows                 192
          Columns              5318
