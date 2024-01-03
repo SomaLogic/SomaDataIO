@@ -14,22 +14,18 @@ count.soma_adat <- function(x, ..., wt = NULL, sort = FALSE, name = "n",
 
 #' @export
 arrange.soma_adat <- function(.data, ...) {
-  # the `[.soma_adat` method fixes attr for us here
+  atts  <- attributes(.data)
   .data <- rn2col(.data, ".arrange_rn")
   .data <- NextMethod()
-  .data <- col2rn(.data, ".arrange_rn")
-  stopifnot(is_intact_attr(.data))
-  .data
+  .soma_adat_restore(.data, atts, ".arrange_rn")
 }
 
 #' @export
 filter.soma_adat <- function(.data, ...) {
-  # the `[.soma_adat` method fixes attr for us here
+  atts  <- attributes(.data)
   .data <- rn2col(.data, ".filter_rn")
   .data <- NextMethod()
-  .data <- col2rn(.data, ".filter_rn")
-  stopifnot(is_intact_attr(.data))
-  .data
+  .soma_adat_restore(.data, atts, ".filter_rn")
 }
 
 #' @export
@@ -37,27 +33,26 @@ mutate.soma_adat <- function(.data, ...) {
   atts  <- attributes(.data)
   .data <- rn2col(.data, ".mutate_rn")
   .data <- NextMethod()
-  .data <- addAttributes(.data, atts)
-  .data <- col2rn(.data, ".mutate_rn")
-  attributes(.data) <- attributes(.data)[names(atts)]   # orig order
-  stopifnot(is_intact_attr(.data))
-  .data
+  .soma_adat_restore(.data, atts, ".mutate_rn")
 }
 
 #' @export
 select.soma_adat <- function(.data, ...) {
-  # the `[.soma_adat` method fixes rn for us here
+  # rownames must be handled differently in select()
+  # b/c adding a column of rownames changes ncol() dimension
   atts  <- attributes(.data)
   .data <- NextMethod()
-  .data <- syncColMeta(addAttributes(.data, atts))
-  attributes(.data) <- attributes(.data)[names(atts)]   # orig order
-  stopifnot(is_intact_attr(.data))
-  .data
+  addAttributes(.data, atts) |>       # do this before sync colmeta
+    syncColMeta() |>                  # order sensitive
+    .soma_adat_restore(atts, NULL) |> # add back orig attrs
+    set_rn(atts$row.names)            # add back rownames
 }
 
 #' @export
 rename.soma_adat <- function(.data, ...) {
   dots  <- match.call(expand.dots = FALSE)$...
+  atts  <- attributes(.data)
+  .data <- rn2col(.data, ".rename_rn")
   .data <- NextMethod()
   if ( any(is.apt(dots)) ) {  # re-sync if renamed analytes
     warning(
@@ -66,15 +61,14 @@ rename.soma_adat <- function(.data, ...) {
     )
     .data <- syncColMeta(.data)
   }
-  stopifnot(is_intact_attr(.data))
-  .data
+  .soma_adat_restore(.data, atts, ".rename_rn")
 }
 
 #' @export
 left_join.soma_adat <- function(x, y, by = NULL, copy = FALSE,
                                 suffix = c(".x", ".y"), ...) {
-  # don't maintain rownames if they don't exist to begin with
   if ( !has_rn(x) ) {
+    # don't maintain rownames if don't already exist
     x <- NextMethod()
   } else {
     x <- rn2col(x, ".ljoin_rn")
@@ -106,37 +100,33 @@ semi_join.soma_adat <- anti_join.soma_adat
 
 #' @export
 slice.soma_adat <- function(.data, ..., .preserve = FALSE) {
+  atts  <- attributes(.data)
   .data <- rn2col(.data, ".slice_rn")
   .data <- NextMethod()
-  .data <- col2rn(.data, ".slice_rn")
-  stopifnot(is_intact_attr(.data))
-  .data
+  .soma_adat_restore(.data, atts, ".slice_rn")
 }
 
 #' @export
 slice_sample.soma_adat <- function(.data, ..., n, prop, weight_by = NULL,
                                    replace = FALSE) {
-  # now just a pass-thru; slice() does the work; just check atts
+  # just a pass-thru; slice() now does the work
   .data <- NextMethod()
-  stopifnot(is_intact_attr(.data))
   .data
 }
 
 #' @export
 sample_frac.soma_adat <- function(tbl, size = 1, replace = FALSE,
                                   weight = NULL, .env = NULL, ...) {
-  # now just a pass-thru; slice() does the work; just check atts
-  tbl     <- NextMethod()
-  stopifnot(is_intact_attr(tbl))
+  # just a pass-thru; slice() now does the work
+  tbl <- NextMethod()
   tbl
 }
 
 #' @export
 sample_n.soma_adat <- function(tbl, size, replace = FALSE,
                                weight = NULL, .env = NULL, ...) {
-  # now just a pass-thru; slice() does the work; just check atts
+  # just a pass-thru; slice() now does the work
   tbl <- NextMethod()
-  stopifnot(is_intact_attr(tbl))
   tbl
 }
 
@@ -148,16 +138,39 @@ group_by.soma_adat <- function(.data, ..., .add = FALSE,
   .data <- structure(.data, row.names = .rn,
                      class = c("soma_adat", class(.data)))
   stopifnot(is_intact_attr(.data))
-  addClass(.data, "soma_adat")
+  .data
 }
 
 #' @export
 ungroup.soma_adat <- function(x, ...) {
   atts  <- attributes(x)
   .data <- NextMethod()
-  .data <- addAttributes(.data, atts)
+  .data <- addAttributes(.data, atts) |> .sort_attr(names(atts))
   .data <- structure(.data, row.names = atts$row.names,
                      class = c("soma_adat", "data.frame"))
   stopifnot(is_intact_attr(.data))
   .data
+}
+
+
+# helper to restore `soma_adat` attributes,
+# ensure classes maintained, etc.
+# check for intact attributes
+.soma_adat_restore <- function(obj, orig_attr, rn_col = NULL) {
+  class(obj) <- orig_attr$class            # do this first for dispatch!
+  if ( !is.null(rn_col) ) {
+    obj <- col2rn(obj, rn_col)             # put back rownames
+  }
+  obj <- addAttributes(obj, orig_attr)     # add back missing attrs
+  obj <- .sort_attr(obj, names(orig_attr)) # maintain orig order
+  stopifnot(is_intact_attr(obj))           # sanity check
+  obj
+}
+
+# maintain original attr order
+.sort_attr <- function(x, names) {
+  x_names <- names(attributes(x))
+  new_order <- match(names, x_names, nomatch = 0L)
+  attributes(x) <- attributes(x)[new_order]
+  invisible(x)
 }

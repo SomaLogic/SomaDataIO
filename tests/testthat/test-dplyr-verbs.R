@@ -95,8 +95,8 @@ test_that("`mutate()` method produces expected output", {
 
 # select ----
 test_that("`select()` method produces expected output", {
-  apts <- head(getAnalytes(data), 2)
-  meta <- head(getMeta(data), 3)
+  apts <- head(getAnalytes(data), 2L)
+  meta <- head(getMeta(data), 3L)
   new  <- select(data, all_of(meta), all_of(apts))
   expect_true(is.soma_adat(new))
   expect_s3_class(new, "soma_adat")
@@ -218,8 +218,8 @@ test_that("`sample_n()` method is correctly dispatched", {
 })
 
 # group_by & ungroup ----
-test_that("`ungroup()` method generates expected output", {
-  df <- group_by(data, SampleGroup)
+test_that("`group_by()` and `ungroup()` methods generates expected output", {
+  df <- dplyr::group_by(data, SampleGroup)
   expect_true(is.soma_adat(df))
   expect_s3_class(df, "soma_adat")
   expect_s3_class(df, "grouped_df")
@@ -229,4 +229,47 @@ test_that("`ungroup()` method generates expected output", {
   expect_true(is_intact_attr(un))
   expect_s3_class(un, "soma_adat")
   expect_equal(rownames(un), rownames(df))
+})
+
+test_that("`grouped_df` objects handled by `nextMethod()` correctly for verbs", {
+  # filter
+  df <- dplyr::group_by(data, SampleGroup) |>
+    dplyr::filter(dplyr::row_number() == 1L)
+  expect_true(is.soma_adat(df))
+  expect_s3_class(df, "soma_adat")
+  expect_s3_class(df, "grouped_df")
+  expect_true(is_intact_attr(df))
+  expect_equal(rownames(df), c("12345_1", "12346_2"))
+  # mutate
+  df <- dplyr::group_by(data, SampleGroup) |>
+    dplyr::mutate(foo = "bar")
+  expect_true(is.soma_adat(df))
+  expect_s3_class(df, "soma_adat")
+  expect_s3_class(df, "grouped_df")
+  expect_true(is_intact_attr(df))
+  expect_equal(rownames(df), rownames(data))
+  # select
+  df <- dplyr::group_by(data, SampleGroup) |>
+    dplyr::select(-7L)
+  expect_true(is.soma_adat(df))
+  expect_s3_class(df, "soma_adat")
+  expect_s3_class(df, "grouped_df")
+  expect_true(is_intact_attr(df))
+  expect_equal(rownames(df), rownames(data))
+  # arrange
+  df <- dplyr::group_by(data, SampleGroup) |>
+    dplyr::arrange(SampleId)
+  expect_true(is.soma_adat(df))
+  expect_s3_class(df, "soma_adat")
+  expect_s3_class(df, "grouped_df")
+  expect_true(is_intact_attr(df))
+  expect_equal(rownames(df), rownames(data))
+  # rename
+  df <- dplyr::group_by(data, SampleGroup) |>
+    dplyr::rename(ID = SampleId)
+  expect_true(is.soma_adat(df))
+  expect_s3_class(df, "soma_adat")
+  expect_s3_class(df, "grouped_df")
+  expect_true(is_intact_attr(df))
+  expect_equal(rownames(df), rownames(data))
 })

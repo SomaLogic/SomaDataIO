@@ -18,8 +18,9 @@ separate.soma_adat <- function(data, col, into, sep = "[^[:alnum:]]+",
   )
   data  <- data.frame(data)
   .data <- tidyr::separate(data, col2, into, sep, remove, convert, extra, fill, ...)
-  .data <- col2rn(.data, ".separate_rn")
-  addAttributes(.data, atts) |> addClass("soma_adat")
+  col2rn(.data, ".separate_rn") |>
+    addAttributes(atts) |>
+    addClass("soma_adat")
 }
 
 #' @export
@@ -28,6 +29,7 @@ unite.soma_adat <- function(data, col, ..., sep = "_", remove = TRUE, na.rm = FA
   data  <- rn2col(data, ".unite_rn")
   data  <- data.frame(data)
   .data <- tidyr::unite(data, !!col, ..., sep = sep, remove = remove, na.rm = na.rm)
-  .data <- col2rn(.data, ".unite_rn")
-  addAttributes(.data, atts) |> addClass("soma_adat")
+  col2rn(.data, ".unite_rn") |>
+    addAttributes(atts) |>
+    addClass("soma_adat")
 }

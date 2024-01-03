@@ -57,23 +57,23 @@ NULL
 `[.soma_adat` <- function(x, i, j, drop = TRUE, ...) {
 
   if ( missing(j) ) {
-    # not sub-setting columns
-    return(NextMethod())
-  } else if ( is_intact_attr(x) ) {
-    # sub-setting columns & attributes to worry about
-    if ( length(j) == 1L && j > 0 ) {
-      # if extracting a single column
-      # this behavior may change one day to match `tibbles`
-      # where you output is what you input, i.e. `drop = FALSE` by default
-      return(NextMethod(drop = drop))
-    } else {
-      atts <- attributes(x)
-    }
-  } else {
-    # if attributes already broken
-    return(NextMethod())
+    # if sub-setting rows; nothing special to do
+    .data <- NextMethod()
+    return(addClass(.data, "soma_adat"))
   }
 
+  if ( !is_intact_attr(x) || (length(j) == 1L && j > 0 )) {
+    # if 1) attributes already broken OR
+    #    2) extracting a single column
+    #       this behavior may change to match `tbl_df` class
+    #       where `drop = FALSE` by default
+    return(NextMethod(drop = drop))
+  }
+
+  # below column sub-setting
+  # attributes must be considered
+
+  atts <- attributes(x)
   apts <- getAnalytes(x)
 
   if ( is.character(j) ) {
@@ -82,15 +82,15 @@ NULL
   } else if ( is.numeric(j) || is.logical(j) ) {
     # Integer/Logical case
     # this is tricky
-    # must figure out which numeric indices are feature data; which meta data
-    k <- getAnalytes(names(x)[j]) |> match(apts)
+    # must figure out the numeric indices of the feature data
+    k <- match(getAnalytes(names(x)[j]), apts)
   }
 
   # Update the attributes -> Col.Meta information
   atts$Col.Meta <- atts$Col.Meta[k, ]
   .data <- addAttributes(NextMethod(), atts)
-  attributes(.data) <- attributes(.data)[names(atts)]   # orig order
-  .data
+  .sort_attr(.data, names(atts)) |> # re-order back to original
+    structure(class = class(x))     # ensure same class out
 }
 
 
@@ -155,8 +155,8 @@ NULL
 `[<-.soma_adat` <- function(x, i, j, ..., value) {
   anames <- names(attributes(x))
   .data  <- NextMethod()
-  attributes(.data) <- attributes(.data)[anames]   # re-order back to original
-  .data
+  .sort_attr(.data, anames) |>  # re-order back to original
+    structure(class = class(x)) # ensure same class out
 }
 
 #' S3 assignment with `$`
