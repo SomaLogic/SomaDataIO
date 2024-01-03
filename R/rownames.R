@@ -118,3 +118,9 @@ add_rowid <- function(data, name = ".rowid") {
   data <- data[, c(nc + 1L, seq_len(nc))]
   data
 }
+
+#' @export
+`row.names<-.soma_adat` <- function(x, value) {
+  # directly to data.frame dispatch; skip tbl and warning
+  return(`row.names<-.data.frame`(x, value))
+}
