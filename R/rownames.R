@@ -61,15 +61,16 @@ rn2col <- function(data, name = ".rn") {
 col2rn <- function(data, name = ".rn") {
   stopifnot(is.data.frame(data), length(name) == 1L)
   if ( has_rn(data) ) {
-    warning(
-      "`data` already has assigned row names. They will be over-written.",
+    warning("`", deparse(substitute(data)),
+      "` already has row names. They will be over-written.",
       call. = FALSE
     )
   }
-  # in case values are duplicated
-  rownames(data) <- make.unique(as.character(data[[name]]), "-")
-  data[[name]]   <- NULL
-  data
+  # order important
+  #   ensure method dispatch during NextMethod()
+  value <- data[[name]]
+  data[[name]] <- NULL
+  set_rn(data, value)
 }
 
 #' @describeIn rownames
@@ -81,7 +82,7 @@ has_rn <- function(data) {
 }
 
 # does the data frame have implicit rownames?
-implicit_rn <- function(data) {
+has_implicit_rn <- function(data) {
   .row_names_info(data, 1L) < 0L
 }
 
@@ -90,17 +91,19 @@ implicit_rn <- function(data) {
 #' @export
 rm_rn <- function(data) {
   stopifnot(is.data.frame(data))
-  rownames(data) <- NULL
-  data
+  set_rn(data, NULL)
 }
 
 #' @describeIn rownames
 #'   sets (and overwrites) existing row names for data frames only.
 #' @export
 set_rn <- function(data, value) {
-  stopifnot(is.data.frame(data))
-  if ( any(duplicated(value)) ) {
-    value <- make.unique(value, sep = "-")
+  stopifnot("`data` must be a data.frame." = is.data.frame(data))
+  if ( !is.null(value) ) {
+    value <- as.character(value)
+    if ( any(duplicated(value)) ) {
+      value <- make.unique(value, sep = "-")
+    }
   }
   rownames(data) <- value
   data

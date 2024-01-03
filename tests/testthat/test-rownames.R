@@ -6,7 +6,7 @@ test_that("the rowname helpers move rownames safely", {
   expect_equal(new$.rn, rownames(example_data))
   expect_true(".rn" %in% names(new))
   expect_equal(.row_names_info(new, type = 0L), c(NA, -192)) # now implicit rn
-  expect_true(implicit_rn(new))                             # now implicit rn
+  expect_true(has_implicit_rn(new))                          # now implicit rn
 
   # `name` argument
   new <- rn2col(example_data, "foo")
@@ -15,7 +15,7 @@ test_that("the rowname helpers move rownames safely", {
   expect_equal(new$foo, rownames(example_data))
   expect_true("foo" %in% names(new))
   expect_equal(.row_names_info(new, type = 0L), c(NA, -192)) # now implicit rn
-  expect_true(implicit_rn(new))                             # now implicit rn
+  expect_true(has_implicit_rn(new))                          # now implicit rn
 
   # moving columns
   expect_warning(x <- col2rn(example_data, "SampleId"))   # over-write warning
@@ -37,7 +37,7 @@ test_that("the rowname helpers have object fidelity", {
 test_that("warning tripped if explicit rownames are already present", {
   df <- data.frame(a = 1, b = "bar", row.names = "foo")
   expect_warning(col2rn(df, "b"),
-                 "`data` already has assigned row names. They will be over-written")
+                 "`df` already has row names. They will be over-written")
 })
 
 test_that("`has_rn()` returns correct implicit-explicit boolean", {
@@ -65,8 +65,7 @@ test_that("`set_rn()` behaves as expected", {
   # errors out; wrong length
   expect_error(set_rn(df, c("a", "b")), "invalid 'row.names' length")
   # errors out; not a df
-  expect_error(set_rn(matrix(0, ncol = 1), "a"),
-               "is.data.frame(data) is not TRUE", fixed = TRUE)
+  expect_error(set_rn(matrix(0, ncol = 1), "a"), "`data` must be a data.frame")
 
   # overwriting existing rn
   x <- set_rn(df, rn)
@@ -82,9 +81,9 @@ test_that("`rm_rn()` removes rownames properly", {
 })
 
 test_that("`implicit_rn()` doesn't get tricked", {
-  expect_true(implicit_rn(data.frame(a = 1)))
-  expect_false(implicit_rn(data.frame(a = 1, row.names = "a")))
-  expect_false(implicit_rn(mtcars))
-  expect_true(implicit_rn(iris))
-  expect_false(implicit_rn(data.frame()))
+  expect_true(has_implicit_rn(data.frame(a = 1)))
+  expect_false(has_implicit_rn(data.frame(a = 1, row.names = "a")))
+  expect_false(has_implicit_rn(mtcars))
+  expect_true(has_implicit_rn(iris))
+  expect_false(has_implicit_rn(data.frame()))
 })
