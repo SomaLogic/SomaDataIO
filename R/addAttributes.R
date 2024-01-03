@@ -26,8 +26,10 @@ addAttributes <- function(data, new.atts) {
     "`new.atts` must be a *named* list." = !is.null(names(new.atts))
   )
   attrs <- setdiff(names(new.atts), names(attributes(data)))
-  for ( i in attrs ) {
-    attr(data, i) <- new.atts[[i]]
+  if ( length(attrs) > 0L ) {
+    for ( i in attrs ) {
+      attr(data, i) <- new.atts[[i]]
+    }
   }
   data
 }
