@@ -35,7 +35,7 @@ create_legal <- function() {
     paste(
       "SomaDataIO\u2122
 
-      Copyright \u00A9 2023 SomaLogic Operating Co., Inc.
+      Copyright \u00A9 2024 SomaLogic Operating Co., Inc.
 
       The `SomaDataIO` package is licensed under the MIT license
       (`LICENSE.md`) and is intended solely for research use
