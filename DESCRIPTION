@@ -45,7 +45,7 @@ Suggests:
     withr
 VignetteBuilder: 
     knitr
-Copyright: SomaLogic Operating Co., Inc. 2023
+Copyright: SomaLogic Operating Co., Inc. 2024
 Encoding: UTF-8
 Language: en-US
 LazyData: true
