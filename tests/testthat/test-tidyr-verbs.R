@@ -1,7 +1,7 @@
 
 # Setup ----
 data   <- mock_adat()
-data$a <- LETTERS[1:6]
+data$a <- LETTERS[1:6L]
 data$d <- as.character(1:6)
 data$b <- paste0(data$a, "-", data$d)
 
@@ -12,7 +12,7 @@ test_that("separate() method produces expected output", {
   expect_s3_class(new, "soma_adat")
   expect_true(is_intact_attr(new))
   expect_equal(class(new), class(data))
-  expect_equal(dim(new), dim(data) + c(0, 1))   # 1 new column
+  expect_equal(dim(new), dim(data) + c(0, 1L))   # 1 new column
   expect_true("c" %in% names(new))
   expect_true("b" %in% names(new))
   expect_equal(rownames(new), rownames(data))
@@ -36,7 +36,7 @@ test_that("unite() method produces expected output", {
   expect_s3_class(new, "soma_adat")
   expect_true(is_intact_attr(new))
   expect_equal(class(new), class(data))
-  expect_equal(dim(new), dim(data) + c(0, -1))   # 1 less column
+  expect_equal(dim(new), dim(data) + c(0, -1L))   # 1 less column
   expect_true("combo" %in% names(new))
   expect_false("a" %in% names(new))
   expect_false("d" %in% names(new))
