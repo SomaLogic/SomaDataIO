@@ -12,15 +12,17 @@ is.intact.attributes(adat, verbose = interactive())
 \arguments{
 \item{adat}{A \code{soma_adat} object to query.}
 
-\item{verbose}{Logical. Should the function call be run in \emph{verbose}
-mode, printing relevant diagnostic call information to the console.}
+\item{verbose}{Logical. Should diagnostic information about failures
+be printed to the console? If the default, see \code{\link[=interactive]{interactive()}}, is invoked,
+only messages via direct calls are triggered. This prohibits messages
+generated deep in the call stack from bubbling up to the user.}
 }
 \value{
 Logical. \code{TRUE} if all checks pass, otherwise \code{FALSE}.
 }
 \description{
 This function runs a series of checks to determine
-if a \code{"soma_adat"} object has a complete
+if a \code{soma_adat} object has a complete
 set of attributes. If not, this indicates that the object has
 been modified since the initial \code{\link[=read_adat]{read_adat()}} call.
 Checks for the presence of both "Header.Meta" and "Col.Meta" in the
@@ -44,7 +46,7 @@ my_adat <- example_data
 is_intact_attr(my_adat)           # TRUE
 is_intact_attr(my_adat[, -303L])   # doesn't break atts; TRUE
 attributes(my_adat)$Col.Meta$Target <- NULL    # break attributes
-is_intact_attr(my_adat, verbose = TRUE)  # FALSE (Target missing)
+is_intact_attr(my_adat)  # FALSE (Target missing)
 }
 \seealso{
 \code{\link[=attributes]{attributes()}}

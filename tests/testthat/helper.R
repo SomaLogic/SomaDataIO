@@ -60,3 +60,19 @@ mock_adat <- function() {
     row_meta = getMeta(data)
   )
 }
+
+# temporarily mask the base::interactive function
+# with new value: lgl
+with_interactive <- function(lgl, code) {
+  old <- base::interactive      # save the old function
+  new <- function() return(lgl) # set new hard-coded return value
+  unlockBinding("interactive", as.environment("package:base"))  # unlock
+  # hack base::interactive with 'new'
+  assign("interactive", new, envir = as.environment('package:base'))
+  on.exit({
+    # undo cleanup when closes
+    unlockBinding("interactive", as.environment("package:base"))
+    assign("interactive", old, envir = as.environment('package:base'))
+  })
+  force(code)   # execute code in new state
+}
