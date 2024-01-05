@@ -32,6 +32,7 @@ test:
 	-e "path <- Sys.getenv('R_LIBS_DEV')" \
 	-e "path <- normalizePath(path, winslash = '/', mustWork = TRUE)" \
 	-e ".libPaths(c(path, .libPaths()))" \
+	-e "rm(path)" \
 	-e "message('Dev mode: ON')" \
 	-e "devtools::test(reporter = 'summary', stop_on_failure = TRUE)"
 
@@ -41,6 +42,7 @@ test_file:
 	-e "path <- Sys.getenv('R_LIBS_DEV')" \
 	-e "path <- normalizePath(path, winslash = '/', mustWork = TRUE)" \
 	-e ".libPaths(c(path, .libPaths()))" \
+	-e "rm(path)" \
 	-e "message('Dev mode: ON')" \
 	-e "devtools::load_all()" \
 	-e "testthat::test_file('$(FILE)', reporter = 'summary', stop_on_failure = TRUE)"

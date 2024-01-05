@@ -1,7 +1,7 @@
 #' Are Attributes Intact?
 #'
 #' This function runs a series of checks to determine
-#' if a `"soma_adat"` object has a complete
+#' if a `soma_adat` object has a complete
 #' set of attributes. If not, this indicates that the object has
 #' been modified since the initial [read_adat()] call.
 #' Checks for the presence of both "Header.Meta" and "Col.Meta" in the
@@ -14,8 +14,11 @@
 #' }
 #' If any of the above they are altered or missing, `FALSE` is returned.
 #'
-#' @inheritParams read_adat
 #' @param adat A `soma_adat` object to query.
+#' @param verbose Logical. Should diagnostic information about failures
+#'   be printed to the console? If the default, see [interactive()], is invoked,
+#'   only messages via direct calls are triggered. This prohibits messages
+#'   generated deep in the call stack from bubbling up to the user.
 #' @return Logical. `TRUE` if all checks pass, otherwise `FALSE`.
 #' @seealso [attributes()]
 #' @examples
@@ -24,10 +27,15 @@
 #' is_intact_attr(my_adat)           # TRUE
 #' is_intact_attr(my_adat[, -303L])   # doesn't break atts; TRUE
 #' attributes(my_adat)$Col.Meta$Target <- NULL    # break attributes
-#' is_intact_attr(my_adat, verbose = TRUE)  # FALSE (Target missing)
+#' is_intact_attr(my_adat)  # FALSE (Target missing)
 #' @export
 is_intact_attr <- function(adat, verbose = interactive()) {
 
+  if ( missing(verbose) ) {
+    # only enter branch if non-user defined
+    direct <- sys.parent() < 1L
+    verbose <- direct && verbose
+  }
   atts <- attributes(adat)
   col_meta_checks <- c("SeqId", "Dilution", "Target", "Units")
 
