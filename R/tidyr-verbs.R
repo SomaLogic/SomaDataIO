@@ -9,13 +9,12 @@ separate.soma_adat <- function(data, col, into, sep = "[^[:alnum:]]+",
                                fill = "warn", ...) {
   atts <- attributes(data)
   data <- rn2col(data, ".separate_rn")
-  # must do it this way b/c NextMethod() doesn't play nice with tidyeval
-  col2 <- tryCatch(col, error = function(e) NULL) # NULL if 'col' is lazyeval
-  if ( is.null(col2) ) col2 <- deparse(substitute(col))
+  # must do it this way b/c NextMethod() doesn't play nice with lazyeval
+  col2 <- tryCatch(eval(col), error = function(e) NULL) %||% deparse(substitute(col))
   stopifnot(
-    length(col2) == 1L,
-    is.character(col2),
-    col2 %in% names(data)
+    "`col` must be a `character(1)` or a symbol." = is.character(col2),
+    "`col` must have length = 1." = length(col2) == 1L,
+    "`col` must be a variable name in `data`." = col2 %in% names(data)
   )
   data  <- data.frame(data)
   .data <- tidyr::separate(data, col2, into, sep, remove, convert, extra, fill, ...)
