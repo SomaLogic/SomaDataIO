@@ -23,10 +23,12 @@ print.soma_adat <- function(x, show_header = FALSE, ...) {
   col_f       <- if ( attsTRUE ) cr_green else cr_red
   atts_symbol <- if ( attsTRUE ) symb_tick else symb_cross
   meta   <- getMeta(x)
+  ver    <- getSomaScanVersion(x)
   n_apts <- getAnalytes(x, n = TRUE)
   pad    <- strrep(" ", 5L)
-  dim_vars <- c("Attributes intact", "Rows", "Columns", "Clinical Data", "Features")
-  dim_vals <- c(col_f(atts_symbol), nrow(x), ncol(x), length(meta), n_apts)
+  dim_vars <- c("SomaScan version", "Attributes intact", "Rows",
+                "Columns", "Clinical Data", "Features")
+  dim_vals <- c(ver, col_f(atts_symbol), nrow(x), ncol(x), length(meta), n_apts)
   if ( inherits(x, "grouped_df") && !is.null(attr(x, "groups")) ) {
     dim_vars <- c(dim_vars, "Groups")
     group_data <- attr(x, "groups")

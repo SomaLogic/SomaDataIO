@@ -131,7 +131,7 @@ parseHeader <- function(file) {
   }
 
   # TRUE if old adat version
-  ret$file_specs$old_adat <- getAdatVersion(ret$Header.Meta) < "1.0.0"
+  ret$file_specs$old_adat <- getAdatVersion(ret) < "1.0.0"
   ret
 }
 
