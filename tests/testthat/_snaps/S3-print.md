@@ -1,6 +1,7 @@
 # `soma_adat` S3 print method returns known output
 
     == SomaScan Data ===============================================================
+         SomaScan version     V4 (5k)
          Attributes intact    v
          Rows                 192
          Columns              5318
@@ -36,6 +37,7 @@
 ---
 
     == SomaScan Data ===============================================================
+         SomaScan version     V4 (5k)
          Attributes intact    v
          Rows                 6
          Columns              5318
@@ -66,6 +68,7 @@
 ---
 
     == SomaScan Data ===============================================================
+         SomaScan version     V4 (5k)
          Attributes intact    v
          Rows                 192
          Columns              5318
@@ -102,6 +105,7 @@
 ---
 
     == SomaScan Data ===============================================================
+         SomaScan version     V4 (5k)
          Attributes intact    v
          Rows                 192
          Columns              5318
@@ -138,6 +142,7 @@
 ---
 
     == SomaScan Data ===============================================================
+         SomaScan version     unknown (NA)
          Attributes intact    x
          Rows                 192
          Columns              5318

@@ -23,7 +23,8 @@ print.soma_adat <- function(x, show_header = FALSE, ...) {
   col_f       <- if ( attsTRUE ) cr_green else cr_red
   atts_symbol <- if ( attsTRUE ) symb_tick else symb_cross
   meta   <- getMeta(x)
-  ver    <- getSomaScanVersion(x)
+  ver    <- getSomaScanVersion(x) %||% "unknown"
+  ver    <- sprintf("%s (%s)", ver, .ss_ver_map[tolower(ver)])
   n_apts <- getAnalytes(x, n = TRUE)
   pad    <- strrep(" ", 5L)
   dim_vars <- c("SomaScan version", "Attributes intact", "Rows",

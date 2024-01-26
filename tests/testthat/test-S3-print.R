@@ -25,7 +25,7 @@ test_that("`soma_adat` S3 print method returns known output", {
   expect_snapshot_output(grouped_adat)
 
   # break atts
-  attributes(adat)$Header.Meta <- NULL
-  expect_false(is_intact_attr(adat))
+  attr(adat, "Header.Meta") <- NULL
+  expect_false(is_intact_attr(adat, verbose = FALSE))
   expect_snapshot_output(adat)
 })
