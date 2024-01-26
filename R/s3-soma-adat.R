@@ -62,7 +62,7 @@ NULL
     return(addClass(.data, "soma_adat"))
   }
 
-  if ( !is_intact_attr(x) || (length(j) == 1L && j > 0 )) {
+  if ( !is_intact_attr(x) || (length(j) == 1L && j > 0 ) ) {
     # if 1) attributes already broken OR
     #    2) extracting a single column
     #       this behavior may change to match `tbl_df` class
