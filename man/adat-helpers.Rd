@@ -16,7 +16,8 @@ checkSomaScanVersion(ver)
 \arguments{
 \item{atts}{The \emph{attributes} of a \code{soma_adat} object.}
 
-\item{adat}{A \code{soma_adat} object to query.}
+\item{adat}{A \code{soma_adat} object (with intact attributes),
+typically created using \code{\link[=read_adat]{read_adat()}}.}
 
 \item{ver}{\code{character(1)}. The SomaScan version as a string.}
 }

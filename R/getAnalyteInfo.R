@@ -9,10 +9,9 @@
 #' (e.g. `seq.XXXX.XX`) become the `AptName` column of the lookup table and
 #' represents the key index between the table and `soma_adat` from which it comes.
 #'
-#' @param adat A `soma_adat` object (with intact attributes),
-#'   typically created using [read_adat()].
+#' @inheritParams params
 #' @return A `tibble` object with columns corresponding
-#' to the column meta data entries in the `soma_adat`. One row per analyte.
+#'   to the column meta data entries in the `soma_adat`. One row per analyte.
 #' @author Stu Field
 #' @seealso [getAnalytes()], [is_intact_attr()], [read_adat()]
 #' @examples

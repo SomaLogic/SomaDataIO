@@ -71,7 +71,7 @@ getAdatVersion <- function(atts) {
 #' Gets the SomaScan version
 #'
 #' @rdname adat-helpers
-#' @inheritParams is_intact_attr
+#' @inheritParams params
 #' @examples
 #'
 #' ver <- getSomaScanVersion(example_data)
