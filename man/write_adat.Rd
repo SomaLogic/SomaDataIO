@@ -7,8 +7,8 @@
 write_adat(x, file)
 }
 \arguments{
-\item{x}{An object of class \code{soma_adat}.
-Both \code{\link[=is.soma_adat]{is.soma_adat()}} and \code{\link[=is_intact_attr]{is_intact_attr()}} must be \code{TRUE}.}
+\item{x}{A \code{soma_adat} object (with intact attributes),
+typically created using \code{\link[=read_adat]{read_adat()}}.}
 
 \item{file}{Character. File path where the object should be written.
 For example, extensions should be \verb{*.adat}.}

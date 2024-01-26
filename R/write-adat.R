@@ -21,8 +21,7 @@
 #' }
 #'
 #' @family IO
-#' @param x An object of class `soma_adat`.
-#'   Both [is.soma_adat()] and [is_intact_attr()] must be `TRUE`.
+#' @inheritParams params
 #' @param file Character. File path where the object should be written.
 #'   For example, extensions should be `*.adat`.
 #' @return Invisibly returns the input `x`.
@@ -146,7 +145,6 @@ write_adat <- function(x, file) {
 
 
 # Check ADAT prior to Writing
-# @param adat A `soma_adat` class object.
 .checkADAT <- function(adat) {
   atts <- attributes(adat)
   apts <- getAnalytes(adat)
