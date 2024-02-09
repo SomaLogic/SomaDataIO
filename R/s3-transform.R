@@ -61,10 +61,10 @@ transform.soma_adat <- function(`_data`, v, dim = 2L, ...) {
   .apts <- getAnalytes(x)
   if ( dim == 2L ) {
     stopifnot(length(v) == length(.apts))   # check cols
-    x[, .apts] <- t( t(x[, .apts]) * v )
+    x[, .apts] <- t( t(x[, .apts, drop = FALSE]) * v )
   } else {
     stopifnot(length(v) == nrow(x))         # check rows
-    x[, .apts] <- as.matrix(x[, .apts]) * v
+    x[, .apts] <- as.matrix(x[, .apts, drop = FALSE]) * v
   }
   x
 }
