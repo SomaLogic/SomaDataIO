@@ -8,7 +8,7 @@ and pieces to put together to make the process as smooth as possible.
 ## Make a reprex
 
 If we can’t reproduce the bug, we can’t fix it!
-Start by making a minimal **repr**oducible **ex**ample using the  [reprex](https://reprex.tidyverse.org/) package. 
+Start by making a minimal **repr**oducible **ex**ample using the [reprex](https://reprex.tidyverse.org/) package. 
 If you haven't heard of or used `reprex` before, you're in for a treat! 
 Seriously, `reprex` will make all of your R-question-asking endeavors easier
 (which is an excellent ROI for the five to ten minutes it'll take you to learn what it's all about). 

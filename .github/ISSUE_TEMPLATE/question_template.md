@@ -1,5 +1,5 @@
 ---
-name: Question
+name: ❓ Question
 about: Ask a question about SomaDataIO
 labels: question
 ---
@@ -10,28 +10,27 @@ labels: question
   [edit the qualifiers](https://help.github.com/articles/searching-issues-and-pull-requests/),
   `is:pr`, `is:closed`, etc., as needed, e.g. you'd simply remove `is:open` to
   search _all_ issues in the repo, open or closed.
+- For additonal support please please see
+  [SUPPORT.md](https://github.com/SomaLogic/SomaDataIO/blob/HEAD/.github/SUPPORT.md).
 
----
+
+When you are ready to file your :question: question,
+please delete everything above this line:\
+<-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 
 
-## Description
-Brief description of the problem ... use bullets if necessary:
+## The Problem
+Please briefly describe the problem you have encountered ...
 
 - bullet 1
 - bullet 2
-- bullet 3
 
 
-Please describe your question with R code if appropriate:
-
+## R code
+Please describe your question with R code (if possible):
 ```r
-# insert code here
+# insert code here ...
 ```
-
-## Priority Level
-- [ ] High
-- [ ] Medium
-- [ ] Low
 
 ---
 

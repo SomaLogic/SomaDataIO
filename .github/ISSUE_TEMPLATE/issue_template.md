@@ -1,5 +1,5 @@
 ---
-name: Bug report
+name: 🐛 Bug
 about: Describe the bug you've encountered
 labels: bug
 ---
@@ -10,42 +10,45 @@ labels: bug
   [edit the qualifiers](https://help.github.com/articles/searching-issues-and-pull-requests/),
   `is:pr`, `is:closed`, etc., as needed, e.g. you'd simply remove `is:open` to
   search _all_ issues in the repo, open or closed.
-- [ ] Please include a minimal reproducible example (AKA a `reprex`)
 
-If you've never heard of a [reprex](http://reprex.tidyverse.org/) before,
-please start by reading <https://www.tidyverse.org/help/#reprex>.
-
----
+- [ ] Please include a minimal REProducible EXample (AKA a `reprex`)
 
 
-## Description
-Please briefly describe the problem you have encountered
-and what output you expected ...
+## Reprex
+If you've never heard of a [reprex](http://reprex.tidyverse.org/),
+please start by reading
+[**repr**oducible **ex**ample](https://www.tidyverse.org/help/#reprex).
+You might need to install these packages:
+
+ ```r
+ install.packages(c("reprex", "sessioninfo"), repos = "http://cran.r-project.org")
+ ```
+
+
+When you are ready to file the bug :bug: report,
+please delete everything above this line:\
+<-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+
+## The Problem
+Please briefly describe the problem you have encountered ...
+
+If you have a question, please don't use this forum,
+please open a "Question" issue
+[here](https://github.com/SomaLogic/SomaDataIO/issues/new/choose)
 
 
 ## Output
 ```r
-# insert reprex of what you see here 
-```
-
-## Expected Output
-```r
-# insert reprex of what you *expected* to see here 
+# insert reprex here ...
 ```
 
 ## Steps
-Please describe any steps you have already taken that may
-assist in reproducing the (unexpected) behavior:
+Please describe any steps you have already taken
+to diagnose the issue.
 
 - bullet 1
 - bullet 2
-- bullet 3
-
-
-## Priority Level
-- [ ] High
-- [ ] Medium
-- [ ] Low
 
 ---
 

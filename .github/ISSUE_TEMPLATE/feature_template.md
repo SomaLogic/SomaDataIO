@@ -1,36 +1,34 @@
 ---
-name: Feature request
+name: ✨ Feature request
 about: Make a case for a new feature in SomaDataIO
-labels: feature
+labels: enhancement
 ---
 
 ## Checks
-- [ ] Please search previous issues before creating a new
-  one, to ensure yours is not a duplicate
+- [ ] Please search previous issues before creating a new one,
+  to ensure yours is not a duplicate. You can
+  [edit the qualifiers](https://help.github.com/articles/searching-issues-and-pull-requests/),
+  `is:pr`, `is:closed`, etc., as needed, e.g. you'd simply remove `is:open` to
+  search _all_ issues in the repo, open or closed.
+
 - [ ] The proposed feature fits in the scope of SomaScan
   data I/O or low level data `soma_adat` manipulation
 
 
-## Problem
-Please briefly describe the problem you have encountered ...
+When you are ready to file the feature :sparkles: request,
+please delete everything above this line:\
+<-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 
 
 ## Feature
-Please briefly describe the proposed new feature and
-how it solves the problem above ...
+1. Please briefly describe the proposed new feature.
+1. Please highlight how it solves the problem.
 
 
 ## R code
-Please add more evidence with R code if appropriate ...
-
 ```r
-# insert reprex here
+# insert reprex here ...
 ```
-
-## Priority Level
-- [ ] High
-- [ ] Medium
-- [ ] Low
 
 ---
 
