@@ -1,16 +1,19 @@
-
 ## Overview of Pull Request
 
-General description of the purpose for this pull request ...
+- General description of this pull request ...
 
-Fixes #<issue_number>
-
-### Main changes
-
+## Main Changes
 - bullet 1
 - bullet 2
 
-### Change type
+Fixes #<issue-number>
+
+
+---
+
+
+## Internal Use Only
+### Change Type
 
 Please check the relevant box(es):
 
@@ -22,13 +25,6 @@ Please check the relevant box(es):
 - [ ] README change (@SLbmangum, @kmurugesan14, @nmcnabbSL)
 - [ ] LICENSE changes (@SLbmangum)
 
-### Choose reviewer(s)
-
-- [ ] @stufield
-- [ ] @SLbmangum
-- [ ] @trhein
-- [ ] @kmurugesan14
-- [ ] @nmcnabbSL
 
 ### Reviewer by Department
 
@@ -40,12 +36,3 @@ Please check the relevant box(es):
 | Product        | @kmurugesan14 | Documentation        |
 | Regulatory     | @nmcnabbSL    | Documentation        |
 
-------------
-
-### Code
-
-Please add any relevant code ...
-
-```r
-head(mtcars)
-```
