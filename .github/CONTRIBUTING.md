@@ -13,7 +13,7 @@ For information on how to obtain support for `SomaDataIO`, please see
 
 ## as Always, a Reprex
 Once again, if you’ve found a bug, please file an issue
-using the link above that illustrates the :bug: with a minimal 
+using the link above that illustrates the :bug: with a minimal
 [**repr**oducible **ex**ample](http://reprex.tidyverse.org/).
 For more information about `reprex`,
 please start [here](https://www.tidyverse.org/help/#reprex).

@@ -1,7 +1,7 @@
 ---
 name: ✨ Feature request
 about: Make a case for a new feature in SomaDataIO
-labels: enhancement
+labels: feature
 ---
 
 ## Checks

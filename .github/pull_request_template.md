@@ -32,7 +32,7 @@ Please check the relevant box(es):
 |:-------------- |:------------- | -------------------- |
 | Bioinformatics | @stufield     | Code, bugs, features |
 | Info. Sec.     | @trhein       | LICENSE              |
-| Legal          | @SLbmangum    | LICENSE              | 
+| Legal          | @SLbmangum    | LICENSE              |
 | Product        | @kmurugesan14 | Documentation        |
 | Regulatory     | @nmcnabbSL    | Documentation        |
 
