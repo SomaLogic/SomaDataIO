@@ -2,6 +2,7 @@
 
     == SomaScan Data ===============================================================
          SomaScan version     V4 (5k)
+         Signal Space         5k
          Attributes intact    v
          Rows                 192
          Columns              5318
@@ -38,6 +39,7 @@
 
     == SomaScan Data ===============================================================
          SomaScan version     V4 (5k)
+         Signal Space         5k
          Attributes intact    v
          Rows                 6
          Columns              5318
@@ -69,6 +71,7 @@
 
     == SomaScan Data ===============================================================
          SomaScan version     V4 (5k)
+         Signal Space         5k
          Attributes intact    v
          Rows                 192
          Columns              5318
@@ -106,6 +109,7 @@
 
     == SomaScan Data ===============================================================
          SomaScan version     V4 (5k)
+         Signal Space         5k
          Attributes intact    v
          Rows                 192
          Columns              5318
@@ -143,6 +147,7 @@
 
     == SomaScan Data ===============================================================
          SomaScan version     unknown (NA)
+         Signal Space         NA
          Attributes intact    x
          Rows                 192
          Columns              5318

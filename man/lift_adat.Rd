@@ -2,20 +2,31 @@
 % Please edit documentation in R/lift-adat.R
 \name{lift_adat}
 \alias{lift_adat}
+\alias{is_lifted}
 \title{Lift an ADAT Between Assay Versions}
 \usage{
-lift_adat(adat, anno.tbl)
+lift_adat(
+  adat,
+  bridge = c("11k_to_7k", "11k_to_5k", "7k_to_11k", "7k_to_5k", "5k_to_11k", "5k_to_7k"),
+  anno.tbl = deprecated()
+)
+
+is_lifted(adat)
 }
 \arguments{
-\item{adat}{A \code{soma_adat} class object.}
+\item{adat}{A \code{soma_adat} object (with intact attributes),
+typically created using \code{\link[=read_adat]{read_adat()}}.}
 
-\item{anno.tbl}{A table of annotations, typically the result of a call
-to \code{\link[=read_annotations]{read_annotations()}}.}
+\item{bridge}{The direction of the lift (i.e. bridge).}
+
+\item{anno.tbl}{Deprecated.}
 }
 \value{
 A "lifted" \code{soma_adat} object corresponding to the scaling
 reference in the \code{anno.tbl}. RFU values are rounded to 1 decimal to
 match standard SomaScan delivery format.
+
+Logical. Whether \code{adat} has been lifted.
 }
 \description{
 The SomaScan platform continually improves its technical processes
@@ -26,6 +37,11 @@ minute differences in RFU space for a given analyte, requiring a calibration
 This is accomplished by applying an analyte-specific scalar to each analyte
 RFU (ADAT column). The scalar values themselves are typically provided
 via \verb{*.xlsx} file, which can be parsed via \code{\link[=read_annotations]{read_annotations()}}. See Details.
+
+\code{\link[=is_lifted]{is_lifted()}} checks whether an object
+has been lifted (bridged) by the presence
+(or absence) of the \code{SignalSpace} entry
+in the \code{soma_adat} attributes.
 }
 \details{
 Lifting between various versions requires a specific
@@ -37,29 +53,15 @@ Likewise, "lifting" from \code{v4.0} -> \code{v4.1} requires
 a separate annotations file and a \code{soma_adat} from SomaScan \code{v4.0}.
 }
 \examples{
-# `example_data` is SomaScan V4
+# `example_data` is SomaScan V4 (5k)
 adat <- head(example_data, 3L)
-
-# read in version specific annotations file
-# containing scaling values between assay versions
-\dontrun{
-tbl <- read_annotations("path/to/annotations_file.xlsx")
-}
-
-# mock annotations table in lieu of `*.xlsx` file
-tbl <- tibble::tibble(SeqId = getSeqId(getAnalytes(adat)),
-                     "Plasma Scalar v4.0 to v4.1" = 1)   # scale by 1.0
-# usually performed inside `read_annotations()`
-# assign valid testing version to annotations table
-attr(tbl, "version") <- "SL-99999999-rev99-1999-01"
+getSomaScanVersion(example_data)
 
 # perform the 'lifting'
-lifted <- lift_adat(adat, tbl)
-
-# `tbl` contained all scalars = 1.0 (same RFUs)
-all.equal(adat, lifted, check.attributes = FALSE)
+lift_7k <- lift_adat(adat, "5k_to_7k")
+is_lifted(lift_7k)
 
 # attributes updated to reflect the 'lift'
-attr(lifted, "Header")$HEADER$ProcessSteps
-attr(lifted, "Header")$HEADER$SignalSpace
+attr(lift_7k, "Header")$HEADER$SignalSpace
+attr(lift_7k, "Header")$HEADER$ProcessSteps
 }

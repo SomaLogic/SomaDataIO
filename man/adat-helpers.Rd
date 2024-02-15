@@ -4,12 +4,15 @@
 \alias{adat-helpers}
 \alias{getAdatVersion}
 \alias{getSomaScanVersion}
+\alias{getSignalSpace}
 \alias{checkSomaScanVersion}
 \title{Helpers to Extract Information from an ADAT}
 \usage{
 getAdatVersion(atts)
 
 getSomaScanVersion(adat)
+
+getSignalSpace(adat)
 
 checkSomaScanVersion(ver)
 }
@@ -56,6 +59,9 @@ getAdatVersion(atts)
 
 ver <- getSomaScanVersion(example_data)
 ver
+
+rfu_space <- getSignalSpace(example_data)
+rfu_space
 
 is.null(checkSomaScanVersion(ver))
 }
