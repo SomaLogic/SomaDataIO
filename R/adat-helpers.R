@@ -62,12 +62,6 @@ getAdatVersion <- function(atts) {
 }
 
 
-.ss_ver_map <- c(v3 = "1129", v3.0 = "1129",
-                 v4 = "5k", v4.0 = "5k",
-                 v4.1 = "7k",
-                 v5  = "11k", v5.0 = "11k")
-
-
 #' Gets the SomaScan version
 #'
 #' @rdname adat-helpers
@@ -82,6 +76,20 @@ getSomaScanVersion <- function(adat) {
 }
 
 
+#' Gets the SomaScan Signal Space
+#'
+#' @rdname adat-helpers
+#' @inheritParams params
+#' @examples
+#'
+#' rfu_space <- getSignalSpace(example_data)
+#' rfu_space
+#' @export
+getSignalSpace <- function(adat) {
+  attr(adat, "Header.Meta")$HEADER$SignalSpace %||% getSomaScanVersion(adat)
+}
+
+
 #' Checks the SomaScan version
 #'
 #' @rdname adat-helpers
@@ -92,7 +100,7 @@ getSomaScanVersion <- function(adat) {
 #' is.null(checkSomaScanVersion(ver))
 #' @export
 checkSomaScanVersion <- function(ver) {
-  allowed <- c("v3.0", "v4", "v4.0", "v4.1", "v5", "v5.0")
+  allowed <- c("v4", "v4.0", "v4.1", "v5", "v5.0")
   if ( !tolower(ver) %in% allowed ) {
     stop("Unsupported assay version: ", .value(ver),
          ". Supported versions: ", .value(allowed), call. = FALSE)

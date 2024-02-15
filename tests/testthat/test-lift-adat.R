@@ -1,81 +1,88 @@
 
 # Setup ----
 apts <- head(getAnalytes(example_data), 3L)
-adat <- example_data[1:3, c("SampleId", apts)]
-
-# mock up a dummy annotations table
-# example_data is V4; lift V4 -> v4.1
-tbl <- tibble::tibble(
-  SeqId = getSeqId(apts), "Plasma Scalar v4.0 to v4.1" = c(0.5, 1.1, 1.5)
-)
-attr(tbl, "version") <- "SL-99999999-rev99-1999-01"   # lookup test from `ver_dict`
-
-
+adat <- example_data[1:3L, c("SampleId", apts)]
 
 # Testing ----
 test_that("a mock table of scalars transforms to correct, rounded values", {
-  a <- lift_adat(adat, tbl)
-  expect_equal(a$seq.10000.28, round(adat$seq.10000.28 * 0.5, 1L))
-  expect_equal(a$seq.10001.7, round(adat$seq.10001.7 * 1.1, 1L))
-  expect_equal(a$seq.10003.15, round(adat$seq.10003.15 * 1.5, 1L))
-})
-
-test_that("a reference vector of 1.0 scalars returns identical adat", {
-  tbl$`Plasma Scalar v4.0 to v4.1` <- 1.0
-  a <- lift_adat(adat, tbl)
-  expect_equal(a, adat, ignore_attr = TRUE)  # Header.Meta modified
-  # check that header entries were added correctly
+  expect_equal(getSomaScanVersion(adat), "V4")  # orig; 5k
+  expect_warning( a <- lift_adat(adat, bridge = "5k_to_7k") )
+  expect_true(is_lifted(a))
+  expect_equal(getSomaScanVersion(a), "V4")   # not updated; 5k
+  expect_equal(getSignalSpace(a), "v4.1")     # updated; 7k
   expect_equal(attr(a, "Header")$HEADER$SignalSpace, "v4.1")
-  expect_match(attr(a, "Header")$HEADER$ProcessSteps, "Annotation Lift")
+  expect_match(attr(a, "Header")$HEADER$ProcessSteps, "Lifting Bridge")
+  expect_equal(a$seq.10000.28, round(adat$seq.10000.28 * 1.053, 1L))
+  expect_equal(a$seq.10001.7, round(adat$seq.10001.7 * 1.300, 1L))
+  expect_equal(a$seq.10003.15, round(adat$seq.10003.15 * 1.507, 1L))
 })
 
-test_that("an error occurs if analytes are missing from anno.tbl", {
-  t2 <- head(tbl, 2)
+test_that("passing `anno.tbl=` is deprecated", {
+  withr::local_options(lifecycle_verbosity = "warning")
+  expect_warning(
+    lift_adat(adat, "5k_to_7k", anno.tbl = data.frame(a = 1)),
+    regexp = "The `anno.tbl` argument of `lift_adat()` is deprecated as of SomaDataIO",
+    fixed = TRUE,
+    class = "lifecycle_warning_deprecated"
+  ) |>
+  expect_warning("extra scaling values") # secondary warning from ScaleAnalytes()
+})
+
+test_that("lifting wrong direction triggers error; .check_direction()", {
   expect_error(
-    lift_adat(adat, t2),
-    paste0("Missing scalar value for 1 analytes. Cannot continue.\n",
-           "Please check the reference scalars, their names, or the ",
-           "annotations file to proceed."), fixed = TRUE
+    lift_adat(adat, "5k_to_5k"),
+    "'arg' should be one of"
   )
-})
-
-test_that("lifting wrong direction triggers error", {
-  attributes(adat)$Header.Meta$HEADER$AssayVersion <- "v4.1"
   expect_error(
-    lift_adat(adat, tbl),
-    "Annotations table indicates v4.0 -> v4.1, .* v4.1 space"
+    lift_adat(adat, "7k_to_5k"),
+    "You have indicated a bridge from '7k' space"
   )
-})
-
-test_that("error is tripped if Scalar is not found in annotations table", {
-  names(tbl) <- c("SeqId", "ReferenceScalars")
+  attr(adat, "Header.Meta")$HEADER$AssayVersion <- "v5.0"   # 11k
   expect_error(
-    lift_adat(adat, tbl),
-    "Unable to find the required 'Scalar' column in the annotations file"
+    lift_adat(adat, "5k_to_7k"),
+    "You have indicated a bridge from '5k' space"
   )
 })
 
 test_that("un-supported matrices are trapped", {
-  attributes(adat)$Header.Meta$HEADER$StudyMatrix <- "Cell Lysate"
+  attr(adat, "Header.Meta")$HEADER$StudyMatrix <- "Cell Lysate"
   expect_error(
-    lift_adat(adat, tbl),
+    lift_adat(adat, "5k_to_7k"),
     "Unsupported matrix: .*'Cell Lysate'.*\\.\nCurrent supported matrices:"
   )
 })
 
 test_that("only supported assay versions are allowed", {
-  attributes(adat)$Header.Meta$HEADER$AssayVersion <- "V3"
+  attr(adat, "Header.Meta")$HEADER$AssayVersion <- "V3"
   expect_error(
-    lift_adat(adat, tbl),
-    "Unsupported assay version: .*V3.*\\. Supported versions:"
+    lift_adat(adat),
+    "Unsupported assay version: 'V3'\\. Supported versions:"
   )
 })
 
 test_that("only ANML normalized data can be lifted", {
-  attributes(adat)$Header.Meta$HEADER$ProcessSteps <-    # trim off ANML step
-    strtrim(attributes(adat)$Header.Meta$HEADER$ProcessSteps, 74)
+  attr(adat, "Header.Meta")$HEADER$ProcessSteps <-    # trim off ANML step
+    strtrim(attr(adat, "Header.Meta")$HEADER$ProcessSteps, 74L)
   expect_error(
-    lift_adat(adat, tbl),
+    lift_adat(adat),
     "ANML normalized SOMAscan data is required for lifting."
   )
+})
+
+test_that("the lift_master reference object is correctly generated", {
+  expect_s3_class(lift_master, "tbl_df")
+  expect_equal(dim(lift_master), c(11083L, 19L))
+  expect_named(
+    lift_master,
+    c("SeqId", "serum_11k_to_7k_ccc", "plasma_11k_to_7k_ccc",
+      "serum_11k_to_5k_ccc", "plasma_11k_to_5k_ccc", "serum_11k_to_7k",
+      "plasma_11k_to_7k", "serum_11k_to_5k", "plasma_11k_to_5k",
+      "serum_5k_to_11k", "plasma_5k_to_11k", "serum_7k_to_5k_ccc",
+      "plasma_7k_to_5k_ccc", "serum_7k_to_5k", "plasma_7k_to_5k",
+      "serum_7k_to_11k", "plasma_7k_to_11k", "serum_5k_to_7k", "plasma_5k_to_7k")
+  )
+  # all are SeqIds
+  expect_true(all(is.apt(lift_master$SeqId)))
+  expect_equal(lift_master$SeqId, getSeqId(lift_master$SeqId))
+  expect_true(all(vapply(lift_master[, -1L], typeof, "") == "double"))
 })
