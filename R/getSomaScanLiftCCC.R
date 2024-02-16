@@ -2,7 +2,8 @@
 #'
 #' @description
 #' [getSomaScanLiftCCC()] accesses the lifting Concordance Correlation
-#'   Coefficients between various SomaScan versions.
+#'   Coefficients between various SomaScan versions. For more about
+#'   CCC metrics see [lift_adat()].
 #'
 #' @inheritParams params
 #' @references Lin, Lawrence I-Kuei. 1989. A Concordance Correlation
