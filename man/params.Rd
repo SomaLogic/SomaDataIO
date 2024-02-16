@@ -2,18 +2,21 @@
 % Please edit documentation in R/params.R
 \name{params}
 \alias{params}
-\title{Common Parameters in \pkg{SomaReadr}}
+\title{Common Parameters in \pkg{SomaDataIO}}
 \arguments{
 \item{adat}{A \code{soma_adat} object (with intact attributes),
 typically created using \code{\link[=read_adat]{read_adat()}}.}
 
 \item{x}{A \code{soma_adat} object (with intact attributes),
 typically created using \code{\link[=read_adat]{read_adat()}}.}
+
+\item{matrix}{Character. A string of (usually) either
+\code{"serum"} or \code{"plasma"}.}
 }
 \value{
 A \code{soma_adat} class object.
 }
 \description{
 The parameters below are commonly used throughout
-the \pkg{SomaReadr} package.
+the \pkg{SomaDataIO} package.
 }

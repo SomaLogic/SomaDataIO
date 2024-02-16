@@ -8,17 +8,17 @@
 #' [checkSomaScanVersion()] determines if the version of
 #'   is a recognized version of SomaScan.\cr
 #' \cr
-#' Table of current SomaScan Assay versions:
+#' Table of SomaScan Assay versions:
 #' \tabular{lll}{
-#'   **Version**  \tab **Name** \tab **Size** \cr
-#'   `V4`         \tab 5k       \tab 5284     \cr
-#'   `v4.1`       \tab 7k       \tab 7596     \cr
-#'   `v5.0`       \tab 11k      \tab 11083    \cr
+#'   **Version**  \tab **Commercial Name** \tab **Size** \cr
+#'   `V4`         \tab 5k                  \tab 5284     \cr
+#'   `v4.1`       \tab 7k                  \tab 7596     \cr
+#'   `v5.0`       \tab 11k                 \tab 11083    \cr
 #' }
 #'
 #' @name adat-helpers
 #' @param atts The *attributes* of a `soma_adat` object.
-#' @return Either a character string of length 1, or `NULL`.
+#' @return
 #'   \item{[getAdatVersion()]}{The key-value of the `Version` as a string.}
 #'   \item{[getSomaScanVersion()]}{The key-value of the `AssayVersion` as a string.}
 #'   \item{[checkSomaScanVersion()]}{Returns `NULL` (invisibly) if checks pass.}
@@ -94,7 +94,7 @@ getSignalSpace <- function(adat) {
 #'
 #' @rdname adat-helpers
 #' @param ver `character(1)`. The SomaScan version as a string.
-#' @note The `"v"` is case insensitive.
+#' @note The `"v"`-prefix is case insensitive.
 #' @examples
 #'
 #' is.null(checkSomaScanVersion(ver))

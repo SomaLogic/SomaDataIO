@@ -1,7 +1,7 @@
-#' Common Parameters in \pkg{SomaReadr}
+#' Common Parameters in \pkg{SomaDataIO}
 #'
 #' The parameters below are commonly used throughout
-#'   the \pkg{SomaReadr} package.
+#'   the \pkg{SomaDataIO} package.
 #'
 #' @name params
 #'
@@ -10,6 +10,9 @@
 #'
 #' @param x A `soma_adat` object (with intact attributes),
 #'   typically created using [read_adat()].
+#'
+#' @param matrix Character. A string of (usually) either 
+#'   `"serum"` or `"plasma"`.
 #'
 #' @return A `soma_adat` class object.
 NULL
