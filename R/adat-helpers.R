@@ -94,7 +94,7 @@ getSignalSpace <- function(adat) {
 #'
 #' @rdname adat-helpers
 #' @param ver `character(1)`. The SomaScan version as a string.
-#' @note The `"v"`-prefix is case insensitive.
+#'   **Note:** the `"v"`-prefix is case *in*sensitive.
 #' @examples
 #'
 #' is.null(checkSomaScanVersion(ver))

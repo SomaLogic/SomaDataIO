@@ -25,7 +25,8 @@ getSomaScanLiftCCC(matrix = c("plasma", "serum"))
 \item{adat}{A \code{soma_adat} object (with intact attributes),
 typically created using \code{\link[=read_adat]{read_adat()}}.}
 
-\item{ver}{\code{character(1)}. The SomaScan version as a string.}
+\item{ver}{\code{character(1)}. The SomaScan version as a string.
+\strong{Note:} the \code{"v"}-prefix is case \emph{in}sensitive.}
 
 \item{matrix}{Character. A string of (usually) either
 \code{"serum"} or \code{"plasma"}.}
@@ -56,10 +57,8 @@ Table of SomaScan Assay versions:
 }
 
 \code{\link[=getSomaScanLiftCCC]{getSomaScanLiftCCC()}} accesses the lifting Concordance Correlation
-Coefficients between various SomaScan versions.
-}
-\note{
-The \code{"v"}-prefix is case insensitive.
+Coefficients between various SomaScan versions. For more about
+CCC metrics see \code{\link[=lift_adat]{lift_adat()}}.
 }
 \examples{
 atts <- attributes(example_data)
