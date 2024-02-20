@@ -9,19 +9,21 @@ read_annotations(file)
 \arguments{
 \item{file}{A path to an annotations file location.
 This is a sanctioned, versioned file provided by
-SomaLogic Operating Co., Inc. and should be an unmodified
+SomaLogic Operating Co., Inc. and should be an \emph{unmodified}
 \verb{*.xlsx} file.}
 }
 \value{
 A \code{tibble} containing analyte-specific annotations and
-related information (e.g. lift/scale information), keyed on SomaLogic
-\code{"SeqId"} which is a unique analyte identifier.
+related (e.g. lift/bridging) information, keyed on SomaLogic
+\link{SeqId}, the unique SomaScan analyte identifier.
 }
 \description{
 Import a SomaLogic Annotations File
 }
 \examples{
 \dontrun{
-anno <- read_annotations("~/Desktop/SomaScan_V4.1_7K_Annotated_Content_20210616.xlsx")
+  # for example
+  file <- "~/Desktop/SomaScan_V4.1_7K_Annotated_Content_20210616.xlsx"
+  anno_tbl <- read_annotations(file)
 }
 }
