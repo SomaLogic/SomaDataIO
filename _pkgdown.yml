@@ -168,6 +168,11 @@ reference:
     contents:
     - SomaScanObjects
 
+  - title: Parameters
+    desc: Common parameter arguments to functions in `SomaDataIO`.
+    contents:
+    - params
+
   - title: Deprecated
     desc: >
       Functions that have been deprecated (sunset) in the
