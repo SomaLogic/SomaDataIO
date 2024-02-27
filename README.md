@@ -196,6 +196,7 @@ is.soma_adat(my_adat)
 # S3 print method (forwards -> tibble)
 my_adat
 #> ══ SomaScan Data ═══════════════════════════════════════════════════════════════
+#>      SomaScan version     V4 (5k)
 #>      Attributes intact    ✓
 #>      Rows                 10
 #>      Columns              5318
@@ -246,9 +247,9 @@ methods(class = "soma_adat")
 #> [11] filter       full_join    getAnalytes  getMeta      group_by    
 #> [16] inner_join   is_seqFormat left_join    Math         median      
 #> [21] merge        mutate       Ops          print        rename      
-#> [26] right_join   sample_frac  sample_n     semi_join    separate    
-#> [31] slice_sample slice        summary      Summary      transform   
-#> [36] ungroup      unite       
+#> [26] right_join   row.names<-  sample_frac  sample_n     semi_join   
+#> [31] separate     slice_sample slice        summary      Summary     
+#> [36] transform    ungroup      unite       
 #> see '?methods' for accessing help and source code
 ```
 
@@ -273,7 +274,7 @@ detail please see:
   - see `stats::t.test()`
   - see vignette
     `vignette("stat-two-group-comparison", package = "SomaDataIO")`
-- Milti-group comparison (e.g. differential expression) via ANOVA
+- Multi-group comparison (e.g. differential expression) via ANOVA
   - see `stats::aov()`
   - see vignette
     `vignette("stat-three-group-analysis-anova", package = "SomaDataIO")`
