@@ -15,7 +15,6 @@
 #'
 #' @rdname SomaDataIO-deprecated
 #' @name SomaDataIO-deprecated
-#' @docType package
 #' @author Stu Field
 #' @param ... A simple argument pass-through to an alternative replacement
 #'   function if available.
