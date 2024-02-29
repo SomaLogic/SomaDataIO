@@ -1,4 +1,4 @@
-pandoc: 2.19.2
+pandoc: 3.1.11
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
@@ -12,7 +12,7 @@ articles:
   safely-map-values-join: safely-map-values-join.html
   safely-rename-df: safely-rename-df.html
   train-test-setup: train-test-setup.html
-last_built: 2024-01-05T19:51Z
+last_built: 2024-02-29T01:24Z
 urls:
   reference: https://somalogic.github.io/SomaDataIO/reference
   article: https://somalogic.github.io/SomaDataIO/articles

@@ -263,12 +263,12 @@ its dependencies installed.</p>
 <p>The primary syntax is for when the common key in
 <strong>both</strong> files, (ADAT and CSV), has the <em>same</em>
 variable name:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># change directory to the analysis path</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmpzqqMM7/somascan-b8f36a4f4d0</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># run the Rscript:</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># - we recommend using the --vanilla flag</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--vanilla</span> merge_clin.R ex-data-9.adat clin-data.csv SampleId ex-data-9-merged.adat</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># change directory to the analysis path</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="bu">cd</span> /var/folders/h1/8hndypj13nsbj5pn4xsnv1tm0000gn/T//RtmpI20XVX/somascan-20ec40042bed</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co"># run the Rscript:</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co"># - we recommend using the --vanilla flag</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--vanilla</span> merge_clin.R ex-data-9.adat clin-data.csv SampleId ex-data-9-merged.adat</span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">dir</a></span><span class="op">(</span><span class="va">analysis_dir</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "clin-data.csv"         "ex-data-9-merged.adat"</span></span>
@@ -300,7 +300,7 @@ name, <code>ClinID</code>:</p>
 <span><span class="op">)</span></span></code></pre></div>
 <p>We can now execute the merge script at the command line as
 follows:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--vanilla</span> merge_clin.R ex-data-9.adat clin-data2.csv SampleId=ClinID ex-data-9-merged2.adat</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--vanilla</span> merge_clin.R ex-data-9.adat clin-data2.csv SampleId=ClinID ex-data-9-merged2.adat</span></code></pre></div>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">dir</a></span><span class="op">(</span><span class="va">analysis_dir</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "clin-data.csv"          "clin-data2.csv"        </span></span>
@@ -320,6 +320,7 @@ follows:</p>
 <span><span class="op">)</span></span>
 <span><span class="va">new</span></span>
 <span><span class="co">#&gt; <span style="color: #0000BB;">══</span> <span style="font-weight: bold;">SomaScan Data</span> <span style="color: #0000BB;">═════════════════════════════════════════════════════════</span></span></span>
+<span><span class="co">#&gt;      SomaScan version     <span style="color: #00BBBB;">V4 (5k)</span></span></span>
 <span><span class="co">#&gt;      Attributes intact    <span style="color: #00BB00;">✓</span></span></span>
 <span><span class="co">#&gt;      Rows                 <span style="color: #00BBBB;">9</span></span></span>
 <span><span class="co">#&gt;      Columns              <span style="color: #00BBBB;">12</span></span></span>

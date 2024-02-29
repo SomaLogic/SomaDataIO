@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://somalogic.github.io/SomaDataIO/dev/CONTRIBUTING.html</loc>
+  </url>
+  <url>
     <loc>https://somalogic.github.io/SomaDataIO/dev/LICENSE-text.html</loc>
   </url>
   <url>
@@ -73,6 +76,9 @@
     <loc>https://somalogic.github.io/SomaDataIO/dev/reference/SomaScanObjects.html</loc>
   </url>
   <url>
+    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/adat-helpers.html</loc>
+  </url>
+  <url>
     <loc>https://somalogic.github.io/SomaDataIO/dev/reference/adat2eSet.html</loc>
   </url>
   <url>
@@ -86,9 +92,6 @@
   </url>
   <url>
     <loc>https://somalogic.github.io/SomaDataIO/dev/reference/diffAdats.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/getAdatVersion.html</loc>
   </url>
   <url>
     <loc>https://somalogic.github.io/SomaDataIO/dev/reference/getAnalyteInfo.html</loc>
@@ -113,6 +116,9 @@
   </url>
   <url>
     <loc>https://somalogic.github.io/SomaDataIO/dev/reference/loadAdatsAsList.html</loc>
+  </url>
+  <url>
+    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/params.html</loc>
   </url>
   <url>
     <loc>https://somalogic.github.io/SomaDataIO/dev/reference/parseHeader.html</loc>

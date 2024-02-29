@@ -117,11 +117,11 @@ These data have been pre-processed via the following steps:</p><ul><li><p>hybrid
 QC and clinical samples</p></li>
 </ul><p><strong>Note1:</strong> The <code>Age</code> and <code>Sex</code> (<code>M</code>/<code>F</code>) fields contain simulated values
 designed to contain biological signal.</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">**</span>Note2<span class="sc">:</span><span class="er">**</span> The <span class="st">`</span><span class="at">SampleType</span><span class="st">`</span> column contains sample source<span class="sc">/</span>type information</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>and usually the <span class="st">`</span><span class="at">SampleType == Sample</span><span class="st">`</span> represents the <span class="st">"client"</span> samples.</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="sc">**</span>Note3<span class="sc">:</span><span class="er">**</span> The original source file can be found at</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>\url{https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>SomaLogic<span class="sc">/</span>SomaLogic<span class="sc">-</span>Data}.</span></code></pre><p></p></div></dd>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="sc">**</span>Note2<span class="sc">:</span><span class="er">**</span> The <span class="st">`</span><span class="at">SampleType</span><span class="st">`</span> column contains sample source<span class="sc">/</span>type information</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>and usually the <span class="st">`</span><span class="at">SampleType == Sample</span><span class="st">`</span> represents the <span class="st">"client"</span> samples.</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="sc">**</span>Note3<span class="sc">:</span><span class="er">**</span> The original source file can be found at</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>\url{https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>SomaLogic<span class="sc">/</span>SomaLogic<span class="sc">-</span>Data}.</span></code></pre><p></p></div></dd>
 
 
 <dt>ex_analytes</dt>
@@ -178,6 +178,7 @@ details are outlined above.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># S3 print method</span></span></span>
 <span class="r-in"><span><span class="va">example_data</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">══</span> <span style="font-weight: bold;">SomaScan Data</span> <span style="color: #0000BB;">═════════════════════════════════════════════════════════</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      SomaScan version     <span style="color: #00BBBB;">V4 (5k)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Attributes intact    <span style="color: #00BB00;">✓</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Rows                 <span style="color: #00BBBB;">192</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Columns              <span style="color: #00BBBB;">5318</span></span>
@@ -215,6 +216,7 @@ details are outlined above.</p>
 <span class="r-in"><span><span class="co"># print header info</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">example_data</span>, show_header <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">══</span> <span style="font-weight: bold;">SomaScan Data</span> <span style="color: #0000BB;">═════════════════════════════════════════════════════════</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      SomaScan version     <span style="color: #00BBBB;">V4 (5k)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Attributes intact    <span style="color: #00BB00;">✓</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Rows                 <span style="color: #00BBBB;">192</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Columns              <span style="color: #00BBBB;">5318</span></span>

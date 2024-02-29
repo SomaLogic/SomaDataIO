@@ -145,6 +145,7 @@ SomaLogic Operating Co., Inc.</h4>
 <span><span class="co"># S3 print method forwards -&gt; tibble</span></span>
 <span><span class="va">my_adat</span></span>
 <span><span class="co">#&gt; <span style="color: #0000BB;">══</span> <span style="font-weight: bold;">SomaScan Data</span> <span style="color: #0000BB;">═══════════════════════════════════════════════════════════════</span></span></span>
+<span><span class="co">#&gt;      SomaScan version     <span style="color: #00BBBB;">V4 (5k)</span></span></span>
 <span><span class="co">#&gt;      Attributes intact    <span style="color: #00BB00;">✓</span></span></span>
 <span><span class="co">#&gt;      Rows                 <span style="color: #00BBBB;">10</span></span></span>
 <span><span class="co">#&gt;      Columns              <span style="color: #00BBBB;">5318</span></span></span>
@@ -179,6 +180,7 @@ SomaLogic Operating Co., Inc.</h4>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">my_adat</span>, show_header <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>  <span class="co"># if simply wish to see Header info</span></span>
 <span><span class="co">#&gt; <span style="color: #0000BB;">══</span> <span style="font-weight: bold;">SomaScan Data</span> <span style="color: #0000BB;">═══════════════════════════════════════════════════════════════</span></span></span>
+<span><span class="co">#&gt;      SomaScan version     <span style="color: #00BBBB;">V4 (5k)</span></span></span>
 <span><span class="co">#&gt;      Attributes intact    <span style="color: #00BB00;">✓</span></span></span>
 <span><span class="co">#&gt;      Rows                 <span style="color: #00BBBB;">10</span></span></span>
 <span><span class="co">#&gt;      Columns              <span style="color: #00BBBB;">5318</span></span></span>
@@ -482,6 +484,7 @@ standard toolkit:</p>
 <span><span class="va">males</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">SampleType</span>, <span class="va">SampleMatrix</span>, <span class="fu">starts_with</span><span class="op">(</span><span class="st">"NormScale"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #0000BB;">══</span> <span style="font-weight: bold;">SomaScan Data</span> <span style="color: #0000BB;">═══════════════════════════════════════════════════════════════</span></span></span>
+<span><span class="co">#&gt;      SomaScan version     <span style="color: #00BBBB;">V4 (5k)</span></span></span>
 <span><span class="co">#&gt;      Attributes intact    <span style="color: #00BB00;">✓</span></span></span>
 <span><span class="co">#&gt;      Rows                 <span style="color: #00BBBB;">3</span></span></span>
 <span><span class="co">#&gt;      Columns              <span style="color: #00BBBB;">5</span></span></span>
@@ -514,9 +517,9 @@ standard toolkit:</p>
 <span><span class="co">#&gt; [11] filter       full_join    getAnalytes  getMeta      group_by    </span></span>
 <span><span class="co">#&gt; [16] inner_join   is_seqFormat left_join    Math         median      </span></span>
 <span><span class="co">#&gt; [21] merge        mutate       Ops          print        rename      </span></span>
-<span><span class="co">#&gt; [26] right_join   sample_frac  sample_n     semi_join    separate    </span></span>
-<span><span class="co">#&gt; [31] slice_sample slice        summary      Summary      transform   </span></span>
-<span><span class="co">#&gt; [36] ungroup      unite       </span></span>
+<span><span class="co">#&gt; [26] right_join   row.names&lt;-  sample_frac  sample_n     semi_join   </span></span>
+<span><span class="co">#&gt; [31] separate     slice_sample slice        summary      Summary     </span></span>
+<span><span class="co">#&gt; [36] transform    ungroup      unite       </span></span>
 <span><span class="co">#&gt; see '?methods' for accessing help and source code</span></span></code></pre></div>
 <hr>
 </div>
@@ -530,7 +533,7 @@ standard toolkit:</p>
 <span></span>
 <span><span class="fu"><a href="../reference/write_adat.html">write_adat</a></span><span class="op">(</span><span class="va">my_adat</span>, file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="st">"my-adat-"</span>, fileext <span class="op">=</span> <span class="st">".adat"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> ADAT passed all checks and traps.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> ADAT written to: <span style="color: #0000BB;">'/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//Rtmp5NmLjV/my-adat-bcb443c95b3.adat'</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> ADAT written to: <span style="color: #0000BB;">'/var/folders/h1/8hndypj13nsbj5pn4xsnv1tm0000gn/T//RtmpLOFxRR/my-adat-215075df79c4.adat'</span></span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

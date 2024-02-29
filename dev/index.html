@@ -200,7 +200,7 @@
 <ul>
 <li>
 <p><code>example_data</code>: the original ‘SomaScan’ file (<code>example_data.adat</code>) can be found <a href="https://github.com/SomaLogic/SomaLogic-Data" class="external-link">here</a> or downloaded directly via:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://raw.githubusercontent.com/SomaLogic/SomaLogic-Data/master/example_data.adat</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">wget</span> https://raw.githubusercontent.com/SomaLogic/SomaLogic-Data/master/example_data.adat</span></code></pre></div>
 <ul>
 <li>
 <p>it has been replaced by an abbreviated, light-weight version containing only the first 10 samples and can be found at:</p>
@@ -262,6 +262,7 @@
 <span><span class="co"># S3 print method (forwards -&gt; tibble)</span></span>
 <span><span class="va">my_adat</span></span>
 <span><span class="co">#&gt; ══ SomaScan Data ═══════════════════════════════════════════════════════════════</span></span>
+<span><span class="co">#&gt;      SomaScan version     V4 (5k)</span></span>
 <span><span class="co">#&gt;      Attributes intact    ✓</span></span>
 <span><span class="co">#&gt;      Rows                 10</span></span>
 <span><span class="co">#&gt;      Columns              5318</span></span>
@@ -306,9 +307,9 @@
 <span><span class="co">#&gt; [11] filter       full_join    getAnalytes  getMeta      group_by    </span></span>
 <span><span class="co">#&gt; [16] inner_join   is_seqFormat left_join    Math         median      </span></span>
 <span><span class="co">#&gt; [21] merge        mutate       Ops          print        rename      </span></span>
-<span><span class="co">#&gt; [26] right_join   sample_frac  sample_n     semi_join    separate    </span></span>
-<span><span class="co">#&gt; [31] slice_sample slice        summary      Summary      transform   </span></span>
-<span><span class="co">#&gt; [36] ungroup      unite       </span></span>
+<span><span class="co">#&gt; [26] right_join   row.names&lt;-  sample_frac  sample_n     semi_join   </span></span>
+<span><span class="co">#&gt; [31] separate     slice_sample slice        summary      Summary     </span></span>
+<span><span class="co">#&gt; [36] transform    ungroup      unite       </span></span>
 <span><span class="co">#&gt; see '?methods' for accessing help and source code</span></span></code></pre></div>
 <p>Please see vignette <code><a href="articles/loading-and-wrangling.html">vignette("loading-and-wrangling", package = "SomaDataIO")</a></code> for more details about available <code>soma_adat</code> methods.</p>
 </div>
@@ -331,7 +332,7 @@
 </li>
 </ul>
 </li>
-<li>Milti-group comparison (e.g. differential expression) via ANOVA
+<li>Multi-group comparison (e.g. differential expression) via ANOVA
 <ul>
 <li>see <code><a href="https://rdrr.io/r/stats/aov.html" class="external-link">stats::aov()</a></code>
 </li>
