@@ -9,9 +9,9 @@
 #' @param scale_vec A vector of scalars, named by `SeqId`, see [getSeqId()].
 #' @author Stu Field
 #' @examples
-#' adat <- head(example_data, 3L) |> dplyr::select(id, c(16:18))
-#' apts <- getAnalytes(adat)
-#' ref  <- c("2802-68" = 10.0, "1942-70" = 0.1, "9251-29" = 1.0)
+#' apts <- withr::with_seed(101, sample(getAnalytes(example_data), 3L))
+#' adat <- head(example_data, 3L) |> dplyr::select(SampleId, all_of(apts))
+#' ref  <- c("3072-4" = 10.0, "18184-28" = 0.1, "4430-44" = 1.0)
 #' new  <- scaleAnalytes(adat, ref)
 #' new
 #' @importFrom tibble enframe deframe
