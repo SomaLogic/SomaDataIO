@@ -1,11 +1,16 @@
-# a warning is triped if reference is missing any features
+# no matches returns identical object, with a 1 message & 2 warnings
 
     Code
-      new <- scaleAnalytes(adat, ref)
+      new <- scaleAnalytes(short_adat, ref)
+    Message
+      x No matches between lists
     Condition
       Warning:
       Missing scalar value for (3) analytes. They will not be transformed.
       Please check the reference or its named SeqIds.
+      Warning:
+      There are extra scaling values (1) in the reference.
+      They will be ignored.
 
 # `scaleAnalytes()` only accepts the `soma_adat` class
 
