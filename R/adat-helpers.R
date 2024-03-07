@@ -1,6 +1,6 @@
 #' Helpers to Extract Information from an ADAT
 #'
-#' Retrieves elements of the `HEADER` attributes of the object:\cr\cr
+#' Retrieve elements of the `HEADER` attribute of a `soma_adat` object:\cr\cr
 #' [getAdatVersion()] determines the the ADAT version
 #'   number from a parsed ADAT header.\cr\cr
 #' [getSomaScanVersion()] determines the original SomaScan assay version
@@ -18,23 +18,34 @@
 #' \cr
 #' [getSignalSpace()] determines the current signal space of
 #' the RFU values, which may differ from the original SomaScan
-#' signal space if the data have been lifted. See [lift_adat()].
+#' signal space if the data have been lifted. See [lift_adat()] and
+#' `vignette("lifting-and-bridging", package = "SomaDataIO")`.
 #'
 #' @name adat-helpers
-#' @param atts The *attributes* of a `soma_adat` object.
+#' @param x Either a `soma_adat` object with intact attributes or
+#'   the attributes themselves of a `soma_adat` object.
 #' @return
 #'   \item{[getAdatVersion()]}{The key-value of the `Version` as a string.}
 #' @author Stu Field
 #' @examples
-#' atts <- attributes(example_data)
-#' getAdatVersion(atts)
+#' getAdatVersion(example_data)
 #'
-#' atts$Header.Meta$HEADER$Version <- "99.0"
-#' getAdatVersion(atts)
+#' attr(example_data, "Header.Meta")$HEADER$Version <- "99.9"
+#' getAdatVersion(example_data)
 #' @export
-getAdatVersion <- function(atts) {
+getAdatVersion <- function(x) UseMethod("getAdatVersion")
 
-  x <- atts$Header.Meta$HEADER
+
+#' @export
+getAdatVersion.default <- function(x) {
+  stop("Unable to find a method for class: ", .value(class(x)), call. = FALSE)
+}
+
+
+#' @export
+getAdatVersion.list <- function(x) {
+
+  x <- x$Header.Meta$HEADER
   vidx <- grep("^Version$|^AdatVersion$", names(x))
 
   if ( length(vidx) == 0L ) {
@@ -61,6 +72,13 @@ getAdatVersion <- function(atts) {
     )
   }
   version
+}
+
+
+#' @export
+getAdatVersion.soma_adat <- function(x) {
+  stopifnot("Attributes for `x` must be instact." = is_intact_attr(x))
+  getAdatVersion(attributes(x))
 }
 
 

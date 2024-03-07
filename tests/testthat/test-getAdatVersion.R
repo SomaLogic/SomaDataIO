@@ -33,3 +33,16 @@ test_that("`getAdatVersion()` catches JAVA version number format", {
     fixed = TRUE
   )
 })
+
+test_that("`getAdatVersion()` S3 method returns the same character", {
+  expect_equal(
+    getAdatVersion(example_data),             # soma_adat
+    getAdatVersion(attributes(example_data))  # list
+  )
+})
+
+test_that("`getAdatVersion()` S3 default method trips errror", {
+  expect_error(
+    getAdatVersion(""), "Unable to find a method for class: 'character'"
+  )
+})
