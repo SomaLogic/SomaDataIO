@@ -9,7 +9,7 @@
 \alias{getSomaScanLiftCCC}
 \title{Helpers to Extract Information from an ADAT}
 \usage{
-getAdatVersion(atts)
+getAdatVersion(x)
 
 getSomaScanVersion(adat)
 
@@ -20,7 +20,8 @@ checkSomaScanVersion(ver)
 getSomaScanLiftCCC(matrix = c("plasma", "serum"))
 }
 \arguments{
-\item{atts}{The \emph{attributes} of a \code{soma_adat} object.}
+\item{x}{Either a \code{soma_adat} object with intact attributes or
+the attributes themselves of a \code{soma_adat} object.}
 
 \item{adat}{A \code{soma_adat} object (with intact attributes),
 typically created using \code{\link[=read_adat]{read_adat()}}.}
@@ -44,7 +45,7 @@ typically created using \code{\link[=read_adat]{read_adat()}}.}
 \code{serum} or \code{plasma} CCC between various versions of the SomaScan assay.}
 }
 \description{
-Retrieves elements of the \code{HEADER} attributes of the object:\cr\cr
+Retrieve elements of the \code{HEADER} attribute of a \code{soma_adat} object:\cr\cr
 \code{\link[=getAdatVersion]{getAdatVersion()}} determines the the ADAT version
 number from a parsed ADAT header.\cr\cr
 \code{\link[=getSomaScanVersion]{getSomaScanVersion()}} determines the original SomaScan assay version
@@ -62,18 +63,18 @@ Table of SomaScan Assay versions:
 \cr
 \code{\link[=getSignalSpace]{getSignalSpace()}} determines the current signal space of
 the RFU values, which may differ from the original SomaScan
-signal space if the data have been lifted. See \code{\link[=lift_adat]{lift_adat()}}.
+signal space if the data have been lifted. See \code{\link[=lift_adat]{lift_adat()}} and
+\code{vignette("lifting-and-bridging", package = "SomaDataIO")}.
 
 \code{\link[=getSomaScanLiftCCC]{getSomaScanLiftCCC()}} accesses the lifting Concordance Correlation
 Coefficients between various SomaScan versions. For more about
 CCC metrics see \code{\link[=lift_adat]{lift_adat()}}.
 }
 \examples{
-atts <- attributes(example_data)
-getAdatVersion(atts)
+getAdatVersion(example_data)
 
-atts$Header.Meta$HEADER$Version <- "99.0"
-getAdatVersion(atts)
+attr(example_data, "Header.Meta")$HEADER$Version <- "99.9"
+getAdatVersion(example_data)
 
 ver <- getSomaScanVersion(example_data)
 ver

@@ -91,14 +91,16 @@ dispatched on class \code{soma_adat}.
 Below is a list of \emph{all} currently available S3 methods that dispatch on
 the \code{soma_adat} class:
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{#>  [1] [            [[           [[<-         [<-          ==          
-#>  [6] $            $<-          anti_join    arrange      count       
-#> [11] filter       full_join    getAnalytes  getMeta      group_by    
-#> [16] inner_join   is_seqFormat left_join    Math         median      
-#> [21] merge        mutate       Ops          print        rename      
-#> [26] right_join   row.names<-  sample_frac  sample_n     select      
-#> [31] semi_join    separate     slice_sample slice        summary     
-#> [36] Summary      transform    ungroup      unite       
+\if{html}{\out{<div class="sourceCode">}}\preformatted{#>  [1] [              [[             [[<-           [<-           
+#>  [5] ==             $              $<-            anti_join     
+#>  [9] arrange        count          filter         full_join     
+#> [13] getAdatVersion getAnalytes    getMeta        group_by      
+#> [17] inner_join     is_seqFormat   left_join      Math          
+#> [21] median         merge          mutate         Ops           
+#> [25] print          rename         right_join     row.names<-   
+#> [29] sample_frac    sample_n       select         semi_join     
+#> [33] separate       slice_sample   slice          summary       
+#> [37] Summary        transform      ungroup        unite         
 #> see '?methods' for accessing help and source code
 }\if{html}{\out{</div>}}
 
