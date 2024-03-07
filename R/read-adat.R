@@ -23,9 +23,13 @@
 #' @author Stu Field
 #' @seealso [read.delim()]
 #' @examples
-#' f <- system.file("extdata", "example_data10.adat",
-#'                  package = "SomaDataIO", mustWork = TRUE)
-#' my_adat <- read_adat(f)
+#' # path to *.adat file
+#' # replace with your file path
+#' adat_path <- system.file("extdata", "example_data10.adat",
+#'                          package = "SomaDataIO", mustWork = TRUE)
+#' adat_path
+#'
+#' my_adat <- read_adat(adat_path)
 #'
 #' is.soma_adat(my_adat)
 #' @importFrom stats setNames
