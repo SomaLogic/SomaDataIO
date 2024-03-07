@@ -1,10 +1,10 @@
 #' Helpers to Extract Information from an ADAT
 #'
+#' Retrieves elements of the `HEADER` attributes of the object:\cr\cr
 #' [getAdatVersion()] determines the the ADAT version
 #'   number from a parsed ADAT header.\cr\cr
-#' [getSomaScanVersion()] determines the version of
-#'   SomaScan assay that a `soma_adat` object was run on.
-#'   These are elements of the `HEADER` attributes of the object.\cr\cr
+#' [getSomaScanVersion()] determines the original SomaScan assay version
+#'   that generated RFU measurements within a `soma_adat` object.
 #' [checkSomaScanVersion()] determines if the version of
 #'   is a recognized version of SomaScan.\cr
 #' \cr
@@ -15,19 +15,21 @@
 #'   `v4.1`       \tab 7k                  \tab 7596     \cr
 #'   `v5.0`       \tab 11k                 \tab 11083    \cr
 #' }
+#' \cr
+#' [getSignalSpace()] determines the current signal space of
+#' the RFU values, which may differ from the original SomaScan
+#' signal space if the data have been lifted. See [lift_adat()].
 #'
 #' @name adat-helpers
 #' @param atts The *attributes* of a `soma_adat` object.
 #' @return
 #'   \item{[getAdatVersion()]}{The key-value of the `Version` as a string.}
-#'   \item{[getSomaScanVersion()]}{The key-value of the `AssayVersion` as a string.}
-#'   \item{[checkSomaScanVersion()]}{Returns `NULL` (invisibly) if checks pass.}
 #' @author Stu Field
 #' @examples
 #' atts <- attributes(example_data)
 #' getAdatVersion(atts)
 #'
-#' atts$Header.Meta$HEADER$Version <- "1.0"
+#' atts$Header.Meta$HEADER$Version <- "99.0"
 #' getAdatVersion(atts)
 #' @export
 getAdatVersion <- function(atts) {
@@ -70,6 +72,8 @@ getAdatVersion <- function(atts) {
 #'
 #' ver <- getSomaScanVersion(example_data)
 #' ver
+#' @return
+#'   \item{[getSomaScanVersion()]}{The key-value of the `AssayVersion` as a string.}
 #' @export
 getSomaScanVersion <- function(adat) {
   as.character(attr(adat, "Header.Meta")$HEADER$AssayVersion)
@@ -84,6 +88,8 @@ getSomaScanVersion <- function(adat) {
 #'
 #' rfu_space <- getSignalSpace(example_data)
 #' rfu_space
+#' @return
+#'   \item{[getSignalSpace()]}{The key-value of the `SignalSpace` as a string.}
 #' @export
 getSignalSpace <- function(adat) {
   attr(adat, "Header.Meta")$HEADER$SignalSpace %||% getSomaScanVersion(adat)
@@ -98,6 +104,8 @@ getSignalSpace <- function(adat) {
 #' @examples
 #'
 #' is.null(checkSomaScanVersion(ver))
+#' @return
+#'   \item{[checkSomaScanVersion()]}{Returns `NULL` (invisibly) if checks pass.}
 #' @export
 checkSomaScanVersion <- function(ver) {
   allowed <- c("v4", "v4.0", "v4.1", "v5", "v5.0")

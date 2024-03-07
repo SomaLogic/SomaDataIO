@@ -33,18 +33,22 @@ typically created using \code{\link[=read_adat]{read_adat()}}.}
 }
 \value{
 \item{\code{\link[=getAdatVersion]{getAdatVersion()}}}{The key-value of the \code{Version} as a string.}
+
 \item{\code{\link[=getSomaScanVersion]{getSomaScanVersion()}}}{The key-value of the \code{AssayVersion} as a string.}
+
+\item{\code{\link[=getSignalSpace]{getSignalSpace()}}}{The key-value of the \code{SignalSpace} as a string.}
+
 \item{\code{\link[=checkSomaScanVersion]{checkSomaScanVersion()}}}{Returns \code{NULL} (invisibly) if checks pass.}
 
 \item{\code{\link[=getSomaScanLiftCCC]{getSomaScanLiftCCC()}}}{Returns a tibble of either the
 \code{serum} or \code{plasma} CCC between various versions of the SomaScan assay.}
 }
 \description{
+Retrieves elements of the \code{HEADER} attributes of the object:\cr\cr
 \code{\link[=getAdatVersion]{getAdatVersion()}} determines the the ADAT version
 number from a parsed ADAT header.\cr\cr
-\code{\link[=getSomaScanVersion]{getSomaScanVersion()}} determines the version of
-SomaScan assay that a \code{soma_adat} object was run on.
-These are elements of the \code{HEADER} attributes of the object.\cr\cr
+\code{\link[=getSomaScanVersion]{getSomaScanVersion()}} determines the original SomaScan assay version
+that generated RFU measurements within a \code{soma_adat} object.
 \code{\link[=checkSomaScanVersion]{checkSomaScanVersion()}} determines if the version of
 is a recognized version of SomaScan.\cr
 \cr
@@ -55,6 +59,10 @@ Table of SomaScan Assay versions:
 \code{v4.1}       \tab 7k                  \tab 7596     \cr
 \code{v5.0}       \tab 11k                 \tab 11083    \cr
 }
+\cr
+\code{\link[=getSignalSpace]{getSignalSpace()}} determines the current signal space of
+the RFU values, which may differ from the original SomaScan
+signal space if the data have been lifted. See \code{\link[=lift_adat]{lift_adat()}}.
 
 \code{\link[=getSomaScanLiftCCC]{getSomaScanLiftCCC()}} accesses the lifting Concordance Correlation
 Coefficients between various SomaScan versions. For more about
@@ -64,7 +72,7 @@ CCC metrics see \code{\link[=lift_adat]{lift_adat()}}.
 atts <- attributes(example_data)
 getAdatVersion(atts)
 
-atts$Header.Meta$HEADER$Version <- "1.0"
+atts$Header.Meta$HEADER$Version <- "99.0"
 getAdatVersion(atts)
 
 ver <- getSomaScanVersion(example_data)
