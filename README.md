@@ -30,8 +30,8 @@ Comprehensive R Archive Network (CRAN).
 If you run into any issues/problems with `SomaDataIO` full documentation
 of the most recent
 [release](https://github.com/SomaLogic/SomaDataIO/releases) can be found
-at our [pkgdown](https://somalogic.github.io/SomaDataIO/) website hosted
-by [GitHub](https://github.com/SomaLogic/SomaDataIO/). If the issue
+at our [website of articles and
+workflows](https://somalogic.github.io/SomaDataIO/). If the issue
 persists we encourage you to consult the
 [issues](https://github.com/SomaLogic/SomaDataIO/issues/) page and, if
 appropriate, submit an issue and/or feature request.
@@ -145,11 +145,11 @@ to run canned examples (or analyses). They can be accessed once
   wget https://raw.githubusercontent.com/SomaLogic/SomaLogic-Data/master/example_data.adat
   ```
 
-  - it has been replaced by an abbreviated, light-weight version
-    containing only the first 10 samples and can be found at:
+  - within `SomaDataIO` it has been replaced by an abbreviated,
+    light-weight version containing only the first 10 samples:
 
     ``` r
-    system.file("extdata", "example_data10.adat", package = "SomaDataIO")
+    dir(system.file("extdata", package = "SomaDataIO"), full.names = TRUE)
     ```
 
 - `ex_analytes`: the analyte (feature) variables in `example_data`
@@ -197,6 +197,7 @@ is.soma_adat(my_adat)
 my_adat
 #> ══ SomaScan Data ═══════════════════════════════════════════════════════════════
 #>      SomaScan version     V4 (5k)
+#>      Signal Space         5k
 #>      Attributes intact    ✓
 #>      Rows                 10
 #>      Columns              5318

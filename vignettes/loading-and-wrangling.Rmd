@@ -32,10 +32,13 @@ knitr::opts_chunk$set(
 Load an ADAT text file into `R` memory with:
 
 ```{r read-adat}
-# Sample file name
-f <- system.file("extdata", "example_data10.adat",
-                 package = "SomaDataIO", mustWork = TRUE)
-my_adat <- read_adat(f)
+# path to *.adat file
+# replace with your file path
+adat_path <- system.file("extdata", "example_data10.adat",
+                         package = "SomaDataIO", mustWork = TRUE)
+adat_path
+
+my_adat <- read_adat(adat_path)
 
 # class test
 is.soma_adat(my_adat)
@@ -66,7 +69,7 @@ It is recommended to view this output and compare to the physical
 text file itself to identify any misidentified or mismatched landmarks:
 
 ```{r debug}
-read_adat(f, debug = TRUE)
+read_adat(adat_path, debug = TRUE)
 ```
 
 

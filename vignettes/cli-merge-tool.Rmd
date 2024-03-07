@@ -27,17 +27,17 @@ knitr::opts_chunk$set(
 
 # Overview
 
-Occasionally, additional clinical data is obtained _after_ samples have been
-submitted to SomaLogic, Inc. or even after 'SomaScan' results have
-been delivered. 
+Occasionally, additional clinical data is obtained _after_ samples
+have been submitted to SomaLogic, Inc. or even after 'SomaScan'
+results have been delivered. 
 
 This requires the new clinical, i.e. non-proteomic, data to be merged
 with the 'SomaScan' data into a "new" ADAT prior to analysis.
-For this purpose, a command-line interface ("CLI") tool has been included
+For this purpose, a command-line-interface ("CLI") tool has been included
 with [SomaDataIO](https://CRAN.R-project.org/package=SomaDataIO)
 in the `cli/merge/` directory, which allows one to
 generate an updated `*.adat` file via the command-line without
-having to open an integrated development environment ("IDE"), e.g. `RStudio`.
+having to launch an integrated development environment ("IDE"), e.g. `RStudio`.
 
 
 ----------------
@@ -51,8 +51,8 @@ of [SomaDataIO](https://CRAN.R-project.org/package=SomaDataIO):
 ```{r merge-script}
 dir(system.file("cli", "merge", package = "SomaDataIO"))
 
-f <- system.file("cli", "merge", "merge_clin.R", package = "SomaDataIO")
-f
+merge_script <- system.file("cli", "merge", "merge_clin.R", package = "SomaDataIO")
+merge_script
 ```
 
 First create a temporary "analysis" directory:
@@ -66,18 +66,18 @@ dir.create(analysis_dir)
 dir.exists(analysis_dir)
 
 # copy merge tool into analysis directory
-file.copy(f, to = analysis_dir)
+file.copy(merge_script, to = analysis_dir)
 ```
 
 Let's create some dummy 'SomaScan' data derived from the `example_data` object
-from [SomaDataIO](https://CRAN.R-project.org/package=SomaDataIO)
+from [SomaDataIO](https://CRAN.R-project.org/package=SomaDataIO).
 First we reduce its size to 9 samples and 5 proteomic features each, and
 then write to text with `write_adat()`.
 This will be the "new" starting point for the clinical
 data merge and represents where customers would begin their analysis.
 
 ```{r save-data}
-feats <- withr::with_seed(3, sample(getAnalytes(example_data), 5))
+feats <- withr::with_seed(3, sample(getAnalytes(example_data), 5L))
 sub_adat <- dplyr::select(example_data, PlateId, SlideId, Subarray,
                           SampleId, Age, all_of(feats)) |> head(9L)
 withr::with_dir(analysis_dir,
