@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">SomaDataIO</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">6.0.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">6.0.0.9001</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,7 +99,7 @@
     <dl><dt>file</dt>
 <dd><p>A path to an annotations file location.
 This is a sanctioned, versioned file provided by
-SomaLogic Operating Co., Inc. and should be an unmodified
+SomaLogic Operating Co., Inc. and should be an <em>unmodified</em>
 <code>*.xlsx</code> file.</p></dd>
 
 </dl></div>
@@ -108,14 +108,16 @@ SomaLogic Operating Co., Inc. and should be an unmodified
     
 
 <p>A <code>tibble</code> containing analyte-specific annotations and
-related information (e.g. lift/scale information), keyed on SomaLogic
-<code>"SeqId"</code> which is a unique analyte identifier.</p>
+related (e.g. lift/bridging) information, keyed on SomaLogic
+<a href="SeqId.html">SeqId</a>, the unique SomaScan analyte identifier.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span><span class="va">anno</span> <span class="op">&lt;-</span> <span class="fu">read_annotations</span><span class="op">(</span><span class="st">"~/Desktop/SomaScan_V4.1_7K_Annotated_Content_20210616.xlsx"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="co"># for example</span></span></span>
+<span class="r-in"><span>  <span class="va">file</span> <span class="op">&lt;-</span> <span class="st">"~/Desktop/SomaScan_V4.1_7K_Annotated_Content_20210616.xlsx"</span></span></span>
+<span class="r-in"><span>  <span class="va">anno_tbl</span> <span class="op">&lt;-</span> <span class="fu">read_annotations</span><span class="op">(</span><span class="va">file</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
