@@ -131,7 +131,7 @@
 <!-- badges: start -->
 
 <p>The <code>SomaDataIO</code> R package loads and exports ‘SomaScan’ data via the SomaLogic Operating Co., Inc. structured text file called an ADAT (<code>*.adat</code>). The package also exports auxiliary functions for manipulating, wrangling, and extracting relevant information from an ADAT object once in memory. Basic familiarity with the R environment is assumed, as is the ability to install contributed packages from the Comprehensive R Archive Network (CRAN).</p>
-<p>If you run into any issues/problems with <code>SomaDataIO</code> full documentation of the most recent <a href="https://github.com/SomaLogic/SomaDataIO/releases" class="external-link">release</a> can be found at our <a href="https://somalogic.github.io/SomaDataIO/">pkgdown</a> website hosted by <a href="https://github.com/SomaLogic/SomaDataIO/" class="external-link">GitHub</a>. If the issue persists we encourage you to consult the <a href="https://github.com/SomaLogic/SomaDataIO/issues/" class="external-link">issues</a> page and, if appropriate, submit an issue and/or feature request.</p>
+<p>If you run into any issues/problems with <code>SomaDataIO</code> full documentation of the most recent <a href="https://github.com/SomaLogic/SomaDataIO/releases" class="external-link">release</a> can be found at our <a href="https://somalogic.github.io/SomaDataIO/">website of articles and workflows</a>. If the issue persists we encourage you to consult the <a href="https://github.com/SomaLogic/SomaDataIO/issues/" class="external-link">issues</a> page and, if appropriate, submit an issue and/or feature request.</p>
 <hr>
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
@@ -203,9 +203,9 @@
 <div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">wget</span> https://raw.githubusercontent.com/SomaLogic/SomaLogic-Data/master/example_data.adat</span></code></pre></div>
 <ul>
 <li>
-<p>it has been replaced by an abbreviated, light-weight version containing only the first 10 samples and can be found at:</p>
+<p>within <code>SomaDataIO</code> it has been replaced by an abbreviated, light-weight version containing only the first 10 samples:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"example_data10.adat"</span>, package <span class="op">=</span> <span class="st">"SomaDataIO"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">dir</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, package <span class="op">=</span> <span class="st">"SomaDataIO"</span><span class="op">)</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </li>
 </ul>
 </li>
@@ -263,6 +263,7 @@
 <span><span class="va">my_adat</span></span>
 <span><span class="co">#&gt; ══ SomaScan Data ═══════════════════════════════════════════════════════════════</span></span>
 <span><span class="co">#&gt;      SomaScan version     V4 (5k)</span></span>
+<span><span class="co">#&gt;      Signal Space         5k</span></span>
 <span><span class="co">#&gt;      Attributes intact    ✓</span></span>
 <span><span class="co">#&gt;      Rows                 10</span></span>
 <span><span class="co">#&gt;      Columns              5318</span></span>
