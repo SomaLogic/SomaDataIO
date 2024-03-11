@@ -136,6 +136,7 @@ reference:
     - starts_with("getAnalyte")
     - getMeta
     - diffAdats
+    - merge_clin
 
   - title: Transform Between SomaScan Versions
     desc: >

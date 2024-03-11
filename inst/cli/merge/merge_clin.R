@@ -1,4 +1,4 @@
-# --------------------------
+# --------------------------------------------------
 # Merge clinical variables into SomaScan data (ADAT)
 #
 # Command Line Interface (CLI) to merge/join clinical variables
@@ -22,32 +22,21 @@
 # Examples:
 #   Rscript --vanilla merge_clin.R example_data10.adat meta.csv SampleId foo.adat
 #   Rscript --vanilla merge_clin.R example_data10.adat meta2.csv SampleId=ClinKey foo.adat
-#
-# --------------------------
+# --------------------------------------------------
 args <- commandArgs(trailingOnly = TRUE)
 stopifnot("`merge_clin.R` should be called with *4* arguments." = length(args) == 4L)
-path_x <- normalizePath(args[1L], mustWork = TRUE)
-path_y <- normalizePath(args[2L], mustWork = TRUE)
-x <- SomaDataIO::read_adat(path_x)
-y <- utils::read.csv(path_y, header = TRUE)
-stopifnot("`x` must be a `soma_adat`."  = SomaDataIO::is.soma_adat(x))
-stopifnot("`y` must be a `data.frame`." = is.data.frame(y))
 key <- args[3L]
 if ( grepl("^\\S+=\\S+$", key) ) {
-  spl <- strsplit(key, split = "=")[[1L]]
-  key_x <- spl[1L]
-  key_y <- spl[2L]
-  if ( !key_y %in% names(y) ) {
-    stop("Index key must be present in clinical data: ", key_y, call. = FALSE)
-  }
-} else {
-  key_x <- key
-  key_y <- key
+  key <- sub("=", "==", key)
 }
-if ( !identical(class(x[[key_x]]), class(y[[key_y]]))) {
-  class(y[[key_y]]) <- class(x[[key_x]])   # coerce classes for join below
-}
-join_key <- setNames(key_y, key_x)
-stopifnot("The `key` argument must be of character(1)." = length(join_key) == 1L)
-adat <- dplyr::left_join(x, y, by = join_key)
+key      <- str2lang(key)
+join_key <- dplyr::join_by(!! key)
+path_x   <- normalizePath(args[1L], mustWork = TRUE)
+path_y   <- normalizePath(args[2L], mustWork = TRUE)
+adat <- SomaDataIO::merge_clin(
+  x         = SomaDataIO::read_adat(path_x),
+  clin_data = path_y,
+  by        = join_key,
+  by_class  = setNames("character", join_key$y)
+)
 SomaDataIO::write_adat(adat, file = args[4L])
