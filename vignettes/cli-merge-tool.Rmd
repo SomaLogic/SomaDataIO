@@ -39,6 +39,9 @@ in the `cli/merge/` directory, which allows one to
 generate an updated `*.adat` file via the command-line without
 having to launch an integrated development environment ("IDE"), e.g. `RStudio`.
 
+To use `SomaDataIO`s exported functionality from _within_ an R session,
+please see `merge_clin()`.
+
 
 ----------------
 
@@ -49,9 +52,9 @@ The clinical merge tool is an `R script` that comes with an installation
 of [SomaDataIO](https://CRAN.R-project.org/package=SomaDataIO):
 
 ```{r merge-script}
-dir(system.file("cli", "merge", package = "SomaDataIO"))
+dir(system.file("cli", "merge", package = "SomaDataIO", mustWork = TRUE))
 
-merge_script <- system.file("cli", "merge", "merge_clin.R", package = "SomaDataIO")
+merge_script <- system.file("cli/merge", "merge_clin.R", package = "SomaDataIO")
 merge_script
 ```
 
@@ -69,12 +72,14 @@ dir.exists(analysis_dir)
 file.copy(merge_script, to = analysis_dir)
 ```
 
-Let's create some dummy 'SomaScan' data derived from the `example_data` object
-from [SomaDataIO](https://CRAN.R-project.org/package=SomaDataIO).
-First we reduce its size to 9 samples and 5 proteomic features each, and
-then write to text with `write_adat()`.
+## Create Example Data
+
+Let's create some dummy 'SomaScan' data derived from the `example_data`
+object from [SomaDataIO](https://CRAN.R-project.org/package=SomaDataIO).
+First we reduce its size to 9 samples and 5 proteomic features, and
+then write to text file in our new analysis directory with `write_adat()`.
 This will be the "new" starting point for the clinical
-data merge and represents where customers would begin their analysis.
+data merge and represents where customers would typically begin an analysis.
 
 ```{r save-data}
 feats <- withr::with_seed(3, sample(getAnalytes(example_data), 5L))
@@ -85,7 +90,7 @@ withr::with_dir(analysis_dir,
 )
 ```
 
-Now we create random clinical data with a common key (this is typically
+Next we create random clinical data with a common key (this is typically
 the `SampleId` identifier but it could be any common key).
 
 ```{r create-clin-1}
@@ -101,12 +106,13 @@ withr::with_dir(analysis_dir,
 ```
 
 
-At this point we have 3 files in a temporary analysis directory:
+At this point there are now 3 files in our analysis directory:
 
 ```{r ls1}
 dir(analysis_dir)
 ```
 
+1. `merge_clin.R` the merge script engine itself 
 1. `clin-data.csv`:
     + new data containing 3 columns:
     + a common key: `SampleId`
@@ -119,7 +125,6 @@ dir(analysis_dir)
     + __note:__  `PlateId`, `SlideId`, and `Subarray` are key fields common
       to _almost all_ ADATs; removing them could yield unintended results
     + the common key `SampleId` is required
-1. `merge_clin.R` the merge script engine itself 
 
 
 ## Merging Clinical Data
@@ -131,13 +136,12 @@ and its dependencies installed.
 
 ### Arguments
 
-The merge script takes 4 ordered arguments:
+The merge script takes 4 (four), _ordered_ arguments:
 
 1. path to the original ADAT (`*.adat`) file
 1. path to clinical data (`*.csv`) file
 1. common key variable name (e.g. `SampleId`)
 1. output file name (`*.adat`) for new ADAT
-
 
 
 ---------------
@@ -147,7 +151,6 @@ The merge script takes 4 ordered arguments:
 
 The primary syntax is for when the common key in __both__ files,
 (ADAT and CSV), has the _same_ variable name:
-
 
 ```bash
 # change directory to the analysis path
@@ -177,18 +180,21 @@ dir(analysis_dir)
 ```
 
 
-#### Alternative Syntax
+### Alternative Syntax
 
-In certain instances you may have the common key under a _different_ variable
-name in their respective files. This is handled by a modification to
-argument 3, which now takes the form `key1=key2` where `key1` contains the
-common keys in the `*.adat` file, and `key2` contains keys for the `*.csv` file.
+In certain instances you may have the common key under
+a _different_ variable name in their respective files.
+This is handled by a modification to argument 3,
+which now takes the form `key1=key2` where `key1`
+contains the common keys in the `*.adat` file,
+and `key2` contains keys for the `*.csv` file.
 
-First let's create a new clinical data file with a different
-variable name, `ClinID`:
+To highlight this syntax, first let's create a new clinical
+data file with a _different_ variable name, `ClinID`:
 
 ```{r create-clin-2}
-names(df) <- c("ClinID", "letter", "size")   # rename original `df`
+# rename original `df`
+names(df) <- c("ClinID", "letter", "size")
 df
 
 # write clinical data to file
@@ -197,7 +203,8 @@ withr::with_dir(analysis_dir,
 )
 ```
 
-We can now execute the merge script at the command line as follows:
+We can now execute the _same_ merge script at the command line
+with a slightly modified syntax:
 
 ```bash
 Rscript --vanilla merge_clin.R ex-data-9.adat clin-data2.csv SampleId=ClinID ex-data-9-merged2.adat
@@ -223,8 +230,8 @@ dir(analysis_dir)
 
 ## Check Results
 
-Now let's check that the merge was successful and yields the expected
-`*.adat`:
+Now let's check that the clinical data was merged successfully and
+yields the expected `*.adat`:
 
 ```{r new-adat}
 new <- withr::with_dir(analysis_dir,
@@ -240,13 +247,14 @@ getAnalytes(new)
 
 ## Summary
 
-Merging newly obtained clinical variables into existing 'SomaScan' ADATs
-is easy via the `merge_clin.R` script provided with
-[SomaDataIO](https://CRAN.R-project.org/package=SomaDataIO).
-If you run into any trouble please do not hesitate to reach out
-to <techsupport@somalogic.com> or
-[file an issue](https://github.com/SomaLogic/SomaDataIO/issues/new) on
-our [GitHub](https://github.com/SomaLogic/SomaDataIO) repository.
+- Merging newly obtained clinical variables into existing 'SomaScan' ADATs
+  is easy via the `merge_clin.R` script provided with
+  [SomaDataIO](https://CRAN.R-project.org/package=SomaDataIO).
+- Alternatively, one could use the exported function `merge_clin()`.
+- If you run into any trouble please do not hesitate to reach out
+  to <techsupport@somalogic.com> or
+  [file an issue](https://github.com/SomaLogic/SomaDataIO/issues/new) on
+  our [GitHub](https://github.com/SomaLogic/SomaDataIO) repository.
 
 
 ```{r teardown, include = FALSE}
@@ -254,4 +262,3 @@ if ( dir.exists(analysis_dir) ) {
   unlink(analysis_dir, force = TRUE)
 }
 ```
-
