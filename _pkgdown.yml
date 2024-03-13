@@ -23,7 +23,7 @@ footer:
     left: [logo, package, developed_by]
     right: built_with
   components:
-    logo: "<img src='favicon-16x16.png'>"
+    logo: "<img src='../favicon-16x16.png'>"
 
 template:
   bootstrap: 5
