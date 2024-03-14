@@ -12,7 +12,7 @@ articles:
   safely-map-values-join: safely-map-values-join.html
   safely-rename-df: safely-rename-df.html
   train-test-setup: train-test-setup.html
-last_built: 2024-03-13T16:29Z
+last_built: 2024-03-14T21:27Z
 urls:
   reference: https://somalogic.github.io/SomaDataIO/reference
   article: https://somalogic.github.io/SomaDataIO/articles
