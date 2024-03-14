@@ -1,12 +1,170 @@
 
 # SomaDataIO (development)
 
-* The `README` has been significantly reduced,
-  simplifying the sample analyses into independent
-  vignettes (#35)
+:partying_face: :champagne:
 
-* New vignette on how to use the CLI merge tool
-  to merge clinical data into existing ADAT files (#45)
+### Lifting Code :rocket:
+
+* Major restructure of `lift_adat()` functionality (@stufield, #81, #78)
+  - `lift_adat()` now takes a `bridge =` argument,
+    replacing the `anno.tbl =` argument. Lifting
+    is now performed internally for a better (and safer)
+    user experience, without the necessity of an
+    external annotations (Excel) file.
+  - the majority of this refactoring was internal
+    and the user should not experience a major
+    disruption to the API.
+  - much improved lifting/bridging documentation (#82)
+
+* Added a new lifting and bridging vignette (@stufield, #77)
+  - in addition to the improved lifting documentation
+    this new vignette provides additional context,
+    explanation, clear examples, and lifting guidance.
+
+### New Functions :sparkles:
+
+* `is_lifted()` is new and returns a boolean according to
+  whether the signal space (RFU) has been previously lifted
+
+* Lifting accessor function for Lin's CCC values (#88)
+  - `getSomaScanLiftCCC()` accesses the lifting correlations between
+    SomaScan versions for each analyte
+  - returns a `tibble` split by sample matrix (serum or plasma)
+
+* `merge_clin()` is newly exported (#80)
+  - a thin wrapper that allows users to merge
+    clinical variables to `soma_adat` objects easily
+  - previously users had to either use the CLI merge tool
+    or merge in clinical variables themselves with `dplyr`
+
+* Newly exported ADAT "get**" helpers (#83)
+  - functions to access properties of ADATs
+    - `getAdatVersion()`
+    - `getSomaScanVersion()`
+    - `getSignalSpace()`
+    - `checkSomaScanVersion()`
+  - `getAdatVersion()` gets a new S3 method (#92)
+    - this enables passing of different objects
+    - namely `soma_adat` or `list` depending on the situation
+
+* Newly exported functions that were previously internal only:
+  - `addAttributes()`
+  - `addClass()`
+  - `cleanNames()`
+
+### New Vignettes :nerd_face:
+
+* The package `README` is now simplified (#35)
+  - example analysis workflows are now split out
+    into their own vignettes/articles
+    and cross-linked in the `README`
+
+* Reorganization and expansion of statistical vignettes (#35, #47)
+  - moved 3 existing statistical examples from
+    `README` into their own vignettes
+  - resulting in four new "Statistical Workflow" vignettes/articles:
+    - Binary classification via logistic regression
+    - Linear regression for continuous variables
+    - Two-group comparison via *t*-test
+    - Three-group analysis ANOVA
+
+* Added new general analysis workflow vignettes 
+  - articles for the pkgdown website have been built out
+  - new articles on:
+    - safely mapping values among variables
+    - safely renaming a data frame
+    - loading-and-wrangling
+    - typical train and test data splits
+    - beginning the FAQs and/or Coming Soon pages
+
+* Added a new vignette describing how to use the
+  command-line interface merge tool (#45)
+  - the new CLI merge tool used to add
+    new clinical data to existing ADAT file
+
+### Updates and Improvements :hammer:
+
+* Update `read_annotations()` with `11k` content (#85)
+
+* Update `transform()` and `scaleAnalytes()`
+  - `scaleAnalytes()` (internal) now skips missing references
+    and is much more like a "step" in the `recipes` package
+  - `transform()` gets edge case protection with `drop = FALSE`
+    in case a single-analyte `soma_adat` is scaled.
+
+* New `row.names()` S3 method support for `soma_adat` class
+  - dispatched on calls to `rownmaes()`
+  - rather than calling `NextMethod()` which normally
+    would invoke `data.frame`, we now force the `data.frame`
+    method in case there are `tbl_df` or `grouped_df`
+    classes present that would be dispatched.
+    Those are bypassed in favor of the `data.frame`
+    because `tbl_df` 1) can nuke the attributes, 2)
+    triggers a warning about adding rownames to a `tibble`.
+
+* New `grouped_df` S3 print support for the grouped `soma_adat`
+  - now displays Grouping information from a call to
+    the S3 print method for `soma_adat` class
+
+* New `grouped_df` S3 method support for `soma_adat` class (#66)
+  - `grouped_df` data objects previously unsupported and were
+    interfering with downstream S3 methods for `dplyr` verbs
+    once `NextMethod()` was called
+  - this support now ensures that the group
+    methods are maintained, as well as the `soma_adat`
+    class itself (and most importantly, with its attributes intact)
+
+* `tidyr::separate.soma_adat()` S3 method was simplified (#72)
+  - now uses `%||%` helper internally
+  - expanded error messages inside `stopifnot()` to be more informative
+
+* `is_intact_attr()` is now *much* quieter, signaling only when called indirectly (#71)
+  - new conditional logic to silences signaling messages when
+    called from within another function (indirectly)
+  - these previously lead to confusing messages
+    when they appear in wrappers, where `is_intact_attr()`
+    can be, sometimes deeply, nested in the call stack
+
+* Development and improvements to the `pkgdown` website
+  - added new links and improved clarity in YAML 
+  - added new logo at footer
+  - restyled side bar for easier hyperlinking and getting help
+  - clicking on the SomaLogic logo in the GitHub `README`
+    now links to the `pkgdown` website
+  - new "Coming Soon" drop-down section in the website header
+    to let users know about active progress (but not yet ready
+    for external publication)
+
+* `SomaDataIO` no longer depends on `desc` package
+  - to generate the `README.md`
+
+### Internal :construction:
+
+* Internal rowname helpers were upgraded
+  - they now use internal cross-functions
+    as originally intended to avoid redundancy, efficiency,
+    and improved debugging
+
+* `sysdata.rda` no longer contains non-exported functions (#59)
+  - new internal helper functions:
+    - `convertColMeta()`
+    - `genRowNames()`
+    - `parseCheck()`
+    - `syncColMeta()`
+    - `scaleAnalytes()`
+
+* Bug-fix for corner-case writing a single-analyte ADAT (#51)
+  - RFU values are rounded to 1 decimal place when written by
+    `write_adat()`, via a call to `apply()`, which expects a 2-dim object
+     when replacing those values.
+  - `write_adat()` no longer uses `apply()` and instead converts
+    the entire RFU data frame to a matrix (maintains original dimensions),
+    and use vectorized format conversion via `sprintf()`
+  - in theory this should be faster because `sprintf()`
+    is only called once on a long vector, rather than
+    1000s of times on shorter vectors (inside `apply()`).
+
+* Fixed missing closing parenthesis in `SomaScanObjects.R` (thanks @Hijinx725!, #40)
 
 
 # SomaDataIO 6.0.0 :tada:
