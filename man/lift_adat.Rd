@@ -23,7 +23,7 @@ typically created using \code{\link[=read_adat]{read_adat()}}.}
 }
 \value{
 \code{\link[=lift_adat]{lift_adat()}}: A "lifted" \code{soma_adat} object corresponding to
-the scaling requested in the \code{bridge} param. RFU values are
+the scaling requested in the \code{bridge} parameter. RFU values are
 rounded to 1 decimal place to match standard SomaScan delivery format.
 
 \code{\link[=is_lifted]{is_lifted()}}: Logical. Whether the RFU values in a \code{soma_adat}
@@ -80,7 +80,7 @@ Coefficient (CCC) is calculated between matched samples from the original
 SomaScan signal space and the identical lifted samples that have been
 scaled back to the original signal space. This CCC value is an estimate
 of how well an analyte can be bridged across specific SomaScan versions.
-Factors affecting an analyte's lifting CCC are: reagents with high
+Factors affecting lifting CCCs are: reagents with high
 intra-assay CV (Coefficient of Variation) and reagents signaling
 near background or saturation levels.
 As with the lifting scalars, if you have an annotations file

@@ -8,7 +8,7 @@
 #' [merge_clin()] easily merges such clinical variables into an
 #' existing `soma_adat` object and is a simple wrapper around [dplyr::left_join()].
 #'
-#' This funtionality also exists as a command-line tool (R script) contained
+#' This functionality also exists as a command-line tool (R script) contained
 #' in `merge_clin.R` that lives in the `cli/merge` system file directory.
 #' Please see:
 #' \itemize{

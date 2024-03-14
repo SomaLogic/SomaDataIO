@@ -8,6 +8,7 @@ AptName
 AssayNotes
 Barcode
 Biobase
+CCC
 CLI
 CMD
 CalQcRatio
@@ -38,6 +39,7 @@ PercentDilution
 PlateId
 PlatePosition
 PlateScale
+plex
 proteomic
 QcReference
 README

@@ -63,7 +63,7 @@ primary statistical analyses that are commonly performed on
   + see `stats::t.test()`
   + see vignette `vignette("stat-two-group-comparison", package = "SomaDataIO")`
 
-- Milti-group comparison (e.g. differential expression) via ANOVA
+- Multi-group comparison (e.g. differential expression) via ANOVA
   + see `stats::aov()`
   + see vignette `vignette("stat-three-group-analysis-anova", package = "SomaDataIO")`
 

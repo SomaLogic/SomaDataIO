@@ -41,7 +41,7 @@ merged with 'SomaScan' data into a "new" ADAT prior to analysis.
 existing \code{soma_adat} object and is a simple wrapper around \code{\link[dplyr:mutate-joins]{dplyr::left_join()}}.
 }
 \details{
-This funtionality also exists as a command-line tool (R script) contained
+This functionality also exists as a command-line tool (R script) contained
 in \code{merge_clin.R} that lives in the \code{cli/merge} system file directory.
 Please see:
 \itemize{
