@@ -50,7 +50,7 @@
 #'   SomaScan signal space and the identical lifted samples that have been
 #'   scaled back to the original signal space. This CCC value is an estimate
 #'   of how well an analyte can be bridged across specific SomaScan versions.
-#'   Factors affecting an analyte's lifting CCC are: reagents with high
+#'   Factors affecting lifting CCCs are: reagents with high
 #'   intra-assay CV (Coefficient of Variation) and reagents signaling
 #'   near background or saturation levels.
 #'   As with the lifting scalars, if you have an annotations file
@@ -86,7 +86,7 @@
 #' @references Lin, Lawrence I-Kuei. 1989. A Concordance Correlation
 #'   Coefficient to Evaluate Reproducibility. __Biometrics__. 45:255-268.
 #' @return [lift_adat()]: A "lifted" `soma_adat` object corresponding to
-#'   the scaling requested in the `bridge` param. RFU values are
+#'   the scaling requested in the `bridge` parameter. RFU values are
 #'   rounded to 1 decimal place to match standard SomaScan delivery format.
 #' @examples
 #' # `example_data` is SomaScan (V4, 5k)
