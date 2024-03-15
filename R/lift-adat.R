@@ -65,7 +65,7 @@
 #'   coefficient, and estimated median and standard deviation estimates from
 #'   assay version groups \eqn{x} and \eqn{y} respectively.
 #'
-#' @section Extra Columns:
+#' @section Column Setdiff:
 #' * Newer versions of SomaScan typically have additional content, i.e.
 #'   new reagents added to the multi-plex assay that bind to additional proteins.
 #'   When lifting _to_ a previous SomaScan version, new reagents that do _not_

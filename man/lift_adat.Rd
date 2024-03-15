@@ -96,7 +96,7 @@ coefficient, and estimated median and standard deviation estimates from
 assay version groups \eqn{x} and \eqn{y} respectively.
 }
 
-\section{Extra Columns}{
+\section{Column Setdiff}{
 
 \itemize{
 \item Newer versions of SomaScan typically have additional content, i.e.
