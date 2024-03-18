@@ -69,7 +69,7 @@ class(collapsed)
 
 # Alternatively use `collapse = TRUE`
 \donttest{
-loadAdatsAsList(files, collapse = TRUE)
+  loadAdatsAsList(files, collapse = TRUE)
 }
 }
 \seealso{

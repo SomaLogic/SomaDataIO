@@ -84,6 +84,14 @@
 
 ### Updates and Improvements :hammer:
 
+* `collapseAdats()` better combines `HEADER` information (#86)
+  - certain information, e.g. `PlateScale` and `Cal*`,
+    are better maintained in the final collapsed ADAT
+  - other entries are combined by pasting into a single string
+  - should result in less duplication of superfluous entries and 
+    retention of more "useful" `HEADER` information
+    in the resulting (collapsed) `soma_adat`
+
 * Update `read_annotations()` with `11k` content (#85)
 
 * Update `transform()` and `scaleAnalytes()`
