@@ -50,7 +50,7 @@
 #'
 #' # Alternatively use `collapse = TRUE`
 #' \donttest{
-#' loadAdatsAsList(files, collapse = TRUE)
+#'   loadAdatsAsList(files, collapse = TRUE)
 #' }
 #' @importFrom stats setNames
 #' @export
@@ -82,15 +82,47 @@ loadAdatsAsList <- function(files, collapse = FALSE, verbose = interactive(), ..
 #' @export
 collapseAdats <- function(x) {
   is_adat <- vapply(x, is.soma_adat, NA)
-  stopifnot(all(is_adat))
+  stopifnot("All entries in list `x` must be `soma_adat` class." = all(is_adat))
   common <- Reduce(intersect, lapply(x, names))   # common df names
   # rm names so rownames are re-constructed via `rbind()`
   new <- lapply(unname(x), function(.x) dplyr::select(.x, all_of(common)))
   new <- do.call(rbind, new)
   new_header <- lapply(x, attr, which = "Header.Meta") |>
-    lapply(`[[`, "HEADER")
-  attributes(new)$Header.Meta$HEADER <- Reduce(`c`, new_header)
-  nms <- names(attributes(x[[1L]]))         # attr order or 1st adat
+    lapply(`[[`, "HEADER") |>
+    Reduce(f = combine_header)
+  new_header$CollapsedAdats <- paste(names(x), collapse = ", ")
+  attributes(new)$Header.Meta$HEADER <- new_header
+  nms <- names(attributes(x[[1L]]))         # attr order of 1st adat
   attributes(new) <- attributes(new)[nms]   # orig order
   new
+}
+
+
+# helper to smartly combine header info
+# from multiple ADATs
+combine_header <- function(x, y) {
+  # intersecting entries: to be pasted/merged
+  keep <- c("AssayRobot", "CreatedDate", "Title", "ExpDate")
+  keep <- intersect(keep, intersect(names(x), names(y)))
+  # plate and cal entries: to be pasted/merged
+  plt <- intersect(grep("^Plate|^Cal", names(x), value = TRUE),
+                   grep("^Plate|^Cal", names(y), value = TRUE))
+  # new entries in 'y': to be added
+  set_yx <- setdiff(names(y), names(x))
+  for ( i in c(keep, plt, set_yx) ) {
+    if ( i %in% names(x) ) {
+      x[[i]] <- paste_xy(x[[i]], y[[i]]) # maintains attrs of 'x'
+    } else {
+      x[[i]] <- y[[i]] # new added entries
+    }
+  }
+  x
+}
+
+# pastes and maintains attrs
+paste_xy <- function(x, y, sep = ", ", ...) {
+  atts <- attributes(x)   # maintain attrs of 'x'
+  x <- paste(x, y, sep = sep, ...)
+  attributes(x) <- atts
+  x
 }

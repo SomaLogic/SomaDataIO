@@ -51,7 +51,7 @@
       [1] "!AssayVersion"
       
       $AssayRobot
-      [1] "Fluent 1 L-307"
+      [1] "Fluent 1 L-307, Fluent 1 L-307"
       attr(,"raw_key")
       [1] "!AssayRobot"
       
@@ -66,7 +66,7 @@
       [1] "!CreatedBy"
       
       $CreatedDate
-      [1] "2020-07-24"
+      [1] "2020-07-24, 2020-07-25"
       attr(,"raw_key")
       [1] "!CreatedDate"
       
@@ -121,7 +121,7 @@
       [1] "!StudyOrganism"
       
       $Title
-      [1] "Example Adat Set001, Example Adat Set002"
+      [1] "Example Adat Set001, Example Adat Set002, Example Adat Set001, Example Adat Set002"
       attr(,"raw_key")
       [1] "!Title"
       
@@ -215,64 +215,7 @@
       attr(,"raw_key")
       [1] "PlateTailTest_Example_Adat_Set002"
       
-      $AdatId
-      [1] "GID-1234-56-7890-abcdef"
-      attr(,"raw_key")
-      [1] "!AdatId"
-      
-      $Version
-      [1] "1.2"
-      attr(,"raw_key")
-      [1] "!Version"
-      
-      $AssayType
-      [1] "PharmaServices"
-      attr(,"raw_key")
-      [1] "!AssayType"
-      
-      $AssayVersion
-      [1] "V4"
-      attr(,"raw_key")
-      [1] "!AssayVersion"
-      
-      $AssayRobot
-      [1] "Fluent 1 L-307"
-      attr(,"raw_key")
-      [1] "!AssayRobot"
-      
-      $Legal
-      [1] "Experiment details and data have been processed to protect Personally Identifiable Information (PII) and comply with existing privacy laws."
-      attr(,"raw_key")
-      [1] "!Legal"
-      
-      $CreatedBy
-      [1] "PharmaServices"
-      attr(,"raw_key")
-      [1] "!CreatedBy"
-      
-      $CreatedDate
-      [1] "2020-07-25"
-      attr(,"raw_key")
-      [1] "!CreatedDate"
-      
-      $EnteredBy
-      [1] "Technician2"
-      attr(,"raw_key")
-      [1] "!EnteredBy"
-      
-      $GeneratedBy
-      [1] "Px (Build:  : ), Canopy_0.1.1"
-      attr(,"raw_key")
-      [1] "!GeneratedBy"
-      
-      $StudyMatrix
-      [1] "EDTA Plasma"
-      attr(,"raw_key")
-      [1] "!StudyMatrix"
-      
-      $Title
-      [1] "Example Adat Set001, Example Adat Set002"
-      attr(,"raw_key")
-      [1] "!Title"
+      $CollapsedAdats
+      [1] "example_data10.adat, single_sample.adat"
       
 
