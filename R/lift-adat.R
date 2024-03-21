@@ -70,7 +70,8 @@
 #'
 #' @inheritParams params
 #' @param bridge The direction of the lift (i.e. bridge).
-#' @param anno.tbl Deprecated.
+#' @param anno.tbl `r lifecycle::badge("deprecated")`. Please now
+#'   use the `bridge` argument.
 #' @references Lin, Lawrence I-Kuei. 1989. A Concordance Correlation
 #'   Coefficient to Evaluate Reproducibility. __Biometrics__. 45:255-268.
 #' @return [lift_adat()]: A "lifted" `soma_adat` object corresponding to

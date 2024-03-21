@@ -7,22 +7,28 @@
 \alias{getSomamerData}
 \title{Deprecated function(s) of the \pkg{SomaDataIO} package}
 \arguments{
-\item{...}{A simple argument pass-through to an alternative replacement
-function if available.}
+\item{...}{A pass-through to allow the function to
+trigger the \code{lifecycle} message.}
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
+
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#soft-deprecated}{\figure{lifecycle-soft-deprecated.svg}{options: alt='[Soft-deprecated]'}}}{\strong{[Soft-deprecated]}}
+
 These functions are provided for compatibility with
 older versions of the \pkg{SomaDataIO} package.
 They may eventually be completely removed, so
-please re-code your scripts accordingly.
-}
-\details{
-\tabular{rl}{
-\code{meltExpressionSet()} \tab now use \code{\link[=pivotExpressionSet]{pivotExpressionSet()}} \cr
-\code{getSomamers()}       \tab now use \code{\link[=getAnalytes]{getAnalytes()}} \cr
-\code{getFeatures()}       \tab now use \code{\link[=getAnalytes]{getAnalytes()}} \cr
-\code{getSomamerData()}    \tab now use \code{\link[=getAnalyteInfo]{getAnalyteInfo()}} \cr
-\code{getFeatureData()}    \tab now use \code{\link[=getAnalyteInfo]{getAnalyteInfo()}}
+please re-code your scripts accordingly based on the
+suggestions below:
+
+\tabular{lcr}{
+\code{meltExpressionSet()} \tab now use \tab \code{\link[=pivotExpressionSet]{pivotExpressionSet()}} \cr
+\code{getSomamers()}       \tab now use \tab \code{\link[=getAnalytes]{getAnalytes()}} \cr
+\code{getFeatures()}       \tab now use \tab \code{\link[=getAnalytes]{getAnalytes()}} \cr
+\code{getSomamerData()}    \tab now use \tab \code{\link[=getAnalyteInfo]{getAnalyteInfo()}} \cr
+\code{getFeatureData()}    \tab now use \tab \code{\link[=getAnalyteInfo]{getAnalyteInfo()}}
 }
 }
 \author{
