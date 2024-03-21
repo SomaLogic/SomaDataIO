@@ -95,15 +95,12 @@ articles:
   - title: Loading and Wrangling
     navbar: ~
     contents:
-    - loading-and-wrangling
-    - safely-rename-df
-    - safely-map-values-join
-    - train-test-setup
+    - starts_with("articles/tips-")
 
   - title: Command Line Merge Tool
     navbar: ~
     contents:
-    - cli-merge-tool
+    - articles/cli-merge-tool
 
   - title: Lifting and Bridging
     navbar: ~
