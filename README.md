@@ -175,7 +175,7 @@ to run canned examples (or analyses). They can be accessed once
     `soma_adat` class.
   - `?rownames` helpers that do not break `soma_adat` attributes.
   - please see vignette
-    `vignette("loading-and-wrangling", package = "SomaDataIO")`
+    `vignette("tips-loading-and-wrangling", package = "SomaDataIO")`
 - Exporting data (Output)
   - write out a `soma_adat` object as a `*.adat` text file.
 
@@ -231,8 +231,8 @@ my_adat
 ```
 
 Please see vignette
-`vignette("loading-and-wrangling", package = "SomaDataIO")` for more
-details and options.
+`vignette("tips-loading-and-wrangling", package = "SomaDataIO")` for
+more details and options.
 
 ## Wrangling
 
@@ -255,8 +255,8 @@ methods(class = "soma_adat")
 ```
 
 Please see vignette
-`vignette("loading-and-wrangling", package = "SomaDataIO")` for more
-details about available `soma_adat` methods.
+`vignette("tips-loading-and-wrangling", package = "SomaDataIO")` for
+more details about available `soma_adat` methods.
 
 ## ADAT structure
 
