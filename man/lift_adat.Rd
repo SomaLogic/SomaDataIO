@@ -19,7 +19,8 @@ typically created using \code{\link[=read_adat]{read_adat()}}.}
 
 \item{bridge}{The direction of the lift (i.e. bridge).}
 
-\item{anno.tbl}{Deprecated.}
+\item{anno.tbl}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}. Please now
+use the \code{bridge} argument.}
 }
 \value{
 \code{\link[=lift_adat]{lift_adat()}}: A "lifted" \code{soma_adat} object corresponding to

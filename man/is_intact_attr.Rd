@@ -34,12 +34,11 @@ it also checks for the presence of the following entries:
 \item{"Col.Meta" section:}{"SeqId", "Target", "Units", and "Dilution"}
 }
 If any of the above they are altered or missing, \code{FALSE} is returned.
-}
-\section{Functions}{
-\itemize{
-\item \code{is.intact.attributes()}: has been superseded by a more convenient, current, tidy syntax.
 
-}}
+\code{\link[=is.intact.attributes]{is.intact.attributes()}} is \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}.
+It remains for backward compatibility and may be removed in the future.
+You are encouraged to shift your code to \code{\link[=is_intact_attr]{is_intact_attr()}}.
+}
 \examples{
 # checking attributes
 my_adat <- example_data

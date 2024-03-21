@@ -53,9 +53,7 @@ S3 methods exist for these classes:
 }
 \section{Functions}{
 \itemize{
-\item \code{getFeatures()}: renamed in \pkg{SomaDataIO v5.1.0}. Exported
-(with life-cycle warning) to maintain backward compatibility.
-Please adjust your code accordingly.
+\item \code{getFeatures()}: \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}. Please adjust your code accordingly.
 
 }}
 \examples{

@@ -44,9 +44,7 @@ to its corresponding \code{TargetName} in \code{tbl}.
 This structure which provides a convenient auto-completion mechanism at
 the command line or for generating plot titles.
 
-\item \code{getFeatureData()}: renamed in \pkg{SomaDataIO v5.1.0}. Exported
-(with life-cycle warning) to maintain backward compatibility.
-Please adjust your code accordingly.
+\item \code{getFeatureData()}: \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}. Please adjust your code accordingly.
 
 }}
 \examples{

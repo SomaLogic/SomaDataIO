@@ -82,8 +82,13 @@ is_intact_attr <- function(adat, verbose = interactive()) {
   }
 }
 
-#' @describeIn is_intact_attr
-#'   has been superseded by a more convenient, current, tidy syntax.
+#' Alias to `is_intact_atttr`
+#'
+#' [is.intact.attributes()] is `r lifecycle::badge("superseded")`.
+#' It remains for backward compatibility and may be removed in the future.
+#' You are encouraged to shift your code to [is_intact_attr()].
+#'
+#' @rdname is_intact_attr
 #' @importFrom lifecycle deprecate_soft
 #' @export
 is.intact.attributes <- function(adat, verbose = interactive()) {
