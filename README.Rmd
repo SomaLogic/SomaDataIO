@@ -24,7 +24,7 @@ ver <- paste0("https://img.shields.io/badge/Version-", desc$Version,
 ```
 
 
-# SomaDataIO <a href="https://somalogic.github.io/SomaDataIO"><img src="man/figures/logo.png" align="right" height="138" alt="SomaDataIO website" /></a>
+# SomaDataIO <a href="https://somalogic.github.io/SomaDataIO/"><img src="man/figures/logo.png" align="right" height="138" alt="SomaDataIO website" /></a>
 
 
 <!-- badges: start -->
