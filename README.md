@@ -1,12 +1,12 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# SomaDataIO <a href="https://somalogic.github.io/SomaDataIO"><img src="man/figures/logo.png" align="right" height="138" alt="SomaDataIO website" /></a>
+# SomaDataIO <a href="https://somalogic.github.io/SomaDataIO/"><img src="man/figures/logo.png" align="right" height="138" alt="SomaDataIO website" /></a>
 
 <!-- badges: start -->
 
 ![GitHub
-version](https://img.shields.io/badge/Version-6.0.0.9000-success.svg?style=flat&logo=github)
+version](https://img.shields.io/badge/Version-6.0.0.9001-success.svg?style=flat&logo=github)
 [![CRAN
 status](http://www.r-pkg.org/badges/version/SomaDataIO)](https://cran.r-project.org/package=SomaDataIO)
 [![](https://cranlogs.r-pkg.org/badges/grand-total/SomaDataIO)](https://cran.r-project.org/package=SomaDataIO)
@@ -243,14 +243,14 @@ the most popular [dplyr](https://dplyr.tidyverse.org) and
 ``` r
 # see full complement of `soma_adat` methods
 methods(class = "soma_adat")
-#>  [1] [            [[           [[<-         [<-          ==          
-#>  [6] $            $<-          anti_join    arrange      count       
-#> [11] filter       full_join    getAnalytes  getMeta      group_by    
-#> [16] inner_join   is_seqFormat left_join    Math         median      
-#> [21] merge        mutate       Ops          print        rename      
-#> [26] right_join   row.names<-  sample_frac  sample_n     semi_join   
-#> [31] separate     slice_sample slice        summary      Summary     
-#> [36] transform    ungroup      unite       
+#>  [1] [              [[             [[<-           [<-            ==            
+#>  [6] $              $<-            anti_join      arrange        count         
+#> [11] filter         full_join      getAdatVersion getAnalytes    getMeta       
+#> [16] group_by       inner_join     is_seqFormat   left_join      Math          
+#> [21] median         merge          mutate         Ops            print         
+#> [26] rename         right_join     row.names<-    sample_frac    sample_n      
+#> [31] semi_join      separate       slice_sample   slice          summary       
+#> [36] Summary        transform      ungroup        unite         
 #> see '?methods' for accessing help and source code
 ```
 
