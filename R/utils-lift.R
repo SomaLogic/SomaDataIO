@@ -30,8 +30,9 @@ map_k2ver <- c(
 # bridge: direction of the bridge
 .get_lift_ref <- function(matrx = c("plasma", "serum"), bridge) {
   matrx <- match.arg(matrx)
-  df <- lref[[matrx]][, c("SeqId", bridge)]
-  setNames(df[[2L]], df[[1L]])
+  df <- dplyr::select(lift_master, SeqId, paste0(matrx, "_", bridge))
+  df[is.na(df)] <- 1.0  # 1.0 scale factor for NAs
+  setNames(df[[2L]], df$SeqId)
 }
 
 
