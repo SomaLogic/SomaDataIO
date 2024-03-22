@@ -57,10 +57,10 @@ S3 methods exist for these classes:
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/loading-and-wrangling.html">Loading and Wrangling 'SomaScan'</a>
-    <a class="dropdown-item" href="../articles/safely-rename-df.html">Safely Rename Data Frames</a>
-    <a class="dropdown-item" href="../articles/safely-map-values-join.html">Safely Map Values via dplyr::left_join()</a>
-    <a class="dropdown-item" href="../articles/train-test-setup.html">Common train-test data setups</a>
+    <a class="dropdown-item" href="../articles/tips-loading-and-wrangling.html">Loading and Wrangling 'SomaScan'</a>
+    <a class="dropdown-item" href="../articles/tips-safely-map-values.html">Safely Map Values via dplyr::left_join()</a>
+    <a class="dropdown-item" href="../articles/tips-safely-rename-df.html">Safely Rename Data Frames</a>
+    <a class="dropdown-item" href="../articles/tips-train-test-setup.html">Common train-test data setups</a>
     <a class="dropdown-item" href="../articles/cli-merge-tool.html">Command Line Merge Tool</a>
     <a class="dropdown-item" href="../articles/lifting-and-bridging.html">Lifting and Bridging SomaScan</a>
     <div class="dropdown-divider"></div>
@@ -174,9 +174,7 @@ from the returned value?</p></dd>
     <div class="section level2">
     <h2 id="functions">Functions<a class="anchor" aria-label="anchor" href="#functions"></a></h2>
     
-<ul><li><p><code>getFeatures()</code>: renamed in <span class="pkg">SomaDataIO v5.1.0</span>. Exported
-(with life-cycle warning) to maintain backward compatibility.
-Please adjust your code accordingly.</p></li>
+<ul><li><p><code>getFeatures()</code>: <a href="https://lifecycle.r-lib.org/articles/stages.html#superseded" class="external-link"><img src="figures/lifecycle-superseded.svg" alt="[Superseded]"></a>. Please now use <code>getAnalytes()</code>.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

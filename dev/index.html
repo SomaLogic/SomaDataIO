@@ -66,10 +66,10 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="articles/loading-and-wrangling.html">Loading and Wrangling 'SomaScan'</a>
-    <a class="dropdown-item" href="articles/safely-rename-df.html">Safely Rename Data Frames</a>
-    <a class="dropdown-item" href="articles/safely-map-values-join.html">Safely Map Values via dplyr::left_join()</a>
-    <a class="dropdown-item" href="articles/train-test-setup.html">Common train-test data setups</a>
+    <a class="dropdown-item" href="articles/tips-loading-and-wrangling.html">Loading and Wrangling 'SomaScan'</a>
+    <a class="dropdown-item" href="articles/tips-safely-map-values.html">Safely Map Values via dplyr::left_join()</a>
+    <a class="dropdown-item" href="articles/tips-safely-rename-df.html">Safely Rename Data Frames</a>
+    <a class="dropdown-item" href="articles/tips-train-test-setup.html">Common train-test data setups</a>
     <a class="dropdown-item" href="articles/cli-merge-tool.html">Command Line Merge Tool</a>
     <a class="dropdown-item" href="articles/lifting-and-bridging.html">Lifting and Bridging SomaScan</a>
     <div class="dropdown-divider"></div>
@@ -234,7 +234,7 @@
 <a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a> and <a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a> verb S3 methods for the <code>soma_adat</code> class.</li>
 <li>
 <code><a href="reference/rownames.html">?rownames</a></code> helpers that do not break <code>soma_adat</code> attributes.</li>
-<li>please see vignette <code><a href="articles/loading-and-wrangling.html">vignette("loading-and-wrangling", package = "SomaDataIO")</a></code>
+<li>please see vignette <code><a href="articles/tips-loading-and-wrangling.html">vignette("tips-loading-and-wrangling", package = "SomaDataIO")</a></code>
 </li>
 </ul>
 </li>
@@ -294,7 +294,7 @@
 <span><span class="co">#&gt; #   SampleName &lt;lgl&gt;, SampleNotes &lt;lgl&gt;, AliquotingNotes &lt;lgl&gt;,</span></span>
 <span><span class="co">#&gt; #   SampleDescription &lt;chr&gt;, …</span></span>
 <span><span class="co">#&gt; ════════════════════════════════════════════════════════════════════════════════</span></span></code></pre></div>
-<p>Please see vignette <code><a href="articles/loading-and-wrangling.html">vignette("loading-and-wrangling", package = "SomaDataIO")</a></code> for more details and options.</p>
+<p>Please see vignette <code><a href="articles/tips-loading-and-wrangling.html">vignette("tips-loading-and-wrangling", package = "SomaDataIO")</a></code> for more details and options.</p>
 </div>
 <div class="section level2">
 <h2 id="wrangling">Wrangling<a class="anchor" aria-label="anchor" href="#wrangling"></a>
@@ -303,16 +303,16 @@
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># see full complement of `soma_adat` methods</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/methods.html" class="external-link">methods</a></span><span class="op">(</span>class <span class="op">=</span> <span class="st">"soma_adat"</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  [1] [            [[           [[&lt;-         [&lt;-          ==          </span></span>
-<span><span class="co">#&gt;  [6] $            $&lt;-          anti_join    arrange      count       </span></span>
-<span><span class="co">#&gt; [11] filter       full_join    getAnalytes  getMeta      group_by    </span></span>
-<span><span class="co">#&gt; [16] inner_join   is_seqFormat left_join    Math         median      </span></span>
-<span><span class="co">#&gt; [21] merge        mutate       Ops          print        rename      </span></span>
-<span><span class="co">#&gt; [26] right_join   row.names&lt;-  sample_frac  sample_n     semi_join   </span></span>
-<span><span class="co">#&gt; [31] separate     slice_sample slice        summary      Summary     </span></span>
-<span><span class="co">#&gt; [36] transform    ungroup      unite       </span></span>
+<span><span class="co">#&gt;  [1] [              [[             [[&lt;-           [&lt;-            ==            </span></span>
+<span><span class="co">#&gt;  [6] $              $&lt;-            anti_join      arrange        count         </span></span>
+<span><span class="co">#&gt; [11] filter         full_join      getAdatVersion getAnalytes    getMeta       </span></span>
+<span><span class="co">#&gt; [16] group_by       inner_join     is_seqFormat   left_join      Math          </span></span>
+<span><span class="co">#&gt; [21] median         merge          mutate         Ops            print         </span></span>
+<span><span class="co">#&gt; [26] rename         right_join     row.names&lt;-    sample_frac    sample_n      </span></span>
+<span><span class="co">#&gt; [31] semi_join      separate       slice_sample   slice          summary       </span></span>
+<span><span class="co">#&gt; [36] Summary        transform      ungroup        unite         </span></span>
 <span><span class="co">#&gt; see '?methods' for accessing help and source code</span></span></code></pre></div>
-<p>Please see vignette <code><a href="articles/loading-and-wrangling.html">vignette("loading-and-wrangling", package = "SomaDataIO")</a></code> for more details about available <code>soma_adat</code> methods.</p>
+<p>Please see vignette <code><a href="articles/tips-loading-and-wrangling.html">vignette("tips-loading-and-wrangling", package = "SomaDataIO")</a></code> for more details about available <code>soma_adat</code> methods.</p>
 </div>
 <div class="section level2">
 <h2 id="adat-structure">ADAT structure<a class="anchor" aria-label="anchor" href="#adat-structure"></a>
