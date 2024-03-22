@@ -44,7 +44,7 @@ an R workspace environment. The class of the returned object is
 a \code{soma_adat} object.
 
 \code{\link[=read.adat]{read.adat()}} is \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}.
-For backward compatibility will likely never go away completely,
+For backward compatibility it will likely never go away completely,
 but you are strongly encouraged to shift your code to use \code{\link[=read_adat]{read_adat()}}.
 
 \code{\link[=is.soma_adat]{is.soma_adat()}} checks whether an object is of class \code{soma_adat}.
