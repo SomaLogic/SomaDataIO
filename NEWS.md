@@ -1,7 +1,4 @@
-
-# SomaDataIO (development)
-
-:partying_face: :champagne:
+# SomaDataIO 6.1.0   :partying_face: :champagne:
 
 ### Lifting Code :rocket:
 
