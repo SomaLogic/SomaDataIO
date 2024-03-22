@@ -53,7 +53,7 @@ S3 methods exist for these classes:
 }
 \section{Functions}{
 \itemize{
-\item \code{getFeatures()}: \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}. Please adjust your code accordingly.
+\item \code{getFeatures()}: \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}. Please now use \code{\link[=getAnalytes]{getAnalytes()}}.
 
 }}
 \examples{

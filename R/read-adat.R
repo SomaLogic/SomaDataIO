@@ -131,7 +131,7 @@ read_adat <- function(file, debug = FALSE, verbose = getOption("verbose"), ...) 
 #' Alias to `read.adat`
 #'
 #' [read.adat()] is `r lifecycle::badge("superseded")`.
-#' For backward compatibility will likely never go away completely,
+#' For backward compatibility it will likely never go away completely,
 #' but you are strongly encouraged to shift your code to use [read_adat()].
 #'
 #' @rdname read_adat

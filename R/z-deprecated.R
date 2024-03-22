@@ -1,39 +1,39 @@
 #' Deprecated function(s) of the \pkg{SomaDataIO} package
 #'
 #' @description
+#' These functions have either been
+#' `r lifecycle::badge("superseded")` or
+#' `r lifecycle::badge("deprecated")`
+#' in the current version of \pkg{SomaDataIO} package.
+#' They may eventually be completely removed, so
+#' please re-code your scripts accordingly based on the
+#' suggestions below:
+#'
+#' \tabular{lcr}{
+#'   **Function**       \tab                                    \tab **Now Use** \cr
+#'   [getSomamers()]    \tab `r lifecycle::badge("superseded")` \tab [getAnalytes()] \cr
+#'   [getSomamerData()] \tab `r lifecycle::badge("superseded")` \tab [getAnalyteInfo()] \cr
+#' }
+#'
+#' @details
+#' Some badges you may see in \pkg{SomaDataIO}:
+#'
 #' `r lifecycle::badge("superseded")`
 #'
 #' `r lifecycle::badge("deprecated")`
 #'
 #' `r lifecycle::badge("soft-deprecated")`
 #'
-#' These functions are provided for compatibility with
-#' older versions of the \pkg{SomaDataIO} package.
-#' They may eventually be completely removed, so
-#' please re-code your scripts accordingly based on the
-#' suggestions below:
+#' `r lifecycle::badge("stable")`
 #'
-#' \tabular{lcr}{
-#'   `meltExpressionSet()` \tab now use \tab [pivotExpressionSet()] \cr
-#'   `getSomamers()`       \tab now use \tab [getAnalytes()] \cr
-#'   `getFeatures()`       \tab now use \tab [getAnalytes()] \cr
-#'   `getSomamerData()`    \tab now use \tab [getAnalyteInfo()] \cr
-#'   `getFeatureData()`    \tab now use \tab [getAnalyteInfo()]
-#' }
-#'
-#' @rdname SomaDataIO-deprecated
 #' @name SomaDataIO-deprecated
-#' @author Stu Field
-#' @param ... A pass-through to allow the function to
-#'   trigger the `lifecycle` message.
-#' @aliases meltExpressionSet getSomamers getSomamerData
+#' @aliases getSomamers getSomamerData
 #' @importFrom lifecycle deprecate_warn deprecate_stop
 NULL
 
 
-
 #' @describeIn getAnalyteInfo
-#'   `r lifecycle::badge("superseded")`. Please adjust your code accordingly.
+#'   `r lifecycle::badge("superseded")`. Please now use [getAnalyteInfo()].
 #' @export
 getFeatureData <- function(adat) {
   deprecate_warn("5.1.0", "SomaDataIO::getFeatureData()", "getAnalyteInfo()")
@@ -41,27 +41,28 @@ getFeatureData <- function(adat) {
 }
 
 #' @describeIn getAnalytes
-#'   `r lifecycle::badge("superseded")`. Please adjust your code accordingly.
+#'   `r lifecycle::badge("superseded")`. Please now use [getAnalytes()].
 #' @export
 getFeatures <- function(x, n = FALSE, rm.controls = FALSE) {
   deprecate_warn("5.1.0", "SomaDataIO::getFeatures()", "getAnalytes()")
   getAnalytes(x = x, n = n, rm.controls = rm.controls)
 }
 
-#' @noRd
+#' @describeIn pivotExpressionSet
+#'   `r lifecycle::badge("superseded")`. Please now use [pivotExpressionSet()].
 #' @export
-meltExpressionSet <- function(...) {
+meltExpressionSet <- function(eSet) {
   deprecate_stop("5.0.0", "SomaDataIO::meltExpressionSet()", "pivotExpressionSet()")
 }
 
 #' @noRd
 #' @export
-getSomamers <- function(...) {
+getSomamers <- function(x) {
   deprecate_stop("5.0.0", "SomaDataIO::getSomamers()", "getAnalytes()")
 }
 
 #' @noRd
 #' @export
-getSomamerData <- function(...) {
+getSomamerData <- function(x) {
   deprecate_stop("5.0.0", "SomaDataIO::getSomamerData()", "getAnalyteInfo()")
 }

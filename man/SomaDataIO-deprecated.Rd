@@ -2,35 +2,32 @@
 % Please edit documentation in R/z-deprecated.R
 \name{SomaDataIO-deprecated}
 \alias{SomaDataIO-deprecated}
-\alias{meltExpressionSet}
 \alias{getSomamers}
 \alias{getSomamerData}
 \title{Deprecated function(s) of the \pkg{SomaDataIO} package}
-\arguments{
-\item{...}{A pass-through to allow the function to
-trigger the \code{lifecycle} message.}
-}
 \description{
+These functions have either been
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}} or
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+in the current version of \pkg{SomaDataIO} package.
+They may eventually be completely removed, so
+please re-code your scripts accordingly based on the
+suggestions below:
+
+\tabular{lcr}{
+\strong{Function}       \tab                                    \tab \strong{Now Use} \cr
+\code{\link[=getSomamers]{getSomamers()}}    \tab \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}} \tab \code{\link[=getAnalytes]{getAnalytes()}} \cr
+\code{\link[=getSomamerData]{getSomamerData()}} \tab \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}} \tab \code{\link[=getAnalyteInfo]{getAnalyteInfo()}} \cr
+}
+}
+\details{
+Some badges you may see in \pkg{SomaDataIO}:
+
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
 
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#soft-deprecated}{\figure{lifecycle-soft-deprecated.svg}{options: alt='[Soft-deprecated]'}}}{\strong{[Soft-deprecated]}}
 
-These functions are provided for compatibility with
-older versions of the \pkg{SomaDataIO} package.
-They may eventually be completely removed, so
-please re-code your scripts accordingly based on the
-suggestions below:
-
-\tabular{lcr}{
-\code{meltExpressionSet()} \tab now use \tab \code{\link[=pivotExpressionSet]{pivotExpressionSet()}} \cr
-\code{getSomamers()}       \tab now use \tab \code{\link[=getAnalytes]{getAnalytes()}} \cr
-\code{getFeatures()}       \tab now use \tab \code{\link[=getAnalytes]{getAnalytes()}} \cr
-\code{getSomamerData()}    \tab now use \tab \code{\link[=getAnalyteInfo]{getAnalyteInfo()}} \cr
-\code{getFeatureData()}    \tab now use \tab \code{\link[=getAnalyteInfo]{getAnalyteInfo()}}
-}
-}
-\author{
-Stu Field
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
 }
