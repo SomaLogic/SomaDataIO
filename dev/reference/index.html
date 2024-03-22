@@ -32,6 +32,7 @@
     <a class="dropdown-item" href="../articles/safely-map-values-join.html">Safely Map Values via dplyr::left_join()</a>
     <a class="dropdown-item" href="../articles/train-test-setup.html">Common train-test data setups</a>
     <a class="dropdown-item" href="../articles/cli-merge-tool.html">Command Line Merge Tool</a>
+    <a class="dropdown-item" href="../articles/lifting-and-bridging.html">Lifting and Bridging SomaScan</a>
     <div class="dropdown-divider"></div>
     <a class="dropdown-item" href="../articles/index.html">More articles...</a>
   </div>
@@ -56,7 +57,6 @@
     <h6 class="dropdown-header" data-toc-skip>Standard Process</h6>
     <h6 class="dropdown-header" data-toc-skip>Best Practices</h6>
     <div class="dropdown-divider"></div>
-    <h6 class="dropdown-header" data-toc-skip>Lifting SomaScan</h6>
     <h6 class="dropdown-header" data-toc-skip>Non-Standard Matrices</h6>
     <h6 class="dropdown-header" data-toc-skip>Limits of Detection (LoD)</h6>
   </div>
@@ -188,7 +188,7 @@
       </dl></div><div class="section level2">
       <h2 id="transform-between-somascan-versions">Transform Between SomaScan Versions<a class="anchor" aria-label="anchor" href="#transform-between-somascan-versions"></a></h2>
       
-      <p class="section-desc"></p><p>Functionality required to convert between SomaScan versions, e.g. v4.1 -&gt; v4.0, sometimes referred to as “lifting”.</p>
+      <p class="section-desc"></p><p>Functionality required to bridge between SomaScan versions, e.g. 11k -&gt; 7k, sometimes referred to as “lifting”.</p>
 
       
     </div><div id="" class="section level2">
@@ -198,19 +198,24 @@
 
       <dl><dt>
           
-          <code><a href="read_annotations.html">read_annotations()</a></code> 
-        </dt>
-        <dd>Import a SomaLogic Annotations File</dd>
-      </dl><dl><dt>
-          
           <code><a href="lift_adat.html">lift_adat()</a></code> <code><a href="lift_adat.html">is_lifted()</a></code> 
         </dt>
         <dd>Lift an ADAT Between Assay Versions</dd>
       </dl><dl><dt>
           
+          <code><a href="read_annotations.html">read_annotations()</a></code> 
+        </dt>
+        <dd>Import a SomaLogic Annotations File</dd>
+      </dl><dl><dt>
+          
           <code><a href="transform.html">transform(<i>&lt;soma_adat&gt;</i>)</a></code> 
         </dt>
         <dd>Scale Transform <code>soma_adat</code> Columns/Rows</dd>
+      </dl><dl><dt>
+          
+          <code><a href="adat-helpers.html">getAdatVersion()</a></code> <code><a href="adat-helpers.html">getSomaScanVersion()</a></code> <code><a href="adat-helpers.html">getSignalSpace()</a></code> <code><a href="adat-helpers.html">checkSomaScanVersion()</a></code> <code><a href="adat-helpers.html">getSomaScanLiftCCC()</a></code> 
+        </dt>
+        <dd>Helpers to Extract Information from an ADAT</dd>
       </dl></div><div class="section level2">
       <h2 id="expression-data">Expression Data<a class="anchor" aria-label="anchor" href="#expression-data"></a></h2>
       

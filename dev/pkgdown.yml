@@ -3,6 +3,7 @@ pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   SomaDataIO: SomaDataIO.html
+  lifting-and-bridging: lifting-and-bridging.html
   stat-binary-classification: stat-binary-classification.html
   stat-linear-regression: stat-linear-regression.html
   stat-three-group-analysis-anova: stat-three-group-analysis-anova.html
@@ -12,7 +13,7 @@ articles:
   safely-map-values-join: safely-map-values-join.html
   safely-rename-df: safely-rename-df.html
   train-test-setup: train-test-setup.html
-last_built: 2024-03-18T21:13Z
+last_built: 2024-03-22T16:17Z
 urls:
   reference: https://somalogic.github.io/SomaDataIO/reference
   article: https://somalogic.github.io/SomaDataIO/articles

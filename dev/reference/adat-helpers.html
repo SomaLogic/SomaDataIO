@@ -7,7 +7,7 @@ that generated RFU measurements within a soma_adat object.
 checkSomaScanVersion() determines if the version of
 is a recognized version of SomaScan.
 
-Table of SomaScan Assay versions:
+Table of SomaScan assay versions:
 VersionCommercial NameSize
 V45k5284
 v4.17k7596
@@ -28,7 +28,7 @@ that generated RFU measurements within a soma_adat object.
 checkSomaScanVersion() determines if the version of
 is a recognized version of SomaScan.
 
-Table of SomaScan Assay versions:
+Table of SomaScan assay versions:
 VersionCommercial NameSize
 V45k5284
 v4.17k7596
@@ -74,6 +74,7 @@ CCC metrics see lift_adat().'><meta property="og:image" content="https://somalog
     <a class="dropdown-item" href="../articles/safely-map-values-join.html">Safely Map Values via dplyr::left_join()</a>
     <a class="dropdown-item" href="../articles/train-test-setup.html">Common train-test data setups</a>
     <a class="dropdown-item" href="../articles/cli-merge-tool.html">Command Line Merge Tool</a>
+    <a class="dropdown-item" href="../articles/lifting-and-bridging.html">Lifting and Bridging SomaScan</a>
     <div class="dropdown-divider"></div>
     <a class="dropdown-item" href="../articles/index.html">More articles...</a>
   </div>
@@ -98,7 +99,6 @@ CCC metrics see lift_adat().'><meta property="og:image" content="https://somalog
     <h6 class="dropdown-header" data-toc-skip>Standard Process</h6>
     <h6 class="dropdown-header" data-toc-skip>Best Practices</h6>
     <div class="dropdown-divider"></div>
-    <h6 class="dropdown-header" data-toc-skip>Lifting SomaScan</h6>
     <h6 class="dropdown-header" data-toc-skip>Non-Standard Matrices</h6>
     <h6 class="dropdown-header" data-toc-skip>Limits of Detection (LoD)</h6>
   </div>
@@ -133,10 +133,10 @@ number from a parsed ADAT header.<br><br><code>getSomaScanVersion()</code> deter
 that generated RFU measurements within a <code>soma_adat</code> object.
 <code>checkSomaScanVersion()</code> determines if the version of
 is a recognized version of SomaScan.<br><br>
-Table of SomaScan Assay versions:</p><table class="table table"><tr><td><strong>Version</strong></td><td><strong>Commercial Name</strong></td><td><strong>Size</strong></td></tr><tr><td><code>V4</code></td><td>5k</td><td>5284</td></tr><tr><td><code>v4.1</code></td><td>7k</td><td>7596</td></tr><tr><td><code>v5.0</code></td><td>11k</td><td>11083</td></tr></table><p><br><code>getSignalSpace()</code> determines the current signal space of
+Table of SomaScan assay versions:</p><table class="table table"><tr><td><strong>Version</strong></td><td><strong>Commercial Name</strong></td><td><strong>Size</strong></td></tr><tr><td><code>V4</code></td><td>5k</td><td>5284</td></tr><tr><td><code>v4.1</code></td><td>7k</td><td>7596</td></tr><tr><td><code>v5.0</code></td><td>11k</td><td>11083</td></tr></table><p><br><code>getSignalSpace()</code> determines the current signal space of
 the RFU values, which may differ from the original SomaScan
 signal space if the data have been lifted. See <code><a href="lift_adat.html">lift_adat()</a></code> and
-<code>vignette("lifting-and-bridging", package = "SomaDataIO")</code>.</p>
+<code><a href="../articles/lifting-and-bridging.html">vignette("lifting-and-bridging", package = "SomaDataIO")</a></code>.</p>
 <p><code>getSomaScanLiftCCC()</code> accesses the lifting Concordance Correlation
 Coefficients between various SomaScan versions. For more about
 CCC metrics see <code><a href="lift_adat.html">lift_adat()</a></code>.</p>
