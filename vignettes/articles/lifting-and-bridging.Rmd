@@ -62,7 +62,7 @@ to each analyte RFU measurement (column).
 ### Current SomaScan Versions
 
 | **Version**   | **Commercial Name** | **Size**      |
-|:------------- |:------------------- |:------------- |
+|:------------- |:-------------------:| -------------:|
 |  `V4`         | 5k                  | 5284          |
 |  `v4.1`       | 7k                  | 7596          |
 |  `v5.0`       | 11k                 | 11083         |
