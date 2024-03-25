@@ -62,7 +62,7 @@ check: build
 # requires an internet connection to pull from the SomaLogic-Data repository
 objects:
 	@ echo "Creating package objects ..."
-	@ wget https://raw.githubusercontent.com/SomaLogic/SomaLogic-Data/master/example_data.adat
+	@ wget https://raw.githubusercontent.com/SomaLogic/SomaLogic-Data/main/example_data.adat
 	@ $(RSCRIPT) data-raw/SomaScanObjects.R
 	@ echo "Saving objects to 'data/*.rda' ..."
 	@ $(RM) example_data.adat
