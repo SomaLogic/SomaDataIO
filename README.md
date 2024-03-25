@@ -142,7 +142,7 @@ to run canned examples (or analyses). They can be accessed once
   downloaded directly via:
 
   ``` bash
-  wget https://raw.githubusercontent.com/SomaLogic/SomaLogic-Data/master/example_data.adat
+  wget https://raw.githubusercontent.com/SomaLogic/SomaLogic-Data/main/example_data.adat
   ```
 
   - within `SomaDataIO` it has been replaced by an abbreviated,
