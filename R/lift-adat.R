@@ -7,7 +7,7 @@
 #'
 #' Table of SomaScan assay versions:
 #'
-#' \tabular{lll}{
+#' \tabular{lcr}{
 #'   **Version**  \tab **Commercial Name** \tab **Size** \cr
 #'   `V4`         \tab 5k                  \tab 5284     \cr
 #'   `v4.1`       \tab 7k                  \tab 7596     \cr

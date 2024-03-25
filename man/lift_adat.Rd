@@ -37,7 +37,7 @@ well volumes, and content expansion.
 
 Table of SomaScan assay versions:
 
-\tabular{lll}{
+\tabular{lcr}{
 \strong{Version}  \tab \strong{Commercial Name} \tab \strong{Size} \cr
 \code{V4}         \tab 5k                  \tab 5284     \cr
 \code{v4.1}       \tab 7k                  \tab 7596     \cr
