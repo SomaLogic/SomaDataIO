@@ -85,6 +85,173 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="6.1.0" id="somadataio-610-partying_face-champagne">SomaDataIO 6.1.0 <span class="emoji" data-emoji="partying_face">🥳</span> <span class="emoji" data-emoji="champagne">🍾</span>
+<a class="anchor" aria-label="anchor" href="#somadataio-610-partying_face-champagne"></a></h2>
+<div class="section level4">
+<h4 id="lifting-code-rocket-6-1-0">Lifting Code <span class="emoji" data-emoji="rocket">🚀</span>
+<a class="anchor" aria-label="anchor" href="#lifting-code-rocket-6-1-0"></a></h4>
+<ul><li>Major restructure of <code><a href="../reference/lift_adat.html">lift_adat()</a></code> functionality (<a href="https://github.com/stufield" class="external-link">@stufield</a>, <a href="https://github.com/SomaLogic/SomaDataIO/issues/81" class="external-link">#81</a>, <a href="https://github.com/SomaLogic/SomaDataIO/issues/78" class="external-link">#78</a>)
+<ul><li>
+<code><a href="../reference/lift_adat.html">lift_adat()</a></code> now takes a <code>bridge =</code> argument, replacing the <code>anno.tbl =</code> argument. Lifting is now performed internally for a better (and safer) user experience, without the necessity of an external annotations (Excel) file.</li>
+<li>the majority of this refactoring was internal and the user should not experience a major disruption to the API.</li>
+<li>much improved lifting/bridging documentation (<a href="https://github.com/SomaLogic/SomaDataIO/issues/82" class="external-link">#82</a>)</li>
+</ul></li>
+<li>Added a new lifting and bridging vignette (<a href="https://github.com/stufield" class="external-link">@stufield</a>, <a href="https://github.com/SomaLogic/SomaDataIO/issues/77" class="external-link">#77</a>)
+<ul><li>in addition to the improved lifting documentation this new vignette provides additional context, explanation, clear examples, and lifting guidance.</li>
+</ul></li>
+</ul></div>
+<div class="section level4">
+<h4 id="new-functions-sparkles-6-1-0">New Functions <span class="emoji" data-emoji="sparkles">✨</span>
+<a class="anchor" aria-label="anchor" href="#new-functions-sparkles-6-1-0"></a></h4>
+<ul><li><p><code><a href="../reference/lift_adat.html">is_lifted()</a></code> is new and returns a boolean according to whether the signal space (RFU) has been previously lifted</p></li>
+<li>
+<p>Lifting accessor function for Lin’s CCC values (<a href="https://github.com/SomaLogic/SomaDataIO/issues/88" class="external-link">#88</a>)</p>
+<ul><li>
+<code><a href="../reference/adat-helpers.html">getSomaScanLiftCCC()</a></code> accesses the lifting correlations between SomaScan versions for each analyte</li>
+<li>returns a <code>tibble</code> split by sample matrix (serum or plasma)</li>
+</ul></li>
+<li>
+<p><code><a href="../reference/merge_clin.html">merge_clin()</a></code> is newly exported (<a href="https://github.com/SomaLogic/SomaDataIO/issues/80" class="external-link">#80</a>)</p>
+<ul><li>a thin wrapper that allows users to merge clinical variables to <code>soma_adat</code> objects easily</li>
+<li>previously users had to either use the CLI merge tool or merge in clinical variables themselves with <code>dplyr</code>
+</li>
+</ul></li>
+<li>
+<p>Newly exported ADAT “get**” helpers (<a href="https://github.com/SomaLogic/SomaDataIO/issues/83" class="external-link">#83</a>)</p>
+<ul><li>functions to access properties of ADATs
+<ul><li><code><a href="../reference/adat-helpers.html">getAdatVersion()</a></code></li>
+<li><code><a href="../reference/adat-helpers.html">getSomaScanVersion()</a></code></li>
+<li><code><a href="../reference/adat-helpers.html">getSignalSpace()</a></code></li>
+<li><code><a href="../reference/adat-helpers.html">checkSomaScanVersion()</a></code></li>
+</ul></li>
+<li>
+<code><a href="../reference/adat-helpers.html">getAdatVersion()</a></code> gets a new S3 method (<a href="https://github.com/SomaLogic/SomaDataIO/issues/92" class="external-link">#92</a>)
+<ul><li>this enables passing of different objects</li>
+<li>namely <code>soma_adat</code> or <code>list</code> depending on the situation</li>
+</ul></li>
+</ul></li>
+<li>
+<p>Newly exported functions that were previously internal only:</p>
+<ul><li><code><a href="../reference/addAttributes.html">addAttributes()</a></code></li>
+<li><code><a href="../reference/addClass.html">addClass()</a></code></li>
+<li><code><a href="../reference/cleanNames.html">cleanNames()</a></code></li>
+</ul></li>
+</ul></div>
+<div class="section level4">
+<h4 id="new-vignettes-nerd_face-6-1-0">New Vignettes <span class="emoji" data-emoji="nerd_face">🤓</span>
+<a class="anchor" aria-label="anchor" href="#new-vignettes-nerd_face-6-1-0"></a></h4>
+<ul><li>The package <code>README</code> is now simplified (<a href="https://github.com/SomaLogic/SomaDataIO/issues/35" class="external-link">#35</a>)
+<ul><li>example analysis workflows are now split out into their own vignettes/articles and cross-linked in the <code>README</code>
+</li>
+</ul></li>
+<li>Reorganization and expansion of statistical vignettes (<a href="https://github.com/SomaLogic/SomaDataIO/issues/35" class="external-link">#35</a>, <a href="https://github.com/SomaLogic/SomaDataIO/issues/47" class="external-link">#47</a>)
+<ul><li>moved 3 existing statistical examples from <code>README</code> into their own vignettes</li>
+<li>resulting in four new “Statistical Workflow” vignettes/articles:
+<ul><li>Binary classification via logistic regression</li>
+<li>Linear regression for continuous variables</li>
+<li>Two-group comparison via <em>t</em>-test</li>
+<li>Three-group analysis ANOVA</li>
+</ul></li>
+</ul></li>
+<li>Added new general analysis workflow vignettes
+<ul><li>articles for the pkgdown website have been built out</li>
+<li>new articles on:
+<ul><li>safely mapping values among variables</li>
+<li>safely renaming a data frame</li>
+<li>loading-and-wrangling</li>
+<li>typical train and test data splits</li>
+<li>beginning the FAQs and/or Coming Soon pages</li>
+</ul></li>
+</ul></li>
+<li>Added a new vignette describing how to use the command-line interface merge tool (<a href="https://github.com/SomaLogic/SomaDataIO/issues/45" class="external-link">#45</a>)
+<ul><li>the new CLI merge tool used to add new clinical data to existing ADAT file</li>
+</ul></li>
+</ul></div>
+<div class="section level4">
+<h4 id="updates-and-improvements-hammer-6-1-0">Updates and Improvements <span class="emoji" data-emoji="hammer">🔨</span>
+<a class="anchor" aria-label="anchor" href="#updates-and-improvements-hammer-6-1-0"></a></h4>
+<ul><li>
+<p><code><a href="../reference/loadAdatsAsList.html">collapseAdats()</a></code> better combines <code>HEADER</code> information (<a href="https://github.com/SomaLogic/SomaDataIO/issues/86" class="external-link">#86</a>)</p>
+<ul><li>certain information, e.g. <code>PlateScale</code> and <code>Cal*</code>, are better maintained in the final collapsed ADAT</li>
+<li>other entries are combined by pasting into a single string</li>
+<li>should result in less duplication of superfluous entries and retention of more “useful” <code>HEADER</code> information in the resulting (collapsed) <code>soma_adat</code>
+</li>
+</ul></li>
+<li><p>Update <code><a href="../reference/read_annotations.html">read_annotations()</a></code> with <code>11k</code> content (<a href="https://github.com/SomaLogic/SomaDataIO/issues/85" class="external-link">#85</a>)</p></li>
+<li>
+<p>Update <code><a href="../reference/transform.html">transform()</a></code> and <code>scaleAnalytes()</code></p>
+<ul><li>
+<code>scaleAnalytes()</code> (internal) now skips missing references and is much more like a “step” in the <code>recipes</code> package</li>
+<li>
+<code><a href="../reference/transform.html">transform()</a></code> gets edge case protection with <code>drop = FALSE</code> in case a single-analyte <code>soma_adat</code> is scaled.</li>
+</ul></li>
+<li>
+<p>New <code><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names()</a></code> S3 method support for <code>soma_adat</code> class</p>
+<ul><li>dispatched on calls to <code>rownmaes()</code>
+</li>
+<li>rather than calling <code><a href="https://rdrr.io/r/base/UseMethod.html" class="external-link">NextMethod()</a></code> which normally would invoke <code>data.frame</code>, we now force the <code>data.frame</code> method in case there are <code>tbl_df</code> or <code>grouped_df</code> classes present that would be dispatched. Those are bypassed in favor of the <code>data.frame</code> because <code>tbl_df</code> 1) can nuke the attributes, 2) triggers a warning about adding rownames to a <code>tibble</code>.</li>
+</ul></li>
+<li>
+<p>New <code>grouped_df</code> S3 print support for the grouped <code>soma_adat</code></p>
+<ul><li>now displays Grouping information from a call to the S3 print method for <code>soma_adat</code> class</li>
+</ul></li>
+<li>
+<p>New <code>grouped_df</code> S3 method support for <code>soma_adat</code> class (<a href="https://github.com/SomaLogic/SomaDataIO/issues/66" class="external-link">#66</a>)</p>
+<ul><li>
+<code>grouped_df</code> data objects previously unsupported and were interfering with downstream S3 methods for <code>dplyr</code> verbs once <code><a href="https://rdrr.io/r/base/UseMethod.html" class="external-link">NextMethod()</a></code> was called</li>
+<li>this support now ensures that the group methods are maintained, as well as the <code>soma_adat</code> class itself (and most importantly, with its attributes intact)</li>
+</ul></li>
+<li>
+<p><code>tidyr::separate.soma_adat()</code> S3 method was simplified (<a href="https://github.com/SomaLogic/SomaDataIO/issues/72" class="external-link">#72</a>)</p>
+<ul><li>now uses <code>%||%</code> helper internally</li>
+<li>expanded error messages inside <code><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot()</a></code> to be more informative</li>
+</ul></li>
+<li>
+<p><code><a href="../reference/is_intact_attr.html">is_intact_attr()</a></code> is now <em>much</em> quieter, signaling only when called indirectly (<a href="https://github.com/SomaLogic/SomaDataIO/issues/71" class="external-link">#71</a>)</p>
+<ul><li>new conditional logic to silences signaling messages when called from within another function (indirectly)</li>
+<li>these previously lead to confusing messages when they appear in wrappers, where <code><a href="../reference/is_intact_attr.html">is_intact_attr()</a></code> can be, sometimes deeply, nested in the call stack</li>
+</ul></li>
+<li>
+<p>Development and improvements to the <code>pkgdown</code> website</p>
+<ul><li>added new links and improved clarity in YAML</li>
+<li>added new logo at footer</li>
+<li>restyled side bar for easier hyperlinking and getting help</li>
+<li>clicking on the SomaLogic logo in the GitHub <code>README</code> now links to the <code>pkgdown</code> website</li>
+<li>new “Coming Soon” drop-down section in the website header to let users know about active progress (but not yet ready for external publication)</li>
+</ul></li>
+<li>
+<p><code>SomaDataIO</code> no longer depends on <code>desc</code> package</p>
+<ul><li>to generate the <code>README.md</code>
+</li>
+</ul></li>
+</ul></div>
+<div class="section level4">
+<h4 id="internal-construction-6-1-0">Internal <span class="emoji" data-emoji="construction">🚧</span>
+<a class="anchor" aria-label="anchor" href="#internal-construction-6-1-0"></a></h4>
+<ul><li>Internal rowname helpers were upgraded
+<ul><li>they now use internal cross-functions as originally intended to avoid redundancy, efficiency, and improved debugging</li>
+</ul></li>
+<li>
+<code>sysdata.rda</code> no longer contains non-exported functions (<a href="https://github.com/SomaLogic/SomaDataIO/issues/59" class="external-link">#59</a>)
+<ul><li>new internal helper functions:
+<ul><li><code>convertColMeta()</code></li>
+<li><code>genRowNames()</code></li>
+<li><code>parseCheck()</code></li>
+<li><code>syncColMeta()</code></li>
+<li><code>scaleAnalytes()</code></li>
+</ul></li>
+</ul></li>
+<li>Bug-fix for corner-case writing a single-analyte ADAT (<a href="https://github.com/SomaLogic/SomaDataIO/issues/51" class="external-link">#51</a>)
+<ul><li>RFU values are rounded to 1 decimal place when written by <code><a href="../reference/write_adat.html">write_adat()</a></code>, via a call to <code><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply()</a></code>, which expects a 2-dim object when replacing those values.</li>
+<li>
+<code><a href="../reference/write_adat.html">write_adat()</a></code> no longer uses <code><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply()</a></code> and instead converts the entire RFU data frame to a matrix (maintains original dimensions), and use vectorized format conversion via <code><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf()</a></code>
+</li>
+<li>in theory this should be faster because <code><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf()</a></code> is only called once on a long vector, rather than 1000s of times on shorter vectors (inside <code><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply()</a></code>).</li>
+</ul></li>
+<li>Fixed missing closing parenthesis in <code>SomaScanObjects.R</code> (thanks <a href="https://github.com/Hijinx725" class="external-link">@Hijinx725</a>!, <a href="https://github.com/SomaLogic/SomaDataIO/issues/40" class="external-link">#40</a>)</li>
+</ul></div>
+</div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="6.0.0" id="somadataio-600-tada">SomaDataIO 6.0.0 <span class="emoji" data-emoji="tada">🎉</span>
 <a class="anchor" aria-label="anchor" href="#somadataio-600-tada"></a></h2><p class="text-muted">CRAN release: 2023-03-15</p>
 <ul><li>We are now on CRAN! <span class="emoji" data-emoji="partying_face">🥳</span>

@@ -6,13 +6,11 @@ getSomaScanVersion() determines the original SomaScan assay version
 that generated RFU measurements within a soma_adat object.
 checkSomaScanVersion() determines if the version of
 is a recognized version of SomaScan.
-
 Table of SomaScan assay versions:
 VersionCommercial NameSize
 V45k5284
 v4.17k7596
 v5.011k11083
-
 
 getSignalSpace() determines the current signal space of
 the RFU values, which may differ from the original SomaScan
@@ -27,13 +25,11 @@ getSomaScanVersion() determines the original SomaScan assay version
 that generated RFU measurements within a soma_adat object.
 checkSomaScanVersion() determines if the version of
 is a recognized version of SomaScan.
-
 Table of SomaScan assay versions:
 VersionCommercial NameSize
 V45k5284
 v4.17k7596
 v5.011k11083
-
 
 getSignalSpace() determines the current signal space of
 the RFU values, which may differ from the original SomaScan
@@ -128,12 +124,14 @@ CCC metrics see lift_adat().'><meta property="og:image" content="https://somalog
     </div>
 
     <div class="ref-description section level2">
-    <p>Retrieve elements of the <code>HEADER</code> attribute of a <code>soma_adat</code> object:<br><br><code>getAdatVersion()</code> determines the the ADAT version
-number from a parsed ADAT header.<br><br><code>getSomaScanVersion()</code> determines the original SomaScan assay version
-that generated RFU measurements within a <code>soma_adat</code> object.
-<code>checkSomaScanVersion()</code> determines if the version of
-is a recognized version of SomaScan.<br><br>
-Table of SomaScan assay versions:</p><table class="table table"><tr><td><strong>Version</strong></td><td><strong>Commercial Name</strong></td><td><strong>Size</strong></td></tr><tr><td><code>V4</code></td><td>5k</td><td>5284</td></tr><tr><td><code>v4.1</code></td><td>7k</td><td>7596</td></tr><tr><td><code>v5.0</code></td><td>11k</td><td>11083</td></tr></table><p><br><code>getSignalSpace()</code> determines the current signal space of
+    <p>Retrieve elements of the <code>HEADER</code> attribute of a <code>soma_adat</code> object:</p>
+<p><code>getAdatVersion()</code> determines the the ADAT version
+number from a parsed ADAT header.</p>
+<p><code>getSomaScanVersion()</code> determines the original SomaScan assay version
+that generated RFU measurements within a <code>soma_adat</code> object.</p>
+<p><code>checkSomaScanVersion()</code> determines if the version of
+is a recognized version of SomaScan.</p>
+<p>Table of SomaScan assay versions:</p><table class="table table"><tr><td><strong>Version</strong></td><td><strong>Commercial Name</strong></td><td><strong>Size</strong></td></tr><tr><td><code>V4</code></td><td>5k</td><td>5284</td></tr><tr><td><code>v4.1</code></td><td>7k</td><td>7596</td></tr><tr><td><code>v5.0</code></td><td>11k</td><td>11083</td></tr></table><p><code>getSignalSpace()</code> determines the current signal space of
 the RFU values, which may differ from the original SomaScan
 signal space if the data have been lifted. See <code><a href="lift_adat.html">lift_adat()</a></code> and
 <code><a href="../articles/lifting-and-bridging.html">vignette("lifting-and-bridging", package = "SomaDataIO")</a></code>.</p>
