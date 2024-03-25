@@ -2,8 +2,9 @@
 #'
 #' @description
 #' The SomaScan platform continually improves its technical processes
-#' between assay versions; from changing reagents, liquid handling equipment,
-#' well volumes, and content expansion.
+#' between assay versions. The primary change of interest is content expansion,
+#' and other protocol changes may be implemented including: changing reagents,
+#' liquid handling equipment, and well volumes.
 #'
 #' Table of SomaScan assay versions:
 #'
