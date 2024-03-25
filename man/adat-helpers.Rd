@@ -45,22 +45,24 @@ typically created using \code{\link[=read_adat]{read_adat()}}.}
 \code{serum} or \code{plasma} CCC between various versions of the SomaScan assay.}
 }
 \description{
-Retrieve elements of the \code{HEADER} attribute of a \code{soma_adat} object:\cr\cr
+Retrieve elements of the \code{HEADER} attribute of a \code{soma_adat} object:
+
 \code{\link[=getAdatVersion]{getAdatVersion()}} determines the the ADAT version
-number from a parsed ADAT header.\cr\cr
+number from a parsed ADAT header.
+
 \code{\link[=getSomaScanVersion]{getSomaScanVersion()}} determines the original SomaScan assay version
 that generated RFU measurements within a \code{soma_adat} object.
+
 \code{\link[=checkSomaScanVersion]{checkSomaScanVersion()}} determines if the version of
-is a recognized version of SomaScan.\cr
-\cr
+is a recognized version of SomaScan.
+
 Table of SomaScan assay versions:
-\tabular{lll}{
+\tabular{lcr}{
 \strong{Version}  \tab \strong{Commercial Name} \tab \strong{Size} \cr
 \code{V4}         \tab 5k                  \tab 5284     \cr
 \code{v4.1}       \tab 7k                  \tab 7596     \cr
 \code{v5.0}       \tab 11k                 \tab 11083    \cr
 }
-\cr
 \code{\link[=getSignalSpace]{getSignalSpace()}} determines the current signal space of
 the RFU values, which may differ from the original SomaScan
 signal space if the data have been lifted. See \code{\link[=lift_adat]{lift_adat()}} and

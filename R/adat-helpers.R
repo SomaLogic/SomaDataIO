@@ -1,21 +1,24 @@
 #' Helpers to Extract Information from an ADAT
 #'
-#' Retrieve elements of the `HEADER` attribute of a `soma_adat` object:\cr\cr
+#' @description
+#' Retrieve elements of the `HEADER` attribute of a `soma_adat` object:
+#'
 #' [getAdatVersion()] determines the the ADAT version
-#'   number from a parsed ADAT header.\cr\cr
+#'   number from a parsed ADAT header.
+#'
 #' [getSomaScanVersion()] determines the original SomaScan assay version
 #'   that generated RFU measurements within a `soma_adat` object.
+#'
 #' [checkSomaScanVersion()] determines if the version of
-#'   is a recognized version of SomaScan.\cr
-#' \cr
+#'   is a recognized version of SomaScan.
+#'
 #' Table of SomaScan assay versions:
-#' \tabular{lll}{
+#' \tabular{lcr}{
 #'   **Version**  \tab **Commercial Name** \tab **Size** \cr
 #'   `V4`         \tab 5k                  \tab 5284     \cr
 #'   `v4.1`       \tab 7k                  \tab 7596     \cr
 #'   `v5.0`       \tab 11k                 \tab 11083    \cr
 #' }
-#' \cr
 #' [getSignalSpace()] determines the current signal space of
 #' the RFU values, which may differ from the original SomaScan
 #' signal space if the data have been lifted. See [lift_adat()] and
