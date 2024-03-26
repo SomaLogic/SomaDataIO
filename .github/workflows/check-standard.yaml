@@ -36,13 +36,9 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          #- {os: macos-latest, r: 'release'}
+          - {os: macos-latest, r: 'release'}
           - {os: windows-latest, r: 'release'}
-          - {os: ubuntu-latest, r: 'release'}
-          #- {os: ubuntu-latest, r: 'oldrel-1'}
-          # comment out the 'devel' testing for odd-numbered BioConductor versions, e.g. v3.15
-          #   this typically is the case between April-October
-          #- {os: ubuntu-latest, r: 'devel', http-user-agent: 'release'}
+          #- {os: ubuntu-latest, r: 'release'}  # was taking too long to build
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
