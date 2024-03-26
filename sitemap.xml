@@ -4,6 +4,9 @@
     <loc>https://somalogic.github.io/SomaDataIO/404.html</loc>
   </url>
   <url>
+    <loc>https://somalogic.github.io/SomaDataIO/CONTRIBUTING.html</loc>
+  </url>
+  <url>
     <loc>https://somalogic.github.io/SomaDataIO/LICENSE-text.html</loc>
   </url>
   <url>
@@ -25,13 +28,7 @@
     <loc>https://somalogic.github.io/SomaDataIO/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://somalogic.github.io/SomaDataIO/articles/loading-and-wrangling.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/articles/safely-map-values-join.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/articles/safely-rename-df.html</loc>
+    <loc>https://somalogic.github.io/SomaDataIO/articles/lifting-and-bridging.html</loc>
   </url>
   <url>
     <loc>https://somalogic.github.io/SomaDataIO/articles/stat-binary-classification.html</loc>
@@ -46,7 +43,16 @@
     <loc>https://somalogic.github.io/SomaDataIO/articles/stat-two-group-comparison.html</loc>
   </url>
   <url>
-    <loc>https://somalogic.github.io/SomaDataIO/articles/train-test-setup.html</loc>
+    <loc>https://somalogic.github.io/SomaDataIO/articles/tips-loading-and-wrangling.html</loc>
+  </url>
+  <url>
+    <loc>https://somalogic.github.io/SomaDataIO/articles/tips-safely-map-values.html</loc>
+  </url>
+  <url>
+    <loc>https://somalogic.github.io/SomaDataIO/articles/tips-safely-rename-df.html</loc>
+  </url>
+  <url>
+    <loc>https://somalogic.github.io/SomaDataIO/articles/tips-train-test-setup.html</loc>
   </url>
   <url>
     <loc>https://somalogic.github.io/SomaDataIO/authors.html</loc>
@@ -76,6 +82,9 @@
     <loc>https://somalogic.github.io/SomaDataIO/reference/SomaScanObjects.html</loc>
   </url>
   <url>
+    <loc>https://somalogic.github.io/SomaDataIO/reference/adat-helpers.html</loc>
+  </url>
+  <url>
     <loc>https://somalogic.github.io/SomaDataIO/reference/adat2eSet.html</loc>
   </url>
   <url>
@@ -89,9 +98,6 @@
   </url>
   <url>
     <loc>https://somalogic.github.io/SomaDataIO/reference/diffAdats.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/reference/getAdatVersion.html</loc>
   </url>
   <url>
     <loc>https://somalogic.github.io/SomaDataIO/reference/getAnalyteInfo.html</loc>
@@ -116,6 +122,12 @@
   </url>
   <url>
     <loc>https://somalogic.github.io/SomaDataIO/reference/loadAdatsAsList.html</loc>
+  </url>
+  <url>
+    <loc>https://somalogic.github.io/SomaDataIO/reference/merge_clin.html</loc>
+  </url>
+  <url>
+    <loc>https://somalogic.github.io/SomaDataIO/reference/params.html</loc>
   </url>
   <url>
     <loc>https://somalogic.github.io/SomaDataIO/reference/parseHeader.html</loc>
