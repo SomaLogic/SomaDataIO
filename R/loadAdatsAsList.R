@@ -82,16 +82,32 @@ loadAdatsAsList <- function(files, collapse = FALSE, verbose = interactive(), ..
 #' @export
 collapseAdats <- function(x) {
   is_adat <- vapply(x, is.soma_adat, NA)
-  stopifnot("All entries in list `x` must be `soma_adat` class." = all(is_adat))
+  stopifnot(
+    "All entries in 'list of adats' must be `soma_adat` class." = all(is_adat)
+  )
   common <- Reduce(intersect, lapply(x, names))   # common df names
-  # rm names so rownames are re-constructed via `rbind()`
-  new <- lapply(unname(x), function(.x) dplyr::select(.x, all_of(common)))
-  new <- do.call(rbind, new)
-  new_header <- lapply(x, attr, which = "Header.Meta") |>
-    lapply(`[[`, "HEADER") |>
+  new <- lapply(x, dplyr::select, all_of(common))
+  header_list <- lapply(new, attr, which = "Header.Meta")
+  ids <- vapply(header_list, function(.x) {
+    hd <- .x$HEADER
+    # chain ExpId search ending with file name
+    hd$ExpIds %||% hd$Title %||% sub("[.]adat$", "", .x$TABLE_BEGIN) # strip ext
+  }, "") |> cleanNames()
+
+  # must do this here, on 'new' not 'x', but before the `do.call()`
+  new_colmeta <- .mapply(list(new, ids), FUN = function(.x, .y) {
+    structure(attr(.x, "Col.Meta"), expid_chr = .y)
+  }, MoreArgs = NULL) |> Reduce(f = combine_colmeta)
+
+  new_header <- lapply(header_list, `[[`, "HEADER") |>
     Reduce(f = combine_header)
   new_header$CollapsedAdats <- paste(names(x), collapse = ", ")
+
+  # unname so rownames are re-constructed via `rbind()`
+  new <- do.call(rbind, unname(new))
+
   attributes(new)$Header.Meta$HEADER <- new_header
+  attributes(new)$Col.Meta <- new_colmeta
   nms <- names(attributes(x[[1L]]))         # attr order of 1st adat
   attributes(new) <- attributes(new)[nms]   # orig order
   new
@@ -125,4 +141,25 @@ paste_xy <- function(x, y, sep = ", ", ...) {
   x <- paste(x, y, sep = sep, ...)
   attributes(x) <- atts
   x
+}
+
+# helper to smartly combine Col.Meta info
+# from multiple ADATs; primarily Calibration SFs and ColCheck
+#' @importFrom dplyr any_of all_of
+#' @noRd
+combine_colmeta <- function(x, y) {
+  if ( !setequal(x$SeqId, y$SeqId) ) {
+    # this should never happen
+    # `dplyr::select()` on the common intersect has already happened
+    # and should update the Col.Meta accordingly
+    warning("Unable to fully resolve all Col.Meta SeqIds during collapse.",
+            call. = FALSE)
+    return(x)
+  }
+  id_y <- paste0("_", attr(y, "expid_chr"))
+  cal_names <- grep("^Cal[._]", names(y), value = TRUE) # get CalSFs
+  .y <- dplyr::select(y, SeqId, all_of(cal_names),  # select and rename
+                      any_of(setNames("ColCheck", paste0("ColCheck", id_y))))
+  # suffix 'y' in case `cal_names` is duplicated
+  dplyr::left_join(x, .y, by = "SeqId", suffix = c("", id_y))
 }
