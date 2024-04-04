@@ -116,22 +116,11 @@ ver_dict <- list(
                                     skip = 8L,
                                     rows = 5293,
                                     cols = 43),
-  # 11k
-  # SomaScan_V5.0_11K_Annotated_Content_20240214
-  "SL-906-rev3-2024-02" = list(sha = "44352af60dc0152d65f3dad1f0c54abc",
-                               col_serum  = c("Serum Scalar v5.0 11K to v4.1 7K",
-                                              "Serum Scalar v5.0 11K to v4.0 5K"),
-                               col_plasma = c("Plasma Scalar v5.0 11K to v4.1 7K",
-                                              "Plasma Scalar v5.0 11K to v4.0 5K"),
-                               which_serum  = c(43, 47),
-                               which_plasma = c(45, 49),
-                               skip = 8L,
-                               rows = 11092,
-                               cols = 51),
 
-  # 7k
-  # SomaScan_V4.1_7K_Annotated_Content_20240214
-  "SL-00000571-rev7-2024-02" = list(sha = "ab6ecbce3565c2c6049c0150f653f51b",
+  # source 7k ----
+  #   https://menu.somalogic.com
+  #   SomaScan_7K_Annotated_Content.xlsx
+  "SL-00000571-rev7-2024-02" = list(sha = "0cf00a6afdc1a5cf1f7b8e16cffedccc",
                                     col_serum  = c("Serum Scalar v4.1 7K to v4.0 5K",
                                                    "Serum Scalar v4.1 7K to v5.0 11K"),
                                     col_plasma = c("Plasma Scalar v4.1 7K to v4.0 5K",
@@ -140,18 +129,18 @@ ver_dict <- list(
                                     which_plasma = c(45, 49),
                                     skip = 8L,
                                     rows = 7605,
-                                    cols = 50)
-  # 5k
-  # SomaScan_V4.0_5K_Annotated_Content_20240216.xlsx
-  # (may not be released)
-  # "SL-00000246-revnotreleased-2024-02" = list(sha = "xxxxxx",
-  #                                   col_serum  = c("Serum Scalar v4.0 5K to v4.1 7K",
-  #                                                  "Serum Scalar v4.0 5K to v5.0 11K"),
-  #                                   col_plasma = c("Plasma Scalar v4.0 5K to v4.1 7K",
-  #                                                  "Plasma Scalar v4.0 5K to v5.0 11K"),
-  #                                   which_serum  = c(43, 47),
-  #                                   which_plasma = c(45, 49),
-  #                                   skip = 8L,
-  #                                   rows = 5293,
-  #                                   cols = 50)
+                                    cols = 50),
+  # source 11k ----
+  #   https://menu.somalogic.com
+  #   SomaScan_11K_Annotated_Content.xlsx
+  "SL-00000906-rev4-2024-03" = list(sha = "f4f42681780a03d2972215f355748064",
+                                    col_serum  = c("Serum Scalar v5.0 11K to v4.1 7K",
+                                                   "Serum Scalar v5.0 11K to v4.0 5K"),
+                                    col_plasma = c("Plasma Scalar v5.0 11K to v4.1 7K",
+                                                   "Plasma Scalar v5.0 11K to v4.0 5K"),
+                                    which_serum  = c(43, 47),
+                                    which_plasma = c(45, 49),
+                                    skip = 8L,
+                                    rows = 11092,
+                                    cols = 51)
 )
