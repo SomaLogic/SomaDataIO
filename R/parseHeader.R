@@ -19,7 +19,15 @@
 #' f <- system.file("extdata", "example_data10.adat",
 #'                  package = "SomaDataIO", mustWork = TRUE)
 #' header <- parseHeader(f)
-#' header
+#' names(header)
+#'
+#' header$Header.Meta
+#'
+#' header$file_specs
+#'
+#' header$row_meta
+#'
+#' head(as.data.frame(header$Col.Meta))
 #' @importFrom stats setNames
 #' @importFrom tibble enframe
 #' @export
