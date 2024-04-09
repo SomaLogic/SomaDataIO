@@ -28,7 +28,15 @@ Parses the header section of an ADAT file.
 f <- system.file("extdata", "example_data10.adat",
                  package = "SomaDataIO", mustWork = TRUE)
 header <- parseHeader(f)
-header
+names(header)
+
+header$Header.Meta
+
+header$file_specs
+
+header$row_meta
+
+head(as.data.frame(header$Col.Meta))
 }
 \seealso{
 Other IO: 
