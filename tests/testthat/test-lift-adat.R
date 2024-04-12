@@ -74,12 +74,13 @@ test_that("the lift_master reference object is correctly generated", {
   expect_equal(dim(lift_master), c(11083L, 19L))
   expect_named(
     lift_master,
-    c("SeqId", "serum_11k_to_7k_ccc", "plasma_11k_to_7k_ccc",
-      "serum_11k_to_5k_ccc", "plasma_11k_to_5k_ccc", "serum_11k_to_7k",
-      "plasma_11k_to_7k", "serum_11k_to_5k", "plasma_11k_to_5k",
-      "serum_5k_to_11k", "plasma_5k_to_11k", "serum_7k_to_5k_ccc",
-      "plasma_7k_to_5k_ccc", "serum_7k_to_5k", "plasma_7k_to_5k",
-      "serum_7k_to_11k", "plasma_7k_to_11k", "serum_5k_to_7k", "plasma_5k_to_7k")
+    c("SeqId", "plasma_11k_to_5k", "plasma_11k_to_5k_ccc",
+      "plasma_11k_to_7k", "plasma_11k_to_7k_ccc", "plasma_5k_to_11k",
+      "plasma_5k_to_7k", "plasma_7k_to_11k", "plasma_7k_to_5k",
+      "plasma_7k_to_5k_ccc", "serum_11k_to_5k", "serum_11k_to_5k_ccc",
+      "serum_11k_to_7k", "serum_11k_to_7k_ccc", "serum_5k_to_11k",
+      "serum_5k_to_7k", "serum_7k_to_11k", "serum_7k_to_5k",
+      "serum_7k_to_5k_ccc")
   )
   # all are SeqIds
   expect_true(all(is.apt(lift_master$SeqId)))
