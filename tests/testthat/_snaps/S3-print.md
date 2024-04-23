@@ -1,4 +1,4 @@
-# `soma_adat` S3 print method returns known output
+# `soma_adat` S3 print method returns expected default output
 
     == SomaScan Data ===============================================================
          SomaScan version     V4 (5k)
@@ -35,7 +35,7 @@
     #   SampleDescription <chr>, ...
     ================================================================================
 
----
+# `soma_adat` S3 print method returns expected head output
 
     == SomaScan Data ===============================================================
          SomaScan version     V4 (5k)
@@ -67,7 +67,7 @@
     #   SampleDescription <chr>, ...
     ================================================================================
 
----
+# `soma_adat` S3 print method returns expected `show_header = TRUE` output
 
     == SomaScan Data ===============================================================
          SomaScan version     V4 (5k)
@@ -105,7 +105,7 @@
     # i 20 more rows
     ================================================================================
 
----
+# `soma_adat` S3 print method returns expected `grouped_df` output
 
     == SomaScan Data ===============================================================
          SomaScan version     V4 (5k)
@@ -143,7 +143,7 @@
     #   AssayNotes <lgl>, ...
     ================================================================================
 
----
+# `soma_adat` S3 print method returns expected broken attributes output
 
     == SomaScan Data ===============================================================
          SomaScan version     unknown (NA)

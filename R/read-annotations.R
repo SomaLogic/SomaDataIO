@@ -48,7 +48,7 @@ read_annotations <- function(file) {
   # file modified
   if ( !identical(md5_file, md5_true) ) {
     warning(
-      "Checksum mismatch.", .value(basename(file)), " may have been modified.",
+      "Checksum mismatch. ", .value(basename(file)), " may have been modified.",
       call. = FALSE
     )
   }

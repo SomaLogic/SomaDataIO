@@ -25,10 +25,12 @@
 pivotExpressionSet <- function(eSet) {
 
   if ( !requireNamespace("Biobase", quietly = TRUE) ) {
+    # nocov start
     stop(
       "The `Biobase` package is required to use this function.\n",
       "See ?adat2eSet for installation instructions.", call. = FALSE
     )
+    # nocov end
   }
 
   # samples (rows) x features (cols); move rn -> 1st column

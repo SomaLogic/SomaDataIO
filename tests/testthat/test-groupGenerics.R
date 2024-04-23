@@ -178,3 +178,38 @@ test_that("the `Summary()` group generic generates the expected output", {
   expect_equal(max(adat, 4906), 4906)
   expect_equal(max(adat, Inf), Inf)
 })
+
+test_that("error conditions generate the expected output for deprecated `soma.adat`", {
+  # old `soma.adat` class
+  adat2 <- structure(adat, class = c("soma.adat", "data.frame"))
+  catfile <- "msg.txt"
+  file.create(catfile)
+  expect_error(
+    capture.output(log10(adat2), file = catfile),
+    paste("`Math.soma.adat()` was deprecated in SomaDataIO (2019-01-31) and",
+          "is now defunct"),
+    fixed = TRUE
+  )
+  # test the `cat()` message
+  expect_snapshot(readLines(catfile))
+  unlink(catfile, force = TRUE)
+})
+
+test_that("error conditions are triggered for non-numerics in RFU block", {
+  tmp <- mock_adat()
+  tmp$seq.1234.56 <- "foo"
+
+  # Math
+  expect_error(
+    log10(tmp),
+    paste(
+      "Non-numeric variable(s) in `soma_adat` object where RFU values should be:",
+      "'seq.1234.56'"),
+    fixed = TRUE
+  )
+
+  # Summary
+  #expect_error(
+  #  range(tmp)
+  #)
+})

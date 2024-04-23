@@ -217,7 +217,7 @@ catchDims <- function(x, y) {
     cli_rule(cr_bold("Trailing 2 RFU features"), line_col = "magenta")
   )
   nc <- ncol(rfu)
-  print(rfu[1:6, (nc - 1):nc])
+  print(head(as_tibble(rfu[, (nc - 1L):nc])))
   writeLines(cli_rule(line_col = "green", line = 2))
   invisible(NULL)
 }

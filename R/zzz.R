@@ -4,6 +4,7 @@
 .onLoad <- function(libname, pkgname) {
   # this is to make the active binding switch between
   # UTF-8 and ASCII symbol encodings
+  # nocov start
   `%enc%` <- function(utf, ascii) {
     if ( getOption("cli.unicode", TRUE) && l10n_info()$`UTF-8` ) {
       utf
@@ -17,6 +18,7 @@
   makeActiveBinding("symb_warn", function() "\u26A0" %enc% "!", pkgenv)
   makeActiveBinding("symb_point", function() "\u276F" %enc% ">", pkgenv)
   makeActiveBinding("symb_info", function() "\u2139" %enc% "i", pkgenv)
+  # nocov end
 }
 
 .onAttach <- function(libname, pkgname) {

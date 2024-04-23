@@ -197,11 +197,11 @@ Summary.soma_adat <- function(..., na.rm = FALSE) {
 #' @export
 Math.soma.adat <- function(x, ...) {
   .msg <- paste(
-    "The", .value("soma.adat"), "class is now", .value("soma_adat"),
-    "\nPlease either:\n",
+    "The", .value("soma.adat"), "class is now", .value("soma_adat"), ".\n",
+    "Please either:\n",
     "  1) Re-class with x <- addClass(x, 'soma_adat')\n",
     "  2) Re-call 'x <- read_adat(file)' to pick up the new 'soma_adat' class.\n"
   )
   cat(.msg)
-  deprecate_stop("2019-01-31", "SomaDataIO::Math.soma.adat()")
+  deprecate_stop("(2019-01-31)", "SomaDataIO::Math.soma.adat()")
 }

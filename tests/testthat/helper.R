@@ -76,3 +76,12 @@ with_interactive <- function(lgl, code) {
   })
   force(code)   # execute code in new state
 }
+
+# temporarily modify internal pkg object
+# for testing edge cases
+with_pkg_object <- function(new, code, obj = "ver_dict") {
+  old <- getFromNamespace(obj, ns = "SomaDataIO") # save the old obj
+  assignInNamespace(obj, new, ns = "SomaDataIO")
+  on.exit(assignInNamespace(obj, old, ns = "SomaDataIO"))
+  force(code)
+}

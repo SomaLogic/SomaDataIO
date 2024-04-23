@@ -32,10 +32,12 @@
 adat2eSet <- function(adat) {
 
   if ( !requireNamespace("Biobase", quietly = TRUE) ) {
+    # nocov start
     stop(
       "The `Biobase` package is required to use this function.\n",
       "See ?adat2eSet for installation instructions.", call. = FALSE
     )
+    # nocov end
   }
 
   stopifnot("`adat` must have intact attributes." = is_intact_attr(adat))

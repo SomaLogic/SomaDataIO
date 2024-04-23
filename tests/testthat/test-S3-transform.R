@@ -19,13 +19,21 @@ df <- data.frame(
   sample      = paste0("sample_", 1:3),
   seq.1234.56 = c(1, 2, 3),
   seq.9999.88 = c(4, 5, 6) * 10
-  ) %>%  # `soma_adat` to invoke S3 method dispatch
+  ) |>  # `soma_adat` to invoke S3 method dispatch
   addClass("soma_adat")
 
-test_that("transform() dispatches the soma_adat method and correctly scales", {
+test_that("`transform()` dispatches the `soma_adat` method and correctly scales (cols)", {
   trans <- transform(df, v)
   expect_s3_class(trans, "soma_adat")
   expect_equal(trans$seq.1234.56, df$seq.1234.56 * 2)
   expect_equal(trans$seq.9999.88, df$seq.9999.88 * 0.5)
   expect_named(trans, names(df))
+})
+
+test_that("`transform()` dispatches the `soma_adat` method and correctly scales (rows)", {
+  vec <- c(1, 2, 3)
+  trans <- transform(df, vec, 1L)
+  expect_s3_class(trans, "soma_adat")
+  expect_equal(trans$seq.1234.56, df$seq.1234.56 * vec)
+  expect_equal(trans$seq.9999.88, df$seq.9999.88 * vec)
 })
