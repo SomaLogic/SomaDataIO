@@ -19,3 +19,13 @@
     Output
       ================================================================================
 
+# error conditions generate the expected output for deprecated `soma.adat`
+
+    Code
+      readLines(catfile)
+    Output
+      [1] "The 'soma.adat' class is now 'soma_adat' ."                                
+      [2] " Please either:"                                                           
+      [3] "   1) Re-class with x <- addClass(x, 'soma_adat')"                         
+      [4] "   2) Re-call 'x <- read_adat(file)' to pick up the new 'soma_adat' class."
+

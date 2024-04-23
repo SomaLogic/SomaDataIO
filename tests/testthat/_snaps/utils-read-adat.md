@@ -1,3 +1,10 @@
+# `checkHeader()` prints expected output
+
+    Code
+      checkHeader(header, verbose = TRUE)
+    Message
+      v Header passed checks and traps
+
 # .verbosity()` prints expected output
 
     Code
@@ -32,30 +39,9 @@
       #   CalQcRatio_Example_Adat_Set001_170255 <chr>, QcReference_170255 <chr>,
       #   Cal_Example_Adat_Set002 <chr>, CalQcRatio_Example_Adat_Set002_170255 <chr>
       -- Trailing 2 RFU features -----------------------------------------------------
-      == SomaScan Data ===============================================================
-           SomaScan version     V4 (5k)
-           Signal Space         5k
-           Attributes intact    v
-           Rows                 6
-           Columns              2
-           Clinical Data        0
-           Features             2
-      -- Column Meta -----------------------------------------------------------------
-      i SeqId, SeqIdVersion, SomaId, TargetFullName, Target, UniProt, EntrezGeneID,
-      i EntrezGeneSymbol, Organism, Units, Type, Dilution, PlateScale_Reference,
-      i CalReference, Cal_Example_Adat_Set001, ColCheck,
-      i CalQcRatio_Example_Adat_Set001_170255, QcReference_170255,
-      i Cal_Example_Adat_Set002, CalQcRatio_Example_Adat_Set002_170255, Dilution2
-      -- Tibble ----------------------------------------------------------------------
-      # A tibble: 6 x 3
-        row_names      seq.9997.12 seq.9999.1
-        <chr>                <dbl>      <dbl>
-      1 258495800010_8      11983.      1741.
-      2 NA                     NA         NA 
-      3 NA.1                   NA         NA 
-      4 NA.2                   NA         NA 
-      5 NA.3                   NA         NA 
-      6 NA.4                   NA         NA 
-      ================================================================================
+      # A tibble: 1 x 2
+        seq.9997.12 seq.9999.1
+              <dbl>      <dbl>
+      1      11983.      1741.
       ================================================================================
 
