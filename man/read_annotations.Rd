@@ -23,7 +23,7 @@ Import a SomaLogic Annotations File
 \examples{
 \dontrun{
   # for example
-  file <- "~/Desktop/SomaScan_V4.1_7K_Annotated_Content_20210616.xlsx"
+  file <- "~/Downloads/SomaScan_11K_Annotated_Content.xlsx"
   anno_tbl <- read_annotations(file)
 }
 }
