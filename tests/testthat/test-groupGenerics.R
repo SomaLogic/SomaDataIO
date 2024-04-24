@@ -101,8 +101,8 @@ test_that("the `Ops()` group generic generates the expected output", {
   expect_equal((adat >= 2566.2)$seq.1234.56, c(FALSE, TRUE, TRUE, FALSE, FALSE, TRUE))
   expect_equal((adat <= 2566.2)$seq.1234.56, c(TRUE, FALSE, FALSE, TRUE, TRUE, TRUE))
 
-  expect_equal(sum(adat > 3000), 10)
-  expect_equal(sum(adat < 3000), 8)
+  expect_equal(sum(adat > 3000), 10L)
+  expect_equal(sum(adat < 3000), 8L)
 
   # meta  ata untouched
   ops <- adat + 10
@@ -209,7 +209,35 @@ test_that("error conditions are triggered for non-numerics in RFU block", {
   )
 
   # Summary
-  #expect_error(
-  #  range(tmp)
-  #)
+  expect_warning(
+    out <- range(tmp),
+    paste(
+      "Non-numeric variable(s) detected in `soma_adat` object where",
+      "RFU values should be. Removing: 'seq.1234.56'"
+    ),
+    fixed = TRUE
+  )
+  expect_equal(out, c(2423.9, 4317.8))
+  # with bad non-adat expressions via '...'
+
+  expect_error(
+    range(adat, "a"),
+    "`range()` is only defined on a `soma_adat` with all numeric-alike variables",
+    fixed = TRUE
+  )
+  expect_error(
+    sum(adat, factor("a")),
+    "`sum()` is only defined on a `soma_adat` with all numeric-alike variables",
+    fixed = TRUE
+  )
+  expect_error(
+    max(adat, NULL),
+    "`max()` is only defined on a `soma_adat` with all numeric-alike variables",
+    fixed = TRUE
+  )
+  expect_error(
+    min(adat, list(a = 1)),
+    "`min()` is only defined on a `soma_adat` with all numeric-alike variables",
+    fixed = TRUE
+  )
 })
