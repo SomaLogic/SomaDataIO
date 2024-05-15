@@ -20,7 +20,7 @@
 <link href="../deps/Source_Code_Pro-0.4.9/font.css" rel="stylesheet">
 <!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Loading and Wrangling 'SomaScan'">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Loading and Wrangling 'SomaScan'">
 <meta property="og:description" content="How to load and manipulate a 'SomaScan' flat text file into and R environment.
 ">
 <meta property="og:image" content="https://somalogic.github.io/SomaDataIO/logo.png">
@@ -34,7 +34,7 @@
     <a href="#container" class="visually-hidden-focusable">Skip to content</a>
     
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-none"><div class="container">
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-none" data-bs-theme="light"><div class="container">
     
     <a class="navbar-brand me-2" href="../index.html">SomaDataIO</a>
 
@@ -138,14 +138,16 @@ SomaLogic Operating Co., Inc.</h4>
 <span><span class="va">adat_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"example_data10.adat"</span>,</span>
 <span>                         package <span class="op">=</span> <span class="st">"SomaDataIO"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">adat_path</span></span>
-<span><span class="co">#&gt; [1] "/Users/runner/work/_temp/Library/SomaDataIO/extdata/example_data10.adat"</span></span>
-<span></span>
+<span><span class="co">#&gt; [1] "/Users/runner/work/_temp/Library/SomaDataIO/extdata/example_data10.adat"</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="va">my_adat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_adat.html">read_adat</a></span><span class="op">(</span><span class="va">adat_path</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># class test</span></span>
 <span><span class="fu"><a href="../reference/read_adat.html">is.soma_adat</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] TRUE</span></span>
-<span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="co"># S3 print method forwards -&gt; tibble</span></span>
 <span><span class="va">my_adat</span></span>
 <span><span class="co">#&gt; <span style="color: #0000BB;">══</span> <span style="font-weight: bold;">SomaScan Data</span> <span style="color: #0000BB;">═══════════════════════════════════════════════════════════════</span></span></span>
@@ -181,8 +183,9 @@ SomaLogic Operating Co., Inc.</h4>
 <span><span class="co">#&gt; <span style="color: #949494;">#   PercentDilution &lt;int&gt;, SampleMatrix &lt;chr&gt;, Barcode &lt;lgl&gt;, Barcode2d &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   SampleName &lt;lgl&gt;, SampleNotes &lt;lgl&gt;, AliquotingNotes &lt;lgl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   SampleDescription &lt;chr&gt;, …</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">════════════════════════════════════════════════════════════════════════════════</span></span></span>
-<span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">════════════════════════════════════════════════════════════════════════════════</span></span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">my_adat</span>, show_header <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>  <span class="co"># if simply wish to see Header info</span></span>
 <span><span class="co">#&gt; <span style="color: #0000BB;">══</span> <span style="font-weight: bold;">SomaScan Data</span> <span style="color: #0000BB;">═══════════════════════════════════════════════════════════════</span></span></span>
 <span><span class="co">#&gt;      SomaScan version     <span style="color: #00BBBB;">V4 (5k)</span></span></span>
@@ -219,8 +222,9 @@ SomaLogic Operating Co., Inc.</h4>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> ProteinEffectiveDate 2019-08-06                                              </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> StudyMatrix          EDTA Plasma                                             </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 20 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">════════════════════════════════════════════════════════════════════════════════</span></span></span>
-<span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">════════════════════════════════════════════════════════════════════════════════</span></span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="co"># S3 summary method</span></span>
 <span><span class="co"># View Target and summary statistics</span></span>
 <span><span class="va">seqs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span>, <span class="fl">3L</span><span class="op">)</span></span>
@@ -235,8 +239,9 @@ SomaLogic Operating Co., Inc.</h4>
 <span><span class="co">#&gt;  Max    : 10171      Max    : 50390      Max    : 6978.9     </span></span>
 <span><span class="co">#&gt;  sd     :  3983      sd     : 17420      sd     : 2164.4     </span></span>
 <span><span class="co">#&gt;  MAD    :  3938      MAD    : 19516      MAD    : 2387.2     </span></span>
-<span><span class="co">#&gt;  IQR    :  7807      IQR    : 28761      IQR    : 3335.1</span></span>
-<span></span>
+<span><span class="co">#&gt;  IQR    :  7807      IQR    : 28761      IQR    : 3335.1</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="co"># Summarize by Sex</span></span>
 <span><span class="va">my_adat</span><span class="op">[</span>, <span class="va">seqs</span><span class="op">]</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">$</span><span class="va">Sex</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -276,7 +281,7 @@ that <code>R</code> <em>thinks</em> exist in the file. This can be
 useful in identifying where/why/how a parse failure has occurred. It is
 recommended to view this output and compare to the physical text file
 itself to identify any misidentified or mismatched landmarks:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/read_adat.html">read_adat</a></span><span class="op">(</span><span class="va">adat_path</span>, debug <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #0000BB;">══</span> <span style="font-weight: bold;">Parsing Specs</span> <span style="color: #0000BB;">═══════════════════════════════════════════════════════════════</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">• </span>Table Begin               <span style="color: #0000BB;">45</span></span></span>
@@ -315,11 +320,12 @@ itself to identify any misidentified or mismatched landmarks:</p>
 <div class="section level3">
 <h3 id="attributes-contain-file-and-feature-information">Attributes Contain File and Feature Information<a class="anchor" aria-label="anchor" href="#attributes-contain-file-and-feature-information"></a>
 </h3>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "names"       "class"       "row.names"   "Header.Meta" "Col.Meta"   </span></span>
-<span><span class="co">#&gt; [6] "file_specs"  "row_meta"</span></span>
-<span></span>
+<span><span class="co">#&gt; [6] "file_specs"  "row_meta"</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="co"># The `Col.Meta` attribute contains</span></span>
 <span><span class="co"># target annotation information</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">my_adat</span>, <span class="st">"Col.Meta"</span><span class="op">)</span></span>
@@ -347,16 +353,18 @@ itself to identify any misidentified or mismatched landmarks:</p>
 <div class="section level3">
 <h3 id="analyte-features-seq-xxxx-xx">Analyte Features (<code>seq.xxxx.xx</code>)<a class="anchor" aria-label="anchor" href="#analyte-features-seq-xxxx-xx"></a>
 </h3>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getAnalytes.html">getAnalytes</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">20L</span><span class="op">)</span>    <span class="co"># first 20 analytes; see AptName above</span></span>
 <span><span class="co">#&gt;  [1] "seq.10000.28"  "seq.10001.7"   "seq.10003.15"  "seq.10006.25" </span></span>
 <span><span class="co">#&gt;  [5] "seq.10008.43"  "seq.10011.65"  "seq.10012.5"   "seq.10013.34" </span></span>
 <span><span class="co">#&gt;  [9] "seq.10014.31"  "seq.10015.119" "seq.10021.1"   "seq.10022.207"</span></span>
 <span><span class="co">#&gt; [13] "seq.10023.32"  "seq.10024.44"  "seq.10030.8"   "seq.10034.16" </span></span>
-<span><span class="co">#&gt; [17] "seq.10035.6"   "seq.10036.201" "seq.10037.98"  "seq.10040.63"</span></span>
-<span><span class="fu"><a href="../reference/getAnalytes.html">getAnalytes</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="op">)</span>     <span class="co"># how many analytes</span></span>
-<span><span class="co">#&gt; [1] 5284</span></span>
-<span><span class="fu"><a href="../reference/getAnalytes.html">getAnalytes</a></span><span class="op">(</span><span class="va">my_adat</span>, n <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>       <span class="co"># the `n` argument; no. analytes</span></span>
+<span><span class="co">#&gt; [17] "seq.10035.6"   "seq.10036.201" "seq.10037.98"  "seq.10040.63"</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/getAnalytes.html">getAnalytes</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="op">)</span>     <span class="co"># how many analytes</span></span>
+<span><span class="co">#&gt; [1] 5284</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/getAnalytes.html">getAnalytes</a></span><span class="op">(</span><span class="va">my_adat</span>, n <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>       <span class="co"># the `n` argument; no. analytes</span></span>
 <span><span class="co">#&gt; [1] 5284</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -366,7 +374,7 @@ itself to identify any misidentified or mismatched landmarks:</p>
 that links analyte feature names in the <code>soma_adat</code> object to
 the annotation data in <code><a href="../reference/Col.Meta.html">?Col.Meta</a></code> via the common index-key,
 <code>AptName</code>, in column 1:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getAnalyteInfo.html">getAnalyteInfo</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5,284 × 22</span></span></span>
 <span><span class="co">#&gt;    AptName  SeqId SeqIdVersion SomaId TargetFullName Target UniProt EntrezGeneID</span></span>
@@ -392,7 +400,7 @@ the annotation data in <code><a href="../reference/Col.Meta.html">?Col.Meta</a><
 <div class="section level3">
 <h3 id="clinical-data">Clinical Data<a class="anchor" aria-label="anchor" href="#clinical-data"></a>
 </h3>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/getAnalytes.html">getMeta</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span>             <span class="co"># clinical meta data for each sample</span></span>
 <span><span class="co">#&gt;  [1] "PlateId"                "PlateRunDate"           "ScannerID"             </span></span>
 <span><span class="co">#&gt;  [4] "PlatePosition"          "SlideId"                "Subarray"              </span></span>
@@ -405,8 +413,9 @@ the annotation data in <code><a href="../reference/Col.Meta.html">?Col.Meta</a><
 <span><span class="co">#&gt; [25] "HybControlNormScale"    "RowCheck"               "NormScale_20"          </span></span>
 <span><span class="co">#&gt; [28] "NormScale_0_005"        "NormScale_0_5"          "ANMLFractionUsed_20"   </span></span>
 <span><span class="co">#&gt; [31] "ANMLFractionUsed_0_005" "ANMLFractionUsed_0_5"   "Age"                   </span></span>
-<span><span class="co">#&gt; [34] "Sex"</span></span>
-<span><span class="fu"><a href="../reference/getAnalytes.html">getMeta</a></span><span class="op">(</span><span class="va">my_adat</span>, n <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>   <span class="co"># also an `n` argument</span></span>
+<span><span class="co">#&gt; [34] "Sex"</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/getAnalytes.html">getMeta</a></span><span class="op">(</span><span class="va">my_adat</span>, n <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>   <span class="co"># also an `n` argument</span></span>
 <span><span class="co">#&gt; [1] 34</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -423,51 +432,61 @@ that are useful to users. Please also see <code><a href="../reference/Col.Meta.h
 <p>You may perform basic mathematical transformations on the feature
 data <em>only</em> with special <code>soma_adat</code> S3 methods (see
 <code><a href="../reference/groupGenerics.html">?groupGenerics</a></code>):</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">$</span><span class="va">seq.2429.27</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1]  8642.3 12472.1 14627.7 13579.8  8938.8  6738.8</span></span>
-<span></span>
+<span><span class="co">#&gt; [1]  8642.3 12472.1 14627.7 13579.8  8938.8  6738.8</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="va">logData</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log10</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span>    <span class="co"># a typical log10() transform</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">logData</span><span class="op">$</span><span class="va">seq.2429.27</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 3.936629 4.095940 4.165176 4.132893 3.951279 3.828583</span></span>
-<span></span>
+<span><span class="co">#&gt; [1] 3.936629 4.095940 4.165176 4.132893 3.951279 3.828583</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="va">roundData</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">roundData</span><span class="op">$</span><span class="va">seq.2429.27</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1]  8642 12472 14628 13580  8939  6739</span></span>
-<span></span>
+<span><span class="co">#&gt; [1]  8642 12472 14628 13580  8939  6739</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="va">sqData</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sqData</span><span class="op">$</span><span class="va">seq.2429.27</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1]  92.96397 111.67856 120.94503 116.53240  94.54523  82.09019</span></span>
-<span></span>
+<span><span class="co">#&gt; [1]  92.96397 111.67856 120.94503 116.53240  94.54523  82.09019</span></span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="../reference/groupGenerics.html">antilog</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1]    10   100  1000 10000</span></span>
-<span></span>
+<span><span class="co">#&gt; [1]    10   100  1000 10000</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">my_adat</span> <span class="op">&lt;</span> <span class="fl">100</span><span class="op">)</span>  <span class="co"># low signalling values</span></span>
-<span><span class="co">#&gt; [1] 693</span></span>
-<span></span>
+<span><span class="co">#&gt; [1] 693</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">my_adat</span>, <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] TRUE</span></span>
-<span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">my_adat</span>, <span class="fu"><a href="../reference/groupGenerics.html">antilog</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log10</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="math-generics">Math Generics<a class="anchor" aria-label="anchor" href="#math-generics"></a>
 </h4>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">getGroupMembers</span><span class="op">(</span><span class="st">"Math"</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  [1] "abs"      "sign"     "sqrt"     "ceiling"  "floor"    "trunc"   </span></span>
 <span><span class="co">#&gt;  [7] "cummax"   "cummin"   "cumprod"  "cumsum"   "exp"      "expm1"   </span></span>
 <span><span class="co">#&gt; [13] "log"      "log10"    "log2"     "log1p"    "cos"      "cosh"    </span></span>
 <span><span class="co">#&gt; [19] "sin"      "sinh"     "tan"      "tanh"     "acos"     "acosh"   </span></span>
 <span><span class="co">#&gt; [25] "asin"     "asinh"    "atan"     "atanh"    "cospi"    "sinpi"   </span></span>
-<span><span class="co">#&gt; [31] "tanpi"    "gamma"    "lgamma"   "digamma"  "trigamma"</span></span>
-<span></span>
+<span><span class="co">#&gt; [31] "tanpi"    "gamma"    "lgamma"   "digamma"  "trigamma"</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="fu">getGroupMembers</span><span class="op">(</span><span class="st">"Compare"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "==" "&gt;"  "&lt;"  "!=" "&lt;=" "&gt;="</span></span>
-<span></span>
+<span><span class="co">#&gt; [1] "==" "&gt;"  "&lt;"  "!=" "&lt;=" "&gt;="</span></span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="fu">getGroupMembers</span><span class="op">(</span><span class="st">"Arith"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "+"   "-"   "*"   "^"   "%%"  "%/%" "/"</span></span>
-<span></span>
+<span><span class="co">#&gt; [1] "+"   "-"   "*"   "^"   "%%"  "%/%" "/"</span></span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="fu">getGroupMembers</span><span class="op">(</span><span class="st">"Summary"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "max"   "min"   "range" "prod"  "sum"   "any"   "all"</span></span></code></pre></div>
 </div>
@@ -480,13 +499,15 @@ S3 Methods<a class="anchor" aria-label="anchor" href="#full-complement-of-dplyr-
 methods to the most popular <a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a> generics that make working
 with <code>soma_adat</code> objects simpler for those familiar with this
 standard toolkit:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1]   10 5318</span></span>
-<span><span class="va">males</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">my_adat</span>, <span class="va">Sex</span> <span class="op">==</span> <span class="st">"M"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1]   10 5318</span></span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">males</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">my_adat</span>, <span class="va">Sex</span> <span class="op">==</span> <span class="st">"M"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">males</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1]    3 5318</span></span>
-<span></span>
+<span><span class="co">#&gt; [1]    3 5318</span></span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="va">males</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">SampleType</span>, <span class="va">SampleMatrix</span>, <span class="fu">starts_with</span><span class="op">(</span><span class="st">"NormScale"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #0000BB;">══</span> <span style="font-weight: bold;">SomaScan Data</span> <span style="color: #0000BB;">═══════════════════════════════════════════════════════════════</span></span></span>
@@ -516,7 +537,7 @@ standard toolkit:</p>
 <div class="section level3">
 <h3 id="available-s3-methods-soma_adat">Available S3 Methods <code>soma_adat</code><a class="anchor" aria-label="anchor" href="#available-s3-methods-soma_adat"></a>
 </h3>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># see full complement of `soma_adat` methods</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/methods.html" class="external-link">methods</a></span><span class="op">(</span>class <span class="op">=</span> <span class="st">"soma_adat"</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  [1] [              [[             [[&lt;-           [&lt;-            ==            </span></span>
@@ -534,13 +555,14 @@ standard toolkit:</p>
 <div class="section level2">
 <h2 id="writing-a-soma_adat">Writing a <code>soma_adat</code><a class="anchor" aria-label="anchor" href="#writing-a-soma_adat"></a>
 </h2>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/is_intact_attr.html">is_intact_attr</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span>   <span class="co"># MUST have intact attrs</span></span>
-<span><span class="co">#&gt; [1] TRUE</span></span>
-<span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="../reference/write_adat.html">write_adat</a></span><span class="op">(</span><span class="va">my_adat</span>, file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="st">"my-adat-"</span>, fileext <span class="op">=</span> <span class="st">".adat"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> ADAT passed all checks and traps.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> ADAT written to: <span style="color: #0000BB;">'/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T//RtmppG6xNl/my-adat-1ce352b4bc32.adat'</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> ADAT written to: <span style="color: #0000BB;">'/var/folders/hv/qqnln7cj5cg0n48fcrlmbz4m0000gn/T//Rtmp67EZV7/my-adat-272342805e20.adat'</span></span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
@@ -551,13 +573,11 @@ standard toolkit:</p>
    </div>
   <footer><div class="container">
   <div class="pkgdown-footer-left">
-  <p></p>
-<p><img src="../favicon-16x16.png"> SomaDataIO was developed by the Bioinformatics Dept. at <a href="http://www.somalogic.com" class="external-link">SomaLogic Operating Co., Inc.</a>.</p>
+  <p><img src="../favicon-16x16.png"> SomaDataIO was developed by the Bioinformatics Dept. at <a href="http://www.somalogic.com" class="external-link">SomaLogic Operating Co., Inc.</a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
   </div></footer>
