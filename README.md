@@ -174,8 +174,8 @@ to run canned examples (or analyses). They can be accessed once
     [tidyr](https://tidyr.tidyverse.org) verb S3 methods for the
     `soma_adat` class.
   - `?rownames` helpers that do not break `soma_adat` attributes.
-  - please see vignette
-    `vignette("tips-loading-and-wrangling", package = "SomaDataIO")`
+  - please see the article [Loading and Wrangling
+    ‘SomaScan’](https://somalogic.github.io/SomaDataIO/articles/tips-loading-and-wrangling.html)
 - Exporting data (Output)
   - write out a `soma_adat` object as a `*.adat` text file.
 
@@ -230,9 +230,9 @@ my_adat
 #> ════════════════════════════════════════════════════════════════════════════════
 ```
 
-Please see vignette
-`vignette("tips-loading-and-wrangling", package = "SomaDataIO")` for
-more details and options.
+Please see the article [Loading and Wrangling
+SomaScan](https://somalogic.github.io/SomaDataIO/articles/tips-loading-and-wrangling.html)
+for more details and options.
 
 ## Wrangling
 
@@ -254,9 +254,9 @@ methods(class = "soma_adat")
 #> see '?methods' for accessing help and source code
 ```
 
-Please see vignette
-`vignette("tips-loading-and-wrangling", package = "SomaDataIO")` for
-more details about available `soma_adat` methods.
+Please see the article [Loading and Wrangling
+SomaScan](https://somalogic.github.io/SomaDataIO/articles/tips-loading-and-wrangling.html)
+for more details about available `soma_adat` methods.
 
 ## ADAT structure
 
@@ -273,20 +273,24 @@ detail please see:
 
 - Two-group comparison (e.g. differential expression) via *t*-test
   - see `stats::t.test()`
-  - see vignette
-    `vignette("stat-two-group-comparison", package = "SomaDataIO")`
+  - see workflow: [Two-Group
+    Comparison](https://somalogic.github.io/SomaDataIO/articles/stat-two-group-comparison.html)
 - Multi-group comparison (e.g. differential expression) via ANOVA
   - see `stats::aov()`
-  - see vignette
-    `vignette("stat-three-group-analysis-anova", package = "SomaDataIO")`
+  - see workflow: [ANOVA Three-Group
+    Analysis](https://somalogic.github.io/SomaDataIO/articles/stat-three-group-analysis-anova.html)
 - Binary classification
   - see `stats::glm()`
-  - see vignette
-    `vignette("stat-binary-classification", package = "SomaDataIO")`
+  - see workflow: [Binary
+    Classification](https://somalogic.github.io/SomaDataIO/articles/stat-binary-classification.html)
 - Linear regression
   - see `stats::lm()`
-  - see vignette
-    `vignette("stat-linear-regression", package = "SomaDataIO")`
+  - see workflow: [Linear
+    Regression](https://somalogic.github.io/SomaDataIO/articles/stat-linear-regression.html)
+
+Note that, in an effort to reduce package size and dependencies, these
+articles and workflows are only accessible via the `SomaDataIO`
+`pkgdown` website, and are not included with the installed package.
 
 ------------------------------------------------------------------------
 
