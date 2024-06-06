@@ -107,6 +107,11 @@ articles:
     contents:
     - articles/lifting-and-bridging
 
+  - title: Pre-Processing
+    navbar: ~
+    contents:
+    - articles/pre-processing
+
   - title: Statistical Workflow Examples
     contents:
     - starts_with("articles/stat-")

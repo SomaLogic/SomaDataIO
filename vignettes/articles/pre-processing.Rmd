@@ -1,0 +1,83 @@
+---
+title: "Pre-Processing SomaScan"
+author: "Amanda Hiser and Caleb Scheidel, SomaLogic Operating Co., Inc."
+description: >
+  A primer on pre-processing 'SomaScan' data for analysis, including filtering
+  samples and features, data QC, and transformations.
+output:
+  rmarkdown::html_vignette:
+    fig_caption: yes
+vignette: >
+  %\VignetteIndexEntry{Pre-Processing SomaScan}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include = FALSE}
+library(SomaDataIO)
+library(ggplot2)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "figures/pre-processing-"
+)
+```
+
+
+# Overview
+
+`SomaDataIO` contains functionality to pre-process an `.adat` file to prepare
+RFU data for analysis.  The typical data analysis path includes several steps
+of pre-processing, including:
+
+1. Filtering features
+2. Filtering samples
+3. Data QC
+4. Transformations
+
+This article will walk through _why_ these pre-processing steps are recommended 
+prior to executing an analysis on SomaScan data, along with _how_ these steps
+can be performed using the `SomaDataIO` package.
+
+---------------
+
+## Filtering Features
+
+Coming soon...
+
+---------------
+
+## Filtering Samples
+
+Coming soon...
+
+------------
+
+## Data QC
+
+Coming soon...
+
+-------------
+
+## Transformations
+
+### Log-10
+
+Coming soon...
+
+### Centering and Scaling (Z-Score)
+
+Coming soon...
+
+-------------
+
+## Questions
+
+As always, if you have any pre-processing questions,
+we are here to help. Please reach out to us via:
+
+* GitHub [SUPPORT](https://somalogic.github.io/SomaDataIO/SUPPORT.html)
+* Global Scientific Engagement Team: <techsupport@somalogic.com>
+* General SomaScan inquiries: <support@somalogic.com>
