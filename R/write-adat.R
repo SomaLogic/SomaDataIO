@@ -47,7 +47,7 @@ write_adat <- function(x, file) {
 
   if ( !grepl("\\.adat$", file) ) {
     warning(
-      "File extension is not `*.adat` (", .value(file), "). ",
+      "File extension is not `*.adat` ('", file, "'). ",
       "Are you sure this is the correct file extension?",
       call. = FALSE
     )
@@ -103,7 +103,7 @@ write_adat <- function(x, file) {
     if ( n_meta < 1L ) {
       warning(
         "\nYou are writing an ADAT without any meta data.\n",
-        "This may cause this file (", .value(file), ") ",
+        "This may cause this file ('", file, "') ",
         "to be unreadable via `read_adat()`.\n",
         "Suggest including at least one column of meta data (e.g. 'sample_id').",
         call. = FALSE
@@ -139,7 +139,7 @@ write_adat <- function(x, file) {
       fileEncoding = "UTF-8"
     )
   }
-  .done("ADAT written to: {.value(file)}")
+  .done("ADAT written to: {.val {file}}")
   invisible(x)
 }
 

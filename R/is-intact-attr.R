@@ -42,14 +42,14 @@ is_intact_attr <- function(adat, verbose = interactive()) {
   if ( !is.soma_adat(adat) ) {
     if ( verbose ) {
       .oops(
-        "The object is not a `soma_adat` class object: {.value(class(adat))}"
+        "The object is not a `soma_adat` class object: {.val {class(adat)}}"
       )
     }
     FALSE
   } else if ( length(atts) <= 3L ) {
     if ( verbose ) {
       .oops(
-        "Attributes has only 3 entries: {.value(names(atts))}"
+        "Attributes has only 3 entries: {.val {names(atts)}}"
       )
     }
     FALSE
@@ -61,19 +61,19 @@ is_intact_attr <- function(adat, verbose = interactive()) {
   } else if ( !all(c("HEADER", "COL_DATA", "ROW_DATA") %in% names(atts$Header.Meta)) ) {
     if ( verbose ) {
       diff <- setdiff(c("HEADER", "COL_DATA", "ROW_DATA"), names(atts$Header.Meta))
-      .oops(paste("Header.Meta is missing:", .value(diff)))
+      .oops("Header.Meta is missing: {.val {diff}}")
     }
     FALSE
   } else if ( !all(col_meta_checks %in% names(atts$Col.Meta)) ) {
     if ( verbose ) {
       diff <- setdiff(col_meta_checks, names(atts$Col.Meta))
-      .oops(paste("Col.Meta is missing:", .value(diff)))
+      .oops("Col.Meta is missing: {.val {diff}}")
     }
     FALSE
   } else if ( !inherits(atts$Col.Meta, "tbl_df") ) {
     if ( verbose ) {
       .oops(
-        "Col.Meta is not a tibble! -> {.value(class(atts$Col.Meta))}"
+        "Col.Meta is not a tibble! -> {.val {class(atts$Col.Meta)}}"
       )
     }
     FALSE

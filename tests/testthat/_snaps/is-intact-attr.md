@@ -3,7 +3,7 @@
     Code
       is_intact_attr(iris, verbose = TRUE)
     Message
-      x The object is not a `soma_adat` class object: 'data.frame'
+      x The object is not a `soma_adat` class object: "data.frame"
     Output
       [1] FALSE
 
@@ -19,7 +19,7 @@
     Code
       is_intact_attr(iris)
     Message
-      x The object is not a `soma_adat` class object: 'data.frame'
+      x The object is not a `soma_adat` class object: "data.frame"
     Output
       [1] FALSE
 

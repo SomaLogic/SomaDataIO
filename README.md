@@ -87,14 +87,12 @@ file):
 
 - [R (\>= 4.1.0)](https://cran.r-project.org/)
 - [cli](https://cran.r-project.org/package=cli)
-- [crayon](https://cran.r-project.org/package=crayon)
 - [dplyr](https://cran.r-project.org/package=dplyr)
 - [lifecycle](https://cran.r-project.org/package=lifecycle)
 - [magrittr](https://cran.r-project.org/package=magrittr)
 - [readxl](https://cran.r-project.org/package=readxl)
 - [tibble](https://cran.r-project.org/package=tibble)
 - [tidyr](https://cran.r-project.org/package=tidyr)
-- [usethis](https://cran.r-project.org/package=usethis)
 
 #### Biobase
 
@@ -117,7 +115,7 @@ Information about Bioconductor can be found here:
 
 #### Loading
 
-Upon *successful* installation, load the `SomaDataIO` as normal:
+Upon *successful* installation, load `SomaDataIO` as normal:
 
 ``` r
 library(SomaDataIO)

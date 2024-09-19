@@ -66,7 +66,7 @@ prepHeaderMeta <- function(data) {
   if ( !("Version" %in% names(x$Header.Meta$HEADER) &&
          x$Header.Meta$HEADER$Version == "1.2") ) {
     x$Header.Meta$HEADER$Version <- "1.2"
-    .done("Updating ADAT version to: {.value('1.2')}")
+    .done("Updating ADAT version to: {.val 1.2}")
   }
 
   if ( "CreatedBy" %in% names(x$Header.Meta$HEADER) ) {

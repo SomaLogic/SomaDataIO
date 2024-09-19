@@ -159,8 +159,8 @@ parseCheck <- function(all.tokens) {
   # check col meta match
   if ( !isTRUE(setequal(col_meta, col_meta2)) ) {
     .oops("Mismatch between `^COL_DATA` in header and `Col.Meta` block:")
-    .todo("  In Header:   {.value(col_meta)}")
-    .todo("  In Col.Meta: {.value(col_meta2)}")
+    .todo("  In Header:   {.val {col_meta}}")
+    .todo("  In Col.Meta: {.val {col_meta2}}")
     stop("Stopping check early.", call. = FALSE)
   }
 
@@ -227,8 +227,8 @@ parseCheck <- function(all.tokens) {
         line_col = "blue", right = cr_red("!")
       )
     )
-    .todo("Should be:    {.value(table_width)}")
-    .todo("Currently is: {.value(header_length)}")
+    .todo("Should be:    {.val {table_width}}")
+    .todo("Currently is: {.val {header_length}}")
     # print(all.tokens[[ which_header_row ]])   # nolint: commented_code_linter.
     .oops("Length of the header row is incorrect")
     .oops("Does not match the width of the data table")
@@ -248,7 +248,7 @@ parseCheck <- function(all.tokens) {
     )
     gap_chr <- col_meta2[has_gaps]
     .todo(
-      paste("Visually inspect the following Col.Meta rows:", .value(gap_chr))
+      paste("Visually inspect the following Col.Meta rows: {.val {gap_chr}}")
     )
     if ( identical(Sys.getenv("TESTTHAT"), "true") ||
          isTRUE(getOption("knitr.in.progress")) ) {
@@ -258,7 +258,7 @@ parseCheck <- function(all.tokens) {
     }
     cat(.symb, "They may be missing in: ")
     print(.value(c("Spuriomers", "HybControls")))
-    .todo("This is non-critical in ADATs with new {.value('seq.1234.56')} format.")
+    .todo("This is non-critical in ADATs with new {.val {'seq.1234.56'}} format.")
   }
   writeLines(cli_rule("Parse Diagnostic Complete", line = 2, line_col = "green"))
 }

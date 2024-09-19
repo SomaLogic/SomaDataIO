@@ -56,12 +56,12 @@
 #' @export
 loadAdatsAsList <- function(files, collapse = FALSE, verbose = interactive(), ...) {
   files <- setNames(files, cleanNames(basename(files)))
-  res <- lapply(files, function(.file) {
-    x <- tryCatch(read_adat(.file, ...), error = function(e) NULL)
+  res <- lapply(files, function(file) {
+    x <- tryCatch(read_adat(file, ...), error = function(e) NULL)
     if ( is.null(x) ) {
-      .oops("Failed to load: {.value(.file)}")
+      .oops("Failed to load: {.val {file}}")
     } else if ( verbose ) {
-      .done("Loading: {.value(.file)}")
+      .done("Loading: {.val {file}}")
     }
     x
   })

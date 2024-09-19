@@ -144,7 +144,7 @@ diffAdats <- function(adat1, adat2, tolerance = 1e-06) {
     }
     cat("\n")
     .done(
-      "Continuing on the {.value('*INTERSECT*')} of ADAT columns"
+      "Continuing on the {.val *INTERSECT*} of ADAT columns"
     )
   }
 
