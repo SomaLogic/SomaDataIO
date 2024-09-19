@@ -88,6 +88,7 @@ file):
 - [R (\>= 4.1.0)](https://cran.r-project.org/)
 - [cli](https://cran.r-project.org/package=cli)
 - [dplyr](https://cran.r-project.org/package=dplyr)
+- [ggplot2](https://cran.r-project.org/package=ggplot2)
 - [lifecycle](https://cran.r-project.org/package=lifecycle)
 - [magrittr](https://cran.r-project.org/package=magrittr)
 - [readxl](https://cran.r-project.org/package=readxl)

@@ -13,11 +13,15 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: console
+  markdown: 
+    wrap: 72
 ---
 
 ```{r setup, include = FALSE}
 library(SomaDataIO)
 library(ggplot2)
+library(dplyr)
+library(purrr)
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -25,59 +29,448 @@ knitr::opts_chunk$set(
 )
 ```
 
-
 # Overview
 
-`SomaDataIO` contains functionality to pre-process an `.adat` file to prepare
-RFU data for analysis.  The typical data analysis path includes several steps
-of pre-processing, including:
+`SomaDataIO` contains functionality to pre-process an `.adat` file to
+prepare RFU data for analysis. The typical data analysis path includes
+several steps of pre-processing, including:
 
-1. Filtering features
-2. Filtering samples
-3. Data QC
-4. Transformations
+1.  Filtering features
+2.  Filtering samples
+3.  Data QC
+4.  Transformations
 
-This article will walk through _why_ these pre-processing steps are recommended 
-prior to executing an analysis on SomaScan data, along with _how_ these steps
-can be performed using the `SomaDataIO` package.
+This article will walk through *why* these pre-processing steps are
+recommended prior to executing an analysis on SomaScan data, along with
+*how* these steps can be performed using the `SomaDataIO` package.
 
----------------
+------------------------------------------------------------------------
 
 ## Filtering Features
 
-Coming soon...
+The goal of this pre-processing step is to remove unnecessary protein
+features from a SomaScan dataset, while also retaining *relevant*
+features that will enable broad discovery during downstream analysis.
 
----------------
+The filtering logic typically used for protein features (i.e. SOMAmer
+reagents) is:
+
+```         
+Type == "Protein" & Organism == "Human"
+```
+
+What information does this logic convey? It indicates that only **human
+protein** features from the raw SomaScan data set should be retained.
+This can be accomplished by filtering on the ADAT `Type` attribute,
+which represents the SOMAmer target type. This will be used in
+conjunction with the `Organism` attribute, which represents the organism
+from which the protein originated.
+
+These two attributes (`Type` and `Organism`) can be accessed via
+`SomaDataIO::getAnalyteInfo()`. This function retrieves the analyte
+annotation data (i.e. the column metadata, or `COL_DATA`) that appears
+above the protein measurements in the ADAT file, and returns it in a
+`data.frame` format.
+
+*Note: for more information about the format and content of an ADAT,
+please* *reference the*
+[SomaLogic-Data](https://github.com/SomaLogic/SomaLogic-Data) *GitHub
+repository.*
+
+To retrieve the column metadata annotations for the data set:
+
+```{r}
+annots <- getAnalyteInfo(example_data)
+```
+
+We can now check the contents of the `Type` and `Organism` attributes,
+which can be accessed as columns of a data frame once extracted with
+`getAnalyteInfo()`:
+
+```{r}
+annots |> count(Type) |> arrange(desc(n))
+
+annots |> count(Organism) |> arrange(desc(n))
+```
+
+As described in the filtering strategy above, we only want to retain the
+features for which `Type == "Protein"`, indicating that the feature is
+related to a human protein. In the same filtering step, we can also
+specify that we only want to retain proteins found in humans
+(`Organism == "Human")`. This can be performed using `dplyr::filter()`:
+
+```{r}
+human_prots <- getAnalyteInfo(example_data) |>
+  filter(Type == "Protein" & Organism == "Human")
+length(human_prots$SeqId)
+```
+
+The original dataset (`example_adat`) contained
+`r nrow(getAnalyteInfo(example_data))` analytes; after filtering for
+human proteins and removing
+`r nrow(getAnalyteInfo(example_data)) - length(human_prots$SeqId)`
+non-human features, it contains `r length(human_prots$SeqId)` analytes.
+
+Remember that the `human_prots` object is not an ADAT, but rather a
+`data.frame` representing the column metadata that corresponds to the
+`example_data` ADAT object. We must now filter the `example_data` object
+to match the filtering performed on the `human_prots` object.
+
+```{r}
+# Identify SeqIds that differ between the data sets
+discard <- setdiff(grep("^seq\\.", colnames(example_data), value = TRUE), 
+                   human_prots$AptName)
+# Discard non-human, non-protein features
+filt_data <- example_data |>
+  dplyr::select(-all_of(discard))
+```
+
+This data set now contains only human proteins.
+
+### Flagged Features
+
+Our human protein analyte annotations object `human_prots` contains a
+single column, called `ColCheck`, that can be used for filtering flagged
+features from ADAT datasets. This column contains the QC acceptance
+criteria for all plates/sets. The standard QC acceptance criteria used
+to determine if a feature is flagged is if the QC ratio by plate
+(aggregate across all plates) is within the acceptance range of 0.8 to
+1.2:
+
+```{r out.width = '70%', echo = FALSE, fig.align = "center"}
+knitr::include_graphics("img/pre-processing-flagged-features-qc-range.png")
+```
+
+Again, please see
+[SomaLogic-Data](https://github.com/SomaLogic/SomaLogic-Data) for more
+details.
+
+```{r}
+human_prots |> count(ColCheck)
+```
+
+214 human protein features in `filt_data` were flagged in this column
+check, and are marked with a `FLAG` value. However, these features
+**should not** be filtered out of the data set at this step; within any
+given study, SOMAmer reagents with a `FLAG` status can still yield
+useful information downstream in the analysis. As such, SomaLogic does
+not recommend removing these features until indicated later in this
+workflow.
+
+------------------------------------------------------------------------
 
 ## Filtering Samples
 
-Coming soon...
+The next pre-processing step to consider is filtering samples. A typical data 
+analysis is focused on only the clinical samples within the ADAT file. The
+`SampleType` column in the `filt_data` object can be used to filter down to the
+clinical samples only.  
 
-------------
+```{r}
+filt_data |> count(SampleType)
+```
+
+An ADAT file will also include buffer, calibrator and QC samples. It is 
+recommended to remove these samples prior to an analysis. 
+
+```{r}
+filt_data <- filt_data |> 
+  filter(SampleType == "Sample")
+```
+
+The `filt_data` object now has `r nrow(filt_data)` clinical samples, after
+removing the 10 calibrator samples (replicate controls for combining data across
+runs), 6 QC samples (replicate controls used to assess run quality), and 6 
+buffer samples (no protein controls).
+
+### Flagged Samples
+
+An ADAT file contains a single column, called `RowCheck`, that can be used for
+filtering out flagged samples that do not pass a pre-defined normalization 
+acceptance criteria.  
+
+The standard normalization acceptance criteria used to determine if a sample is
+flagged by the `RowCheck` column is if _any_ of the *rowwise* normalization
+scale factors are outside of the acceptance range of 0.4 to 2.5:
+
+```{r out.width = '70%', echo = FALSE, fig.align = "center"}
+knitr::include_graphics("img/pre-processing-flagged-samples-conservative.png")
+```
+
+```{r}
+filt_data |> count(RowCheck)
+```
+
+Two samples in `filt_data` are flagged with this row check, and are marked with
+a `FLAG` value. 
+
+```{r}
+filt_data |>
+  filter(RowCheck == "FLAG") |> 
+  dplyr::select(SampleId, starts_with("NormScale")) |> 
+  as.data.frame()
+```
+
+We can see that these two samples each have a normalization scale factor
+(`NormScale_20`) that fall below the standard accepted range.
+
+Note that the standard normalization acceptance range used for determining the 
+`RowCheck` value is the most conservative that SomaLogic recommends.  A less
+conservative approach would be adjust the normalization acceptance criteria to 
+accept 'positive controls' for further outlier assessment:
+
+```{r out.width = '70%', echo = FALSE, fig.align = "center"}
+knitr::include_graphics("img/pre-processing-flagged-samples-keep-controls.png")
+```
+
+Using this approach would require defining an alternative filtering step.
+We can create an `AltRowCheck` column using the less conservative criteria:
+
+```{r}
+# pull normalization scale factor variable names from ADAT
+norm_vars <- grep("^[Nn]orm[Ss]cale|^Med\\.Scale\\.",
+                  names(filt_data), value = TRUE)
+
+filt_data <- filt_data |> 
+  mutate(
+    AltRowCheck = ifelse(if_any(all_of(norm_vars), ~ .x < 0.25 | .x > 4),
+                         "FLAG", "PASS")
+  )
+
+filt_data |> count(AltRowCheck)
+```
+
+No samples were flagged in the `filt_data` object using this less conservative
+normalization acceptance criteria.  Using this approach, it is also recommended
+to visually examine a plot of the normalization scale factors by sample to
+assess if there is a bias or distinct sample outliers.
+
+```{r nsf-outliers-plot, fig.width = 7, fig.height = 5, fig.align = "center"}
+filt_data |> 
+  select(SampleId, all_of(norm_vars)) |> 
+  tidyr::pivot_longer(!SampleId,
+                      names_to = "Normalization Scale Factor",
+                      values_to = "Value") |> 
+  ggplot(aes(x = `Normalization Scale Factor`, y = Value)) +
+    geom_boxplot() +
+    ylim(0, 4) +
+    geom_hline(yintercept  = 0.25, linetype = "dashed", color = "red") +
+    geom_hline(yintercept  = 4, linetype = "dashed", color = "red") +
+    theme_bw()
+```
+
+There does not appear to be any evidence of bias or significant outliers in the
+normalization scale factor values of the `filt_data` object used in this 
+example.
+
+Note that normalization to a reference may result in scaling bias in certain
+scenarios, and it's reasonable to adjust the acceptance criteria
+used for filtering samples based on the data you have and the analysis
+you are planning to execute.  Use your best judgment if using a non-standard
+acceptance criteria to filter samples.
+
+For the purposes of this example, we will filter samples based on the standard
+conservative acceptance criteria, using the default `RowCheck` column.
+
+```{r}
+filt_data <- filt_data |> 
+  filter(RowCheck == "PASS")
+```
+
+### Sample Level Outliers by RFU
+
+It is also important to evaluate if there are any sample-level outliers by 
+RFU measurements. SomaLogic's recommended outlier definition is any sample where
+`>= 5%` of RFU measurements exceed 6 median absolute deviations (MADs) and 5x 
+fold-change from median signal.
+
+We can identify any outlier samples using this definition with the 
+`calcOutlierMap()` function.
+
+```{r rfu-outliers-plot, fig.width = 7, fig.height = 4, fig.align = "center"}
+om <- calcOutlierMap(filt_data)
+plot(om)
+```
+
+No samples in `filt_data` were identified as outliers by RFU measurements.  If
+samples were flagged in the `calcOutlierMap()` plot output, the
+`getFlaggedIds()` function is useful for extracting the sample IDs that were
+flagged as outliers and should be investigated further and considered for
+removal prior to analysis.
+
+------------------------------------------------------------------------
 
 ## Data QC
 
-Coming soon...
+The goal of this step is to assess randomization to plates and plate
+effects. To accomplish this, we can check the association of normalization scale
+factors with any covariates of interest. 
 
--------------
+As an example, we will use `Age` and `Sex` in the `filt_data` ADAT.
+
+```{r nsf-qc-sex-plot, fig.width = 7, fig.height = 5, fig.align = "center"}
+filt_data |> 
+  select(SampleId, Sex, all_of(norm_vars)) |> 
+  tidyr::pivot_longer(!c(SampleId, Sex),
+                      names_to = "Normalization Scale Factor",
+                      values_to = "Value") |> 
+  ggplot(aes(x = `Normalization Scale Factor`, y = Value, fill = Sex)) +
+    geom_boxplot() +
+    ylim(0, 2.6) +
+    geom_hline(yintercept  = 0.4, linetype = "dashed", color = "red") +
+    geom_hline(yintercept  = 2.5, linetype = "dashed", color = "red") +
+    theme_bw() +
+    scale_fill_manual(values = c("#4067E2", "#59CFDB"))
+```
+
+There does not appear to be any visual normalization bias by `Sex`.  This 
+conclusion is confirmed by the results from t-tests.
+
+```{r}
+
+norm_vars |>
+  as_tibble() |> 
+  mutate(
+    formula = map(norm_vars, ~ as.formula(paste(.x, "~ Sex"))), # create formula
+    t_test  = map(formula, ~ stats::t.test(.x, data = filt_data)),  # fit t-tests
+    t_stat  = map_dbl(t_test, "statistic"),            # pull out t-statistic
+    p.value = map_dbl(t_test, "p.value"),              # pull out p-values
+    fdr     = p.adjust(p.value, method = "BH")         # FDR for multiple testing
+  ) 
+```
+
+Now, check for normalization bias by `Age`.
+
+```{r nsf-qc-age-plot, fig.width = 7, fig.height = 5, fig.align = "center"}
+filt_data |> 
+  select(SampleId, Age, all_of(norm_vars)) |> 
+  tidyr::pivot_longer(!c(SampleId, Age),
+                      names_to = "Normalization Scale Factor",
+                      values_to = "Value") |> 
+  ggplot(aes(x = Age, y = Value, color = `Normalization Scale Factor`)) +
+    geom_point() +
+    ylim(0, 2.6) +
+    geom_hline(yintercept  = 0.4, linetype = "dashed", color = "red") +
+    geom_hline(yintercept  = 2.5, linetype = "dashed", color = "red") +
+    theme_bw() +
+    scale_color_manual(values = c("#4067E2", "#59CFDB", "#DB40EF")) +
+    facet_wrap(~`Normalization Scale Factor`) +
+    theme(legend.position = "none")
+
+```
+
+There does appear to be a slight normalization bias by `Age` in both the
+0.5% mix (`NormScale_0_5`) and the 0.005% mix (`NormScale_0_005`).  This can be 
+further evaluated by results from correlation tests.
+
+```{r}
+norm_vars |>
+  as_tibble() |> 
+  mutate(
+    formula = map(norm_vars, ~ as.formula(paste("~ Age +", .x))), # create formula
+    cor     = map(formula, ~ stats::cor.test(.x, data = filt_data)),  # calculate correlations
+    pearson = map_dbl(cor, "statistic"),            # pull out test statistic
+    p.value = map_dbl(cor, "p.value"),              # pull out p-values
+    fdr     = p.adjust(p.value, method = "BH")      # FDR for multiple testing
+  ) 
+```
+
+The negative correlation between `Age` and two of the normalization scale
+factors are statistically significant, but the slightly decreased signal for
+higher ages in this data should be considered nuisance variance since visually
+the bias appears small.
+
+If there _is_ a considerable normalization bias observed in your ADAT, an
+alternate normalization or use of pre-normalized data should be used for 
+univariate analyses, and any planned analyses may need to be modified to account
+for this bias.
+
+------------------------------------------------------------------------
 
 ## Transformations
 
+Prior to performing any multivariate analyses, there are two transformations
+that are recommended to get SOMAmer analyte RFU values in an appropriate space
+suitable for analysis, visualization, and interpretation.
+
+First, let's take a look at the distribution of one example analyte feature,
+`seq.10000.28`, before any transformations are applied.
+
+```{r untransformed-dist, fig.width = 7, fig.height = 3, fig.align = "center"}
+filt_data |> 
+  ggplot(aes(x = seq.10000.28)) +
+  geom_density(fill = "#59CFDB", color = "#59CFDB", alpha = 0.8) +
+  theme_bw()
+```
+
+There is a log-normal distribution, with a long right-tail in the distribution
+of raw RFU values, and this is the assumed distribution of raw analytes
+provided in an ADAT file.  
+
 ### Log-10
 
-Coming soon...
+The first transformation to apply is a Log-10 transformation, which is broadly
+efficient for including the presence of shoulders in a proportion of analytes. 
+
+The `SomaDataIO` package provides a `log10()` math generic function for the
+`soma_adat` class, which will log-10 transform all SOMAmer analyte features
+within an ADAT file.
+
+```{r}
+filt_data <- filt_data |> 
+  log10() 
+```
 
 ### Centering and Scaling (Z-Score)
 
-Coming soon...
+The second transformation to apply to the analyte features is a Z-score
+transformation.  To compare relative differential signal across analyte
+features, centering and scaling all of the RFU values should be applied through
+a Z-score transformation:
 
--------------
+$$
+Z = \frac{x - \mu}{\sigma}
+$$
+where $x$ is the observed value, $\mu$, is the mean of the sample, and $\sigma$
+is the standard deviation of the sample. 
+
+This can be done by creating a simple function, `center_scale()`, and using the
+`purrr::modify_at()` function to apply it to all analytes in `filt_data`.
+
+```{r}
+# center/scale
+center_scale <- function(.x) {    # .x = numeric vector
+  out <- .x - mean(.x)  # center
+  out / sd(out)         # scale
+}
+
+filt_data <- filt_data |> 
+  purrr::modify_at(getAnalytes(filt_data), center_scale)
+```
+
+Now, re-examine the distribution of the same analyte feature `seq.10000.28`:
+
+```{r transformed-dist, fig.width = 7, fig.height = 3, fig.align = "center"}
+filt_data |> 
+  ggplot(aes(x = seq.10000.28)) +
+  geom_density(fill = "#59CFDB", color = "#59CFDB", alpha = 0.8) +
+  theme_bw()
+```
+
+After applying the transformations, the distribution of all of the pre-processed 
+analyte features should look similar to the above.  If true modal behavior of
+any analytes are observed, it may require secondary assessment and further evaluation.
+
+------------------------------------------------------------------------
 
 ## Questions
 
-As always, if you have any pre-processing questions,
-we are here to help. Please reach out to us via:
+As always, if you have any pre-processing questions, we are here to
+help. Please reach out to us via:
 
-* GitHub [SUPPORT](https://somalogic.github.io/SomaDataIO/SUPPORT.html)
-* Global Scientific Engagement Team: <techsupport@somalogic.com>
-* General SomaScan inquiries: <support@somalogic.com>
+-   GitHub
+    [SUPPORT](https://somalogic.github.io/SomaDataIO/SUPPORT.html)
+-   Global Scientific Engagement Team:
+    [techsupport\@somalogic.com](mailto:techsupport@somalogic.com){.email}
+-   General SomaScan inquiries:
+    [support\@somalogic.com](mailto:support@somalogic.com){.email}

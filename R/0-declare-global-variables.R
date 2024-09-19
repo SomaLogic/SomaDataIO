@@ -14,10 +14,16 @@ utils::globalVariables(
     "Dilution",
     "eLOD",
     "feature",
+    "Group",
+    "GroupCount",
     "prefix",
+    "Response",
     "rn",
     "SeqId",
     "seqid",
+    "SubjectCount",
+    "SubjectId",
+    "Type",
     "value"
   )
 )
