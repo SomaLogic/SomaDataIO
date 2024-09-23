@@ -12,6 +12,7 @@ utils::globalVariables(
     "array_id",
     "blank_col",
     "Dilution",
+    "eLOD",
     "feature",
     "prefix",
     "rn",

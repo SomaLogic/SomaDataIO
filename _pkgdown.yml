@@ -167,6 +167,11 @@ reference:
     - cleanNames
     - getAdatVersion
 
+  - title: Data Summaries
+    desc: Functions to assist with summarizing SOMAmer RFU values.
+    contents:
+    - calc_eLOD
+
   - title: Data Objects
     desc: Objects provided with `SomaDataIO`.
     contents:
