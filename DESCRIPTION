@@ -24,15 +24,13 @@ Depends:
     R (>= 4.1.0)
 Imports:
     cli,
-    crayon,
     dplyr (>= 1.0.6),
     lifecycle (>= 1.0.0),
     magrittr (>= 2.0.1),
     methods,
     readxl (>= 1.3.1),
     tibble (>= 3.1.2),
-    tidyr (>= 1.1.3),
-    usethis (>= 2.0.1)
+    tidyr (>= 1.1.3)
 Suggests:
     Biobase,
     ggplot2,
@@ -42,6 +40,7 @@ Suggests:
     rmarkdown,
     spelling,
     testthat (>= 3.0.0),
+    usethis (>= 2.0.1),
     withr
 VignetteBuilder: 
     knitr
@@ -54,4 +53,4 @@ LazyLoad: true
 Config/testthat/edition: 3
 Config/Needs/website: tidyverse/tidytemplate
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2

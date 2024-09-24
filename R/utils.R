@@ -1,10 +1,10 @@
 
-# internal helpers similar to `usethis::ui_*()` functions
+# internal helpers similar to `usethis` functions
 .value <- function(x) {
   if ( identical(Sys.getenv("TESTTHAT"), "true") ) {
     paste(encodeString(x, quote = "'"), collapse = ", ")
   } else {
-    usethis::ui_value(x)
+    cli::cli_text("{.val {x}}")
   }
 }
 
@@ -17,22 +17,22 @@
   paste0("\033[90m", encodeString(x, quote = "`"), "\033[39m")
 }
 
-# borrow from usethis, cli, and crayon for internal use
+# borrow from cli for internal use
 # without explicitly importing the package in NAMESPACE file
 # avoid R CMD check NOTE:
 #   "Namespace in Imports field not imported from: 'pkg'"
-.todo <- usethis::ui_todo
-.done <- usethis::ui_done
-.oops <- usethis::ui_oops
+.todo <- cli::cli_alert
+.done <- cli::cli_alert_success
+.oops <- cli::cli_alert_danger
 # -------------------------- #
 cli_rule  <- cli::rule
 # -------------------------- #
-cr_bold   <- crayon::bold
-cr_green  <- crayon::green
-cr_cyan   <- crayon::cyan
-cr_red    <- crayon::red
-cr_blue   <- crayon::blue
-cr_yellow <- crayon::yellow
+cr_bold   <- cli::style_bold
+cr_green  <- cli::col_green
+cr_cyan   <- cli::col_cyan
+cr_red    <- cli::col_red
+cr_blue   <- cli::col_blue
+cr_yellow <- cli::col_yellow
 
 
 # wrapper around padding; default to right side padding

@@ -15,15 +15,15 @@
     Code
       bad <- loadAdatsAsList(c(files, "fail.adat"))
     Message
-      x Failed to load: 'fail.adat'
+      x Failed to load: "fail.adat"
 
 ---
 
     Code
       bad2 <- loadAdatsAsList(c("a.adat", "b.adat"))
     Message
-      x Failed to load: 'a.adat'
-      x Failed to load: 'b.adat'
+      x Failed to load: "a.adat"
+      x Failed to load: "b.adat"
 
 # collapsed ADATs attributes (HEADER) are correctly merged
 
