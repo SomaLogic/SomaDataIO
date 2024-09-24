@@ -1,156 +1,54 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/SECURITY.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/SUPPORT.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/articles/SomaDataIO.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/articles/cli-merge-tool.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/articles/lifting-and-bridging.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/articles/stat-binary-classification.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/articles/stat-linear-regression.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/articles/stat-three-group-analysis-anova.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/articles/stat-two-group-comparison.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/articles/tips-loading-and-wrangling.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/articles/tips-safely-map-values.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/articles/tips-safely-rename-df.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/articles/tips-train-test-setup.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/index.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/Col.Meta.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/SeqId.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/SomaDataIO-deprecated.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/SomaDataIO-package.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/SomaScanObjects.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/adat-helpers.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/adat2eSet.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/addAttributes.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/addClass.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/cleanNames.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/diffAdats.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/getAnalyteInfo.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/getAnalytes.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/groupGenerics.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/is_intact_attr.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/is_seqFormat.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/lift_adat.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/loadAdatsAsList.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/merge_clin.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/params.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/parseHeader.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/pipe.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/pivotExpressionSet.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/read_adat.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/read_annotations.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/reexports.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/rownames.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/soma_adat.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/transform.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/dev/reference/write_adat.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/CONTRIBUTING.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/LICENSE-text.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/LICENSE.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/SECURITY.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/SUPPORT.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/articles/SomaDataIO.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/articles/cli-merge-tool.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/articles/index.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/articles/lifting-and-bridging.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/articles/stat-binary-classification.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/articles/stat-linear-regression.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/articles/stat-three-group-analysis-anova.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/articles/stat-two-group-comparison.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/articles/tips-loading-and-wrangling.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/articles/tips-safely-map-values.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/articles/tips-safely-rename-df.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/articles/tips-train-test-setup.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/authors.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/index.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/news/index.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/reference/Col.Meta.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/reference/SeqId.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/reference/SomaDataIO-deprecated.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/reference/SomaDataIO-package.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/reference/SomaScanObjects.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/reference/adat-helpers.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/reference/adat2eSet.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/reference/addAttributes.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/reference/addClass.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/reference/cleanNames.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/reference/diffAdats.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/reference/getAnalyteInfo.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/reference/getAnalytes.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/reference/groupGenerics.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/reference/index.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/reference/is_intact_attr.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/reference/is_seqFormat.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/reference/lift_adat.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/reference/loadAdatsAsList.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/reference/merge_clin.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/reference/params.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/reference/parseHeader.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/reference/pipe.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/reference/pivotExpressionSet.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/reference/read_adat.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/reference/read_annotations.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/reference/reexports.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/reference/rownames.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/reference/soma_adat.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/reference/transform.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/dev/reference/write_adat.html</loc></url>
 </urlset>
+

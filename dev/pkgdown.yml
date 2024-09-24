@@ -1,20 +1,19 @@
 pandoc: 3.1.11
-pkgdown: 2.0.9
+pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
-  cli-merge-tool: cli-merge-tool.html
-  lifting-and-bridging: lifting-and-bridging.html
+  articles/cli-merge-tool: cli-merge-tool.html
+  articles/lifting-and-bridging: lifting-and-bridging.html
   SomaDataIO: SomaDataIO.html
-  stat-binary-classification: stat-binary-classification.html
-  stat-linear-regression: stat-linear-regression.html
-  stat-three-group-analysis-anova: stat-three-group-analysis-anova.html
-  stat-two-group-comparison: stat-two-group-comparison.html
-  tips-loading-and-wrangling: tips-loading-and-wrangling.html
-  tips-safely-map-values: tips-safely-map-values.html
-  tips-safely-rename-df: tips-safely-rename-df.html
-  tips-train-test-setup: tips-train-test-setup.html
-last_built: 2024-05-15T21:46Z
+  articles/stat-binary-classification: stat-binary-classification.html
+  articles/stat-linear-regression: stat-linear-regression.html
+  articles/stat-three-group-analysis-anova: stat-three-group-analysis-anova.html
+  articles/stat-two-group-comparison: stat-two-group-comparison.html
+  articles/tips-loading-and-wrangling: tips-loading-and-wrangling.html
+  articles/tips-safely-map-values: tips-safely-map-values.html
+  articles/tips-safely-rename-df: tips-safely-rename-df.html
+  articles/tips-train-test-setup: tips-train-test-setup.html
+last_built: 2024-09-24T18:03Z
 urls:
   reference: https://somalogic.github.io/SomaDataIO/reference
   article: https://somalogic.github.io/SomaDataIO/articles
-
