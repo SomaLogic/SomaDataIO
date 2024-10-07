@@ -11,19 +11,26 @@ utils::globalVariables(
     "AptName",
     "array_id",
     "blank_col",
+    "ColCheck",
     "Dilution",
     "eLOD",
     "feature",
     "Group",
     "GroupCount",
+    "Normalization Scale Factor",
+    "Organism",
     "prefix",
     "Response",
+    "RowCheck",
     "rn",
+    "SampleId",
+    "SampleType",
     "SeqId",
     "seqid",
     "SubjectCount",
     "SubjectId",
     "Type",
-    "value"
+    "value",
+    "Value"
   )
 )

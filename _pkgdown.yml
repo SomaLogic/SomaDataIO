@@ -143,6 +143,7 @@ reference:
     - getMeta
     - diffAdats
     - merge_clin
+    - preProcessAdat
 
   - title: Transform Between SomaScan Versions
     desc: >

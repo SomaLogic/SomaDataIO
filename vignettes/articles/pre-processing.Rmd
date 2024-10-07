@@ -161,37 +161,38 @@ workflow.
 
 ## Filtering Samples
 
-The next pre-processing step to consider is filtering samples. A typical data 
-analysis is focused on only the clinical samples within the ADAT file. The
-`SampleType` column in the `filt_data` object can be used to filter down to the
-clinical samples only.  
+The next pre-processing step to consider is filtering samples. A typical
+data analysis is focused on only the clinical samples within the ADAT
+file. The `SampleType` column in the `filt_data` object can be used to
+filter down to the clinical samples only.
 
 ```{r}
 filt_data |> count(SampleType)
 ```
 
-An ADAT file will also include buffer, calibrator and QC samples. It is 
-recommended to remove these samples prior to an analysis. 
+An ADAT file will also include buffer, calibrator and QC samples. It is
+recommended to remove these samples prior to an analysis.
 
 ```{r}
 filt_data <- filt_data |> 
   filter(SampleType == "Sample")
 ```
 
-The `filt_data` object now has `r nrow(filt_data)` clinical samples, after
-removing the 10 calibrator samples (replicate controls for combining data across
-runs), 6 QC samples (replicate controls used to assess run quality), and 6 
-buffer samples (no protein controls).
+The `filt_data` object now has `r nrow(filt_data)` clinical samples,
+after removing the 10 calibrator samples (replicate controls for
+combining data across runs), 6 QC samples (replicate controls used to
+assess run quality), and 6 buffer samples (no protein controls).
 
 ### Flagged Samples
 
-An ADAT file contains a single column, called `RowCheck`, that can be used for
-filtering out flagged samples that do not pass a pre-defined normalization 
-acceptance criteria.  
+An ADAT file contains a single column, called `RowCheck`, that can be
+used for filtering out flagged samples that do not pass a pre-defined
+normalization acceptance criteria.
 
-The standard normalization acceptance criteria used to determine if a sample is
-flagged by the `RowCheck` column is if _any_ of the *rowwise* normalization
-scale factors are outside of the acceptance range of 0.4 to 2.5:
+The standard normalization acceptance criteria used to determine if a
+sample is flagged by the `RowCheck` column is if *any* of the *rowwise*
+normalization scale factors are outside of the acceptance range of 0.4
+to 2.5:
 
 ```{r out.width = '70%', echo = FALSE, fig.align = "center"}
 knitr::include_graphics("img/pre-processing-flagged-samples-conservative.png")
@@ -201,8 +202,8 @@ knitr::include_graphics("img/pre-processing-flagged-samples-conservative.png")
 filt_data |> count(RowCheck)
 ```
 
-Two samples in `filt_data` are flagged with this row check, and are marked with
-a `FLAG` value. 
+Two samples in `filt_data` are flagged with this row check, and are
+marked with a `FLAG` value.
 
 ```{r}
 filt_data |>
@@ -214,17 +215,19 @@ filt_data |>
 We can see that these two samples each have a normalization scale factor
 (`NormScale_20`) that fall below the standard accepted range.
 
-Note that the standard normalization acceptance range used for determining the 
-`RowCheck` value is the most conservative that SomaLogic recommends.  A less
-conservative approach would be adjust the normalization acceptance criteria to 
-accept 'positive controls' for further outlier assessment:
+Note that the standard normalization acceptance range used for
+determining the `RowCheck` value is the most conservative that SomaLogic
+recommends. A less conservative approach would be adjust the
+normalization acceptance criteria to accept 'positive controls' for
+further outlier assessment:
 
 ```{r out.width = '70%', echo = FALSE, fig.align = "center"}
 knitr::include_graphics("img/pre-processing-flagged-samples-keep-controls.png")
 ```
 
-Using this approach would require defining an alternative filtering step.
-We can create an `AltRowCheck` column using the less conservative criteria:
+Using this approach would require defining an alternative filtering
+step. We can create an `AltRowCheck` column using the less conservative
+criteria:
 
 ```{r}
 # pull normalization scale factor variable names from ADAT
@@ -240,10 +243,11 @@ filt_data <- filt_data |>
 filt_data |> count(AltRowCheck)
 ```
 
-No samples were flagged in the `filt_data` object using this less conservative
-normalization acceptance criteria.  Using this approach, it is also recommended
-to visually examine a plot of the normalization scale factors by sample to
-assess if there is a bias or distinct sample outliers.
+No samples were flagged in the `filt_data` object using this less
+conservative normalization acceptance criteria. Using this approach, it
+is also recommended to visually examine a plot of the normalization
+scale factors by sample to assess if there is a bias or distinct sample
+outliers.
 
 ```{r nsf-outliers-plot, fig.width = 7, fig.height = 5, fig.align = "center"}
 filt_data |> 
@@ -259,18 +263,19 @@ filt_data |>
     theme_bw()
 ```
 
-There does not appear to be any evidence of bias or significant outliers in the
-normalization scale factor values of the `filt_data` object used in this 
-example.
+There does not appear to be any evidence of bias or significant outliers
+in the normalization scale factor values of the `filt_data` object used
+in this example.
 
-Note that normalization to a reference may result in scaling bias in certain
-scenarios, and it's reasonable to adjust the acceptance criteria
+Note that normalization to a reference may result in scaling bias in
+certain scenarios, and it's reasonable to adjust the acceptance criteria
 used for filtering samples based on the data you have and the analysis
-you are planning to execute.  Use your best judgment if using a non-standard
-acceptance criteria to filter samples.
+you are planning to execute. Use your best judgment if using a
+non-standard acceptance criteria to filter samples.
 
-For the purposes of this example, we will filter samples based on the standard
-conservative acceptance criteria, using the default `RowCheck` column.
+For the purposes of this example, we will filter samples based on the
+standard conservative acceptance criteria, using the default `RowCheck`
+column.
 
 ```{r}
 filt_data <- filt_data |> 
@@ -279,12 +284,12 @@ filt_data <- filt_data |>
 
 ### Sample Level Outliers by RFU
 
-It is also important to evaluate if there are any sample-level outliers by 
-RFU measurements. SomaLogic's recommended outlier definition is any sample where
-`>= 5%` of RFU measurements exceed 6 median absolute deviations (MADs) and 5x 
-fold-change from median signal.
+It is also important to evaluate if there are any sample-level outliers
+by RFU measurements. SomaLogic's recommended outlier definition is any
+sample where `>= 5%` of RFU measurements exceed 6 median absolute
+deviations (MADs) and 5x fold-change from median signal.
 
-We can identify any outlier samples using this definition with the 
+We can identify any outlier samples using this definition with the
 `calcOutlierMap()` function.
 
 ```{r rfu-outliers-plot, fig.width = 7, fig.height = 4, fig.align = "center"}
@@ -292,19 +297,19 @@ om <- calcOutlierMap(filt_data)
 plot(om)
 ```
 
-No samples in `filt_data` were identified as outliers by RFU measurements.  If
-samples were flagged in the `calcOutlierMap()` plot output, the
-`getFlaggedIds()` function is useful for extracting the sample IDs that were
-flagged as outliers and should be investigated further and considered for
-removal prior to analysis.
+No samples in `filt_data` were identified as outliers by RFU
+measurements. If samples were flagged in the `calcOutlierMap()` plot
+output, the `getFlaggedIds()` function is useful for extracting the
+sample IDs that were flagged as outliers and should be investigated
+further and considered for removal prior to analysis.
 
 ------------------------------------------------------------------------
 
 ## Data QC
 
 The goal of this step is to assess randomization to plates and plate
-effects. To accomplish this, we can check the association of normalization scale
-factors with any covariates of interest. 
+effects. To accomplish this, we can check the association of
+normalization scale factors with any covariates of interest.
 
 As an example, we will use `Age` and `Sex` in the `filt_data` ADAT.
 
@@ -323,7 +328,7 @@ filt_data |>
     scale_fill_manual(values = c("#4067E2", "#59CFDB"))
 ```
 
-There does not appear to be any visual normalization bias by `Sex`.  This 
+There does not appear to be any visual normalization bias by `Sex`. This
 conclusion is confirmed by the results from t-tests.
 
 ```{r}
@@ -360,8 +365,8 @@ filt_data |>
 ```
 
 There does appear to be a slight normalization bias by `Age` in both the
-0.5% mix (`NormScale_0_5`) and the 0.005% mix (`NormScale_0_005`).  This can be 
-further evaluated by results from correlation tests.
+0.5% mix (`NormScale_0_5`) and the 0.005% mix (`NormScale_0_005`). This
+can be further evaluated by results from correlation tests.
 
 ```{r}
 norm_vars |>
@@ -375,26 +380,27 @@ norm_vars |>
   ) 
 ```
 
-The negative correlation between `Age` and two of the normalization scale
-factors are statistically significant, but the slightly decreased signal for
-higher ages in this data should be considered nuisance variance since visually
-the bias appears small.
+The negative correlation between `Age` and two of the normalization
+scale factors are statistically significant, but the slightly decreased
+signal for higher ages in this data should be considered nuisance
+variance since visually the bias appears small.
 
-If there _is_ a considerable normalization bias observed in your ADAT, an
-alternate normalization or use of pre-normalized data should be used for 
-univariate analyses, and any planned analyses may need to be modified to account
-for this bias.
+If there *is* a considerable normalization bias observed in your ADAT,
+an alternate normalization or use of pre-normalized data should be used
+for univariate analyses, and any planned analyses may need to be
+modified to account for this bias.
 
 ------------------------------------------------------------------------
 
 ## Transformations
 
-Prior to performing any multivariate analyses, there are two transformations
-that are recommended to get SOMAmer analyte RFU values in an appropriate space
-suitable for analysis, visualization, and interpretation.
+Prior to performing any multivariate analyses, there are two
+transformations that are recommended to get SOMAmer analyte RFU values
+in an appropriate space suitable for analysis, visualization, and
+interpretation.
 
-First, let's take a look at the distribution of one example analyte feature,
-`seq.10000.28`, before any transformations are applied.
+First, let's take a look at the distribution of one example analyte
+feature, `seq.10000.28`, before any transformations are applied.
 
 ```{r untransformed-dist, fig.width = 7, fig.height = 3, fig.align = "center"}
 filt_data |> 
@@ -403,18 +409,19 @@ filt_data |>
   theme_bw()
 ```
 
-There is a log-normal distribution, with a long right-tail in the distribution
-of raw RFU values, and this is the assumed distribution of raw analytes
-provided in an ADAT file.  
+There is a log-normal distribution, with a long right-tail in the
+distribution of raw RFU values, and this is the assumed distribution of
+raw analytes provided in an ADAT file.
 
 ### Log-10
 
-The first transformation to apply is a Log-10 transformation, which is broadly
-efficient for including the presence of shoulders in a proportion of analytes. 
+The first transformation to apply is a Log-10 transformation, which is
+broadly efficient for including the presence of shoulders in a
+proportion of analytes.
 
-The `SomaDataIO` package provides a `log10()` math generic function for the
-`soma_adat` class, which will log-10 transform all SOMAmer analyte features
-within an ADAT file.
+The `SomaDataIO` package provides a `log10()` math generic function for
+the `soma_adat` class, which will log-10 transform all SOMAmer analyte
+features within an ADAT file.
 
 ```{r}
 filt_data <- filt_data |> 
@@ -424,18 +431,17 @@ filt_data <- filt_data |>
 ### Centering and Scaling (Z-Score)
 
 The second transformation to apply to the analyte features is a Z-score
-transformation.  To compare relative differential signal across analyte
-features, centering and scaling all of the RFU values should be applied through
-a Z-score transformation:
+transformation. To compare relative differential signal across analyte
+features, centering and scaling all of the RFU values should be applied
+through a Z-score transformation:
 
 $$
 Z = \frac{x - \mu}{\sigma}
-$$
-where $x$ is the observed value, $\mu$, is the mean of the sample, and $\sigma$
-is the standard deviation of the sample. 
+$$ where $x$ is the observed value, $\mu$, is the mean of the sample,
+and $\sigma$ is the standard deviation of the sample.
 
-This can be done by creating a simple function, `center_scale()`, and using the
-`purrr::modify_at()` function to apply it to all analytes in `filt_data`.
+This can be done by creating a simple function, `center_scale()`, and
+applying it to all analytes in `filt_data`.
 
 ```{r}
 # center/scale
@@ -445,10 +451,11 @@ center_scale <- function(.x) {    # .x = numeric vector
 }
 
 filt_data <- filt_data |> 
-  purrr::modify_at(getAnalytes(filt_data), center_scale)
+  mutate(across(getAnalytes(filt_data), center_scale))
 ```
 
-Now, re-examine the distribution of the same analyte feature `seq.10000.28`:
+Now, re-examine the distribution of the same analyte feature
+`seq.10000.28`:
 
 ```{r transformed-dist, fig.width = 7, fig.height = 3, fig.align = "center"}
 filt_data |> 
@@ -457,9 +464,34 @@ filt_data |>
   theme_bw()
 ```
 
-After applying the transformations, the distribution of all of the pre-processed 
-analyte features should look similar to the above.  If true modal behavior of
-any analytes are observed, it may require secondary assessment and further evaluation.
+After applying the transformations, the distribution of all of the
+pre-processed analyte features should look similar to the above. If true
+modal behavior of any analytes are observed, it may require secondary
+assessment and further evaluation.
+
+------------------------------------------------------------------------
+
+## `preProcessAdat()` function
+
+The `preProcessAdat()` function is available to perform the steps
+outlined in this vignette. By default, it will filter features and
+samples using the standard QC and normalization acceptance criteria
+described earlier, along with dropping sample-level RFU outliers, and
+performing a log-10, center and scale transformation to the raw RFU
+values. If data QC plots by clinical covariates are desired, the names
+of the clinical variables should be explicitly passed to the `data.qc`
+argument. Please see the `preProcessAdat()` function documentation for
+more details.
+
+```{r full-preProcessAdat, fig.width = 7, fig.height = 3, fig.align = "center"}
+processed_data <- preProcessAdat(adat            = example_data,
+                                 filter.features = TRUE,
+                                 filter.samples  = TRUE,
+                                 data.qc         = c("Age", "Sex"),
+                                 transform       = TRUE)
+
+processed_data
+```
 
 ------------------------------------------------------------------------
 
