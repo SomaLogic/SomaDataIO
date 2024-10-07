@@ -15,6 +15,7 @@ CMD
 CSF
 CalQcRatio
 CalReference
+Calc
 Codecov
 ColCheck
 Covance
@@ -28,6 +29,8 @@ EntrezGeneID
 EntrezGeneSymbol
 ExpressionSet
 ExtIdentifier
+FC
+Hiser
 HybControlNormScale
 Kuei
 LF
@@ -42,6 +45,7 @@ PercentDilution
 PlateId
 PlatePosition
 PlateScale
+Pre
 QcReference
 README
 RFU
@@ -93,6 +97,8 @@ eLOD
 eSet
 frac
 funder
+ggplot
+gridlines
 intra
 leftrightarrow
 lifecycle
@@ -108,11 +114,11 @@ proteomic
 readxl
 rightarrow
 rowname
+rowwise
 rsample
 subarray
 tada
 th
 tibble
 tidyr
-usethis
 vectorized

@@ -44,25 +44,29 @@ _preliminary_ analyses on 'SomaScan' data.
 
 
 ## Data Preparation
-```{r data-prep}
-# the `example_data` package data
+```{r data-prep, fig.width = 7, fig.height = 3, fig.align = "center"}
+# the `example_data` .adat object
+# download from `SomaLogic-Data` repo or directly via bash command:
+# `wget https://raw.githubusercontent.com/SomaLogic/SomaLogic-Data/main/example_data.adat`
+# then read in to R with:
+# example_data <- read_adat("example_data.adat")
 dim(example_data)
 
 table(example_data$SampleType)
 
-# center/scale
-cs <- function(.x) {    # .x = numeric vector
-  out <- .x - mean(.x)  # center
-  out / sd(out)         # scale
-}
-
-# prepare data set for analysis
+# prepare data set for analysis using `preProcessAdat()`
 cleanData <- example_data |>
-  filter(SampleType == "Sample") |>               # rm control samples
-  drop_na(Sex) |>                                 # rm NAs if present
-  log10() |>                                      # log10-transform (Math Generic)
-  mutate(Group = as.numeric(factor(Sex)) - 1) |>  # map Sex -> 0/1
-  modify_at(getAnalytes(example_data), cs)        # center/scale analytes
+  preProcessAdat(
+    filter.features = TRUE,            # rm non-human protein features
+    filter.samples  = TRUE,            # rm control samples
+    data.qc         = "Sex",           # plot scale factors by covariate
+    transform       = TRUE             # log10, center, scale transform
+  )
+
+# drop any missing values in Sex, and convert to binary 0/1 variable
+cleanData <- cleanData |> 
+  drop_na(Sex) |>                              # rm NAs if present
+  mutate(Group = as.numeric(factor(Sex)) - 1)  # map Sex -> 0/1
 
 table(cleanData$Sex)
 
