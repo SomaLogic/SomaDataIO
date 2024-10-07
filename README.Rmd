@@ -204,10 +204,15 @@ to users to run canned examples (or analyses). They can be accessed once
 Loading an ADAT text file is simple using `read_adat()`:
 
 ```{r read-adat}
-# Sample file name
-f <- system.file("extdata", "example_data10.adat",
-                 package = "SomaDataIO", mustWork = TRUE)
-my_adat <- read_adat(f)
+# Note: This `system.file()` command returns a filepath to the `example_data10` 
+# object in the `SomaDataIO` package
+file_path <- system.file("extdata", "example_data10.adat",
+                         package = "SomaDataIO", mustWork = TRUE)
+
+# `file_path` should be the elaborated path and file name of the *.adat file to
+# be loaded into the R workspace from your local file system
+# (e.g. file_path = "PATH_TO_ADAT/my_adat.adat")
+my_adat <- read_adat(file = file_path)
 
 # test object class
 is.soma_adat(my_adat)
