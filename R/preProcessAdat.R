@@ -19,12 +19,13 @@
 #' @param filter.samples Logical. Should buffer, calibrator, and QC samples be
 #' dropped, along with samples that do not pass default normalization acceptance
 #' criteria or are identified as sample level RFU outliers?  Default is `TRUE`.
-#' @param data.qc Character. Character vector of clinical covariate variable
-#' names for which data QC plots are desired. Default is `NULL`, which does
-#' not generate any QC plots.  Note: These plots are for visual
-#' inspection only, no samples or features are dropped from the output
-#' `soma_adat` object.
-#' @param transform Logical. Should the RFU values be log10 and Z-transformed
+#' @param data.qc Character. Character vector of variable names for which data
+#' QC plots are desired. Default is `NULL`, which does not generate any QC
+#' plots.  Note: These plots are for visual inspection only, no samples or
+#' features are dropped from the output `soma_adat` object.
+#' @param log.10 Logical. Should the RFU values be log10 transformed?
+#' Default is `TRUE`.
+#' @param center.scale Logical. Should the RFU values be Z-transformed
 #' (centered and scaled)? Default is `TRUE`.
 #' @return A `soma_adat` object.
 #' @author Caleb Scheidel
@@ -39,7 +40,8 @@ preProcessAdat <- function(adat,
                            filter.features = TRUE,
                            filter.samples = TRUE,
                            data.qc = NULL,
-                           transform = TRUE) {
+                           log.10 = TRUE,
+                           center.scale = TRUE) {
 
   stopifnot("`adat` must be a class `soma_adat` object" = is.soma_adat(adat))
 
@@ -113,6 +115,27 @@ preProcessAdat <- function(adat,
 
   }
 
+  # default log10 transformations
+  if ( log.10 ) {
+    adat <- log10(adat)
+
+    .done("RFU features were log-10 transformed.")
+  }
+
+  # default center scale transformations
+  if ( center.scale ) {
+    # center/scale
+    center_scale <- function(.x) {    # .x = numeric vector
+      out <- .x - mean(.x)  # center
+      out / sd(out)         # scale
+    }
+
+    adat <- adat |>
+      mutate(across(getAnalytes(adat), center_scale))
+
+    .done("RFU features were centered and scaled.")
+  }
+
   # default QC plots
   if ( !is.null(data.qc) ) {
     # stop if passed variables are not in adat
@@ -168,21 +191,6 @@ preProcessAdat <- function(adat,
     }
 
     print(plts)
-  }
-
-  # default transformations
-  if ( transform ) {
-    # center/scale
-    center_scale <- function(.x) {    # .x = numeric vector
-      out <- .x - mean(.x)  # center
-      out / sd(out)         # scale
-    }
-
-    adat <- adat |>
-      log10() |>
-      mutate(across(getAnalytes(adat), center_scale))
-
-    .done("RFU features were log-10 transformed, centered, and scaled.")
   }
 
   return(adat)

@@ -72,14 +72,15 @@ annotation data (i.e. the column metadata, or `COL_DATA`) that appears
 above the protein measurements in the ADAT file, and returns it in a
 `data.frame` format.
 
-*Note: for more information about the format and content of an ADAT,
-please* *reference the*
+*Note: The `example_data` object used in this vignette is a V4.0 plasma ADAT.
+Other matrices or versions of ADATs may contain expanded feature sets. For more
+information about the format and content of an ADAT, please* *reference the*
 [SomaLogic-Data](https://github.com/SomaLogic/SomaLogic-Data) *GitHub
 repository.*
 
 To retrieve the column metadata annotations for the data set:
 
-```{r}
+```{r get-annots}
 annots <- getAnalyteInfo(example_data)
 ```
 
@@ -87,7 +88,7 @@ We can now check the contents of the `Type` and `Organism` attributes,
 which can be accessed as columns of a data frame once extracted with
 `getAnalyteInfo()`:
 
-```{r}
+```{r check-type-organism}
 annots |> count(Type) |> arrange(desc(n))
 
 annots |> count(Organism) |> arrange(desc(n))
@@ -99,7 +100,7 @@ related to a human protein. In the same filtering step, we can also
 specify that we only want to retain proteins found in humans
 (`Organism == "Human")`. This can be performed using `dplyr::filter()`:
 
-```{r}
+```{r get-human-prots}
 human_prots <- getAnalyteInfo(example_data) |>
   filter(Type == "Protein" & Organism == "Human")
 length(human_prots$SeqId)
@@ -116,7 +117,7 @@ Remember that the `human_prots` object is not an ADAT, but rather a
 `example_data` ADAT object. We must now filter the `example_data` object
 to match the filtering performed on the `human_prots` object.
 
-```{r}
+```{r filter-human-prots}
 # Identify SeqIds that differ between the data sets
 discard <- setdiff(grep("^seq\\.", colnames(example_data), value = TRUE), 
                    human_prots$AptName)
@@ -137,15 +138,38 @@ to determine if a feature is flagged is if the QC ratio by plate
 (aggregate across all plates) is within the acceptance range of 0.8 to
 1.2:
 
-```{r out.width = '70%', echo = FALSE, fig.align = "center"}
-knitr::include_graphics("img/pre-processing-flagged-features-qc-range.png")
+```{r img1, fig.width = 6, fig.height = 1.5, echo = FALSE, fig.align = "center"}
+ggplot() +
+  geom_rect(mapping = aes(xmin = 0, xmax = 0.8, ymin = 0, ymax = 0.1),
+            fill = "#ecf0de") +
+  geom_rect(mapping = aes(xmin = 0.8, xmax = 1.2, ymin = 0, ymax = 0.1),
+            fill = "#c3d69b") +
+  geom_rect(mapping = aes(xmin = 1.2, xmax = 2, ymin = 0, ymax = 0.1),
+            fill = "#ecf0de") +
+  labs(title    = "Analysis QC Accuracy Criteria Per SOMAmer Reagent",
+       subtitle = "QC Ratio Test By Plate (Aggregate Across Plates)") +
+  geom_text(aes(x = 0.4, y = 0.05, label = "Accept"), size = 4) +
+  geom_text(aes(x = 1.6, y = 0.05, label = "Accept"), size = 4) +
+  geom_text(aes(x = 1, y = 0.05, label = "PASS"), size = 4) +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        panel.border = element_blank(),
+        axis.text.y = element_blank(),
+        panel.grid = element_blank(),
+        axis.ticks.y = element_blank(),
+        panel.background = element_rect(fill = "white"),
+        axis.text.x = element_text(size = 12, face = "bold"),
+        axis.ticks.length.x = unit(.5, "cm")) +
+  scale_x_continuous(breaks = c(0.8, 1.0, 1.2), position = "top") +
+  xlab("") +
+  ylab("")
 ```
 
 Again, please see
 [SomaLogic-Data](https://github.com/SomaLogic/SomaLogic-Data) for more
 details.
 
-```{r}
+```{r check-cols}
 human_prots |> count(ColCheck)
 ```
 
@@ -166,14 +190,14 @@ data analysis is focused on only the clinical samples within the ADAT
 file. The `SampleType` column in the `filt_data` object can be used to
 filter down to the clinical samples only.
 
-```{r}
+```{r sample-types}
 filt_data |> count(SampleType)
 ```
 
 An ADAT file will also include buffer, calibrator and QC samples. It is
 recommended to remove these samples prior to an analysis.
 
-```{r}
+```{r filter-samples}
 filt_data <- filt_data |> 
   filter(SampleType == "Sample")
 ```
@@ -194,93 +218,73 @@ sample is flagged by the `RowCheck` column is if *any* of the *rowwise*
 normalization scale factors are outside of the acceptance range of 0.4
 to 2.5:
 
-```{r out.width = '70%', echo = FALSE, fig.align = "center"}
-knitr::include_graphics("img/pre-processing-flagged-samples-conservative.png")
+```{r img2, fig.width = 6, fig.height = 1.5, echo = FALSE, fig.align = "center"}
+ggplot() +
+  geom_rect(mapping = aes(xmin = -2.5, xmax = 0.5, ymin = 0, ymax = 0.1),
+            fill = "pink") +
+  geom_rect(mapping = aes(xmin = 0.5, xmax = 2.5, ymin = 0, ymax = 0.1),
+            fill = "#c3d69b") +
+  geom_rect(mapping = aes(xmin = 2.5, xmax = 5.5, ymin = 0, ymax = 0.1),
+            fill = "pink") +
+  labs(title    = "Standard Normalization Acceptance Criteria Per Sample",
+       subtitle = "All Scale Factors") +
+  geom_text(aes(x = -1, y = 0.05, label = "FAIL"), size = 4) +
+  geom_text(aes(x = 1.5, y = 0.05, label = "PASS"), size = 4) +
+  geom_text(aes(x = 4, y = 0.05, label = "FAIL"), size = 4) +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        panel.border = element_blank(),
+        axis.text.y = element_blank(),
+        panel.grid = element_blank(),
+        axis.ticks.y = element_blank(),
+        panel.background = element_rect(fill = "white"),
+        axis.text.x = element_text(size = 12, face = "bold"),
+        axis.ticks.length.x = unit(.5, "cm")) +
+  scale_x_continuous(breaks = c(-1, 0.5, 1.5, 2.5, 4.0),
+                     labels = c("0.25", "0.4", "1.0", "2.5", "4.0"),
+                     position = "top") +
+  xlab("") +
+  ylab("")
 ```
 
-```{r}
-filt_data |> count(RowCheck)
+```{r rowcheck-count}
+filt_data |>
+  count(RowCheck) |> 
+  mutate(percent = n / sum(n) * 100)
 ```
 
 Two samples in `filt_data` are flagged with this row check, and are
 marked with a `FLAG` value.
 
-```{r}
+```{r identify-flags}
+# pull normalization scale factor variable names from ADAT
+norm_vars <- grep("^[Nn]orm[Ss]cale|^Med\\.Scale\\.", 
+                  names(filt_data), value = TRUE)
+
 filt_data |>
   filter(RowCheck == "FLAG") |> 
-  dplyr::select(SampleId, starts_with("NormScale")) |> 
+  dplyr::select(SampleId, all_of(norm_vars)) |> 
   as.data.frame()
 ```
 
 We can see that these two samples each have a normalization scale factor
-(`NormScale_20`) that fall below the standard accepted range.
+(`NormScale_20`) that fall below the standard accepted range. Filtering
+samples based on the default `RowCheck` column will drop these two samples
+from `filt_data`.
 
-Note that the standard normalization acceptance range used for
-determining the `RowCheck` value is the most conservative that SomaLogic
-recommends. A less conservative approach would be adjust the
-normalization acceptance criteria to accept 'positive controls' for
-further outlier assessment:
-
-```{r out.width = '70%', echo = FALSE, fig.align = "center"}
-knitr::include_graphics("img/pre-processing-flagged-samples-keep-controls.png")
-```
-
-Using this approach would require defining an alternative filtering
-step. We can create an `AltRowCheck` column using the less conservative
-criteria:
-
-```{r}
-# pull normalization scale factor variable names from ADAT
-norm_vars <- grep("^[Nn]orm[Ss]cale|^Med\\.Scale\\.",
-                  names(filt_data), value = TRUE)
-
-filt_data <- filt_data |> 
-  mutate(
-    AltRowCheck = ifelse(if_any(all_of(norm_vars), ~ .x < 0.25 | .x > 4),
-                         "FLAG", "PASS")
-  )
-
-filt_data |> count(AltRowCheck)
-```
-
-No samples were flagged in the `filt_data` object using this less
-conservative normalization acceptance criteria. Using this approach, it
-is also recommended to visually examine a plot of the normalization
-scale factors by sample to assess if there is a bias or distinct sample
-outliers.
-
-```{r nsf-outliers-plot, fig.width = 7, fig.height = 5, fig.align = "center"}
-filt_data |> 
-  select(SampleId, all_of(norm_vars)) |> 
-  tidyr::pivot_longer(!SampleId,
-                      names_to = "Normalization Scale Factor",
-                      values_to = "Value") |> 
-  ggplot(aes(x = `Normalization Scale Factor`, y = Value)) +
-    geom_boxplot() +
-    ylim(0, 4) +
-    geom_hline(yintercept  = 0.25, linetype = "dashed", color = "red") +
-    geom_hline(yintercept  = 4, linetype = "dashed", color = "red") +
-    theme_bw()
-```
-
-There does not appear to be any evidence of bias or significant outliers
-in the normalization scale factor values of the `filt_data` object used
-in this example.
-
-Note that normalization to a reference may result in scaling bias in
-certain scenarios, and it's reasonable to adjust the acceptance criteria
-used for filtering samples based on the data you have and the analysis
-you are planning to execute. Use your best judgment if using a
-non-standard acceptance criteria to filter samples.
-
-For the purposes of this example, we will filter samples based on the
-standard conservative acceptance criteria, using the default `RowCheck`
-column.
-
-```{r}
+```{r filter-flag-rowcheck}
 filt_data <- filt_data |> 
   filter(RowCheck == "PASS")
 ```
+
+Note that normalization to a reference may result in scaling bias in
+certain scenarios. It is recommended to check the flag rate using the 
+default acceptance criteria from `RowCheck`, and if > 10% of samples are 
+flagged, further evaluation may be needed.
+
+Depending on your data and experiment, it may be reasonable to adjust the
+acceptance criteria used for filtering samples. Use your best judgment if using
+a non-standard acceptance criteria to filter samples.
 
 ### Sample Level Outliers by RFU
 
@@ -288,6 +292,13 @@ It is also important to evaluate if there are any sample-level outliers
 by RFU measurements. SomaLogic's recommended outlier definition is any
 sample where `>= 5%` of RFU measurements exceed 6 median absolute
 deviations (MADs) and 5x fold-change from median signal.
+
+```{r create-fake-outlier}
+# filt_data does not have any outliers by default
+# create a "fake" outlier sample as an example
+apts <- getAnalytes(filt_data)
+filt_data[12, apts[1:600]] <- filt_data[12, apts[1:600]] * 100  # 600 apts ~ 12%
+```
 
 We can identify any outlier samples using this definition with the
 `calcOutlierMap()` function.
@@ -297,11 +308,21 @@ om <- calcOutlierMap(filt_data)
 plot(om)
 ```
 
-No samples in `filt_data` were identified as outliers by RFU
-measurements. If samples were flagged in the `calcOutlierMap()` plot
-output, the `getFlaggedIds()` function is useful for extracting the
-sample IDs that were flagged as outliers and should be investigated
-further and considered for removal prior to analysis.
+The one sample in `filt_data` that we modified in the previous code chunk
+was identified as an outlier by RFU measurements with the `*`. 
+
+The `getFlaggedIds()` function is useful for extracting the
+sample IDs that were flagged as outliers in the plot. These sample IDs should be
+investigated further and possibly considered for removal prior to analysis.
+
+```{r get-flagged-id}
+rfu_outliers <- getFlaggedIds(om)
+rfu_outliers
+
+# drop one outlier sample
+filt_data <- filt_data |> 
+  filter(!dplyr::row_number() %in% rfu_outliers$idx)
+```
 
 ------------------------------------------------------------------------
 
@@ -309,17 +330,29 @@ further and considered for removal prior to analysis.
 
 The goal of this step is to assess randomization to plates and plate
 effects. To accomplish this, we can check the association of
-normalization scale factors with any covariates of interest.
+normalization scale factors with any *endpoint* of interest.
 
-As an example, we will use `Age` and `Sex` in the `filt_data` ADAT.
+As an example, we will create a `status_class` two-group endpoint variable and a
+`status_cont` continuous endpoint variable in the `filt_data` ADAT.
 
-```{r nsf-qc-sex-plot, fig.width = 7, fig.height = 5, fig.align = "center"}
+```{r create-status-endpts}
+# create "status" endpoints as examples
+filt_data <- withr::with_seed(101,
+  filt_data |> 
+    mutate(status_cont = runif(nrow(filt_data))) |> 
+    mutate(status_class = ifelse(status_cont > 0.5, "treatment", "control"))
+)
+```
+
+Plot the normalization scale factors by the `status_class` endpoint.
+
+```{r nsf-qc-class-plot, fig.width = 7, fig.height = 5, fig.align = "center"}
 filt_data |> 
-  select(SampleId, Sex, all_of(norm_vars)) |> 
-  tidyr::pivot_longer(!c(SampleId, Sex),
+  select(SampleId, status_class, all_of(norm_vars)) |> 
+  tidyr::pivot_longer(!c(SampleId, status_class),
                       names_to = "Normalization Scale Factor",
                       values_to = "Value") |> 
-  ggplot(aes(x = `Normalization Scale Factor`, y = Value, fill = Sex)) +
+  ggplot(aes(x = `Normalization Scale Factor`, y = Value, fill = status_class)) +
     geom_boxplot() +
     ylim(0, 2.6) +
     geom_hline(yintercept  = 0.4, linetype = "dashed", color = "red") +
@@ -328,15 +361,14 @@ filt_data |>
     scale_fill_manual(values = c("#4067E2", "#59CFDB"))
 ```
 
-There does not appear to be any visual normalization bias by `Sex`. This
-conclusion is confirmed by the results from t-tests.
+There does not appear to be any visual normalization bias by `status_class`.
+This conclusion is confirmed by the results from t-tests.
 
-```{r}
-
+```{r endpoint-t-tests}
 norm_vars |>
   as_tibble() |> 
   mutate(
-    formula = map(norm_vars, ~ as.formula(paste(.x, "~ Sex"))), # create formula
+    formula = map(norm_vars, ~ as.formula(paste(.x, "~ status_class"))), # create formula
     t_test  = map(formula, ~ stats::t.test(.x, data = filt_data)),  # fit t-tests
     t_stat  = map_dbl(t_test, "statistic"),            # pull out t-statistic
     p.value = map_dbl(t_test, "p.value"),              # pull out p-values
@@ -344,15 +376,15 @@ norm_vars |>
   ) 
 ```
 
-Now, check for normalization bias by `Age`.
+Now, check for normalization bias by the continuous endpoint `status_cont`.
 
-```{r nsf-qc-age-plot, fig.width = 7, fig.height = 5, fig.align = "center"}
+```{r nsf-qc-cont-plot, fig.width = 7, fig.height = 5, fig.align = "center"}
 filt_data |> 
-  select(SampleId, Age, all_of(norm_vars)) |> 
-  tidyr::pivot_longer(!c(SampleId, Age),
+  select(SampleId, status_cont, all_of(norm_vars)) |> 
+  tidyr::pivot_longer(!c(SampleId, status_cont),
                       names_to = "Normalization Scale Factor",
                       values_to = "Value") |> 
-  ggplot(aes(x = Age, y = Value, color = `Normalization Scale Factor`)) +
+  ggplot(aes(x = status_cont, y = Value, color = `Normalization Scale Factor`)) +
     geom_point() +
     ylim(0, 2.6) +
     geom_hline(yintercept  = 0.4, linetype = "dashed", color = "red") +
@@ -364,26 +396,21 @@ filt_data |>
 
 ```
 
-There does appear to be a slight normalization bias by `Age` in both the
-0.5% mix (`NormScale_0_5`) and the 0.005% mix (`NormScale_0_005`). This
-can be further evaluated by results from correlation tests.
+There does not appear to be any visual normalization bias by the `status_cont`
+continuous endpoint. This conclusion is confirmed by the results from 
+correlation tests.
 
-```{r}
+```{r endpoint-cor-tests}
 norm_vars |>
   as_tibble() |> 
   mutate(
-    formula = map(norm_vars, ~ as.formula(paste("~ Age +", .x))), # create formula
+    formula = map(norm_vars, ~ as.formula(paste("~ status_cont +", .x))), # create formula
     cor     = map(formula, ~ stats::cor.test(.x, data = filt_data)),  # calculate correlations
     pearson = map_dbl(cor, "statistic"),            # pull out test statistic
     p.value = map_dbl(cor, "p.value"),              # pull out p-values
     fdr     = p.adjust(p.value, method = "BH")      # FDR for multiple testing
   ) 
 ```
-
-The negative correlation between `Age` and two of the normalization
-scale factors are statistically significant, but the slightly decreased
-signal for higher ages in this data should be considered nuisance
-variance since visually the bias appears small.
 
 If there *is* a considerable normalization bias observed in your ADAT,
 an alternate normalization or use of pre-normalized data should be used
@@ -400,11 +427,11 @@ in an appropriate space suitable for analysis, visualization, and
 interpretation.
 
 First, let's take a look at the distribution of one example analyte
-feature, `seq.10000.28`, before any transformations are applied.
+feature, `seq.10023.32`, before any transformations are applied.
 
 ```{r untransformed-dist, fig.width = 7, fig.height = 3, fig.align = "center"}
 filt_data |> 
-  ggplot(aes(x = seq.10000.28)) +
+  ggplot(aes(x = seq.10023.32)) +
   geom_density(fill = "#59CFDB", color = "#59CFDB", alpha = 0.8) +
   theme_bw()
 ```
@@ -415,7 +442,7 @@ raw analytes provided in an ADAT file.
 
 ### Log-10
 
-The first transformation to apply is a Log-10 transformation, which is
+The first transformation to apply is a log-10 transformation, which is
 broadly efficient for including the presence of shoulders in a
 proportion of analytes.
 
@@ -423,27 +450,30 @@ The `SomaDataIO` package provides a `log10()` math generic function for
 the `soma_adat` class, which will log-10 transform all SOMAmer analyte
 features within an ADAT file.
 
-```{r}
+```{r log10-data}
 filt_data <- filt_data |> 
   log10() 
 ```
 
 ### Centering and Scaling (Z-Score)
 
-The second transformation to apply to the analyte features is a Z-score
-transformation. To compare relative differential signal across analyte
-features, centering and scaling all of the RFU values should be applied
-through a Z-score transformation:
+The second transformation to consider applying to the analyte features is a
+Z-score transformation, if your experiment includes any multivariate analysis.
+To compare relative differential signal across analyte features, centering and
+scaling all of the RFU values should be applied through a Z-score 
+transformation:
 
 $$
 Z = \frac{x - \mu}{\sigma}
-$$ where $x$ is the observed value, $\mu$, is the mean of the sample,
+$$ 
+
+where $x$ is the observed value, $\mu$, is the mean of the sample,
 and $\sigma$ is the standard deviation of the sample.
 
 This can be done by creating a simple function, `center_scale()`, and
 applying it to all analytes in `filt_data`.
 
-```{r}
+```{r cs-data}
 # center/scale
 center_scale <- function(.x) {    # .x = numeric vector
   out <- .x - mean(.x)  # center
@@ -455,11 +485,11 @@ filt_data <- filt_data |>
 ```
 
 Now, re-examine the distribution of the same analyte feature
-`seq.10000.28`:
+`seq.10023.32`:
 
 ```{r transformed-dist, fig.width = 7, fig.height = 3, fig.align = "center"}
 filt_data |> 
-  ggplot(aes(x = seq.10000.28)) +
+  ggplot(aes(x = seq.10023.32)) +
   geom_density(fill = "#59CFDB", color = "#59CFDB", alpha = 0.8) +
   theme_bw()
 ```
@@ -478,17 +508,31 @@ outlined in this vignette. By default, it will filter features and
 samples using the standard QC and normalization acceptance criteria
 described earlier, along with dropping sample-level RFU outliers, and
 performing a log-10, center and scale transformation to the raw RFU
-values. If data QC plots by clinical covariates are desired, the names
-of the clinical variables should be explicitly passed to the `data.qc`
+values. If data QC plots by endpoints or clinical variables are desired,
+the names of the variables should be explicitly passed to the `data.qc`
 argument. Please see the `preProcessAdat()` function documentation for
 more details.
+
+```{r recreate-vignette-data}
+# first recreate outlier and endpoints, and add to original example_data object
+apts <- getAnalytes(example_data)
+example_data[12, apts[1:600]] <- example_data[12, apts[1:600]] * 100  # 600 apts ~ 12%
+
+example_data <- withr::with_seed(101,
+  example_data |> 
+    mutate(status_cont  = runif(nrow(example_data))) |> 
+    mutate(status_class = ifelse(status_cont > 0.5, "treatment", "control"))
+)
+```
 
 ```{r full-preProcessAdat, fig.width = 7, fig.height = 3, fig.align = "center"}
 processed_data <- preProcessAdat(adat            = example_data,
                                  filter.features = TRUE,
                                  filter.samples  = TRUE,
-                                 data.qc         = c("Age", "Sex"),
-                                 transform       = TRUE)
+                                 data.qc         = c("status_class",
+                                                     "status_cont"),
+                                 log.10          = TRUE,
+                                 center.scale    = TRUE)
 
 processed_data
 ```

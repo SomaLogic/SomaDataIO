@@ -9,7 +9,8 @@ preProcessAdat(
   filter.features = TRUE,
   filter.samples = TRUE,
   data.qc = NULL,
-  transform = TRUE
+  log.10 = TRUE,
+  center.scale = TRUE
 )
 }
 \arguments{
@@ -23,13 +24,15 @@ dropped? Default is \code{TRUE}.}
 dropped, along with samples that do not pass default normalization acceptance
 criteria or are identified as sample level RFU outliers?  Default is \code{TRUE}.}
 
-\item{data.qc}{Character. Character vector of clinical covariate variable
-names for which data QC plots are desired. Default is \code{NULL}, which does
-not generate any QC plots.  Note: These plots are for visual
-inspection only, no samples or features are dropped from the output
-\code{soma_adat} object.}
+\item{data.qc}{Character. Character vector of variable names for which data
+QC plots are desired. Default is \code{NULL}, which does not generate any QC
+plots.  Note: These plots are for visual inspection only, no samples or
+features are dropped from the output \code{soma_adat} object.}
 
-\item{transform}{Logical. Should the RFU values be log10 and Z-transformed
+\item{log.10}{Logical. Should the RFU values be log10 transformed?
+Default is \code{TRUE}.}
+
+\item{center.scale}{Logical. Should the RFU values be Z-transformed
 (centered and scaled)? Default is \code{TRUE}.}
 }
 \value{
