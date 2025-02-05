@@ -1,8 +1,9 @@
 #' S3 Print
 #'
 #' The S3 [print()] method returns summary information parsed from the object
-#' attributes, if present, followed by a dispatch to the [tibble()] print method.
-#' Rownames are printed as the first column in the print method only.
+#' attributes, if present, followed by a dispatch to the [tibble::tibble()]
+#' print method. Rownames are printed as the first column in the print method
+#' only.
 #'
 #' @rdname soma_adat
 #' @order 2

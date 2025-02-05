@@ -41,7 +41,7 @@ loss of \code{HEADER} information.
 (\code{\link[=rbind]{rbind()}}) on the  \emph{intersect} of the column variables, with
 unique columns silently dropped.}
 \item{\strong{Note 2}:}{If "vertically binding" on the column \emph{union} is
-desired, use \code{\link[=bind_rows]{bind_rows()}}, however this results in \code{NAs} in
+desired, use \code{\link[dplyr:bind_rows]{dplyr::bind_rows()}}, however this results in \code{NAs} in
 non-intersecting columns. For many files with little variable
 intersection, a sparse RFU-matrix will result
 (and will likely break ADAT attributes):

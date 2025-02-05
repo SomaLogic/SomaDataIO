@@ -1,7 +1,7 @@
 #' Convert to Long Format
 #'
 #' Utility to convert an `ExpressionSet` class object
-#' from the "wide" data format to the "long" format via [pivot_longer()].
+#' from the "wide" data format to the "long" format via [tidyr::pivot_longer()].
 #' The \pkg{Biobase} package is required for this function.
 #'
 #' @family eSet
