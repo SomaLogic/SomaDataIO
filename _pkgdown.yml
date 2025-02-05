@@ -6,8 +6,10 @@ development:
 authors:
   Stu Field:
     href: https://github.com/stufield
-  SomaLogic Operating Co., Inc.:
-    href: http://www.somalogic.com
+  Caleb Scheidel:
+    href: https://github.com/scheidec
+  Standard BioTools, Inc.:
+    href: http://www.standardbio.com
   footer:
     roles: [fnd]
     text: "was developed by the Bioinformatics Dept. at"

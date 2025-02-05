@@ -1,6 +1,6 @@
 ---
 title: "Loading and Wrangling 'SomaScan'"
-author: "Stu Field, SomaLogic Operating Co., Inc."
+author: "Stu Field, Standard BioTools, Inc."
 description: >
   How to load and manipulate a 'SomaScan' flat text file into
   and R environment.

@@ -1,6 +1,6 @@
 ---
 title: "ANOVA Three-Group Analysis"
-author: "Stu Field, SomaLogic Operating Co., Inc."
+author: "Stu Field, Standard BioTools, Inc."
 description: >
   Typical > 2-group comparison of 'SomaScan' data.
 output:
@@ -32,7 +32,7 @@ knitr::opts_chunk$set(
 --------------
 
 
-## Differential Expression via ANVOA
+## Differential Expression via ANOVA
 
 Although targeted statistical analyses are beyond the scope of 
 the `SomaDataIO` package, below is an example analysis

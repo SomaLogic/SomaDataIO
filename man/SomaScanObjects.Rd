@@ -51,7 +51,7 @@ plot titles on the fly.}
 \source{
 \url{https://github.com/SomaLogic/SomaLogic-Data}
 
-SomaLogic Operating Co., Inc.
+Standard BioTools, Inc.
 }
 \description{
 The \code{example_data} object is intended to provide existing and prospective
