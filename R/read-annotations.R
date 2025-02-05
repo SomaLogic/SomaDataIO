@@ -2,7 +2,7 @@
 #'
 #' @param file A path to an annotations file location.
 #'   This is a sanctioned, versioned file provided by
-#'   SomaLogic Operating Co., Inc. and should be an _unmodified_
+#'   Standard BioTools, Inc. and should be an _unmodified_
 #'   `*.xlsx` file.
 #' @return A `tibble` containing analyte-specific annotations and
 #'   related (e.g. lift/bridging) information, keyed on SomaLogic

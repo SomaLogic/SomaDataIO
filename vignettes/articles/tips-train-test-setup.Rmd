@@ -1,6 +1,6 @@
 ---
 title: "Common train-test data setups"
-author: "Stu Field, SomaLogic Operating Co., Inc."
+author: "Stu Field, Standard BioTools, Inc."
 description: >
   Simple code syntax for common machine learning (ML)
   training vs test setups in R.

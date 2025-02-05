@@ -5,13 +5,17 @@ Version: 6.1.0.9000
 Authors@R: c(
     person(given = "Stu",
            family = "Field",
-           role = c("aut", "cre"),
+           role = "aut",
            email = "stu.g.field@gmail.com",
            comment = c(ORCID = "0000-0002-1024-5859")),
-    person(given = "SomaLogic Operating Co., Inc.", role = c("cph", "fnd"))
+    person(given = "Caleb",
+           family = "Scheidel",
+           role = "cre",
+           email = "calebjscheidel@gmail.com"),    
+    person(given = "Standard BioTools, Inc.", role = c("cph", "fnd"))
     )
 Description: Load and export 'SomaScan' data via the
-    'SomaLogic Operating Co., Inc.' structured text file
+    'Standard BioTools, Inc.' structured text file
     called an ADAT ('*.adat'). For file format see
     <https://github.com/SomaLogic/SomaLogic-Data/blob/main/README.md>.
     The package also exports auxiliary functions for
@@ -44,7 +48,7 @@ Suggests:
     withr
 VignetteBuilder: 
     knitr
-Copyright: SomaLogic Operating Co., Inc. 2024
+Copyright: Standard BioTools, Inc. 2025
 Encoding: UTF-8
 Language: en-US
 LazyData: true

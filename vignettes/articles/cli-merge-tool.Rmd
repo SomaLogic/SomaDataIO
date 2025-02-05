@@ -1,6 +1,6 @@
 ---
 title: "Command Line Merge Tool"
-author: "Stu Field, SomaLogic Operating Co., Inc."
+author: "Stu Field, Standard BioTools, Inc."
 description: >
   A convenient CLI merge tool to add new clinical data
   to 'SomaScan' data.

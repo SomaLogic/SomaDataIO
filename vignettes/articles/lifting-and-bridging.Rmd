@@ -1,6 +1,6 @@
 ---
 title: "Lifting and Bridging SomaScan"
-author: "Stu Field, SomaLogic Operating Co., Inc."
+author: "Stu Field, Standard BioTools, Inc."
 description: >
   A primer on lifting and bridging 'SomaScan' data.
 output:

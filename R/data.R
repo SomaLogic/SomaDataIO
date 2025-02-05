@@ -67,7 +67,7 @@
 #' }
 #'
 #' @source \url{https://github.com/SomaLogic/SomaLogic-Data}
-#' @source SomaLogic Operating Co., Inc.
+#' @source Standard BioTools, Inc.
 #' @keywords datasets
 #' @examples
 #' # S3 print method

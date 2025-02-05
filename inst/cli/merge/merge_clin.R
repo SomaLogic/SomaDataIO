@@ -12,7 +12,7 @@
 #      to use for the *.adat (`key1`) and *.csv (`key2`) respectively
 #
 # Copyright:
-#   Copyright (c) 2024 SomaLogic Operating Co., Inc.
+#   Copyright (c) 2025 Standard BioTools, Inc.
 # Author:
 #   Stu Field
 #

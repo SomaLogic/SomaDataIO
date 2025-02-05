@@ -37,14 +37,14 @@ create_legal <- function() {
     paste(
       "SomaDataIO\u2122
 
-      Copyright \u00A9 2024 SomaLogic Operating Co., Inc.
+      Copyright \u00A9 2025 Standard BioTools, Inc.
 
       The `SomaDataIO` package is licensed under the MIT license
       (`LICENSE.md`) and is intended solely for research use
       only (\"RUO\") purposes. The code contained herein may *not*
       be used for diagnostic, clinical, therapeutic, or other
       commercial purposes. Further, \"SomaDataIO\" and \"SomaLogic\"
-      are trademarks owned by SomaLogic Operating Co., Inc. No license
+      are trademarks owned by Standard BioTools, Inc. No license
       is hereby granted to these trademarks other than for purposes
       of identifying the origin or source of the Software. The above
       copyright notice and this permission notice shall be included

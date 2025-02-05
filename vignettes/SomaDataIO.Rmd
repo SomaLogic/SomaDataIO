@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 
 
 This document accompanies the `SomaDataIO` R package, which loads
-and exports 'SomaScan' data via the SomaLogic Operating Co., Inc.
+and exports 'SomaScan' data via the Standard BioTools, Inc.
 structured text file called an ADAT (`*.adat`).
 For file format see
 [here](https://github.com/SomaLogic/SomaLogic-Data/blob/main/README.md).
@@ -86,7 +86,7 @@ are not included with the installed package.
 
 SomaDataIO™
 
-Copyright © 2024 SomaLogic Operating Co., Inc.
+Copyright © 2025 Standard BioTools, Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of the SomaDataIO software and associated documentation files
@@ -95,7 +95,7 @@ including without limitation the rights to use, copy, modify, merge,
 publish, distribute, sub-license, and/or sell copies of the Software,
 and to permit persons to whom the Software is furnished to do so,
 subject to the following conditions outlined below.  Further,
-SomaDataIO and SomaLogic are trademarks owned by SomaLogic Operating Co., Inc.
+SomaDataIO and SomaLogic are trademarks owned by Standard BioTools, Inc.
 No license is hereby granted to these trademarks other than for purposes
 of identifying the origin or source of the Software.
 

@@ -7,6 +7,7 @@ Analytes
 AptName
 AssayNotes
 Barcode
+BioTools
 Biobase
 Biometrics
 CCC
@@ -62,7 +63,6 @@ SampleMatrix
 SampleNotes
 SampleType
 ScannerID
-Scheidel
 SeqId
 SeqIds
 SeqidVersion
@@ -114,5 +114,4 @@ tada
 th
 tibble
 tidyr
-usethis
 vectorized

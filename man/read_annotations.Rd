@@ -9,7 +9,7 @@ read_annotations(file)
 \arguments{
 \item{file}{A path to an annotations file location.
 This is a sanctioned, versioned file provided by
-SomaLogic Operating Co., Inc. and should be an \emph{unmodified}
+Standard BioTools, Inc. and should be an \emph{unmodified}
 \verb{*.xlsx} file.}
 }
 \value{
