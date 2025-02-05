@@ -15,7 +15,7 @@ name: pkgdown
 
 jobs:
   pkgdown:
-    runs-on: macOS-12   # macOS important Bootstrap/bslib themes
+    runs-on: macOS-14   # macOS important Bootstrap/bslib themes
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
