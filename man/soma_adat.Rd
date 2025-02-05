@@ -105,8 +105,9 @@ the \code{soma_adat} class:
 }\if{html}{\out{</div>}}
 
 The S3 \code{\link[=print]{print()}} method returns summary information parsed from the object
-attributes, if present, followed by a dispatch to the \code{\link[=tibble]{tibble()}} print method.
-Rownames are printed as the first column in the print method only.
+attributes, if present, followed by a dispatch to the \code{\link[tibble:tibble]{tibble::tibble()}}
+print method. Rownames are printed as the first column in the print method
+only.
 
 The S3 \code{\link[=summary]{summary()}} method returns the following for each column of the ADAT
 object containing SOMAmer data (clinical meta data is \emph{excluded}):

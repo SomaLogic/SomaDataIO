@@ -12,7 +12,7 @@
 #'     ([rbind()]) on the  *intersect* of the column variables, with
 #'     unique columns silently dropped.}
 #'   \item{__Note 2__:}{If "vertically binding" on the column *union* is
-#'     desired, use [bind_rows()], however this results in `NAs` in
+#'     desired, use [dplyr::bind_rows()], however this results in `NAs` in
 #'     non-intersecting columns. For many files with little variable
 #'     intersection, a sparse RFU-matrix will result
 #'     (and will likely break ADAT attributes):

@@ -18,7 +18,7 @@ conversion of an \code{ExpressionSet} object.
 }
 \description{
 Utility to convert an \code{ExpressionSet} class object
-from the "wide" data format to the "long" format via \code{\link[=pivot_longer]{pivot_longer()}}.
+from the "wide" data format to the "long" format via \code{\link[tidyr:pivot_longer]{tidyr::pivot_longer()}}.
 The \pkg{Biobase} package is required for this function.
 }
 \section{Functions}{
