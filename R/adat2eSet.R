@@ -20,7 +20,7 @@
 #' @return A Bioconductor object of class `ExpressionSet`.
 #' @author Stu Field
 #' @references \url{https://bioconductor.org/install/}
-#' @examples
+#' @examplesIf rlang::is_installed("Biobase")
 #' eSet <- adat2eSet(example_data)
 #' class(eSet)
 #' eSet
