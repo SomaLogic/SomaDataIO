@@ -1,4 +1,93 @@
-# SomaDataIO (development version)
+# SomaDataIO 6.2.0
+
+### New Functions
+
+* Added `calc_eLOD()` function (#131)
+  - calculates the estimated limit of detection (eLOD)
+    for SeqId columns of an input `soma_adat` or `data.frame`
+
+### Bug Fixes
+
+* Fixed `crayon` bug and `ui_bullet()` issue (#129, #130)
+  - removed `crayon` and `usethis` as dependencies in favor of `cli`
+  - fixed bug in R version 4.4.1 with `ui_bullet()` internal
+    calls within `loadAdatsAsList()` and `write_adat()`
+
+* Fixed bug in `Summary.soma_adat()` operations (#121)
+  - these operations: `min()`, `max()`, `any()`, `range()`, etc.
+    would return the incorrect value due to an `as.matrix()`
+    conversion under the hood
+  - now skips that conversion, trips a warning, and carries on
+  - triggers an error if non-numerics are passed
+    as part of the '...' outside of a `soma_adat`,
+    just like `Summary.data.frame()`
+
+### Function and Object Improvements
+
+* `collapseAdats()` now maintains Cal.Set entries of Col.Meta (#113)
+  - collapsing ADATs can be problematic for the attributes,
+    especially for large numbers of ADATs
+  - `collapseAdats()` now attempts to smartly
+    merge the (potentially numerous elements) Col.Meta
+    attribute in the final object, preserving
+    the "Cal.Set" and "ColCheck" columns in particular
+  - the resulting `Col.Meta` attribute is a combined product
+    of the individual ADAT elements, and the _intersect_ of the
+    analyte features (as is the case for the `rbind()` that is called)
+    
+* Updated checksums and versions for Annotations Excel files (#116)
+  - updated the 7k and 11k file versions and md5sum checksums
+  - now allows `read_annotations()` to load
+    the individual Excel files
+    
+* Updated `lift_master` object to alpha sort columns
+
+### Documentation Updates
+
+* Updated company name, license year, and maintainer (#137)
+  - SomaLogic Operating Co., Inc is now Standard BioTools, Inc.
+  - updated license and copyright year to 2025
+  - updated package maintainer to Caleb Scheidel
+
+* Updated article links in README, intro vignette (#123)
+  - updated links to articles in README and introduction
+    vignette to URLs to pkgdown website rather than
+    `vignette()` code references
+  - added clarification to above documents that articles are
+    available on website only rather than traditional vignettes
+    included with package
+
+* Updates to example documentation
+  - `read_annotations()` example documentation now points to the
+    most recent 11k Excel annotations file
+  - `parseHeader()` example  now prints list elements separately,
+    rather than full object, which slowed website rendering
+
+### Internal :construction:
+
+* Updates to GitHub Action workflows
+  - added `rhub.yaml` configuration file to comply with `rhub` v2
+  - updated macOS version in `pkgdown.yaml` to macOS-14
+  - added write permission to `pkgdown.yaml` file to enable deployment
+  - changed GitHub Action R checks to MacOS and Windows only
+    - `ubuntu` machine was taking too long to build
+
+* Increased package test coverage
+  - added unit tests for `getSomaScanLiftCCC()`,
+    `parseCheck()` and release utilities which
+    were previously untested
+  - increased test coverage for `pivotExpressionSet()`
+
+* Added missing package anchors to .Rd files (#139)
+  - fixed note from remote windows check
+    related to Rd \link{} targets missing
+    package anchors
+    
+* Updated README badge (#109)
+  - now shows 'downloads' per month over total downloads
+
+* Fixed link in DESCRIPTION; master -> main (#107)
+
 
 # SomaDataIO 6.1.0   :partying_face: :champagne:
 

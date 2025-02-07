@@ -1,9 +1,13 @@
 
-suppressPackageStartupMessages(library(Biobase))
+if ( rlang::is_installed("Biobase") ) {
+  suppressPackageStartupMessages(library(Biobase))
+  sub_adat <- example_data[1:10L, c(1:5L, 35:37L)]
+}
 
-sub_adat <- example_data[1:10L, c(1:5L, 35:37L)]
+
 
 test_that("`adat2eSet()` converts `soma_adt` -> eSet correctly", {
+  testthat::skip_if_not_installed("Biobase")
   eSet <- adat2eSet(sub_adat)
   expect_s4_class(eSet, "ExpressionSet")
   expect_true(is.matrix(eSet@assayData$exprs))

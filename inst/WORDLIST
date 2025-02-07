@@ -87,6 +87,7 @@ aliquot
 analyte
 analytes
 barcode
+checksums
 cli
 dplyr
 eLOD
@@ -98,6 +99,7 @@ leftrightarrow
 lifecycle
 lysate
 magrittr
+md
 medNormRef
 nd
 normals

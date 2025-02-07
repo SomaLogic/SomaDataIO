@@ -27,6 +27,7 @@ The \pkg{Biobase} package is required for this function.
 
 }}
 \examples{
+\dontshow{if (rlang::is_installed("Biobase")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # subset into a reduced mini-ADAT object
 # 10 samples (rows)
 # 5 clinical variables and 3 features (cols)
@@ -35,6 +36,7 @@ ex_set   <- adat2eSet(sub_adat)
 
 # convert ExpressionSet object to long format
 adat_long <- pivotExpressionSet(ex_set)
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 Other eSet: 

@@ -9,7 +9,7 @@
 #' @return A `tibble` consisting of the long format
 #'   conversion of an `ExpressionSet` object.
 #' @author Stu Field
-#' @examples
+#' @examplesIf rlang::is_installed("Biobase")
 #' # subset into a reduced mini-ADAT object
 #' # 10 samples (rows)
 #' # 5 clinical variables and 3 features (cols)
