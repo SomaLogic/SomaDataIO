@@ -1,162 +1,56 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/404.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/SECURITY.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/SUPPORT.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/articles/SomaDataIO.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/articles/cli-merge-tool.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/articles/lifting-and-bridging.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/articles/stat-binary-classification.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/articles/stat-linear-regression.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/articles/stat-three-group-analysis-anova.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/articles/stat-two-group-comparison.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/articles/tips-loading-and-wrangling.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/articles/tips-safely-map-values.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/articles/tips-safely-rename-df.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/articles/tips-train-test-setup.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/index.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/pull_request_template.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/reference/Col.Meta.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/reference/SeqId.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/reference/SomaDataIO-deprecated.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/reference/SomaDataIO-package.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/reference/SomaScanObjects.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/reference/adat-helpers.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/reference/adat2eSet.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/reference/addAttributes.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/reference/addClass.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/reference/cleanNames.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/reference/diffAdats.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/reference/getAnalyteInfo.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/reference/getAnalytes.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/reference/groupGenerics.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/reference/is_intact_attr.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/reference/is_seqFormat.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/reference/lift_adat.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/reference/loadAdatsAsList.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/reference/merge_clin.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/reference/params.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/reference/parseHeader.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/reference/pipe.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/reference/pivotExpressionSet.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/reference/read_adat.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/reference/read_annotations.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/reference/reexports.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/reference/rownames.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/reference/soma_adat.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/reference/transform.html</loc>
-  </url>
-  <url>
-    <loc>https://somalogic.github.io/SomaDataIO/reference/write_adat.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://somalogic.github.io/SomaDataIO/404.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/CONTRIBUTING.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/LICENSE-text.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/LICENSE.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/SECURITY.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/SUPPORT.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/articles/SomaDataIO.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/articles/cli-merge-tool.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/articles/index.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/articles/lifting-and-bridging.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/articles/stat-binary-classification.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/articles/stat-linear-regression.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/articles/stat-three-group-analysis-anova.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/articles/stat-two-group-comparison.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/articles/tips-loading-and-wrangling.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/articles/tips-safely-map-values.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/articles/tips-safely-rename-df.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/articles/tips-train-test-setup.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/authors.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/index.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/news/index.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/Col.Meta.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/SeqId.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/SomaDataIO-deprecated.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/SomaDataIO-package.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/SomaScanObjects.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/adat-helpers.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/adat2eSet.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/addAttributes.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/addClass.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/calc_eLOD.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/cleanNames.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/diffAdats.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/getAnalyteInfo.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/getAnalytes.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/groupGenerics.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/index.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/is_intact_attr.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/is_seqFormat.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/lift_adat.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/loadAdatsAsList.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/merge_clin.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/params.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/parseHeader.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/pipe.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/pivotExpressionSet.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/read_adat.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/read_annotations.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/reexports.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/rownames.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/soma_adat.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/transform.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/write_adat.html</loc></url>
 </urlset>
+

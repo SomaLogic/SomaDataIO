@@ -5,8 +5,6 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="How to load and manipulate a 'SomaScan' flat text file into and R environment.
-">
 <title>Loading and Wrangling 'SomaScan' • SomaDataIO</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
@@ -18,96 +16,82 @@
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.9/font.css" rel="stylesheet">
 <link href="../deps/Source_Code_Pro-0.4.9/font.css" rel="stylesheet">
-<!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Loading and Wrangling 'SomaScan'">
+<link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Loading and Wrangling 'SomaScan'">
+<meta name="description" content="How to load and manipulate a 'SomaScan' flat text file into and R environment.
+">
 <meta property="og:description" content="How to load and manipulate a 'SomaScan' flat text file into and R environment.
 ">
 <meta property="og:image" content="https://somalogic.github.io/SomaDataIO/logo.png">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
 </head>
 <body>
     <a href="#container" class="visually-hidden-focusable">Skip to content</a>
-    
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-none" data-bs-theme="light"><div class="container">
-    
+
+    <nav class="navbar navbar-expand-lg fixed-top bg-none" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+
     <a class="navbar-brand me-2" href="../index.html">SomaDataIO</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">6.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">6.2.0</small>
 
-    
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item">
-  <a class="nav-link" href="../articles/SomaDataIO.html">Get started</a>
-</li>
-<li class="nav-item">
-  <a class="nav-link" href="../reference/index.html">Reference</a>
-</li>
-<li class="active nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/tips-loading-and-wrangling.html">Loading and Wrangling 'SomaScan'</a>
-    <a class="dropdown-item" href="../articles/tips-safely-map-values.html">Safely Map Values via dplyr::left_join()</a>
-    <a class="dropdown-item" href="../articles/tips-safely-rename-df.html">Safely Rename Data Frames</a>
-    <a class="dropdown-item" href="../articles/tips-train-test-setup.html">Common train-test data setups</a>
-    <a class="dropdown-item" href="../articles/cli-merge-tool.html">Command Line Merge Tool</a>
-    <a class="dropdown-item" href="../articles/lifting-and-bridging.html">Lifting and Bridging SomaScan</a>
-    <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="../articles/index.html">More articles...</a>
-  </div>
+<li class="nav-item"><a class="nav-link" href="../articles/SomaDataIO.html">Get started</a></li>
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="../articles/tips-loading-and-wrangling.html">Loading and Wrangling 'SomaScan'</a></li>
+    <li><a class="dropdown-item" href="../articles/tips-safely-map-values.html">Safely Map Values via dplyr::left_join()</a></li>
+    <li><a class="dropdown-item" href="../articles/tips-safely-rename-df.html">Safely Rename Data Frames</a></li>
+    <li><a class="dropdown-item" href="../articles/tips-train-test-setup.html">Common train-test data setups</a></li>
+    <li><a class="dropdown-item" href="../articles/cli-merge-tool.html">Command Line Merge Tool</a></li>
+    <li><a class="dropdown-item" href="../articles/lifting-and-bridging.html">Lifting and Bridging SomaScan</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../articles/index.html">More articles...</a></li>
+  </ul>
 </li>
 <li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-workflows">Workflows</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-workflows">
-    <h6 class="dropdown-header" data-toc-skip>Difference Testing</h6>
-    <a class="dropdown-item" href="../articles/stat-two-group-comparison.html">Two-Group Comparison</a>
-    <a class="dropdown-item" href="../articles/stat-three-group-analysis-anova.html">ANOVA Three-Group Analysis</a>
-    <div class="dropdown-divider"></div>
-    <h6 class="dropdown-header" data-toc-skip>Making Predictions</h6>
-    <a class="dropdown-item" href="../articles/stat-binary-classification.html">Binary Classification</a>
-    <a class="dropdown-item" href="../articles/stat-linear-regression.html">Linear Regression</a>
-  </div>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-workflows" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Workflows</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-workflows">
+<li><h6 class="dropdown-header" data-toc-skip>Difference Testing</h6></li>
+    <li><a class="dropdown-item" href="../articles/stat-two-group-comparison.html">Two-Group Comparison</a></li>
+    <li><a class="dropdown-item" href="../articles/stat-three-group-analysis-anova.html">ANOVA Three-Group Analysis</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Making Predictions</h6></li>
+    <li><a class="dropdown-item" href="../articles/stat-binary-classification.html">Binary Classification</a></li>
+    <li><a class="dropdown-item" href="../articles/stat-linear-regression.html">Linear Regression</a></li>
+  </ul>
 </li>
 <li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-coming-soon">Coming Soon</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-coming-soon">
-    <h6 class="dropdown-header" data-toc-skip>SomaScan FAQs</h6>
-    <div class="dropdown-divider"></div>
-    <h6 class="dropdown-header" data-toc-skip>Standard Process</h6>
-    <h6 class="dropdown-header" data-toc-skip>Best Practices</h6>
-    <div class="dropdown-divider"></div>
-    <h6 class="dropdown-header" data-toc-skip>Non-Standard Matrices</h6>
-    <h6 class="dropdown-header" data-toc-skip>Limits of Detection (LoD)</h6>
-  </div>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-coming-soon" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Coming Soon</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-coming-soon">
+<li><h6 class="dropdown-header" data-toc-skip>SomaScan FAQs</h6></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Standard Process</h6></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Best Practices</h6></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Non-Standard Matrices</h6></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Limits of Detection (LoD)</h6></li>
+  </ul>
 </li>
-<li class="nav-item">
-  <a class="nav-link" href="../news/index.html">Changelog</a>
-</li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
-<form class="form-inline my-2 my-lg-0" role="search">
-        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
-</form>
-
-      <ul class="navbar-nav">
-<li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/SomaLogic/SomaDataIO/" aria-label="github">
-    <span class="fab fa fab fa-github fa-lg"></span>
-     
-  </a>
-</li>
+<ul class="navbar-nav">
+<li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
+</form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/SomaLogic/SomaDataIO/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
-    
+
   </div>
 </nav><div class="container template-article" id="container">
 
@@ -118,10 +102,10 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Loading and Wrangling 'SomaScan'</h1>
                         <h4 data-toc-skip class="author">Stu Field,
-SomaLogic Operating Co., Inc.</h4>
+Standard BioTools, Inc.</h4>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/SomaLogic/SomaDataIO/blob/HEAD/vignettes/articles/tips-loading-and-wrangling.Rmd" class="external-link"><code>vignettes/articles/tips-loading-and-wrangling.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/SomaLogic/SomaDataIO/blob/main/vignettes/articles/tips-loading-and-wrangling.Rmd" class="external-link"><code>vignettes/articles/tips-loading-and-wrangling.Rmd</code></a></small>
       <div class="d-none name"><code>tips-loading-and-wrangling.Rmd</code></div>
     </div>
 
@@ -278,11 +262,17 @@ itself to identify any misidentified or mismatched landmarks:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/read_adat.html">read_adat</a></span><span class="op">(</span><span class="va">adat_path</span>, debug <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #0000BB;">══</span> <span style="font-weight: bold;">Parsing Specs</span> <span style="color: #0000BB;">═══════════════════════════════════════════════════════════════</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BB0000;">• </span>Table Begin               <span style="color: #0000BB;">45</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BB0000;">• </span>Col.Meta Start            <span style="color: #0000BB;">46</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BB0000;">• </span>Col.Meta Shift            <span style="color: #0000BB;">35</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BB0000;">• </span>Header Row                <span style="color: #0000BB;">66</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BB0000;">• </span>Rows of the Col Meta      <span style="color: #0000BB;">46</span>, <span style="color: #0000BB;">47</span>, <span style="color: #0000BB;">48</span>, <span style="color: #0000BB;">49</span>, <span style="color: #0000BB;">50</span>, <span style="color: #0000BB;">51</span>, <span style="color: #0000BB;">52</span>, <span style="color: #0000BB;">53</span>, <span style="color: #0000BB;">54</span>, <span style="color: #0000BB;">55</span>, <span style="color: #0000BB;">56</span>, <span style="color: #0000BB;">57</span>, <span style="color: #0000BB;">58</span>, <span style="color: #0000BB;">59</span>, <span style="color: #0000BB;">60</span>, <span style="color: #0000BB;">61</span>, <span style="color: #0000BB;">62</span>, <span style="color: #0000BB;">63</span>, <span style="color: #0000BB;">64</span>, <span style="color: #0000BB;">65</span></span></span>
+<span><span class="co">#&gt; <span style="color: #0000BB;">45</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BB0000;">• </span>Table Begin</span></span>
+<span><span class="co">#&gt; <span style="color: #0000BB;">46</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BB0000;">• </span>Col.Meta Start</span></span>
+<span><span class="co">#&gt; <span style="color: #0000BB;">35</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BB0000;">• </span>Col.Meta Shift</span></span>
+<span><span class="co">#&gt; <span style="color: #0000BB;">66</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BB0000;">• </span>Header Row</span></span>
+<span><span class="co">#&gt; <span style="color: #0000BB;">46</span>, <span style="color: #0000BB;">47</span>, <span style="color: #0000BB;">48</span>, <span style="color: #0000BB;">49</span>, <span style="color: #0000BB;">50</span>, <span style="color: #0000BB;">51</span>, <span style="color: #0000BB;">52</span>, <span style="color: #0000BB;">53</span>, <span style="color: #0000BB;">54</span>, <span style="color: #0000BB;">55</span>, <span style="color: #0000BB;">56</span>, <span style="color: #0000BB;">57</span>, <span style="color: #0000BB;">58</span>, <span style="color: #0000BB;">59</span>, <span style="color: #0000BB;">60</span>, <span style="color: #0000BB;">61</span>, <span style="color: #0000BB;">62</span>, <span style="color: #0000BB;">63</span>, <span style="color: #0000BB;">64</span>, and</span></span>
+<span><span class="co">#&gt; <span style="color: #0000BB;">65</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BB0000;">• </span>Rows of the Col Meta      </span></span>
 <span><span class="co">#&gt; <span style="color: #BB00BB;">──</span> <span style="font-weight: bold;">Col Meta</span> <span style="color: #BB00BB;">──────────────────────────────────────────────────────────────</span> 20 <span style="color: #BB00BB;">──</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> SeqId, SeqIdVersion, SomaId, TargetFullName, Target, UniProt,</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> EntrezGeneID, EntrezGeneSymbol, Organism, Units, Type, Dilution,</span></span>
@@ -299,11 +289,11 @@ itself to identify any misidentified or mismatched landmarks:</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> ANMLFractionUsed_20, ANMLFractionUsed_0_005, ANMLFractionUsed_0_5,</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Age, Sex</span></span>
 <span><span class="co">#&gt; <span style="color: #0000BB;">──</span> <span style="font-weight: bold;">Empty Strings Detected in Col.Meta</span> <span style="color: #0000BB;">─────────────────────────────────────</span> <span style="color: #BB0000;">!</span> <span style="color: #0000BB;">──</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BB0000;">•</span> Visually inspect the following Col.Meta rows:</span></span>
-<span><span class="co">#&gt; <span style="color: #0000BB;">'TargetFullName'</span>, <span style="color: #0000BB;">'UniProt'</span>, <span style="color: #0000BB;">'EntrezGeneID'</span>,</span></span>
-<span><span class="co">#&gt; <span style="color: #0000BB;">'EntrezGeneSymbol'</span></span></span>
-<span><span class="co">#&gt; ℹ They may be missing in: <span style="color: #0000BB;">'Spuriomers'</span>, <span style="color: #0000BB;">'HybControls'</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BB0000;">•</span> This is non-critical in ADATs with new <span style="color: #0000BB;">'seq.1234.56'</span> format.</span></span>
+<span><span class="co">#&gt; → Visually inspect the following Col.Meta rows: <span style="color: #0000BB;">"TargetFullName"</span>, <span style="color: #0000BB;">"UniProt"</span>, <span style="color: #0000BB;">"EntrezGeneID"</span>, and <span style="color: #0000BB;">"EntrezGeneSymbol"</span></span></span>
+<span><span class="co">#&gt; ℹ They may be missing in:</span></span>
+<span><span class="co">#&gt; <span style="color: #0000BB;">"Spuriomers"</span> and <span style="color: #0000BB;">"HybControls"</span></span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; → This is non-critical in ADATs with new <span style="color: #0000BB;">"seq.1234.56"</span> format.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">══</span> Parse Diagnostic Complete <span style="color: #00BB00;">═══════════════════════════════════════════════════</span></span></span></code></pre></div>
 <hr>
 </div>
@@ -539,9 +529,9 @@ standard toolkit:</p>
 <span></span>
 <span><span class="fu"><a href="../reference/write_adat.html">write_adat</a></span><span class="op">(</span><span class="va">my_adat</span>, file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="st">"my-adat-"</span>, fileext <span class="op">=</span> <span class="st">".adat"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> ADAT passed all checks and traps.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> ADAT written to: <span style="color: #0000BB;">'/var/folders/n2/pt_35rc53tdgkld9531s2tfh0000gn/T//Rtmp38xTaV/my-adat-1f3b3ea395bf.adat'</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> ADAT written to: <span style="color: #0000BB;">"/var/folders/2s/h6hvv9ps03xgz_krkkstvq_r0000gn/T//RtmpKpsZiN/my-adat-22c03b797cd6.adat"</span></span></span></code></pre></div>
 </div>
-  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
 
@@ -550,13 +540,11 @@ standard toolkit:</p>
    </div>
   <footer><div class="container">
   <div class="pkgdown-footer-left">
-  <p></p>
-<p><img src="../favicon-16x16.png"> SomaDataIO was developed by the Bioinformatics Dept. at <a href="http://www.somalogic.com" class="external-link">SomaLogic Operating Co., Inc.</a>.</p>
+  <p><img src="../favicon-16x16.png"> SomaDataIO was developed by the Bioinformatics Dept. at <a href="http://www.standardbio.com" class="external-link">Standard BioTools, Inc.</a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.8.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
   </div></footer>
