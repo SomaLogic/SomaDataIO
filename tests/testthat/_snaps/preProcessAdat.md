@@ -14,8 +14,6 @@
       v 2 samples flagged in `RowCheck` did not
       pass standard normalization acceptance criteria (0.4 <= x <= 2.5)
       and were removed.
-      v RFU features were log-10 transformed.
-      v RFU features were centered and scaled.
     Output
       == SomaScan Data ===============================================================
            SomaScan version     V4 (5k)

@@ -1,6 +1,6 @@
 ---
 title: "Pre-Processing SomaScan"
-author: "Amanda Hiser and Caleb Scheidel, SomaLogic Operating Co., Inc."
+author: "SomaScan Bioinformatics Team, Standard BioTools, Inc."
 description: >
   A primer on pre-processing 'SomaScan' data for analysis, including filtering
   samples and features, data QC, and transformations.
@@ -31,9 +31,10 @@ knitr::opts_chunk$set(
 
 # Overview
 
-`SomaDataIO` contains functionality to pre-process an `.adat` file to
-prepare RFU data for analysis. The typical data analysis path includes
-several steps of pre-processing, including:
+`SomaDataIO` contains functionality to prepare a SomaScan .adat data file
+containing microarray-based relative fluorescent units (RFUs) for analysis.
+The typical data analysis path includes several steps of pre-processing,
+including:
 
 1.  Filtering features
 2.  Filtering samples
@@ -46,14 +47,16 @@ recommended prior to executing an analysis on SomaScan data, along with
 
 ------------------------------------------------------------------------
 
+## 
+
 ## Filtering Features
 
-The goal of this pre-processing step is to remove unnecessary protein
-features from a SomaScan dataset, while also retaining *relevant*
-features that will enable broad discovery during downstream analysis.
+The goal of this pre-processing step is to remove features (SeqIds) typically
+not useful for analalysis from a SomaScan dataset, while also retaining
+*relevant* features that will enable broad discovery during downstream analysis.
 
 The filtering logic typically used for protein features (i.e. SOMAmer
-reagents) is:
+Reagents) is:
 
 ```         
 Type == "Protein" & Organism == "Human"
@@ -98,11 +101,14 @@ As described in the filtering strategy above, we only want to retain the
 features for which `Type == "Protein"`, indicating that the feature is
 related to a human protein. In the same filtering step, we can also
 specify that we only want to retain proteins found in humans
-(`Organism == "Human")`. This can be performed using `dplyr::filter()`:
+(`Organism == "Human")`. In some versions of the assay there are SeqIds
+labeled "Internal Use Only" which are not intended for downstream analysis and
+can also be removed. This can be performed using `dplyr::filter()`:
 
 ```{r get-human-prots}
 human_prots <- getAnalyteInfo(example_data) |>
-  filter(Type == "Protein" & Organism == "Human")
+  filter(Type == "Protein" & Organism == "Human") |>
+  filter(!grepl("^Internal Use Only", TargetFullName))
 length(human_prots$SeqId)
 ```
 
@@ -110,7 +116,7 @@ The original dataset (`example_adat`) contained
 `r nrow(getAnalyteInfo(example_data))` analytes; after filtering for
 human proteins and removing
 `r nrow(getAnalyteInfo(example_data)) - length(human_prots$SeqId)`
-non-human features, it contains `r length(human_prots$SeqId)` analytes.
+features as described above, it contains `r length(human_prots$SeqId)` analytes.
 
 Remember that the `human_prots` object is not an ADAT, but rather a
 `data.frame` representing the column metadata that corresponds to the
@@ -173,22 +179,24 @@ details.
 human_prots |> count(ColCheck)
 ```
 
-214 human protein features in `filt_data` were flagged in this column
-check, and are marked with a `FLAG` value. However, these features
-**should not** be filtered out of the data set at this step; within any
-given study, SOMAmer reagents with a `FLAG` status can still yield
-useful information downstream in the analysis. As such, SomaLogic does
-not recommend removing these features until indicated later in this
-workflow.
+`r sum(getAnalyteInfo(filt_data)$ColCheck == "FLAG")` human protein features in
+`filt_data` were flagged in this column check, and are marked with a `FLAG`
+value. The presence of a `FLAG` value indicates the SeqId for one of the QC
+control samples was outside the range shown above on at least one plate. The
+total number of SeqIds outside this range can be used to assess potential
+issues with runs or studies, however a `FLAG` value does not necessarily
+indicate a problem with the signal for a specific analyte in the study samples.
+Therefore, these features **should not** be filtered out of the dataset as
+part of standard pre-processing.
 
 ------------------------------------------------------------------------
 
 ## Filtering Samples
 
 The next pre-processing step to consider is filtering samples. A typical
-data analysis is focused on only the clinical samples within the ADAT
+data analysis is focused on only the study samples within the ADAT
 file. The `SampleType` column in the `filt_data` object can be used to
-filter down to the clinical samples only.
+filter down to the study samples only.
 
 ```{r sample-types}
 filt_data |> count(SampleType)
@@ -202,10 +210,12 @@ filt_data <- filt_data |>
   filter(SampleType == "Sample")
 ```
 
-The `filt_data` object now has `r nrow(filt_data)` clinical samples,
-after removing the 10 calibrator samples (replicate controls for
-combining data across runs), 6 QC samples (replicate controls used to
-assess run quality), and 6 buffer samples (no protein controls).
+The `filt_data` object now has `r nrow(filt_data)` study samples,
+after removing the `r sum(example_data$SampleType == 'Calibrator')` calibrator
+samples (replicate controls for combining data across runs),
+`r sum(example_data$SampleType == 'QC')` QC samples (replicate controls used
+to assess run quality), and `r sum(example_data$SampleType == 'Buffer')`
+buffer samples (no protein controls).
 
 ### Flagged Samples
 
@@ -253,8 +263,8 @@ filt_data |>
   mutate(percent = n / sum(n) * 100)
 ```
 
-Two samples in `filt_data` are flagged with this row check, and are
-marked with a `FLAG` value.
+Note `r sum(filt_data$RowCheck == "FLAG")` samples in `filt_data` are flagged
+with this row check, and are marked with a `FLAG` value.
 
 ```{r identify-flags}
 # pull normalization scale factor variable names from ADAT
@@ -262,14 +272,14 @@ norm_vars <- grep("^[Nn]orm[Ss]cale|^Med\\.Scale\\.",
                   names(filt_data), value = TRUE)
 
 filt_data |>
-  filter(RowCheck == "FLAG") |> 
+  filter(!RowCheck == "PASS") |> 
   dplyr::select(SampleId, all_of(norm_vars)) |> 
   as.data.frame()
 ```
 
-We can see that these two samples each have a normalization scale factor
-(`NormScale_20`) that fall below the standard accepted range. Filtering
-samples based on the default `RowCheck` column will drop these two samples
+We can see that these samples each have a normalization scale factor from at 
+least one dilution bin that fall below the standard accepted range. Filtering
+samples based on the default `RowCheck` column will drop these samples
 from `filt_data`.
 
 ```{r filter-flag-rowcheck}
@@ -282,16 +292,26 @@ certain scenarios. It is recommended to check the flag rate using the
 default acceptance criteria from `RowCheck`, and if > 10% of samples are 
 flagged, further evaluation may be needed.
 
-Depending on your data and experiment, it may be reasonable to adjust the
-acceptance criteria used for filtering samples. Use your best judgment if using
-a non-standard acceptance criteria to filter samples.
+Depending on your data and experiment, it may be reasonable to keep samples
+with `FLAG` values, particularly those samples close to the acceptance criteria
+boundary. The `FLAG` value indicates non-conformance to a reference (either
+study-specific or external such as ANML), and further evaluation is encouraged
+to assess if those samples should be considered true outliers for a given study
+and removed. 
 
 ### Sample Level Outliers by RFU
 
 It is also important to evaluate if there are any sample-level outliers
-by RFU measurements. SomaLogic's recommended outlier definition is any
-sample where `>= 5%` of RFU measurements exceed 6 median absolute
-deviations (MADs) and 5x fold-change from median signal.
+by RFU measurements. For standard plasma and serum studies Standard Biotools'
+recommended outlier definition is any sample where `>= 5%` of RFU measurements
+exceed 6 median absolute deviations (MADs) and 5x fold-change from median
+signal.
+
+This filter is typically appropriate for studies on plasma, serum, and other
+biological matrices generally exhibiting homeostatic characteristics. For
+studies on matrices such as tissue homogenate, cell culture, or study designs
+containing client-provided background lysis buffer controls (or similar), this
+filter will likely not be appropriate.
 
 ```{r create-fake-outlier}
 # filt_data does not have any outliers by default
@@ -300,7 +320,7 @@ apts <- getAnalytes(filt_data)
 filt_data[12, apts[1:600]] <- filt_data[12, apts[1:600]] * 100  # 600 apts ~ 12%
 ```
 
-We can identify any outlier samples using this definition with the
+We can identify plasma and serum outlier samples using this definition with the
 `calcOutlierMap()` function.
 
 ```{r rfu-outliers-plot, fig.width = 7, fig.height = 4, fig.align = "center"}
@@ -328,9 +348,9 @@ filt_data <- filt_data |>
 
 ## Data QC
 
-The goal of this step is to assess randomization to plates and plate
-effects. To accomplish this, we can check the association of
-normalization scale factors with any *endpoint* of interest.
+The goal of this step is to assess if the normalization applied to the input
+ADAT is appropriate for the study. To accomplish this, we can check the
+association of normalization scale factors with any *endpoint* of interest.
 
 As an example, we will create a `status_class` two-group endpoint variable and a
 `status_cont` continuous endpoint variable in the `filt_data` ADAT.
@@ -421,13 +441,19 @@ modified to account for this bias.
 
 ## Transformations
 
-Prior to performing any multivariate analyses, there are two
-transformations that are recommended to get SOMAmer analyte RFU values
-in an appropriate space suitable for analysis, visualization, and
-interpretation.
+SomaScan data is typically delivered to end users as normalized, untransformed
+RFUs. Many analytic operations are best performed using these untransformed
+values, including fold-change calculations, [bridging RFUs across assay
+versions](https://somalogic.github.io/SomaDataIO/articles/lifting-and-bridging.html),
+calculating coefficients of variation (CV) for replicate samples, and comparing
+study-specific RFUs to population reference values provided in the [SomaScan
+Menu Tool](https://somalogic.com/somascan-menu/).
 
-First, let's take a look at the distribution of one example analyte
-feature, `seq.10023.32`, before any transformations are applied.
+While many operations are conducted on untransformed RFU values, it is important
+to note that for each SeqId, the distribution of biological sample RFUs
+generally follows a right-tailed, log-normal distribution. Let's take a look at
+the distribution of one example analyte feature, `seq.10023.32`, before any
+transformations are applied.
 
 ```{r untransformed-dist, fig.width = 7, fig.height = 3, fig.align = "center"}
 filt_data |> 
@@ -438,13 +464,17 @@ filt_data |>
 
 There is a log-normal distribution, with a long right-tail in the
 distribution of raw RFU values, and this is the assumed distribution of
-raw analytes provided in an ADAT file.
+untransformed analytes provided in an ADAT file.
 
 ### Log-10
 
-The first transformation to apply is a log-10 transformation, which is
-broadly efficient for including the presence of shoulders in a
-proportion of analytes.
+Performing a log10 transformation is recommended prior to using methods that
+assume normally distributed measurements. Please note that real-world data
+rarely conforms exactly to ideal distributional assumptions and analysts should
+feel free to explore alternative transformations that may better suit their
+specific data and statistical test assumptions. However, we have found that
+the log10 transformation is broadly appropriate for standard parametric
+analyses across the SomaScan menu.
 
 The `SomaDataIO` package provides a `log10()` math generic function for
 the `soma_adat` class, which will log-10 transform all SOMAmer analyte
@@ -457,8 +487,8 @@ filt_data <- filt_data |>
 
 ### Centering and Scaling (Z-Score)
 
-The second transformation to consider applying to the analyte features is a
-Z-score transformation, if your experiment includes any multivariate analysis.
+A further transformation to consider applying to the analyte features is a
+Z-score transformation if your experiment includes any multivariate analysis.
 To compare relative differential signal across analyte features, centering and
 scaling all of the RFU values should be applied through a Z-score 
 transformation:
@@ -468,7 +498,8 @@ Z = \frac{x - \mu}{\sigma}
 $$ 
 
 where $x$ is the observed value, $\mu$, is the mean of the sample,
-and $\sigma$ is the standard deviation of the sample.
+and $\sigma$ is the standard deviation of the sample. The z-score transformation
+is typically performed on log10-transformed RFUs.
 
 This can be done by creating a simple function, `center_scale()`, and
 applying it to all analytes in `filt_data`.
@@ -499,6 +530,20 @@ pre-processed analyte features should look similar to the above. If true
 modal behavior of any analytes are observed, it may require secondary
 assessment and further evaluation.
 
+While centering and scaling standardizes the RFU distributions across all
+SeqIds for multivariate analysis, it is important to understand that this does
+*not* enable meaningful comparison of expression values between different
+SeqIds. Take, for instance, hypothetical SeqId A with a z-socre of 2 and
+hypothetical SeqId B with a z-socre of -1. One cannot infer that the protein
+target of SeqId A was present at a higher concentration than the target of
+SeqId B in the original sample prep. All comparisons should be made between
+sample groups *within* a given SeqId. The RFU value, as well as log10 RFU and
+z-score, is dependent on variety of analyte-specific factors such as the
+SOMAmer Reagent-target protein binding kinetics, the dilution bin of the
+SOMAmer reagant, NHS-biotin conjagation efficiency of the SOMAmer, and other
+factors intrinsic to the SOMAmer Reagent within the SomaScan assay.
+
+
 ------------------------------------------------------------------------
 
 ## `preProcessAdat()` function
@@ -506,8 +551,8 @@ assessment and further evaluation.
 The `preProcessAdat()` function is available to perform the steps
 outlined in this vignette. By default, it will filter features and
 samples using the standard QC and normalization acceptance criteria
-described earlier, along with dropping sample-level RFU outliers, and
-performing a log-10, center and scale transformation to the raw RFU
+described earlier, and drop sample-level RFU outliers. It also has option to
+perform log-10 and center & scale transformations to the untransformed RFU
 values. If data QC plots by endpoints or clinical variables are desired,
 the names of the variables should be explicitly passed to the `data.qc`
 argument. Please see the `preProcessAdat()` function documentation for
@@ -528,11 +573,13 @@ example_data <- withr::with_seed(101,
 ```{r full-preProcessAdat, fig.width = 7, fig.height = 3, fig.align = "center"}
 processed_data <- preProcessAdat(adat            = example_data,
                                  filter.features = TRUE,
-                                 filter.samples  = TRUE,
+                                 filter.controls = TRUE,
+                                 filter.qc       = TRUE,
+                                 filter.outliers = FALSE,
                                  data.qc         = c("status_class",
                                                      "status_cont"),
-                                 log.10          = TRUE,
-                                 center.scale    = TRUE)
+                                 log.10          = FALSE,
+                                 center.scale    = FALSE)
 
 processed_data
 ```

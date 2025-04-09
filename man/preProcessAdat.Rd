@@ -7,22 +7,38 @@
 preProcessAdat(
   adat,
   filter.features = TRUE,
-  filter.samples = TRUE,
+  filter.controls = TRUE,
+  filter.qc = TRUE,
+  filter.outliers = FALSE,
   data.qc = NULL,
-  log.10 = TRUE,
-  center.scale = TRUE
+  log.10 = FALSE,
+  center.scale = FALSE
 )
 }
 \arguments{
 \item{adat}{A \code{soma_adat} object created using \code{\link[=read_adat]{read_adat()}}, including
 SeqId columns (\code{seq.xxxxx.xx}) containing raw RFU values.}
 
-\item{filter.features}{Logical. Should non-human protein features be
+\item{filter.features}{Logical. Should non-human protein features (SeqIds) be
 dropped? Default is \code{TRUE}.}
 
-\item{filter.samples}{Logical. Should buffer, calibrator, and QC samples be
-dropped, along with samples that do not pass default normalization acceptance
-criteria or are identified as sample level RFU outliers?  Default is \code{TRUE}.}
+\item{filter.controls}{Logical. Should SomaScan technical control samples
+be dropped? If \code{TRUE}, this retains all samples where \code{SampleType = "Sample"}
+(study samples) and discards all others including buffer, calibrator, and
+QC control samples. Default is \code{TRUE}.}
+
+\item{filter.qc}{Logical. If \code{TRUE} only samples that pass default
+normalization acceptance criteria will be retained. Default is \code{TRUE}.}
+
+\item{filter.outliers}{Logical. Should the \code{adat} object drop outlier
+samples? An outlier sample is defined by >= 5\% of filtered SeqIds exceeding
++/- 6 MAD and 5x fold-change from the median signal. This filter is typically
+appropriate for studies on plasma, serum, and other biological matrices
+generally exhibiting homeostatic characteristics. For studies on matrices
+such as tissue homogenate, cell culture, or study designs containing
+client-provided background lysis buffer controls (or similar), this filter
+will likely not be appropriate. Default is \code{FALSE}. If set to set to \code{TRUE}
+it is highly recommended that \code{filter.controls} is also set ot \code{TRUE}}
 
 \item{data.qc}{Character. Character vector of variable names for which data
 QC plots are desired. Default is \code{NULL}, which does not generate any QC
@@ -30,25 +46,26 @@ plots.  Note: These plots are for visual inspection only, no samples or
 features are dropped from the output \code{soma_adat} object.}
 
 \item{log.10}{Logical. Should the RFU values be log10 transformed?
-Default is \code{TRUE}.}
+Default is \code{FALSE}.}
 
 \item{center.scale}{Logical. Should the RFU values be Z-transformed
-(centered and scaled)? Default is \code{TRUE}.}
+(centered and scaled)? Default is \code{FALSE}.}
 }
 \value{
 A \code{soma_adat} object.
 }
 \description{
 Pre-process an ADAT file containing raw analyte RFU values in preparation
-for analysis.
+for analysis. For more details please refer to the \href{https://somalogic.github.io/SomaDataIO/articles/pre-processing.html}{pre-processing how-to article}
 }
 \details{
 The \code{soma_adat} object is pre-processed with the following steps:
 \enumerate{
 \item Filter features -> down to human protein analytes
-\item Filter samples -> down to clinical samples (dropping buffer, calibrator, and
-QC samples) that pass default normalization acceptance criteria, and
-dropping sample-level outliers by RFU values.
+\item Filter samples -> by the following order and criteria:
+a) Retain study samples only (dropping buffer, calibrator, and QC samples)
+b) Only those that pass default normalization acceptance criteria
+c) Those not identified as outliers.
 \item Data QC -> plots of normalization scale factors by clinical covariates
 \item Transformations -> log10, center, and scale analyte RFU values
 }
