@@ -331,12 +331,12 @@ plot(om)
 The one sample in `filt_data` that we modified in the previous code chunk
 was identified as an outlier by RFU measurements with the `*`. 
 
-The `getFlaggedIds()` function is useful for extracting the
+The `getOutlierIds()` function is useful for extracting the
 sample IDs that were flagged as outliers in the plot. These sample IDs should be
 investigated further and possibly considered for removal prior to analysis.
 
 ```{r get-flagged-id}
-rfu_outliers <- getFlaggedIds(om)
+rfu_outliers <- getOutlierIds(om)
 rfu_outliers
 
 # drop one outlier sample
@@ -433,9 +433,8 @@ norm_vars |>
 ```
 
 If there *is* a considerable normalization bias observed in your ADAT,
-an alternate normalization or use of pre-normalized data should be used
-for univariate analyses, and any planned analyses may need to be
-modified to account for this bias.
+an alternate normalization should be used for univariate analyses, and any
+planned analyses may need to be modified to account for this bias.
 
 ------------------------------------------------------------------------
 

@@ -101,7 +101,7 @@ plot.Map <- function(x, color.scheme = NULL,
   # determine color palette for the final figure
   color.scheme <- color.scheme %||% rev(grDevices::topo.colors(100))
   legend.ticks <- 2        # only 2 are required for boolean data
-  star_samples <- getFlaggedIds(obj, flags)$idx   # outlier samples to flag
+  star_samples <- getOutlierIds(obj, flags)$idx   # outlier samples to flag
 
   # define plot title & axis labels for starred samples
   title <- paste0(plot.info$title, "     ",

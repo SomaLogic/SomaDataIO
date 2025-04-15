@@ -129,7 +129,7 @@ preProcessAdat <- function(adat,
 
   if( filter.outliers ) {
     # get count of sample level outliers by RFU
-    rfu_outliers <- suppressMessages(getFlaggedIds(calcOutlierMap(adat)))
+    rfu_outliers <- suppressMessages(getOutlierIds(calcOutlierMap(adat)))
     n_outliers <- nrow(rfu_outliers)
     adat <- adat |> filter(!dplyr::row_number() %in% rfu_outliers$idx)
 

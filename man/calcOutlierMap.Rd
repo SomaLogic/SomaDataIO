@@ -89,7 +89,7 @@ om$sample.order
 }
 \seealso{
 Other Calc Map: 
-\code{\link{getFlaggedIds}()},
+\code{\link{getOutlierIds}()},
 \code{\link{plot.Map}()}
 }
 \author{

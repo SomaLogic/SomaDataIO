@@ -37,8 +37,8 @@ appropriate for studies on plasma, serum, and other biological matrices
 generally exhibiting homeostatic characteristics. For studies on matrices
 such as tissue homogenate, cell culture, or study designs containing
 client-provided background lysis buffer controls (or similar), this filter
-will likely not be appropriate. Default is \code{FALSE}. If set to set to \code{TRUE}
-it is highly recommended that \code{filter.controls} is also set ot \code{TRUE}}
+will likely not be appropriate. Default is \code{FALSE}. If set to \code{TRUE}
+it is highly recommended that \code{filter.controls} is also set to \code{TRUE}}
 
 \item{data.qc}{Character. Character vector of variable names for which data
 QC plots are desired. Default is \code{NULL}, which does not generate any QC
@@ -49,7 +49,8 @@ features are dropped from the output \code{soma_adat} object.}
 Default is \code{FALSE}.}
 
 \item{center.scale}{Logical. Should the RFU values be Z-transformed
-(centered and scaled)? Default is \code{FALSE}.}
+(centered and scaled)? Default is \code{FALSE}. If set to set to \code{TRUE}
+it is highly recommended that \code{log.10} is also set to \code{TRUE}}
 }
 \value{
 A \code{soma_adat} object.

@@ -105,7 +105,7 @@ plot(om, flags = 0.05)
 
 Other Calc Map: 
 \code{\link{calcOutlierMap}()},
-\code{\link{getFlaggedIds}()}
+\code{\link{getOutlierIds}()}
 }
 \author{
 Stu Field, Amanda Hiser

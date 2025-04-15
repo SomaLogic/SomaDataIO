@@ -24,9 +24,9 @@
 #' out_adat[12, apts] <- out_adat[12, apts] * 10
 #'
 #' om <- calcOutlierMap(out_adat)
-#' getFlaggedIds(om, out_adat, flags = 0.05, include = c("Sex", "Subarray"))
+#' getOutlierIds(om, out_adat, flags = 0.05, include = c("Sex", "Subarray"))
 #' @export
-getFlaggedIds <- function(x, flags = 0.05, data = NULL, include = NULL) {
+getOutlierIds <- function(x, flags = 0.05, data = NULL, include = NULL) {
 
   if ( !inherits(x, "outlier_map") ) {
     stop("Input `x` object must be class `outlier_map`!",

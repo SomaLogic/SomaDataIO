@@ -29,6 +29,7 @@ utils::globalVariables(
     "seqid",
     "SubjectCount",
     "SubjectId",
+    "TargetFullName",
     "Type",
     "value",
     "Value"
