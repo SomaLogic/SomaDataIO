@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.9/font.css" rel="stylesheet">
-<link href="../deps/Source_Code_Pro-0.4.9/font.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/Source_Code_Pro-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="ANOVA Three-Group Analysis">
@@ -54,6 +54,7 @@
     <li><a class="dropdown-item" href="../articles/tips-train-test-setup.html">Common train-test data setups</a></li>
     <li><a class="dropdown-item" href="../articles/cli-merge-tool.html">Command Line Merge Tool</a></li>
     <li><a class="dropdown-item" href="../articles/lifting-and-bridging.html">Lifting and Bridging SomaScan</a></li>
+    <li><a class="dropdown-item" href="../articles/pre-processing.html">Pre-Processing SomaScan</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><a class="dropdown-item" href="../articles/index.html">More articles...</a></li>
   </ul>
@@ -129,7 +130,11 @@ perform standard <em>preliminary</em> analyses on ‘SomaScan’ data.</p>
 <h2 id="data-preparation">Data Preparation<a class="anchor" aria-label="anchor" href="#data-preparation"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># the `example_data` package data</span></span>
+<code class="sourceCode R"><span><span class="co"># the `example_data` .adat object</span></span>
+<span><span class="co"># download from `SomaLogic-Data` repo or directly via bash command:</span></span>
+<span><span class="co"># `wget https://raw.githubusercontent.com/SomaLogic/SomaLogic-Data/main/example_data.adat`</span></span>
+<span><span class="co"># then read in to R with:</span></span>
+<span><span class="co"># example_data &lt;- read_adat("example_data.adat")</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1]  192 5318</span></span>
 <span></span>
@@ -138,18 +143,32 @@ perform standard <em>preliminary</em> analyses on ‘SomaScan’ data.</p>
 <span><span class="co">#&gt;     Buffer Calibrator         QC     Sample </span></span>
 <span><span class="co">#&gt;          6         10          6        170</span></span>
 <span></span>
-<span><span class="co"># center/scale</span></span>
-<span><span class="va">cs</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">.x</span><span class="op">)</span> <span class="op">{</span>    <span class="co"># .x = numeric vector</span></span>
-<span>  <span class="va">out</span> <span class="op">&lt;-</span> <span class="va">.x</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span>  <span class="co"># center</span></span>
-<span>  <span class="va">out</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span>         <span class="co"># scale</span></span>
-<span><span class="op">}</span></span>
-<span></span>
-<span><span class="co"># prepare data set for analysis</span></span>
+<span><span class="co"># prepare data set for analysis using `preProcessAdat()`</span></span>
 <span><span class="va">cleanData</span> <span class="op">&lt;-</span> <span class="va">example_data</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">SampleType</span> <span class="op">==</span> <span class="st">"Sample"</span><span class="op">)</span> <span class="op">|&gt;</span>         <span class="co"># rm control samples</span></span>
-<span>  <span class="fu">drop_na</span><span class="op">(</span><span class="va">Sex</span><span class="op">)</span> <span class="op">|&gt;</span>                           <span class="co"># rm NAs if present</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log10</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span>                                <span class="co"># log10-transform (Math Generic)</span></span>
-<span>  <span class="fu">modify_at</span><span class="op">(</span><span class="fu"><a href="../reference/getAnalytes.html">getAnalytes</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span>, <span class="va">cs</span><span class="op">)</span>  <span class="co"># center/scale analytes</span></span>
+<span>  <span class="fu"><a href="../reference/preProcessAdat.html">preProcessAdat</a></span><span class="op">(</span></span>
+<span>    filter.features <span class="op">=</span> <span class="cn">TRUE</span>,            <span class="co"># rm non-human protein features</span></span>
+<span>    filter.controls <span class="op">=</span> <span class="cn">TRUE</span>,            <span class="co"># rm control samples</span></span>
+<span>    filter.qc       <span class="op">=</span> <span class="cn">TRUE</span>,            <span class="co"># rm non-passing qc samples</span></span>
+<span>    log.10          <span class="op">=</span> <span class="cn">TRUE</span>,            <span class="co"># log10 transform</span></span>
+<span>    center.scale    <span class="op">=</span> <span class="cn">TRUE</span>             <span class="co"># center/scale analytes</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">305</span> non-human protein features were removed.</span></span>
+<span><span class="co">#&gt; → <span style="color: #0000BB;">214</span> human proteins did not pass standard QC</span></span>
+<span><span class="co">#&gt; acceptance criteria and were flagged in `ColCheck`.  These features</span></span>
+<span><span class="co">#&gt; were not removed, as they still may yield useful information in an</span></span>
+<span><span class="co">#&gt; analysis, but further evaluation may be needed.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">6</span> buffer samples were removed.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">10</span> calibrator samples were removed.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">6</span> QC samples were removed.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">2</span> samples flagged in `RowCheck` did not</span></span>
+<span><span class="co">#&gt; pass standard normalization acceptance criteria (0.4 &lt;= x &lt;= 2.5)</span></span>
+<span><span class="co">#&gt; and were removed.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> RFU features were log-10 transformed.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> RFU features were centered and scaled.</span></span>
+<span></span>
+<span><span class="co"># drop any missing values in Sex</span></span>
+<span><span class="va">cleanData</span> <span class="op">&lt;-</span> <span class="va">cleanData</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">drop_na</span><span class="op">(</span><span class="va">Sex</span><span class="op">)</span>                         <span class="co"># rm NAs if present</span></span>
 <span></span>
 <span><span class="co"># dummy 3 group setup</span></span>
 <span><span class="co"># set up semi-random 3-group with structure</span></span>
@@ -160,7 +179,7 @@ perform standard <em>preliminary</em> analyses on ‘SomaScan’ data.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">cleanData</span><span class="op">$</span><span class="va">Group</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;  A  B  C </span></span>
-<span><span class="co">#&gt; 56 57 57</span></span></code></pre></div>
+<span><span class="co">#&gt; 55 57 56</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="compare-three-groups-abc">Compare Three Groups
@@ -178,20 +197,20 @@ perform standard <em>preliminary</em> analyses on ‘SomaScan’ data.</p>
 <span><span class="co">#   restrict analysis to only certain analytes</span></span>
 <span></span>
 <span><span class="va">aov_tbl</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5,284 × 5</span></span></span>
-<span><span class="co">#&gt;    AptName       SeqId     Target                 EntrezGeneSymbol UniProt</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> seq.10000.28  10000-28  Beta-crystallin B2     <span style="color: #949494;">"</span>CRYBB2<span style="color: #949494;">"</span>         P43320 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> seq.10001.7   10001-7   RAF proto-oncogene se… <span style="color: #949494;">"</span>RAF1<span style="color: #949494;">"</span>           P04049 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> seq.10003.15  10003-15  Zinc finger protein 41 <span style="color: #949494;">"</span>ZNF41<span style="color: #949494;">"</span>          P51814 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> seq.10006.25  10006-25  ETS domain-containing… <span style="color: #949494;">"</span>ELK1<span style="color: #949494;">"</span>           P19419 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> seq.10008.43  10008-43  Guanylyl cyclase-acti… <span style="color: #949494;">"</span>GUCA1A<span style="color: #949494;">"</span>         P43080 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> seq.10011.65  10011-65  Inositol polyphosphat… <span style="color: #949494;">"</span>OCRL<span style="color: #949494;">"</span>           Q01968 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> seq.10012.5   10012-5   SAM pointed domain-co… <span style="color: #949494;">"</span>SPDEF<span style="color: #949494;">"</span>          O95238 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> seq.10013.34  10013-34  Fc_MOUSE               <span style="color: #949494;">""</span>               Q99LC4 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> seq.10014.31  10014-31  Zinc finger protein S… <span style="color: #949494;">"</span>SNAI2<span style="color: #949494;">"</span>          O43623 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> seq.10015.119 10015-119 Voltage-gated potassi… <span style="color: #949494;">"</span>KCNAB2<span style="color: #949494;">"</span>         Q13303 </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 5,274 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4,979 × 5</span></span></span>
+<span><span class="co">#&gt;    AptName       SeqId     Target              EntrezGeneSymbol UniProt</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> seq.10000.28  10000-28  Beta-crystallin B2  CRYBB2           P43320 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> seq.10001.7   10001-7   RAF proto-oncogene… RAF1             P04049 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> seq.10003.15  10003-15  Zinc finger protei… ZNF41            P51814 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> seq.10006.25  10006-25  ETS domain-contain… ELK1             P19419 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> seq.10008.43  10008-43  Guanylyl cyclase-a… GUCA1A           P43080 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> seq.10011.65  10011-65  Inositol polyphosp… OCRL             Q01968 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> seq.10012.5   10012-5   SAM pointed domain… SPDEF            O95238 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> seq.10014.31  10014-31  Zinc finger protei… SNAI2            O43623 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> seq.10015.119 10015-119 Voltage-gated pota… KCNAB2           Q13303 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> seq.10022.207 10022-207 DNA polymerase eta  POLH             Q9Y253 </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 4,969 more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="calculate-anovas">Calculate ANOVAs<a class="anchor" aria-label="anchor" href="#calculate-anovas"></a>
@@ -214,20 +233,20 @@ perform standard <em>preliminary</em> analyses on ‘SomaScan’ data.</p>
 <span></span>
 <span><span class="co"># View analysis tibble</span></span>
 <span><span class="va">aov_tbl</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5,284 × 12</span></span></span>
-<span><span class="co">#&gt;    AptName      SeqId  Target EntrezGeneSymbol UniProt formula   aov_model</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> seq.8468.19  8468-… Prost… KLK3             P07288  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;aov&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> seq.6580.29  6580-… Pregn… PZP              P20742  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;aov&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> seq.7926.13  7926-… Kunit… SPINT3           P49223  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;aov&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> seq.3032.11  3032-… Folli… CGA FSHB         P01215… <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;aov&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> seq.16892.23 16892… Ecton… ENPP2            Q13822  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;aov&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> seq.2953.31  2953-… Lutei… CGA LHB          P01215… <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;aov&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> seq.9282.12  9282-… Cyste… CRISP2           P16562  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;aov&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> seq.4914.10  4914-… Human… CGA CGB          P01215… <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;aov&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> seq.5763.67  5763-… Beta-… DEFB104A         Q8WTQ1  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;aov&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> seq.8376.25  8376-… Lutro… LHB              P01229  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;aov&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 5,274 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4,979 × 12</span></span></span>
+<span><span class="co">#&gt;    AptName    SeqId Target EntrezGeneSymbol UniProt formula   aov_model</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> seq.8468.… 8468… Prost… KLK3             P07288  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;aov&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> seq.6580.… 6580… Pregn… PZP              P20742  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;aov&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> seq.7926.… 7926… Kunit… SPINT3           P49223  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;aov&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> seq.3032.… 3032… Folli… CGA FSHB         P01215… <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;aov&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> seq.16892… 1689… Ecton… ENPP2            Q13822  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;aov&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> seq.7139.… 7139… SLIT … SLITRK4          Q8IW52  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;aov&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> seq.5763.… 5763… Beta-… DEFB104A         Q8WTQ1  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;aov&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> seq.9282.… 9282… Cyste… CRISP2           P16562  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;aov&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> seq.4914.… 4914… Human… CGA CGB          P01215… <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;aov&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> seq.2953.… 2953… Lutei… CGA LHB          P01215… <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;aov&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 4,969 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 5 more variables: aov_smry &lt;list&gt;, F.stat &lt;dbl&gt;, p.value &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   fdr &lt;dbl&gt;, rank &lt;int&gt;</span></span></span></code></pre></div>
 </div>
@@ -248,20 +267,20 @@ perform standard <em>preliminary</em> analyses on ‘SomaScan’ data.</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Target <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">Target</span>, levels <span class="op">=</span> <span class="va">target_map</span><span class="op">$</span><span class="va">Target</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">plot_tbl</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2,040 × 4</span></span></span>
-<span><span class="co">#&gt;    Group AptName         RFU Target                                       </span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>                                        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> A     seq.8468.19  -<span style="color: #BB0000;">1.07</span>  Prostate-specific antigen                    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> A     seq.6580.29   0.314 Pregnancy zone protein                       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> A     seq.7926.13  -<span style="color: #BB0000;">1.09</span>  Kunitz-type protease inhibitor 3             </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> A     seq.3032.11   0.401 Follicle stimulating hormone                 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> A     seq.16892.23  1.54  Ectonucleotide pyrophosphatase/phosphodieste…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> A     seq.2953.31  -<span style="color: #BB0000;">0.426</span> Luteinizing hormone                          </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> A     seq.9282.12  -<span style="color: #BB0000;">1.13</span>  Cysteine-rich secretory protein 2            </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> A     seq.4914.10   1.74  Human Chorionic Gonadotropin                 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> A     seq.5763.67  -<span style="color: #BB0000;">0.638</span> Beta-defensin 104                            </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> A     seq.8376.25   0.476 Lutropin subunit beta                        </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2,030 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2,016 × 4</span></span></span>
+<span><span class="co">#&gt;    Group AptName         RFU Target                                    </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>                                     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> A     seq.8468.19  -<span style="color: #BB0000;">1.06</span>  Prostate-specific antigen                 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> A     seq.6580.29   0.298 Pregnancy zone protein                    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> A     seq.7926.13  -<span style="color: #BB0000;">1.08</span>  Kunitz-type protease inhibitor 3          </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> A     seq.3032.11   0.398 Follicle stimulating hormone              </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> A     seq.16892.23  1.53  Ectonucleotide pyrophosphatase/phosphodie…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> A     seq.7139.14  -<span style="color: #BB0000;">0.750</span> SLIT and NTRK-like protein 4              </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> A     seq.5763.67  -<span style="color: #BB0000;">0.634</span> Beta-defensin 104                         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> A     seq.9282.12  -<span style="color: #BB0000;">1.12</span>  Cysteine-rich secretory protein 2         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> A     seq.4914.10   1.74  Human Chorionic Gonadotropin              </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> A     seq.2953.31  -<span style="color: #BB0000;">0.425</span> Luteinizing hormone                       </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2,006 more rows</span></span></span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">plot_tbl</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">RFU</span>, fill <span class="op">=</span> <span class="va">Group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>

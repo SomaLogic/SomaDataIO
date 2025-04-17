@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.9/font.css" rel="stylesheet">
-<link href="../deps/Source_Code_Pro-0.4.9/font.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/Source_Code_Pro-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Linear Regression">
@@ -54,6 +54,7 @@
     <li><a class="dropdown-item" href="../articles/tips-train-test-setup.html">Common train-test data setups</a></li>
     <li><a class="dropdown-item" href="../articles/cli-merge-tool.html">Command Line Merge Tool</a></li>
     <li><a class="dropdown-item" href="../articles/lifting-and-bridging.html">Lifting and Bridging SomaScan</a></li>
+    <li><a class="dropdown-item" href="../articles/pre-processing.html">Pre-Processing SomaScan</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><a class="dropdown-item" href="../articles/index.html">More articles...</a></li>
   </ul>
@@ -129,7 +130,11 @@ perform standard <em>preliminary</em> analyses on ‘SomaScan’ data.</p>
 <h2 id="data-preparation">Data Preparation<a class="anchor" aria-label="anchor" href="#data-preparation"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># the `example_data` package data</span></span>
+<code class="sourceCode R"><span><span class="co"># the `example_data` .adat object</span></span>
+<span><span class="co"># download from `SomaLogic-Data` repo or directly via bash command:</span></span>
+<span><span class="co"># `wget https://raw.githubusercontent.com/SomaLogic/SomaLogic-Data/main/example_data.adat`</span></span>
+<span><span class="co"># then read in to R with:</span></span>
+<span><span class="co"># example_data &lt;- read_adat("example_data.adat")</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1]  192 5318</span></span>
 <span></span>
@@ -138,22 +143,36 @@ perform standard <em>preliminary</em> analyses on ‘SomaScan’ data.</p>
 <span><span class="co">#&gt;     Buffer Calibrator         QC     Sample </span></span>
 <span><span class="co">#&gt;          6         10          6        170</span></span>
 <span></span>
-<span><span class="co"># center/scale</span></span>
-<span><span class="va">cs</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">.x</span><span class="op">)</span> <span class="op">{</span>    <span class="co"># .x = numeric vector</span></span>
-<span>  <span class="va">out</span> <span class="op">&lt;-</span> <span class="va">.x</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span>  <span class="co"># center</span></span>
-<span>  <span class="va">out</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span>         <span class="co"># scale</span></span>
-<span><span class="op">}</span></span>
-<span></span>
-<span><span class="co"># prepare data set for analysis</span></span>
+<span><span class="co"># prepare data set for analysis using `preProcessAdat()`</span></span>
 <span><span class="va">cleanData</span> <span class="op">&lt;-</span> <span class="va">example_data</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">SampleType</span> <span class="op">==</span> <span class="st">"Sample"</span><span class="op">)</span> <span class="op">|&gt;</span>          <span class="co"># rm control samples</span></span>
-<span>  <span class="fu">drop_na</span><span class="op">(</span><span class="va">Age</span><span class="op">)</span> <span class="op">|&gt;</span>                            <span class="co"># rm NAs if present</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log10</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span>                                 <span class="co"># log10-transform (Math Generic)</span></span>
-<span>  <span class="fu">modify_at</span><span class="op">(</span><span class="fu"><a href="../reference/getAnalytes.html">getAnalytes</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span>, <span class="va">cs</span><span class="op">)</span>   <span class="co"># center/scale analytes</span></span>
+<span>  <span class="fu"><a href="../reference/preProcessAdat.html">preProcessAdat</a></span><span class="op">(</span></span>
+<span>    filter.features <span class="op">=</span> <span class="cn">TRUE</span>,            <span class="co"># rm non-human protein features</span></span>
+<span>    filter.controls <span class="op">=</span> <span class="cn">TRUE</span>,            <span class="co"># rm control samples</span></span>
+<span>    filter.qc       <span class="op">=</span> <span class="cn">TRUE</span>,            <span class="co"># rm non-passing qc samples</span></span>
+<span>    log.10          <span class="op">=</span> <span class="cn">TRUE</span>,            <span class="co"># log10 transform</span></span>
+<span>    center.scale    <span class="op">=</span> <span class="cn">TRUE</span>             <span class="co"># center/scale analytes</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">305</span> non-human protein features were removed.</span></span>
+<span><span class="co">#&gt; → <span style="color: #0000BB;">214</span> human proteins did not pass standard QC</span></span>
+<span><span class="co">#&gt; acceptance criteria and were flagged in `ColCheck`.  These features</span></span>
+<span><span class="co">#&gt; were not removed, as they still may yield useful information in an</span></span>
+<span><span class="co">#&gt; analysis, but further evaluation may be needed.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">6</span> buffer samples were removed.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">10</span> calibrator samples were removed.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">6</span> QC samples were removed.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">2</span> samples flagged in `RowCheck` did not</span></span>
+<span><span class="co">#&gt; pass standard normalization acceptance criteria (0.4 &lt;= x &lt;= 2.5)</span></span>
+<span><span class="co">#&gt; and were removed.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> RFU features were log-10 transformed.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> RFU features were centered and scaled.</span></span>
+<span></span>
+<span><span class="co"># drop any missing Age values</span></span>
+<span><span class="va">cleanData</span> <span class="op">&lt;-</span> <span class="va">cleanData</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">drop_na</span><span class="op">(</span><span class="va">Age</span><span class="op">)</span>                         <span class="co"># rm NAs if present</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">cleanData</span><span class="op">$</span><span class="va">Age</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
-<span><span class="co">#&gt;   18.00   46.00   55.00   55.66   67.00   77.00</span></span></code></pre></div>
+<span><span class="co">#&gt;   18.00   46.00   55.00   55.64   67.00   77.00</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="set-up-traintest-data">Set up Train/Test Data<a class="anchor" aria-label="anchor" href="#set-up-traintest-data"></a>
@@ -193,20 +212,20 @@ perform standard <em>preliminary</em> analyses on ‘SomaScan’ data.</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>rank <span class="op">=</span> <span class="fu">row_number</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>    <span class="co"># add numeric ranks</span></span>
 <span></span>
 <span><span class="va">LinR_tbl</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5,284 × 11</span></span></span>
-<span><span class="co">#&gt;    AptName     SeqId Target EntrezGeneSymbol UniProt formula   model slope</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;lis&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> seq.3045.72 3045… Pleio… PTN              P21246  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;lm&gt;</span>   6.70</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> seq.4496.60 4496… Macro… MMP12            P39900  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;lm&gt;</span>   6.31</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> seq.15640.… 1564… Trans… TAGLN            Q01995  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;lm&gt;</span>   6.74</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> seq.6392.7  6392… WNT1-… WISP2            O76076  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;lm&gt;</span>   6.32</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> seq.15386.7 1538… Fatty… FABP4            P15090  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;lm&gt;</span>   5.87</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> seq.4374.45 4374… Growt… GDF15            Q99988  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;lm&gt;</span>   5.95</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> seq.2609.59 2609… Cysta… CST3             P01034  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;lm&gt;</span>   5.60</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> seq.8480.29 8480… EGF-c… EFEMP1           Q12805  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;lm&gt;</span>   6.00</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> seq.15533.… 1553… Macro… MSR1             P21757  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;lm&gt;</span>   5.51</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> seq.3362.61 3362… Chord… CHRDL1           Q9BU40  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;lm&gt;</span>   5.35</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 5,274 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4,979 × 11</span></span></span>
+<span><span class="co">#&gt;    AptName  SeqId Target EntrezGeneSymbol UniProt formula   model slope</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;lis&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> seq.304… 3045… Pleio… PTN              P21246  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;lm&gt;</span>   7.96</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> seq.437… 4374… Growt… GDF15            Q99988  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;lm&gt;</span>   7.20</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> seq.153… 1538… Fatty… FABP4            P15090  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;lm&gt;</span>   6.91</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> seq.156… 1564… Trans… TAGLN            Q01995  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;lm&gt;</span>   7.16</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> seq.449… 4496… Macro… MMP12            P39900  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;lm&gt;</span>   6.77</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> seq.639… 6392… WNT1-… WISP2            O76076  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;lm&gt;</span>   6.80</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> seq.155… 1553… Macro… MSR1             P21757  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;lm&gt;</span>   6.49</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> seq.141… 1413… Inter… IL1R2            P27930  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;lm&gt;</span>  -<span style="color: #BB0000;">6.08</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> seq.536… 5364… Prote… SET              Q01105  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;lm&gt;</span>  -<span style="color: #BB0000;">6.03</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> seq.336… 3364… Cathe… CTSV             O60911  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;lm&gt;</span>  -<span style="color: #BB0000;">6.15</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 4,969 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more variables: p.value &lt;dbl&gt;, fdr &lt;dbl&gt;, rank &lt;int&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -251,7 +270,7 @@ perform standard <em>preliminary</em> analyses on ‘SomaScan’ data.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 8</span></span></span>
 <span><span class="co">#&gt;     rss   tss   rsq rsqadj    R2   MAE  RMSE   CCC</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> <span style="text-decoration: underline;">4</span>152. <span style="text-decoration: underline;">8</span>492. 0.511  0.416 0.550  7.16  9.11 0.702</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> <span style="text-decoration: underline;">4</span>027.  <span style="text-decoration: underline;">7</span>136 0.436  0.326 0.452  7.22  8.97 0.655</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="visualize-concordance">Visualize Concordance<a class="anchor" aria-label="anchor" href="#visualize-concordance"></a>
