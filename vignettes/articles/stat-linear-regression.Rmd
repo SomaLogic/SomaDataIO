@@ -44,24 +44,29 @@ _preliminary_ analyses on 'SomaScan' data.
 
 
 ## Data Preparation
-```{r data-prep}
-# the `example_data` package data
+```{r data-prep, fig.width = 7, fig.height = 3, fig.align = "center"}
+# the `example_data` .adat object
+# download from `SomaLogic-Data` repo or directly via bash command:
+# `wget https://raw.githubusercontent.com/SomaLogic/SomaLogic-Data/main/example_data.adat`
+# then read in to R with:
+# example_data <- read_adat("example_data.adat")
 dim(example_data)
 
 table(example_data$SampleType)
 
-# center/scale
-cs <- function(.x) {    # .x = numeric vector
-  out <- .x - mean(.x)  # center
-  out / sd(out)         # scale
-}
-
-# prepare data set for analysis
+# prepare data set for analysis using `preProcessAdat()`
 cleanData <- example_data |>
-  filter(SampleType == "Sample") |>          # rm control samples
-  drop_na(Age) |>                            # rm NAs if present
-  log10() |>                                 # log10-transform (Math Generic)
-  modify_at(getAnalytes(example_data), cs)   # center/scale analytes
+  preProcessAdat(
+    filter.features = TRUE,            # rm non-human protein features
+    filter.controls = TRUE,            # rm control samples
+    filter.qc       = TRUE,            # rm non-passing qc samples
+    log.10          = TRUE,            # log10 transform
+    center.scale    = TRUE             # center/scale analytes
+  )
+
+# drop any missing Age values
+cleanData <- cleanData |>
+  drop_na(Age)                         # rm NAs if present
 
 summary(cleanData$Age)
 ```

@@ -66,3 +66,50 @@ cr_yellow <- cli::col_yellow
   name <- as.character(substitute(y))
   attr(x, which = name, exact = TRUE)
 }
+
+has_length <- function(x) {
+  length(x) > 0L
+}
+
+.is_int <- function(x) {
+  if ( !is.numeric(x) ) {
+    return(FALSE)
+  }
+  all(floor(x) == x, na.rm = TRUE)
+}
+
+file_ext <- function(x) {
+  gsub("(.+)([.])([^.]+)$", "\\3", basename(x), perl = TRUE)
+}
+
+.refactorData <- function(data) {
+  lgl <- vapply(data[getMeta(data)], is.factor, NA, USE.NAMES = TRUE)
+  nms <- names(lgl[lgl])
+  for ( meta in nms ) {
+    levs <- levels(data[[meta]])
+    data[[meta]] <- droplevels(data[[meta]])
+    sdiff <- setdiff(levs, levels(data[[meta]]))
+    if ( length(sdiff) > 0L && interactive() ) {
+      .todo("Dropping levels {.val {sdiff}} from {.val {meta}}")
+    }
+  }
+  data
+}
+
+# this is a clone of `getAptamerDilution()` from internal source code
+# hard-coded to drop-hybs
+.getDilList <- function(ad) {
+  ad <- dplyr::filter(ad, !grepl("^Hybridization", Type))
+  stopifnot("Dilution" %in% names(ad), "AptName" %in% names(ad))
+  split(ad$AptName, ad$Dilution)
+}
+
+# this is adapted from `getOutliers()` and only retains nonparametric-type
+# calculations
+#' @importFrom stats mad median
+.getOutliers <- function(x, fold.crit = 5) {
+  med       <- median(x, na.rm = TRUE)
+  stat_bool <- abs( x - med ) > 6 * mad(x, constant = 1) # stat criterion
+  fold_bool <- (x / med > fold.crit) | (med / x > fold.crit)    # FC criterion
+  which(stat_bool & fold_bool)
+}
