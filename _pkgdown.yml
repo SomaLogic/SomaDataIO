@@ -188,6 +188,14 @@ reference:
     contents:
     - params
 
+  - title: Plotting
+    desc: >
+      Functions to assist with plotting information from ADAT objects.
+    contents:
+    - calcOutlierMap
+    - getOutlierIds
+    - plot.Map
+
   - title: Deprecated
     desc: >
       Functions that have been deprecated (sunset) in the
