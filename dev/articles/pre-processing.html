@@ -138,7 +138,7 @@ along with <em>how</em> these steps can be performed using the
 <h3 id="filtering-features">Filtering Features<a class="anchor" aria-label="anchor" href="#filtering-features"></a>
 </h3>
 <p>The goal of this pre-processing step is to remove features (SeqIds)
-typically not useful for analalysis from a SomaScan dataset, while also
+typically not useful for analysis from a SomaScan dataset, while also
 retaining <em>relevant</em> features that will enable broad discovery
 during downstream analysis.</p>
 <p>The filtering logic typically used for protein features (i.e. SOMAmer
@@ -568,7 +568,7 @@ assessment and further evaluation.</p>
 all SeqIds for multivariate analysis, it is important to understand that
 this does <em>not</em> enable meaningful comparison of expression values
 between different SeqIds. Take, for instance, hypothetical SeqId A with
-a z-socre of 2 and hypothetical SeqId B with a z-socre of -1. One cannot
+a z-score of 2 and hypothetical SeqId B with a z-score of -1. One cannot
 infer that the protein target of SeqId A was present at a higher
 concentration than the target of SeqId B in the original sample prep.
 All comparisons should be made between sample groups <em>within</em> a
@@ -587,12 +587,12 @@ factors intrinsic to the SOMAmer Reagent within the SomaScan assay.</p>
 <p>The <code><a href="../reference/preProcessAdat.html">preProcessAdat()</a></code> function is available to perform
 the steps outlined in this vignette. By default, it will filter features
 and samples using the standard QC and normalization acceptance criteria
-described earlier, and drop sample-level RFU outliers. It also has
-option to perform log-10 and center &amp; scale transformations to the
-untransformed RFU values. If data QC plots by endpoints or clinical
-variables are desired, the names of the variables should be explicitly
-passed to the <code>data.qc</code> argument. Please see the
-<code><a href="../reference/preProcessAdat.html">preProcessAdat()</a></code> function documentation for more
+described earlier, but <em>will not</em> drop sample-level RFU outliers.
+It also has the option to perform log-10 and center &amp; scale
+transformations to the untransformed RFU values. If data QC plots by
+endpoints or clinical variables are desired,the names of the variables
+should be explicitly passed to the <code>data.qc</code> argument. Please
+see the <code><a href="../reference/preProcessAdat.html">preProcessAdat()</a></code> function documentation for more
 details.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># first recreate outlier and endpoints, and add to original example_data object</span></span>
