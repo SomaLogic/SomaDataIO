@@ -52,7 +52,7 @@ recommended prior to executing an analysis on SomaScan data, along with
 ## Filtering Features
 
 The goal of this pre-processing step is to remove features (SeqIds) typically
-not useful for analalysis from a SomaScan dataset, while also retaining
+not useful for analysis from a SomaScan dataset, while also retaining
 *relevant* features that will enable broad discovery during downstream analysis.
 
 The filtering logic typically used for protein features (i.e. SOMAmer
@@ -532,8 +532,8 @@ assessment and further evaluation.
 While centering and scaling standardizes the RFU distributions across all
 SeqIds for multivariate analysis, it is important to understand that this does
 *not* enable meaningful comparison of expression values between different
-SeqIds. Take, for instance, hypothetical SeqId A with a z-socre of 2 and
-hypothetical SeqId B with a z-socre of -1. One cannot infer that the protein
+SeqIds. Take, for instance, hypothetical SeqId A with a z-score of 2 and
+hypothetical SeqId B with a z-score of -1. One cannot infer that the protein
 target of SeqId A was present at a higher concentration than the target of
 SeqId B in the original sample prep. All comparisons should be made between
 sample groups *within* a given SeqId. The RFU value, as well as log10 RFU and
@@ -550,11 +550,11 @@ factors intrinsic to the SOMAmer Reagent within the SomaScan assay.
 The `preProcessAdat()` function is available to perform the steps
 outlined in this vignette. By default, it will filter features and
 samples using the standard QC and normalization acceptance criteria
-described earlier, and drop sample-level RFU outliers. It also has option to
-perform log-10 and center & scale transformations to the untransformed RFU
-values. If data QC plots by endpoints or clinical variables are desired,
-the names of the variables should be explicitly passed to the `data.qc`
-argument. Please see the `preProcessAdat()` function documentation for
+described earlier, but _will not_ drop sample-level RFU outliers. It also has
+the option to perform log-10 and center & scale transformations to the
+untransformed RFU values. If data QC plots by endpoints or clinical variables
+are desired,the names of the variables should be explicitly passed to the
+`data.qc` argument. Please see the `preProcessAdat()` function documentation for
 more details.
 
 ```{r recreate-vignette-data}
