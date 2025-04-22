@@ -146,16 +146,16 @@ to determine if a feature is flagged is if the QC ratio by plate
 
 ```{r img1, fig.width = 6, fig.height = 1.5, echo = FALSE, fig.align = "center"}
 ggplot() +
-  geom_rect(mapping = aes(xmin = 0, xmax = 0.8, ymin = 0, ymax = 0.1),
+  geom_rect(mapping = aes(xmin = 0.6, xmax = 0.8, ymin = 0, ymax = 0.1),
             fill = "#ecf0de") +
   geom_rect(mapping = aes(xmin = 0.8, xmax = 1.2, ymin = 0, ymax = 0.1),
             fill = "#c3d69b") +
-  geom_rect(mapping = aes(xmin = 1.2, xmax = 2, ymin = 0, ymax = 0.1),
+  geom_rect(mapping = aes(xmin = 1.2, xmax = 1.4, ymin = 0, ymax = 0.1),
             fill = "#ecf0de") +
   labs(title    = "Analysis QC Accuracy Criteria Per SOMAmer Reagent",
        subtitle = "QC Ratio Test By Plate (Aggregate Across Plates)") +
-  geom_text(aes(x = 0.4, y = 0.05, label = "Accept"), size = 4) +
-  geom_text(aes(x = 1.6, y = 0.05, label = "Accept"), size = 4) +
+  geom_text(aes(x = 0.7, y = 0.05, label = "Accept"), size = 4) +
+  geom_text(aes(x = 1.3, y = 0.05, label = "Accept"), size = 4) +
   geom_text(aes(x = 1, y = 0.05, label = "PASS"), size = 4) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
@@ -230,17 +230,17 @@ to 2.5:
 
 ```{r img2, fig.width = 6, fig.height = 1.5, echo = FALSE, fig.align = "center"}
 ggplot() +
-  geom_rect(mapping = aes(xmin = -2.5, xmax = 0.5, ymin = 0, ymax = 0.1),
+  geom_rect(mapping = aes(xmin = -0.5, xmax = 0.5, ymin = 0, ymax = 0.1),
             fill = "pink") +
   geom_rect(mapping = aes(xmin = 0.5, xmax = 2.5, ymin = 0, ymax = 0.1),
             fill = "#c3d69b") +
-  geom_rect(mapping = aes(xmin = 2.5, xmax = 5.5, ymin = 0, ymax = 0.1),
+  geom_rect(mapping = aes(xmin = 2.5, xmax = 3.5, ymin = 0, ymax = 0.1),
             fill = "pink") +
   labs(title    = "Standard Normalization Acceptance Criteria Per Sample",
        subtitle = "All Scale Factors") +
-  geom_text(aes(x = -1, y = 0.05, label = "FAIL"), size = 4) +
+  geom_text(aes(x = 0, y = 0.05, label = "FLAG"), size = 4) +
   geom_text(aes(x = 1.5, y = 0.05, label = "PASS"), size = 4) +
-  geom_text(aes(x = 4, y = 0.05, label = "FAIL"), size = 4) +
+  geom_text(aes(x = 3, y = 0.05, label = "FLAG"), size = 4) +
   theme(plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         panel.border = element_blank(),
@@ -250,8 +250,8 @@ ggplot() +
         panel.background = element_rect(fill = "white"),
         axis.text.x = element_text(size = 12, face = "bold"),
         axis.ticks.length.x = unit(.5, "cm")) +
-  scale_x_continuous(breaks = c(-1, 0.5, 1.5, 2.5, 4.0),
-                     labels = c("0.25", "0.4", "1.0", "2.5", "4.0"),
+  scale_x_continuous(breaks = c(0.5, 1.5, 2.5),
+                     labels = c("0.4", "1.0", "2.5"),
                      position = "top") +
   xlab("") +
   ylab("")
