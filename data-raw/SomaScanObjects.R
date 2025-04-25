@@ -15,14 +15,13 @@ ex_target_names <- getTargetNames(ex_anno_tbl)
 
 withr::with_seed(123, {
   ex_clin_data <- example_data |>
+    dplyr::filter(SampleType == "Sample") |>
     dplyr::mutate(
       smoking_status = sample(c("Current", "Past", "Never"),
-                              size = 192, replace = TRUE),
+                              size = 170, replace = TRUE),
       alcohol_use    = sample(c("Yes", "No"),
-                              size = 192, replace = TRUE)
+                              size = 170, replace = TRUE)
     ) |>
-    dplyr::mutate(smoking_status = ifelse(is.na(Age), NA, smoking_status),
-                  alcohol_use    = ifelse(is.na(Age), NA, alcohol_use)) |>
     select(SampleId, smoking_status, alcohol_use) |>
     as_tibble()
 })

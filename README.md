@@ -283,7 +283,6 @@ object adds in two additional clinical variables, `smoking_status` and
 # clin_data <- readr::read_csv(clin_path)
 
 merged_adat <- my_adat |> 
-  dplyr::filter(SampleType == "Sample") |> 
   dplyr::left_join(ex_clin_data, by = "SampleId") 
 
 merged_adat |> 
@@ -309,7 +308,7 @@ merged_adat |>
 #>   <chr>          <chr>    <int> <chr> <chr>          <chr>      
 #> 1 258495800012_3 1           76 F     Never          Yes        
 #> 2 258495800004_7 2           55 F     Never          Yes        
-#> 3 258495800010_8 3           47 M     Never          Yes        
+#> 3 258495800010_8 3           47 M     Never          No         
 #> ════════════════════════════════════════════════════════════════════════════════
 ```
 

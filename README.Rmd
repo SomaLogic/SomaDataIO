@@ -259,7 +259,6 @@ two additional clinical variables, `smoking_status` and `alcohol_use`:
 # clin_data <- readr::read_csv(clin_path)
 
 merged_adat <- my_adat |> 
-  dplyr::filter(SampleType == "Sample") |> 
   dplyr::left_join(ex_clin_data, by = "SampleId") 
 
 merged_adat |> 
