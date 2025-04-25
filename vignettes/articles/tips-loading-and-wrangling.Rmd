@@ -180,6 +180,33 @@ males |>
 ```
 
 
+#### Merging Sample Annotation Data
+
+The `example_data` object includes some sample annotation data built-in, with
+the variables `Age` and `Sex` included for clinical samples, but in practice 
+ADAT files generally do not have any clinical or sample annotation data fields
+included.
+
+To merge sample annotation data into an existing `soma_adat` class object,
+use the `left_join()` method.  Here, joining the `ex_clin_data` `tibble` object
+adds in two additional clinical variables, `smoking_status` and `alcohol_use`:
+
+```{r merge-annotations}
+# `clin_path` should be the elaborated path and file name of the *.csv or
+# similar file to be loaded into the R workspace from your local file system
+# (e.g. clin_path = "PATH_TO_CLIN/clin_data.csv")
+# clin_data <- readr::read_csv(clin_path)
+
+merged_adat <- my_adat |> 
+  dplyr::filter(SampleType == "Sample") |> 
+  dplyr::left_join(ex_clin_data, by = "SampleId") 
+
+merged_adat |> 
+  dplyr::select(SampleId, Age, Sex, smoking_status, alcohol_use) |> 
+  head(n = 3)
+```
+
+
 ### Available S3 Methods `soma_adat`
 
 ```{r methods}
