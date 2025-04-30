@@ -6,12 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Pre-Processing SomaScan • SomaDataIO</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet">
@@ -239,7 +238,7 @@ the QC acceptance criteria for all plates/sets. The standard QC
 acceptance criteria used to determine if a feature is flagged is if the
 QC ratio by plate (aggregate across all plates) is within the acceptance
 range of 0.8 to 1.2:</p>
-<p><img src="figures%2Fpre-processing-img1-1.png" width="576" style="display: block; margin: auto;"></p>
+<p><img src="figures/pre-processing-img1-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>Again, please see <a href="https://github.com/SomaLogic/SomaLogic-Data" class="external-link">SomaLogic-Data</a>
 for more details.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -298,7 +297,7 @@ pre-defined normalization acceptance criteria.</p>
 sample is flagged by the <code>RowCheck</code> column is if <em>any</em>
 of the <em>rowwise</em> normalization scale factors are outside of the
 acceptance range of 0.4 to 2.5:</p>
-<p><img src="figures%2Fpre-processing-img2-1.png" width="576" style="display: block; margin: auto;"></p>
+<p><img src="figures/pre-processing-img2-1.png" width="576" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">filt_data</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">RowCheck</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -365,7 +364,7 @@ definition with the <code><a href="../reference/calcOutlierMap.html">calcOutlier
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">om</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calcOutlierMap.html">calcOutlierMap</a></span><span class="op">(</span><span class="va">filt_data</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">om</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figures%2Fpre-processing-rfu-outliers-plot-1.png" width="672" style="display: block; margin: auto;"></p>
+<p><img src="figures/pre-processing-rfu-outliers-plot-1.png" width="672" style="display: block; margin: auto;"></p>
 <p>The one sample in <code>filt_data</code> that we modified in the
 previous code chunk was identified as an outlier by RFU measurements
 with the <code>*</code>.</p>
@@ -417,7 +416,7 @@ endpoint.</p>
 <span>    <span class="fu">geom_hline</span><span class="op">(</span>yintercept  <span class="op">=</span> <span class="fl">2.5</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu">scale_fill_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#4067E2"</span>, <span class="st">"#59CFDB"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figures%2Fpre-processing-nsf-qc-class-plot-1.png" width="672" style="display: block; margin: auto;"></p>
+<p><img src="figures/pre-processing-nsf-qc-class-plot-1.png" width="672" style="display: block; margin: auto;"></p>
 <p>There does not appear to be any visual normalization bias by
 <code>status_class</code>. This conclusion is confirmed by the results
 from t-tests.</p>
@@ -454,7 +453,7 @@ from t-tests.</p>
 <span>    <span class="fu">scale_color_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#4067E2"</span>, <span class="st">"#59CFDB"</span>, <span class="st">"#DB40EF"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">`Normalization Scale Factor`</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figures%2Fpre-processing-nsf-qc-cont-plot-1.png" width="672" style="display: block; margin: auto;"></p>
+<p><img src="figures/pre-processing-nsf-qc-cont-plot-1.png" width="672" style="display: block; margin: auto;"></p>
 <p>There does not appear to be any visual normalization bias by the
 <code>status_cont</code> continuous endpoint. This conclusion is
 confirmed by the results from correlation tests.</p>
@@ -499,7 +498,7 @@ Let’s take a look at the distribution of one example analyte feature,
 <span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">seq.10023.32</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_density</span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"#59CFDB"</span>, color <span class="op">=</span> <span class="st">"#59CFDB"</span>, alpha <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figures%2Fpre-processing-untransformed-dist-1.png" width="672" style="display: block; margin: auto;"></p>
+<p><img src="figures/pre-processing-untransformed-dist-1.png" width="672" style="display: block; margin: auto;"></p>
 <p>There is a log-normal distribution, with a long right-tail in the
 distribution of raw RFU values, and this is the assumed distribution of
 untransformed analytes provided in an ADAT file.</p>
@@ -559,7 +558,7 @@ typically performed on log10-transformed RFUs.</p>
 <span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">seq.10023.32</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_density</span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"#59CFDB"</span>, color <span class="op">=</span> <span class="st">"#59CFDB"</span>, alpha <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figures%2Fpre-processing-transformed-dist-1.png" width="672" style="display: block; margin: auto;"></p>
+<p><img src="figures/pre-processing-transformed-dist-1.png" width="672" style="display: block; margin: auto;"></p>
 <p>After applying the transformations, the distribution of all of the
 pre-processed analyte features should look similar to the above. If true
 modal behavior of any analytes are observed, it may require secondary
@@ -627,10 +626,10 @@ details.</p>
 <span><span class="co">#&gt; and were removed.</span></span>
 <span><span class="co">#&gt; → Data QC plots were generated:</span></span>
 <span><span class="co">#&gt; $status_class</span></span></code></pre></div>
-<p><img src="figures%2Fpre-processing-full-preProcessAdat-1.png" width="672" style="display: block; margin: auto;"></p>
+<p><img src="figures/pre-processing-full-preProcessAdat-1.png" width="672" style="display: block; margin: auto;"></p>
 <pre><code><span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $status_cont</span></span></code></pre>
-<p><img src="figures%2Fpre-processing-full-preProcessAdat-2.png" width="672" style="display: block; margin: auto;"></p>
+<p><img src="figures/pre-processing-full-preProcessAdat-2.png" width="672" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">processed_data</span></span>
@@ -700,7 +699,7 @@ help. Please reach out to us via:</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
 </div>
 
   </div></footer>
