@@ -7,6 +7,7 @@
 \alias{ex_analytes}
 \alias{ex_anno_tbl}
 \alias{ex_target_names}
+\alias{ex_clin_data}
 \title{Example Data and Objects}
 \format{
 \describe{
@@ -46,6 +47,11 @@ index key field \code{AptName} included in column 1, derived from a call to
 target names contained in \code{example_data}. This object (or one like it) is
 convenient at the console via auto-complete for labeling and/or creating
 plot titles on the fly.}
+
+\item{ex_clin_data}{A table containing \code{SampleId}, \code{smoking_status}, and
+\code{alcohol_use} fields for each clinical sample in \code{example_data} used to
+demonstrate how to merge sample annotation information to an existing
+\code{soma_adat} object.}
 }
 }
 \source{

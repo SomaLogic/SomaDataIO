@@ -7,7 +7,7 @@
 #' group for studies or provide any metrics for SomaScan data in general.
 #'
 #' @name SomaScanObjects
-#' @aliases example_data ex_analytes ex_anno_tbl ex_target_names
+#' @aliases example_data ex_analytes ex_anno_tbl ex_target_names ex_clin_data
 #' @docType data
 #'
 #' @section Data Description:
@@ -64,6 +64,11 @@
 #'     target names contained in `example_data`. This object (or one like it) is
 #'     convenient at the console via auto-complete for labeling and/or creating
 #'     plot titles on the fly.}
+#'
+#'   \item{ex_clin_data}{A table containing `SampleId`, `smoking_status`, and
+#'     `alcohol_use` fields for each clinical sample in `example_data` used to
+#'     demonstrate how to merge sample annotation information to an existing
+#'     `soma_adat` object.}
 #' }
 #'
 #' @source \url{https://github.com/SomaLogic/SomaLogic-Data}

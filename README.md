@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 ![GitHub
-version](https://img.shields.io/badge/Version-6.1.0.9000-success.svg?style=flat&logo=github)
+version](https://img.shields.io/badge/Version-6.2.0.9000-success.svg?style=flat&logo=github)
 [![CRAN
 status](http://www.r-pkg.org/badges/version/SomaDataIO)](https://cran.r-project.org/package=SomaDataIO)
 [![Downloads](https://cranlogs.r-pkg.org/badges/SomaDataIO)](https://cran.r-project.org/package=SomaDataIO)
@@ -132,7 +132,7 @@ library(help = SomaDataIO)
 
 ## Objects and Data
 
-The `SomaDataIO` package comes with four (4) objects available to users
+The `SomaDataIO` package comes with five (5) objects available to users
 to run canned examples (or analyses). They can be accessed once
 `SomaDataIO` has been attached via `library()`. They are:
 
@@ -156,6 +156,10 @@ to run canned examples (or analyses). They can be accessed once
 - `ex_anno_tbl`: the annotations table associated with `example_data`
 
 - `ex_target_names`: a mapping object for analyte -\> target
+
+- `ex_clin_data`: a table containing variables `SampleId`,
+  `smoking_status` and `alcohol_use` to demonstrate merging clinical
+  sample annotation information to a `soma_adat` object
 
 - See also `?SomaScanObjects`
 
@@ -192,7 +196,7 @@ adat_path
 
 # `adat_path` should be the elaborated path and file name of the *.adat file to
 # be loaded into the R workspace from your local file system
-# (e.g. file_path = "PATH_TO_ADAT/my_adat.adat")
+# (e.g. adat_path = "PATH_TO_ADAT/my_adat.adat")
 my_adat <- read_adat(file = adat_path)
 
 # test object class
@@ -258,6 +262,54 @@ methods(class = "soma_adat")
 #> [31] semi_join      separate       slice_sample   slice          summary       
 #> [36] Summary        transform      ungroup        unite         
 #> see '?methods' for accessing help and source code
+```
+
+#### Merging Sample Annotation Data
+
+The `example_data` object includes some sample annotation data built-in,
+with the variables `Age` and `Sex` included for clinical samples, but in
+practice ADAT files generally do not have any clinical or sample
+annotation data fields included.
+
+To merge sample annotation data into an existing `soma_adat` class
+object, use the `left_join()` method. Here, joining the `ex_clin_data`
+object adds in two additional clinical variables, `smoking_status` and
+`alcohol_use`:
+
+``` r
+# `clin_path` should be the elaborated path and file name of the *.csv or
+# similar file to be loaded into the R workspace from your local file system
+# (e.g. clin_path = "PATH_TO_CLIN/clin_data.csv")
+# clin_data <- readr::read_csv(clin_path)
+
+merged_adat <- my_adat |> 
+  dplyr::left_join(ex_clin_data, by = "SampleId") 
+
+merged_adat |> 
+  dplyr::select(SampleId, Age, Sex, smoking_status, alcohol_use) |> 
+  head(n = 3)
+#> ══ SomaScan Data ═══════════════════════════════════════════════════════════════
+#>      SomaScan version     V4 (5k)
+#>      Signal Space         5k
+#>      Attributes intact    ✓
+#>      Rows                 3
+#>      Columns              5
+#>      Clinical Data        5
+#>      Features             0
+#> ── Column Meta ─────────────────────────────────────────────────────────────────
+#> ℹ SeqId, SeqIdVersion, SomaId, TargetFullName, Target, UniProt, EntrezGeneID,
+#> ℹ EntrezGeneSymbol, Organism, Units, Type, Dilution, PlateScale_Reference,
+#> ℹ CalReference, Cal_Example_Adat_Set001, ColCheck,
+#> ℹ CalQcRatio_Example_Adat_Set001_170255, QcReference_170255,
+#> ℹ Cal_Example_Adat_Set002, CalQcRatio_Example_Adat_Set002_170255, Dilution2
+#> ── Tibble ──────────────────────────────────────────────────────────────────────
+#> # A tibble: 3 × 6
+#>   row_names      SampleId   Age Sex   smoking_status alcohol_use
+#>   <chr>          <chr>    <int> <chr> <chr>          <chr>      
+#> 1 258495800012_3 1           76 F     Never          Yes        
+#> 2 258495800004_7 2           55 F     Never          Yes        
+#> 3 258495800010_8 3           47 M     Never          No         
+#> ════════════════════════════════════════════════════════════════════════════════
 ```
 
 Please see the article [Loading and Wrangling

@@ -157,7 +157,7 @@ library(help = SomaDataIO)
 
 ## Objects and Data
 
-The `SomaDataIO` package comes with four (4) objects available
+The `SomaDataIO` package comes with five (5) objects available
 to users to run canned examples (or analyses). They can be accessed once
 `SomaDataIO` has been attached via `library()`. They are:
 
@@ -175,6 +175,9 @@ to users to run canned examples (or analyses). They can be accessed once
 * `ex_analytes`: the analyte (feature) variables in `example_data`
 * `ex_anno_tbl`: the annotations table associated with `example_data`
 * `ex_target_names`: a mapping object for analyte -> target
+* `ex_clin_data`: a table containing variables `SampleId`, `smoking_status` and
+  `alcohol_use` to demonstrate merging clinical sample annotation information
+  to a `soma_adat` object
 * See also `?SomaScanObjects`
 
 
@@ -212,7 +215,7 @@ adat_path
 
 # `adat_path` should be the elaborated path and file name of the *.adat file to
 # be loaded into the R workspace from your local file system
-# (e.g. file_path = "PATH_TO_ADAT/my_adat.adat")
+# (e.g. adat_path = "PATH_TO_ADAT/my_adat.adat")
 my_adat <- read_adat(file = adat_path)
 
 # test object class
@@ -236,6 +239,31 @@ S3 methods to the most popular
 ```{r methods}
 # see full complement of `soma_adat` methods
 methods(class = "soma_adat")
+```
+
+#### Merging Sample Annotation Data
+
+The `example_data` object includes some sample annotation data built-in, with
+the variables `Age` and `Sex` included for clinical samples, but in practice 
+ADAT files generally do not have any clinical or sample annotation data fields
+included.
+
+To merge sample annotation data into an existing `soma_adat` class object,
+use the `left_join()` method.  Here, joining the `ex_clin_data` object adds in
+two additional clinical variables, `smoking_status` and `alcohol_use`:
+
+```{r merge-annotations}
+# `clin_path` should be the elaborated path and file name of the *.csv or
+# similar file to be loaded into the R workspace from your local file system
+# (e.g. clin_path = "PATH_TO_CLIN/clin_data.csv")
+# clin_data <- readr::read_csv(clin_path)
+
+merged_adat <- my_adat |> 
+  dplyr::left_join(ex_clin_data, by = "SampleId") 
+
+merged_adat |> 
+  dplyr::select(SampleId, Age, Sex, smoking_status, alcohol_use) |> 
+  head(n = 3)
 ```
 
 Please see the article [Loading and Wrangling SomaScan](https://somalogic.github.io/SomaDataIO/articles/tips-loading-and-wrangling.html)
