@@ -66,6 +66,50 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="somadataio-development-version">SomaDataIO (development version)<a class="anchor" aria-label="anchor" href="#somadataio-development-version"></a></h2>
+<div class="section level4">
+<h4 id="new-functions-development-version">New Functions<a class="anchor" aria-label="anchor" href="#new-functions-development-version"></a></h4>
+<ul><li>Added <code><a href="../reference/preProcessAdat.html">preProcessAdat()</a></code> function
+<ul><li>added new function <code><a href="../reference/preProcessAdat.html">preProcessAdat()</a></code> to filter features, filter samples, generate data QC plots of normalization scale factors by covariates, and perform standard analyte RFU transformations including log10, centering, and scaling</li>
+</ul></li>
+<li>Added <code><a href="../reference/calcOutlierMap.html">calcOutlierMap()</a></code> function
+<ul><li>added <code><a href="../reference/calcOutlierMap.html">calcOutlierMap()</a></code> and its print and plot S3 methods, along with <code><a href="../reference/getOutlierIds.html">getOutlierIds()</a></code> for identifying sample level outliers from outlier map object</li>
+<li>added <code>ggplot2</code> as a package dependency</li>
+</ul></li>
+</ul></div>
+<div class="section level4">
+<h4 id="function-and-object-improvements-development-version">Function and Object Improvements<a class="anchor" aria-label="anchor" href="#function-and-object-improvements-development-version"></a></h4>
+<ul><li>Added <code>ex_clin_data</code> object
+<ul><li>a <code>tibble</code> object with additional sample annotation fields <code>smoking_status</code> and <code>alcohol_use</code> to demonstrate merging to a <code>soma_adat</code> object</li>
+</ul></li>
+</ul></div>
+<div class="section level4">
+<h4 id="documentation-updates-development-version">Documentation Updates<a class="anchor" aria-label="anchor" href="#documentation-updates-development-version"></a></h4>
+<ul><li>Added pre-processing vignette article
+<ul><li>includes guidance on pre-processing SomaScan data for a typical analysis</li>
+<li>provides an example of recommended workflow of filtering features, filtering samples, performing data QC checks, and transformations of RFU features</li>
+<li>introduces usage of the <code><a href="../reference/preProcessAdat.html">preProcessAdat()</a></code> function</li>
+</ul></li>
+<li>Improved adat ingest documentation in <code>README</code>
+<ul><li>added comments to clarify file path input to <code><a href="../reference/read_adat.html">read_adat()</a></code> example in <code>README</code>
+</li>
+</ul></li>
+<li>Updated stat workflow articles to begin with reading in adat
+<ul><li>updated data preparation chunks with comments about how to download and read in the the <code>example_data.adat</code> object</li>
+<li>data preparation chunks now use the <code><a href="../reference/preProcessAdat.html">preProcessAdat()</a></code> function for pre-processing</li>
+</ul></li>
+<li>Added sample annotation merging guidance
+<ul><li>updated <code>README</code> and loading and wrangling vignette article with section including code to join the <code>ex_clin_data</code> object to the <code>example_data</code> adat</li>
+</ul></li>
+</ul></div>
+<div class="section level4">
+<h4 id="internal-construction-development-version">Internal <span class="emoji" data-emoji="construction">🚧</span>
+<a class="anchor" aria-label="anchor" href="#internal-construction-development-version"></a></h4>
+<ul><li>Added helper utility functions for snapshot plot unit tests
+<ul><li>added helper utility functions <code>figure()</code>, <code>close_figure()</code>, <code>save_png()</code>, and <code>expect_snapshot_plot()</code> for saving plot snapshot output to <code>testthat/helper.R</code>
+</li>
+<li>added snapshot unit tests for <code><a href="../reference/preProcessAdat.html">preProcessAdat()</a></code> messaging, print and QC plot output</li>
+</ul></li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="6.2.0" id="somadataio-620">SomaDataIO 6.2.0<a class="anchor" aria-label="anchor" href="#somadataio-620"></a></h2><p class="text-muted">CRAN release: 2025-02-06</p>

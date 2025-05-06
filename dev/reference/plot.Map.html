@@ -147,7 +147,7 @@ the "class.tab" element of <code>x$class.tab</code> (if possible).</p></dd>
 
 <dt id="arg-main">main<a class="anchor" aria-label="anchor" href="#arg-main"></a></dt>
 <dd><p>Character. Main title for the plot.
-See <code>ggtitle()</code> for <code>ggplot2</code> style graphics.</p></dd>
+See <code><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggplot2::ggtitle()</a></code> for <code>ggplot2</code> style graphics.</p></dd>
 
 
 <dt id="arg-y-lab">y.lab<a class="anchor" aria-label="anchor" href="#arg-y-lab"></a></dt>
@@ -181,7 +181,7 @@ If <code>NULL</code> (default), <code>0.05</code> (5%) is selected.</p></dd>
 The file name must also include the desired file type extension;
 this will be used to determine the file type,
 e.g. a file named <code>foo.png</code> will be saved as a <code>PNG</code>.
-See <code>ggsave()</code> for a full list of file type (device) options.</p></dd>
+See <code><a href="https://ggplot2.tidyverse.org/reference/ggsave.html" class="external-link">ggplot2::ggsave()</a></code> for a full list of file type (device) options.</p></dd>
 
 
 <dt id="arg-plot-width">plot.width<a class="anchor" aria-label="anchor" href="#arg-plot-width"></a></dt>
@@ -206,7 +206,7 @@ See <code>ggsave()</code> for a full list of file type (device) options.</p></dd
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code>ggplot()</code>, <code>geom_raster()</code></p>
+    <div class="dont-index"><p><code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot2::ggplot()</a></code>, <code><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">ggplot2::geom_raster()</a></code></p>
 <p>Other Calc Map:
 <code><a href="calcOutlierMap.html">calcOutlierMap</a>()</code>,
 <code><a href="getOutlierIds.html">getOutlierIds</a>()</code></p></div>
@@ -218,8 +218,12 @@ See <code>ggsave()</code> for a full list of file type (device) options.</p></dd
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">om</span> <span class="op">&lt;-</span> <span class="fu"><a href="calcOutlierMap.html">calcOutlierMap</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">om</span>, flags <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">example_data</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">SampleType</span> <span class="op">==</span> <span class="st">"Sample"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="calcOutlierMap.html">calcOutlierMap</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span>flags <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> → No observations were flagged at this flagging proportion: <span style="color: #0000BB;">0.05</span></span>
 <span class="r-plt img"><img src="plot.Map-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
