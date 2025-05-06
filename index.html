@@ -6,16 +6,15 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Input/Output SomaScan Data • SomaDataIO</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" sizes="any" href="favicon.ico">
+<link rel="manifest" href="site.webmanifest">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/Roboto-0.4.9/font.css" rel="stylesheet">
-<link href="deps/Source_Code_Pro-0.4.9/font.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/Roboto-0.4.10/font.css" rel="stylesheet">
+<link href="deps/Source_Code_Pro-0.4.10/font.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Input/Output SomaScan Data">
@@ -31,7 +30,7 @@
 
     <a class="navbar-brand me-2" href="index.html">SomaDataIO</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">6.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">6.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,6 +50,7 @@
     <li><a class="dropdown-item" href="articles/tips-train-test-setup.html">Common train-test data setups</a></li>
     <li><a class="dropdown-item" href="articles/cli-merge-tool.html">Command Line Merge Tool</a></li>
     <li><a class="dropdown-item" href="articles/lifting-and-bridging.html">Lifting and Bridging SomaScan</a></li>
+    <li><a class="dropdown-item" href="articles/pre-processing.html">Pre-Processing SomaScan</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><a class="dropdown-item" href="articles/index.html">More articles...</a></li>
   </ul>
@@ -132,6 +132,7 @@
 <li><a href="https://cran.r-project.org/" class="external-link">R (&gt;= 4.1.0)</a></li>
 <li><a href="https://cran.r-project.org/package=cli" class="external-link">cli</a></li>
 <li><a href="https://cran.r-project.org/package=dplyr" class="external-link">dplyr</a></li>
+<li><a href="https://cran.r-project.org/package=ggplot2" class="external-link">ggplot2</a></li>
 <li><a href="https://cran.r-project.org/package=lifecycle" class="external-link">lifecycle</a></li>
 <li><a href="https://cran.r-project.org/package=magrittr" class="external-link">magrittr</a></li>
 <li><a href="https://cran.r-project.org/package=readxl" class="external-link">readxl</a></li>
@@ -165,7 +166,7 @@
 <div class="section level2">
 <h2 id="objects-and-data">Objects and Data<a class="anchor" aria-label="anchor" href="#objects-and-data"></a>
 </h2>
-<p>The <code>SomaDataIO</code> package comes with four (4) objects available to users to run canned examples (or analyses). They can be accessed once <code>SomaDataIO</code> has been attached via <code><a href="https://rdrr.io/r/base/library.html" class="external-link">library()</a></code>. They are:</p>
+<p>The <code>SomaDataIO</code> package comes with five (5) objects available to users to run canned examples (or analyses). They can be accessed once <code>SomaDataIO</code> has been attached via <code><a href="https://rdrr.io/r/base/library.html" class="external-link">library()</a></code>. They are:</p>
 <ul>
 <li>
 <p><code>example_data</code>: the original ‘SomaScan’ file (<code>example_data.adat</code>) can be found <a href="https://github.com/SomaLogic/SomaLogic-Data" class="external-link">here</a> or downloaded directly via:</p>
@@ -181,6 +182,7 @@
 <li><p><code>ex_analytes</code>: the analyte (feature) variables in <code>example_data</code></p></li>
 <li><p><code>ex_anno_tbl</code>: the annotations table associated with <code>example_data</code></p></li>
 <li><p><code>ex_target_names</code>: a mapping object for analyte -&gt; target</p></li>
+<li><p><code>ex_clin_data</code>: a table containing variables <code>SampleId</code>, <code>smoking_status</code> and <code>alcohol_use</code> to demonstrate merging clinical sample annotation information to a <code>soma_adat</code> object</p></li>
 <li><p>See also <code><a href="reference/SomaScanObjects.html">?SomaScanObjects</a></code></p></li>
 </ul>
 <hr>
@@ -219,10 +221,17 @@
 </h2>
 <p>Loading an ADAT text file is simple using <code><a href="reference/read_adat.html">read_adat()</a></code>:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Sample file name</span></span>
-<span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"example_data10.adat"</span>,</span>
-<span>                 package <span class="op">=</span> <span class="st">"SomaDataIO"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="va">my_adat</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_adat.html">read_adat</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># Note: This `system.file()` command returns a filepath to the `example_data10` </span></span>
+<span><span class="co"># object in the `SomaDataIO` package</span></span>
+<span><span class="va">adat_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"example_data10.adat"</span>,</span>
+<span>                         package <span class="op">=</span> <span class="st">"SomaDataIO"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">adat_path</span></span>
+<span><span class="co">#&gt; [1] "/Library/Frameworks/R.framework/Versions/4.4-x86_64/Resources/library/SomaDataIO/extdata/example_data10.adat"</span></span>
+<span></span>
+<span><span class="co"># `adat_path` should be the elaborated path and file name of the *.adat file to</span></span>
+<span><span class="co"># be loaded into the R workspace from your local file system</span></span>
+<span><span class="co"># (e.g. adat_path = "PATH_TO_ADAT/my_adat.adat")</span></span>
+<span><span class="va">my_adat</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_adat.html">read_adat</a></span><span class="op">(</span>file <span class="op">=</span> <span class="va">adat_path</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># test object class</span></span>
 <span><span class="fu"><a href="reference/read_adat.html">is.soma_adat</a></span><span class="op">(</span><span class="va">my_adat</span><span class="op">)</span></span>
@@ -281,7 +290,47 @@
 <span><span class="co">#&gt; [31] semi_join      separate       slice_sample   slice          summary       </span></span>
 <span><span class="co">#&gt; [36] Summary        transform      ungroup        unite         </span></span>
 <span><span class="co">#&gt; see '?methods' for accessing help and source code</span></span></code></pre></div>
+<div class="section level4">
+<h4 id="merging-sample-annotation-data">Merging Sample Annotation Data<a class="anchor" aria-label="anchor" href="#merging-sample-annotation-data"></a>
+</h4>
+<p>The <code>example_data</code> object includes some sample annotation data built-in, with the variables <code>Age</code> and <code>Sex</code> included for clinical samples, but in practice ADAT files generally do not have any clinical or sample annotation data fields included.</p>
+<p>To merge sample annotation data into an existing <code>soma_adat</code> class object, use the <code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join()</a></code> method. Here, joining the <code>ex_clin_data</code> object adds in two additional clinical variables, <code>smoking_status</code> and <code>alcohol_use</code>:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># `clin_path` should be the elaborated path and file name of the *.csv or</span></span>
+<span><span class="co"># similar file to be loaded into the R workspace from your local file system</span></span>
+<span><span class="co"># (e.g. clin_path = "PATH_TO_CLIN/clin_data.csv")</span></span>
+<span><span class="co"># clin_data &lt;- readr::read_csv(clin_path)</span></span>
+<span></span>
+<span><span class="va">merged_adat</span> <span class="op">&lt;-</span> <span class="va">my_adat</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">ex_clin_data</span>, by <span class="op">=</span> <span class="st">"SampleId"</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="va">merged_adat</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">SampleId</span>, <span class="va">Age</span>, <span class="va">Sex</span>, <span class="va">smoking_status</span>, <span class="va">alcohol_use</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">#&gt; ══ SomaScan Data ═══════════════════════════════════════════════════════════════</span></span>
+<span><span class="co">#&gt;      SomaScan version     V4 (5k)</span></span>
+<span><span class="co">#&gt;      Signal Space         5k</span></span>
+<span><span class="co">#&gt;      Attributes intact    ✓</span></span>
+<span><span class="co">#&gt;      Rows                 3</span></span>
+<span><span class="co">#&gt;      Columns              5</span></span>
+<span><span class="co">#&gt;      Clinical Data        5</span></span>
+<span><span class="co">#&gt;      Features             0</span></span>
+<span><span class="co">#&gt; ── Column Meta ─────────────────────────────────────────────────────────────────</span></span>
+<span><span class="co">#&gt; ℹ SeqId, SeqIdVersion, SomaId, TargetFullName, Target, UniProt, EntrezGeneID,</span></span>
+<span><span class="co">#&gt; ℹ EntrezGeneSymbol, Organism, Units, Type, Dilution, PlateScale_Reference,</span></span>
+<span><span class="co">#&gt; ℹ CalReference, Cal_Example_Adat_Set001, ColCheck,</span></span>
+<span><span class="co">#&gt; ℹ CalQcRatio_Example_Adat_Set001_170255, QcReference_170255,</span></span>
+<span><span class="co">#&gt; ℹ Cal_Example_Adat_Set002, CalQcRatio_Example_Adat_Set002_170255, Dilution2</span></span>
+<span><span class="co">#&gt; ── Tibble ──────────────────────────────────────────────────────────────────────</span></span>
+<span><span class="co">#&gt; # A tibble: 3 × 6</span></span>
+<span><span class="co">#&gt;   row_names      SampleId   Age Sex   smoking_status alcohol_use</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;          &lt;chr&gt;    &lt;int&gt; &lt;chr&gt; &lt;chr&gt;          &lt;chr&gt;      </span></span>
+<span><span class="co">#&gt; 1 258495800012_3 1           76 F     Never          Yes        </span></span>
+<span><span class="co">#&gt; 2 258495800004_7 2           55 F     Never          Yes        </span></span>
+<span><span class="co">#&gt; 3 258495800010_8 3           47 M     Never          No         </span></span>
+<span><span class="co">#&gt; ════════════════════════════════════════════════════════════════════════════════</span></span></code></pre></div>
 <p>Please see the article <a href="https://somalogic.github.io/SomaDataIO/articles/tips-loading-and-wrangling.html">Loading and Wrangling SomaScan</a> for more details about available <code>soma_adat</code> methods.</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="adat-structure">ADAT structure<a class="anchor" aria-label="anchor" href="#adat-structure"></a>
@@ -398,9 +447,9 @@
 <ul class="list-unstyled">
 <li>Special <span class="emoji" data-emoji="pray">🙏</span> to:</li>
 <li>
-<a href="https://github.com/scheidec" class="external-link">Caleb Scheidel</a> <br><small class="roles"> Maintainer </small>  </li>
+<a href="https://github.com/scheidec" class="external-link">Caleb Scheidel</a> <br><small class="roles"> Maintainer </small>   </li>
 <li>
-<a href="http://www.standardbio.com" class="external-link">Standard BioTools, Inc.</a> <br><small class="roles"> Copyright holder, funder </small>  </li>
+<a href="http://www.standardbio.com" class="external-link">Standard BioTools, Inc.</a> <br><small class="roles"> Copyright holder, funder </small>   </li>
 <li><span class="emoji" data-emoji="dna">🧬</span></li>
 <li><a href="authors.html">More about authors...</a></li>
 </ul>
@@ -426,7 +475,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
 </div>
 
   </div></footer>

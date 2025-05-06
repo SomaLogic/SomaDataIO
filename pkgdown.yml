@@ -1,9 +1,10 @@
 pandoc: 3.1.11
-pkgdown: 2.1.1
+pkgdown: 2.1.2
 pkgdown_sha: ~
 articles:
   articles/cli-merge-tool: cli-merge-tool.html
   articles/lifting-and-bridging: lifting-and-bridging.html
+  articles/pre-processing: pre-processing.html
   SomaDataIO: SomaDataIO.html
   articles/stat-binary-classification: stat-binary-classification.html
   articles/stat-linear-regression: stat-linear-regression.html
@@ -13,7 +14,7 @@ articles:
   articles/tips-safely-map-values: tips-safely-map-values.html
   articles/tips-safely-rename-df: tips-safely-rename-df.html
   articles/tips-train-test-setup: tips-train-test-setup.html
-last_built: 2025-02-07T13:22Z
+last_built: 2025-05-06T17:27Z
 urls:
   reference: https://somalogic.github.io/SomaDataIO/reference
   article: https://somalogic.github.io/SomaDataIO/articles

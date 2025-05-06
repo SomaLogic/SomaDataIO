@@ -6,16 +6,15 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Binary Classification • SomaDataIO</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.9/font.css" rel="stylesheet">
-<link href="../deps/Source_Code_Pro-0.4.9/font.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/Source_Code_Pro-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Binary Classification">
@@ -33,7 +32,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">SomaDataIO</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">6.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">6.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,6 +52,7 @@
     <li><a class="dropdown-item" href="../articles/tips-train-test-setup.html">Common train-test data setups</a></li>
     <li><a class="dropdown-item" href="../articles/cli-merge-tool.html">Command Line Merge Tool</a></li>
     <li><a class="dropdown-item" href="../articles/lifting-and-bridging.html">Lifting and Bridging SomaScan</a></li>
+    <li><a class="dropdown-item" href="../articles/pre-processing.html">Pre-Processing SomaScan</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><a class="dropdown-item" href="../articles/index.html">More articles...</a></li>
   </ul>
@@ -128,7 +128,11 @@ perform standard <em>preliminary</em> analyses on ‘SomaScan’ data.</p>
 <h2 id="data-preparation">Data Preparation<a class="anchor" aria-label="anchor" href="#data-preparation"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># the `example_data` package data</span></span>
+<code class="sourceCode R"><span><span class="co"># the `example_data` .adat object</span></span>
+<span><span class="co"># download from `SomaLogic-Data` repo or directly via bash command:</span></span>
+<span><span class="co"># `wget https://raw.githubusercontent.com/SomaLogic/SomaLogic-Data/main/example_data.adat`</span></span>
+<span><span class="co"># then read in to R with:</span></span>
+<span><span class="co"># example_data &lt;- read_adat("example_data.adat")</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1]  192 5318</span></span>
 <span></span>
@@ -137,29 +141,43 @@ perform standard <em>preliminary</em> analyses on ‘SomaScan’ data.</p>
 <span><span class="co">#&gt;     Buffer Calibrator         QC     Sample </span></span>
 <span><span class="co">#&gt;          6         10          6        170</span></span>
 <span></span>
-<span><span class="co"># center/scale</span></span>
-<span><span class="va">cs</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">.x</span><span class="op">)</span> <span class="op">{</span>    <span class="co"># .x = numeric vector</span></span>
-<span>  <span class="va">out</span> <span class="op">&lt;-</span> <span class="va">.x</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span>  <span class="co"># center</span></span>
-<span>  <span class="va">out</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span>         <span class="co"># scale</span></span>
-<span><span class="op">}</span></span>
-<span></span>
-<span><span class="co"># prepare data set for analysis</span></span>
+<span><span class="co"># prepare data set for analysis using `preProcessAdat()`</span></span>
 <span><span class="va">cleanData</span> <span class="op">&lt;-</span> <span class="va">example_data</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">SampleType</span> <span class="op">==</span> <span class="st">"Sample"</span><span class="op">)</span> <span class="op">|&gt;</span>               <span class="co"># rm control samples</span></span>
-<span>  <span class="fu">drop_na</span><span class="op">(</span><span class="va">Sex</span><span class="op">)</span> <span class="op">|&gt;</span>                                 <span class="co"># rm NAs if present</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log10</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span>                                      <span class="co"># log10-transform (Math Generic)</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">Sex</span><span class="op">)</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span>  <span class="co"># map Sex -&gt; 0/1</span></span>
-<span>  <span class="fu">modify_at</span><span class="op">(</span><span class="fu"><a href="../reference/getAnalytes.html">getAnalytes</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span>, <span class="va">cs</span><span class="op">)</span>        <span class="co"># center/scale analytes</span></span>
+<span>  <span class="fu"><a href="../reference/preProcessAdat.html">preProcessAdat</a></span><span class="op">(</span></span>
+<span>    filter.features <span class="op">=</span> <span class="cn">TRUE</span>,            <span class="co"># rm non-human protein features</span></span>
+<span>    filter.controls <span class="op">=</span> <span class="cn">TRUE</span>,            <span class="co"># rm control samples</span></span>
+<span>    filter.qc       <span class="op">=</span> <span class="cn">TRUE</span>,            <span class="co"># rm non-passing qc samples</span></span>
+<span>    log.10          <span class="op">=</span> <span class="cn">TRUE</span>,            <span class="co"># log10 transform</span></span>
+<span>    center.scale    <span class="op">=</span> <span class="cn">TRUE</span>             <span class="co"># center/scale analytes</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">305</span> non-human protein features were removed.</span></span>
+<span><span class="co">#&gt; → <span style="color: #0000BB;">214</span> human proteins did not pass standard QC</span></span>
+<span><span class="co">#&gt; acceptance criteria and were flagged in `ColCheck`.  These features</span></span>
+<span><span class="co">#&gt; were not removed, as they still may yield useful information in an</span></span>
+<span><span class="co">#&gt; analysis, but further evaluation may be needed.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">6</span> buffer samples were removed.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">10</span> calibrator samples were removed.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">6</span> QC samples were removed.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">2</span> samples flagged in `RowCheck` did not</span></span>
+<span><span class="co">#&gt; pass standard normalization acceptance criteria (0.4 &lt;= x &lt;= 2.5)</span></span>
+<span><span class="co">#&gt; and were removed.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> RFU features were log-10 transformed.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> RFU features were centered and scaled.</span></span>
+<span></span>
+<span><span class="co"># drop any missing values in Sex, and convert to binary 0/1 variable</span></span>
+<span><span class="va">cleanData</span> <span class="op">&lt;-</span> <span class="va">cleanData</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">drop_na</span><span class="op">(</span><span class="va">Sex</span><span class="op">)</span> <span class="op">|&gt;</span>                              <span class="co"># rm NAs if present</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>Group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">Sex</span><span class="op">)</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span>  <span class="co"># map Sex -&gt; 0/1</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">cleanData</span><span class="op">$</span><span class="va">Sex</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;  F  M </span></span>
-<span><span class="co">#&gt; 85 85</span></span>
+<span><span class="co">#&gt; 85 83</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">cleanData</span><span class="op">$</span><span class="va">Group</span><span class="op">)</span>    <span class="co"># F = 0; M = 1</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;  0  1 </span></span>
-<span><span class="co">#&gt; 85 85</span></span></code></pre></div>
+<span><span class="co">#&gt; 85 83</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="set-up-traintest-data">Set up Train/Test Data<a class="anchor" aria-label="anchor" href="#set-up-traintest-data"></a>
@@ -200,21 +218,22 @@ perform standard <em>preliminary</em> analyses on ‘SomaScan’ data.</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>rank <span class="op">=</span> <span class="fu">row_number</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>    <span class="co"># add numeric ranks</span></span>
 <span></span>
 <span><span class="va">LR_tbl</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5,284 × 11</span></span></span>
-<span><span class="co">#&gt;    AptName  SeqId Target EntrezGeneSymbol UniProt formula   model beta_hat</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;lis&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> seq.658… 6580… Pregn… PZP              P20742  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;glm&gt;</span>    -<span style="color: #BB0000;">3.07</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> seq.576… 5763… Beta-… DEFB104A         Q8WTQ1  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;glm&gt;</span>     3.13</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> seq.303… 3032… Folli… CGA FSHB         P01215… <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;glm&gt;</span>    -<span style="color: #BB0000;">1.64</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> seq.792… 7926… Kunit… SPINT3           P49223  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;glm&gt;</span>     2.90</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> seq.295… 2953… Lutei… CGA LHB          P01215… <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;glm&gt;</span>    -<span style="color: #BB0000;">1.58</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> seq.168… 1689… Ecton… ENPP2            Q13822  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;glm&gt;</span>    -<span style="color: #BB0000;">1.89</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> seq.491… 4914… Human… CGA CGB          P01215… <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;glm&gt;</span>    -<span style="color: #BB0000;">1.56</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> seq.928… 9282… Cyste… CRISP2           P16562  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;glm&gt;</span>     1.91</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> seq.247… 2474… Serum… APCS             P02743  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;glm&gt;</span>     1.79</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> seq.713… 7139… SLIT … SLITRK4          Q8IW52  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;glm&gt;</span>     1.21</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 5,274 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more variables: p.value &lt;dbl&gt;, fdr &lt;dbl&gt;, rank &lt;int&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4,979 × 11</span></span></span>
+<span><span class="co">#&gt;    AptName      SeqId   Target EntrezGeneSymbol UniProt formula   model</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;lis&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> seq.6580.29  6580-29 Pregn… PZP              P20742  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;glm&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> seq.5763.67  5763-67 Beta-… DEFB104A         Q8WTQ1  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;glm&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> seq.7926.13  7926-13 Kunit… SPINT3           P49223  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;glm&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> seq.3032.11  3032-11 Folli… CGA FSHB         P01215… <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;glm&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> seq.7139.14  7139-14 SLIT … SLITRK4          Q8IW52  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;glm&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> seq.16892.23 16892-… Ecton… ENPP2            Q13822  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;glm&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> seq.2953.31  2953-31 Lutei… CGA LHB          P01215… <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;glm&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> seq.9282.12  9282-12 Cyste… CRISP2           P16562  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;glm&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> seq.4914.10  4914-10 Human… CGA CGB          P01215… <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;glm&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> seq.2474.54  2474-54 Serum… APCS             P02743  <span style="color: #949494;">&lt;formula&gt;</span> <span style="color: #949494;">&lt;glm&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 4,969 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 4 more variables: beta_hat &lt;dbl&gt;, p.value &lt;dbl&gt;, fdr &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   rank &lt;int&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="fit-model-calculate-performance">Fit Model | Calculate Performance<a class="anchor" aria-label="anchor" href="#fit-model-calculate-performance"></a>
@@ -244,8 +263,8 @@ from cherry-picked gender-related features:</p>
 <span><span class="va">conf</span></span>
 <span><span class="co">#&gt;       Predicted</span></span>
 <span><span class="co">#&gt; Actual  F  M</span></span>
-<span><span class="co">#&gt;      F 24  1</span></span>
-<span><span class="co">#&gt;      M  5 20</span></span>
+<span><span class="co">#&gt;      F 27  1</span></span>
+<span><span class="co">#&gt;      M  4 18</span></span>
 <span></span>
 <span><span class="co"># Classification metrics</span></span>
 <span><span class="fu">tibble</span><span class="op">(</span>Sensitivity <span class="op">=</span> <span class="va">tp</span> <span class="op">/</span> <span class="op">(</span><span class="va">tp</span> <span class="op">+</span> <span class="va">fn</span><span class="op">)</span>,</span>
@@ -257,7 +276,7 @@ from cherry-picked gender-related features:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>
 <span><span class="co">#&gt;   Sensitivity Specificity Accuracy   PPV   NPV</span></span>
 <span><span class="co">#&gt;         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>         0.8        0.96     0.88 0.952 0.828</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       0.818       0.964      0.9 0.947 0.871</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -273,7 +292,7 @@ from cherry-picked gender-related features:</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
 </div>
 
   </div></footer>
