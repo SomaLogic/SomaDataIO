@@ -56,7 +56,7 @@ the "class.tab" element of \code{x$class.tab} (if possible).}
 \item{gridlinelty}{Line type of the gridlines.}
 
 \item{main}{Character. Main title for the plot.
-See \code{\link[=ggtitle]{ggtitle()}} for \code{ggplot2} style graphics.}
+See \code{\link[ggplot2:labs]{ggplot2::ggtitle()}} for \code{ggplot2} style graphics.}
 
 \item{y.lab}{Character. Optional string for the y-axis. Otherwise
 one is automatically generated (default).}
@@ -78,7 +78,7 @@ If \code{NULL} (default), \code{0.05} (5\%) is selected.}
 The file name must also include the desired file type extension;
 this will be used to determine the file type,
 e.g. a file named \code{foo.png} will be saved as a \code{PNG}.
-See \code{\link[=ggsave]{ggsave()}} for a full list of file type (device) options.}
+See \code{\link[ggplot2:ggsave]{ggplot2::ggsave()}} for a full list of file type (device) options.}
 
 \item{plot.width}{If \code{"filename != NULL"}, the width of the plot image file.}
 
@@ -97,11 +97,14 @@ heatmap-style image using \pkg{ggplot2} syntax, for objects
 produced by \code{\link[=calcOutlierMap]{calcOutlierMap()}}.
 }
 \examples{
-om <- calcOutlierMap(example_data)
-plot(om, flags = 0.05)
+example_data |>
+  dplyr::filter(SampleType == "Sample") |>
+  head(10) |>
+  calcOutlierMap() |>
+  plot(flags = 0.05)
 }
 \seealso{
-\code{\link[=ggplot]{ggplot()}}, \code{\link[=geom_raster]{geom_raster()}}
+\code{\link[ggplot2:ggplot]{ggplot2::ggplot()}}, \code{\link[ggplot2:geom_tile]{ggplot2::geom_raster()}}
 
 Other Calc Map: 
 \code{\link{calcOutlierMap}()},

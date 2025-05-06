@@ -68,23 +68,20 @@ For the S3 plotting method, see \code{\link[=plot.Map]{plot.Map()}}.
 
 }}
 \examples{
-om <- calcOutlierMap(example_data)
+dat <- example_data |> dplyr::filter(SampleType == "Sample")
+om <- calcOutlierMap(dat)
 class(om)
 
 # S3 print method
 om
 
 # `sample.order = "frequency"` orders samples by outlier frequency
-om <- calcOutlierMap(example_data, sample.order = "frequency")
+om <- calcOutlierMap(dat, sample.order = "frequency")
 om$rows.by.freq
 om$sample.order
 
-# order samples by user specified indices
-om <- calcOutlierMap(example_data, sample.order = 192:1)
-om$sample.order
-
 # order samples field in Adat
-om <- calcOutlierMap(example_data, sample.order = "Sex")
+om <- calcOutlierMap(dat, sample.order = "Sex")
 om$sample.order
 }
 \seealso{

@@ -26,7 +26,7 @@
 #' @param gridlinelwd Width of the gridlines.
 #' @param gridlinelty Line type of the gridlines.
 #' @param main Character. Main title for the plot.
-#'   See [ggtitle()] for `ggplot2` style graphics.
+#'   See [ggplot2::ggtitle()] for `ggplot2` style graphics.
 #' @param x.lab Character. Optional string for the x-axis. Otherwise
 #'   one is automatically generated (default).
 #' @param y.lab Character. Optional string for the y-axis. Otherwise
@@ -42,17 +42,20 @@
 #'   The file name must also include the desired file type extension;
 #'   this will be used to determine the file type,
 #'   e.g. a file named `foo.png` will be saved as a `PNG`.
-#'   See [ggsave()] for a full list of file type (device) options.
+#'   See [ggplot2::ggsave()] for a full list of file type (device) options.
 #' @param plot.width If `"filename != NULL"`, the width of the plot image file.
 #' @param plot.height If `"filename != NULL"`, the height of the plot image file.
 #' @param plot.scale If `"filename != NULL"`, the scale of the plot image file.
 #' @param ... Arguments required by the `plot()` generic. Currently unused.
 #' @return Plot an image of the passed matrix.
 #' @author Stu Field, Amanda Hiser
-#' @seealso [ggplot()], [geom_raster()]
+#' @seealso [ggplot2::ggplot()], [ggplot2::geom_raster()]
 #' @examples
-#' om <- calcOutlierMap(example_data)
-#' plot(om, flags = 0.05)
+#' example_data |>
+#'   dplyr::filter(SampleType == "Sample") |>
+#'   head(10) |>
+#'   calcOutlierMap() |>
+#'   plot(flags = 0.05)
 #' @importFrom dplyr mutate group_by row_number ungroup
 #' @importFrom ggplot2 element_text element_blank element_rect unit
 #' @importFrom ggplot2 labs scale_x_discrete scale_x_continuous theme

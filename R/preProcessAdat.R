@@ -2,7 +2,7 @@
 #'
 #' Pre-process an ADAT file containing raw analyte RFU values in preparation
 #' for analysis. For more details please refer to the [pre-processing how-to
-#' article](https://somalogic.github.io/SomaDataIO/articles/pre-processing.html)
+#' article](https://somalogic.github.io/SomaDataIO/dev/articles/pre-processing.html)
 #'
 #' The `soma_adat` object is pre-processed with the following steps:
 #'

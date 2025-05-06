@@ -38,6 +38,8 @@ LF
 Lifecycle
 MERCHANTABILITY
 MacOS
+MADs
+NHS
 NormScale
 ORCID
 PII
@@ -125,4 +127,5 @@ tada
 th
 tibble
 tidyr
+untransformed
 vectorized

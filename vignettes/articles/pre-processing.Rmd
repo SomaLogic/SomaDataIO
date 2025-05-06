@@ -302,7 +302,7 @@ and removed.
 ### Sample Level Outliers by RFU
 
 It is also important to evaluate if there are any sample-level outliers
-by RFU measurements. For standard plasma and serum studies Standard Biotools'
+by RFU measurements. For standard plasma and serum studies Standard BioTools'
 recommended outlier definition is any sample where `>= 5%` of RFU measurements
 exceed 6 median absolute deviations (MADs) and 5x fold-change from median
 signal.
@@ -539,7 +539,7 @@ SeqId B in the original sample prep. All comparisons should be made between
 sample groups *within* a given SeqId. The RFU value, as well as log10 RFU and
 z-score, is dependent on variety of analyte-specific factors such as the
 SOMAmer Reagent-target protein binding kinetics, the dilution bin of the
-SOMAmer reagant, NHS-biotin conjagation efficiency of the SOMAmer, and other
+SOMAmer reagent, NHS-biotin conjugation efficiency of the SOMAmer, and other
 factors intrinsic to the SOMAmer Reagent within the SomaScan assay.
 
 
