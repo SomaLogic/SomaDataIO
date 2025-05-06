@@ -1,5 +1,61 @@
 # SomaDataIO (development version)
 
+### New Functions
+
+* Added `preProcessAdat()` function
+  - added new function `preProcessAdat()` to filter features,
+    filter samples, generate data QC plots of normalization
+    scale factors by covariates, and perform standard analyte
+    RFU transformations including log10, centering, and scaling
+
+* Added `calcOutlierMap()` function
+  - added `calcOutlierMap()` and its print and plot
+    S3 methods, along with `getOutlierIds()` for
+    identifying sample level outliers from outlier map object
+  - added `ggplot2` as a package dependency
+
+### Function and Object Improvements
+
+* Added `ex_clin_data` object
+  - a `tibble` object with additional sample annotation fields
+    `smoking_status` and `alcohol_use` to demonstrate merging to a
+    `soma_adat` object
+
+### Documentation Updates
+
+* Added pre-processing vignette article
+  - includes guidance on pre-processing SomaScan data for
+    a typical analysis
+  - provides an example of recommended workflow of 
+    filtering features, filtering samples, performing data
+    QC checks, and transformations of RFU features
+  - introduces usage of the `preProcessAdat()` function
+
+* Improved adat ingest documentation in `README`
+  - added comments to clarify file path input to `read_adat()`
+    example in `README`
+    
+* Updated stat workflow articles to begin with reading in adat
+  - updated data preparation chunks with comments about
+    how to download and read in the the `example_data.adat` object
+  - data preparation chunks now use the `preProcessAdat()`
+    function for pre-processing
+
+* Added sample annotation merging guidance
+  - updated `README` and loading and wrangling vignette
+    article with section including code to join the 
+    `ex_clin_data` object to the `example_data` adat
+
+### Internal :construction:
+
+* Added helper utility functions for snapshot plot unit tests
+  - added helper utility functions `figure()`, `close_figure()`,
+    `save_png()`, and `expect_snapshot_plot()` for saving plot
+    snapshot output to `testthat/helper.R`
+  - added snapshot unit tests for `preProcessAdat()`
+    messaging, print and QC plot output
+
+
 # SomaDataIO 6.2.0
 
 ### New Functions

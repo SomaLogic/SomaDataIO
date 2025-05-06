@@ -1,10 +1,10 @@
 
-# Submission 6.2.0
+# Submission 6.3.0
 
 - This is a submission to an existing CRAN package.
 
-- It contains feature upgrades, minor internal bug-fixes,
-  and improved documentation.
+- It contains new functionality, a new vignette article and
+  improved documentation.
 
 
 ## Reverse Dependencies
@@ -27,13 +27,8 @@ The following `notes` were displayed during
 `devtools::check(remote = TRUE, manual = TRUE)`:
 
 ```
-❯ checking CRAN incoming feasibility ... [7s/72s] NOTE
+❯ checking CRAN incoming feasibility ... [7s/28s] NOTE
   Maintainer: ‘Caleb Scheidel <calebjscheidel@gmail.com>’
-  
-  New maintainer:
-    Caleb Scheidel <calebjscheidel@gmail.com>
-  Old maintainer(s):
-    Stu Field <stu.g.field@gmail.com>
 
 ❯ checking installed package size ... NOTE
     installed size is  6.0Mb
@@ -41,7 +36,6 @@ The following `notes` were displayed during
       data      3.8Mb
       extdata   1.1Mb
 ```
-
 
 ## Package Size
 
@@ -52,31 +46,35 @@ The following `notes` were displayed during
 
 ```
 name	              user	system	elapsed
-Col.Meta	          0.23	0.01	0.25	
-SeqId	              0.03	0.02	0.05	
-SomaDataIO-package	  0.08	0.02	0.10	
-SomaScanObjects	      0.25	0.00	0.25	
-adat-helpers	      0.05	0.00	0.04	
-adat2eSet	          0.31	0.04	0.36	
-addClass	          0	    0	    0 	
-calc_eLOD	          0.01	0.00	0.01	
-cleanNames	          0	    0	    0	
-diffAdats	          0.33	0.00	0.33	
-getAnalyteInfo	      0.11	0.00	0.11	
-getAnalytes	          0.02	0.00	0.01	
-groupGenerics	      0.28	0.00	0.28	
-is_intact_attr	      0	    0 	    0	
-is_seqFormat	      0	    0	    0	
-lift_adat	          0.25	0.02	0.26	
-loadAdatsAsList	      1.36	0.00	1.36	
-merge_clin	          0.08	0.00	0.08	
-parseHeader	          0.08	0.01	0.09	
-pivotExpressionSet	  0.07	0.00	0.06	
-read_adat	          1.22	0.00	1.22	
-read_annotations	  0	    0	    0	
-rownames	          0	    0	    0	
-soma_adat	          0.2 	0.0 	0.2	
-transform	          0	    0	    0	
-write_adat	          0.24	0.01	0.25
+Col.Meta	          0.34	0.00	  0.34	
+SeqId	              0.03	0.02	  0.05	
+SomaDataIO-package	0.12	0.00	  0.12	
+SomaScanObjects	    0.36	0.00	  0.36	
+adat-helpers	      0.06	0.00	  0.08	
+adat2eSet	          0.58	0.06	  0.64	
+addClass	          0   	0   	  0	
+calcOutlierMap	    4.49	0.29	  4.78	
+calc_eLOD	          0.03	0.00	  0.03	
+cleanNames	        0	    0	      0	
+diffAdats	          0.47	0.05	  0.51	
+getAnalyteInfo	    0.17	0.00	  0.17	
+getAnalytes	        0.01	0.00	  0.01	
+getOutlierIds	      2.03	0.09	  2.14	
+groupGenerics	      0.49	0.00	  0.49	
+is_intact_attr	    0.01	0.00	  0.02	
+is_seqFormat	      0.02	0.00	  0.02	
+lift_adat	          0.44	0.00	  0.44	
+loadAdatsAsList	    1.67	0.02	  1.69	
+merge_clin	        0.12	0.01	  0.14	
+parseHeader	        0.14	0.02	  0.15	
+pivotExpressionSet	0.11	0.00	  0.11	
+plot.Map	          1.78	0.06	  1.84	
+preProcessAdat	    1.88	0.03	  1.91	
+read_adat	          1.44	0.03	  1.47	
+read_annotations	  0 	  0   	  0	
+rownames	          0.01	0.00	  0.01	
+soma_adat	          0.29	0.00	  0.29	
+transform	          0	    0	      0	
+write_adat	        0.40	0.01	  0.42
 ```
 

@@ -57,7 +57,7 @@ A \code{soma_adat} object.
 }
 \description{
 Pre-process an ADAT file containing raw analyte RFU values in preparation
-for analysis. For more details please refer to the \href{https://somalogic.github.io/SomaDataIO/articles/pre-processing.html}{pre-processing how-to article}
+for analysis. For more details please refer to the \href{https://somalogic.github.io/SomaDataIO/dev/articles/pre-processing.html}{pre-processing how-to article}
 }
 \details{
 The \code{soma_adat} object is pre-processed with the following steps:
