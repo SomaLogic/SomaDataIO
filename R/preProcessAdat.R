@@ -78,17 +78,24 @@ preProcessAdat <- function(adat,
 
     # summary information to print
     n_feats_dropped <- length(discard)
-    n_feats_flagged <- human_prots |> filter(ColCheck == "FLAG") |> nrow()
 
     if ( n_feats_dropped > 0 ) {
       .done("{.val {n_feats_dropped}} non-human protein features were removed.")
     }
 
-    if ( n_feats_flagged > 0 ) {
-      .todo("{.val {n_feats_flagged}} human proteins did not pass standard QC
+    if ( "ColCheck" %in% names(human_prots) ) {
+      n_feats_flagged <- human_prots |> filter(ColCheck == "FLAG") |> nrow()
+
+      if ( n_feats_flagged > 0 ) {
+        .todo("{.val {n_feats_flagged}} human proteins did not pass standard QC
           acceptance criteria and were flagged in `ColCheck`.  These features
           were not removed, as they still may yield useful information in an
           analysis, but further evaluation may be needed.")
+      }
+    } else {
+      .todo("`ColCheck` is missing from the column annotation data. Further
+          assessment of the human protein features may be needed to check if
+          they pass standard QC acceptance criteria.")
     }
   }
 
