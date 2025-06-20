@@ -19,6 +19,13 @@ test_that("`preProcessAdat` produces qc plots as expected", {
   )
 })
 
+test_that("`preProcessAdat` works if adat missing ColCheck annotation info", {
+  missing_colcheck <- example_data
+  attr(missing_colcheck, "Col.Meta") <- attr(missing_colcheck, "Col.Meta") |>
+    select(-ColCheck)
+  expect_snapshot(preProcessAdat(missing_colcheck))
+})
+
 test_that("`preProcessAdat` produces errors as expected", {
   # errors on object not `soma_adat` class
   expect_error(
