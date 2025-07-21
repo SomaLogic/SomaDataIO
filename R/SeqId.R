@@ -200,3 +200,12 @@ is.apt <- function(x) {
 is.SeqId <- function(x) {
   grepl("^[0-9]{4,5}-[0-9]{1,3}(_[0-9]{1,3})?$", x)
 }
+
+#' @describeIn SeqId
+#'   tests for `AptName` format, i.e. values returned from [seqid2apt()]
+#'   will always return `TRUE`. This function will only match `AptNames`, not
+#'   `SeqIds`, and is therefore more strict than `is.apt()`.
+#' @export
+is.AptName <- function(x) {
+  grepl("^seq\\.[0-9]{4,5}\\.[0-9]{1,3}$", x)
+}
