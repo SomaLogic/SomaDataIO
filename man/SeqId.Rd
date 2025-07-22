@@ -9,6 +9,7 @@
 \alias{apt2seqid}
 \alias{is.apt}
 \alias{is.SeqId}
+\alias{is.AptName}
 \alias{matchSeqIds}
 \alias{getSeqIdMatches}
 \title{Working with SomaLogic SeqIds}
@@ -26,6 +27,8 @@ apt2seqid(x)
 is.apt(x)
 
 is.SeqId(x)
+
+is.AptName(x)
 
 matchSeqIds(x, y, order.by.x = TRUE)
 
@@ -141,6 +144,10 @@ so-called \code{"anonymous-AptNames"} formats (\code{seq.1234.45}) are matched.
 
 \item \code{is.SeqId()}: tests for \code{SeqId} format, i.e. values returned from \code{\link[=getSeqId]{getSeqId()}}
 will always return \code{TRUE}.
+
+\item \code{is.AptName()}: tests for \code{AptName} format, i.e. values returned from \code{\link[=seqid2apt]{seqid2apt()}}
+will always return \code{TRUE}. This function will only match \code{AptNames}, not
+\code{SeqIds}, and is therefore more strict than \code{is.apt()}.
 
 \item \code{matchSeqIds()}: matches two character vectors on the basis of their
 intersecting \code{SeqIds}. Note that elements in \code{y} not

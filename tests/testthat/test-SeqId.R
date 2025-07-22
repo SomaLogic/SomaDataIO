@@ -155,3 +155,17 @@ test_that("`is.SeqId()` properly returns matches", {
   expect_false(is.SeqId("1234-5a"))
   expect_false(is.SeqId("1234-5_6a"))
 })
+
+test_that("`is.AptName()` properly identifies matches", {
+  x <- "1234-56"
+  expect_false(is.AptName(x))
+  expect_true(is.AptName(seqid2apt(x)))
+  expect_true(is.AptName("seq.1234.56"))
+  expect_false(is.AptName("1234-5"))
+  expect_false(is.AptName("1234.56")) # must have "seq." prefix
+  expect_false(is.AptName("1234"))
+  expect_false(is.AptName("seq.1234-5"))
+  expect_false(is.AptName("seq-1234-5"))
+  expect_false(is.AptName("seq.1234.5a"))
+  expect_false(is.AptName("seq.1234.5_6a"))
+})
