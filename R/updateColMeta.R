@@ -11,7 +11,7 @@
 #' - Type
 #' - Organism
 #' - EntrezGeneSymbol
-#' - ExtrezGeneID
+#' - EntrezGeneID
 #'
 #' @param adat A `soma_adat` data object to update attributes.
 #' @param anno A `tibble` containing analyte-specific annotations

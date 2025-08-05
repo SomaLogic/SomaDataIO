@@ -30,7 +30,7 @@ Attempts to update the following column metadata in the adat:
 \item Type
 \item Organism
 \item EntrezGeneSymbol
-\item ExtrezGeneID
+\item EntrezGeneID
 }
 }
 \examples{
