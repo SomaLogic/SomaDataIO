@@ -146,6 +146,7 @@ reference:
     - diffAdats
     - merge_clin
     - preProcessAdat
+    - updateColMeta
 
   - title: Transform Between SomaScan Versions
     desc: >
