@@ -15,11 +15,6 @@ editor_options:
 ---
 
 ```{r setup, include = FALSE}
-library(SomaDataIO)
-library(ggplot2)
-library(dplyr)
-library(tidyr)
-library(purrr)
 knitr::opts_chunk$set(
   echo = TRUE,
   collapse = TRUE,
@@ -44,6 +39,16 @@ parts or extensions of these techniques. Many variations of the workflow
 below exist, however the framework highlights how one could perform standard
 _preliminary_ analyses on 'SomaScan' data.
 
+
+## Load Libraries
+
+```{r load-lib, message = FALSE}
+library(SomaDataIO)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(purrr)
+```
 
 ## Data Preparation
 ```{r data-prep, fig.width = 7, fig.height = 3, fig.align = "center"}
