@@ -18,10 +18,6 @@ editor_options:
 ---
 
 ```{r setup, include = FALSE}
-library(SomaDataIO)
-library(ggplot2)
-library(dplyr)
-library(purrr)
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -47,7 +43,14 @@ recommended prior to executing an analysis on SomaScan data, along with
 
 ------------------------------------------------------------------------
 
-## 
+## Load Libraries
+
+```{r load-lib, message = FALSE}
+library(SomaDataIO)
+library(ggplot2)
+library(dplyr)
+library(purrr)
+```
 
 ## Filtering Features
 
