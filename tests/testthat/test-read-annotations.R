@@ -26,14 +26,14 @@ test_that("`read_annotations()` parses the annotations file correctly", {
   expect_true(ver_dict[[ver]]$col_plasma == names(tbl)[ver_dict[[ver]]$which_plasma])
 })
 
-test_that("error conditions trigger stops when appropriate", {
+test_that("error conditions trigger stop and warnings when appropriate", {
 
   expect_error(
     read_annotations("foo.txt"),
     "Annotations file must be either"
   )
 
-  expect_error(
+  expect_warning(
     with_pkg_object(SomaDataIO:::ver_dict[-2L], read_annotations(file)),
     "Unknown version of the annotations file:"
   )
@@ -43,6 +43,6 @@ test_that("error conditions trigger stops when appropriate", {
   tmp$`SL-12345678-rev0-2021-01`$sha <- "x0x0x0x0x"
   expect_warning(
     with_pkg_object(tmp, read_annotations(file)),
-    "Checksum mismatch. 'test-anno.xlsx' may have been modified"
+    "Checksum mismatch. test-anno.xlsx may have been modified"
   )
 })

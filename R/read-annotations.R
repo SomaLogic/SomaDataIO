@@ -34,26 +34,27 @@ read_annotations <- function(file) {
     )
   }
 
-  # do not recognize version
-  if ( !ver %in% names(ver_dict) ) {
-    stop(
-      "Unknown version of the annotations file: ", .value(ver), ".",
-      call. = FALSE
-    )
-  }
+  # check if recognized version
+  if ( ver %in% names(ver_dict) ) {
+    md5_file <- strtrim(md5sum(file), 7L) |> unname()
+    md5_true <- strtrim(ver_dict[[ver]]$sha, 7L)
 
-  md5_file <- strtrim(md5sum(file), 7L) |> unname()
-  md5_true <- strtrim(ver_dict[[ver]]$sha, 7L)
-
-  # file modified
-  if ( !identical(md5_file, md5_true) ) {
+    # file modified
+    if ( !identical(md5_file, md5_true) ) {
+      warning(
+        "Checksum mismatch. ", basename(file), " may have been modified.",
+        call. = FALSE
+      )
+    }
+    skip <- ver_dict[[ver]]$skip
+  } else {
     warning(
-      "Checksum mismatch. ", .value(basename(file)), " may have been modified.",
+      "Unknown version of the annotations file: ", ver, ".",
       call. = FALSE
     )
+    skip <- 8L
   }
 
-  skip <- ver_dict[[ver]]$skip
   tbl  <- readxl::read_xlsx(file, sheet = "Annotations", skip = skip)
 
   # map these fields to match those in ADATs
