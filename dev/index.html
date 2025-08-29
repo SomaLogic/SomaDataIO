@@ -227,7 +227,7 @@
 <span><span class="va">adat_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"example_data10.adat"</span>,</span>
 <span>                         package <span class="op">=</span> <span class="st">"SomaDataIO"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">adat_path</span></span>
-<span><span class="co">#&gt; [1] "/Library/Frameworks/R.framework/Versions/4.4-x86_64/Resources/library/SomaDataIO/extdata/example_data10.adat"</span></span>
+<span><span class="co">#&gt; [1] "/Library/Frameworks/R.framework/Versions/4.5-x86_64/Resources/library/SomaDataIO/extdata/example_data10.adat"</span></span>
 <span></span>
 <span><span class="co"># `adat_path` should be the elaborated path and file name of the *.adat file to</span></span>
 <span><span class="co"># be loaded into the R workspace from your local file system</span></span>
@@ -282,14 +282,14 @@
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># see full complement of `soma_adat` methods</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/methods.html" class="external-link">methods</a></span><span class="op">(</span>class <span class="op">=</span> <span class="st">"soma_adat"</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  [1] [              [[             [[&lt;-           [&lt;-            ==            </span></span>
-<span><span class="co">#&gt;  [6] $              $&lt;-            anti_join      arrange        count         </span></span>
-<span><span class="co">#&gt; [11] filter         full_join      getAdatVersion getAnalytes    getMeta       </span></span>
-<span><span class="co">#&gt; [16] group_by       inner_join     is_seqFormat   left_join      Math          </span></span>
-<span><span class="co">#&gt; [21] median         merge          mutate         Ops            print         </span></span>
-<span><span class="co">#&gt; [26] rename         right_join     row.names&lt;-    sample_frac    sample_n      </span></span>
-<span><span class="co">#&gt; [31] semi_join      separate       slice_sample   slice          summary       </span></span>
-<span><span class="co">#&gt; [36] Summary        transform      ungroup        unite         </span></span>
+<span><span class="co">#&gt;  [1] $              $&lt;-            ==             Math           Ops           </span></span>
+<span><span class="co">#&gt;  [6] Summary        [              [&lt;-            [[             [[&lt;-          </span></span>
+<span><span class="co">#&gt; [11] anti_join      arrange        count          filter         full_join     </span></span>
+<span><span class="co">#&gt; [16] getAdatVersion getAnalytes    getMeta        group_by       inner_join    </span></span>
+<span><span class="co">#&gt; [21] is_seqFormat   left_join      median         merge          mutate        </span></span>
+<span><span class="co">#&gt; [26] print          rename         right_join     row.names&lt;-    sample_frac   </span></span>
+<span><span class="co">#&gt; [31] sample_n       semi_join      separate       slice          slice_sample  </span></span>
+<span><span class="co">#&gt; [36] summary        transform      ungroup        unite         </span></span>
 <span><span class="co">#&gt; see '?methods' for accessing help and source code</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="merging-sample-annotation-data">Merging Sample Annotation Data<a class="anchor" aria-label="anchor" href="#merging-sample-annotation-data"></a>
