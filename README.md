@@ -192,7 +192,7 @@ Loading an ADAT text file is simple using `read_adat()`:
 adat_path <- system.file("extdata", "example_data10.adat",
                          package = "SomaDataIO", mustWork = TRUE)
 adat_path
-#> [1] "/Library/Frameworks/R.framework/Versions/4.4-x86_64/Resources/library/SomaDataIO/extdata/example_data10.adat"
+#> [1] "/Library/Frameworks/R.framework/Versions/4.5-x86_64/Resources/library/SomaDataIO/extdata/example_data10.adat"
 
 # `adat_path` should be the elaborated path and file name of the *.adat file to
 # be loaded into the R workspace from your local file system
@@ -253,14 +253,14 @@ the most popular [dplyr](https://dplyr.tidyverse.org) and
 ``` r
 # see full complement of `soma_adat` methods
 methods(class = "soma_adat")
-#>  [1] [              [[             [[<-           [<-            ==            
-#>  [6] $              $<-            anti_join      arrange        count         
-#> [11] filter         full_join      getAdatVersion getAnalytes    getMeta       
-#> [16] group_by       inner_join     is_seqFormat   left_join      Math          
-#> [21] median         merge          mutate         Ops            print         
-#> [26] rename         right_join     row.names<-    sample_frac    sample_n      
-#> [31] semi_join      separate       slice_sample   slice          summary       
-#> [36] Summary        transform      ungroup        unite         
+#>  [1] $              $<-            ==             Math           Ops           
+#>  [6] Summary        [              [<-            [[             [[<-          
+#> [11] anti_join      arrange        count          filter         full_join     
+#> [16] getAdatVersion getAnalytes    getMeta        group_by       inner_join    
+#> [21] is_seqFormat   left_join      median         merge          mutate        
+#> [26] print          rename         right_join     row.names<-    sample_frac   
+#> [31] sample_n       semi_join      separate       slice          slice_sample  
+#> [36] summary        transform      ungroup        unite         
 #> see '?methods' for accessing help and source code
 ```
 

@@ -1,5 +1,33 @@
 # SomaDataIO (development version)
 
+### New Functions
+
+* Added `updateColMeta()` function
+  - added utility function to update the column metadata in an
+    ADAT to match an annotations object from `read_annotations()`
+
+* Added `is.AptName()` to check for AptName format
+  - `is.apt()` may return TRUE for both SeqIds and AptNames
+  - wrote new function, `is.AptName()`, to explicitly check 
+    if a SomaScan identifier is an AptName
+  - `is.AptName()` code and tests based on code/tests from `is.SeqId()`
+
+### Function and Object Improvements
+
+* Relaxed file version requirement in `read_annotations()`
+  - now returns warning instead of error if annotations
+    excel file version does not match specific values
+
+* Updated `preProcessAdat()` to handle missing `ColCheck`
+  - added logic to `preProcessAdat()` to handle adats
+    that are missing `ColCheck` in column annotation data
+
+### Documentation Updates
+
+* Show package loading in stat workflow vignettes
+  - move `library()` calls loading third-party packages to new
+    code chunk that now appears in analysis workflow articles
+
 # SomaDataIO 6.3.0
 
 ### New Functions
