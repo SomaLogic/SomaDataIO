@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 ![GitHub
-version](https://img.shields.io/badge/Version-6.3.0.9000-success.svg?style=flat&logo=github)
+version](https://img.shields.io/badge/Version-6.4.0.9000-success.svg?style=flat&logo=github)
 [![CRAN
 status](http://www.r-pkg.org/badges/version/SomaDataIO)](https://cran.r-project.org/package=SomaDataIO)
 [![Downloads](https://cranlogs.r-pkg.org/badges/SomaDataIO)](https://cran.r-project.org/package=SomaDataIO)
