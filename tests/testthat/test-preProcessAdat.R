@@ -41,3 +41,17 @@ test_that("`preProcessAdat` produces errors as expected", {
     "All variable names passed in `data.qc` argument must exist in `adat`"
   )
 })
+
+test_that("`preProcessAdat` handles backward compatibility for filter.qc", {
+  # Test that filter.qc produces deprecation warning
+  withr::local_options(lifecycle_verbosity = "warning")
+  expect_warning(
+    result1 <- preProcessAdat(example_data, filter.qc = FALSE, filter.rowcheck = TRUE),
+    regexp = "The `filter.qc` argument of `preProcessAdat()` is deprecated as of SomaDataIO",
+    fixed = TRUE,
+    class = "lifecycle_warning_deprecated"
+  )
+
+  result2 <- suppressMessages(preProcessAdat(example_data, filter.rowcheck = TRUE))
+  expect_equal(result1, result2)
+})
