@@ -8,7 +8,7 @@ preProcessAdat(
   adat,
   filter.features = TRUE,
   filter.controls = TRUE,
-  filter.qc = TRUE,
+  filter.rowcheck = TRUE,
   filter.outliers = FALSE,
   data.qc = NULL,
   log.10 = FALSE,
@@ -27,7 +27,7 @@ be dropped? If \code{TRUE}, this retains all samples where \code{SampleType = "S
 (study samples) and discards all others including buffer, calibrator, and
 QC control samples. Default is \code{TRUE}.}
 
-\item{filter.qc}{Logical. If \code{TRUE} only samples that pass default
+\item{filter.rowcheck}{Logical. If \code{TRUE} only samples that pass default
 normalization acceptance criteria will be retained. Default is \code{TRUE}.}
 
 \item{filter.outliers}{Logical. Should the \code{adat} object drop outlier

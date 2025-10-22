@@ -5,9 +5,7 @@
     Message
       v 305 non-human protein features were removed.
       > 214 human proteins did not pass standard QC
-      acceptance criteria and were flagged in `ColCheck`.  These features
-      were not removed, as they still may yield useful information in an
-      analysis, but further evaluation may be needed.
+      acceptance criteria and were flagged in `ColCheck`.
       v 6 buffer samples were removed.
       v 10 calibrator samples were removed.
       v 6 QC samples were removed.
