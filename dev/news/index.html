@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">SomaDataIO</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">6.3.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">6.4.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,36 +66,6 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="somadataio-development-version">SomaDataIO (development version)<a class="anchor" aria-label="anchor" href="#somadataio-development-version"></a></h2>
-<div class="section level4">
-<h4 id="new-functions-development-version">New Functions<a class="anchor" aria-label="anchor" href="#new-functions-development-version"></a></h4>
-<ul><li>Added <code><a href="../reference/updateColMeta.html">updateColMeta()</a></code> function
-<ul><li>added utility function to update the column metadata in an ADAT to match an annotations object from <code><a href="../reference/read_annotations.html">read_annotations()</a></code>
-</li>
-</ul></li>
-<li>Added <code><a href="../reference/SeqId.html">is.AptName()</a></code> to check for AptName format
-<ul><li>
-<code><a href="../reference/SeqId.html">is.apt()</a></code> may return TRUE for both SeqIds and AptNames</li>
-<li>wrote new function, <code><a href="../reference/SeqId.html">is.AptName()</a></code>, to explicitly check if a SomaScan identifier is an AptName</li>
-<li>
-<code><a href="../reference/SeqId.html">is.AptName()</a></code> code and tests based on code/tests from <code><a href="../reference/SeqId.html">is.SeqId()</a></code>
-</li>
-</ul></li>
-</ul></div>
-<div class="section level4">
-<h4 id="function-and-object-improvements-development-version">Function and Object Improvements<a class="anchor" aria-label="anchor" href="#function-and-object-improvements-development-version"></a></h4>
-<ul><li>Relaxed file version requirement in <code><a href="../reference/read_annotations.html">read_annotations()</a></code>
-<ul><li>now returns warning instead of error if annotations excel file version does not match specific values</li>
-</ul></li>
-<li>Updated <code><a href="../reference/preProcessAdat.html">preProcessAdat()</a></code> to handle missing <code>ColCheck</code>
-<ul><li>added logic to <code><a href="../reference/preProcessAdat.html">preProcessAdat()</a></code> to handle adats that are missing <code>ColCheck</code> in column annotation data</li>
-</ul></li>
-</ul></div>
-<div class="section level4">
-<h4 id="documentation-updates-development-version">Documentation Updates<a class="anchor" aria-label="anchor" href="#documentation-updates-development-version"></a></h4>
-<ul><li>Show package loading in stat workflow vignettes
-<ul><li>move <code><a href="https://rdrr.io/r/base/library.html" class="external-link">library()</a></code> calls loading third-party packages to new code chunk that now appears in analysis workflow articles</li>
-</ul></li>
-</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="6.3.0" id="somadataio-630">SomaDataIO 6.3.0<a class="anchor" aria-label="anchor" href="#somadataio-630"></a></h2><p class="text-muted">CRAN release: 2025-05-06</p>
