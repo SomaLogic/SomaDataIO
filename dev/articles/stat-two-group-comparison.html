@@ -155,17 +155,15 @@ perform standard <em>preliminary</em> analyses on ‘SomaScan’ data.</p>
 <span><span class="co"># prepare data set for analysis using `preProcessAdat()`</span></span>
 <span><span class="va">cleanData</span> <span class="op">&lt;-</span> <span class="va">example_data</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/preProcessAdat.html">preProcessAdat</a></span><span class="op">(</span></span>
-<span>    filter.features <span class="op">=</span> <span class="cn">TRUE</span>,            <span class="co"># rm non-human protein features</span></span>
-<span>    filter.controls <span class="op">=</span> <span class="cn">TRUE</span>,            <span class="co"># rm control samples</span></span>
-<span>    filter.qc       <span class="op">=</span> <span class="cn">TRUE</span>,            <span class="co"># rm non-passing qc samples</span></span>
-<span>    log.10          <span class="op">=</span> <span class="cn">TRUE</span>,            <span class="co"># log10 transform</span></span>
-<span>    center.scale    <span class="op">=</span> <span class="cn">TRUE</span>             <span class="co"># center/scale analytes</span></span>
+<span>    filter.features <span class="op">=</span> <span class="cn">TRUE</span>,       <span class="co"># remove non-human protein features</span></span>
+<span>    filter.controls <span class="op">=</span> <span class="cn">TRUE</span>,       <span class="co"># remove control samples</span></span>
+<span>    filter.rowcheck <span class="op">=</span> <span class="cn">TRUE</span>,       <span class="co"># retain only passing samples</span></span>
+<span>    log.10          <span class="op">=</span> <span class="cn">TRUE</span>,       <span class="co"># log10 transform</span></span>
+<span>    center.scale    <span class="op">=</span> <span class="cn">FALSE</span>       <span class="co"># don't center/scale for univariate analysis</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">305</span> non-human protein features were removed.</span></span>
 <span><span class="co">#&gt; → <span style="color: #0000BB;">214</span> human proteins did not pass standard QC</span></span>
-<span><span class="co">#&gt; acceptance criteria and were flagged in `ColCheck`.  These features</span></span>
-<span><span class="co">#&gt; were not removed, as they still may yield useful information in an</span></span>
-<span><span class="co">#&gt; analysis, but further evaluation may be needed.</span></span>
+<span><span class="co">#&gt; acceptance criteria and were flagged in `ColCheck`.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">6</span> buffer samples were removed.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">10</span> calibrator samples were removed.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">6</span> QC samples were removed.</span></span>
@@ -173,7 +171,6 @@ perform standard <em>preliminary</em> analyses on ‘SomaScan’ data.</p>
 <span><span class="co">#&gt; pass standard normalization acceptance criteria (0.4 &lt;= x &lt;= 2.5)</span></span>
 <span><span class="co">#&gt; and were removed.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> RFU features were log-10 transformed.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> RFU features were centered and scaled.</span></span>
 <span></span>
 <span><span class="co"># drop any missing values in Sex</span></span>
 <span><span class="va">cleanData</span> <span class="op">&lt;-</span> <span class="va">cleanData</span> <span class="op">|&gt;</span></span>

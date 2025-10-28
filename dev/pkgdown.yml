@@ -14,7 +14,7 @@ articles:
   articles/tips-safely-map-values: tips-safely-map-values.html
   articles/tips-safely-rename-df: tips-safely-rename-df.html
   articles/tips-train-test-setup: tips-train-test-setup.html
-last_built: 2025-10-22T14:34Z
+last_built: 2025-10-28T20:19Z
 urls:
   reference: https://somalogic.github.io/SomaDataIO/reference
   article: https://somalogic.github.io/SomaDataIO/articles

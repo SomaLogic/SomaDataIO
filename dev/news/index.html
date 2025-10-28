@@ -66,6 +66,16 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="somadataio-development-version">SomaDataIO (development version)<a class="anchor" aria-label="anchor" href="#somadataio-development-version"></a></h2>
+<div class="section level4">
+<h4 id="backward-compatibility-development-version">Backward Compatibility<a class="anchor" aria-label="anchor" href="#backward-compatibility-development-version"></a></h4>
+<ul><li>Added backward compatibility for <code>filter.qc</code> parameter in <code><a href="../reference/preProcessAdat.html">preProcessAdat()</a></code>
+<ul><li>
+<code>filter.qc</code> parameter has been renamed to <code>filter.rowcheck</code>
+</li>
+<li>For backward compatibility, <code>filter.qc</code> is still accepted but will generate a deprecation warning and will be removed in a future version</li>
+<li>Users should update their code to use <code>filter.rowcheck</code> instead</li>
+</ul></li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="6.3.0" id="somadataio-630">SomaDataIO 6.3.0<a class="anchor" aria-label="anchor" href="#somadataio-630"></a></h2><p class="text-muted">CRAN release: 2025-05-06</p>

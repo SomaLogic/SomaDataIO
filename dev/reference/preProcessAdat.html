@@ -78,7 +78,8 @@ for analysis. For more details please refer to the <a href="https://somalogic.gi
 <span>  <span class="va">adat</span>,</span>
 <span>  filter.features <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  filter.controls <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  filter.qc <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  filter.rowcheck <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  filter.qc <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  filter.outliers <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  data.qc <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  log.10 <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -107,9 +108,15 @@ be dropped? If <code>TRUE</code>, this retains all samples where <code>SampleTyp
 QC control samples. Default is <code>TRUE</code>.</p></dd>
 
 
-<dt id="arg-filter-qc">filter.qc<a class="anchor" aria-label="anchor" href="#arg-filter-qc"></a></dt>
+<dt id="arg-filter-rowcheck">filter.rowcheck<a class="anchor" aria-label="anchor" href="#arg-filter-rowcheck"></a></dt>
 <dd><p>Logical. If <code>TRUE</code> only samples that pass default
 normalization acceptance criteria will be retained. Default is <code>TRUE</code>.</p></dd>
+
+
+<dt id="arg-filter-qc">filter.qc<a class="anchor" aria-label="anchor" href="#arg-filter-qc"></a></dt>
+<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> Logical.
+Please use <code>filter.rowcheck</code> instead. This parameter is deprecated and
+will be removed in a future version.</p></dd>
 
 
 <dt id="arg-filter-outliers">filter.outliers<a class="anchor" aria-label="anchor" href="#arg-filter-outliers"></a></dt>
@@ -166,9 +173,7 @@ c) Those not identified as outliers.</p></li>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">preProcessAdat</span><span class="op">(</span><span class="va">example_data</span>, data.qc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Age"</span>, <span class="st">"Sex"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">305</span> non-human protein features were removed.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> → <span style="color: #0000BB;">214</span> human proteins did not pass standard QC</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> acceptance criteria and were flagged in `ColCheck`.  These features</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> were not removed, as they still may yield useful information in an</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> analysis, but further evaluation may be needed.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> acceptance criteria and were flagged in `ColCheck`.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">6</span> buffer samples were removed.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">10</span> calibrator samples were removed.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">6</span> QC samples were removed.</span>

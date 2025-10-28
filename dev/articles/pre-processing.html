@@ -622,7 +622,7 @@ details.</p>
 <code class="sourceCode R"><span><span class="va">processed_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/preProcessAdat.html">preProcessAdat</a></span><span class="op">(</span>adat            <span class="op">=</span> <span class="va">example_data</span>,</span>
 <span>                                 filter.features <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>                                 filter.controls <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>                                 filter.qc       <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                                 filter.rowcheck <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>                                 filter.outliers <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>                                 data.qc         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"status_class"</span>,</span>
 <span>                                                     <span class="st">"status_cont"</span><span class="op">)</span>,</span>
@@ -630,9 +630,7 @@ details.</p>
 <span>                                 center.scale    <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">305</span> non-human protein features were removed.</span></span>
 <span><span class="co">#&gt; → <span style="color: #0000BB;">214</span> human proteins did not pass standard QC</span></span>
-<span><span class="co">#&gt; acceptance criteria and were flagged in `ColCheck`.  These features</span></span>
-<span><span class="co">#&gt; were not removed, as they still may yield useful information in an</span></span>
-<span><span class="co">#&gt; analysis, but further evaluation may be needed.</span></span>
+<span><span class="co">#&gt; acceptance criteria and were flagged in `ColCheck`.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">6</span> buffer samples were removed.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">10</span> calibrator samples were removed.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">6</span> QC samples were removed.</span></span>
