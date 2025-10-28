@@ -22,8 +22,11 @@
 #' be dropped? If `TRUE`, this retains all samples where `SampleType = "Sample"`
 #' (study samples) and discards all others including buffer, calibrator, and
 #' QC control samples. Default is `TRUE`.
-#' @param filter.qc Logical. If `TRUE` only samples that pass default
+#' @param filter.rowcheck Logical. If `TRUE` only samples that pass default
 #' normalization acceptance criteria will be retained. Default is `TRUE`.
+#' @param filter.qc `r lifecycle::badge("deprecated")` Logical.
+#' Please use `filter.rowcheck` instead. This parameter is deprecated and
+#' will be removed in a future version.
 #' @param filter.outliers Logical. Should the `adat` object drop outlier
 #' samples? An outlier sample is defined by >= 5% of filtered SeqIds exceeding
 #' +/- 6 MAD and 5x fold-change from the median signal. This filter is typically
@@ -50,17 +53,29 @@
 #' @importFrom ggplot2 aes facet_wrap ggplot geom_boxplot geom_hline geom_point
 #' @importFrom ggplot2 scale_color_manual scale_fill_manual theme theme_bw ylim
 #' @importFrom tidyr pivot_longer
+#' @importFrom lifecycle deprecated is_present deprecate_warn
 #' @export
 preProcessAdat <- function(adat,
                            filter.features = TRUE,
                            filter.controls = TRUE,
-                           filter.qc = TRUE,
+                           filter.rowcheck = TRUE,
+                           filter.qc = deprecated(),
                            filter.outliers = FALSE,
                            data.qc = NULL,
                            log.10 = FALSE,
                            center.scale = FALSE) {
 
   stopifnot("`adat` must be a class `soma_adat` object" = is.soma_adat(adat))
+
+  # Handle backward compatibility for filter.qc parameter
+  if ( is_present(filter.qc) ) {
+    deprecate_warn(
+      when = "6.5.0",
+      what = "preProcessAdat(filter.qc =)",
+      with = "preProcessAdat(filter.rowcheck =)",
+      details = paste0("Proceeding with filter.rowcheck = ", filter.rowcheck, ".")
+    )
+  }
 
   # default feature checks -> filter
   if ( filter.features ) {
@@ -88,9 +103,7 @@ preProcessAdat <- function(adat,
 
       if ( n_feats_flagged > 0 ) {
         .todo("{.val {n_feats_flagged}} human proteins did not pass standard QC
-          acceptance criteria and were flagged in `ColCheck`.  These features
-          were not removed, as they still may yield useful information in an
-          analysis, but further evaluation may be needed.")
+          acceptance criteria and were flagged in `ColCheck`.")
       }
     } else {
       .todo("`ColCheck` is missing from the column annotation data. Further
@@ -120,7 +133,7 @@ preProcessAdat <- function(adat,
     }
   }
 
-  if ( filter.qc ) {
+  if ( filter.rowcheck ) {
     n_samples_flagged    <- adat |> filter(!RowCheck == "PASS") |> nrow()
 
     # drop samples which do not pass standard conservative acceptance criteria

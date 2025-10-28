@@ -1,5 +1,13 @@
 # SomaDataIO (development version)
 
+### Backward Compatibility
+
+* Added backward compatibility for `filter.qc` parameter in `preProcessAdat()`
+  - `filter.qc` parameter has been renamed to `filter.rowcheck` 
+  - For backward compatibility, `filter.qc` is still accepted but will generate
+    a deprecation warning and will be removed in a future version
+  - Users should update their code to use `filter.rowcheck` instead
+
 # SomaDataIO (6.4.0)
 
 ### New Functions

@@ -62,11 +62,11 @@ table(example_data$SampleType)
 # prepare data set for analysis using `preProcessAdat()`
 cleanData <- example_data |>
   preProcessAdat(
-    filter.features = TRUE,            # rm non-human protein features
-    filter.controls = TRUE,            # rm control samples
-    filter.qc       = TRUE,            # rm non-passing qc samples
-    log.10          = TRUE,            # log10 transform
-    center.scale    = TRUE             # center/scale analytes
+    filter.features = TRUE,       # remove non-human protein features
+    filter.controls = TRUE,       # remove control samples
+    filter.rowcheck = TRUE,       # retain only passing samples
+    log.10          = TRUE,       # log10 transform
+    center.scale    = TRUE        # center/scale analytes
   )
 
 # drop any missing Age values
