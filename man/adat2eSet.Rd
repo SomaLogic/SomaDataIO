@@ -30,7 +30,7 @@ BiocManager::install("Biobase", version = remotes::bioc_version())
 }\if{html}{\out{</div>}}
 }
 \examples{
-\dontshow{if (rlang::is_installed("Biobase")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_installed("Biobase")) withAutoprint(\{ # examplesIf}
 eSet <- adat2eSet(example_data)
 class(eSet)
 eSet
