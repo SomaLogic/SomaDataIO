@@ -199,7 +199,7 @@ b <- withr::with_seed(99, sample(getSeqId(a)))   # => SeqId & shuffle
 (getSeqIdMatches(a, b))                          # sorted by first vector "a"
 }
 \seealso{
-\code{\link[=intersect]{intersect()}}
+\code{\link[generics:setops]{generics::intersect()}}
 }
 \author{
 Stu Field

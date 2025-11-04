@@ -27,7 +27,7 @@ The \pkg{Biobase} package is required for this function.
 
 }}
 \examples{
-\dontshow{if (rlang::is_installed("Biobase")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_installed("Biobase")) withAutoprint(\{ # examplesIf}
 # subset into a reduced mini-ADAT object
 # 10 samples (rows)
 # 5 clinical variables and 3 features (cols)
