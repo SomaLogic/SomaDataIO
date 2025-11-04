@@ -113,6 +113,7 @@ md
 medNormRef
 nd
 normals
+pipetting
 pkgdown
 plex
 pre
@@ -128,4 +129,5 @@ th
 tibble
 tidyr
 untransformed
+variabilities
 vectorized
