@@ -8,9 +8,18 @@ create_test_data <- function() {
 
   # Combine indices and subset
   subset_indices <- c(sample_indices, qc_indices)
+  test_adat <- example_data[subset_indices, ]
+
+  # Modify header to simulate pre-ANML state (remove ANML steps)
+  header_meta <- attr(test_adat, "Header.Meta")
+  if (!is.null(header_meta) && !is.null(header_meta$HEADER)) {
+    # Remove ANML and median normalization steps to simulate pre-processed state
+    header_meta$HEADER$ProcessSteps <- "Raw RFU, Hyb Normalization, plateScale, Calibration"
+    attr(test_adat, "Header.Meta") <- header_meta
+  }
 
   # Return subset with representative samples
-  example_data[subset_indices, ]
+  test_adat
 }
 
 test_data <- create_test_data()
@@ -42,7 +51,7 @@ test_that("`medianNormalize` Method 1: Internal reference (default)", {
   result_header <- attr(result, "Header.Meta")$HEADER
   expect_true(grepl("medNormInt", result_header$ProcessSteps))
   expect_equal(result_header$NormalizationAlgorithm, "MedNorm")
-  expect_equal(result_header$MedNormReference, "intraplate")
+  expect_true(grepl("intraplate, crossplate", result_header$MedNormReference))
 })
 
 test_that("`medianNormalize` Method 2: Reference from specific samples", {
@@ -72,7 +81,7 @@ test_that("`medianNormalize` Method 2: Reference from specific samples", {
 
   # Check header metadata
   result_header <- attr(result, "Header.Meta")$HEADER
-  expect_equal(result_header$MedNormReference, "intraplate")
+  expect_true(grepl("intraplate, crossplate", result_header$MedNormReference))
 })
 
 test_that("`medianNormalize` Method 3: Reference from another ADAT", {
@@ -99,7 +108,8 @@ test_that("`medianNormalize` Method 3: Reference from another ADAT", {
 
   # Check header metadata
   result_header <- attr(result, "Header.Meta")$HEADER
-  expect_equal(result_header$MedNormReference, "external_adat")
+  expect_true(grepl("external_adat", result_header$MedNormReference))
+  expect_true(grepl("crossplate", result_header$MedNormReference))
 })
 
 test_that("`medianNormalize` Method 4: External reference file", {
@@ -135,7 +145,8 @@ test_that("`medianNormalize` Method 4: External reference file", {
 
   # Check header metadata
   result_header <- attr(result, "Header.Meta")$HEADER
-  expect_equal(result_header$MedNormReference, basename(temp_csv))
+  expect_true(grepl(basename(temp_csv), result_header$MedNormReference))
+  expect_true(grepl("crossplate", result_header$MedNormReference))
 
   # Clean up
   unlink(temp_csv)
@@ -192,7 +203,8 @@ test_that("`medianNormalize` Method 5: External reference as data.frame", {
 
   # Check header metadata
   result_header <- attr(result, "Header.Meta")$HEADER
-  expect_equal(result_header$MedNormReference, "external_data")
+  expect_true(grepl("external_data", result_header$MedNormReference))
+  expect_true(grepl("crossplate", result_header$MedNormReference))
 })
 
 test_that("`medianNormalize` validates input requirements", {

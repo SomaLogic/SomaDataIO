@@ -12,6 +12,7 @@ medianNormalize(
   by = "SampleType",
   do_field = "SampleType",
   do_regexp = "QC|Sample",
+  reverse_existing = FALSE,
   verbose = TRUE
 )
 }
@@ -57,6 +58,12 @@ separately. Default is \code{"SampleType"}.}
 \item{do_regexp}{Character. A regular expression pattern to select samples
 from \code{do_field} for normalization. Default is \code{"QC|Sample"}.}
 
+\item{reverse_existing}{Logical. Should existing median normalization be
+reversed before applying new normalization? When \code{TRUE}, existing median
+normalization scale factors are reversed for study samples only (QC,
+Calibrator, and Buffer samples retain their normalization). This allows
+re-normalization of data that has already been median normalized. Default is \code{FALSE}.}
+
 \item{verbose}{Logical. Should progress messages be printed? Default is \code{TRUE}.}
 }
 \value{
@@ -88,6 +95,30 @@ reference approaches: calculating an internal reference from study samples,
 or using a calculated reference from a different ADAT or external reference
 file.
 }
+\section{Data Requirements}{
+
+This function is designed for data in standard SomaLogic deliverable formats:
+\enumerate{
+\item \strong{Study samples not median normalized}, with all controls median normalized.
+Calibrators and buffers are intra-plate median normalized and QC samples are ANML
+normalized if present on standard 3-dilution setups. QC assay controls undergo
+full ANML data standardization even when study samples don't, in order to QC
+the plate. Cell & tissue single dilution runs don't have QC samples.
+\item \strong{Same as above}, but study samples undergo either ANML or intra-study
+standard median normalization.
+}
+
+All data should be hybridization normalized, median normalized internally
+(buffer + calibrator), and plate scaled regardless of matrix prior to applying
+median normalization. Calibration is not applied to all study types.
+
+\strong{Primary use cases:}
+\itemize{
+\item 3-dilution setups (standard SomaScan)
+\item Single dilution cell & tissue studies
+}
+}
+
 \section{Important Considerations}{
 
 \itemize{
@@ -95,6 +126,10 @@ file.
 conditions, perform normalization \emph{within} groups using the \code{by} parameter
 \item In newer SomaScan assay versions, population references improve
 inter-plate consistency compared to within-plate references
+\item The function will not proceed on already ANML or median normalized data
+unless \code{reverse_existing = TRUE} is specified
+\item When reversing existing normalization, only study samples are reversed;
+QC, Calibrator, and Buffer samples retain their normalization
 }
 }
 
@@ -137,5 +172,11 @@ med_norm_adat <- medianNormalize(adat, by = c("Sex", "SampleType"))
 med_norm_adat <- medianNormalize(adat,
                                  do_field = "SampleType",
                                  do_regexp = "Sample")
+
+# Re-normalize data that has already been median normalized
+# Use when you want to apply different normalization to previously normalized data
+med_norm_adat <- medianNormalize(adat,
+                                 reverse_existing = TRUE,
+                                 reference = new_reference)
 }
 }
