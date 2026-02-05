@@ -119,9 +119,9 @@ ver_dict <- list(
                                     cols = 43),
 
   # source 7k ----
-  #   https://menu.somalogic.com
-  #   SomaScan_7K_Annotated_Content.xlsx
-  "SL-00000571-rev7-2024-02" = list(sha = "0cf00a6afdc1a5cf1f7b8e16cffedccc",
+  #   https://menu.somalogic.com/file-downloads/menu-annotations
+  #   SL00000571_SomaScan_7K_v4.1_Plasma_Serum_Annotated_Menu.xlsx
+  "SL-00000571-rev11-2025-09" = list(sha = "f13dbe8d5f97bdf56eb107d2cff15408",
                                     col_serum  = c("Serum Scalar v4.1 7K to v4.0 5K",
                                                    "Serum Scalar v4.1 7K to v5.0 11K"),
                                     col_plasma = c("Plasma Scalar v4.1 7K to v4.0 5K",
@@ -132,9 +132,9 @@ ver_dict <- list(
                                     rows = 7605,
                                     cols = 50),
   # source 11k ----
-  #   https://menu.somalogic.com
-  #   SomaScan_11K_Annotated_Content.xlsx
-  "SL-00000906-rev4-2024-03" = list(sha = "f4f42681780a03d2972215f355748064",
+  #   https://menu.somalogic.com/file-downloads/menu-annotations
+  #   SL00000906_SomaScan_11K_v5.0_Plasma_Serum_Annotated_Menu.xlsx
+  "SL-00000906-rev8-2025-09" = list(sha = "48f7aafc713acdd7896f010f62506b51",
                                     col_serum  = c("Serum Scalar v5.0 11K to v4.1 7K",
                                                    "Serum Scalar v5.0 11K to v4.0 5K"),
                                     col_plasma = c("Plasma Scalar v5.0 11K to v4.1 7K",

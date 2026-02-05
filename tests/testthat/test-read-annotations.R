@@ -8,8 +8,8 @@ test_that("`ver_dict` is updated and correct", {
                  "SL-12345678-rev0-2021-01",
                  "SL-00000571-rev2-2021-06",
                  "SL-00000246-rev5-2021-06",
-                 "SL-00000571-rev7-2024-02",
-                 "SL-00000906-rev4-2024-03"))
+                 "SL-00000571-rev11-2025-09",
+                 "SL-00000906-rev8-2025-09"))
 })
 
 test_that("`getAnnoVer()` parses the version correctly", {
