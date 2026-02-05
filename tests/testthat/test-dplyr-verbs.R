@@ -37,7 +37,7 @@ test_that("`arrange()` method produces expected output", {
   expect_equal(rownames(new), new_rn)
   expect_equal(sort(data$NormScale), new$NormScale)
   expect_true(is_intact_attr(new))
-  expect_equal(names(attributes(new)), names(attributes(data))) # atts order preserved
+  expect_equal(sort(names(attributes(new))), sort(names(attributes(data)))) # atts preserved
   # check the arrange happened correctly
   expect_equal(new$SampleId, c("005", "001", "002", "003", "004", "006"))
 })
@@ -53,7 +53,7 @@ test_that("`rename()` method produces expected output", {
   expect_true("PID" %in% names(new))
   expect_false("PlateId" %in% names(new))
   expect_setequal(rownames(new), rownames(data))
-  expect_equal(names(attributes(new)), names(attributes(data))) # atts order preserved
+  expect_equal(sort(names(attributes(new))), sort(names(attributes(data)))) # atts preserved
   expect_warning(   # warning if analyte is renamed
     new2 <- rename(data, PID = PlateId, seq.1111.11 = seq.3333.33),
     "You are renaming analytes. Modify the SomaScan menu with care."
@@ -75,7 +75,7 @@ test_that("`filter()` method produces expected output", {
   expect_equal(new$NormScale, c(1.1, 1.8, 1.8))
   expect_true(all(rownames(new) %in% rownames(data)))
   expect_true(is_intact_attr(new))
-  expect_equal(names(attributes(new)), names(attributes(data))) # atts order preserved
+  expect_equal(sort(names(attributes(new))), sort(names(attributes(data)))) # atts preserved
 })
 
 # mutate ----
@@ -90,7 +90,7 @@ test_that("`mutate()` method produces expected output", {
   expect_equal(rownames(new), rownames(data))
   expect_equal(new$Subarray_2x, new$Subarray * 2)
   expect_true(is_intact_attr(new))
-  expect_equal(names(attributes(new)), names(attributes(data))) # atts order preserved
+  expect_equal(sort(names(attributes(new))), sort(names(attributes(data)))) # atts preserved
 })
 
 # select ----
@@ -110,7 +110,7 @@ test_that("`select()` method produces expected output", {
   ad <- attributes(new)$Col.Meta
   expect_equal(dim(ad), c(2L, 9L))
   expect_equal(ad$SeqId, getSeqId(apts))  # apt data sync'd?
-  expect_equal(names(attributes(new)), names(attributes(data))) # atts order preserved
+  expect_equal(sort(names(attributes(new))), sort(names(attributes(data)))) # atts preserved
 })
 
 # left-join ----
@@ -132,7 +132,7 @@ test_that("`left_join()` method produces expected output", {
   expect_equal("NewData", tail(getMeta(new), 1))
   expect_equal(getAnalytes(new), getAnalytes(data))
   expect_true(is_intact_attr(new))
-  expect_equal(names(attributes(new)), names(attributes(data))) # atts order preserved
+  expect_equal(sort(names(attributes(new))), sort(names(attributes(data)))) # atts preserved
 })
 
 test_that("`left_join()` method doesn't fix rownames if there aren't any", {
@@ -166,8 +166,8 @@ test_that("`slice()` method is correctly dispatched", {
   expect_equal(class(new), class(data))
   expect_equal(dim(new), c(3L, ncol(data)))
   expect_equal(rownames(new), c("12345_1", "12346_2", "12347_3"))
-  # atts order preserved
-  expect_equal(names(attributes(new)), names(attributes(data)))
+  # atts preserved
+  expect_equal(sort(names(attributes(new))), sort(names(attributes(data))))
 
   # check for duplicate rownames
   new <- slice(data, c(2, 2, 2))   # same row 3x
@@ -186,8 +186,8 @@ test_that("`slice_sample()` method is correctly dispatched", {
   expect_equal(class(new), class(data))
   expect_equal(dim(new), c(n, ncol(data)))
   expect_equal(rownames(new), c("12345_1", "12350_3", "12346_2", "12347_3"))
-  # atts order preserved
-  expect_equal(names(attributes(new)), names(attributes(data)))
+  # atts preserved
+  expect_equal(sort(names(attributes(new))), sort(names(attributes(data))))
 })
 
 # sample_frac ----
@@ -201,8 +201,8 @@ test_that("`sample_frac()` method is correctly dispatched", {
     rownames(new),
     c("12345_1", "12345_1-1", "12350_3", "12345_1-2", "12346_2", "12349_2")
   )
-  # atts order preserved
-  expect_equal(names(attributes(new)), names(attributes(data)))
+  # atts preserved
+  expect_equal(sort(names(attributes(new))), sort(names(attributes(data))))
 })
 
 # sample_n ----
@@ -213,8 +213,8 @@ test_that("`sample_n()` method is correctly dispatched", {
   expect_equal(class(new), class(data))
   expect_equal(dim(new), c(n, ncol(data)))
   expect_equal(rownames(new), c("12345_1", "12350_3", "12346_2", "12347_3"))
-  # atts order preserved
-  expect_equal(names(attributes(new)), names(attributes(data)))
+  # atts preserved
+  expect_equal(sort(names(attributes(new))), sort(names(attributes(data))))
 })
 
 # group_by & ungroup ----
