@@ -1,6 +1,6 @@
 ---
 title: "Linear Regression"
-author: "Stu Field, Standard BioTools, Inc."
+author: "Stu Field, SomaLogic Operating Co., Inc."
 description: >
   Typical linear regression of continuous 'SomaScan' data.
 output:

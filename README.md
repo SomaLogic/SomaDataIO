@@ -20,12 +20,12 @@ MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://choosealicense.
 <!-- badges: end -->
 
 The `SomaDataIO` R package loads and exports ‘SomaScan’ data via the
-Standard BioTools, Inc. structured text file called an ADAT (`*.adat`).
-The package also exports auxiliary functions for manipulating,
-wrangling, and extracting relevant information from an ADAT object once
-in memory. Basic familiarity with the R environment is assumed, as is
-the ability to install contributed packages from the Comprehensive R
-Archive Network (CRAN).
+SomaLogic Operating Co., Inc. structured text file called an ADAT
+(`*.adat`). The package also exports auxiliary functions for
+manipulating, wrangling, and extracting relevant information from an
+ADAT object once in memory. Basic familiarity with the R environment is
+assumed, as is the ability to install contributed packages from the
+Comprehensive R Archive Network (CRAN).
 
 If you run into any issues/problems with `SomaDataIO` full documentation
 of the most recent
@@ -253,14 +253,14 @@ the most popular [dplyr](https://dplyr.tidyverse.org) and
 ``` r
 # see full complement of `soma_adat` methods
 methods(class = "soma_adat")
-#>  [1] $              $<-            ==             Math           Ops           
-#>  [6] Summary        [              [<-            [[             [[<-          
-#> [11] anti_join      arrange        count          filter         full_join     
-#> [16] getAdatVersion getAnalytes    getMeta        group_by       inner_join    
-#> [21] is_seqFormat   left_join      median         merge          mutate        
-#> [26] print          rename         right_join     row.names<-    sample_frac   
-#> [31] sample_n       semi_join      separate       slice          slice_sample  
-#> [36] summary        transform      ungroup        unite         
+#>  [1] [              [[             [[<-           [<-            ==            
+#>  [6] $              $<-            anti_join      arrange        count         
+#> [11] filter         full_join      getAdatVersion getAnalytes    getMeta       
+#> [16] group_by       inner_join     is_seqFormat   left_join      Math          
+#> [21] median         merge          mutate         Ops            print         
+#> [26] rename         right_join     row.names<-    sample_frac    sample_n      
+#> [31] semi_join      separate       slice_sample   slice          summary       
+#> [36] Summary        transform      ungroup        unite         
 #> see '?methods' for accessing help and source code
 ```
 
@@ -360,7 +360,7 @@ articles and workflows are only accessible via the `SomaDataIO`
   - <https://choosealicense.com/licenses/mit/>
   - [https://www.tldrlegal.com/license/mit-license/](https://www.tldrlegal.com/license/mit-license)
 - Further:
-  - “SomaDataIO” and “SomaLogic” are trademarks owned by Standard
-    BioTools, Inc. No license is hereby granted to these trademarks
+  - “SomaDataIO” and “SomaLogic” are trademarks owned by SomaLogic
+    Operating Co., Inc. No license is hereby granted to these trademarks
     other than for purposes of identifying the origin or source of this
     Software.

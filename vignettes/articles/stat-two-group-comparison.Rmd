@@ -1,6 +1,6 @@
 ---
 title: "Two-Group Comparison"
-author: "Stu Field, Standard BioTools, Inc."
+author: "Stu Field, SomaLogic Operating Co., Inc."
 description: >
   Typical 2-group comparison of 'SomaScan' data.
 output:
