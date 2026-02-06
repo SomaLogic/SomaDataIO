@@ -1,12 +1,28 @@
-# SomaDataIO (development version)
+# SomaDataIO (6.4.0.9000)
 
-### Backward Compatibility
+### Function and Object Improvements
 
-* Added backward compatibility for `filter.qc` parameter in `preProcessAdat()`
-  - `filter.qc` parameter has been renamed to `filter.rowcheck` 
-  - For backward compatibility, `filter.qc` is still accepted but will generate
+* Updated `preProcessAdat()` to improve clarity
+  - `filter.qc` parameter has been renamed to `filter.rowcheck`
+  - for backward compatibility, `filter.qc` is still accepted but will generate
     a deprecation warning and will be removed in a future version
-  - Users should update their code to use `filter.rowcheck` instead
+  - removed language that discusses implication of `ColCheck` SeqIds not 
+    being removed from `preProcessAdat()` output
+* Updated `read_annotations()` function and `ver_dict` object to 
+  recognize latest menu annotations files from Q3 2025
+
+### Documentation Updates
+
+* updated statistical analysis workflow articles with clearer
+  messaging comments around `preProcessAdat()`
+* updated two-group and three-group analysis workflow articles to
+  set `center.scale = FALSE` in `preProcessAdat()` to align with guidance
+  to users for univariate analysis
+
+### Internal :construction:
+
+* Updated `dplyr` verb tests to no longer explicitly test
+  for ordering of attributes (#165)
 
 # SomaDataIO (6.4.0)
 
