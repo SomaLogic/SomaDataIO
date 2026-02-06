@@ -18,8 +18,8 @@
 <link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Input/Output SomaScan Data">
-<meta name="description" content="Load and export SomaScan data via the Standard BioTools, Inc. structured text file called an ADAT (*.adat). For file format see &lt;https://github.com/SomaLogic/SomaLogic-Data/blob/main/README.md&gt;. The package also exports auxiliary functions for manipulating, wrangling, and extracting relevant information from an ADAT object once in memory.">
-<meta property="og:description" content="Load and export SomaScan data via the Standard BioTools, Inc. structured text file called an ADAT (*.adat). For file format see &lt;https://github.com/SomaLogic/SomaLogic-Data/blob/main/README.md&gt;. The package also exports auxiliary functions for manipulating, wrangling, and extracting relevant information from an ADAT object once in memory.">
+<meta name="description" content="Load and export SomaScan data via the SomaLogic Operating Co., Inc. structured text file called an ADAT (*.adat). For file format see &lt;https://github.com/SomaLogic/SomaLogic-Data/blob/main/README.md&gt;. The package also exports auxiliary functions for manipulating, wrangling, and extracting relevant information from an ADAT object once in memory.">
+<meta property="og:description" content="Load and export SomaScan data via the SomaLogic Operating Co., Inc. structured text file called an ADAT (*.adat). For file format see &lt;https://github.com/SomaLogic/SomaLogic-Data/blob/main/README.md&gt;. The package also exports auxiliary functions for manipulating, wrangling, and extracting relevant information from an ADAT object once in memory.">
 <meta property="og:image" content="https://somalogic.github.io/SomaDataIO/logo.png">
 </head>
 <body>
@@ -30,7 +30,7 @@
 
     <a class="navbar-brand me-2" href="index.html">SomaDataIO</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">6.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">6.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -101,7 +101,7 @@
 </div>
 <!-- badges: start -->
 
-<p>The <code>SomaDataIO</code> R package loads and exports ‘SomaScan’ data via the Standard BioTools, Inc. structured text file called an ADAT (<code>*.adat</code>). The package also exports auxiliary functions for manipulating, wrangling, and extracting relevant information from an ADAT object once in memory. Basic familiarity with the R environment is assumed, as is the ability to install contributed packages from the Comprehensive R Archive Network (CRAN).</p>
+<p>The <code>SomaDataIO</code> R package loads and exports ‘SomaScan’ data via the SomaLogic Operating Co., Inc. structured text file called an ADAT (<code>*.adat</code>). The package also exports auxiliary functions for manipulating, wrangling, and extracting relevant information from an ADAT object once in memory. Basic familiarity with the R environment is assumed, as is the ability to install contributed packages from the Comprehensive R Archive Network (CRAN).</p>
 <p>If you run into any issues/problems with <code>SomaDataIO</code> full documentation of the most recent <a href="https://github.com/SomaLogic/SomaDataIO/releases" class="external-link">release</a> can be found at our <a href="https://somalogic.github.io/SomaDataIO/">website of articles and workflows</a>. If the issue persists we encourage you to consult the <a href="https://github.com/SomaLogic/SomaDataIO/issues/" class="external-link">issues</a> page and, if appropriate, submit an issue and/or feature request.</p>
 <hr>
 <div class="section level2">
@@ -281,14 +281,14 @@
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># see full complement of `soma_adat` methods</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/methods.html" class="external-link">methods</a></span><span class="op">(</span>class <span class="op">=</span> <span class="st">"soma_adat"</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  [1] $              $&lt;-            ==             Math           Ops           </span></span>
-<span><span class="co">#&gt;  [6] Summary        [              [&lt;-            [[             [[&lt;-          </span></span>
-<span><span class="co">#&gt; [11] anti_join      arrange        count          filter         full_join     </span></span>
-<span><span class="co">#&gt; [16] getAdatVersion getAnalytes    getMeta        group_by       inner_join    </span></span>
-<span><span class="co">#&gt; [21] is_seqFormat   left_join      median         merge          mutate        </span></span>
-<span><span class="co">#&gt; [26] print          rename         right_join     row.names&lt;-    sample_frac   </span></span>
-<span><span class="co">#&gt; [31] sample_n       semi_join      separate       slice          slice_sample  </span></span>
-<span><span class="co">#&gt; [36] summary        transform      ungroup        unite         </span></span>
+<span><span class="co">#&gt;  [1] [              [[             [[&lt;-           [&lt;-            ==            </span></span>
+<span><span class="co">#&gt;  [6] $              $&lt;-            anti_join      arrange        count         </span></span>
+<span><span class="co">#&gt; [11] filter         full_join      getAdatVersion getAnalytes    getMeta       </span></span>
+<span><span class="co">#&gt; [16] group_by       inner_join     is_seqFormat   left_join      Math          </span></span>
+<span><span class="co">#&gt; [21] median         merge          mutate         Ops            print         </span></span>
+<span><span class="co">#&gt; [26] rename         right_join     row.names&lt;-    sample_frac    sample_n      </span></span>
+<span><span class="co">#&gt; [31] semi_join      separate       slice_sample   slice          summary       </span></span>
+<span><span class="co">#&gt; [36] Summary        transform      ungroup        unite         </span></span>
 <span><span class="co">#&gt; see '?methods' for accessing help and source code</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="merging-sample-annotation-data">Merging Sample Annotation Data<a class="anchor" aria-label="anchor" href="#merging-sample-annotation-data"></a>
@@ -396,7 +396,7 @@
 </li>
 <li>Further:
 <ul>
-<li>“SomaDataIO” and “SomaLogic” are trademarks owned by Standard BioTools, Inc. No license is hereby granted to these trademarks other than for purposes of identifying the origin or source of this Software.</li>
+<li>“SomaDataIO” and “SomaLogic” are trademarks owned by SomaLogic Operating Co., Inc. No license is hereby granted to these trademarks other than for purposes of identifying the origin or source of this Software.</li>
 </ul>
 </li>
 </ul>
@@ -449,7 +449,7 @@
 <li>
 <a href="https://github.com/scheidec" class="external-link">Caleb Scheidel</a> <br><small class="roles"> Maintainer </small>   </li>
 <li>
-<a href="http://www.standardbio.com" class="external-link">Standard BioTools, Inc.</a> <br><small class="roles"> Copyright holder, funder </small>   </li>
+<a href="http://www.somalogic.com" class="external-link">SomaLogic Operating Co., Inc.</a> <br><small class="roles"> Copyright holder, funder </small>   </li>
 <li><span class="emoji" data-emoji="dna">🧬</span></li>
 <li><a href="authors.html">More about authors...</a></li>
 </ul>
@@ -471,11 +471,11 @@
    </div>
   <footer><div class="container">
   <div class="pkgdown-footer-left">
-  <p><img src="../favicon-16x16.png"> SomaDataIO was developed by the Bioinformatics Dept. at <a href="http://www.standardbio.com" class="external-link">Standard BioTools, Inc.</a>.</p>
+  <p><img src="../favicon-16x16.png"> SomaDataIO was developed by the Bioinformatics Dept. at <a href="http://www.somalogic.com" class="external-link">SomaLogic Operating Co., Inc.</a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
   </div></footer>

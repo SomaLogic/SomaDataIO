@@ -1,0 +1,92 @@
+# Introduction to SomaDataIO
+
+This document accompanies the `SomaDataIO` R package, which loads and
+exports ‘SomaScan’ data via the SomaLogic Operating Co., Inc. structured
+text file called an ADAT (`*.adat`). For file format see
+[here](https://github.com/SomaLogic/SomaLogic-Data/blob/main/README.md).
+The package also exports auxiliary functions for manipulating,
+wrangling, and extracting relevant information from an ADAT object once
+in memory. Basic familiarity with the R environment is assumed, as is
+the ability to install contributed packages from the Comprehensive R
+Archive Network (CRAN).
+
+------------------------------------------------------------------------
+
+## Main Features (I/O)
+
+- Loading data (Import)
+  - parse and import a `*.adat` text file into an `R` session as a
+    `soma_adat` object.
+- Wrangling data (manipulation)
+  - subset, reorder, and list various fields of a `soma_adat` object.
+  - [`?SeqId`](https://somalogic.github.io/SomaDataIO/reference/SeqId.md)
+    analyte (feature) matching.
+  - [dplyr](https://dplyr.tidyverse.org) and
+    [tidyr](https://tidyr.tidyverse.org) verb S3 methods for the
+    `soma_adat` class.
+  - [`?rownames`](https://somalogic.github.io/SomaDataIO/reference/rownames.md)
+    helpers that do not break `soma_adat` attributes.
+  - please see the article [Loading and Wrangling
+    ‘SomaScan’](https://somalogic.github.io/SomaDataIO/articles/tips-loading-and-wrangling.html)
+- Exporting data (Output)
+  - write out a `soma_adat` object as a `*.adat` text file.
+
+------------------------------------------------------------------------
+
+## Workflows and Analysis
+
+This section will become more fleshed out in future versions of
+`SomaDataIO`. In the meantime, below are 4 examples of typical primary
+statistical analyses that are commonly performed on ‘SomaScan’ data:
+
+- Two-group comparison (e.g. differential expression) via *t*-test
+  - see [`stats::t.test()`](https://rdrr.io/r/stats/t.test.html)
+  - see workflow: [Two-Group
+    Comparison](https://somalogic.github.io/SomaDataIO/articles/stat-two-group-comparison.html)
+- Multi-group comparison (e.g. differential expression) via ANOVA
+  - see [`stats::aov()`](https://rdrr.io/r/stats/aov.html)
+  - see workflow: [ANOVA Three-Group
+    Analysis](https://somalogic.github.io/SomaDataIO/articles/stat-three-group-analysis-anova.html)
+- Binary classification
+  - see [`stats::glm()`](https://rdrr.io/r/stats/glm.html)
+  - see workflow: [Binary
+    Classification](https://somalogic.github.io/SomaDataIO/articles/stat-binary-classification.html)
+- Linear regression
+  - see [`stats::lm()`](https://rdrr.io/r/stats/lm.html)
+  - see workflow: [Linear
+    Regression](https://somalogic.github.io/SomaDataIO/articles/stat-linear-regression.html)
+
+Note that, in an effort to reduce package size and dependencies, these
+articles and workflows are only accessible via the `SomaDataIO`
+`pkgdown` website, and are not included with the installed package.
+
+------------------------------------------------------------------------
+
+## MIT LICENSE
+
+SomaDataIO™
+
+Copyright © 2026 SomaLogic Operating Co., Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of the SomaDataIO software and associated documentation files (the
+“Software”), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sub-license, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions outlined below. Further, SomaDataIO and
+SomaLogic are trademarks owned by SomaLogic Operating Co., Inc. No
+license is hereby granted to these trademarks other than for purposes of
+identifying the origin or source of the Software.
+
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDER(S) BE LIABLE FOR ANY
+CLAIM, DAMAGES, WHETHER DIRECT OR INDIRECT, OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
