@@ -12,10 +12,10 @@ Authors@R: c(
            family = "Scheidel",
            role = "cre",
            email = "calebjscheidel@gmail.com"),    
-    person(given = "Standard BioTools, Inc.", role = c("cph", "fnd"))
+    person(given = "SomaLogic Operating Co., Inc.", role = c("cph", "fnd"))
     )
 Description: Load and export 'SomaScan' data via the
-    'Standard BioTools, Inc.' structured text file
+    'SomaLogic Operating Co., Inc.' structured text file
     called an ADAT ('*.adat'). For file format see
     <https://github.com/SomaLogic/SomaLogic-Data/blob/main/README.md>.
     The package also exports auxiliary functions for
@@ -49,7 +49,7 @@ Suggests:
     withr
 VignetteBuilder: 
     knitr
-Copyright: Standard BioTools, Inc. 2025
+Copyright: SomaLogic Operating Co., Inc. 2026
 Encoding: UTF-8
 Language: en-US
 LazyData: true

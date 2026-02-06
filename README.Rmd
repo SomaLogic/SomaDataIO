@@ -39,7 +39,7 @@ ver <- paste0("https://img.shields.io/badge/Version-", desc$Version,
 
 
 The `SomaDataIO` R package loads and exports 'SomaScan' data via the
-Standard BioTools, Inc. structured text file called an ADAT (`*.adat`).
+SomaLogic Operating Co., Inc. structured text file called an ADAT (`*.adat`).
 The package also exports auxiliary functions for manipulating, wrangling,
 and extracting relevant information from an ADAT object once in memory.
 Basic familiarity with the R environment is assumed, as is the ability to install
@@ -317,6 +317,6 @@ are not included with the installed package.
   - [https://www.tldrlegal.com/license/mit-license/](https://www.tldrlegal.com/license/mit-license)
 * Further:
   - "SomaDataIO" and "SomaLogic" are trademarks owned by
-    Standard BioTools, Inc. No license is hereby granted to
+    SomaLogic Operating Co., Inc. No license is hereby granted to
     these trademarks other than for purposes of identifying the origin or
     source of this Software.

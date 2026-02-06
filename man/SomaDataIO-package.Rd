@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Load and export 'SomaScan' data via the 'Standard BioTools, Inc.' structured text file called an ADAT ('*.adat'). For file format see \url{https://github.com/SomaLogic/SomaLogic-Data/blob/main/README.md}. The package also exports auxiliary functions for manipulating, wrangling, and extracting relevant information from an ADAT object once in memory.
+Load and export 'SomaScan' data via the 'SomaLogic Operating Co., Inc.' structured text file called an ADAT ('*.adat'). For file format see \url{https://github.com/SomaLogic/SomaLogic-Data/blob/main/README.md}. The package also exports auxiliary functions for manipulating, wrangling, and extracting relevant information from an ADAT object once in memory.
 }
 \details{
 Load an ADAT file into the global workspace with a call
@@ -62,7 +62,7 @@ Authors:
 
 Other contributors:
 \itemize{
-  \item Standard BioTools, Inc. [copyright holder, funder]
+  \item SomaLogic Operating Co., Inc. [copyright holder, funder]
 }
 
 }

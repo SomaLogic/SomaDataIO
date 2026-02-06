@@ -1,6 +1,6 @@
 # MIT License
 
-Copyright © 2025 Standard BioTools, Inc.
+Copyright © 2026 SomaLogic Operating Co., Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

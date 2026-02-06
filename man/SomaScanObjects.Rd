@@ -57,7 +57,7 @@ demonstrate how to merge sample annotation information to an existing
 \source{
 \url{https://github.com/SomaLogic/SomaLogic-Data}
 
-Standard BioTools, Inc.
+SomaLogic Operating Co., Inc.
 }
 \description{
 The \code{example_data} object is intended to provide existing and prospective
