@@ -1,4 +1,4 @@
-# SomaDataIO (6.4.0.9000)
+# SomaDataIO (6.5.0)
 
 ### Function and Object Improvements
 
