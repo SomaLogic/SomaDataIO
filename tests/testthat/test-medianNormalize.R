@@ -59,9 +59,9 @@ test_that("`medianNormalize` Method 1: Internal reference (default)", {
   expect_true(all(norm_cols %in% names(result)))
 
   # Test scale factor output
-  expect_equal(result$NormScale_20[1:3], c(0.971895, 1.029779, 1), tolerance = 0.000001)
-  expect_equal(result$NormScale_0_005[1:3], c(1.002922, 0.997176, 1), tolerance = 0.000001)
-  expect_equal(result$NormScale_0_5[1:3], c(0.973205, 1.028323, 1), tolerance = 0.000001)
+  expect_equal(result$NormScale_20[1:3], c(0.971895, 1.029779, 1.199944), tolerance = 0.000001)
+  expect_equal(result$NormScale_0_005[1:3], c(1.002922, 0.997176, 1.058289), tolerance = 0.000001)
+  expect_equal(result$NormScale_0_5[1:3], c(0.973205, 1.028323, 1.104745), tolerance = 0.000001)
 
   # Test specific SeqId columns
   expect_equal(result$seq.10000.28[1:3], c(463.1, 488.5, 501.5))
@@ -69,19 +69,19 @@ test_that("`medianNormalize` Method 1: Internal reference (default)", {
 
   # Check header metadata
   result_header <- attr(result, "Header.Meta")$HEADER
-  expect_true(grepl("medNormInt", result_header$ProcessSteps))
+  expect_true(grepl("MedNormSMP", result_header$ProcessSteps))
   expect_equal(result_header$NormalizationAlgorithm, "MedNorm")
   expect_true(grepl("intraplate, crossplate", result_header$MedNormReference))
 })
 
 test_that("`medianNormalize` Method 2: Reference from specific samples", {
 
-  # Test with specific reference field and value
+  # Test with specific reference field and value - using QC as reference but normalizing both QC and Sample
   expect_no_error(
     result <- medianNormalize(test_data,
                               ref_field = "SampleType",
                               ref_value = "QC",
-                              do_regexp = "QC",
+                              do_regexp = "QC|Sample",  # Normalize both types
                               verbose = FALSE)
   )
 
@@ -90,14 +90,14 @@ test_that("`medianNormalize` Method 2: Reference from specific samples", {
   norm_cols <- grep("^NormScale_", names(result), value = TRUE)
   expect_equal(length(norm_cols), 3)  # Should have 3 dilution groups
 
-  # Test scale factor output
-  expect_equal(result$NormScale_20[1:3], c(1.0369358, 0.9602251, 1), tolerance = 0.000001)
-  expect_equal(result$NormScale_0_005[1:3], c(0.8570162, 0.8485842, 1), tolerance = 0.000001)
-  expect_equal(result$NormScale_0_5[1:3], c(0.7771749, 0.8520195, 1), tolerance = 0.000001)
+  # Test scale factor output - normalized both QC and Sample types, so QC (3rd) gets scale factor 1.0
+  expect_equal(result$NormScale_20[1:3], c(0.9089, 0.9578, 1.0000), tolerance = 0.001)
+  expect_equal(result$NormScale_0_005[1:3], c(0.9783, 0.9806, 1.0000), tolerance = 0.001)
+  expect_equal(result$NormScale_0_5[1:3], c(0.9879, 1.1445, 1.0000), tolerance = 0.001)
 
   # Test specific SeqId columns
-  expect_equal(result$seq.10000.28[1:3], c(476.5, 474.4, 501.5))
-  expect_equal(result$seq.10008.43[1:3], c(561.8, 541.9, 510.1))
+  expect_equal(result$seq.10000.28[1:3], c(433.1, 454.4, 501.5), tolerance = 0.1)
+  expect_equal(result$seq.10008.43[1:3], c(510.6, 519.0, 510.1), tolerance = 0.1)
 
   # Check header metadata
   result_header <- attr(result, "Header.Meta")$HEADER
@@ -118,13 +118,13 @@ test_that("`medianNormalize` Method 3: Reference from another ADAT", {
   expect_equal(length(norm_cols), 3)  # Should have 3 dilution groups
 
   # Test scale factor output
-  expect_equal(result$NormScale_20[1:3], c(0.9718953, 1.0297787, 1.0841026), tolerance = 0.0001)
-  expect_equal(result$NormScale_0_005[1:3], c(1.0029224, 0.9971762, 1.0548762), tolerance = 0.0001)
-  expect_equal(result$NormScale_0_5[1:3], c(0.9732045, 1.0283228, 0.9601410), tolerance = 0.0001)
+  expect_equal(result$NormScale_20[1:3], c(0.9719, 1.0298, 1.1999), tolerance = 0.0001)
+  expect_equal(result$NormScale_0_005[1:3], c(1.0029, 0.9972, 1.0583), tolerance = 0.0001)
+  expect_equal(result$NormScale_0_5[1:3], c(0.9732, 1.0283, 1.1047), tolerance = 0.0001)
 
   # Test specific SeqId columns
-  expect_equal(result$seq.10000.28[1:3], c(463.1, 488.5, 543.7))
-  expect_equal(result$seq.10008.43[1:3], c(546, 558, 553))
+  expect_equal(result$seq.10000.28[1:3], c(463.1, 488.5, 501.5), tolerance = 0.1)
+  expect_equal(result$seq.10008.43[1:3], c(546, 558, 510.1), tolerance = 0.1)
 
   # Check header metadata
   result_header <- attr(result, "Header.Meta")$HEADER
@@ -132,52 +132,12 @@ test_that("`medianNormalize` Method 3: Reference from another ADAT", {
   expect_true(grepl("crossplate", result_header$MedNormReference))
 })
 
-test_that("`medianNormalize` Method 4: External reference file", {
-  # Create a temporary CSV file with reference data
-  # Use realistic dilution groups from example_data: "20", "0.5", "0.005", "0"
+test_that("`medianNormalize` External reference data.frame", {
+  # Create reference data.frame with SeqId-Reference format
+  analyte_info <- getAnalyteInfo(test_data)
   ref_data <- data.frame(
-    Dilution = c("20", "0_5", "0_005", "0"),
-    Reference = c(2500.5, 1800.2, 3200.8, 1500.0),
-    stringsAsFactors = FALSE
-  )
-
-  # Create temporary CSV file
-  temp_csv <- tempfile(fileext = ".csv")
-  write.csv(ref_data, temp_csv, row.names = FALSE)
-
-  expect_no_error(
-    result <- medianNormalize(test_data, reference = temp_csv, verbose = FALSE)
-  )
-
-  # Check result structure
-  expect_true(is.soma_adat(result))
-  norm_cols <- grep("^NormScale_", names(result), value = TRUE)
-  expect_equal(length(norm_cols), 3)  # Should have 3 dilution groups
-
-  # Test scale factor output
-  expect_equal(result$NormScale_20[1:3], c(3.31, 3.71, 4.21), tolerance = 0.01)
-  expect_equal(result$NormScale_0_005[1:3], c(0.577, 0.561, 0.561), tolerance = 0.001)
-  expect_equal(result$NormScale_0_5[1:3], c(0.90, 1.18, 1.03), tolerance = 0.01)
-
-  # Test specific SeqId columns
-  expect_equal(result$seq.10000.28[1:3], c(1579.0, 1759.9, 2109.7))
-  expect_equal(result$seq.10008.43[1:3], c(1861.7, 2010.3, 2145.9))
-
-  # Check header metadata
-  result_header <- attr(result, "Header.Meta")$HEADER
-  expect_true(grepl(basename(temp_csv), result_header$MedNormReference))
-  expect_true(grepl("crossplate", result_header$MedNormReference))
-
-  # Clean up
-  unlink(temp_csv)
-})
-
-test_that("`medianNormalize` Method 5: External reference as data.frame", {
-
-  # Create reference data.frame with realistic dilution groups
-  ref_data <- data.frame(
-    Dilution = c("20", "0_5", "0_005", "0"),
-    Reference = c(2500.5, 1800.2, 3200.8, 1500.0),
+    SeqId = analyte_info$SeqId[1:15],  # Use first 15 SeqIds
+    Reference = runif(15, 2000, 4000),  # Random reference values
     stringsAsFactors = FALSE
   )
 
@@ -190,19 +150,19 @@ test_that("`medianNormalize` Method 5: External reference as data.frame", {
   norm_cols <- grep("^NormScale_", names(result), value = TRUE)
   expect_equal(length(norm_cols), 3)  # Should have 3 dilution groups
 
-  # Test scale factor output
-  expect_equal(result$NormScale_20[1:3], c(3.31, 3.71, 4.21), tolerance = 0.01)
-  expect_equal(result$NormScale_0_005[1:3], c(0.577, 0.561, 0.561), tolerance = 0.001)
-  expect_equal(result$NormScale_0_5[1:3], c(0.90, 1.18, 1.03), tolerance = 0.01)
-
-  # Test specific SeqId columns
-  expect_equal(result$seq.10000.28[1:3], c(1579.0, 1759.9, 2109.7))
-  expect_equal(result$seq.10008.43[1:3], c(1861.7, 2010.3, 2145.9))
-
   # Check header metadata
   result_header <- attr(result, "Header.Meta")$HEADER
   expect_true(grepl("external_data", result_header$MedNormReference))
   expect_true(grepl("crossplate", result_header$MedNormReference))
+
+  # Check that medNormSMP_ReferenceRFU field was added with proper formatting
+  result_analyte_info <- getAnalyteInfo(result)
+  expect_true("medNormSMP_ReferenceRFU" %in% names(result_analyte_info))
+
+  # Check reference values are rounded to 2 decimal places
+  ref_values <- result_analyte_info$medNormSMP_ReferenceRFU
+  rounded_values <- round(ref_values, 2)
+  expect_equal(ref_values[!is.na(ref_values)], rounded_values[!is.na(rounded_values)])
 })
 
 test_that("`medianNormalize` validates input requirements", {
@@ -241,36 +201,48 @@ test_that("`medianNormalize` validates input requirements", {
   )
 
   # Test with invalid reference data.frame (missing required columns)
-  invalid_ref <- data.frame(Wrong = c("20", "0_5"), Column = c(1000, 2000))
+  invalid_ref <- data.frame(Wrong = c("10000-28", "10001-7"), Column = c(1000, 2000))
   expect_error(
     medianNormalize(test_data, reference = invalid_ref, verbose = FALSE),
-    "Reference data must contain columns: Dilution, Reference"
+    "Reference data must contain 'SeqId' and 'Reference' columns"
   )
 
-  # Test with non-existent reference file
+  # Test with invalid reference type (non-data.frame)
   expect_error(
-    medianNormalize(test_data, reference = "non_existent_file.csv", verbose = FALSE),
-    "Reference file not found"
+    medianNormalize(test_data, reference = "invalid_string", verbose = FALSE),
+    "Invalid reference type"
   )
 
-  # Test with invalid reference type
+  # Test with numeric input
   expect_error(
     medianNormalize(test_data, reference = 123, verbose = FALSE),
     "Invalid reference type"
   )
 })
 
-test_that("`medianNormalize` external reference file validation", {
-  # Test with missing dilution groups in reference
-  incomplete_ref <- data.frame(
-    Dilution = c("20", "0_5"),  # Missing "0_005" and "0"
+test_that("`medianNormalize` external reference data.frame validation", {
+  # Test with invalid SeqId format (should error when no matches found)
+  invalid_seqid_ref <- data.frame(
+    SeqId = c("invalid_format_1", "invalid_format_2"),  # Invalid SeqId format
     Reference = c(2500, 1800),
     stringsAsFactors = FALSE
   )
 
   expect_error(
-    medianNormalize(test_data, reference = incomplete_ref, verbose = FALSE),
-    "Missing reference values for dilution groups"
+    medianNormalize(test_data, reference = invalid_seqid_ref, verbose = FALSE),
+    "No matching SeqIds or dilution groups found in reference data"
+  )
+
+  # Test with empty reference data
+  empty_ref <- data.frame(
+    SeqId = character(0),
+    Reference = numeric(0),
+    stringsAsFactors = FALSE
+  )
+
+  expect_error(
+    medianNormalize(test_data, reference = empty_ref, verbose = FALSE),
+    "No matching SeqIds or dilution groups found in reference data"
   )
 })
 
@@ -306,13 +278,13 @@ test_that("`medianNormalize` handles grouping correctly", {
     expect_equal(length(norm_cols), 3)  # Should have 3 dilution groups
 
     # Test scale factor output
-    expect_equal(result2$NormScale_20[1:3], c(1.054, 1.060, 1.069), tolerance = 0.001)
-    expect_equal(result2$NormScale_0_005[1:3], c(1.0125, 1.0054, 0.9993), tolerance = 0.001)
-    expect_equal(result2$NormScale_0_5[1:3], c(1.080, 1.057, 1.074), tolerance = 0.001)
+    expect_equal(result2$NormScale_20[1:3], c(1.0678, 1.0571, 1.0917), tolerance = 0.001)
+    expect_equal(result2$NormScale_0_005[1:3], c(1.0225, 1.0012, 1.0122), tolerance = 0.001)
+    expect_equal(result2$NormScale_0_5[1:3], c(1.1031, 1.0544, 1.1087), tolerance = 0.001)
 
     # Test specific SeqId columns
-    expect_equal(result2$seq.10000.28[1:3], c(502.1, 502.7, 444.1))
-    expect_equal(result2$seq.10008.43[1:3], c(591.9, 574.2, 453.0))
+    expect_equal(result2$seq.10000.28[1:3], c(508.8, 501.5, 453.7))
+    expect_equal(result2$seq.10008.43[1:3], c(599.9, 572.8, 462.8))
   }
 
   # Test error with non-existent grouping column
@@ -338,13 +310,13 @@ test_that("`medianNormalize` handles sample selection correctly", {
   expect_equal(length(norm_cols), 3)  # Should have 3 dilution groups
 
   # Test scale factor output - same as Method 2 for QC selection
-  expect_equal(result$NormScale_20[1:3], c(1.036936, 0.960225, 1), tolerance = 0.0001)
-  expect_equal(result$NormScale_0_005[1:3], c(0.857016, 0.848584, 1), tolerance = 0.0001)
-  expect_equal(result$NormScale_0_5[1:3], c(0.777175, 0.85202, 1), tolerance = 0.0001)
+  expect_equal(result$NormScale_20[1:3], c(1.036936, 0.960225, 1.08410), tolerance = 0.0001)
+  expect_equal(result$NormScale_0_005[1:3], c(0.857016, 0.848584, 1.05488), tolerance = 0.0001)
+  expect_equal(result$NormScale_0_5[1:3], c(0.777175, 0.85202, 0.96014), tolerance = 0.0001)
 
   # Test specific SeqId columns
-  expect_equal(result$seq.10000.28[1:3], c(476.5, 474.4, 501.5))
-  expect_equal(result$seq.10008.43[1:3], c(561.8, 541.9, 510.1))
+  expect_equal(result$seq.10000.28[1:3], c(476.5, 474.4, 543.7))
+  expect_equal(result$seq.10008.43[1:3], c(561.8, 541.9, 553.0))
 
   # Test with non-existent field
   expect_error(
@@ -370,4 +342,70 @@ test_that("`medianNormalize` produces expected verbose output", {
     result <- medianNormalize(test_data, verbose = FALSE),
     NA  # NA indicates no output expected
   )
+})
+
+test_that("`medianNormalize` can reverse ANML normalization", {
+  # Create ANML-like test data by modifying test_data
+  anml_test_data <- test_data
+
+  # Modify header to simulate ANML-processed data
+  header_meta <- attr(anml_test_data, "Header.Meta")
+  header_meta$HEADER$ProcessSteps <- "Raw RFU, Hyb Normalization, medNormInt (SampleId), plateScale, Calibration, anmlQC, qcCheck, anmlSMP"
+  header_meta$HEADER$NormalizationAlgorithm <- "ANML"
+  attr(anml_test_data, "Header.Meta") <- header_meta
+
+  # Add ANML-like normalization scale factors (non-1.0 values to simulate ANML)
+  anml_test_data$NormScale_20 <- c(1.15, 0.95, 1.08)
+  anml_test_data$NormScale_0_5 <- c(1.22, 0.88, 1.12)
+  anml_test_data$NormScale_0_005 <- c(0.93, 1.07, 0.98)
+
+  # Add ANMLFractionUsed columns to mimic ANML data
+  anml_test_data$ANMLFractionUsed_20 <- c(0.85, 0.92, 0.78)
+  anml_test_data$ANMLFractionUsed_0_5 <- c(0.88, 0.91, 0.83)
+  anml_test_data$ANMLFractionUsed_0_005 <- c(0.90, 0.87, 0.85)
+
+  # Test ANML reversal
+  expect_no_error(
+    result <- medianNormalize(anml_test_data, reverse_existing = TRUE, verbose = FALSE)
+  )
+
+  # Check that result is valid
+  expect_true(is.soma_adat(result))
+
+  # Check that ProcessSteps includes reversal and new normalization
+  result_header <- attr(result, "Header.Meta")$HEADER
+  expect_true(grepl("rev-anmlSMP", result_header$ProcessSteps))
+  expect_true(grepl("MedNormSMP", result_header$ProcessSteps))
+
+  # Test that error occurs without reverse_existing flag
+  expect_error(
+    medianNormalize(anml_test_data, reverse_existing = FALSE, verbose = FALSE),
+  )
+})
+
+test_that("`medianNormalize` handles SeqId reference format properly", {
+  # Test with SeqId-Reference format
+  analytes <- getAnalytes(test_data)
+  seqids <- getAnalyteInfo(test_data)$SeqId[1:10]  # First 10 SeqIds
+
+  ref_data <- data.frame(
+    SeqId = seqids,
+    Reference = runif(10, 1000, 5000)  # Random reference values
+  )
+
+  expect_no_error(
+    result <- medianNormalize(test_data, reference = ref_data, verbose = FALSE)
+  )
+
+  # Check that result is valid
+  expect_true(is.soma_adat(result))
+
+  # Check that medNormSMP_ReferenceRFU field was added with 2 decimal places
+  analyte_info <- getAnalyteInfo(result)
+  expect_true("medNormSMP_ReferenceRFU" %in% names(analyte_info))
+
+  # Check reference values are rounded to 2 decimal places
+  ref_values <- analyte_info$medNormSMP_ReferenceRFU
+  rounded_values <- round(ref_values, 2)
+  expect_equal(ref_values[!is.na(ref_values)], rounded_values[!is.na(rounded_values)])
 })

@@ -75,18 +75,15 @@
 #'       grouping. For multi-plate studies, the median of all plate medians
 #'       is used.
 #'     \item A `soma_adat` object: Extract reference from this ADAT
-#'     \item A file path (character): Read external reference from
-#'       tab/comma-separated file
 #'     \item A data.frame: Use provided reference data directly
 #'   }
-#'   When providing an external reference file or data.frame it must contain:
+#'   When providing an external reference data.frame it must contain:
 #'   \describe{
 #'     \item{SeqId}{Character column containing the SeqId identifiers mapping
 #'       to those in the `soma_adat` object. Must be in "10000-28" format, not
 #'       "seq.10000.28" format.}
 #'     \item{Reference}{Numeric column containing the reference RFU values
 #'       for each SeqId.}
-#'
 #'   }
 #' @param ref_field Character. Field used to select reference samples when
 #'   `reference = NULL`. Default is `"SampleType"`.
@@ -99,12 +96,12 @@
 #'   (others keep original values). Default is `"SampleType"`.
 #' @param do_regexp Character. A regular expression pattern to select samples
 #'   from `do_field` for normalization. Default is `"Sample"`.
-#' @param reverse_existing Logical. Should existing median normalization be
+#' @param reverse_existing Logical. Should existing median or ANML normalization be
 #'   reversed before applying new normalization? When `TRUE`, existing median
-#'   normalization scale factors are reversed for study samples only (QC,
-#'   Calibrator, and Buffer samples retain their normalization). This allows
-#'   re-normalization of data that has already been median normalized. Default
-#'   is `FALSE`.
+#'   normalization scale factors or ANML normalization effects are reversed for
+#'   study samples only (QC, Calibrator, and Buffer samples retain their
+#'   normalization). This allows re-normalization of data that has already been
+#'   median normalized or ANML normalized. Default is `FALSE`.
 #' @param verbose Logical. Should progress messages be printed? Default is `TRUE`.
 #' @return A `soma_adat` object with median normalization applied and RFU values
 #'   adjusted. The existing `NormScale_*` columns are updated to include the
@@ -112,30 +109,19 @@
 #' @examples
 #' \dontrun{
 #' # Internal reference from study samples (default)
-#' # Use when you have representative QC or control samples in your study
 #' med_norm_adat <- medianNormalize(adat)
 #'
 #' # Reference from specific samples in the ADAT
-#' # Use when you want to normalize against only QC samples
 #' med_norm_adat <- medianNormalize(adat,
 #'                                  ref_field = "SampleType",
-#'                                  ref_value = "QC")
+#'                                  ref_value = "Sample")
 #'
 #' # Reference from another ADAT
-#' # Use when you have a reference population or control study
 #' ref_adat <- read_adat("reference_file.adat")
 #' med_norm_adat <- medianNormalize(adat, reference = ref_adat)
 #'
-#' # External reference file
-#' # Use when you have pre-calculated reference medians for each dilution
-#' med_norm_adat <- medianNormalize(adat, reference = "reference_file.csv")
-#'
-#' # External reference as data.frame
-#' # Use for programmatic control over reference values
-#' ref_data <- data.frame(
-#'   Dilution = c("0_005", "0_5", "20"),
-#'   Reference = c(1500.2, 3200.8, 4100.5)
-#' )
+#' # External reference as a data.frame - requires `SeqId` and `Reference` columns
+#' ref_data <- read.csv("reference_file.csv")
 #' med_norm_adat <- medianNormalize(adat, reference = ref_data)
 #'
 #' # Custom grouping by multiple variables
@@ -144,12 +130,11 @@
 #' med_norm_adat <- medianNormalize(adat, by = c("Sex", "SampleType"))
 #'
 #' # Normalize only specific sample types
-#' # Use when you want to preserve original values for certain sample types
 #' med_norm_adat <- medianNormalize(adat,
 #'                                  do_field = "SampleType",
 #'                                  do_regexp = "Sample")
 #'
-#' # Re-normalize data that has already been median normalized
+#' # Re-normalize data that has already been median or ANML normalized
 #' # Use when you want to apply different normalization to previously normalized data
 #' med_norm_adat <- medianNormalize(adat,
 #'                                  reverse_existing = TRUE,
@@ -157,7 +142,6 @@
 #' }
 #' @importFrom dplyr filter
 #' @importFrom stats median
-#' @importFrom utils read.table read.csv
 #' @export
 medianNormalize <- function(adat,
                             reference = NULL,
@@ -171,6 +155,14 @@ medianNormalize <- function(adat,
 
   # Input validation ----
   stopifnot("`adat` must be a class `soma_adat` object" = is.soma_adat(adat))
+
+  # Validate reference type early
+  if (!is.null(reference) && !is.soma_adat(reference) && !is.data.frame(reference)) {
+    stop(
+      "Invalid reference type. Must be NULL, soma_adat, or data.frame",
+      call. = FALSE
+    )
+  }
 
   # Check that required normalization steps have been applied ----
   header <- attr(adat, "Header.Meta")$HEADER
@@ -205,9 +197,20 @@ medianNormalize <- function(adat,
   # Reverse existing normalization if requested ----
   if (reverse_existing && has_existing_norm) {
     if (verbose) {
-      cat("Reversing existing median normalization for study samples...\n")
+      if (grepl("ANML", header$ProcessSteps %||% "", ignore.case = TRUE)) {
+        cat("Reversing existing ANML normalization for study samples...\n")
+        adat <- .reverseANMLSMP(adat, verbose)
+      } else {
+        cat("Reversing existing median normalization for study samples...\n")
+        adat <- .reverseMedNormSMP(adat, verbose)
+      }
+    } else {
+      if (grepl("ANML", header$ProcessSteps %||% "", ignore.case = TRUE)) {
+        adat <- .reverseANMLSMP(adat, verbose)
+      } else {
+        adat <- .reverseMedNormSMP(adat, verbose)
+      }
     }
-    adat <- .reverseMedNormSMP(adat, verbose)
   }
 
   # Create dilution groups ----
@@ -353,13 +356,6 @@ medianNormalize <- function(adat,
     }
     return(.extractReferenceFromAdat(reference, dil_groups))
 
-  } else if (is.character(reference) && length(reference) == 1) {
-    # External reference file
-    if (verbose) {
-      .todo("Reading external reference from file: {.val {reference}}")
-    }
-    return(.readExternalReference(reference, dil_groups, apt_data))
-
   } else if (is.data.frame(reference)) {
     # Reference data provided directly
     if (verbose) {
@@ -369,7 +365,7 @@ medianNormalize <- function(adat,
 
   } else {
     stop(
-      "Invalid reference type. Must be NULL, soma_adat, file path, or data.frame",
+      "Invalid reference type. Must be NULL, soma_adat, or data.frame",
       call. = FALSE
     )
   }
@@ -423,62 +419,31 @@ medianNormalize <- function(adat,
   ref_data
 }
 
-#' Read External Reference File
-#' @noRd
-.readExternalReference <- function(file_path, dil_groups, apt_data) {
 
-  if (!file.exists(file_path)) {
-    stop("Reference file not found: ", file_path, call. = FALSE)
-  }
-
-  # Determine file type and read
-  file_ext_val <- file_ext(file_path)
-
-  if (file_ext_val %in% c("csv")) {
-    ref_df <- read.csv(file_path, stringsAsFactors = FALSE)
-  } else if (file_ext_val %in% c("txt", "tsv")) {
-    ref_df <- utils::read.table(file_path, header = TRUE, sep = "\t", stringsAsFactors = FALSE)
-  } else {
-    # Try to auto-detect
-    ref_df <- tryCatch({
-      read.csv(file_path, stringsAsFactors = FALSE)
-    }, error = function(e) {
-      utils::read.table(file_path, header = TRUE, sep = "\t", stringsAsFactors = FALSE)
-    })
-  }
-
-  .validateReferenceData(ref_df, dil_groups, apt_data)
-}
 
 #' Validate Reference Data
 #' @noRd
 .validateReferenceData <- function(ref_df, dil_groups, apt_data = NULL) {
 
-  # Check that required columns are present
-  required_cols <- c("Dilution", "Reference")
+  # Check for required SeqId and Reference columns
+  required_cols <- c("SeqId", "Reference")
   if (!all(required_cols %in% names(ref_df))) {
     missing_cols <- setdiff(required_cols, names(ref_df))
     stop(
-      "Reference data must contain columns: ", paste(missing_cols, collapse = ", "),
+      "Reference data must contain 'SeqId' and 'Reference' columns.\n",
+      "Missing columns: ", paste(missing_cols, collapse = ", "), "\n",
+      "Found columns: ", paste(names(ref_df), collapse = ", "),
       call. = FALSE
     )
   }
 
-  # Check if we have SeqId-specific information
-  if ("SeqId" %in% names(ref_df)) {
-    # Process as SeqId-specific reference
-    return(.processSeqIdReference(ref_df, dil_groups, apt_data))
-  } else {
-    # Process as simple dilution-level reference
-    return(.processSimpleReference(ref_df, dil_groups))
-  }
+  # Process as SeqId-specific reference
+  return(.processSeqIdReference(ref_df, dil_groups, apt_data))
 }
 
 #' Process SeqId-Specific Reference Data
 #' @noRd
 .processSeqIdReference <- function(ref_df, dil_groups, apt_data) {
-  # Convert dilution values to character for consistent matching
-  ref_df$Dilution <- as.character(ref_df$Dilution)
 
   if (!is.null(apt_data) && !"SeqId" %in% names(apt_data)) {
     stop("ADAT analyte data must contain SeqId column for SeqId reference matching", call. = FALSE)
@@ -518,23 +483,7 @@ medianNormalize <- function(adat,
   ref_data
 }
 
-#' Process Simple Reference Data (Dilution -> Reference)
-#' @noRd
-.processSimpleReference <- function(ref_df, dil_groups) {
-  # Convert to named list
-  ref_data <- setNames(ref_df$Reference, ref_df$Dilution)
 
-  # Check that we have references for all dilution groups
-  missing_dils <- setdiff(names(dil_groups), names(ref_data))
-  if (length(missing_dils) > 0) {
-    stop(
-      "Missing reference values for dilution groups: ", paste(missing_dils, collapse = ", "),
-      call. = FALSE
-    )
-  }
-
-  ref_data
-}
 
 #' Perform Median Normalization
 #' @noRd
@@ -698,15 +647,15 @@ medianNormalize <- function(adat,
   if (!is.null(header_meta) && !is.null(header_meta$HEADER)) {
     # Add median normalization to process steps
     if ("ProcessSteps" %in% names(header_meta$HEADER)) {
-      if (!grepl("medNormInt", header_meta$HEADER$ProcessSteps)) {
+      if (!grepl("MedNormSMP", header_meta$HEADER$ProcessSteps)) {
         header_meta$HEADER$ProcessSteps <- paste(
           header_meta$HEADER$ProcessSteps,
-          "medNormInt (SampleId)",
+          "MedNormSMP",
           sep = ", "
         )
       }
     } else {
-      header_meta$HEADER$ProcessSteps <- "medNormInt (SampleId)"
+      header_meta$HEADER$ProcessSteps <- "MedNormSMP"
     }
 
     # Set normalization algorithm
@@ -756,10 +705,10 @@ medianNormalize <- function(adat,
     )
   }
 
-  if (has_anml) {
+  if (has_anml && !reverse_existing) {
     stop(
       "Data appears to be ANML normalized. ",
-      "ANML normalized data cannot be directly processed with this function. ",
+      "Set reverse_existing = TRUE to reverse existing ANML normalization before applying new normalization. ",
       "ProcessSteps: ", process_steps,
       call. = FALSE
     )
@@ -845,13 +794,15 @@ medianNormalize <- function(adat,
 
           # Handle both single reference and aptamer-specific references
           if (is.numeric(ref_values) && length(ref_values) == 1) {
-            # Single reference value for the whole dilution group
-            apt_data$medNormSMP_ReferenceRFU[apt_data$AptName %in% dil_apts] <- ref_values
+            # Single reference value for the whole dilution group (round to 2 decimal places)
+            rounded_value <- round(ref_values, 2)
+            apt_data$medNormSMP_ReferenceRFU[apt_data$AptName %in% dil_apts] <- rounded_value
           } else if (is.numeric(ref_values) && length(ref_values) > 1) {
-            # Aptamer-specific reference values
+            # Aptamer-specific reference values (round to 2 decimal places)
             for (apt in dil_apts) {
               if (apt %in% names(ref_values)) {
-                apt_data$medNormSMP_ReferenceRFU[apt_data$AptName == apt] <- ref_values[apt]
+                rounded_value <- round(ref_values[apt], 2)
+                apt_data$medNormSMP_ReferenceRFU[apt_data$AptName == apt] <- rounded_value
               }
             }
           }
@@ -926,12 +877,117 @@ medianNormalize <- function(adat,
   header_meta <- attr(adat, "Header.Meta")
   if (!is.null(header_meta) && !is.null(header_meta$HEADER)) {
     current_steps <- header_meta$HEADER$ProcessSteps %||% ""
-    header_meta$HEADER$ProcessSteps <- paste(current_steps, "reverseMedNormSMP", sep = ", ")
+
+    # Add reversal step - look for what type of median norm was reversed
+    if (grepl("MedNormSMP", current_steps, ignore.case = TRUE)) {
+      header_meta$HEADER$ProcessSteps <- paste(current_steps, "rev-MedNormSMP", sep = ", ")
+    } else if (grepl("medNormInt", current_steps, ignore.case = TRUE)) {
+      header_meta$HEADER$ProcessSteps <- paste(current_steps, "rev-medNormInt", sep = ", ")
+    } else {
+      header_meta$HEADER$ProcessSteps <- paste(current_steps, "rev-MedNorm", sep = ", ")
+    }
+
     attr(adat, "Header.Meta") <- header_meta
   }
 
   if (verbose) {
     cat("Median normalization reversed for", sum(sample_mask), "study samples.\n")
+  }
+
+  adat
+}
+
+
+#' Reverse Existing ANML Normalization for Study Samples
+#' @noRd
+.reverseANMLSMP <- function(adat, verbose) {
+
+  # Get existing scale factors
+  sf_cols <- grep("^NormScale_", names(adat), value = TRUE)
+
+  if (length(sf_cols) == 0) {
+    if (verbose) {
+      cat("No existing ANML normalization scale factors found to reverse.\n")
+    }
+    return(adat)
+  }
+
+  if (verbose) {
+    cat("Reversing existing ANML normalization for study samples...\n")
+  }
+
+  # Get dilution groups
+  apt_data <- getAnalyteInfo(adat)
+  dil_groups <- split(apt_data$AptName, apt_data$Dilution)
+  names(dil_groups) <- gsub("\\.", "_", names(dil_groups))
+  names(dil_groups) <- gsub("[.]0$|%|^[.]", "", names(dil_groups))
+
+  # Only reverse for study samples, leave QC/Calibrator/Buffer alone
+  sample_mask <- grepl("Sample|sample", adat$SampleType %||% adat$SampleId %||% "", ignore.case = TRUE)
+
+  if (sum(sample_mask) == 0) {
+    if (verbose) {
+      cat("No study samples found to reverse ANML normalization.\n")
+    }
+    return(adat)
+  }
+
+  # For each dilution group, reverse ANML normalization using log space
+  for (dil_name in names(dil_groups)) {
+    sf_col <- paste0("NormScale_", dil_name)
+
+    if (sf_col %in% names(adat)) {
+      dil_apts <- intersect(dil_groups[[dil_name]], getAnalytes(adat))
+
+      if (length(dil_apts) > 0) {
+        for (i in which(sample_mask)) {
+          scale_factor <- adat[[sf_col]][i]
+          if (!is.na(scale_factor) && scale_factor != 0) {
+            # ANML uses log space scaling - reverse by subtracting log scale factor
+            log_sf <- log10(scale_factor)
+            log_data <- log10(as.numeric(adat[i, dil_apts]))
+            reversed_log_data <- log_data - log_sf
+            adat[i, dil_apts] <- 10^reversed_log_data
+            # Reset scale factor to 1.0
+            adat[[sf_col]][i] <- 1.0
+          }
+        }
+      }
+    }
+  }
+
+  # Remove ANMLFractionUsed columns if they exist
+  anml_frac_cols <- grep("^ANMLFractionUsed_", names(adat), value = TRUE)
+  if (length(anml_frac_cols) > 0) {
+    for (col in anml_frac_cols) {
+      if (all(is.na(adat[[col]][sample_mask]))) {
+        adat[[col]][sample_mask] <- NA
+      }
+    }
+  }
+
+  # Update ProcessSteps to indicate reversal
+  header_meta <- attr(adat, "Header.Meta")
+  if (!is.null(header_meta) && !is.null(header_meta$HEADER)) {
+    current_steps <- header_meta$HEADER$ProcessSteps %||% ""
+
+    # Add reversal step - look for what type of ANML was reversed
+    if (grepl("anmlSMP", current_steps, ignore.case = TRUE)) {
+      header_meta$HEADER$ProcessSteps <- paste(current_steps, "rev-anmlSMP", sep = ", ")
+    } else if (grepl("ANML", current_steps, ignore.case = TRUE)) {
+      header_meta$HEADER$ProcessSteps <- paste(current_steps, "rev-ANML", sep = ", ")
+    }
+
+    attr(adat, "Header.Meta") <- header_meta
+  }
+
+  # Reset RowCheck for reversed samples
+  if ("RowCheck" %in% names(adat)) {
+    adat$RowCheck[sample_mask] <- "PASS"
+  }
+
+  if (verbose) {
+    cat("ANML normalization reversed for", sum(sample_mask), "study samples.\n")
   }
 
   adat

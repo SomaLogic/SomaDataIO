@@ -8,10 +8,10 @@ medianNormalize(
   adat,
   reference = NULL,
   ref_field = "SampleType",
-  ref_value = c("QC", "Sample"),
+  ref_value = c("Sample"),
   by = "SampleType",
   do_field = "SampleType",
-  do_regexp = "QC|Sample",
+  do_regexp = "Sample",
   reverse_existing = FALSE,
   verbose = TRUE
 )
@@ -22,47 +22,44 @@ RFU values that have been hybridization normalized and plate scaled.}
 
 \item{reference}{Optional. Reference for median normalization. Can be:
 \itemize{
-\item \code{NULL} (default): Use internal reference from study samples
+\item \code{NULL} (default): Calculate an internal reference from study
+samples by taking the median of each SeqId within the sample
+grouping. For multi-plate studies, the median of all plate medians
+is used.
 \item A \code{soma_adat} object: Extract reference from this ADAT
-\item A file path (character): Read external reference from tab/comma-separated file
 \item A data.frame: Use provided reference data directly
 }
-When providing an external reference file or data.frame it must contain:
+When providing an external reference data.frame it must contain:
 \describe{
-\item{Dilution}{Character column specifying the dilution group names
-(e.g., "0_005", "0_5", "20"). These should match the dilution
-groups present in the ADAT analyte data.}
-\item{Reference}{Numeric column containing the reference median values
-for each dilution group. These values will be used as the target
-medians for normalization.}
-\item{SeqId}{Optional character column. When included, SeqId-specific
-reference values are used for more precise normalization. Values
-must be in "10000-28" format, not "seq.10000.28" format.}
+\item{SeqId}{Character column containing the SeqId identifiers mapping
+to those in the \code{soma_adat} object. Must be in "10000-28" format, not
+"seq.10000.28" format.}
+\item{Reference}{Numeric column containing the reference RFU values
+for each SeqId.}
 }}
 
 \item{ref_field}{Character. Field used to select reference samples when
 \code{reference = NULL}. Default is \code{"SampleType"}.}
 
 \item{ref_value}{Character. Value(s) in \code{ref_field} to use as reference
-when \code{reference = NULL}. Default is \code{c("QC", "Sample")}.}
+when \code{reference = NULL}. Default is \code{c("Sample")}.}
 
-\item{by}{Character vector. Grouping variable(s) for grouped median normalization.
-Must be column name(s) in the ADAT. Use grouping when there are known changes
-in total protein load due to analysis conditions (e.g., disease vs. control,
-treatment vs. baseline). Normalization will be performed within each group
-separately. Default is \code{"SampleType"}.}
+\item{by}{Character vector. Grouping variable(s) for grouped median
+normalization. Must be column name(s) in the ADAT. Normalization will be
+performed within each group separately. Default is \code{"SampleType"}.}
 
 \item{do_field}{Character. The field used to select samples for normalization
 (others keep original values). Default is \code{"SampleType"}.}
 
 \item{do_regexp}{Character. A regular expression pattern to select samples
-from \code{do_field} for normalization. Default is \code{"QC|Sample"}.}
+from \code{do_field} for normalization. Default is \code{"Sample"}.}
 
-\item{reverse_existing}{Logical. Should existing median normalization be
+\item{reverse_existing}{Logical. Should existing median or ANML normalization be
 reversed before applying new normalization? When \code{TRUE}, existing median
-normalization scale factors are reversed for study samples only (QC,
-Calibrator, and Buffer samples retain their normalization). This allows
-re-normalization of data that has already been median normalized. Default is \code{FALSE}.}
+normalization scale factors or ANML normalization effects are reversed for
+study samples only (QC, Calibrator, and Buffer samples retain their
+normalization). This allows re-normalization of data that has already been
+median normalized or ANML normalized. Default is \code{FALSE}.}
 
 \item{verbose}{Logical. Should progress messages be printed? Default is \code{TRUE}.}
 }
@@ -73,93 +70,91 @@ effects of both plate scale normalization and median normalization.
 }
 \description{
 Performs median normalization on a \code{soma_adat} object that has
-already undergone hybridization normalization and contains plate scale
-normalization factors.
+already undergone standard data processing for array-based SomaScan studies.
 
-Median normalization is a technique used to adjust data sets to remove
-certain assay artifacts and biases prior to analysis, particularly those that
-may arise due to differences in overall protein concentration, pipetting
-errors, reagent concentration changes, assay timing, and other systematic
-variabilities. Median normalization can improve assay precision and reduce
-technical variations that can mask true biological signals.
+Median normalization is a common, scale-based normalization technique that
+corrects for assay-derived technical variation by applying sample-specific
+linear scaling to expression measurements. Typical sources of assay
+variation include robotic and manual liquid handling, manufactured
+consumables such as buffers and plastic goods, laboratory instrument
+calibration, ambient environmental conditions, inter-operator differences,
+and other sources of technical variation. Median normalization
+can improve assay precision and reduce technical variation that can mask
+true biological signal.
 
-This function works by calculating or using reference median values for each
-dilution group present in the ADAT. Dilution groups are determined from the
-analyte metadata and represent different sample dilutions used in the assay
-(e.g., 1:1, 1:200, 1:2000). For each sample, the median RFU across all
-analytes within a dilution group is calculated and compared to the reference
-median for that group. Scale factors are then computed and applied to adjust
-each sample's values toward the reference, ensuring consistent signal levels
-across samples within each dilution group. This function supports multiple
-reference approaches: calculating an internal reference from study samples,
-or using a calculated reference from a different ADAT or external reference
-file.
+The method scales each sample so that the center of the within-sample analyte
+distribution aligns to a defined reference, thereby correcting
+global intensity shifts without altering relative differences between
+measurements within a sample. For assay formats with multiple dilution groups
+(e.g., 1:5 or 20\%;  1:200 or 0.5\%, 1:20,000 or 0.005\%), separate scale
+factors are calculated for each dilution because each dilution group is
+processed separately during the assay. For each sample, the ratio of
+reference RFU / observed RFU is calculated for every SeqId. The median ratio
+within each dilution group is selected as the scale factor and applied to
+all SeqIds for that sample within the associated dilution bin.
 }
 \section{Data Requirements}{
 
-This function is designed for data in standard SomaLogic deliverable formats:
+This function is designed for data in standard SomaLogic deliverable formats.
+Specific ADAT file requirements:
 \enumerate{
-\item \strong{Study samples not median normalized}, with all controls median normalized.
-Calibrators and buffers are intra-plate median normalized and QC samples are ANML
-normalized if present on standard 3-dilution setups. QC assay controls undergo
-full ANML data standardization even when study samples don't, in order to QC
-the plate. Cell & tissue single dilution runs don't have QC samples.
-\item \strong{Same as above}, but study samples undergo either ANML or intra-study
-standard median normalization.
+\item \strong{Intact ADAT file}, with available data processing information
+in the header section. Specifically, the \code{ProcessSteps} field must be
+present and correctly represent the data processing steps present in
+the data table.
+\item \strong{Minimal standard processing}, the function assumes a standard
+SomaScan data deliverable with minimally standard HybNorm and PlateScale
+steps applied.
 }
-
-All data should be hybridization normalized, median normalized internally
-(buffer + calibrator), and plate scaled regardless of matrix prior to applying
-median normalization. Calibration is not applied to all study types.
 
 \strong{Primary use cases:}
 \itemize{
-\item 3-dilution setups (standard SomaScan)
-\item Single dilution cell & tissue studies
+\item Combining data sets from the same overarching experiment or sample
+population and normalize to a common reference that were originally
+processed separately and each normalized "withing study".
+\item Normalize fundamentally different types of samples separately (by
+group). For instance, lysate samples from different cell lines that
+will be analyzed separately should likely be median normalized within
+each cell type. Lysis buffer background samples would also be expected
+to be normalized separately.
 }
 }
 
 \section{Important Considerations}{
 
 \itemize{
-\item If there is a known change in total protein concentration due to analysis
-conditions, perform normalization \emph{within} groups using the \code{by} parameter
-\item In newer SomaScan assay versions, population references improve
-inter-plate consistency compared to within-plate references
-\item The function will not proceed on already ANML or median normalized data
-unless \code{reverse_existing = TRUE} is specified
-\item When reversing existing normalization, only study samples are reversed;
-QC, Calibrator, and Buffer samples retain their normalization
+\item A core assumption of median normalization is that the majority of
+analytes are not differentially expressed; consequently, users should
+validate this assumption by inspecting scale-factor distributions for
+systematic bias between the biological groups intended for comparison.
+\item Note this function does not perform the adaptive normalization by
+maximum likelihood (ANML) method which leverages a population-based
+reference that iteratively down-selects the set of analytes to include
+for the normalization calculation.
+\item The function requires \code{reverse_existing = TRUE} to be set in order
+to process data where study samples have already undergone ANML or
+standard median normalization.
+\item When reversing existing normalization, only study samples are
+reversed; QC, Calibrator, and Buffer samples retain their normalization
 }
 }
 
 \examples{
 \dontrun{
 # Internal reference from study samples (default)
-# Use when you have representative QC or control samples in your study
 med_norm_adat <- medianNormalize(adat)
 
 # Reference from specific samples in the ADAT
-# Use when you want to normalize against only QC samples
 med_norm_adat <- medianNormalize(adat,
                                  ref_field = "SampleType",
-                                 ref_value = "QC")
+                                 ref_value = "Sample")
 
 # Reference from another ADAT
-# Use when you have a reference population or control study
 ref_adat <- read_adat("reference_file.adat")
 med_norm_adat <- medianNormalize(adat, reference = ref_adat)
 
-# External reference file
-# Use when you have pre-calculated reference medians for each dilution
-med_norm_adat <- medianNormalize(adat, reference = "reference_file.csv")
-
-# External reference as data.frame
-# Use for programmatic control over reference values
-ref_data <- data.frame(
-  Dilution = c("0_005", "0_5", "20"),
-  Reference = c(1500.2, 3200.8, 4100.5)
-)
+# External reference as a data.frame - requires `SeqId` and `Reference` columns
+ref_data <- read.csv("reference_file.csv")
 med_norm_adat <- medianNormalize(adat, reference = ref_data)
 
 # Custom grouping by multiple variables
@@ -168,12 +163,11 @@ med_norm_adat <- medianNormalize(adat, reference = ref_data)
 med_norm_adat <- medianNormalize(adat, by = c("Sex", "SampleType"))
 
 # Normalize only specific sample types
-# Use when you want to preserve original values for certain sample types
 med_norm_adat <- medianNormalize(adat,
                                  do_field = "SampleType",
                                  do_regexp = "Sample")
 
-# Re-normalize data that has already been median normalized
+# Re-normalize data that has already been median or ANML normalized
 # Use when you want to apply different normalization to previously normalized data
 med_norm_adat <- medianNormalize(adat,
                                  reverse_existing = TRUE,
