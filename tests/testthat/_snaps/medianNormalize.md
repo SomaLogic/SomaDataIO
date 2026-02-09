@@ -11,7 +11,7 @@
       Three dilution setup detected (standard setup).
     Message
       > Normalization scale factors already exist: "NormScale_20, NormScale_0_005, NormScale_0_5" - they will be replaced with new scale factors
-      > Building internal reference from field: "SampleType" with values: "Sample"
+      > Building internal reference from study samples (SampleType == 'Sample')
       v Processing dilution '0_005' with 50 analytes
       v Processing dilution '0_5' with 50 analytes
       v Processing dilution '20' with 50 analytes

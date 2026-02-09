@@ -7,11 +7,7 @@
 medianNormalize(
   adat,
   reference = NULL,
-  ref_field = "SampleType",
-  ref_value = c("Sample"),
   by = "SampleType",
-  do_field = "SampleType",
-  do_regexp = "Sample",
   reverse_existing = FALSE,
   verbose = TRUE
 )
@@ -38,21 +34,11 @@ to those in the \code{soma_adat} object. Must be in "10000-28" format, not
 for each SeqId.}
 }}
 
-\item{ref_field}{Character. Field used to select reference samples when
-\code{reference = NULL}. Default is \code{"SampleType"}.}
-
-\item{ref_value}{Character. Value(s) in \code{ref_field} to use as reference
-when \code{reference = NULL}. Default is \code{c("Sample")}.}
-
 \item{by}{Character vector. Grouping variable(s) for grouped median
 normalization. Must be column name(s) in the ADAT. Normalization will be
-performed within each group separately. Default is \code{"SampleType"}.}
-
-\item{do_field}{Character. The field used to select samples for normalization
-(others keep original values). Default is \code{"SampleType"}.}
-
-\item{do_regexp}{Character. A regular expression pattern to select samples
-from \code{do_field} for normalization. Default is \code{"Sample"}.}
+performed within each group separately. Default is \code{"SampleType"}. Note
+that only study samples (SampleType == 'Sample') are normalized; QC,
+Calibrator, and Buffer samples are automatically excluded.}
 
 \item{reverse_existing}{Logical. Should existing median or ANML normalization be
 reversed before applying new normalization? When \code{TRUE}, existing median
@@ -144,11 +130,6 @@ reversed; QC, Calibrator, and Buffer samples retain their normalization
 # Internal reference from study samples (default)
 med_norm_adat <- medianNormalize(adat)
 
-# Reference from specific samples in the ADAT
-med_norm_adat <- medianNormalize(adat,
-                                 ref_field = "SampleType",
-                                 ref_value = "Sample")
-
 # Reference from another ADAT
 ref_adat <- read_adat("reference_file.adat")
 med_norm_adat <- medianNormalize(adat, reference = ref_adat)
@@ -161,11 +142,6 @@ med_norm_adat <- medianNormalize(adat, reference = ref_data)
 # Use when total protein load changes due to analysis conditions
 # (normalize within groups to account for expected biological differences)
 med_norm_adat <- medianNormalize(adat, by = c("Sex", "SampleType"))
-
-# Normalize only specific sample types
-med_norm_adat <- medianNormalize(adat,
-                                 do_field = "SampleType",
-                                 do_regexp = "Sample")
 
 # Re-normalize data that has already been median or ANML normalized
 # Use when you want to apply different normalization to previously normalized data

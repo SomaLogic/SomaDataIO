@@ -74,37 +74,7 @@ test_that("`medianNormalize` Method 1: Internal reference (default)", {
   expect_true(grepl("intraplate, crossplate", result_header$MedNormReference))
 })
 
-test_that("`medianNormalize` Method 2: Reference from specific samples", {
-
-  # Test with specific reference field and value - using QC as reference but normalizing both QC and Sample
-  expect_no_error(
-    result <- medianNormalize(test_data,
-                              ref_field = "SampleType",
-                              ref_value = "QC",
-                              do_regexp = "QC|Sample",  # Normalize both types
-                              verbose = FALSE)
-  )
-
-  # Check result structure
-  expect_true(is.soma_adat(result))
-  norm_cols <- grep("^NormScale_", names(result), value = TRUE)
-  expect_equal(length(norm_cols), 3)  # Should have 3 dilution groups
-
-  # Test scale factor output - normalized both QC and Sample types, so QC (3rd) gets scale factor 1.0
-  expect_equal(result$NormScale_20[1:3], c(0.9089, 0.9578, 1.0000), tolerance = 0.001)
-  expect_equal(result$NormScale_0_005[1:3], c(0.9783, 0.9806, 1.0000), tolerance = 0.001)
-  expect_equal(result$NormScale_0_5[1:3], c(0.9879, 1.1445, 1.0000), tolerance = 0.001)
-
-  # Test specific SeqId columns
-  expect_equal(result$seq.10000.28[1:3], c(433.1, 454.4, 501.5), tolerance = 0.1)
-  expect_equal(result$seq.10008.43[1:3], c(510.6, 519.0, 510.1), tolerance = 0.1)
-
-  # Check header metadata
-  result_header <- attr(result, "Header.Meta")$HEADER
-  expect_true(grepl("intraplate, crossplate", result_header$MedNormReference))
-})
-
-test_that("`medianNormalize` Method 3: Reference from another ADAT", {
+test_that("`medianNormalize` Method 2: Reference from another ADAT", {
   # Create a minimal reference ADAT from sample subset
   ref_adat <- test_data[1:2, ]  # Use first 2 samples as reference
 
@@ -194,10 +164,10 @@ test_that("`medianNormalize` validates input requirements", {
     "No normalization scale factor columns found"
   )
 
-  # Test with invalid reference field
+  # Test with invalid adat object (not soma_adat)
   expect_error(
-    medianNormalize(test_data, ref_field = "NonExistentField", verbose = FALSE),
-    "Reference field `NonExistentField` not found"
+    medianNormalize(data.frame(wrong = 1:3), verbose = FALSE),
+    "`adat` must be a class `soma_adat` object"
   )
 
   # Test with invalid reference data.frame (missing required columns)
@@ -249,7 +219,7 @@ test_that("`medianNormalize` external reference data.frame validation", {
 test_that("`medianNormalize` handles grouping correctly", {
   # Test grouping by Sex
   expect_no_error(
-    result1 <- medianNormalize(test_data, by = "Sex", do_regexp = "Sample", verbose = FALSE)
+    result1 <- medianNormalize(test_data, by = "Sex", verbose = FALSE)
   )
 
   # Check result structure
@@ -291,43 +261,6 @@ test_that("`medianNormalize` handles grouping correctly", {
   expect_error(
     medianNormalize(test_data, by = "NonExistentColumn", verbose = FALSE),
     "Grouping column\\(s\\) not found"
-  )
-})
-
-test_that("`medianNormalize` handles sample selection correctly", {
-  # Test selective normalization
-  expect_no_error(
-    result <- medianNormalize(test_data,
-                              do_field = "SampleType",
-                              do_regexp = "QC",
-                              verbose = FALSE)
-  )
-  expect_true(is.soma_adat(result))
-
-  # Check result structure
-  expect_true(is.soma_adat(result))
-  norm_cols <- grep("^NormScale_", names(result), value = TRUE)
-  expect_equal(length(norm_cols), 3)  # Should have 3 dilution groups
-
-  # Test scale factor output - same as Method 2 for QC selection
-  expect_equal(result$NormScale_20[1:3], c(1.036936, 0.960225, 1.08410), tolerance = 0.0001)
-  expect_equal(result$NormScale_0_005[1:3], c(0.857016, 0.848584, 1.05488), tolerance = 0.0001)
-  expect_equal(result$NormScale_0_5[1:3], c(0.777175, 0.85202, 0.96014), tolerance = 0.0001)
-
-  # Test specific SeqId columns
-  expect_equal(result$seq.10000.28[1:3], c(476.5, 474.4, 543.7))
-  expect_equal(result$seq.10008.43[1:3], c(561.8, 541.9, 553.0))
-
-  # Test with non-existent field
-  expect_error(
-    medianNormalize(test_data, do_field = "NonExistentField", verbose = FALSE),
-    "Field `NonExistentField` not found"
-  )
-
-  # Test with pattern that matches no samples
-  expect_error(
-    medianNormalize(test_data, do_regexp = "NoMatchPattern", verbose = FALSE),
-    "No samples selected for normalization"
   )
 })
 

@@ -85,17 +85,11 @@
 #'     \item{Reference}{Numeric column containing the reference RFU values
 #'       for each SeqId.}
 #'   }
-#' @param ref_field Character. Field used to select reference samples when
-#'   `reference = NULL`. Default is `"SampleType"`.
-#' @param ref_value Character. Value(s) in `ref_field` to use as reference
-#'   when `reference = NULL`. Default is `c("Sample")`.
 #' @param by Character vector. Grouping variable(s) for grouped median
 #'   normalization. Must be column name(s) in the ADAT. Normalization will be
-#'   performed within each group separately. Default is `"SampleType"`.
-#' @param do_field Character. The field used to select samples for normalization
-#'   (others keep original values). Default is `"SampleType"`.
-#' @param do_regexp Character. A regular expression pattern to select samples
-#'   from `do_field` for normalization. Default is `"Sample"`.
+#'   performed within each group separately. Default is `"SampleType"`. Note
+#'   that only study samples (SampleType == 'Sample') are normalized; QC,
+#'   Calibrator, and Buffer samples are automatically excluded.
 #' @param reverse_existing Logical. Should existing median or ANML normalization be
 #'   reversed before applying new normalization? When `TRUE`, existing median
 #'   normalization scale factors or ANML normalization effects are reversed for
@@ -111,11 +105,6 @@
 #' # Internal reference from study samples (default)
 #' med_norm_adat <- medianNormalize(adat)
 #'
-#' # Reference from specific samples in the ADAT
-#' med_norm_adat <- medianNormalize(adat,
-#'                                  ref_field = "SampleType",
-#'                                  ref_value = "Sample")
-#'
 #' # Reference from another ADAT
 #' ref_adat <- read_adat("reference_file.adat")
 #' med_norm_adat <- medianNormalize(adat, reference = ref_adat)
@@ -129,11 +118,6 @@
 #' # (normalize within groups to account for expected biological differences)
 #' med_norm_adat <- medianNormalize(adat, by = c("Sex", "SampleType"))
 #'
-#' # Normalize only specific sample types
-#' med_norm_adat <- medianNormalize(adat,
-#'                                  do_field = "SampleType",
-#'                                  do_regexp = "Sample")
-#'
 #' # Re-normalize data that has already been median or ANML normalized
 #' # Use when you want to apply different normalization to previously normalized data
 #' med_norm_adat <- medianNormalize(adat,
@@ -145,11 +129,7 @@
 #' @export
 medianNormalize <- function(adat,
                             reference = NULL,
-                            ref_field = "SampleType",
-                            ref_value = c("Sample"),
                             by = "SampleType",
-                            do_field = "SampleType",
-                            do_regexp = "Sample",
                             reverse_existing = FALSE,
                             verbose = TRUE) {
 
@@ -243,52 +223,47 @@ medianNormalize <- function(adat,
   }
 
 
-  # Determine which samples to normalize ----
-  if (!is.null(do_field) && !is.null(do_regexp)) {
-    if (!do_field %in% names(adat)) {
-      stop("Field `", do_field, "` not found in adat columns", call. = FALSE)
-    }
-
-    do_samples <- grep(do_regexp, adat[[do_field]])
-    if (length(do_samples) == 0L) {
-      stop(
-        "No samples selected for normalization with pattern: ", do_regexp,
-        call. = FALSE
-      )
-    }
-    dont_samples <- setdiff(seq_len(nrow(adat)), do_samples)
-  } else {
-    do_samples <- seq_len(nrow(adat))
-    dont_samples <- NULL
+  # Determine which samples to normalize - only Sample types
+  if (!"SampleType" %in% names(adat)) {
+    stop("Field 'SampleType' not found in adat columns", call. = FALSE)
   }
+
+  do_samples <- grep("Sample", adat[["SampleType"]])
+  if (length(do_samples) == 0L) {
+    stop(
+      "No samples selected for normalization with pattern: Sample",
+      call. = FALSE
+    )
+  }
+  dont_samples <- setdiff(seq_len(nrow(adat)), do_samples)
 
   # Process reference ----
   if (is.null(reference)) {
-    # Check if ref_field conflicts with grouping variables
+    # Check if SampleType conflicts with grouping variables
     conflicts_with_grouping <- FALSE
-    if (ref_field %in% by) {
+    if ("SampleType" %in% by) {
       samples_to_normalize <- adat[do_samples, ]
-      group_values <- unique(samples_to_normalize[[ref_field]])
+      group_values <- unique(samples_to_normalize[["SampleType"]])
       group_values <- group_values[!is.na(group_values)]
-      all_groups_in_ref <- all(group_values %in% ref_value)
-      conflicts_with_grouping <- !identical(by, ref_field) || !all_groups_in_ref
+      all_groups_in_ref <- all(group_values %in% "Sample")
+      conflicts_with_grouping <- !identical(by, "SampleType") || !all_groups_in_ref
     }
 
     if (conflicts_with_grouping) {
       # Calculate global reference to avoid groups lacking reference samples
       if (verbose) {
-        .todo("Building global internal reference from field: {.val {ref_field}} with values: {.val {ref_value}}")
+        .todo("Building global internal reference from study samples (SampleType == 'Sample')")
       }
-      ref_data <- .buildInternalReference(adat, ref_field, ref_value, dil_groups)
+      ref_data <- .buildInternalReference(adat, dil_groups)
     } else {
       # Standard internal reference - calculate per group
       ref_data <- NULL
       if (verbose) {
-        .todo("Building internal reference from field: {.val {ref_field}} with values: {.val {ref_value}}")
+        .todo("Building internal reference from study samples (SampleType == 'Sample')")
       }
     }
   } else {
-    ref_data <- .processReference(reference, ref_field, ref_value, adat, dil_groups, apt_data, verbose)
+    ref_data <- .processReference(reference, adat, dil_groups, apt_data, verbose)
   }
 
   # Add row identifier to maintain order
@@ -301,8 +276,6 @@ medianNormalize <- function(adat,
       dil_groups = dil_groups,
       by = by,
       ref_data = ref_data,
-      ref_field = ref_field,
-      ref_value = ref_value,
       verbose = verbose
     )
   }
@@ -347,7 +320,7 @@ medianNormalize <- function(adat,
 
 #' Process Reference Data
 #' @noRd
-.processReference <- function(reference, ref_field, ref_value, adat, dil_groups, apt_data, verbose) {
+.processReference <- function(reference, adat, dil_groups, apt_data, verbose) {
 
   if (is.soma_adat(reference)) {
     # Use reference from provided ADAT
@@ -373,18 +346,17 @@ medianNormalize <- function(adat,
 
 #' Build Internal Reference from Study Samples
 #' @noRd
-.buildInternalReference <- function(adat, ref_field, ref_value, dil_groups) {
+.buildInternalReference <- function(adat, dil_groups) {
 
-  if (!ref_field %in% names(adat)) {
-    stop("Reference field `", ref_field, "` not found", call. = FALSE)
+  if (!"SampleType" %in% names(adat)) {
+    stop("Reference field 'SampleType' not found", call. = FALSE)
   }
 
   # Select reference samples
-  ref_samples <- adat[[ref_field]] %in% ref_value
+  ref_samples <- adat[["SampleType"]] %in% "Sample"
   if (sum(ref_samples) == 0) {
     stop(
-      "No reference samples found with field `", ref_field,
-      "` and values: ", paste(ref_value, collapse = ", "),
+      "No reference samples found with field 'SampleType' and value: Sample",
       call. = FALSE
     )
   }
@@ -487,7 +459,7 @@ medianNormalize <- function(adat,
 
 #' Perform Median Normalization
 #' @noRd
-.performMedianNorm <- function(adat, dil_groups, by, ref_data, ref_field, ref_value, verbose) {
+.performMedianNorm <- function(adat, dil_groups, by, ref_data, verbose) {
 
   # Store original rownames to restore later
   original_rownames <- rownames(adat)
@@ -580,16 +552,15 @@ medianNormalize <- function(adat,
           grp_ref_values <- apply(grp_adat[, dil_apts, drop = FALSE], 2, median, na.rm = TRUE)
         }
       } else {
-        # Internal reference: Use samples from this group only
-        if (!ref_field %in% names(grp_adat)) {
-          stop("Reference field `", ref_field, "` not found", call. = FALSE)
+        # Internal reference: Use Sample types from this group only
+        if (!"SampleType" %in% names(grp_adat)) {
+          stop("Reference field 'SampleType' not found", call. = FALSE)
         }
 
-        ref_samples_mask <- grp_adat[[ref_field]] %in% ref_value
+        ref_samples_mask <- grp_adat[["SampleType"]] %in% "Sample"
         if (sum(ref_samples_mask) == 0) {
           stop(
-            "No reference samples found with field `", ref_field,
-            "` and values: ", paste(ref_value, collapse = ", "),
+            "No reference samples found with field 'SampleType' and value: Sample",
             call. = FALSE
           )
         }
