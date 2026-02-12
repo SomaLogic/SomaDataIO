@@ -1,3 +1,15 @@
+# SomaDataIO (6.5.0.9000)
+
+### Function and Object Improvements
+
+* Removed restrictive file validation from `read_annotations()`
+  - removed `md5sum` checksum validation and version dictionary checks
+    resulting in misleading warnings about unknown annotations files
+  - warning was often misleading, as menu annotations file updates are
+    not always in alignment with timing of CRAN releases  
+  - removed `getAnnoVer()` function and `ver_dict` object
+  - removed `tools::md5sum` import dependency
+
 # SomaDataIO (6.5.0)
 
 ### Function and Object Improvements

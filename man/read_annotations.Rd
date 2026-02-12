@@ -8,9 +8,8 @@ read_annotations(file)
 }
 \arguments{
 \item{file}{A path to an annotations file location.
-This is a sanctioned, versioned file provided by
-SomaLogic Operating Co., Inc. and should be an \emph{unmodified}
-\verb{*.xlsx} file.}
+This should be a SomaLogic annotations file in
+\verb{*.xlsx} format.}
 }
 \value{
 A \code{tibble} containing analyte-specific annotations and
@@ -23,7 +22,7 @@ Import a SomaLogic Annotations File
 \examples{
 \dontrun{
   # for example
-  file <- "~/Downloads/SomaScan_11K_Annotated_Content.xlsx"
+  file <- "~/Downloads/SomaScan_11K_v5.0_Plasma_Serum_Annotated_Menu.xlsx"
   anno_tbl <- read_annotations(file)
 }
 }
