@@ -12,9 +12,8 @@ read_annotations(file)
 
 - file:
 
-  A path to an annotations file location. This is a sanctioned,
-  versioned file provided by SomaLogic Operating Co., Inc. and should be
-  an *unmodified* `*.xlsx` file.
+  A path to an annotations file location. This should be a SomaLogic
+  annotations file in `*.xlsx` format.
 
 ## Value
 
@@ -28,7 +27,7 @@ the unique SomaScan analyte identifier.
 ``` r
 if (FALSE) { # \dontrun{
   # for example
-  file <- "~/Downloads/SomaScan_11K_Annotated_Content.xlsx"
+  file <- "~/Downloads/SomaScan_11K_v5.0_Plasma_Serum_Annotated_Menu.xlsx"
   anno_tbl <- read_annotations(file)
 } # }
 ```

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">SomaDataIO</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">6.4.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">6.5.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -80,9 +80,8 @@
 
 <dl><dt id="arg-file">file<a class="anchor" aria-label="anchor" href="#arg-file"></a></dt>
 <dd><p>A path to an annotations file location.
-This is a sanctioned, versioned file provided by
-SomaLogic Operating Co., Inc. and should be an <em>unmodified</em>
-<code>*.xlsx</code> file.</p></dd>
+This should be a SomaLogic annotations file in
+<code>*.xlsx</code> format.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -96,7 +95,7 @@ related (e.g. lift/bridging) information, keyed on SomaLogic
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span>  <span class="co"># for example</span></span></span>
-<span class="r-in"><span>  <span class="va">file</span> <span class="op">&lt;-</span> <span class="st">"~/Downloads/SomaScan_11K_Annotated_Content.xlsx"</span></span></span>
+<span class="r-in"><span>  <span class="va">file</span> <span class="op">&lt;-</span> <span class="st">"~/Downloads/SomaScan_11K_v5.0_Plasma_Serum_Annotated_Menu.xlsx"</span></span></span>
 <span class="r-in"><span>  <span class="va">anno_tbl</span> <span class="op">&lt;-</span> <span class="fu">read_annotations</span><span class="op">(</span><span class="va">file</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
