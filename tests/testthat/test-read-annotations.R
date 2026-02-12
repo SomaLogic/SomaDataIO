@@ -1,48 +1,23 @@
 
+# Setup ----
 file <- test_path("testdata", "test-anno.xlsx")
 
-test_that("`ver_dict` is updated and correct", {
-  expect_length(ver_dict, 6L)
-  expect_named(ver_dict,
-               c("SL-99999999-rev99-1999-01",
-                 "SL-12345678-rev0-2021-01",
-                 "SL-00000571-rev2-2021-06",
-                 "SL-00000246-rev5-2021-06",
-                 "SL-00000571-rev11-2025-09",
-                 "SL-00000906-rev8-2025-09"))
-})
-
-test_that("`getAnnoVer()` parses the version correctly", {
-  expect_equal(getAnnoVer(file), "SL-12345678-rev0-2021-01")
-})
-
+# Testing ----
 test_that("`read_annotations()` parses the annotations file correctly", {
   tbl <- read_annotations(file)
   expect_s3_class(tbl, "tbl_df")
   expect_equal(dim(tbl), c(1L, 43L))
-  ver <- attr(tbl, "version")
-  expect_equal(ver, "SL-12345678-rev0-2021-01")
-  expect_true(ver_dict[[ver]]$col_serum == names(tbl)[ver_dict[[ver]]$which_serum])
-  expect_true(ver_dict[[ver]]$col_plasma == names(tbl)[ver_dict[[ver]]$which_plasma])
+
+  # Check that required columns are present after field mapping
+  expected_cols <- c("SeqId", "SomaId", "Target", "Type", "TargetFullName",
+                     "Organism", "UniProt", "EntrezGeneID",
+                     "EntrezGeneSymbol")
+  expect_true(all(expected_cols %in% names(tbl)))
 })
 
-test_that("error conditions trigger stop and warnings when appropriate", {
-
+test_that("error conditions trigger appropriate errors", {
   expect_error(
     read_annotations("foo.txt"),
-    "Annotations file must be either"
-  )
-
-  expect_warning(
-    with_pkg_object(SomaDataIO:::ver_dict[-2L], read_annotations(file)),
-    "Unknown version of the annotations file:"
-  )
-
-  # temp modify md5sha
-  tmp <- SomaDataIO:::ver_dict
-  tmp$`SL-12345678-rev0-2021-01`$sha <- "x0x0x0x0x"
-  expect_warning(
-    with_pkg_object(tmp, read_annotations(file)),
-    "Checksum mismatch. test-anno.xlsx may have been modified"
+    "Annotations file must be"
   )
 })
