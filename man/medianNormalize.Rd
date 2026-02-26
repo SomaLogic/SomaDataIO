@@ -4,13 +4,7 @@
 \alias{medianNormalize}
 \title{Perform Median Normalization}
 \usage{
-medianNormalize(
-  adat,
-  reference = NULL,
-  by = "SampleType",
-  reverse_existing = FALSE,
-  verbose = TRUE
-)
+medianNormalize(adat, reference = NULL, by = "SampleType", verbose = TRUE)
 }
 \arguments{
 \item{adat}{A \code{soma_adat} object created using \code{\link[=read_adat]{read_adat()}}, containing
@@ -39,13 +33,6 @@ normalization. Must be column name(s) in the ADAT. Normalization will be
 performed within each group separately. Default is \code{"SampleType"}. Note
 that only study samples (SampleType == 'Sample') are normalized; QC,
 Calibrator, and Buffer samples are automatically excluded.}
-
-\item{reverse_existing}{Logical. Should existing median or ANML normalization be
-reversed before applying new normalization? When \code{TRUE}, existing median
-normalization scale factors or ANML normalization effects are reversed for
-study samples only (QC, Calibrator, and Buffer samples retain their
-normalization). This allows re-normalization of data that has already been
-median normalized or ANML normalized. Default is \code{FALSE}.}
 
 \item{verbose}{Logical. Should progress messages be printed? Default is \code{TRUE}.}
 }
@@ -117,36 +104,35 @@ systematic bias between the biological groups intended for comparison.
 maximum likelihood (ANML) method which leverages a population-based
 reference that iteratively down-selects the set of analytes to include
 for the normalization calculation.
-\item The function requires \code{reverse_existing = TRUE} to be set in order
-to process data where study samples have already undergone ANML or
-standard median normalization.
-\item When reversing existing normalization, only study samples are
-reversed; QC, Calibrator, and Buffer samples retain their normalization
+\item This function requires unnormalized data as input. If study samples
+have already undergone median normalization (ANML or standard), first use
+\code{reverseMedianNormalize()} to remove existing normalization.
 }
 }
 
 \examples{
 \dontrun{
+# Starting with unnormalized ADAT
+unnormalized_adat <- read_adat("unnormalized_study_data.adat")
+
 # Internal reference from study samples (default)
-med_norm_adat <- medianNormalize(adat)
+med_norm_adat <- medianNormalize(unnormalized_adat)
 
 # Reference from another ADAT
 ref_adat <- read_adat("reference_file.adat")
-med_norm_adat <- medianNormalize(adat, reference = ref_adat)
+med_norm_adat <- medianNormalize(unnormalized_adat, reference = ref_adat)
 
 # External reference as a data.frame - requires `SeqId` and `Reference` columns
 ref_data <- read.csv("reference_file.csv")
-med_norm_adat <- medianNormalize(adat, reference = ref_data)
+med_norm_adat <- medianNormalize(unnormalized_adat, reference = ref_data)
 
 # Custom grouping by multiple variables
 # Use when total protein load changes due to analysis conditions
-# (normalize within groups to account for expected biological differences)
-med_norm_adat <- medianNormalize(adat, by = c("Sex", "SampleType"))
+med_norm_adat <- medianNormalize(unnormalized_adat, by = c("Sex", "SampleType"))
 
-# Re-normalize data that has already been median or ANML normalized
-# Use when you want to apply different normalization to previously normalized data
-med_norm_adat <- medianNormalize(adat,
-                                 reverse_existing = TRUE,
-                                 reference = new_reference)
+# If you already have normalized data, first reverse the normalization
+normalized_adat <- read_adat("normalized_study_data.adat")
+unnormalized_adat <- reverseMedianNormalize(normalized_adat)
+custom_norm_adat <- medianNormalize(unnormalized_adat, reference = new_reference)
 }
 }

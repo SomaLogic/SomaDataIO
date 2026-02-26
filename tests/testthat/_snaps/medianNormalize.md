@@ -6,8 +6,9 @@
       Data validation passed for median normalization.
       Standard deliverable checks:
         - Hybridization normalization: PASS 
+        - medNormInt (controls): PASS 
         - Plate scale normalization: PASS 
-        - No existing MedNorm/ANML: PASS 
+        - Study samples not already normalized: PASS 
       Three dilution setup detected (standard setup).
     Message
       > Normalization scale factors already exist: "NormScale_20, NormScale_0_005, NormScale_0_5" - they will be replaced with new scale factors

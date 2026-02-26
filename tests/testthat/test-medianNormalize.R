@@ -33,7 +33,7 @@ create_test_data <- function(small = FALSE) {
   header_meta <- attr(test_adat, "Header.Meta")
   if (!is.null(header_meta) && !is.null(header_meta$HEADER)) {
     # Remove ANML and median normalization steps to simulate pre-processed state
-    header_meta$HEADER$ProcessSteps <- "Raw RFU, Hyb Normalization, plateScale, Calibration"
+    header_meta$HEADER$ProcessSteps <- "Raw RFU, Hyb Normalization, medNormInt, plateScale, Calibration"
     attr(test_adat, "Header.Meta") <- header_meta
   }
 
@@ -277,7 +277,7 @@ test_that("`medianNormalize` produces expected verbose output", {
   )
 })
 
-test_that("`medianNormalize` can reverse ANML normalization", {
+test_that("`medianNormalize` errors on already normalized data", {
   # Create ANML-like test data by modifying test_data
   anml_test_data <- test_data
 
@@ -297,22 +297,16 @@ test_that("`medianNormalize` can reverse ANML normalization", {
   anml_test_data$ANMLFractionUsed_0_5 <- c(0.88, 0.91, 0.83)
   anml_test_data$ANMLFractionUsed_0_005 <- c(0.90, 0.87, 0.85)
 
-  # Test ANML reversal
-  expect_no_error(
-    result <- medianNormalize(anml_test_data, reverse_existing = TRUE, verbose = FALSE)
+  # Test that medianNormalize errors on already normalized data
+  expect_error(
+    medianNormalize(anml_test_data, verbose = FALSE),
+    "Study samples appear to already be normalized"
   )
 
-  # Check that result is valid
-  expect_true(is.soma_adat(result))
-
-  # Check that ProcessSteps includes reversal and new normalization
-  result_header <- attr(result, "Header.Meta")$HEADER
-  expect_true(grepl("rev-anmlSMP", result_header$ProcessSteps))
-  expect_true(grepl("MedNormSMP", result_header$ProcessSteps))
-
-  # Test that error occurs without reverse_existing flag
+  # Test that the error message suggests reverseMedianNormalize
   expect_error(
-    medianNormalize(anml_test_data, reverse_existing = FALSE, verbose = FALSE),
+    medianNormalize(anml_test_data, verbose = FALSE),
+    "reverseMedianNormalize"
   )
 })
 

@@ -59,11 +59,9 @@
 #'     maximum likelihood (ANML) method which leverages a population-based
 #'     reference that iteratively down-selects the set of analytes to include
 #'     for the normalization calculation.
-#'   \item The function requires `reverse_existing = TRUE` to be set in order
-#'     to process data where study samples have already undergone ANML or
-#'     standard median normalization.
-#'   \item When reversing existing normalization, only study samples are
-#'     reversed; QC, Calibrator, and Buffer samples retain their normalization
+#'   \item This function requires unnormalized data as input. If study samples
+#'     have already undergone median normalization (ANML or standard), first use
+#'     `reverseMedianNormalize()` to remove existing normalization.
 #' }
 #'
 #' @param adat A `soma_adat` object created using [read_adat()], containing
@@ -90,39 +88,34 @@
 #'   performed within each group separately. Default is `"SampleType"`. Note
 #'   that only study samples (SampleType == 'Sample') are normalized; QC,
 #'   Calibrator, and Buffer samples are automatically excluded.
-#' @param reverse_existing Logical. Should existing median or ANML normalization be
-#'   reversed before applying new normalization? When `TRUE`, existing median
-#'   normalization scale factors or ANML normalization effects are reversed for
-#'   study samples only (QC, Calibrator, and Buffer samples retain their
-#'   normalization). This allows re-normalization of data that has already been
-#'   median normalized or ANML normalized. Default is `FALSE`.
 #' @param verbose Logical. Should progress messages be printed? Default is `TRUE`.
 #' @return A `soma_adat` object with median normalization applied and RFU values
 #'   adjusted. The existing `NormScale_*` columns are updated to include the
 #'   effects of both plate scale normalization and median normalization.
 #' @examples
 #' \dontrun{
+#' # Starting with unnormalized ADAT
+#' unnormalized_adat <- read_adat("unnormalized_study_data.adat")
+#'
 #' # Internal reference from study samples (default)
-#' med_norm_adat <- medianNormalize(adat)
+#' med_norm_adat <- medianNormalize(unnormalized_adat)
 #'
 #' # Reference from another ADAT
 #' ref_adat <- read_adat("reference_file.adat")
-#' med_norm_adat <- medianNormalize(adat, reference = ref_adat)
+#' med_norm_adat <- medianNormalize(unnormalized_adat, reference = ref_adat)
 #'
 #' # External reference as a data.frame - requires `SeqId` and `Reference` columns
 #' ref_data <- read.csv("reference_file.csv")
-#' med_norm_adat <- medianNormalize(adat, reference = ref_data)
+#' med_norm_adat <- medianNormalize(unnormalized_adat, reference = ref_data)
 #'
 #' # Custom grouping by multiple variables
 #' # Use when total protein load changes due to analysis conditions
-#' # (normalize within groups to account for expected biological differences)
-#' med_norm_adat <- medianNormalize(adat, by = c("Sex", "SampleType"))
+#' med_norm_adat <- medianNormalize(unnormalized_adat, by = c("Sex", "SampleType"))
 #'
-#' # Re-normalize data that has already been median or ANML normalized
-#' # Use when you want to apply different normalization to previously normalized data
-#' med_norm_adat <- medianNormalize(adat,
-#'                                  reverse_existing = TRUE,
-#'                                  reference = new_reference)
+#' # If you already have normalized data, first reverse the normalization
+#' normalized_adat <- read_adat("normalized_study_data.adat")
+#' unnormalized_adat <- reverseMedianNormalize(normalized_adat)
+#' custom_norm_adat <- medianNormalize(unnormalized_adat, reference = new_reference)
 #' }
 #' @importFrom dplyr filter
 #' @importFrom stats median
@@ -130,7 +123,6 @@
 medianNormalize <- function(adat,
                             reference = NULL,
                             by = "SampleType",
-                            reverse_existing = FALSE,
                             verbose = TRUE) {
 
   # Input validation ----
@@ -172,26 +164,7 @@ medianNormalize <- function(adat,
   }
 
   # Check data state and existing normalization ----
-  has_existing_norm <- .validateDataState(adat, header, verbose, reverse_existing)
-
-  # Reverse existing normalization if requested ----
-  if (reverse_existing && has_existing_norm) {
-    if (verbose) {
-      if (grepl("ANML", header$ProcessSteps %||% "", ignore.case = TRUE)) {
-        cat("Reversing existing ANML normalization for study samples...\n")
-        adat <- .reverseANMLSMP(adat, verbose)
-      } else {
-        cat("Reversing existing median normalization for study samples...\n")
-        adat <- .reverseMedNormSMP(adat, verbose)
-      }
-    } else {
-      if (grepl("ANML", header$ProcessSteps %||% "", ignore.case = TRUE)) {
-        adat <- .reverseANMLSMP(adat, verbose)
-      } else {
-        adat <- .reverseMedNormSMP(adat, verbose)
-      }
-    }
-  }
+  .validateDataState(adat, header, verbose)
 
   # Create dilution groups ----
   apt_data <- getAnalyteInfo(adat)
@@ -257,10 +230,13 @@ medianNormalize <- function(adat,
       ref_data <- .buildInternalReference(adat, dil_groups)
     } else {
       # Standard internal reference - calculate per group
-      ref_data <- NULL
+      # Build internal reference for adding to metadata
       if (verbose) {
         .todo("Building internal reference from study samples (SampleType == 'Sample')")
       }
+      ref_data <- .buildInternalReference(adat, dil_groups)
+      # Mark as group-specific for normalization calculations
+      attr(ref_data, "group_specific") <- TRUE
     }
   } else {
     ref_data <- .processReference(reference, adat, dil_groups, apt_data, verbose)
@@ -315,6 +291,76 @@ medianNormalize <- function(adat,
 
   # Update header metadata
   .updateHeaderMetadata(norm_adat, reference)
+}
+
+
+#' Recalculate RowCheck after Median Normalization
+#'
+#' Recalculates RowCheck values as PASS or FLAG based on normalization acceptance
+#' criteria for row scale factors after median normalization. Samples with all
+#' row scale factors within the acceptance range (0.4 to 2.5) receive "PASS",
+#' while samples with any scale factor outside this range receive "FLAG".
+#'
+#' @param adat A `soma_adat` object after median normalization
+#' @param verbose Logical. Whether to print progress messages
+#' @return The `soma_adat` object with updated RowCheck values
+#' @noRd
+.recalculateRowCheck <- function(adat, verbose) {
+
+  if (verbose) {
+    cat("Recalculating RowCheck values based on normalization acceptance criteria...\n")
+  }
+
+  # Check if RowCheck column exists
+  if (!"RowCheck" %in% names(adat)) {
+    if (verbose) {
+      cat("No RowCheck column found to recalculate.\n")
+    }
+    return(adat)
+  }
+
+  # Find all normalization scale factor columns (NormScale_*)
+  scale_factor_cols <- grep("^NormScale_", names(adat), value = TRUE)
+
+  if (length(scale_factor_cols) == 0) {
+    if (verbose) {
+      cat("No normalization scale factor columns found. Setting all RowCheck to PASS.\n")
+    }
+    adat$RowCheck <- "PASS"
+    return(adat)
+  }
+
+  # Define acceptance criteria range for row scale factors
+  min_scale <- 0.4
+  max_scale <- 2.5
+
+  # Calculate RowCheck for each sample
+  for (i in seq_len(nrow(adat))) {
+    # Get all scale factor values for this sample
+    scale_values <- as.numeric(adat[i, scale_factor_cols, drop = FALSE])
+    scale_values <- scale_values[!is.na(scale_values)]
+
+    # Check if all scale factors are within acceptance range
+    if (length(scale_values) == 0) {
+      # No scale factors available - default to PASS
+      adat$RowCheck[i] <- "PASS"
+    } else if (all(scale_values >= min_scale & scale_values <= max_scale)) {
+      adat$RowCheck[i] <- "PASS"
+    } else {
+      adat$RowCheck[i] <- "FLAG"
+    }
+  }
+
+  if (verbose) {
+    pass_count <- sum(adat$RowCheck == "PASS", na.rm = TRUE)
+    flag_count <- sum(adat$RowCheck == "FLAG", na.rm = TRUE)
+    cat("RowCheck values updated for", nrow(adat), "samples.\n")
+    cat("  - PASS:", pass_count, "samples\n")
+    cat("  - FLAG:", flag_count, "samples\n")
+    cat("  - Acceptance criteria: scale factors within [", min_scale, ", ", max_scale, "]\n")
+  }
+
+  adat
 }
 
 
@@ -528,7 +574,7 @@ medianNormalize <- function(adat,
       }
 
       # Calculate reference values for this dilution
-      if (!is.null(ref_data) && dil_name %in% names(ref_data)) {
+      if (!is.null(ref_data) && dil_name %in% names(ref_data) && !isTRUE(attr(ref_data, "group_specific"))) {
         # Use external reference
         ref_values <- ref_data[[dil_name]]
 
@@ -618,7 +664,8 @@ medianNormalize <- function(adat,
   if (!is.null(header_meta) && !is.null(header_meta$HEADER)) {
     # Add median normalization to process steps
     if ("ProcessSteps" %in% names(header_meta$HEADER)) {
-      if (!grepl("MedNormSMP", header_meta$HEADER$ProcessSteps)) {
+      # Check for MedNormSMP that is not preceded by "rev-"
+      if (!grepl("(?<!rev-)MedNormSMP", header_meta$HEADER$ProcessSteps, perl = TRUE)) {
         header_meta$HEADER$ProcessSteps <- paste(
           header_meta$HEADER$ProcessSteps,
           "MedNormSMP",
@@ -656,31 +703,31 @@ medianNormalize <- function(adat,
 }
 
 
+
+
+
 #' Validate Data State for Median Normalization
 #' @noRd
-.validateDataState <- function(adat, header, verbose, reverse_existing = FALSE) {
+.validateDataState <- function(adat, header, verbose) {
 
   # Check if data is in a standard deliverable state
   process_steps <- header$ProcessSteps %||% ""
 
-  # Check for existing median normalization
-  has_mednorm <- grepl("medNormInt|MedNorm", process_steps, ignore.case = TRUE)
-  has_anml <- grepl("ANML", process_steps, ignore.case = TRUE)
+  # Check for existing median normalization on study samples (MedNormSMP only)
+  has_mednorm_smp <- grepl("MedNormSMP", process_steps, ignore.case = TRUE)
+  has_anml_smp <- grepl("anmlSMP", process_steps, ignore.case = TRUE)
 
-  if (has_mednorm && !reverse_existing) {
-    stop(
-      "Data appears to already be median normalized. ",
-      "Set reverse_existing = TRUE to reverse existing median normalization before applying new normalization. ",
-      "ProcessSteps: ", process_steps,
-      call. = FALSE
-    )
-  }
+  # Check if data has already been denormalized
+  # Look for specific reversal patterns
+  has_mednorm_reversal <- grepl("rev-(?:MedNormSMP|medNormInt|MedNorm)", process_steps, ignore.case = TRUE, perl = TRUE)
+  has_anml_reversal <- grepl("rev-(?:anmlSMP|ANML)", process_steps, ignore.case = TRUE, perl = TRUE)
 
-  if (has_anml && !reverse_existing) {
+  # If study samples have existing normalization, fail unless already properly denormalized
+  if ((has_mednorm_smp || has_anml_smp) && !(has_mednorm_reversal || has_anml_reversal)) {
     stop(
-      "Data appears to be ANML normalized. ",
-      "Set reverse_existing = TRUE to reverse existing ANML normalization before applying new normalization. ",
-      "ProcessSteps: ", process_steps,
+      "Study samples appear to already be normalized (ProcessSteps: ", process_steps, "). ",
+      "For medianNormalize(), please start with unnormalized data. ",
+      "If you only have normalized data, first use reverseMedianNormalize() to remove existing normalization.",
       call. = FALSE
     )
   }
@@ -688,13 +735,14 @@ medianNormalize <- function(adat,
   # Check for required normalization steps
   has_hyb <- grepl("Hyb|hybridization", process_steps, ignore.case = TRUE)
   has_plate_scale <- grepl("PlateScale|plate.?scale", process_steps, ignore.case = TRUE)
+  has_mednorm_int <- grepl("medNormInt", process_steps, ignore.case = TRUE)
 
   # Warn if not in standard deliverable state
-  if (!has_hyb || !has_plate_scale) {
+  if (!has_hyb || !has_plate_scale || !has_mednorm_int) {
     warning(
       "Data may not be in standard deliverable format. ",
       "Standard format requires hybridization normalization, median normalization of controls ",
-      "(buffer + calibrator), and plate scale normalization before applying median normalization. ",
+      "(medNormInt), and plate scale normalization before applying median normalization. ",
       "Current ProcessSteps: ", process_steps,
       call. = FALSE
     )
@@ -704,11 +752,12 @@ medianNormalize <- function(adat,
     cat("Data validation passed for median normalization.\n")
     cat("Standard deliverable checks:\n")
     cat("  - Hybridization normalization:", if(has_hyb) "PASS" else "WARN", "\n")
+    cat("  - medNormInt (controls):", if(has_mednorm_int) "PASS" else "WARN", "\n")
     cat("  - Plate scale normalization:", if(has_plate_scale) "PASS" else "WARN", "\n")
-    cat("  - No existing MedNorm/ANML:", if(!has_mednorm && !has_anml) "PASS" else if(reverse_existing && has_mednorm) "WARN (will reverse)" else "FAIL", "\n")
+    cat("  - Study samples not already normalized:", "PASS", "\n")
   }
 
-  return(has_mednorm || has_anml)
+  invisible(NULL)
 }
 
 
@@ -789,247 +838,5 @@ medianNormalize <- function(adat,
 }
 
 
-#' Reverse Existing Median Normalization for Study Samples
-#' @noRd
-.reverseMedNormSMP <- function(adat, verbose) {
-
-  # Get existing scale factors
-  sf_cols <- grep("^NormScale_", names(adat), value = TRUE)
-
-  if (length(sf_cols) == 0) {
-    if (verbose) {
-      cat("No existing median normalization scale factors found to reverse.\n")
-    }
-    return(adat)
-  }
-
-  if (verbose) {
-    cat("Reversing existing median normalization for study samples...\n")
-  }
-
-  # Get dilution groups
-  apt_data <- getAnalyteInfo(adat)
-  dil_groups <- split(apt_data$AptName, apt_data$Dilution)
-  names(dil_groups) <- gsub("\\.", "_", names(dil_groups))
-  names(dil_groups) <- gsub("[.]0$|%|^[.]", "", names(dil_groups))
-
-  # Only reverse for study samples, leave QC/Calibrator/Buffer alone
-  sample_mask <- grepl("Sample|sample", adat$SampleType %||% adat$SampleId %||% "", ignore.case = TRUE)
-
-  if (sum(sample_mask) == 0) {
-    if (verbose) {
-      cat("No study samples found to reverse normalization.\n")
-    }
-    return(adat)
-  }
-
-  # For each dilution group, reverse normalization
-  for (dil_name in names(dil_groups)) {
-    sf_col <- paste0("NormScale_", dil_name)
-
-    if (sf_col %in% names(adat)) {
-      dil_apts <- intersect(dil_groups[[dil_name]], getAnalytes(adat))
-
-      if (length(dil_apts) > 0) {
-        for (i in which(sample_mask)) {
-          scale_factor <- adat[[sf_col]][i]
-          if (!is.na(scale_factor) && scale_factor != 0) {
-            # Apply inverse of scale factor
-            adat[i, dil_apts] <- adat[i, dil_apts] / scale_factor
-            # Reset scale factor to 1.0
-            adat[[sf_col]][i] <- 1.0
-          }
-        }
-      }
-    }
-  }
-
-  # Update ProcessSteps to indicate reversal
-  header_meta <- attr(adat, "Header.Meta")
-  if (!is.null(header_meta) && !is.null(header_meta$HEADER)) {
-    current_steps <- header_meta$HEADER$ProcessSteps %||% ""
-
-    # Add reversal step - look for what type of median norm was reversed
-    if (grepl("MedNormSMP", current_steps, ignore.case = TRUE)) {
-      header_meta$HEADER$ProcessSteps <- paste(current_steps, "rev-MedNormSMP", sep = ", ")
-    } else if (grepl("medNormInt", current_steps, ignore.case = TRUE)) {
-      header_meta$HEADER$ProcessSteps <- paste(current_steps, "rev-medNormInt", sep = ", ")
-    } else {
-      header_meta$HEADER$ProcessSteps <- paste(current_steps, "rev-MedNorm", sep = ", ")
-    }
-
-    attr(adat, "Header.Meta") <- header_meta
-  }
-
-  if (verbose) {
-    cat("Median normalization reversed for", sum(sample_mask), "study samples.\n")
-  }
-
-  adat
-}
 
 
-#' Reverse Existing ANML Normalization for Study Samples
-#' @noRd
-.reverseANMLSMP <- function(adat, verbose) {
-
-  # Get existing scale factors
-  sf_cols <- grep("^NormScale_", names(adat), value = TRUE)
-
-  if (length(sf_cols) == 0) {
-    if (verbose) {
-      cat("No existing ANML normalization scale factors found to reverse.\n")
-    }
-    return(adat)
-  }
-
-  if (verbose) {
-    cat("Reversing existing ANML normalization for study samples...\n")
-  }
-
-  # Get dilution groups
-  apt_data <- getAnalyteInfo(adat)
-  dil_groups <- split(apt_data$AptName, apt_data$Dilution)
-  names(dil_groups) <- gsub("\\.", "_", names(dil_groups))
-  names(dil_groups) <- gsub("[.]0$|%|^[.]", "", names(dil_groups))
-
-  # Only reverse for study samples, leave QC/Calibrator/Buffer alone
-  sample_mask <- grepl("Sample|sample", adat$SampleType %||% adat$SampleId %||% "", ignore.case = TRUE)
-
-  if (sum(sample_mask) == 0) {
-    if (verbose) {
-      cat("No study samples found to reverse ANML normalization.\n")
-    }
-    return(adat)
-  }
-
-  # For each dilution group, reverse ANML normalization using log space
-  for (dil_name in names(dil_groups)) {
-    sf_col <- paste0("NormScale_", dil_name)
-
-    if (sf_col %in% names(adat)) {
-      dil_apts <- intersect(dil_groups[[dil_name]], getAnalytes(adat))
-
-      if (length(dil_apts) > 0) {
-        for (i in which(sample_mask)) {
-          scale_factor <- adat[[sf_col]][i]
-          if (!is.na(scale_factor) && scale_factor != 0) {
-            # ANML uses log space scaling - reverse by subtracting log scale factor
-            log_sf <- log10(scale_factor)
-            log_data <- log10(as.numeric(adat[i, dil_apts]))
-            reversed_log_data <- log_data - log_sf
-            adat[i, dil_apts] <- 10^reversed_log_data
-            # Reset scale factor to 1.0
-            adat[[sf_col]][i] <- 1.0
-          }
-        }
-      }
-    }
-  }
-
-  # Remove ANMLFractionUsed columns if they exist
-  anml_frac_cols <- grep("^ANMLFractionUsed_", names(adat), value = TRUE)
-  if (length(anml_frac_cols) > 0) {
-    for (col in anml_frac_cols) {
-      if (all(is.na(adat[[col]][sample_mask]))) {
-        adat[[col]][sample_mask] <- NA
-      }
-    }
-  }
-
-  # Update ProcessSteps to indicate reversal
-  header_meta <- attr(adat, "Header.Meta")
-  if (!is.null(header_meta) && !is.null(header_meta$HEADER)) {
-    current_steps <- header_meta$HEADER$ProcessSteps %||% ""
-
-    # Add reversal step - look for what type of ANML was reversed
-    if (grepl("anmlSMP", current_steps, ignore.case = TRUE)) {
-      header_meta$HEADER$ProcessSteps <- paste(current_steps, "rev-anmlSMP", sep = ", ")
-    } else if (grepl("ANML", current_steps, ignore.case = TRUE)) {
-      header_meta$HEADER$ProcessSteps <- paste(current_steps, "rev-ANML", sep = ", ")
-    }
-
-    attr(adat, "Header.Meta") <- header_meta
-  }
-
-  # Reset RowCheck for reversed samples
-  if ("RowCheck" %in% names(adat)) {
-    adat$RowCheck[sample_mask] <- "PASS"
-  }
-
-  if (verbose) {
-    cat("ANML normalization reversed for", sum(sample_mask), "study samples.\n")
-  }
-
-  adat
-}
-
-
-#' Recalculate RowCheck after Median Normalization
-#'
-#' Recalculates RowCheck values as PASS or FLAG based on normalization acceptance
-#' criteria for row scale factors after median normalization. Samples with all
-#' row scale factors within the acceptance range (0.4 to 2.5) receive "PASS",
-#' while samples with any scale factor outside this range receive "FLAG".
-#'
-#' @param adat A `soma_adat` object after median normalization
-#' @param verbose Logical. Whether to print progress messages
-#' @return The `soma_adat` object with updated RowCheck values
-#' @noRd
-.recalculateRowCheck <- function(adat, verbose) {
-
-  if (verbose) {
-    cat("Recalculating RowCheck values based on normalization acceptance criteria...\n")
-  }
-
-  # Check if RowCheck column exists
-  if (!"RowCheck" %in% names(adat)) {
-    if (verbose) {
-      cat("No RowCheck column found to recalculate.\n")
-    }
-    return(adat)
-  }
-
-  # Find all normalization scale factor columns (NormScale_*)
-  scale_factor_cols <- grep("^NormScale_", names(adat), value = TRUE)
-
-  if (length(scale_factor_cols) == 0) {
-    if (verbose) {
-      cat("No normalization scale factor columns found. Setting all RowCheck to PASS.\n")
-    }
-    adat$RowCheck <- "PASS"
-    return(adat)
-  }
-
-  # Define acceptance criteria range for row scale factors
-  min_scale <- 0.4
-  max_scale <- 2.5
-
-  # Calculate RowCheck for each sample
-  for (i in seq_len(nrow(adat))) {
-    # Get all scale factor values for this sample
-    scale_values <- as.numeric(adat[i, scale_factor_cols, drop = FALSE])
-    scale_values <- scale_values[!is.na(scale_values)]
-
-    # Check if all scale factors are within acceptance range
-    if (length(scale_values) == 0) {
-      # No scale factors available - default to PASS
-      adat$RowCheck[i] <- "PASS"
-    } else if (all(scale_values >= min_scale & scale_values <= max_scale)) {
-      adat$RowCheck[i] <- "PASS"
-    } else {
-      adat$RowCheck[i] <- "FLAG"
-    }
-  }
-
-  if (verbose) {
-    pass_count <- sum(adat$RowCheck == "PASS", na.rm = TRUE)
-    flag_count <- sum(adat$RowCheck == "FLAG", na.rm = TRUE)
-    cat("RowCheck values updated for", nrow(adat), "samples.\n")
-    cat("  - PASS:", pass_count, "samples\n")
-    cat("  - FLAG:", flag_count, "samples\n")
-    cat("  - Acceptance criteria: scale factors within [", min_scale, ", ", max_scale, "]\n")
-  }
-
-  adat
-}
