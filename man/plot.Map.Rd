@@ -36,8 +36,8 @@
 \item \code{\link[grDevices:palettes]{grDevices::terrain.colors()}}
 \item \code{\link[grDevices:palettes]{grDevices::topo.colors()}}
 \item \code{\link[RColorBrewer:ColorBrewer]{RColorBrewer::brewer.pal()}}
-\item \code{\link[viridis:reexports]{viridis::viridis()}}
-\item \code{\link[viridis:reexports]{viridis::magma()}}
+\item \code{\link[viridis:viridis]{viridis::viridis()}}
+\item \code{\link[viridis:magma]{viridis::magma()}}
 }}
 
 \item{legend.ticks}{How many ticks to place on the color legend.}

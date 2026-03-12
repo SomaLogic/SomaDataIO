@@ -17,7 +17,7 @@
 #' distribution aligns to a defined reference, thereby correcting
 #' global intensity shifts without altering relative differences between
 #' measurements within a sample. For assay formats with multiple dilution groups
-#' (e.g., 1:5 or 20%;  1:200 or 0.5%, 1:20,000 or 0.005%), separate scale
+#' (e.g., 1:5 or 20%;  1:200 or 0.5%; 1:20,000 or 0.005%), separate scale
 #' factors are calculated for each dilution because each dilution group is
 #' processed separately during the assay. For each sample, the ratio of
 #' reference RFU / observed RFU is calculated for every SeqId. The median ratio
@@ -41,7 +41,7 @@
 #' \itemize{
 #'   \item Combining data sets from the same overarching experiment or sample
 #'     population and normalize to a common reference that were originally
-#'     processed separately and each normalized "withing study".
+#'     processed separately and each normalized "within study".
 #'   \item Normalize fundamentally different types of samples separately (by
 #'     group). For instance, lysate samples from different cell lines that
 #'     will be analyzed separately should likely be median normalized within
@@ -70,8 +70,7 @@
 #'   \itemize{
 #'     \item `NULL` (default): Calculate an internal reference from study
 #'       samples by taking the median of each SeqId within the sample
-#'       grouping. For multi-plate studies, the median of all plate medians
-#'       is used.
+#'       grouping.
 #'     \item A `soma_adat` object: Extract reference from this ADAT
 #'     \item A data.frame: Use provided reference data directly
 #'   }
