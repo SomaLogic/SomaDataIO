@@ -193,10 +193,10 @@ medianNormalize <- function(adat,
     stop("Field 'SampleType' not found in adat columns", call. = FALSE)
   }
 
-  do_samples <- grep("Sample", adat[["SampleType"]])
+  do_samples <- which(adat$SampleType %in% "Sample")
   if (length(do_samples) == 0L) {
     stop(
-      "No samples selected for normalization with pattern: Sample",
+      "No samples selected for normalization with SampleType == 'Sample'",
       call. = FALSE
     )
   }
@@ -207,7 +207,7 @@ medianNormalize <- function(adat,
     # Check if all scale factors are 1.0 for samples being normalized
     sample_sf_data <- adat[do_samples, existing_norm_sf, drop = FALSE]
     all_ones <- all(sapply(sample_sf_data, function(x) all(abs(x - 1.0) < 1e-10, na.rm = TRUE)))
-    
+
     if (all_ones) {
       .todo("Normalization scale factor columns already exist: {.val {paste0(existing_norm_sf, collapse = ', ')}} - they will be replaced with new scale factors")
     } else {
@@ -281,7 +281,18 @@ medianNormalize <- function(adat,
 
     # Ensure column order matches
     unnorm_adat <- unnorm_adat[, names(norm_adat)]
-    norm_adat <- rbind(norm_adat, unnorm_adat)
+
+    # Combine normalized and unnormalized samples in a way that preserves
+    # soma_adat attributes and column metadata.
+    norm_attrs <- attributes(norm_adat)
+    combined_df <- rbind(as.data.frame(norm_adat), as.data.frame(unnorm_adat))
+    # Restore non-dimension attributes (e.g., Col.Meta, header metadata)
+    # while keeping the combined row.names and names.
+    for (att in setdiff(names(norm_attrs), c("row.names", "names", "class"))) {
+      attr(combined_df, att) <- norm_attrs[[att]]
+    }
+    class(combined_df) <- norm_attrs[["class"]]
+    norm_adat <- combined_df
   }
 
   # Restore original order
@@ -342,7 +353,7 @@ medianNormalize <- function(adat,
   # Calculate RowCheck for each sample
   for (i in seq_len(nrow(adat))) {
     # Get all scale factor values for this sample
-    scale_values <- as.numeric(adat[i, scale_factor_cols, drop = FALSE])
+    scale_values <- unlist(adat[i, scale_factor_cols, drop = FALSE], use.names = FALSE)
     scale_values <- scale_values[!is.na(scale_values)]
 
     # Check if all scale factors are within acceptance range
@@ -515,6 +526,9 @@ medianNormalize <- function(adat,
   # Store original rownames to restore later
   original_rownames <- rownames(adat)
 
+  # Preserve original attributes to restore later
+  original_attrs <- attributes(adat)
+
   # Validate grouping variables
   if (is.character(by) && length(by) > 0) {
     missing_cols <- setdiff(by, names(adat))
@@ -622,7 +636,7 @@ medianNormalize <- function(adat,
 
       # Calculate scale factors for each sample in this group
       for (i in seq_len(nrow(grp_adat))) {
-        sample_values <- as.numeric(grp_adat[i, dil_apts, drop = FALSE])
+        sample_values <- unlist(grp_adat[i, dil_apts, drop = FALSE], use.names = FALSE)
         ratios <- grp_ref_values / sample_values
         med_scale_factor <- median(ratios[is.finite(ratios)], na.rm = TRUE)
 
@@ -651,6 +665,15 @@ medianNormalize <- function(adat,
 
   # Remove temporary grouping column
   adat$.group <- NULL
+
+  # Reattach original soma_adat attributes lost during rbind
+  if (!is.null(original_attrs)) {
+    # Preserve current column names and row.names; restore all other attributes
+    attrs_to_restore <- setdiff(names(original_attrs), c("names", "row.names"))
+    for (nm in attrs_to_restore) {
+      attr(adat, nm) <- original_attrs[[nm]]
+    }
+  }
 
   # Round to 1 decimal place (standard for SomaScan data)
   apts <- getAnalytes(adat)

@@ -82,3 +82,40 @@ test_that("`reverseMedianNormalize` + `medianNormalize` workflow", {
   expect_true(grepl("rev-MedNormSMP", final_header$ProcessSteps))
   expect_true(grepl("MedNormSMP", final_header$ProcessSteps))
 })
+
+test_that("`reverseMedianNormalize` validates normalization is final step", {
+  # Test error when normalization is not the final step
+  test_data_invalid <- test_data_full
+  header_meta <- attr(test_data_invalid, "Header.Meta")
+  header_meta$HEADER$ProcessSteps <- "Raw RFU, Hyb Normalization, medNormInt, anmlSMP, plateScale"  # anmlSMP not final
+  attr(test_data_invalid, "Header.Meta") <- header_meta
+
+  expect_error(
+    reverseMedianNormalize(test_data_invalid, verbose = FALSE),
+    "Median/ANML normalization of study samples is not the final processing step"
+  )
+})
+
+test_that("`reverseMedianNormalize` handles ANMLFractionUsed columns properly", {
+  # Test clearing ANML-specific metadata columns
+  test_data_anml <- test_data_full
+  header_meta <- attr(test_data_anml, "Header.Meta")
+  header_meta$HEADER$ProcessSteps <- "Raw RFU, Hyb Normalization, medNormInt, plateScale, anmlSMP"
+  attr(test_data_anml, "Header.Meta") <- header_meta
+
+  # Add ANML metadata columns
+  test_data_anml$ANMLFractionUsed_20 <- c(0.85, 0.92, 0.78)
+  test_data_anml$ANMLFractionUsed_0_5 <- c(0.91, 0.87, 0.95)
+  test_data_anml$NormScale_20 <- c(1.15, 0.95, 1.08)
+  test_data_anml$NormScale_0_5 <- c(1.22, 0.88, 1.12)
+
+  result <- reverseMedianNormalize(test_data_anml, verbose = FALSE)
+
+  # ANMLFractionUsed columns should be cleared for study samples
+  expect_true(is.na(result$ANMLFractionUsed_20[1]))  # Sample should be NA
+  expect_true(is.na(result$ANMLFractionUsed_0_5[1]))  # Sample should be NA
+
+  # Scale factors should be reset to 1.0 for study samples
+  expect_equal(result$NormScale_20[1], 1.0)
+  expect_equal(result$NormScale_0_5[1], 1.0)
+})

@@ -32,7 +32,7 @@
 #' @param verbose Logical. Should progress messages be printed? Default is `TRUE`.
 #' @return A `soma_adat` object with median normalization reversed for study samples.
 #'   QC, Calibrator, and Buffer samples retain their original normalization.
-#'   The `ProcessSteps` header is updated to reflect the reversal operation, 
+#'   The `ProcessSteps` header is updated to reflect the reversal operation,
 #'   and median normalization-specific metadata fields are cleared.
 #' @examples
 #' \dontrun{
@@ -63,9 +63,13 @@ reverseMedianNormalize <- function(adat, verbose = TRUE) {
     )
   }
 
-  # Check for evidence of study sample median normalization (MedNormSMP only)
-  has_mednorm_smp <- grepl("MedNormSMP", process_steps, ignore.case = TRUE)
-  has_anml_smp <- grepl("anmlSMP", process_steps, ignore.case = TRUE)
+  # Tokenize ProcessSteps so we can reason about ordering of steps ----
+  step_tokens <- unlist(strsplit(process_steps, "\\s*[;,]\\s*"))
+  step_tokens <- step_tokens[nzchar(step_tokens)]
+
+  # Check for evidence of study sample median normalization (MedNormSMP / anmlSMP)
+  has_mednorm_smp <- any(grepl("MedNormSMP", step_tokens, ignore.case = TRUE))
+  has_anml_smp <- any(grepl("anmlSMP", step_tokens, ignore.case = TRUE))
 
   if (!has_mednorm_smp && !has_anml_smp) {
     stop(
@@ -77,7 +81,8 @@ reverseMedianNormalize <- function(adat, verbose = TRUE) {
   }
 
   # Check that normalization hasn't already been reversed
-  has_reversal <- grepl("rev-(?:MedNormSMP|medNormInt|anmlSMP|ANML)", process_steps, ignore.case = TRUE, perl = TRUE)
+  has_reversal <- any(grepl("rev-(?:MedNormSMP|medNormInt|anmlSMP|ANML)", step_tokens,
+                            ignore.case = TRUE, perl = TRUE))
 
   if (has_reversal) {
     stop(
@@ -89,9 +94,30 @@ reverseMedianNormalize <- function(adat, verbose = TRUE) {
 
   # Determine which normalization type was applied to study samples ----
   # Only one type should be applied, check which was last
-  if (has_anml_smp) {
+  # Identify the last normalization-related token and ensure it is the final step
+  norm_idx <- which(
+    grepl("MedNormSMP", step_tokens, ignore.case = TRUE) |
+      grepl("anmlSMP", step_tokens, ignore.case = TRUE)
+  )
+  if (length(norm_idx) == 0L) {
+    stop(
+      "Could not determine normalization type from ProcessSteps: ", process_steps,
+      call. = FALSE
+    )
+  }
+  last_norm_idx <- norm_idx[length(norm_idx)]
+  if (last_norm_idx != length(step_tokens)) {
+    stop(
+      "Median/ANML normalization of study samples is not the final processing step. ",
+      "ProcessSteps: ", process_steps, ". ",
+      "Reversal requires normalization to be the last transformation applied to study samples.",
+      call. = FALSE
+    )
+  }
+  last_norm_token <- step_tokens[last_norm_idx]
+  if (grepl("anmlSMP", last_norm_token, ignore.case = TRUE)) {
     normalization_type <- "anml"
-  } else if (has_mednorm_smp) {
+  } else if (grepl("MedNormSMP", last_norm_token, ignore.case = TRUE)) {
     normalization_type <- "median"
   } else {
     stop(
@@ -146,9 +172,12 @@ reverseMedianNormalize <- function(adat, verbose = TRUE) {
   names(dil_groups) <- gsub("[.]0$|%|^[.]", "", names(dil_groups))
 
   # Only reverse for study samples, leave QC/Calibrator/Buffer alone
-  sample_mask <- grepl("Sample|sample", adat$SampleType %||% adat$SampleId %||% "", ignore.case = TRUE)
+  if (is.null(adat$SampleType)) {
+    stop("`SampleType` column is missing; cannot identify study samples to reverse normalization.", call. = FALSE)
+  }
+  sample_mask <- !is.na(adat$SampleType) & (adat$SampleType %in% "Sample")
 
-  if (sum(sample_mask) == 0) {
+  if (!any(sample_mask)) {
     if (verbose) {
       cat("No study samples found to reverse normalization.\n")
     }
@@ -226,9 +255,12 @@ reverseMedianNormalize <- function(adat, verbose = TRUE) {
   names(dil_groups) <- gsub("[.]0$|%|^[.]", "", names(dil_groups))
 
   # Only reverse for study samples, leave QC/Calibrator/Buffer alone
-  sample_mask <- grepl("Sample|sample", adat$SampleType %||% adat$SampleId %||% "", ignore.case = TRUE)
+  if (is.null(adat$SampleType)) {
+    stop("`SampleType` column is missing; cannot identify study samples to reverse normalization.", call. = FALSE)
+  }
+  sample_mask <- !is.na(adat$SampleType) & (adat$SampleType %in% "Sample")
 
-  if (sum(sample_mask) == 0) {
+  if (!any(sample_mask)) {
     if (verbose) {
       cat("No study samples found to reverse ANML normalization.\n")
     }
@@ -248,7 +280,7 @@ reverseMedianNormalize <- function(adat, verbose = TRUE) {
           if (!is.na(scale_factor) && scale_factor != 0) {
             # ANML uses log space scaling - reverse by subtracting log scale factor
             log_sf <- log10(scale_factor)
-            log_data <- log10(as.numeric(adat[i, dil_apts]))
+            log_data <- log10(as.numeric(unlist(adat[i, dil_apts], use.names = FALSE)))
             reversed_log_data <- log_data - log_sf
             adat[i, dil_apts] <- 10^reversed_log_data
             # Reset scale factor to 1.0
@@ -259,13 +291,12 @@ reverseMedianNormalize <- function(adat, verbose = TRUE) {
     }
   }
 
-  # Remove ANMLFractionUsed columns if they exist
+  # Clear ANMLFractionUsed columns for reversed study samples
   anml_frac_cols <- grep("^ANMLFractionUsed_", names(adat), value = TRUE)
   if (length(anml_frac_cols) > 0) {
     for (col in anml_frac_cols) {
-      if (all(is.na(adat[[col]][sample_mask]))) {
-        adat[[col]][sample_mask] <- NA
-      }
+      # Clear ANML-specific metadata for study samples that were reversed
+      adat[[col]][sample_mask] <- NA
     }
   }
 
