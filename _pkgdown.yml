@@ -159,6 +159,13 @@ reference:
     - starts_with("getSomaScan")
     - getSignalSpace
 
+  - title: Normalization
+    desc: >
+      Functions related to normalizing RFU values in a `soma_adat` object.
+    contents:
+    - medianNormalize
+    - reverseMedianNormalize
+
   - title: Expression Data
     desc: >
       Functions to convert objects to those familiar with `expression` data.
