@@ -188,13 +188,6 @@ medianNormalize <- function(adat,
   # Check for existing normalization scale factors ----
   existing_norm_sf <- grep("^NormScale_", names(adat), value = TRUE)
 
-  if ( verbose ) {
-    if (length(existing_norm_sf) > 0) {
-      .todo("Normalization scale factors already exist: {.val {paste0(existing_norm_sf, collapse = ', ')}} - they will be replaced with new scale factors")
-    }
-  }
-
-
   # Determine which samples to normalize - only Sample types
   if (!"SampleType" %in% names(adat)) {
     stop("Field 'SampleType' not found in adat columns", call. = FALSE)
@@ -208,6 +201,19 @@ medianNormalize <- function(adat,
     )
   }
   dont_samples <- setdiff(seq_len(nrow(adat)), do_samples)
+
+  # Check existing normalization scale factors and provide appropriate message ----
+  if (verbose && length(existing_norm_sf) > 0) {
+    # Check if all scale factors are 1.0 for samples being normalized
+    sample_sf_data <- adat[do_samples, existing_norm_sf, drop = FALSE]
+    all_ones <- all(sapply(sample_sf_data, function(x) all(abs(x - 1.0) < 1e-10, na.rm = TRUE)))
+    
+    if (all_ones) {
+      .todo("Normalization scale factor columns already exist: {.val {paste0(existing_norm_sf, collapse = ', ')}} - they will be replaced with new scale factors")
+    } else {
+      .todo("Normalization scale factors already exist: {.val {paste0(existing_norm_sf, collapse = ', ')}} - they will be replaced with new scale factors")
+    }
+  }
 
   # Process reference ----
   if (is.null(reference)) {
