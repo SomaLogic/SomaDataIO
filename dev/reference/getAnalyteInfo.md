@@ -152,22 +152,22 @@ feats <- sample(anno_tbl$AptName, 6)
 op <- par(mfrow = c(2, 3))
 sapply(feats, function(.x) plot(1:10, main = tg[[.x]]))
 
-#> $seq.5465.32
+#> $seq.16882.27
 #> NULL
 #> 
-#> $seq.13116.25
+#> $seq.7145.1
 #> NULL
 #> 
-#> $seq.18871.24
+#> $seq.12720.71
 #> NULL
 #> 
-#> $seq.12934.1
+#> $seq.2190.55
 #> NULL
 #> 
-#> $seq.13666.222
+#> $seq.5090.49
 #> NULL
 #> 
-#> $seq.12771.19
+#> $seq.8633.18
 #> NULL
 #> 
 par(op)

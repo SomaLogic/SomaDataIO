@@ -77,37 +77,37 @@ by the desired action). `has_rn()` returns a scalar logical.
 ``` r
 df <- data.frame(a = 1:5, b = rnorm(5), row.names = LETTERS[1:5])
 df
-#>   a           b
-#> A 1  0.07003485
-#> B 2 -0.63912332
-#> C 3 -0.04996490
-#> D 4 -0.25148344
-#> E 5  0.44479712
+#>   a          b
+#> A 1  2.0650249
+#> B 2 -1.6309894
+#> C 3  0.5124269
+#> D 4 -1.8630115
+#> E 5 -0.5220125
 rn2col(df)              # default name is `.rn`
-#>   .rn a           b
-#> 1   A 1  0.07003485
-#> 2   B 2 -0.63912332
-#> 3   C 3 -0.04996490
-#> 4   D 4 -0.25148344
-#> 5   E 5  0.44479712
+#>   .rn a          b
+#> 1   A 1  2.0650249
+#> 2   B 2 -1.6309894
+#> 3   C 3  0.5124269
+#> 4   D 4 -1.8630115
+#> 5   E 5 -0.5220125
 rn2col(df, "AptName")   # pass `name =`
-#>   AptName a           b
-#> 1       A 1  0.07003485
-#> 2       B 2 -0.63912332
-#> 3       C 3 -0.04996490
-#> 4       D 4 -0.25148344
-#> 5       E 5  0.44479712
+#>   AptName a          b
+#> 1       A 1  2.0650249
+#> 2       B 2 -1.6309894
+#> 3       C 3  0.5124269
+#> 4       D 4 -1.8630115
+#> 5       E 5 -0.5220125
 
 # moving columns
 df$mtcars <- sample(names(mtcars), 5)
 col2rn(df, "mtcars")   # with a warning
 #> Warning: `df` already has row names. They will be over-written.
-#>      a           b
-#> vs   1  0.07003485
-#> mpg  2 -0.63912332
-#> gear 3 -0.04996490
-#> qsec 4 -0.25148344
-#> hp   5  0.44479712
+#>      a          b
+#> cyl  1  2.0650249
+#> disp 2 -1.6309894
+#> am   3  0.5124269
+#> wt   4 -1.8630115
+#> gear 5 -0.5220125
 
 # Move back and forth easily
 # Leaves original object un-modified
