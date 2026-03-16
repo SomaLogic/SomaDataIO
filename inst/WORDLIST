@@ -5,6 +5,7 @@ Agilent
 Analyte
 Analytes
 AptName
+AptNames
 AssayNotes
 Barcode
 BioTools
@@ -33,12 +34,14 @@ ExtIdentifier
 FC
 Hiser
 HybControlNormScale
+HybNorm
 Kuei
 LF
 Lifecycle
+MADs
 MERCHANTABILITY
 MacOS
-MADs
+MedNorm
 NHS
 NormScale
 ORCID
@@ -55,7 +58,6 @@ RFU
 RFUs
 RUO
 ReferenceRFU
-Reproducibility
 RowCheck
 SELEX
 SG
@@ -87,8 +89,8 @@ TimePoint
 TubeUniqueID
 Un
 UniProt
-YAML
 adat
+adats
 aliquot
 analyte
 analytes
@@ -112,7 +114,7 @@ magrittr
 md
 medNormRef
 nd
-normals
+pipetting
 pkgdown
 plex
 pre
@@ -127,5 +129,4 @@ tada
 th
 tibble
 tidyr
-untransformed
-vectorized
+variabilities
