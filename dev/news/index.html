@@ -65,6 +65,93 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="6.5.0.9000" id="somadataio-6509000">SomaDataIO 6.5.0.9000<a class="anchor" aria-label="anchor" href="#somadataio-6509000"></a></h2>
+<div class="section level4">
+<h4 id="new-functions-6-5-0-9000">New Functions<a class="anchor" aria-label="anchor" href="#new-functions-6-5-0-9000"></a></h4>
+<ul><li>Added <code><a href="../reference/medianNormalize.html">medianNormalize()</a></code> function
+<ul><li>performs median normalization of study samples on <code>soma_adat</code> objects that have been hybridization normalized and plate scaled</li>
+<li>includes validation to ensure required normalization steps have been applied</li>
+<li>supports multiple reference approaches:
+<ul><li>Internal reference built from study samples</li>
+<li>Reference extracted from existing <code>soma_adat</code> object</li>
+<li>External reference as a data.frame</li>
+</ul></li>
+<li>supports custom grouping by multiple clinical variables</li>
+</ul></li>
+<li>Added <code><a href="../reference/reverseMedianNormalize.html">reverseMedianNormalize()</a></code> function
+<ul><li>reverses median normalization (including ANML) that was previously applied to study samples (<code>SampleType == "Sample"</code>)</li>
+<li>designed to work with standard SomaScan deliverable ADAT files where study samples have undergone median or ANML normalization as the final sample processing step</li>
+</ul></li>
+</ul></div>
+<div class="section level4">
+<h4 id="function-and-object-improvements-6-5-0-9000">Function and Object Improvements<a class="anchor" aria-label="anchor" href="#function-and-object-improvements-6-5-0-9000"></a></h4>
+<ul><li>Removed restrictive file validation from <code><a href="../reference/read_annotations.html">read_annotations()</a></code>
+<ul><li>removed <code>md5sum</code> checksum validation and version dictionary checks resulting in misleading warnings about unknown annotations files</li>
+<li>warning was often misleading, as menu annotations file updates are not always in alignment with timing of CRAN releases<br></li>
+<li>removed <code>getAnnoVer()</code> function and <code>ver_dict</code> object</li>
+<li>removed <code><a href="https://rdrr.io/r/tools/md5sum.html" class="external-link">tools::md5sum</a></code> import dependency</li>
+</ul></li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="6.5.0" id="somadataio-650">SomaDataIO 6.5.0<a class="anchor" aria-label="anchor" href="#somadataio-650"></a></h2><p class="text-muted">CRAN release: 2026-02-06</p>
+<div class="section level4">
+<h4 id="function-and-object-improvements-6-5-0">Function and Object Improvements<a class="anchor" aria-label="anchor" href="#function-and-object-improvements-6-5-0"></a></h4>
+<ul><li>Updated <code><a href="../reference/preProcessAdat.html">preProcessAdat()</a></code> to improve clarity
+<ul><li>
+<code>filter.qc</code> parameter has been renamed to <code>filter.rowcheck</code>
+</li>
+<li>for backward compatibility, <code>filter.qc</code> is still accepted but will generate a deprecation warning and will be removed in a future version</li>
+<li>removed language that discusses implication of <code>ColCheck</code> SeqIds not being removed from <code><a href="../reference/preProcessAdat.html">preProcessAdat()</a></code> output</li>
+</ul></li>
+<li>Updated <code><a href="../reference/read_annotations.html">read_annotations()</a></code> function and <code>ver_dict</code> object to recognize latest menu annotations files from Q3 2025</li>
+</ul></div>
+<div class="section level4">
+<h4 id="documentation-updates-6-5-0">Documentation Updates<a class="anchor" aria-label="anchor" href="#documentation-updates-6-5-0"></a></h4>
+<ul><li>updated statistical analysis workflow articles with clearer messaging comments around <code><a href="../reference/preProcessAdat.html">preProcessAdat()</a></code>
+</li>
+<li>updated two-group and three-group analysis workflow articles to set <code>center.scale = FALSE</code> in <code><a href="../reference/preProcessAdat.html">preProcessAdat()</a></code> to align with guidance to users for univariate analysis</li>
+</ul></div>
+<div class="section level4">
+<h4 id="internal-construction-6-5-0">Internal <span class="emoji" data-emoji="construction">🚧</span>
+<a class="anchor" aria-label="anchor" href="#internal-construction-6-5-0"></a></h4>
+<ul><li>Updated <code>dplyr</code> verb tests to no longer explicitly test for ordering of attributes (<a href="https://github.com/SomaLogic/SomaDataIO/issues/165" class="external-link">#165</a>)</li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="6.4.0" id="somadataio-640">SomaDataIO 6.4.0<a class="anchor" aria-label="anchor" href="#somadataio-640"></a></h2><p class="text-muted">CRAN release: 2025-08-29</p>
+<div class="section level4">
+<h4 id="new-functions-6-4-0">New Functions<a class="anchor" aria-label="anchor" href="#new-functions-6-4-0"></a></h4>
+<ul><li>Added <code><a href="../reference/updateColMeta.html">updateColMeta()</a></code> function
+<ul><li>added utility function to update the column metadata in an ADAT to match an annotations object from <code><a href="../reference/read_annotations.html">read_annotations()</a></code>
+</li>
+</ul></li>
+<li>Added <code><a href="../reference/SeqId.html">is.AptName()</a></code> to check for AptName format
+<ul><li>
+<code><a href="../reference/SeqId.html">is.apt()</a></code> may return TRUE for both SeqIds and AptNames</li>
+<li>wrote new function, <code><a href="../reference/SeqId.html">is.AptName()</a></code>, to explicitly check if a SomaScan identifier is an AptName</li>
+<li>
+<code><a href="../reference/SeqId.html">is.AptName()</a></code> code and tests based on code/tests from <code><a href="../reference/SeqId.html">is.SeqId()</a></code>
+</li>
+</ul></li>
+</ul></div>
+<div class="section level4">
+<h4 id="function-and-object-improvements-6-4-0">Function and Object Improvements<a class="anchor" aria-label="anchor" href="#function-and-object-improvements-6-4-0"></a></h4>
+<ul><li>Relaxed file version requirement in <code><a href="../reference/read_annotations.html">read_annotations()</a></code>
+<ul><li>now returns warning instead of error if annotations excel file version does not match specific values</li>
+</ul></li>
+<li>Updated <code><a href="../reference/preProcessAdat.html">preProcessAdat()</a></code> to handle missing <code>ColCheck</code>
+<ul><li>added logic to <code><a href="../reference/preProcessAdat.html">preProcessAdat()</a></code> to handle adats that are missing <code>ColCheck</code> in column annotation data</li>
+</ul></li>
+</ul></div>
+<div class="section level4">
+<h4 id="documentation-updates-6-4-0">Documentation Updates<a class="anchor" aria-label="anchor" href="#documentation-updates-6-4-0"></a></h4>
+<ul><li>Show package loading in stat workflow vignettes
+<ul><li>move <code><a href="https://rdrr.io/r/base/library.html" class="external-link">library()</a></code> calls loading third-party packages to new code chunk that now appears in analysis workflow articles</li>
+</ul></li>
+</ul></div>
+</div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="6.3.0" id="somadataio-630">SomaDataIO 6.3.0<a class="anchor" aria-label="anchor" href="#somadataio-630"></a></h2><p class="text-muted">CRAN release: 2025-05-06</p>
 <div class="section level4">
 <h4 id="new-functions-6-3-0">New Functions<a class="anchor" aria-label="anchor" href="#new-functions-6-3-0"></a></h4>

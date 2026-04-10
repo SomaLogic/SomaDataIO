@@ -1,4 +1,4 @@
-# Perform Median Normalization
+# Perform Median Normalization on Study Samples
 
 Performs median normalization on a `soma_adat` object that has already
 undergone standard data processing for array-based SomaScan studies.
@@ -28,7 +28,7 @@ bin.
 ## Usage
 
 ``` r
-medianNormalize(adat, reference = NULL, by = "SampleType", verbose = TRUE)
+medianNormalize(adat, reference = NULL, by = NULL, verbose = TRUE)
 ```
 
 ## Arguments
@@ -67,9 +67,10 @@ medianNormalize(adat, reference = NULL, by = "SampleType", verbose = TRUE)
 
   Character vector. Grouping variable(s) for grouped median
   normalization. Must be column name(s) in the ADAT. Normalization will
-  be performed within each group separately. Default is `"SampleType"`.
-  Note that only study samples (SampleType == 'Sample') are normalized;
-  QC, Calibrator, and Buffer samples are automatically excluded.
+  be performed within each group separately. Default is `NULL` (all
+  samples normalized together). Note that only study samples (SampleType
+  == 'Sample') are normalized; QC, Calibrator, and Buffer samples are
+  automatically excluded.
 
 - verbose:
 
@@ -132,7 +133,7 @@ if (FALSE) { # \dontrun{
 # Starting with unnormalized ADAT
 unnormalized_adat <- read_adat("unnormalized_study_data.adat")
 
-# Internal reference from study samples (default)
+# Internal reference from study samples (default - all samples normalized together)
 med_norm_adat <- medianNormalize(unnormalized_adat)
 
 # Reference from another ADAT
@@ -143,9 +144,10 @@ med_norm_adat <- medianNormalize(unnormalized_adat, reference = ref_adat)
 ref_data <- read.csv("reference_file.csv")
 med_norm_adat <- medianNormalize(unnormalized_adat, reference = ref_data)
 
-# Custom grouping by multiple variables
-# Use when total protein load changes due to analysis conditions
-med_norm_adat <- medianNormalize(unnormalized_adat, by = c("Sex", "SampleType"))
+# Custom grouping by biological variables
+# Use when samples should be normalized separately by group
+med_norm_adat <- medianNormalize(unnormalized_adat, by = "Sex")
+med_norm_adat <- medianNormalize(unnormalized_adat, by = c("Sex", "Age_Group"))
 
 # If you already have normalized data, first reverse the normalization
 normalized_adat <- read_adat("normalized_study_data.adat")

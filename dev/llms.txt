@@ -514,7 +514,7 @@ Functionality required to bridge between SomaScan versions, e.g. 11k -\>
 Functions related to normalizing RFU values in a `soma_adat` object.
 
 - [`medianNormalize()`](https://somalogic.github.io/SomaDataIO/dev/reference/medianNormalize.md)
-  : Perform Median Normalization
+  : Perform Median Normalization on Study Samples
 - [`reverseMedianNormalize()`](https://somalogic.github.io/SomaDataIO/dev/reference/reverseMedianNormalize.md)
   : Reverse Median Normalization from Study Samples
 
