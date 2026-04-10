@@ -94,7 +94,7 @@ reverseMedianNormalize <- function(adat, verbose = TRUE) {
 
   # Determine which normalization type was applied to study samples ----
   # Only one type should be applied, check which was last
-  # Identify the last normalization-related token and ensure it is the final step
+  # Find the last step that contains "SMP" (sample transformation step)
   norm_idx <- which(
     grepl("MedNormSMP", step_tokens, ignore.case = TRUE) |
       grepl("anmlSMP", step_tokens, ignore.case = TRUE)
@@ -105,10 +105,17 @@ reverseMedianNormalize <- function(adat, verbose = TRUE) {
       call. = FALSE
     )
   }
+  
+  # Find the last step that contains "SMP" (indicating sample transformation)
+  smp_idx <- which(grepl("SMP", step_tokens, ignore.case = TRUE))
+  last_smp_idx <- if (length(smp_idx) > 0) smp_idx[length(smp_idx)] else 0
+  
   last_norm_idx <- norm_idx[length(norm_idx)]
-  if (last_norm_idx != length(step_tokens)) {
+  
+  # Check that the normalization step is the last SMP transformation step
+  if (last_norm_idx != last_smp_idx) {
     stop(
-      "Median/ANML normalization of study samples is not the final processing step. ",
+      "Median/ANML normalization of study samples is not the final SMP transformation step. ",
       "ProcessSteps: ", process_steps, ". ",
       "Reversal requires normalization to be the last transformation applied to study samples.",
       call. = FALSE

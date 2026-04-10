@@ -1,16 +1,23 @@
-# SomaDataIO (6.5.0.9000)
+# SomaDataIO 6.5.0.9000
 
 ### New Functions
 
 * Added `medianNormalize()` function
-  - performs median normalization on `soma_adat` objects that have been 
-    hybridization normalized and plate scaled
+  - performs median normalization of study samples on `soma_adat` objects
+    that have been hybridization normalized and plate scaled
   - includes validation to ensure required normalization steps have been applied
   - supports multiple reference approaches:
     - Internal reference built from study samples
     - Reference extracted from existing `soma_adat` object
     - External reference as a data.frame
   - supports custom grouping by multiple clinical variables
+  
+* Added `reverseMedianNormalize()` function
+  - reverses median normalization (including ANML) that was previously
+    applied to study samples (`SampleType == "Sample"`)
+  - designed to work with standard SomaScan deliverable ADAT files where
+    study samples have undergone median or ANML normalization as the final
+    sample processing step
 
 ### Function and Object Improvements
 
@@ -22,7 +29,7 @@
   - removed `getAnnoVer()` function and `ver_dict` object
   - removed `tools::md5sum` import dependency
 
-# SomaDataIO (6.5.0)
+# SomaDataIO 6.5.0
 
 ### Function and Object Improvements
 
@@ -48,7 +55,7 @@
 * Updated `dplyr` verb tests to no longer explicitly test
   for ordering of attributes (#165)
   
-# SomaDataIO (6.4.0)
+# SomaDataIO 6.4.0
 
 ### New Functions
 

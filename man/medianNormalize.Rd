@@ -2,9 +2,9 @@
 % Please edit documentation in R/medianNormalize.R
 \name{medianNormalize}
 \alias{medianNormalize}
-\title{Perform Median Normalization}
+\title{Perform Median Normalization on Study Samples}
 \usage{
-medianNormalize(adat, reference = NULL, by = "SampleType", verbose = TRUE)
+medianNormalize(adat, reference = NULL, by = NULL, verbose = TRUE)
 }
 \arguments{
 \item{adat}{A \code{soma_adat} object created using \code{\link[=read_adat]{read_adat()}}, containing
@@ -29,9 +29,9 @@ for each SeqId.}
 
 \item{by}{Character vector. Grouping variable(s) for grouped median
 normalization. Must be column name(s) in the ADAT. Normalization will be
-performed within each group separately. Default is \code{"SampleType"}. Note
-that only study samples (SampleType == 'Sample') are normalized; QC,
-Calibrator, and Buffer samples are automatically excluded.}
+performed within each group separately. Default is \code{NULL} (all samples
+normalized together). Note that only study samples (SampleType == 'Sample')
+are normalized; QC, Calibrator, and Buffer samples are automatically excluded.}
 
 \item{verbose}{Logical. Should progress messages be printed? Default is \code{TRUE}.}
 }
@@ -114,7 +114,7 @@ have already undergone median normalization (ANML or standard), first use
 # Starting with unnormalized ADAT
 unnormalized_adat <- read_adat("unnormalized_study_data.adat")
 
-# Internal reference from study samples (default)
+# Internal reference from study samples (default - all samples normalized together)
 med_norm_adat <- medianNormalize(unnormalized_adat)
 
 # Reference from another ADAT
@@ -125,9 +125,10 @@ med_norm_adat <- medianNormalize(unnormalized_adat, reference = ref_adat)
 ref_data <- read.csv("reference_file.csv")
 med_norm_adat <- medianNormalize(unnormalized_adat, reference = ref_data)
 
-# Custom grouping by multiple variables
-# Use when total protein load changes due to analysis conditions
-med_norm_adat <- medianNormalize(unnormalized_adat, by = c("Sex", "SampleType"))
+# Custom grouping by biological variables
+# Use when samples should be normalized separately by group
+med_norm_adat <- medianNormalize(unnormalized_adat, by = "Sex")
+med_norm_adat <- medianNormalize(unnormalized_adat, by = c("Sex", "Age_Group"))
 
 # If you already have normalized data, first reverse the normalization
 normalized_adat <- read_adat("normalized_study_data.adat")

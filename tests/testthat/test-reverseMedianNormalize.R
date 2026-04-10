@@ -83,17 +83,46 @@ test_that("`reverseMedianNormalize` + `medianNormalize` workflow", {
   expect_true(grepl("MedNormSMP", final_header$ProcessSteps))
 })
 
-test_that("`reverseMedianNormalize` validates normalization is final step", {
-  # Test error when normalization is not the final step
+test_that("`reverseMedianNormalize` validates normalization is final SMP step", {
+  # Test error when normalization is not the final SMP transformation step
   test_data_invalid <- test_data_full
   header_meta <- attr(test_data_invalid, "Header.Meta")
-  header_meta$HEADER$ProcessSteps <- "Raw RFU, Hyb Normalization, medNormInt, anmlSMP, plateScale"  # anmlSMP not final
+  header_meta$HEADER$ProcessSteps <- "Raw RFU, Hyb Normalization, anmlSMP, medNormInt, CustomSMP"  # anmlSMP not final SMP step
   attr(test_data_invalid, "Header.Meta") <- header_meta
 
   expect_error(
     reverseMedianNormalize(test_data_invalid, verbose = FALSE),
-    "Median/ANML normalization of study samples is not the final processing step"
+    "Median/ANML normalization of study samples is not the final SMP transformation step"
   )
+})
+
+test_that("`reverseMedianNormalize` works with production ADATs having Filtered step", {
+  # Test that function works when "Filtered" step is appended after normalization
+  filtered_data <- test_data_full
+  header_meta <- attr(filtered_data, "Header.Meta")
+  header_meta$HEADER$ProcessSteps <- "Raw RFU, Hyb Normalization, medNormInt, plateScale, anmlSMP, Filtered"
+  attr(filtered_data, "Header.Meta") <- header_meta
+
+  # Add normalization scale factors
+  filtered_data$NormScale_20 <- c(1.15, 0.95, 1.08)
+  filtered_data$NormScale_0_5 <- c(1.22, 0.88, 1.12)
+  filtered_data$NormScale_0_005 <- c(0.93, 1.07, 0.98)
+
+  # Should not error despite "Filtered" being the final step
+  expect_no_error(
+    result <- reverseMedianNormalize(filtered_data, verbose = FALSE)
+  )
+
+  # Check that result is valid and normalization was reversed
+  expect_true(is.soma_adat(result))
+  result_header <- attr(result, "Header.Meta")$HEADER
+  expect_true(grepl("rev-anmlSMP", result_header$ProcessSteps))
+  
+  # Scale factors should be reset to 1.0 for study samples
+  sample_mask <- result$SampleType == "Sample"
+  expect_true(all(result$NormScale_20[sample_mask] == 1.0))
+  expect_true(all(result$NormScale_0_5[sample_mask] == 1.0))
+  expect_true(all(result$NormScale_0_005[sample_mask] == 1.0))
 })
 
 test_that("`reverseMedianNormalize` handles ANMLFractionUsed columns properly", {
