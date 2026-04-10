@@ -277,6 +277,26 @@ test_that("`medianNormalize` produces expected verbose output", {
   )
 })
 
+test_that("`medianNormalize` default behavior with by = NULL", {
+  # Test that the new default (by = NULL) works correctly
+  expect_no_error(
+    result_default <- medianNormalize(test_data, verbose = FALSE)
+  )
+
+  # Test that explicitly setting by = NULL gives the same result
+  expect_no_error(
+    result_explicit <- medianNormalize(test_data, by = NULL, verbose = FALSE)
+  )
+
+  # Both should produce identical results
+  expect_equal(result_default, result_explicit)
+
+  # Check that all samples are treated as one group (no grouping)
+  expect_true(is.soma_adat(result_default))
+  norm_cols <- grep("^NormScale_", names(result_default), value = TRUE)
+  expect_equal(length(norm_cols), 3)  # Should have 3 dilution groups
+})
+
 test_that("`medianNormalize` errors on already normalized data", {
   # Create ANML-like test data by modifying test_data
   anml_test_data <- test_data

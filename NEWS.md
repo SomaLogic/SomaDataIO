@@ -1,4 +1,4 @@
-# SomaDataIO (6.5.0.9000)
+# SomaDataIO 6.5.0.9000
 
 ### New Functions
 
@@ -22,7 +22,7 @@
   - removed `getAnnoVer()` function and `ver_dict` object
   - removed `tools::md5sum` import dependency
 
-# SomaDataIO (6.5.0)
+# SomaDataIO 6.5.0
 
 ### Function and Object Improvements
 
@@ -48,7 +48,7 @@
 * Updated `dplyr` verb tests to no longer explicitly test
   for ordering of attributes (#165)
   
-# SomaDataIO (6.4.0)
+# SomaDataIO 6.4.0
 
 ### New Functions
 
