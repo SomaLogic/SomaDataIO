@@ -114,7 +114,9 @@ Use a “list columns” approach via nested tibble object using `dplyr`,
 aov_tbl <- aov_tbl |>
   mutate(
     formula   = map(AptName, ~ as.formula(paste(.x, "~ Group"))), # create formula
-    aov_model = map(formula, ~ stats::aov(.x, data = cleanData)),  # fit ANOVA-models
+    aov_model = map(formula, ~ stats::aov(.x,                 # fit ANOVA-models
+                                          data = cleanData,   
+                                          contrasts = NULL)),  
     aov_smry  = map(aov_model, summary) |> map(1L),      # summary() method
     F.stat    = map(aov_smry, "F value") |> map_dbl(1L), # pull out F-statistic
     p.value   = map(aov_smry, "Pr(>F)") |> map_dbl(1L),  # pull out p-values
