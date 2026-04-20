@@ -1,6 +1,6 @@
 ---
 title: "Pre-Processing SomaScan"
-author: "SomaScan Bioinformatics Team, Standard BioTools, Inc."
+author: "SomaScan Bioinformatics Team, SomaLogic Operating Co., Inc."
 description: >
   A primer on pre-processing 'SomaScan' data for analysis, including filtering
   samples and features, data QC, and transformations.

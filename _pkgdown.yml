@@ -97,22 +97,29 @@ articles:
   - title: Loading and Wrangling
     navbar: ~
     contents:
-    - starts_with("articles/tips-")
+    - articles/tips-loading-and-wrangling
 
-  - title: Command Line Merge Tool
+  - title: Pre-Processing
     navbar: ~
     contents:
-    - articles/cli-merge-tool
+    - articles/pre-processing
 
   - title: Lifting and Bridging
     navbar: ~
     contents:
     - articles/lifting-and-bridging
 
-  - title: Pre-Processing
+  - title: Command Line Merge Tool
     navbar: ~
     contents:
-    - articles/pre-processing
+    - articles/cli-merge-tool
+
+  - title: Miscellaneous Tips
+    navbar: ~
+    contents:
+    - articles/tips-safely-map-values
+    - articles/tips-safely-rename-df
+    - articles/tips-train-test-setup
 
   - title: Statistical Workflow Examples
     contents:
