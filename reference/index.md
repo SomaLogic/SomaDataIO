@@ -149,6 +149,15 @@ Functionality required to bridge between SomaScan versions, e.g. 11k -\>
   [`getSomaScanLiftCCC()`](https://somalogic.github.io/SomaDataIO/reference/adat-helpers.md)
   : Helpers to Extract Information from an ADAT
 
+## Normalization
+
+Functions related to normalizing RFU values in a `soma_adat` object.
+
+- [`medianNormalize()`](https://somalogic.github.io/SomaDataIO/reference/medianNormalize.md)
+  : Perform Median Normalization on Study Samples
+- [`reverseMedianNormalize()`](https://somalogic.github.io/SomaDataIO/reference/reverseMedianNormalize.md)
+  : Reverse Median Normalization from Study Samples
+
 ## Expression Data
 
 Functions to convert objects to those familiar with `expression` data.

@@ -33,12 +33,14 @@ The easiest way to install `SomaDataIO` is to install directly from
 CRAN:
 
 ``` r
+
 install.packages("SomaDataIO")
 ```
 
 Alternatively from GitHub:
 
 ``` r
+
 remotes::install_github("SomaLogic/SomaDataIO")
 ```
 
@@ -46,12 +48,14 @@ which installs the most current “development” version from the
 repository `HEAD`. To install the *most recent* release, use:
 
 ``` r
+
 remotes::install_github("SomaLogic/SomaDataIO@*release")
 ```
 
 To install a *specific* tagged release, use:
 
 ``` r
+
 remotes::install_github("SomaLogic/SomaDataIO@v5.3.0")
 ```
 
@@ -89,6 +93,7 @@ must be installed separately from
 from the `R` Console:
 
 ``` r
+
 if (!requireNamespace("BiocManager", quietly = TRUE)) {
   install.packages("BiocManager")
 }
@@ -103,12 +108,14 @@ Information about Bioconductor can be found here:
 Upon *successful* installation, load `SomaDataIO` as normal:
 
 ``` r
+
 library(SomaDataIO)
 ```
 
 For an index of available commands:
 
 ``` r
+
 library(help = SomaDataIO)
 ```
 
@@ -133,6 +140,7 @@ to run canned examples (or analyses). They can be accessed once
     light-weight version containing only the first 10 samples:
 
     ``` r
+
     dir(system.file("extdata", package = "SomaDataIO"), full.names = TRUE)
     ```
 
@@ -176,6 +184,7 @@ Loading an ADAT text file is simple using
 [`read_adat()`](https://somalogic.github.io/SomaDataIO/reference/read_adat.md):
 
 ``` r
+
 # Note: This `system.file()` command returns a filepath to the `example_data10` 
 # object in the `SomaDataIO` package
 adat_path <- system.file("extdata", "example_data10.adat",
@@ -240,6 +249,7 @@ the most popular [dplyr](https://dplyr.tidyverse.org) and
 [tidyr](https://tidyr.tidyverse.org) generics.
 
 ``` r
+
 # see full complement of `soma_adat` methods
 methods(class = "soma_adat")
 #>  [1] [              [[             [[<-           [<-            ==            
@@ -267,6 +277,7 @@ method. Here, joining the `ex_clin_data` object adds in two additional
 clinical variables, `smoking_status` and `alcohol_use`:
 
 ``` r
+
 # `clin_path` should be the elaborated path and file name of the *.csv or
 # similar file to be loaded into the R workspace from your local file system
 # (e.g. clin_path = "PATH_TO_CLIN/clin_data.csv")

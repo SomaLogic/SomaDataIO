@@ -26,6 +26,7 @@ The clinical merge tool is an `R script` that comes with an installation
 of [SomaDataIO](https://CRAN.R-project.org/package=SomaDataIO):
 
 ``` r
+
 dir(system.file("cli", "merge", package = "SomaDataIO", mustWork = TRUE))
 #> [1] "merge_clin.R" "meta.csv"     "meta2.csv"
 
@@ -37,6 +38,7 @@ merge_script
 First create a temporary “analysis” directory:
 
 ``` r
+
 analysis_dir <- tempfile(pattern = "somascan-")
 # create directory
 dir.create(analysis_dir)
@@ -61,6 +63,7 @@ This will be the “new” starting point for the clinical data merge and
 represents where customers would typically begin an analysis.
 
 ``` r
+
 feats <- withr::with_seed(3, sample(getAnalytes(example_data), 5L))
 sub_adat <- dplyr::select(example_data, PlateId, SlideId, Subarray,
                           SampleId, Age, all_of(feats)) |> head(9L)
@@ -75,6 +78,7 @@ Next we create random clinical data with a common key (this is typically
 the `SampleId` identifier but it could be any common key).
 
 ``` r
+
 df <- data.frame(SampleId = as.character(seq(1, 9, by = 2)),  # common key
                  group    = c("a", "b", "a", "b", "a"),
                  newvar   = withr::with_seed(1, rnorm(5)))
@@ -95,6 +99,7 @@ withr::with_dir(analysis_dir,
 At this point there are now 3 files in our analysis directory:
 
 ``` r
+
 dir(analysis_dir)
 #> [1] "clin-data.csv"  "ex-data-9.adat" "merge_clin.R"
 ```
@@ -140,7 +145,7 @@ and CSV), has the *same* variable name:
 
 ``` bash
 # change directory to the analysis path
-cd /var/folders/05/lw6x4b813x3_l5mvmn51kvlc0000gn/T//RtmpDEzL14/somascan-6aa51e4d5c5d
+cd /var/folders/k4/_09nqs851t35bpkk8lr_p43c0000gn/T//Rtmpy0JO0S/somascan-32bae3f8e63
 
 # run the Rscript:
 # - we recommend using the --vanilla flag
@@ -148,6 +153,7 @@ Rscript --vanilla merge_clin.R ex-data-9.adat clin-data.csv SampleId ex-data-9-m
 ```
 
 ``` r
+
 dir(analysis_dir)
 #> [1] "clin-data.csv"         "ex-data-9-merged.adat"
 #> [3] "ex-data-9.adat"        "merge_clin.R"
@@ -165,6 +171,7 @@ To highlight this syntax, first let’s create a new clinical data file
 with a *different* variable name, `ClinID`:
 
 ``` r
+
 # rename original `df`
 names(df) <- c("ClinID", "letter", "size")
 df
@@ -189,6 +196,7 @@ Rscript --vanilla merge_clin.R ex-data-9.adat clin-data2.csv SampleId=ClinID ex-
 ```
 
 ``` r
+
 dir(analysis_dir)
 #> [1] "clin-data.csv"          "clin-data2.csv"        
 #> [3] "ex-data-9-merged.adat"  "ex-data-9-merged2.adat"
@@ -201,6 +209,7 @@ Now let’s check that the clinical data was merged successfully and
 yields the expected `*.adat`:
 
 ``` r
+
 new <- withr::with_dir(analysis_dir,
   read_adat("ex-data-9-merged2.adat")
 )

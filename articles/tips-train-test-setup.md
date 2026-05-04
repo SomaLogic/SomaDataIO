@@ -31,6 +31,7 @@ In most analyses, you typically start with a raw original data set that
 you must split randomly into training and test sets.
 
 ``` r
+
 raw <- SomaDataIO::rn2col(head(mtcars, 10L), "CarModel") |>
   SomaDataIO::add_rowid("id") |> # set up identifier variable for the join()
   tibble::as_tibble()
@@ -55,6 +56,7 @@ raw
 ### Option \#1: `sample()`
 
 ``` r
+
 n     <- nrow(raw)
 idx   <- withr::with_seed(1, sample(1:n, floor(n / 2))) # sample random 50% (n = 5)
 train <- raw[idx, ]
@@ -83,6 +85,7 @@ test
 ### Option \#2: `anti_join()`
 
 ``` r
+
 # sample random 50% (n = 5)
 train <- withr::with_seed(1, dplyr::slice_sample(raw, n = floor(n / 2)))
 

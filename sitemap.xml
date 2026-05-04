@@ -43,6 +43,7 @@
 <url><loc>https://somalogic.github.io/SomaDataIO/reference/is_seqFormat.html</loc></url>
 <url><loc>https://somalogic.github.io/SomaDataIO/reference/lift_adat.html</loc></url>
 <url><loc>https://somalogic.github.io/SomaDataIO/reference/loadAdatsAsList.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/medianNormalize.html</loc></url>
 <url><loc>https://somalogic.github.io/SomaDataIO/reference/merge_clin.html</loc></url>
 <url><loc>https://somalogic.github.io/SomaDataIO/reference/params.html</loc></url>
 <url><loc>https://somalogic.github.io/SomaDataIO/reference/parseHeader.html</loc></url>
@@ -53,6 +54,7 @@
 <url><loc>https://somalogic.github.io/SomaDataIO/reference/read_adat.html</loc></url>
 <url><loc>https://somalogic.github.io/SomaDataIO/reference/read_annotations.html</loc></url>
 <url><loc>https://somalogic.github.io/SomaDataIO/reference/reexports.html</loc></url>
+<url><loc>https://somalogic.github.io/SomaDataIO/reference/reverseMedianNormalize.html</loc></url>
 <url><loc>https://somalogic.github.io/SomaDataIO/reference/rownames.html</loc></url>
 <url><loc>https://somalogic.github.io/SomaDataIO/reference/soma_adat.html</loc></url>
 <url><loc>https://somalogic.github.io/SomaDataIO/reference/transform.html</loc></url>

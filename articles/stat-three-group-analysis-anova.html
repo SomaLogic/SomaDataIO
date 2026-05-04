@@ -32,7 +32,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">SomaDataIO</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">6.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">6.6.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,12 +47,12 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/tips-loading-and-wrangling.html">Loading and Wrangling 'SomaScan'</a></li>
+    <li><a class="dropdown-item" href="../articles/pre-processing.html">Pre-Processing SomaScan</a></li>
+    <li><a class="dropdown-item" href="../articles/lifting-and-bridging.html">Lifting and Bridging SomaScan</a></li>
+    <li><a class="dropdown-item" href="../articles/cli-merge-tool.html">Command Line Merge Tool</a></li>
     <li><a class="dropdown-item" href="../articles/tips-safely-map-values.html">Safely Map Values via dplyr::left_join()</a></li>
     <li><a class="dropdown-item" href="../articles/tips-safely-rename-df.html">Safely Rename Data Frames</a></li>
     <li><a class="dropdown-item" href="../articles/tips-train-test-setup.html">Common train-test data setups</a></li>
-    <li><a class="dropdown-item" href="../articles/cli-merge-tool.html">Command Line Merge Tool</a></li>
-    <li><a class="dropdown-item" href="../articles/lifting-and-bridging.html">Lifting and Bridging SomaScan</a></li>
-    <li><a class="dropdown-item" href="../articles/pre-processing.html">Pre-Processing SomaScan</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><a class="dropdown-item" href="../articles/index.html">More articles...</a></li>
   </ul>
@@ -227,7 +227,9 @@ perform standard <em>preliminary</em> analyses on ‘SomaScan’ data.</p>
 <code class="sourceCode R"><span><span class="va">aov_tbl</span> <span class="op">&lt;-</span> <span class="va">aov_tbl</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>    formula   <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">AptName</span>, <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/formula.html" class="external-link">as.formula</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">.x</span>, <span class="st">"~ Group"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, <span class="co"># create formula</span></span>
-<span>    aov_model <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">formula</span>, <span class="op">~</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/aov.html" class="external-link">aov</a></span><span class="op">(</span><span class="va">.x</span>, data <span class="op">=</span> <span class="va">cleanData</span><span class="op">)</span><span class="op">)</span>,  <span class="co"># fit ANOVA-models</span></span>
+<span>    aov_model <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">formula</span>, <span class="op">~</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/aov.html" class="external-link">aov</a></span><span class="op">(</span><span class="va">.x</span>,                 <span class="co"># fit ANOVA-models</span></span>
+<span>                                          data <span class="op">=</span> <span class="va">cleanData</span>,   </span>
+<span>                                          contrasts <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span><span class="op">)</span>,  </span>
 <span>    aov_smry  <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">aov_model</span>, <span class="va">summary</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="fl">1L</span><span class="op">)</span>,      <span class="co"># summary() method</span></span>
 <span>    F.stat    <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">aov_smry</span>, <span class="st">"F value"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_dbl</a></span><span class="op">(</span><span class="fl">1L</span><span class="op">)</span>, <span class="co"># pull out F-statistic</span></span>
 <span>    p.value   <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">aov_smry</span>, <span class="st">"Pr(&gt;F)"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_dbl</a></span><span class="op">(</span><span class="fl">1L</span><span class="op">)</span>,  <span class="co"># pull out p-values</span></span>

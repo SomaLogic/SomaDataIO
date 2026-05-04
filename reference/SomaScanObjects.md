@@ -272,6 +272,6 @@ table(example_data$Sex)
 
 # Age Variable
 summary(example_data$Age)
-#>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+#>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.     NAs 
 #>   18.00   46.00   55.00   55.66   67.00   77.00      22 
 ```

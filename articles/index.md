@@ -8,6 +8,31 @@
   How to load and manipulate a ‘SomaScan’ flat text file into and R
   environment.
 
+### Pre-Processing
+
+- [Pre-Processing
+  SomaScan](https://somalogic.github.io/SomaDataIO/articles/pre-processing.md):
+
+  A primer on pre-processing ‘SomaScan’ data for analysis, including
+  filtering samples and features, data QC, and transformations.
+
+### Lifting and Bridging
+
+- [Lifting and Bridging
+  SomaScan](https://somalogic.github.io/SomaDataIO/articles/lifting-and-bridging.md):
+
+  A primer on lifting and bridging ‘SomaScan’ data.
+
+### Command Line Merge Tool
+
+- [Command Line Merge
+  Tool](https://somalogic.github.io/SomaDataIO/articles/cli-merge-tool.md):
+
+  A convenient CLI merge tool to add new clinical data to ‘SomaScan’
+  data.
+
+### Miscellaneous Tips
+
 - [Safely Map Values via
   dplyr::left_join()](https://somalogic.github.io/SomaDataIO/articles/tips-safely-map-values.md):
 
@@ -24,29 +49,6 @@
 
   Simple code syntax for common machine learning (ML) training vs test
   setups in R.
-
-### Command Line Merge Tool
-
-- [Command Line Merge
-  Tool](https://somalogic.github.io/SomaDataIO/articles/cli-merge-tool.md):
-
-  A convenient CLI merge tool to add new clinical data to ‘SomaScan’
-  data.
-
-### Lifting and Bridging
-
-- [Lifting and Bridging
-  SomaScan](https://somalogic.github.io/SomaDataIO/articles/lifting-and-bridging.md):
-
-  A primer on lifting and bridging ‘SomaScan’ data.
-
-### Pre-Processing
-
-- [Pre-Processing
-  SomaScan](https://somalogic.github.io/SomaDataIO/articles/pre-processing.md):
-
-  A primer on pre-processing ‘SomaScan’ data for analysis, including
-  filtering samples and features, data QC, and transformations.
 
 ### Statistical Workflow Examples
 

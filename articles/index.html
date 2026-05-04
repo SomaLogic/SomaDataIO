@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">SomaDataIO</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">6.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">6.6.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,12 +20,12 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/tips-loading-and-wrangling.html">Loading and Wrangling 'SomaScan'</a></li>
+    <li><a class="dropdown-item" href="../articles/pre-processing.html">Pre-Processing SomaScan</a></li>
+    <li><a class="dropdown-item" href="../articles/lifting-and-bridging.html">Lifting and Bridging SomaScan</a></li>
+    <li><a class="dropdown-item" href="../articles/cli-merge-tool.html">Command Line Merge Tool</a></li>
     <li><a class="dropdown-item" href="../articles/tips-safely-map-values.html">Safely Map Values via dplyr::left_join()</a></li>
     <li><a class="dropdown-item" href="../articles/tips-safely-rename-df.html">Safely Rename Data Frames</a></li>
     <li><a class="dropdown-item" href="../articles/tips-train-test-setup.html">Common train-test data setups</a></li>
-    <li><a class="dropdown-item" href="../articles/cli-merge-tool.html">Command Line Merge Tool</a></li>
-    <li><a class="dropdown-item" href="../articles/lifting-and-bridging.html">Lifting and Bridging SomaScan</a></li>
-    <li><a class="dropdown-item" href="../articles/pre-processing.html">Pre-Processing SomaScan</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><a class="dropdown-item" href="../articles/index.html">More articles...</a></li>
   </ul></li>
@@ -69,19 +69,13 @@
 
       <dl><dt><a href="tips-loading-and-wrangling.html">Loading and Wrangling 'SomaScan'</a></dt>
         <dd><p>How to load and manipulate a ‘SomaScan’ flat text file into and R environment.</p>
-        </dd><dt><a href="tips-safely-map-values.html">Safely Map Values via dplyr::left_join()</a></dt>
-        <dd><p>How to safely and reliably map variable between data frame columns.</p>
-        </dd><dt><a href="tips-safely-rename-df.html">Safely Rename Data Frames</a></dt>
-        <dd><p>How to safely and reliably rename variable names of a data frame (or <code>soma_adat</code>) in R.</p>
-        </dd><dt><a href="tips-train-test-setup.html">Common train-test data setups</a></dt>
-        <dd><p>Simple code syntax for common machine learning (ML) training vs test setups in R.</p>
       </dd></dl></div>
     <div class="section ">
-      <h3>Command Line Merge Tool</h3>
+      <h3>Pre-Processing</h3>
       <div class="section-desc"></div>
 
-      <dl><dt><a href="cli-merge-tool.html">Command Line Merge Tool</a></dt>
-        <dd><p>A convenient CLI merge tool to add new clinical data to ‘SomaScan’ data.</p>
+      <dl><dt><a href="pre-processing.html">Pre-Processing SomaScan</a></dt>
+        <dd><p>A primer on pre-processing ‘SomaScan’ data for analysis, including filtering samples and features, data QC, and transformations.</p>
       </dd></dl></div>
     <div class="section ">
       <h3>Lifting and Bridging</h3>
@@ -91,11 +85,22 @@
         <dd><p>A primer on lifting and bridging ‘SomaScan’ data.</p>
       </dd></dl></div>
     <div class="section ">
-      <h3>Pre-Processing</h3>
+      <h3>Command Line Merge Tool</h3>
       <div class="section-desc"></div>
 
-      <dl><dt><a href="pre-processing.html">Pre-Processing SomaScan</a></dt>
-        <dd><p>A primer on pre-processing ‘SomaScan’ data for analysis, including filtering samples and features, data QC, and transformations.</p>
+      <dl><dt><a href="cli-merge-tool.html">Command Line Merge Tool</a></dt>
+        <dd><p>A convenient CLI merge tool to add new clinical data to ‘SomaScan’ data.</p>
+      </dd></dl></div>
+    <div class="section ">
+      <h3>Miscellaneous Tips</h3>
+      <div class="section-desc"></div>
+
+      <dl><dt><a href="tips-safely-map-values.html">Safely Map Values via dplyr::left_join()</a></dt>
+        <dd><p>How to safely and reliably map variable between data frame columns.</p>
+        </dd><dt><a href="tips-safely-rename-df.html">Safely Rename Data Frames</a></dt>
+        <dd><p>How to safely and reliably rename variable names of a data frame (or <code>soma_adat</code>) in R.</p>
+        </dd><dt><a href="tips-train-test-setup.html">Common train-test data setups</a></dt>
+        <dd><p>Simple code syntax for common machine learning (ML) training vs test setups in R.</p>
       </dd></dl></div>
     <div class="section ">
       <h3>Statistical Workflow Examples</h3>

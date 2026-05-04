@@ -21,6 +21,7 @@ recommended prior to executing an analysis on SomaScan data, along with
 ### Load Libraries
 
 ``` r
+
 library(SomaDataIO)
 library(ggplot2)
 library(dplyr)
@@ -62,6 +63,7 @@ repository.*
 To retrieve the column metadata annotations for the data set:
 
 ``` r
+
 annots <- getAnalyteInfo(example_data)
 ```
 
@@ -70,6 +72,7 @@ which can be accessed as columns of a data frame once extracted with
 [`getAnalyteInfo()`](https://somalogic.github.io/SomaDataIO/reference/getAnalyteInfo.md):
 
 ``` r
+
 annots |> count(Type) |> arrange(desc(n))
 #> # A tibble: 7 × 2
 #>   Type                              n
@@ -112,6 +115,7 @@ analysis and can also be removed. This can be performed using
 [`dplyr::filter()`](https://dplyr.tidyverse.org/reference/filter.html):
 
 ``` r
+
 human_prots <- getAnalyteInfo(example_data) |>
   filter(Type == "Protein" & Organism == "Human") |>
   filter(!grepl("^Internal Use Only", TargetFullName))
@@ -129,6 +133,7 @@ Remember that the `human_prots` object is not an ADAT, but rather a
 to match the filtering performed on the `human_prots` object.
 
 ``` r
+
 # Identify SeqIds that differ between the data sets
 discard <- setdiff(grep("^seq\\.", colnames(example_data), value = TRUE), 
                    human_prots$AptName)
@@ -156,6 +161,7 @@ Again, please see
 details.
 
 ``` r
+
 human_prots |> count(ColCheck)
 #> # A tibble: 2 × 2
 #>   ColCheck     n
@@ -184,6 +190,7 @@ The `SampleType` column in the `filt_data` object can be used to filter
 down to the study samples only.
 
 ``` r
+
 filt_data |> count(SampleType)
 #> # A tibble: 4 × 2
 #>   SampleType     n
@@ -198,6 +205,7 @@ An ADAT file will also include buffer, calibrator and QC samples. It is
 recommended to remove these samples prior to an analysis.
 
 ``` r
+
 filt_data <- filt_data |> 
   filter(SampleType == "Sample")
 ```
@@ -221,6 +229,7 @@ to 2.5:
 ![](figures/pre-processing-img2-1.png)
 
 ``` r
+
 filt_data |>
   count(RowCheck) |> 
   mutate(percent = n / sum(n) * 100)
@@ -235,6 +244,7 @@ Note 2 samples in `filt_data` are flagged with this row check, and are
 marked with a `FLAG` value.
 
 ``` r
+
 # pull normalization scale factor variable names from ADAT
 norm_vars <- grep("^[Nn]orm[Ss]cale|^Med\\.Scale\\.", 
                   names(filt_data), value = TRUE)
@@ -254,6 +264,7 @@ range. Filtering samples based on the default `RowCheck` column will
 drop these samples from `filt_data`.
 
 ``` r
+
 filt_data <- filt_data |> 
   filter(RowCheck == "PASS")
 ```
@@ -286,6 +297,7 @@ buffer controls (or similar), this filter will likely not be
 appropriate.
 
 ``` r
+
 # filt_data does not have any outliers by default
 # create a "fake" outlier sample as an example
 apts <- getAnalytes(filt_data)
@@ -298,6 +310,7 @@ with the
 function.
 
 ``` r
+
 om <- calcOutlierMap(filt_data)
 plot(om)
 #> Warning: The `size` argument of `element_rect()` is deprecated as of ggplot2
@@ -323,6 +336,7 @@ outliers in the plot. These sample IDs should be investigated further
 and possibly considered for removal prior to analysis.
 
 ``` r
+
 rfu_outliers <- getOutlierIds(om)
 rfu_outliers
 #>   idx
@@ -347,6 +361,7 @@ variable and a `status_cont` continuous endpoint variable in the
 `filt_data` ADAT.
 
 ``` r
+
 # create "status" endpoints as examples
 filt_data <- withr::with_seed(101,
   filt_data |> 
@@ -358,6 +373,7 @@ filt_data <- withr::with_seed(101,
 Plot the normalization scale factors by the `status_class` endpoint.
 
 ``` r
+
 filt_data |> 
   select(SampleId, status_class, all_of(norm_vars)) |> 
   tidyr::pivot_longer(!c(SampleId, status_class),
@@ -379,6 +395,7 @@ There does not appear to be any visual normalization bias by
 t-tests.
 
 ``` r
+
 norm_vars |>
   as_tibble() |> 
   mutate(
@@ -400,6 +417,7 @@ Now, check for normalization bias by the continuous endpoint
 `status_cont`.
 
 ``` r
+
 filt_data |> 
   select(SampleId, status_cont, all_of(norm_vars)) |> 
   tidyr::pivot_longer(!c(SampleId, status_cont),
@@ -423,6 +441,7 @@ There does not appear to be any visual normalization bias by the
 results from correlation tests.
 
 ``` r
+
 norm_vars |>
   as_tibble() |> 
   mutate(
@@ -464,6 +483,7 @@ Let’s take a look at the distribution of one example analyte feature,
 `seq.10023.32`, before any transformations are applied.
 
 ``` r
+
 filt_data |> 
   ggplot(aes(x = seq.10023.32)) +
   geom_density(fill = "#59CFDB", color = "#59CFDB", alpha = 0.8) +
@@ -493,6 +513,7 @@ the `soma_adat` class, which will log-10 transform all SOMAmer analyte
 features within an ADAT file.
 
 ``` r
+
 filt_data <- filt_data |> 
   log10() 
 ```
@@ -505,16 +526,19 @@ analysis. To compare relative differential signal across analyte
 features, centering and scaling all of the RFU values should be applied
 through a Z-score transformation:
 
-$$Z = \frac{x - \mu}{\sigma}$$
+``` math
+Z = \frac{x - \mu}{\sigma}
+```
 
-where $x$ is the observed value, $\mu$, is the mean of the sample, and
-$\sigma$ is the standard deviation of the sample. The z-score
+where $`x`$ is the observed value, $`\mu`$, is the mean of the sample,
+and $`\sigma`$ is the standard deviation of the sample. The z-score
 transformation is typically performed on log10-transformed RFUs.
 
 This can be done by creating a simple function, `center_scale()`, and
 applying it to all analytes in `filt_data`.
 
 ``` r
+
 # center/scale
 center_scale <- function(.x) {    # .x = numeric vector
   out <- .x - mean(.x)  # center
@@ -529,6 +553,7 @@ Now, re-examine the distribution of the same analyte feature
 `seq.10023.32`:
 
 ``` r
+
 filt_data |> 
   ggplot(aes(x = seq.10023.32)) +
   geom_density(fill = "#59CFDB", color = "#59CFDB", alpha = 0.8) +
@@ -574,6 +599,7 @@ see the
 function documentation for more details.
 
 ``` r
+
 # first recreate outlier and endpoints, and add to original example_data object
 apts <- getAnalytes(example_data)
 example_data[12, apts[1:600]] <- example_data[12, apts[1:600]] * 100  # 600 apts ~ 12%
@@ -586,6 +612,7 @@ example_data <- withr::with_seed(101,
 ```
 
 ``` r
+
 processed_data <- preProcessAdat(adat            = example_data,
                                  filter.features = TRUE,
                                  filter.controls = TRUE,
@@ -616,6 +643,7 @@ processed_data <- preProcessAdat(adat            = example_data,
 ![](figures/pre-processing-full-preProcessAdat-2.png)
 
 ``` r
+
 
 processed_data
 #> ══ SomaScan Data ══════════════════════════════════════════════════════

@@ -1,5 +1,135 @@
 # Changelog
 
+## SomaDataIO 6.6.0
+
+#### New Functions
+
+- Added
+  [`medianNormalize()`](https://somalogic.github.io/SomaDataIO/reference/medianNormalize.md)
+  function
+  - performs median normalization of study samples on `soma_adat`
+    objects that have been hybridization normalized and plate scaled
+  - includes validation to ensure required normalization steps have been
+    applied
+  - supports multiple reference approaches:
+    - Internal reference built from study samples
+    - Reference extracted from existing `soma_adat` object
+    - External reference as a data.frame
+  - supports custom grouping by multiple clinical variables
+- Added
+  [`reverseMedianNormalize()`](https://somalogic.github.io/SomaDataIO/reference/reverseMedianNormalize.md)
+  function
+  - reverses median normalization (including ANML) that was previously
+    applied to study samples (`SampleType == "Sample"`)
+  - designed to work with standard SomaScan deliverable ADAT files where
+    study samples have undergone median or ANML normalization as the
+    final sample processing step
+
+#### Function and Object Improvements
+
+- Removed restrictive file validation from
+  [`read_annotations()`](https://somalogic.github.io/SomaDataIO/reference/read_annotations.md)
+  - removed `md5sum` checksum validation and version dictionary checks
+    resulting in misleading warnings about unknown annotations files
+  - warning was often misleading, as menu annotations file updates are
+    not always in alignment with timing of CRAN releases  
+  - removed `getAnnoVer()` function and `ver_dict` object
+  - removed [`tools::md5sum`](https://rdrr.io/r/tools/md5sum.html)
+    import dependency
+
+#### Documentation Updates
+
+- adjusted the order of the listed vignette articles to align with
+  typical workflow and most commonly used references, moving articles
+  covering miscellaneous tips to bottom of the order
+- added `contrasts = NULL` to
+  [`aov()`](https://rdrr.io/r/stats/aov.html) call in the ANOVA article
+  to denote the ability to modify and add contrasts to analysis if
+  needed
+
+## SomaDataIO 6.5.0
+
+CRAN release: 2026-02-06
+
+#### Function and Object Improvements
+
+- Updated
+  [`preProcessAdat()`](https://somalogic.github.io/SomaDataIO/reference/preProcessAdat.md)
+  to improve clarity
+  - `filter.qc` parameter has been renamed to `filter.rowcheck`
+  - for backward compatibility, `filter.qc` is still accepted but will
+    generate a deprecation warning and will be removed in a future
+    version
+  - removed language that discusses implication of `ColCheck` SeqIds not
+    being removed from
+    [`preProcessAdat()`](https://somalogic.github.io/SomaDataIO/reference/preProcessAdat.md)
+    output
+- Updated
+  [`read_annotations()`](https://somalogic.github.io/SomaDataIO/reference/read_annotations.md)
+  function and `ver_dict` object to recognize latest menu annotations
+  files from Q3 2025
+
+#### Documentation Updates
+
+- updated statistical analysis workflow articles with clearer messaging
+  comments around
+  [`preProcessAdat()`](https://somalogic.github.io/SomaDataIO/reference/preProcessAdat.md)
+- updated two-group and three-group analysis workflow articles to set
+  `center.scale = FALSE` in
+  [`preProcessAdat()`](https://somalogic.github.io/SomaDataIO/reference/preProcessAdat.md)
+  to align with guidance to users for univariate analysis
+
+#### Internal 🚧
+
+- Updated `dplyr` verb tests to no longer explicitly test for ordering
+  of attributes
+  ([\#165](https://github.com/SomaLogic/SomaDataIO/issues/165))
+
+## SomaDataIO 6.4.0
+
+CRAN release: 2025-08-29
+
+#### New Functions
+
+- Added
+  [`updateColMeta()`](https://somalogic.github.io/SomaDataIO/reference/updateColMeta.md)
+  function
+  - added utility function to update the column metadata in an ADAT to
+    match an annotations object from
+    [`read_annotations()`](https://somalogic.github.io/SomaDataIO/reference/read_annotations.md)
+- Added
+  [`is.AptName()`](https://somalogic.github.io/SomaDataIO/reference/SeqId.md)
+  to check for AptName format
+  - [`is.apt()`](https://somalogic.github.io/SomaDataIO/reference/SeqId.md)
+    may return TRUE for both SeqIds and AptNames
+  - wrote new function,
+    [`is.AptName()`](https://somalogic.github.io/SomaDataIO/reference/SeqId.md),
+    to explicitly check if a SomaScan identifier is an AptName
+  - [`is.AptName()`](https://somalogic.github.io/SomaDataIO/reference/SeqId.md)
+    code and tests based on code/tests from
+    [`is.SeqId()`](https://somalogic.github.io/SomaDataIO/reference/SeqId.md)
+
+#### Function and Object Improvements
+
+- Relaxed file version requirement in
+  [`read_annotations()`](https://somalogic.github.io/SomaDataIO/reference/read_annotations.md)
+  - now returns warning instead of error if annotations excel file
+    version does not match specific values
+- Updated
+  [`preProcessAdat()`](https://somalogic.github.io/SomaDataIO/reference/preProcessAdat.md)
+  to handle missing `ColCheck`
+  - added logic to
+    [`preProcessAdat()`](https://somalogic.github.io/SomaDataIO/reference/preProcessAdat.md)
+    to handle adats that are missing `ColCheck` in column annotation
+    data
+
+#### Documentation Updates
+
+- Show package loading in stat workflow vignettes
+  - move [`library()`](https://rdrr.io/r/base/library.html) calls
+    loading third-party packages to new code chunk that now appears in
+    analysis workflow articles
+
 ## SomaDataIO 6.3.0
 
 CRAN release: 2025-05-06
