@@ -17,6 +17,7 @@ exist, however the framework highlights how one could perform standard
 ## Load Libraries
 
 ``` r
+
 library(SomaDataIO)
 library(ggplot2)
 library(dplyr)
@@ -27,6 +28,7 @@ library(purrr)
 ## Data Preparation
 
 ``` r
+
 # the `example_data` .adat object
 # download from `SomaLogic-Data` repo or directly via bash command:
 # `wget https://raw.githubusercontent.com/SomaLogic/SomaLogic-Data/main/example_data.adat`
@@ -73,6 +75,7 @@ summary(cleanData$Age)
 ## Set up Train/Test Data
 
 ``` r
+
 # idx = hold-out 
 idx   <- withr::with_seed(3, sample(1:nrow(cleanData), size = nrow(cleanData) - 50))
 train <- cleanData[idx, ]
@@ -92,6 +95,7 @@ We use the `cleanData`, `train`, and `test` data objects from above.
 ### Predict Age
 
 ``` r
+
 LinR_tbl <- getAnalyteInfo(train) |>                # `train` from above
   select(AptName, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt) |>
   mutate(
@@ -128,6 +132,7 @@ LinR_tbl
 Fit an 8-marker model with the top 8 features from `LinR_tbl`:
 
 ``` r
+
 feats <- head(LinR_tbl$AptName, 8L)
 form  <- as.formula(paste("Age ~", paste(feats, collapse = "+")))
 fit   <- stats::lm(form, data = train, model = FALSE)
@@ -170,6 +175,7 @@ tibble(
 ### Visualize Concordance
 
 ``` r
+
 lims <- range(res$true_age, res$pred_age)
 res |>
   ggplot(aes(x = true_age, y = pred_age)) +

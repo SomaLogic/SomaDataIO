@@ -17,6 +17,7 @@ exist, however the framework highlights how one could perform standard
 ## Load Libraries
 
 ``` r
+
 library(SomaDataIO)
 library(dplyr)
 library(tidyr)
@@ -26,6 +27,7 @@ library(purrr)
 ## Data Preparation
 
 ``` r
+
 # the `example_data` .adat object
 # download from `SomaLogic-Data` repo or directly via bash command:
 # `wget https://raw.githubusercontent.com/SomaLogic/SomaLogic-Data/main/example_data.adat`
@@ -79,6 +81,7 @@ table(cleanData$Group)    # F = 0; M = 1
 ## Set up Train/Test Data
 
 ``` r
+
 # idx = hold-out 
 # seed resulting in 50/50 class balance
 idx   <- withr::with_seed(3, sample(1:nrow(cleanData), size = nrow(cleanData) - 50))
@@ -99,6 +102,7 @@ We use the `cleanData`, `train`, and `test` data objects from above.
 ### Predict Sex
 
 ``` r
+
 LR_tbl <- getAnalyteInfo(train) |>
   select(AptName, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt) |>
   mutate(
@@ -139,6 +143,7 @@ many of these are highly ranked in `LR_tbl`. Below we fit a 4-marker
 logistic regression model from cherry-picked gender-related features:
 
 ``` r
+
 # AptName is index key between `LR_tbl` and `train`
 feats <- LR_tbl$AptName[c(1L, 3L, 5L, 7L)]
 form  <- as.formula(paste("Group ~", paste(feats, collapse = "+")))

@@ -22,6 +22,7 @@ function via 2 steps:
 ### Example with `mtcars`
 
 ``` r
+
 # Create map/key of the names to map
 key <- c(MPG = "mpg", CARB = "carb")   # named vector
 key
@@ -45,6 +46,7 @@ Occasionally it might be required to rename `AptNames` (`seq.1234.56`)
 -\> `SeqIds` (`1234-56`) when analyzing SomaScan data.
 
 ``` r
+
 getAnalytes(example_data) |> 
   head()
 #> [1] "seq.10000.28" "seq.10001.7"  "seq.10003.15" "seq.10006.25"
@@ -84,6 +86,7 @@ similar result with similar syntax by writing your own renaming
 function:
 
 ``` r
+
 rename2 <- function (.data, ...) {
   map <- c(...)
   loc <- setNames(match(map, names(.data), nomatch = 0L), names(map))
@@ -97,6 +100,7 @@ rename2 <- function (.data, ...) {
 Now, with *similar* syntax (but cannot use `!!!`):
 
 ``` r
+
 # rename `mtcars` in-line
 rename2(mtcars, MPG = "mpg", CARB = "carb") |>
   head()

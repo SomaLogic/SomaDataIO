@@ -37,6 +37,16 @@
   - removed [`tools::md5sum`](https://rdrr.io/r/tools/md5sum.html)
     import dependency
 
+#### Documentation Updates
+
+- adjusted the order of the listed vignette articles to align with
+  typical workflow and most commonly used references, moving articles
+  covering miscellaneous tips to bottom of the order
+- added `contrasts = NULL` to
+  [`aov()`](https://rdrr.io/r/stats/aov.html) call in the ANOVA article
+  to denote the ability to modify and add contrasts to analysis if
+  needed
+
 ## SomaDataIO 6.5.0
 
 CRAN release: 2026-02-06

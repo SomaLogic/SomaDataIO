@@ -232,7 +232,7 @@ bridge.</p>
 <p>Lin’s CCC is calculated by computing the correlation between
 post-lift RFU values and the RFU values generated on the original
 SomaScan version, and is defined by:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mi>C</mi><mi>C</mi><mo>=</mo><mfrac><mrow><mn>2</mn><mi>ρ</mi><msub><mover><mi>σ</mi><mo accent="true">̂</mo></mover><mi>x</mi></msub><msub><mover><mi>σ</mi><mo accent="true">̂</mo></mover><mi>y</mi></msub></mrow><mrow><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mover><mi>μ</mi><mo accent="true">̂</mo></mover><mi>x</mi></msub><mo>−</mo><msub><mover><mi>μ</mi><mo accent="true">̂</mo></mover><mi>y</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup><mo>+</mo><msubsup><mover><mi>σ</mi><mo accent="true">̂</mo></mover><mi>x</mi><mn>2</mn></msubsup><mo>+</mo><msubsup><mover><mi>σ</mi><mo accent="true">̂</mo></mover><mi>y</mi><mn>2</mn></msubsup></mrow></mfrac><mo>,</mo></mrow><annotation encoding="application/x-tex">
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mi>C</mi><mi>C</mi><mo>=</mo><mfrac><mrow><mn>2</mn><mi>ρ</mi><msub><mover><mi>σ</mi><mo accent="true">̂</mo></mover><mi>x</mi></msub><msub><mover><mi>σ</mi><mo accent="true">̂</mo></mover><mi>y</mi></msub></mrow><mrow><mo stretchy="false" form="prefix">(</mo><msub><mover><mi>μ</mi><mo accent="true">̂</mo></mover><mi>x</mi></msub><mo>−</mo><msub><mover><mi>μ</mi><mo accent="true">̂</mo></mover><mi>y</mi></msub><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup><mo>+</mo><msubsup><mover><mi>σ</mi><mo accent="true">̂</mo></mover><mi>x</mi><mn>2</mn></msubsup><mo>+</mo><msubsup><mover><mi>σ</mi><mo accent="true">̂</mo></mover><mi>y</mi><mn>2</mn></msubsup></mrow></mfrac><mo>,</mo></mrow><annotation encoding="application/x-tex">
 CCC = \frac{2\rho\hat\sigma_x\hat\sigma_y}{(\hat\mu_x - \hat\mu_y)^2 + \hat\sigma^2_x + \hat\sigma^2_y},
 </annotation></semantics></math></p>
 <p>where
@@ -252,7 +252,7 @@ characterized not only by correlation (Pearson’s
 but also accounts for deviation from the
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>=</mo><mi>x</mi></mrow><annotation encoding="application/x-tex">y = x</annotation></semantics></math>
 unit line (diagonal). CCC range is in
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">[</mo><mo>−</mo><mn>1</mn><mo>,</mo><mn>1</mn><mo stretchy="true" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[-1, 1]</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mi>−</mi><mn>1</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[-1, 1]</annotation></semantics></math>
 and can be viewed as an estimate of the confidence in the bridging
 transformation (in normal reference samples) across SomaScan versions.
 Examples of factors that could affect lifting CCC are:</p>

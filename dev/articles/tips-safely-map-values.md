@@ -22,6 +22,7 @@ existing column to a new column.
 ### Mapping Example
 
 ``` r
+
 # wish to map values of 'x'
 df <- withr::with_seed(101, {
   data.frame(id    = 1:10L,
@@ -79,6 +80,7 @@ different syntax via
 [`tibble::enframe()`](https://tibble.tidyverse.org/reference/enframe.html).
 
 ``` r
+
 # note: `b` is missing in the map
 map_vec <- c(a = "cat", c = "bird", d = "turtle")
 map2 <- tibble::enframe(map_vec, name = "x", value = "new_x")

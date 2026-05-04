@@ -17,6 +17,7 @@ exist, however the framework highlights how one could perform standard
 ## Load Libraries
 
 ``` r
+
 library(SomaDataIO)
 library(ggplot2)
 library(dplyr)
@@ -27,6 +28,7 @@ library(purrr)
 ## Data Preparation
 
 ``` r
+
 # the `example_data` .adat object
 # download from `SomaLogic-Data` repo or directly via bash command:
 # `wget https://raw.githubusercontent.com/SomaLogic/SomaLogic-Data/main/example_data.adat`
@@ -81,6 +83,7 @@ table(cleanData$Group)
 ### Get annotations via `getAnalyteInfo()`:
 
 ``` r
+
 aov_tbl <- getAnalyteInfo(cleanData) |>
   select(AptName, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt)
 
@@ -111,6 +114,7 @@ Use a “list columns” approach via nested tibble object using `dplyr`,
 `purrr`, and [`stats::aov()`](https://rdrr.io/r/stats/aov.html)
 
 ``` r
+
 aov_tbl <- aov_tbl |>
   mutate(
     formula   = map(AptName, ~ as.formula(paste(.x, "~ Group"))), # create formula
@@ -150,6 +154,7 @@ aov_tbl
 Create a plotting tibble in the “long” format for `ggplot2`:
 
 ``` r
+
 target_map <- head(aov_tbl, 12L) |>     # mapping table
   select(AptName, Target)               # SeqId -> Target
 
@@ -178,6 +183,7 @@ plot_tbl
 ```
 
 ``` r
+
 plot_tbl |>
   ggplot(aes(x = RFU, fill = Group)) +
   geom_density(linetype = 0, alpha = 0.25) +

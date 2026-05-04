@@ -38,8 +38,8 @@ SomaScan signal space:
     [`is_intact_attr()`](https://somalogic.github.io/SomaDataIO/dev/reference/is_intact_attr.md)).
 2.  the sample matrix must be either human serum or human EDTA-plasma.
     No other matrices are currently supported. Additionally, bridging
-    must *not* be applied across matrices (i.e. serum $\leftrightarrow$
-    plasma).
+    must *not* be applied across matrices (i.e. serum
+    $`\leftrightarrow`$ plasma).
 3.  the RFU data must have been normalized by Adaptive Normalization via
     Maximum-Likelihood (ANML). This is the standard normalization for
     most SomaScan deliveries.
@@ -55,7 +55,7 @@ Lifting (aka “bridging”) scalars are numeric values used to multiply a
 vector of RFU values to linearly transform them into another signal
 space.
 
-Lifting scalars are generated from matched samples (n $>$ 1000) from a
+Lifting scalars are generated from matched samples (n $`>`$ 1000) from a
 healthy, normal reference population were run across assay versions.
 This experiment was run separately for both serum and plasma and all
 SomaScan runs were first normalized as per the standard normalization
@@ -63,12 +63,14 @@ procedure, and flagged samples were removed prior to further analysis.
 
 For each analyte, the lifting scalar is computed as the ratio of
 population *medians* between assay versions. For example, the linear
-scalar for the $i^{th}$ analyte translating from `11k` $\rightarrow$`7k`
-is defined as:
+scalar for the $`i^{th}`$ analyte translating from `11k`
+$`\rightarrow`$`7k` is defined as:
 
-$$R_{i} = \frac{{\widehat{\mu}}_{7k}}{{\widehat{\mu}}_{11k}},$$
+``` math
+R_i = \frac{\hat\mu_{7k}}{\hat\mu_{11k}},
+```
 
-where $\widehat{\mu}$ is the *median* signal for the $i^{th}$ analyte.
+where $`\hat\mu`$ is the *median* signal for the $`i^{th}`$ analyte.
 Signals generated in `11k` space can be multiplied by this scale factor
 to translate into `7k` space.
 
@@ -94,18 +96,20 @@ Lin’s CCC is calculated by computing the correlation between post-lift
 RFU values and the RFU values generated on the original SomaScan
 version, and is defined by:
 
-$$CCC = \frac{2\rho{\widehat{\sigma}}_{x}{\widehat{\sigma}}_{y}}{\left( {\widehat{\mu}}_{x} - {\widehat{\mu}}_{y} \right)^{2} + {\widehat{\sigma}}_{x}^{2} + {\widehat{\sigma}}_{y}^{2}},$$
+``` math
+CCC = \frac{2\rho\hat\sigma_x\hat\sigma_y}{(\hat\mu_x - \hat\mu_y)^2 + \hat\sigma^2_x + \hat\sigma^2_y},
+```
 
-where $\rho$, $\widehat{\mu}$, and $\widehat{\sigma}$ are the Pearson
+where $`\rho`$, $`\hat\mu`$, and $`\hat\sigma`$ are the Pearson
 correlation coefficient, and the estimated mean and standard deviation
 from assay version groups *x* and *y* respectively.
 
 #### Interpretation of CCC
 
 Lin’s CCC was chosen to evaluate lifting performance because it is
-characterized not only by correlation (Pearson’s $\rho$), but also
-accounts for deviation from the $y = x$ unit line (diagonal). CCC range
-is in $\lbrack - 1,1\rbrack$ and can be viewed as an estimate of the
+characterized not only by correlation (Pearson’s $`\rho`$), but also
+accounts for deviation from the $`y = x`$ unit line (diagonal). CCC
+range is in $`[-1, 1]`$ and can be viewed as an estimate of the
 confidence in the bridging transformation (in normal reference samples)
 across SomaScan versions. Examples of factors that could affect lifting
 CCC are:
@@ -121,6 +125,7 @@ function retrieves these values from an internal object for either
 `"serum"` and `"plasma"`.
 
 ``` r
+
 plasma <- getSomaScanLiftCCC("p")
 plasma
 #> # A tibble: 11,083 × 4
@@ -157,6 +162,7 @@ serum
 ```
 
 ``` r
+
 cdf_df <- data.frame(
   ccc    = c(plasma$plasma_11k_to_7k_ccc, serum$serum_11k_to_7k_ccc),
   matrix = rep(c("plasma", "serum"), each = nrow(plasma))
@@ -176,7 +182,7 @@ ggplot(cdf_df, aes(x = ccc, colour = matrix)) +
 Figure 2. Cumulative distribution function of CCC values for the 11k -\>
 7k lift.
 
-As shown in distribution above, for the `11k` $\rightarrow$`7k` lift,
+As shown in distribution above, for the `11k` $`\rightarrow`$`7k` lift,
 post-bridging CCC values above 0.75 (considered high quality) are
 approximately 88% and 84% of the SomaScan menu for plasma and serum
 respectively. In fact, characterizing CCC lifting quality into 3
@@ -188,7 +194,7 @@ categories (Low, Medium, High) yields the table below:
 | Serum  |         0.035 |               0.124 |            0.841 |
 
 Table 1. The proportion of the SomaScan menu split into 3 categories by
-CCC.
+CCC. {.table}
 
 ### SomaScan Analyte Setdiff
 
@@ -219,29 +225,32 @@ There are two scenarios to consider:
 
 ------------------------------------------------------------------------
 
-### Example: `5k` $\rightarrow$`11k`
+### Example: `5k` $`\rightarrow`$`11k`
 
 Since `example_data` object was originally run on SomaScan V4, this
 vignette will demonstrate the lifting/bridging process *from* a `5k`
-$\rightarrow$`11k` signal space, the most recent SomaScan version.
+$`\rightarrow`$`11k` signal space, the most recent SomaScan version.
 
 #### Steps
 
 1.  Determine that attributes are intact.
 
     ``` r
+
     is_intact_attr(adat)
     ```
 
 2.  Determine the matrix type of the data (serum or plasma).
 
     ``` r
+
     attr(adat, "Header.Meta")$HEADER$StudyMatrix
     ```
 
 3.  Ensure the current SomaScan signal space is lift-supported.
 
     ``` r
+
     getSignalSpace(adat)
     checkSomaScanVersion(getSignalSpace(adat))
     ```
@@ -250,6 +259,7 @@ $\rightarrow$`11k` signal space, the most recent SomaScan version.
     [`lift_adat()`](https://somalogic.github.io/SomaDataIO/dev/reference/lift_adat.md).
 
     ``` r
+
     lift_adat(adat, bridge = "<direction>")
     ```
 
@@ -259,6 +269,7 @@ $\rightarrow$`11k` signal space, the most recent SomaScan version.
 #### Step 1
 
 ``` r
+
 # determine intact attributes
 # must be TRUE
 is_intact_attr(example_data)
@@ -268,6 +279,7 @@ is_intact_attr(example_data)
 #### Step 2
 
 ``` r
+
 # determine study matrix
 # must be Human Serum or EDTA-Plasma
 attr(example_data, "Header.Meta")$HEADER$StudyMatrix |> as.character()
@@ -279,6 +291,7 @@ Confirm that the matrix of the SomaScan run was `"EDTA Plasma"`:
 #### Step 3
 
 ``` r
+
 # determine if current space can be lifted
 # must be V4, v4.1, or v5.0
 from_space <- getSignalSpace(example_data)
@@ -297,6 +310,7 @@ to perform the bridge/transformation:
 #### Step 4
 
 ``` r
+
 lift_11k <- lift_adat(example_data, bridge = "5k_to_11k")
 #> Warning: There are extra scaling values (5799) in the reference.
 #> They will be ignored.

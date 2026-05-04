@@ -5,6 +5,7 @@
 Load an ADAT text file into `R` memory with:
 
 ``` r
+
 # path to *.adat file
 # replace with your file path
 adat_path <- system.file("extdata", "example_data10.adat",
@@ -152,6 +153,7 @@ to the physical text file itself to identify any misidentified or
 mismatched landmarks:
 
 ``` r
+
 read_adat(adat_path, debug = TRUE)
 #> ══ Parsing Specs ═══════════════════════════════════════════════════════════════
 #> 45
@@ -196,6 +198,7 @@ read_adat(adat_path, debug = TRUE)
 ### Attributes Contain File and Feature Information
 
 ``` r
+
 names(attributes(my_adat))
 #> [1] "names"       "class"       "row.names"   "Header.Meta" "Col.Meta"   
 #> [6] "file_specs"  "row_meta"
@@ -228,6 +231,7 @@ attr(my_adat, "Col.Meta")
 ### Analyte Features (`seq.xxxx.xx`)
 
 ``` r
+
 getAnalytes(my_adat) |> head(20L)    # first 20 analytes; see AptName above
 #>  [1] "seq.10000.28"  "seq.10001.7"   "seq.10003.15"  "seq.10006.25" 
 #>  [5] "seq.10008.43"  "seq.10011.65"  "seq.10012.5"   "seq.10013.34" 
@@ -250,6 +254,7 @@ function creates a lookup table that links analyte feature names in the
 via the common index-key, `AptName`, in column 1:
 
 ``` r
+
 getAnalyteInfo(my_adat)
 #> # A tibble: 5,284 × 22
 #>    AptName  SeqId SeqIdVersion SomaId TargetFullName Target UniProt EntrezGeneID
@@ -276,6 +281,7 @@ getAnalyteInfo(my_adat)
 ### Clinical Data
 
 ``` r
+
 getMeta(my_adat)             # clinical meta data for each sample
 #>  [1] "PlateId"                "PlateRunDate"           "ScannerID"             
 #>  [4] "PlatePosition"          "SlideId"                "Subarray"              
@@ -311,6 +317,7 @@ You may perform basic mathematical transformations on the feature data
 [`?groupGenerics`](https://somalogic.github.io/SomaDataIO/dev/reference/groupGenerics.md)):
 
 ``` r
+
 head(my_adat$seq.2429.27)
 #> [1]  8642.3 12472.1 14627.7 13579.8  8938.8  6738.8
 
@@ -342,6 +349,7 @@ all.equal(my_adat, antilog(log10(my_adat)))
 #### Math Generics
 
 ``` r
+
 getGroupMembers("Math")
 #>  [1] "abs"      "sign"     "sqrt"     "ceiling"  "floor"    "trunc"   
 #>  [7] "cummax"   "cummin"   "cumprod"  "cumsum"   "exp"      "expm1"   
@@ -368,6 +376,7 @@ working with `soma_adat` objects simpler for those familiar with this
 standard toolkit:
 
 ``` r
+
 dim(my_adat)
 #> [1]   10 5318
 males <- dplyr::filter(my_adat, Sex == "M")
@@ -415,6 +424,7 @@ method. Here, joining the `ex_clin_data` `tibble` object adds in two
 additional clinical variables, `smoking_status` and `alcohol_use`:
 
 ``` r
+
 # `clin_path` should be the elaborated path and file name of the *.csv or
 # similar file to be loaded into the R workspace from your local file system
 # (e.g. clin_path = "PATH_TO_CLIN/clin_data.csv")
@@ -454,6 +464,7 @@ merged_adat |>
 ### Available S3 Methods `soma_adat`
 
 ``` r
+
 # see full complement of `soma_adat` methods
 methods(class = "soma_adat")
 #>  [1] [              [[             [[<-           [<-            ==            
@@ -472,10 +483,11 @@ methods(class = "soma_adat")
 ## Writing a `soma_adat`
 
 ``` r
+
 is_intact_attr(my_adat)   # MUST have intact attrs
 #> [1] TRUE
 
 write_adat(my_adat, file = tempfile("my-adat-", fileext = ".adat"))
 #> ✔ ADAT passed all checks and traps.
-#> ✔ ADAT written to: "/var/folders/nt/8s45mzm536g3k_v8f70g2gd80000gn/T//RtmprdMsMZ/my-adat-697b363ecdee.adat"
+#> ✔ ADAT written to: "/var/folders/k4/_09nqs851t35bpkk8lr_p43c0000gn/T//RtmpVceDWF/my-adat-2a845157112e.adat"
 ```

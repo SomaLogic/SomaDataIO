@@ -17,6 +17,7 @@ exist, however the framework highlights how one could perform standard
 ## Load Libraries
 
 ``` r
+
 library(SomaDataIO)
 library(ggplot2)
 library(dplyr)
@@ -27,6 +28,7 @@ library(purrr)
 ## Data Preparation
 
 ``` r
+
 # the `example_data` .adat object
 # download from `SomaLogic-Data` repo or directly via bash command:
 # `wget https://raw.githubusercontent.com/SomaLogic/SomaLogic-Data/main/example_data.adat`
@@ -75,6 +77,7 @@ table(cleanData$Sex)
 ### Get annotations via `getAnalyteInfo()`:
 
 ``` r
+
 t_tests <- getAnalyteInfo(cleanData) |>
   select(AptName, SeqId, Target = TargetFullName, EntrezGeneSymbol, UniProt)
 
@@ -105,6 +108,7 @@ Use a “list columns” approach via nested tibble object using `dplyr`,
 `purrr`, and [`stats::t.test()`](https://rdrr.io/r/stats/t.test.html)
 
 ``` r
+
 t_tests <- t_tests |>
   mutate(
     formula = map(AptName, ~ as.formula(paste(.x, "~ Sex"))), # create formula
@@ -141,6 +145,7 @@ t_tests
 Create a plotting tibble in the “long” format for `ggplot2`:
 
 ``` r
+
 target_map <- head(t_tests, 12L) |>     # mapping table
   select(AptName, Target)               # SeqId -> Target
 
@@ -172,6 +177,7 @@ plot_tbl
 ```
 
 ``` r
+
 plot_tbl |>
   ggplot(aes(x = Sex, y = RFU, fill = Sex)) +
   geom_boxplot(alpha = 0.5, outlier.shape = NA) +
