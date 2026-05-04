@@ -1,4 +1,4 @@
-# SomaDataIO 6.5.0.9000
+# SomaDataIO 6.6.0
 
 ### New Functions
 
