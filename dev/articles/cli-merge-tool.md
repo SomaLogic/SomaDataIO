@@ -145,7 +145,7 @@ and CSV), has the *same* variable name:
 
 ``` bash
 # change directory to the analysis path
-cd /var/folders/k4/_09nqs851t35bpkk8lr_p43c0000gn/T//RtmpGLXOyM/somascan-2170b974530
+cd /var/folders/5w/0_g32wkn49l83gpggk3grhk80000gn/T//Rtmpzi13nz/somascan-4d1f6807ede5
 
 # run the Rscript:
 # - we recommend using the --vanilla flag
