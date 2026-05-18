@@ -21,12 +21,12 @@ Source:
 [`DESCRIPTION`](https://github.com/SomaLogic/SomaDataIO/blob/main/DESCRIPTION)
 
 Field S (2026). *SomaDataIO: Input/Output 'SomaScan' Data*. R package
-version 6.6.0, <https://somalogic.github.io/SomaDataIO/>.
+version 6.6.1, <https://somalogic.github.io/SomaDataIO/>.
 
     @Manual{,
       title = {SomaDataIO: Input/Output 'SomaScan' Data},
       author = {Stu Field},
       year = {2026},
-      note = {R package version 6.6.0},
+      note = {R package version 6.6.1},
       url = {https://somalogic.github.io/SomaDataIO/},
     }

@@ -1,6 +1,25 @@
 # Changelog
 
+## SomaDataIO 6.6.1
+
+CRAN release: 2026-05-15
+
+#### Bug Fixes
+
+- Fixed bug in
+  [`medianNormalize()`](https://somalogic.github.io/SomaDataIO/reference/medianNormalize.md)
+  related to addition of `AptName` column in returned `Col.Meta`
+  attribute
+  - internal `.addMedNormReference()` now updates `Col.Meta` directly
+    rather than using
+    [`getAnalyteInfo()`](https://somalogic.github.io/SomaDataIO/reference/getAnalyteInfo.md),
+    which returns an `AptName` column; this avoids duplication in
+    downstream function calls to
+    [`getAnalyteInfo()`](https://somalogic.github.io/SomaDataIO/reference/getAnalyteInfo.md)
+
 ## SomaDataIO 6.6.0
+
+CRAN release: 2026-05-04
 
 #### New Functions
 
