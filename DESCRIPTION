@@ -1,7 +1,7 @@
 Type: Package
 Package: SomaDataIO
 Title: Input/Output 'SomaScan' Data
-Version: 6.6.1
+Version: 6.6.1.9000
 Authors@R: c(
     person(given = "Stu",
            family = "Field",
@@ -35,7 +35,8 @@ Imports:
     methods,
     readxl (>= 1.3.1),
     tibble (>= 3.1.2),
-    tidyr (>= 1.1.3)
+    tidyr (>= 1.1.3),
+    withr
 Suggests:
     Biobase,
     knitr,
@@ -45,16 +46,12 @@ Suggests:
     rmarkdown,
     spelling,
     testthat (>= 3.0.0),
-    usethis (>= 2.0.1),
-    withr
+    usethis (>= 2.0.1)
 VignetteBuilder: 
     knitr
 Copyright: SomaLogic Operating Co., Inc. 2026
 Encoding: UTF-8
 Language: en-US
-LazyData: true
-LazyDataCompression: xz
-LazyLoad: true
 Config/testthat/edition: 3
 Config/Needs/website: tidyverse/tidytemplate
 Roxygen: list(markdown = TRUE)

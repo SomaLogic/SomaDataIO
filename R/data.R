@@ -9,6 +9,11 @@
 #' @name SomaScanObjects
 #' @aliases example_data ex_analytes ex_anno_tbl ex_target_names ex_clin_data
 #' @docType data
+#' @export example_data
+#' @export ex_analytes
+#' @export ex_anno_tbl
+#' @export ex_target_names
+#' @export ex_clin_data
 #'
 #' @section Data Description:
 #'   The `example_data` object contains a SomaScan V4 study from healthy
@@ -70,6 +75,17 @@
 #'     demonstrate how to merge sample annotation information to an existing
 #'     `soma_adat` object.}
 #' }
+#'
+#' @section Example ADAT Files:
+#'   The package includes a minimal example ADAT file for testing and
+#'   documentation purposes:
+#'   \describe{
+#'     \item{`inst/extdata/example_data3.adat`}{A 3-sample subset of the original
+#'       example data (192 samples). This file contains the first 3 samples with
+#'       all 5,284 analyte features and complete ADAT header metadata. The small
+#'       size (< 1 MB) makes it ideal for parsing examples and unit tests.
+#'       Access via: `system.file("extdata", "example_data3.adat", package = "SomaDataIO")`}
+#'   }
 #'
 #' @source \url{https://github.com/SomaLogic/SomaLogic-Data}
 #' @source SomaLogic Operating Co., Inc.

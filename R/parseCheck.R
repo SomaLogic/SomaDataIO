@@ -21,7 +21,8 @@
 #'   \item{Row Meta:}{Character string of the row meta data.}
 #' @author Stu Field
 #' @examples
-#' f <- system.file("extdata", "example_data10.adat",
+#' # minimal ADAT containing 3 samples
+#' f <- system.file("extdata", "example_data3.adat",
 #'             package = "SomaDataIO", mustWork = TRUE)
 #' lines <- .getHeaderLines(f) |> strsplit("\t", fixed = TRUE)
 #' parseCheck(lines)

@@ -1,6 +1,4 @@
 # Setup ----
-data("example_data", package = "SomaDataIO")
-
 # Create small representative subset for faster tests
 test_data_full <- example_data[1:3, ]
 
@@ -117,7 +115,7 @@ test_that("`reverseMedianNormalize` works with production ADATs having Filtered 
   expect_true(is.soma_adat(result))
   result_header <- attr(result, "Header.Meta")$HEADER
   expect_true(grepl("rev-anmlSMP", result_header$ProcessSteps))
-  
+
   # Scale factors should be reset to 1.0 for study samples
   sample_mask <- result$SampleType == "Sample"
   expect_true(all(result$NormScale_20[sample_mask] == 1.0))

@@ -3,8 +3,8 @@
     Code
       lapply(adats, dim)
     Output
-      $example_data10.adat
-      [1]   10 5318
+      $example_data3.adat
+      [1]    3 5318
       
       $single_sample.adat
       [1]    1 5318
@@ -216,6 +216,6 @@
       [1] "PlateTailTest_Example_Adat_Set002"
       
       $CollapsedAdats
-      [1] "example_data10.adat, single_sample.adat"
+      [1] "example_data3.adat, single_sample.adat"
       
 

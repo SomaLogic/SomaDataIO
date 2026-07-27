@@ -1,7 +1,6 @@
 # Setup ----
 # Create a minimal test dataset with options for small vs full size
 create_test_data <- function(small = FALSE) {
-  data("example_data", package = "SomaDataIO")
 
   if (small) {
     # Ultra-small dataset for most tests: 3 samples, subset of analytes

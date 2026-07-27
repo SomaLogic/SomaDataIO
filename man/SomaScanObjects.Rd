@@ -90,6 +90,19 @@ see the Data Standardization and File Specification Technical Note. General
 details are outlined above.
 }
 
+\section{Example ADAT Files}{
+
+The package includes a minimal example ADAT file for testing and
+documentation purposes:
+\describe{
+\item{\code{inst/extdata/example_data3.adat}}{A 3-sample subset of the original
+example data (192 samples). This file contains the first 3 samples with
+all 5,284 analyte features and complete ADAT header metadata. The small
+size (< 1 MB) makes it ideal for parsing examples and unit tests.
+Access via: \code{system.file("extdata", "example_data3.adat", package = "SomaDataIO")}}
+}
+}
+
 \examples{
 # S3 print method
 example_data

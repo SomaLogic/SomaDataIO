@@ -1,7 +1,16 @@
-
+#' Package Load Hook
+#'
+#' Creates active bindings for UTF-8/ASCII symbols and sets up
+#' lazy-loaded data objects.
+#'
+#' @param libname Library name
+#' @param pkgname Package name
+#' @keywords internal
+#' @noRd
 .dummy <- function() { }  # nolint: brace_linter.
 
 .onLoad <- function(libname, pkgname) {
+  # Create active bindings for UTF-8/ASCII symbols
   # this is to make the active binding switch between
   # UTF-8 and ASCII symbol encodings
   # nocov start
@@ -19,6 +28,20 @@
   makeActiveBinding("symb_point", function() "\u276F" %enc% ">", pkgenv)
   makeActiveBinding("symb_info", function() "\u2139" %enc% "i", pkgenv)
   # nocov end
+  
+  # Create lazy-loaded objects in package namespace
+  ns <- asNamespace(pkgname)
+  
+  delayedAssign("example_data", create_example_data("full"), 
+                assign.env = ns)
+  delayedAssign("ex_analytes", create_ex_analytes(), 
+                assign.env = ns)
+  delayedAssign("ex_anno_tbl", create_ex_anno_tbl(), 
+                assign.env = ns)
+  delayedAssign("ex_target_names", create_ex_target_names(), 
+                assign.env = ns)
+  delayedAssign("ex_clin_data", create_ex_clin_data(), 
+                assign.env = ns)
 }
 
 .onAttach <- function(libname, pkgname) {
@@ -63,3 +86,4 @@ create_legal <- function() {
   )
   paste(x, collapse = "\n")
 }
+

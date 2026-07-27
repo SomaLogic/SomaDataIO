@@ -25,7 +25,7 @@
 #' @examples
 #' # path to *.adat file
 #' # replace with your file path
-#' adat_path <- system.file("extdata", "example_data10.adat",
+#' adat_path <- system.file("extdata", "example_data3.adat",
 #'                          package = "SomaDataIO", mustWork = TRUE)
 #' adat_path
 #'

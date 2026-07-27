@@ -145,7 +145,7 @@ to run canned examples (or analyses). They can be accessed once
   ```
 
   - within `SomaDataIO` it has been replaced by an abbreviated,
-    light-weight version containing only the first 10 samples:
+    light-weight version containing only the first 3 samples:
 
     ``` r
     dir(system.file("extdata", package = "SomaDataIO"), full.names = TRUE)
@@ -187,12 +187,12 @@ to run canned examples (or analyses). They can be accessed once
 Loading an ADAT text file is simple using `read_adat()`:
 
 ``` r
-# Note: This `system.file()` command returns a filepath to the `example_data10` 
-# object in the `SomaDataIO` package
-adat_path <- system.file("extdata", "example_data10.adat",
+# Note: This `system.file()` command returns a filepath to the `example_data3`
+# object in the `SomaDataIO` package, a minimal ADAT containing 3 samples
+adat_path <- system.file("extdata", "example_data3.adat",
                          package = "SomaDataIO", mustWork = TRUE)
 adat_path
-#> [1] "/Library/Frameworks/R.framework/Versions/4.5-x86_64/Resources/library/SomaDataIO/extdata/example_data10.adat"
+#> [1] "/Library/Frameworks/R.framework/Versions/4.5-x86_64/Resources/library/SomaDataIO/extdata/example_data3.adat"
 
 # `adat_path` should be the elaborated path and file name of the *.adat file to
 # be loaded into the R workspace from your local file system

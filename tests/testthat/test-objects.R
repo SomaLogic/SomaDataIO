@@ -1,6 +1,7 @@
 
 # Testing ----
 test_that("Sample objects are created properly", {
+  # Test lazy-loaded objects
   expect_s3_class(example_data, "soma_adat")
   expect_s3_class(ex_target_names, "target_map")
   expect_length(ex_analytes, 5284)
@@ -46,3 +47,47 @@ test_that("Sample objects are created properly", {
   expect_equal(getMeta(example_data), meta)
   expect_equal(dim(example_data), c(192, 5318))
 })
+
+# Test creation functions ----
+test_that("create_example_data() generates proper soma_adat objects", {
+  # Test minimal
+  mini <- create_example_data("minimal")
+  expect_s3_class(mini, "soma_adat")
+  expect_equal(dim(mini), c(10, 5318))
+  expect_equal(length(getAnalytes(mini)), 5284)
+  expect_equal(length(getMeta(mini)), 34)
+  # First 10 samples: 9 Sample + 1 Calibrator (from original data)
+  expect_equal(sum(mini$SampleType == "Sample"), 9)
+  
+  # Test full
+  full <- create_example_data("full")
+  expect_s3_class(full, "soma_adat")
+  expect_equal(dim(full), c(192, 5318))
+  expect_equal(as.numeric(table(full$SampleType)),
+               c(6, 10, 6, 170))  # Buffer, Calibrator, QC, Sample
+  
+  # Test attributes
+  expect_true(!is.null(attr(full, "Header.Meta")))
+  expect_true(!is.null(attr(full, "Col.Meta")))
+  expect_equal(dim(attr(full, "Col.Meta")), c(5284, 21))
+})
+
+test_that("create_ex_* helper functions work correctly", {
+  # These should create from full by default
+  apts <- create_ex_analytes()
+  expect_length(apts, 5284)
+  expect_true(all(grepl("^seq\\.", apts)))
+  
+  anno <- create_ex_anno_tbl()
+  expect_equal(dim(anno), c(5284, 22))
+  expect_true("AptName" %in% names(anno))
+  
+  targets <- create_ex_target_names()
+  expect_length(targets, 5284)
+  expect_s3_class(targets, "target_map")
+  
+  clin <- create_ex_clin_data()
+  expect_equal(dim(clin), c(170, 3))
+  expect_named(clin, c("SampleId", "smoking_status", "alcohol_use"))
+})
+

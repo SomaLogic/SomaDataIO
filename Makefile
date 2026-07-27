@@ -12,7 +12,6 @@ RSCRIPT = Rscript --vanilla
 
 
 all: check clean
-update: objects
 roxygen: docs
 
 docs:
@@ -60,13 +59,6 @@ check: build
 
 # create SomaDataIO package objects and re-save as 'data/*.rda'
 # requires an internet connection to pull from the SomaLogic-Data repository
-objects:
-	@ echo "Creating package objects ..."
-	@ wget https://raw.githubusercontent.com/SomaLogic/SomaLogic-Data/main/example_data.adat
-	@ $(RSCRIPT) data-raw/SomaScanObjects.R
-	@ echo "Saving objects to 'data/*.rda' ..."
-	@ $(RM) example_data.adat
-
 check_versions:
 	@ $(RSCRIPT) inst/check-pkg-versions.R
 

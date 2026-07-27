@@ -8,6 +8,7 @@
 if ( getRversion() >= "2.15.1" )
 utils::globalVariables(
   c(".",
+    "alcohol_use",
     "AptName",
     "array_id",
     "blank_col",
@@ -27,6 +28,7 @@ utils::globalVariables(
     "SampleType",
     "SeqId",
     "seqid",
+    "smoking_status",
     "SubjectCount",
     "SubjectId",
     "TargetFullName",

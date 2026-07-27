@@ -20,8 +20,8 @@
 #   Rscript --vanilla merge_clin.R <adat_path.adat> <clin_path.csv> <key> <out_path.adat>
 #
 # Examples:
-#   Rscript --vanilla merge_clin.R example_data10.adat meta.csv SampleId foo.adat
-#   Rscript --vanilla merge_clin.R example_data10.adat meta2.csv SampleId=ClinKey foo.adat
+#   Rscript --vanilla merge_clin.R example_data3.adat meta.csv SampleId foo.adat
+#   Rscript --vanilla merge_clin.R example_data3.adat meta2.csv SampleId=ClinKey foo.adat
 # --------------------------------------------------
 args <- commandArgs(trailingOnly = TRUE)
 stopifnot("`merge_clin.R` should be called with *4* arguments." = length(args) == 4L)

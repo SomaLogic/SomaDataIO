@@ -1,6 +1,6 @@
 
 # Setup ----
-f <- system.file("extdata", "example_data10.adat",
+f <- system.file("extdata", "example_data3.adat",
                  package = "SomaDataIO", mustWork = TRUE)
 lines <- .getHeaderLines(f) |> strsplit("\t", fixed = TRUE)
 
