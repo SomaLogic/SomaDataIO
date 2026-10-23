@@ -18,7 +18,7 @@ containing clinical variables to merge into \code{x}.
 }}
 
 \item{by}{A character vector of variables to join by.
-See \code{\link[dplyr:mutate-joins]{dplyr::left_join()}} for more details.}
+See \code{\link[dplyr:left_join]{dplyr::left_join()}} for more details.}
 
 \item{by_class}{If \code{clin_data} is a file path, a named character vector
 of the variable and its class. This ensures the "by-key" is compatible
@@ -26,7 +26,7 @@ for the join. For example, \code{c(SampleId = "character")}.
 See \code{\link[=read.table]{read.table()}} for details about its \code{colClasses} argument, and
 also the examples below.}
 
-\item{...}{Additional parameters passed to \code{\link[dplyr:mutate-joins]{dplyr::left_join()}}.}
+\item{...}{Additional parameters passed to \code{\link[dplyr:left_join]{dplyr::left_join()}}.}
 }
 \value{
 A \code{soma_adat} with new clinical variables merged.
@@ -38,7 +38,7 @@ results have been delivered.
 This requires the new clinical variables, i.e. non-proteomic, data to be
 merged with 'SomaScan' data into a "new" ADAT prior to analysis.
 \code{\link[=merge_clin]{merge_clin()}} easily merges such clinical variables into an
-existing \code{soma_adat} object and is a simple wrapper around \code{\link[dplyr:mutate-joins]{dplyr::left_join()}}.
+existing \code{soma_adat} object and is a simple wrapper around \code{\link[dplyr:left_join]{dplyr::left_join()}}.
 }
 \details{
 This functionality also exists as a command-line tool (R script) contained
@@ -86,7 +86,7 @@ merged2 <- merge_clin(adat, clin_file2,                # file path
 merged2
 }
 \seealso{
-\code{\link[dplyr:mutate-joins]{dplyr::left_join()}}
+\code{\link[dplyr:left_join]{dplyr::left_join()}}
 }
 \author{
 Stu Field

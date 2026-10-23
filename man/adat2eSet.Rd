@@ -43,8 +43,8 @@ head(ft[, 1:10L], 10L)
 \url{https://bioconductor.org/install/}
 }
 \seealso{
-Other eSet: 
-\code{\link{pivotExpressionSet}()}
+Other eSet:
+\code{\link[=pivotExpressionSet]{pivotExpressionSet()}}
 }
 \author{
 Stu Field

@@ -45,9 +45,9 @@ om <- calcOutlierMap(out_adat)
 getOutlierIds(om, out_adat, flags = 0.05, include = c("Sex", "Subarray"))
 }
 \seealso{
-Other Calc Map: 
-\code{\link{calcOutlierMap}()},
-\code{\link{plot.Map}()}
+Other Calc Map:
+\code{\link[=calcOutlierMap]{calcOutlierMap()}},
+\code{\link[=plot.Map]{plot.Map()}}
 }
 \author{
 Caleb Scheidel

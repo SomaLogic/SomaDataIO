@@ -64,11 +64,11 @@ is.soma_adat(my_adat)
 \seealso{
 \code{\link[=read.delim]{read.delim()}}
 
-Other IO: 
-\code{\link{loadAdatsAsList}()},
-\code{\link{parseHeader}()},
+Other IO:
+\code{\link[=loadAdatsAsList]{loadAdatsAsList()}},
+\code{\link[=parseHeader]{parseHeader()}},
 \code{\link{soma_adat}},
-\code{\link{write_adat}()}
+\code{\link[=write_adat]{write_adat()}}
 }
 \author{
 Stu Field

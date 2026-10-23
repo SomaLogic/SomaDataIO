@@ -39,11 +39,11 @@ header$row_meta
 head(as.data.frame(header$Col.Meta))
 }
 \seealso{
-Other IO: 
-\code{\link{loadAdatsAsList}()},
-\code{\link{read_adat}()},
+Other IO:
+\code{\link[=loadAdatsAsList]{loadAdatsAsList()}},
+\code{\link[=read_adat]{read_adat()}},
 \code{\link{soma_adat}},
-\code{\link{write_adat}()}
+\code{\link[=write_adat]{write_adat()}}
 }
 \author{
 Stu Field
