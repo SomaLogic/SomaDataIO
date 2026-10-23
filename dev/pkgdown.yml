@@ -1,5 +1,5 @@
 pandoc: 3.8.3
-pkgdown: 2.2.0
+pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   articles/cli-merge-tool: cli-merge-tool.html
@@ -14,7 +14,7 @@ articles:
   articles/tips-safely-map-values: tips-safely-map-values.html
   articles/tips-safely-rename-df: tips-safely-rename-df.html
   articles/tips-train-test-setup: tips-train-test-setup.html
-last_built: 2026-05-14T16:21Z
+last_built: 2026-10-23T19:10Z
 urls:
   reference: https://somalogic.github.io/SomaDataIO/reference
   article: https://somalogic.github.io/SomaDataIO/articles

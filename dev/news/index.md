@@ -1,8 +1,10 @@
 # Changelog
 
-## SomaDataIO 6.6.0.9000
+## SomaDataIO 6.6.1
 
-#### Function and Object Improvements
+CRAN release: 2026-05-15
+
+#### Bug Fixes
 
 - Fixed bug in
   [`medianNormalize()`](https://somalogic.github.io/SomaDataIO/dev/reference/medianNormalize.md)

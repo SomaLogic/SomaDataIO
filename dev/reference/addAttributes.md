@@ -36,7 +36,7 @@ over-written.
 ## See also
 
 [`attr()`](https://rdrr.io/r/base/attr.html),
-[`generics::setdiff()`](https://generics.r-lib.org/reference/setops.html)
+[`base::setdiff()`](https://rdrr.io/r/base/sets.html)
 
 ## Author
 

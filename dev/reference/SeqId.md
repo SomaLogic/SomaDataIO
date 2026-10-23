@@ -173,7 +173,7 @@ passed arguments, `x` and `y`.
 
 ## See also
 
-[`generics::intersect()`](https://generics.r-lib.org/reference/setops.html)
+[`base::intersect()`](https://rdrr.io/r/base/sets.html)
 
 ## Author
 
