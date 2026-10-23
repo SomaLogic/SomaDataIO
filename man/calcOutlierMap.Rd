@@ -85,9 +85,9 @@ om <- calcOutlierMap(dat, sample.order = "Sex")
 om$sample.order
 }
 \seealso{
-Other Calc Map: 
-\code{\link{getOutlierIds}()},
-\code{\link{plot.Map}()}
+Other Calc Map:
+\code{\link[=getOutlierIds]{getOutlierIds()}},
+\code{\link[=plot.Map]{plot.Map()}}
 }
 \author{
 Stu Field

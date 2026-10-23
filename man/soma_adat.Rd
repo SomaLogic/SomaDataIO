@@ -173,10 +173,10 @@ summary(mmp_adat, tbl = anno)
 \seealso{
 \code{\link[=groupGenerics]{groupGenerics()}}
 
-Other IO: 
-\code{\link{loadAdatsAsList}()},
-\code{\link{parseHeader}()},
-\code{\link{read_adat}()},
-\code{\link{write_adat}()}
+Other IO:
+\code{\link[=loadAdatsAsList]{loadAdatsAsList()}},
+\code{\link[=parseHeader]{parseHeader()}},
+\code{\link[=read_adat]{read_adat()}},
+\code{\link[=write_adat]{write_adat()}}
 }
 \concept{IO}

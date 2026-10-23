@@ -13,7 +13,7 @@
 #' @return [matchSeqIds()]: a character string corresponding to values
 #'   in `y` of the intersect of `x` and `y`. If no matches are
 #'   found, `character(0)`.
-#' @seealso [intersect()]
+#' @seealso [base::intersect()]
 #' @examples
 #'
 #' # SeqId Matching

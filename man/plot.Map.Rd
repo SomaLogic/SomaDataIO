@@ -30,14 +30,14 @@
 
 \item{color.scheme}{Which color scheme to use. Typical choices include:
 \itemize{
-\item \code{\link[gplots:colorpanel]{gplots::redgreen()}}
-\item \code{\link[gplots:colorpanel]{gplots::bluered()}}
-\item \code{\link[grDevices:palettes]{grDevices::heat.colors()}}
-\item \code{\link[grDevices:palettes]{grDevices::terrain.colors()}}
-\item \code{\link[grDevices:palettes]{grDevices::topo.colors()}}
-\item \code{\link[RColorBrewer:ColorBrewer]{RColorBrewer::brewer.pal()}}
-\item \code{\link[viridis:reexports]{viridis::viridis()}}
-\item \code{\link[viridis:reexports]{viridis::magma()}}
+\item \code{\link[gplots:redgreen]{gplots::redgreen()}}
+\item \code{\link[gplots:bluered]{gplots::bluered()}}
+\item \code{\link[grDevices:heat.colors]{grDevices::heat.colors()}}
+\item \code{\link[grDevices:terrain.colors]{grDevices::terrain.colors()}}
+\item \code{\link[grDevices:topo.colors]{grDevices::topo.colors()}}
+\item \code{\link[RColorBrewer:brewer.pal]{RColorBrewer::brewer.pal()}}
+\item \code{\link[viridis:viridis]{viridis::viridis()}}
+\item \code{\link[viridis:magma]{viridis::magma()}}
 }}
 
 \item{legend.ticks}{How many ticks to place on the color legend.}
@@ -56,7 +56,7 @@ the "class.tab" element of \code{x$class.tab} (if possible).}
 \item{gridlinelty}{Line type of the gridlines.}
 
 \item{main}{Character. Main title for the plot.
-See \code{\link[ggplot2:labs]{ggplot2::ggtitle()}} for \code{ggplot2} style graphics.}
+See \code{\link[ggplot2:ggtitle]{ggplot2::ggtitle()}} for \code{ggplot2} style graphics.}
 
 \item{y.lab}{Character. Optional string for the y-axis. Otherwise
 one is automatically generated (default).}
@@ -104,11 +104,11 @@ example_data |>
   plot(flags = 0.05)
 }
 \seealso{
-\code{\link[ggplot2:ggplot]{ggplot2::ggplot()}}, \code{\link[ggplot2:geom_tile]{ggplot2::geom_raster()}}
+\code{\link[ggplot2:ggplot]{ggplot2::ggplot()}}, \code{\link[ggplot2:geom_raster]{ggplot2::geom_raster()}}
 
-Other Calc Map: 
-\code{\link{calcOutlierMap}()},
-\code{\link{getOutlierIds}()}
+Other Calc Map:
+\code{\link[=calcOutlierMap]{calcOutlierMap()}},
+\code{\link[=getOutlierIds]{getOutlierIds()}}
 }
 \author{
 Stu Field, Amanda Hiser

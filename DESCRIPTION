@@ -1,7 +1,7 @@
 Type: Package
 Package: SomaDataIO
 Title: Input/Output 'SomaScan' Data
-Version: 6.6.1
+Version: 6.6.1.9000
 Authors@R: c(
     person(given = "Stu",
            family = "Field",
@@ -58,4 +58,4 @@ LazyLoad: true
 Config/testthat/edition: 3
 Config/Needs/website: tidyverse/tidytemplate
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
+Config/roxygen2/version: 8.1.0

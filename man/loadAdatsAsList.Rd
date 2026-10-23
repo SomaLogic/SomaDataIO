@@ -75,11 +75,11 @@ class(collapsed)
 \seealso{
 \code{\link[=read_adat]{read_adat()}}
 
-Other IO: 
-\code{\link{parseHeader}()},
-\code{\link{read_adat}()},
+Other IO:
+\code{\link[=parseHeader]{parseHeader()}},
+\code{\link[=read_adat]{read_adat()}},
 \code{\link{soma_adat}},
-\code{\link{write_adat}()}
+\code{\link[=write_adat]{write_adat()}}
 }
 \author{
 Stu Field

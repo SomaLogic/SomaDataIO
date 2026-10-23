@@ -17,7 +17,7 @@
 #'   attributes of `new.atts` grafted on to it.
 #'   Existing attribute names are _not_ over-written.
 #' @author Stu Field
-#' @seealso [attr()], [setdiff()]
+#' @seealso [attr()], [base::setdiff()]
 #' @export
 addAttributes <- function(data, new.atts) {
   stopifnot(

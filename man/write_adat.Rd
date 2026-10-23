@@ -50,10 +50,10 @@ write_adat(adat_out, file = tempfile(fileext = ".adat"))
 \seealso{
 \code{\link[=read_adat]{read_adat()}}, \code{\link[=is_intact_attr]{is_intact_attr()}}
 
-Other IO: 
-\code{\link{loadAdatsAsList}()},
-\code{\link{parseHeader}()},
-\code{\link{read_adat}()},
+Other IO:
+\code{\link[=loadAdatsAsList]{loadAdatsAsList()}},
+\code{\link[=parseHeader]{parseHeader()}},
+\code{\link[=read_adat]{read_adat()}},
 \code{\link{soma_adat}}
 }
 \author{

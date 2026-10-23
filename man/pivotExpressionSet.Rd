@@ -39,8 +39,8 @@ adat_long <- pivotExpressionSet(ex_set)
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-Other eSet: 
-\code{\link{adat2eSet}()}
+Other eSet:
+\code{\link[=adat2eSet]{adat2eSet()}}
 }
 \author{
 Stu Field

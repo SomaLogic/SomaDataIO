@@ -29,7 +29,7 @@ Typically untouched are:
 }
 }
 \seealso{
-\code{\link[=attr]{attr()}}, \code{\link[generics:setops]{generics::setdiff()}}
+\code{\link[=attr]{attr()}}, \code{\link[base:setdiff]{base::setdiff()}}
 }
 \author{
 Stu Field
