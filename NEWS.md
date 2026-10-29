@@ -1,3 +1,23 @@
+# SomaDataIO (development version)
+
+### Bug Fixes
+
+* Fixed `medianNormalize()` and `reverseMedianNormalize()` for urine, CSF, and
+  single dilution ADATs
+  - scale factor columns are now matched to analytes using the `Dilution`
+    and, when present, `NormGroup` columns of `Col.Meta` (e.g. `NormScale_75_S1`
+    for urine and CSF), rather than assuming plasma-style `NormScale_20`,
+    `NormScale_0_5`, `NormScale_0_005` columns
+  - dilutions written with a decimal point in the column name
+    (e.g. `NormScale_0.3`, `NormScale_2.5`) are now recognized
+  - previously these ADATs silently skipped the reversal in
+    `reverseMedianNormalize()`, and `medianNormalize()` added duplicate
+    `NormScale_*` columns; `reverseMedianNormalize()` now errors if no
+    matching scale factor columns are found, or if only some groups have one
+  - `medianNormalize()` now warns if it would add new `NormScale_*` columns
+    while existing ones do not correspond to any dilution/`NormGroup` in the
+    analyte data
+
 # SomaDataIO 6.6.1
 
 ### Bug Fixes

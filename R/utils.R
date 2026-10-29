@@ -104,6 +104,75 @@ file_ext <- function(x) {
   split(ad$AptName, ad$Dilution)
 }
 
+# Group analytes by the scale factor column that normalizes them.
+# Plasma/serum use one group per `Dilution` (e.g. "20", "0_5", "0_005"); assays
+# with normalization groups (urine and CSF) use one group per
+# `Dilution` x `NormGroup` (e.g. "75_S1"). The returned named list of AptNames
+# carries a "sf_cols" attribute holding the actual `NormScale_*` column name for
+# each group, because deliverables differ in how they write dilutions in
+# the column names ("NormScale_0_5" vs "NormScale_0.3"). Groups without an
+# existing column map to "NormScale_<group>". Also attached: "n_dilutions"
+# (number of distinct dilutions) and "has_norm_groups".
+.getNormGroups <- function(adat, apt_data = getAnalyteInfo(adat)) {
+
+  if ( !"Dilution" %in% names(apt_data) ) {
+    stop("Dilution information not found in analyte data", call. = FALSE)
+  }
+
+  # hybridization controls are not scaled by median normalization
+  # (identified by `Type`, or by their "0" dilution if `Type` is unavailable)
+  is_hyb <- if ( "Type" %in% names(apt_data) ) {
+    grepl("^Hybridization", apt_data$Type, ignore.case = TRUE)
+  } else {
+    as.character(apt_data$Dilution) %in% "0"
+  }
+  apt_data <- apt_data[!is_hyb, , drop = FALSE]
+  key <- as.character(apt_data$Dilution)
+  n_dilutions <- length(unique(key))
+
+  has_norm_groups <- FALSE
+  if ( "NormGroup" %in% names(apt_data) ) {
+    ng  <- as.character(apt_data$NormGroup)
+    has <- !is.na(ng) & nzchar(ng)
+    key[has] <- paste(key[has], ng[has], sep = "_")
+    has_norm_groups <- any(has)
+  }
+
+  groups <- split(apt_data$AptName, key)
+  names(groups) <- .cleanNormKey(names(groups))
+
+  if ( anyDuplicated(names(groups)) ) {
+    stop(
+      "Distinct `Dilution`/`NormGroup` values map to the same scale factor ",
+      "group: ", paste(unique(names(groups)[duplicated(names(groups))]), collapse = ", "),
+      call. = FALSE
+    )
+  }
+
+  existing  <- grep("^NormScale_", names(adat), value = TRUE)
+  ex_key    <- .cleanNormKey(sub("^NormScale_", "", existing))
+  sf_cols   <- existing[match(names(groups), ex_key)]
+  missing   <- is.na(sf_cols)
+  sf_cols[missing] <- paste0("NormScale_", names(groups)[missing])
+  attr(groups, "sf_cols")         <- stats::setNames(sf_cols, names(groups))
+  attr(groups, "n_dilutions")     <- n_dilutions
+  attr(groups, "has_norm_groups") <- has_norm_groups
+  groups
+}
+
+# standardize dilution strings so they can be matched to column names
+# e.g. "20%" -> "20", "20.0" -> "20", "0.5" -> "0_5"
+.cleanNormKey <- function(x) {
+  x <- gsub("%", "", x)
+  x <- sub("[.]0$", "", x)
+  gsub("\\.", "_", x)
+}
+
+# `NormScale*` column name for a group returned by `.getNormGroups()`
+.getScaleCol <- function(groups, name) {
+  attr(groups, "sf_cols")[[name]]
+}
+
 # this is adapted from `getOutliers()` and only retains nonparametric-type
 # calculations
 #' @importFrom stats mad median

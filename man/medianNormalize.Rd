@@ -63,7 +63,10 @@ factors are calculated for each dilution because each dilution group is
 processed separately during the assay. For each sample, the ratio of
 reference RFU / observed RFU is calculated for every SeqId. The median ratio
 within each dilution group is selected as the scale factor and applied to
-all SeqIds for that sample within the associated dilution bin.
+all SeqIds for that sample within the associated dilution bin. For matrices
+with normalization groups (e.g. urine and CSF, a single dilution split
+into groups \code{S1}, \code{S2}, \code{S3} in the \code{NormGroup} column of \code{Col.Meta}),
+scale factors are calculated within each dilution and normalization group.
 }
 \section{Data Requirements}{
 

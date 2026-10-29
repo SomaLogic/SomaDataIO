@@ -364,3 +364,104 @@ test_that("`medianNormalize` handles SeqId reference format properly", {
   rounded_values <- round(ref_values, 2)
   expect_equal(ref_values[!is.na(ref_values)], rounded_values[!is.na(rounded_values)])
 })
+
+# Urine / CSF / single dilution matrices ----
+# scale factor columns differ from plasma-style 20/0.5/0.005:
+#   urine / CSF:    single dilution + NormGroups -> NormScale_75_S1, ...
+#   dotted:         dilutions written with dots  -> NormScale_0.3, ...
+#   single dilution                              -> NormScale_2.5
+scenarios <- list(
+  urine        = list(dilutions = "75", norm_groups = c("S1", "S2", "S3")),
+  dotted_dil   = list(dilutions = c("0.3", "0.05", "0.008"), norm_groups = NULL),
+  single_dil   = list(dilutions = "2.5", norm_groups = NULL)
+)
+
+# analytes and scale factor column for each group of analytes
+group_info <- function(x) {
+  g <- SomaDataIO:::.getNormGroups(x)
+  Map(function(apts, sf) list(apts = apts, sf = sf), g, attr(g, "sf_cols"))
+}
+
+for ( nm in names(scenarios) ) {
+  sc <- scenarios[[nm]]
+
+  test_that(paste0("`.getNormGroups()` maps analytes to existing scale columns [", nm, "]"), {
+    x <- do.call(mock_matrix_adat, sc)
+    g <- SomaDataIO:::.getNormGroups(x)
+    sf_cols <- attr(g, "sf_cols")
+    expect_true(all(sf_cols %in% names(x)))
+    expect_equal(length(g), length(sf_cols))
+    # hybridization controls are excluded
+    expect_false(any(getAnalyteInfo(x)$AptName[grepl("^Hybridization", getAnalyteInfo(x)$Type)] %in% unlist(g)))
+  })
+
+  test_that(paste0("`medianNormalize()` updates existing scale columns in place [", nm, "]"), {
+    x <- do.call(mock_matrix_adat, sc)
+    res <- medianNormalize(x, verbose = FALSE)
+    smp <- x$SampleType == "Sample"
+
+    # no duplicate/stray NormScale columns created
+    expect_setequal(grep("^NormScale", names(res), value = TRUE),
+                    grep("^NormScale", names(x), value = TRUE))
+
+    for ( gi in group_info(x) ) {
+      ref <- apply(x[smp, gi$apts], 2, median)
+      exp_sf <- apply(x[smp, gi$apts], 1, function(r) median(ref / r))
+      expect_equal(res[[gi$sf]][smp], unname(exp_sf), tolerance = 1e-8, ignore_attr = TRUE)
+      expect_true(all(res[[gi$sf]][!smp] == 1))
+    }
+  })
+}
+
+test_that("`.getNormGroups()` errors on dilutions mapping to the same group", {
+  x <- mock_matrix_adat(dilutions = c("0.5", "0_5"))
+  expect_error(SomaDataIO:::.getNormGroups(x), "same scale factor group")
+})
+
+test_that("`.cleanNormKey()` standardizes dilution strings", {
+  expect_equal(
+    SomaDataIO:::.cleanNormKey(c("20", "20%", "20.0", "0.5", "0.005", "2.5")),
+    c("20", "20", "20", "0_5", "0_005", "2_5")
+  )
+})
+
+test_that("`medianNormalize()` reports normalization groups in verbose output", {
+  x <- mock_matrix_adat("75", c("S1", "S2", "S3"))
+  expect_output(medianNormalize(x, verbose = TRUE),
+                "1 dilution\\(s\\) with 3 normalization group\\(s\\) detected")
+  # three groups from one dilution do not trigger the dilution-count warning
+  expect_no_warning(medianNormalize(x, verbose = FALSE))
+  # two groups from one dilution is still a single dilution
+  x2 <- mock_matrix_adat("75", c("S1", "S2"))
+  expect_no_warning(medianNormalize(x2, verbose = FALSE))
+})
+
+test_that("`medianNormalize()` warns if existing scale columns match no group", {
+  # NormGroup removed from analyte data: NormScale_75_S* no longer map to a group
+  x <- mock_matrix_adat("75", c("S1", "S2", "S3"))
+  cm <- attr(x, "Col.Meta")
+  cm$NormGroup <- NULL
+  attr(x, "Col.Meta") <- cm
+  expect_warning(
+    res <- medianNormalize(x, verbose = FALSE),
+    "do not match any dilution/NormGroup"
+  )
+  expect_true("NormScale_75" %in% names(res))
+})
+
+test_that("`medianNormalize()` does not warn for analyte subsets of plasma-style ADATs", {
+  x <- mock_matrix_adat(c("20", "0.5", "0.005"))
+  keep <- getAnalyteInfo(x)$AptName[getAnalyteInfo(x)$Dilution == "20"]
+  x <- x[, c(getMeta(x), keep, grep("^NormScale_", names(x), value = TRUE))]
+  expect_no_warning(medianNormalize(x, verbose = FALSE))
+})
+
+test_that("`.getNormGroups()` ignores an all-NA `NormGroup` column", {
+  x <- mock_matrix_adat(c("20", "0.5", "0.005"))
+  cm <- attr(x, "Col.Meta")
+  cm$NormGroup <- NA_character_
+  attr(x, "Col.Meta") <- cm
+  g <- SomaDataIO:::.getNormGroups(x)
+  expect_false(attr(g, "has_norm_groups"))
+  expect_equal(attr(g, "n_dilutions"), 3)
+})

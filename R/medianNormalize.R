@@ -22,7 +22,10 @@
 #' processed separately during the assay. For each sample, the ratio of
 #' reference RFU / observed RFU is calculated for every SeqId. The median ratio
 #' within each dilution group is selected as the scale factor and applied to
-#' all SeqIds for that sample within the associated dilution bin.
+#' all SeqIds for that sample within the associated dilution bin. For matrices
+#' with normalization groups (e.g. urine and CSF, a single dilution split
+#' into groups `S1`, `S2`, `S3` in the `NormGroup` column of `Col.Meta`),
+#' scale factors are calculated within each dilution and normalization group.
 #'
 #' @section Data Requirements:
 #' This function is designed for data in standard SomaLogic deliverable formats.
@@ -166,28 +169,32 @@ medianNormalize <- function(adat,
   # Check data state and existing normalization ----
   .validateDataState(adat, header, verbose)
 
-  # Create dilution groups ----
+  # Create analyte groups sharing a scale factor (dilution or dilution x NormGroup) ----
   apt_data <- getAnalyteInfo(adat)
-
-  if (!"Dilution" %in% names(apt_data)) {
-    stop("Dilution information not found in analyte data", call. = FALSE)
-  }
-
-  # Filter out hybridization controls
+  dil_groups <- .getNormGroups(adat, apt_data)
   apt_data <- filter(apt_data, !grepl("^Hybridization", Type, ignore.case = TRUE))
-
-  # Create dilution groups
-  dil_groups <- split(apt_data$AptName, apt_data$Dilution)
-
-  # Clean up dilution names
-  names(dil_groups) <- gsub("\\.", "_", names(dil_groups))
-  names(dil_groups) <- gsub("[.]0$|%|^[.]", "", names(dil_groups))
 
   # Validate dilution count ----
   .validateDilutionCount(dil_groups, verbose)
 
   # Check for existing normalization scale factors ----
   existing_norm_sf <- grep("^NormScale_", names(adat), value = TRUE)
+
+  # existing scale factor columns that do not correspond to any analyte group
+  # while other groups have no column yet: new columns would be added beside
+  # stale ones (e.g. `NormGroup` missing from the analyte data)
+  unmatched_sf <- setdiff(existing_norm_sf, attr(dil_groups, "sf_cols"))
+  new_sf <- setdiff(attr(dil_groups, "sf_cols"), existing_norm_sf)
+  if (length(unmatched_sf) > 0 && length(new_sf) > 0) {
+    warning(
+      "Existing normalization scale factor columns do not match any ",
+      "dilution/NormGroup in the analyte data and will not be updated: ",
+      paste(unmatched_sf, collapse = ", "), ". ",
+      "New scale factor columns will be added for: ",
+      paste(new_sf, collapse = ", "),
+      call. = FALSE
+    )
+  }
 
   # Determine which samples to normalize - only Sample types
   if (!"SampleType" %in% names(adat)) {
@@ -265,7 +272,7 @@ medianNormalize <- function(adat,
   # Handle samples that were not normalized
   if (!is.null(dont_samples) && length(dont_samples) > 0) {
     unnorm_adat <- adat[dont_samples, ]
-    sf_cols <- paste0("NormScale_", names(dil_groups))
+    sf_cols <- unname(attr(dil_groups, "sf_cols"))
 
     # Check if scale factor columns already exist in the original data
     existing_sf_cols <- intersect(sf_cols, names(adat))
@@ -575,7 +582,7 @@ medianNormalize <- function(adat,
 
     # Calculate scale factors for each dilution group within this sample group
     for (dil_name in names(dil_groups)) {
-      sf_col <- paste0("NormScale_", dil_name)
+      sf_col <- .getScaleCol(dil_groups, dil_name)
 
       # Initialize scale factor column
       if (!sf_col %in% names(grp_adat)) {
@@ -794,20 +801,26 @@ medianNormalize <- function(adat,
 #' @noRd
 .validateDilutionCount <- function(dil_groups, verbose) {
 
-  num_dilutions <- length(dil_groups)
+  # number of dilutions, not groups: normalization groups (e.g. urine)
+  # split a single dilution into several scale factor groups
+  num_dilutions   <- attr(dil_groups, "n_dilutions") %||% length(dil_groups)
+  has_norm_groups <- isTRUE(attr(dil_groups, "has_norm_groups"))
 
   # Primary use cases are 1 or 3 dilutions
   if (!num_dilutions %in% c(1, 3)) {
     warning(
       "Non-standard dilution count detected: ", num_dilutions, " dilutions. ",
       "Primary use cases are 1 dilution (cell & tissue studies) or 3 dilutions (standard setups). ",
-      "Found dilutions: ", paste(names(dil_groups), collapse = ", "),
+      "Found scale factor groups: ", paste(names(dil_groups), collapse = ", "),
       call. = FALSE
     )
   }
 
   if (verbose) {
-    if (num_dilutions == 1) {
+    if (has_norm_groups) {
+      cat(num_dilutions, "dilution(s) with", length(dil_groups),
+          "normalization group(s) detected.\n")
+    } else if (num_dilutions == 1) {
       cat("Single dilution setup detected (typical for cell & tissue studies).\n")
     } else if (num_dilutions == 3) {
       cat("Three dilution setup detected (standard setup).\n")

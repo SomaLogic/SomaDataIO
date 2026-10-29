@@ -148,3 +148,114 @@ test_that("`reverseMedianNormalize` handles ANMLFractionUsed columns properly", 
   expect_equal(result$NormScale_20[1], 1.0)
   expect_equal(result$NormScale_0_5[1], 1.0)
 })
+
+# Urine / CSF / single dilution matrices ----
+# scale factor columns differ from plasma-style 20/0.5/0.005:
+#   urine / CSF:    single dilution + NormGroups -> NormScale_75_S1, ...
+#   dotted:         dilutions written with dots  -> NormScale_0.3, ...
+#   single dilution                              -> NormScale_2.5
+scenarios <- list(
+  urine        = list(dilutions = "75", norm_groups = c("S1", "S2", "S3")),
+  dotted_dil   = list(dilutions = c("0.3", "0.05", "0.008"), norm_groups = NULL),
+  single_dil   = list(dilutions = "2.5", norm_groups = NULL)
+)
+
+# analytes and scale factor column for each group of analytes
+group_info <- function(x) {
+  g <- SomaDataIO:::.getNormGroups(x)
+  Map(function(apts, sf) list(apts = apts, sf = sf), g, attr(g, "sf_cols"))
+}
+
+for ( nm in names(scenarios) ) {
+  sc <- scenarios[[nm]]
+
+  test_that(paste0("`reverseMedianNormalize()` reverses normalization [", nm, "]"), {
+    x <- do.call(mock_matrix_adat, c(sc, normalized = TRUE))
+    res <- reverseMedianNormalize(x, verbose = FALSE)
+    smp <- x$SampleType == "Sample"
+
+    expect_match(attr(res, "Header.Meta")$HEADER$ProcessSteps, "rev-MedNormSMP")
+    for ( gi in group_info(x) ) {
+      # scale factors reset to 1 for study samples only
+      expect_true(all(res[[gi$sf]][smp] == 1))
+      expect_equal(res[[gi$sf]][!smp], x[[gi$sf]][!smp])
+      # RFU divided by the scale factor for study samples
+      expect_equal(
+        as.matrix(res[smp, gi$apts]),
+        as.matrix(x[smp, gi$apts]) / x[[gi$sf]][smp],
+        ignore_attr = TRUE
+      )
+      expect_equal(as.matrix(res[!smp, gi$apts]), as.matrix(x[!smp, gi$apts]),
+                   ignore_attr = TRUE)
+    }
+  })
+
+  test_that(paste0("`reverseMedianNormalize()` errors if no scale columns match [", nm, "]"), {
+    x <- do.call(mock_matrix_adat, c(sc, normalized = TRUE))
+    x <- x[, grep("^NormScale", names(x), invert = TRUE)]
+    expect_error(
+      reverseMedianNormalize(x, verbose = FALSE),
+      "No normalization scale factor columns found to reverse"
+    )
+  })
+
+  test_that(paste0("`reverseMedianNormalize()` reverses ANML normalization [", nm, "]"), {
+    x <- do.call(mock_matrix_adat, c(sc, normalized = TRUE, anml = TRUE))
+    res <- reverseMedianNormalize(x, verbose = FALSE)
+    smp <- x$SampleType == "Sample"
+
+    expect_match(attr(res, "Header.Meta")$HEADER$ProcessSteps, "rev-anmlSMP")
+    for ( gi in group_info(x) ) {
+      expect_true(all(res[[gi$sf]][smp] == 1))
+      expect_equal(res[[gi$sf]][!smp], x[[gi$sf]][!smp])
+      expect_equal(
+        as.matrix(res[smp, gi$apts]),
+        as.matrix(x[smp, gi$apts]) / x[[gi$sf]][smp],
+        ignore_attr = TRUE
+      )
+    }
+    # ANMLFractionUsed cleared for study samples only
+    frac <- grep("^ANMLFractionUsed_", names(res), value = TRUE)
+    expect_length(frac, length(group_info(x)))
+    for ( col in frac ) {
+      expect_true(all(is.na(res[[col]][smp])))
+      expect_false(any(is.na(res[[col]][!smp])))
+    }
+  })
+
+  test_that(paste0("`reverseMedianNormalize()` errors if only some scale columns exist [", nm, "]"), {
+    skip_if(length(group_info(do.call(mock_matrix_adat, sc))) < 2L)
+    x <- do.call(mock_matrix_adat, c(sc, normalized = TRUE))
+    drop <- grep("^NormScale_", names(x), value = TRUE)[1L]
+    x <- x[, setdiff(names(x), drop)]
+    expect_error(
+      reverseMedianNormalize(x, verbose = FALSE),
+      "scale factor column\\(s\\) not found for group\\(s\\)"
+    )
+  })
+
+  test_that(paste0("`reverseMedianNormalize()` returns data if no study samples [", nm, "]"), {
+    x <- do.call(mock_matrix_adat, c(sc, normalized = TRUE))
+    x$SampleType <- "QC"
+    x <- x[, grep("^NormScale", names(x), invert = TRUE)]
+    expect_no_error(res <- reverseMedianNormalize(x, verbose = FALSE))
+    expect_equal(as.data.frame(res), as.data.frame(x))
+  })
+
+  test_that(paste0("`reverseMedianNormalize()` -> `medianNormalize()` round trip [", nm, "]"), {
+    x <- do.call(mock_matrix_adat, c(sc, normalized = TRUE))
+    unnorm <- reverseMedianNormalize(x, verbose = FALSE)
+    res <- medianNormalize(unnorm, verbose = FALSE)
+    expect_setequal(grep("^NormScale", names(res), value = TRUE),
+                    grep("^NormScale", names(x), value = TRUE))
+    expect_true(is.soma_adat(res))
+  })
+}
+
+test_that("`reverseMedianNormalize()` works without a `Type` column in Col.Meta", {
+  x <- mock_matrix_adat("75", c("S1", "S2", "S3"), normalized = TRUE)
+  cm <- attr(x, "Col.Meta")
+  cm$Type <- NULL
+  attr(x, "Col.Meta") <- cm
+  expect_no_error(reverseMedianNormalize(x, verbose = FALSE))
+})
