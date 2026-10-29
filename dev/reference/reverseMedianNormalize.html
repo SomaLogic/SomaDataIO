@@ -134,6 +134,12 @@ median normalized (either standard median normalization or ANML)</p></li>
 <li><p>Intact header metadata with <code>ProcessSteps</code> field indicating the
 normalization history</p></li>
 <li><p>Median normalization must be the last processing step applied to study samples</p></li>
+<li><p>A normalization scale factor column (<code>NormScale_&lt;dilution&gt;</code>, or
+<code>NormScale_&lt;dilution&gt;_&lt;NormGroup&gt;</code> for matrices with normalization groups
+such as urine and CSF) for every dilution/<code>NormGroup</code> of the analytes
+in the ADAT. Dilutions may contain a decimal point in the column name
+(e.g. <code>NormScale_0.3</code>). The function errors if none, or only some,
+of these columns are present.</p></li>
 </ul></div>
 
     <div class="section level2">

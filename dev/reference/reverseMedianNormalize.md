@@ -63,6 +63,13 @@ are cleared.
 - Median normalization must be the last processing step applied to study
   samples
 
+- A normalization scale factor column (`NormScale_<dilution>`, or
+  `NormScale_<dilution>_<NormGroup>` for matrices with normalization
+  groups such as urine and CSF) for every dilution/`NormGroup` of the
+  analytes in the ADAT. Dilutions may contain a decimal point in the
+  column name (e.g. `NormScale_0.3`). The function errors if none, or
+  only some, of these columns are present.
+
 ## Examples
 
 ``` r

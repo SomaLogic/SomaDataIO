@@ -65,6 +65,20 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="development version" id="somadataio-development-version">SomaDataIO (development version)<a class="anchor" aria-label="anchor" href="#somadataio-development-version"></a></h2>
+<div class="section level4">
+<h4 id="bug-fixes-development-version">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-development-version"></a></h4>
+<ul><li>Fixed <code><a href="../reference/medianNormalize.html">medianNormalize()</a></code> and <code><a href="../reference/reverseMedianNormalize.html">reverseMedianNormalize()</a></code> for urine, CSF, and single dilution ADATs
+<ul><li>scale factor columns are now matched to analytes using the <code>Dilution</code> and, when present, <code>NormGroup</code> columns of <code>Col.Meta</code> (e.g. <code>NormScale_75_S1</code> for urine and CSF), rather than assuming plasma-style <code>NormScale_20</code>, <code>NormScale_0_5</code>, <code>NormScale_0_005</code> columns</li>
+<li>dilutions written with a decimal point in the column name (e.g. <code>NormScale_0.3</code>, <code>NormScale_2.5</code>) are now recognized</li>
+<li>previously these ADATs silently skipped the reversal in <code><a href="../reference/reverseMedianNormalize.html">reverseMedianNormalize()</a></code>, and <code><a href="../reference/medianNormalize.html">medianNormalize()</a></code> added duplicate <code>NormScale_*</code> columns; <code><a href="../reference/reverseMedianNormalize.html">reverseMedianNormalize()</a></code> now errors if no matching scale factor columns are found, or if only some groups have one</li>
+<li>
+<code><a href="../reference/medianNormalize.html">medianNormalize()</a></code> now warns if it would add new <code>NormScale_*</code> columns while existing ones do not correspond to any dilution/<code>NormGroup</code> in the analyte data</li>
+<li>both functions now error if several <code>NormScale_*</code> columns correspond to the same dilution/<code>NormGroup</code> (e.g. <code>NormScale_0.3</code> and <code>NormScale_0_3</code>), since it cannot be determined which holds the applied scale factors</li>
+</ul></li>
+</ul></div>
+</div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="6.6.1" id="somadataio-661">SomaDataIO 6.6.1<a class="anchor" aria-label="anchor" href="#somadataio-661"></a></h2><p class="text-muted">CRAN release: 2026-05-15</p>
 <div class="section level4">
 <h4 id="bug-fixes-6-6-1">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-6-6-1"></a></h4>

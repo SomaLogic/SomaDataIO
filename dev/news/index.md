@@ -1,5 +1,38 @@
 # Changelog
 
+## SomaDataIO (development version)
+
+#### Bug Fixes
+
+- Fixed
+  [`medianNormalize()`](https://somalogic.github.io/SomaDataIO/dev/reference/medianNormalize.md)
+  and
+  [`reverseMedianNormalize()`](https://somalogic.github.io/SomaDataIO/dev/reference/reverseMedianNormalize.md)
+  for urine, CSF, and single dilution ADATs
+  - scale factor columns are now matched to analytes using the
+    `Dilution` and, when present, `NormGroup` columns of `Col.Meta`
+    (e.g. `NormScale_75_S1` for urine and CSF), rather than assuming
+    plasma-style `NormScale_20`, `NormScale_0_5`, `NormScale_0_005`
+    columns
+  - dilutions written with a decimal point in the column name
+    (e.g. `NormScale_0.3`, `NormScale_2.5`) are now recognized
+  - previously these ADATs silently skipped the reversal in
+    [`reverseMedianNormalize()`](https://somalogic.github.io/SomaDataIO/dev/reference/reverseMedianNormalize.md),
+    and
+    [`medianNormalize()`](https://somalogic.github.io/SomaDataIO/dev/reference/medianNormalize.md)
+    added duplicate `NormScale_*` columns;
+    [`reverseMedianNormalize()`](https://somalogic.github.io/SomaDataIO/dev/reference/reverseMedianNormalize.md)
+    now errors if no matching scale factor columns are found, or if only
+    some groups have one
+  - [`medianNormalize()`](https://somalogic.github.io/SomaDataIO/dev/reference/medianNormalize.md)
+    now warns if it would add new `NormScale_*` columns while existing
+    ones do not correspond to any dilution/`NormGroup` in the analyte
+    data
+  - both functions now error if several `NormScale_*` columns correspond
+    to the same dilution/`NormGroup` (e.g. `NormScale_0.3` and
+    `NormScale_0_3`), since it cannot be determined which holds the
+    applied scale factors
+
 ## SomaDataIO 6.6.1
 
 CRAN release: 2026-05-15
