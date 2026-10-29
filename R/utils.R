@@ -151,6 +151,20 @@ file_ext <- function(x) {
 
   existing  <- grep("^NormScale_", names(adat), value = TRUE)
   ex_key    <- .cleanNormKey(sub("^NormScale_", "", existing))
+
+  # several columns for one group (e.g. "NormScale_0.3" and "NormScale_0_3"):
+  # cannot tell which holds the applied scale factors
+  conflict <- ex_key %in% names(groups) &
+    (duplicated(ex_key) | duplicated(ex_key, fromLast = TRUE))
+  if ( any(conflict) ) {
+    stop(
+      "Multiple normalization scale factor columns correspond to the same ",
+      "dilution/NormGroup: ", paste(existing[conflict], collapse = ", "), ". ",
+      "Remove or reconcile the conflicting columns before proceeding.",
+      call. = FALSE
+    )
+  }
+
   sf_cols   <- existing[match(names(groups), ex_key)]
   missing   <- is.na(sf_cols)
   sf_cols[missing] <- paste0("NormScale_", names(groups)[missing])
@@ -160,11 +174,12 @@ file_ext <- function(x) {
   groups
 }
 
-# standardize dilution strings so they can be matched to column names
-# e.g. "20%" -> "20", "20.0" -> "20", "0.5" -> "0_5"
+# standardize dilution (and dilution_NormGroup) strings so they can be matched
+# to column names, e.g. "20%" -> "20", "20.0" -> "20", "0.5" -> "0_5",
+# "75.0%_S1" -> "75_S1"
 .cleanNormKey <- function(x) {
   x <- gsub("%", "", x)
-  x <- sub("[.]0$", "", x)
+  x <- sub("[.]0(?=_|$)", "", x, perl = TRUE)
   gsub("\\.", "_", x)
 }
 

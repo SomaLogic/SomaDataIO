@@ -259,3 +259,12 @@ test_that("`reverseMedianNormalize()` works without a `Type` column in Col.Meta"
   attr(x, "Col.Meta") <- cm
   expect_no_error(reverseMedianNormalize(x, verbose = FALSE))
 })
+
+test_that("`reverseMedianNormalize()` errors rather than reversing with conflicting scale columns", {
+  x <- mock_matrix_adat(c("0.3", "0.05", "0.008"), normalized = TRUE)
+  x$NormScale_0_3 <- 1   # stale duplicate placed after the applied factors
+  expect_error(
+    reverseMedianNormalize(x, verbose = FALSE),
+    "Multiple normalization scale factor columns"
+  )
+})

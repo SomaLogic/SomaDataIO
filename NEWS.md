@@ -17,6 +17,9 @@
   - `medianNormalize()` now warns if it would add new `NormScale_*` columns
     while existing ones do not correspond to any dilution/`NormGroup` in the
     analyte data
+  - both functions now error if several `NormScale_*` columns correspond to the
+    same dilution/`NormGroup` (e.g. `NormScale_0.3` and `NormScale_0_3`), since
+    it cannot be determined which holds the applied scale factors
 
 # SomaDataIO 6.6.1
 

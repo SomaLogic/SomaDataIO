@@ -465,3 +465,40 @@ test_that("`.getNormGroups()` ignores an all-NA `NormGroup` column", {
   expect_false(attr(g, "has_norm_groups"))
   expect_equal(attr(g, "n_dilutions"), 3)
 })
+
+test_that("`.cleanNormKey()` removes a trailing `.0` before the NormGroup", {
+  expect_equal(
+    SomaDataIO:::.cleanNormKey(c("75.0%_S1", "75.0_S2", "75_S3", "0.05_S1")),
+    c("75_S1", "75_S2", "75_S3", "0_05_S1")
+  )
+})
+
+test_that("`.getNormGroups()` matches `NormScale_` columns for `Dilution` ending in .0 with NormGroups", {
+  x <- mock_matrix_adat("75", c("S1", "S2", "S3"), normalized = TRUE)
+  cm <- attr(x, "Col.Meta")
+  cm$Dilution[cm$Dilution == "75"] <- "75.0%"
+  attr(x, "Col.Meta") <- cm
+  g <- SomaDataIO:::.getNormGroups(x)
+  expect_equal(names(g), c("75_S1", "75_S2", "75_S3"))
+  expect_true(all(attr(g, "sf_cols") %in% names(x)))
+  # no duplicate scale columns added by median normalization
+  hm <- attr(x, "Header.Meta")
+  hm$HEADER$ProcessSteps <- "Raw RFU, Hyb Normalization, medNormInt (SampleId), plateScale, Calibration"
+  attr(x, "Header.Meta") <- hm
+  res <- medianNormalize(x, verbose = FALSE)
+  expect_setequal(grep("^NormScale", names(res), value = TRUE),
+                  grep("^NormScale", names(x), value = TRUE))
+})
+
+test_that("`.getNormGroups()` errors if several columns map to the same group", {
+  x <- mock_matrix_adat(c("0.3", "0.05", "0.008"), normalized = TRUE)
+  # stale duplicate, e.g. left behind by an earlier `medianNormalize()`
+  x$NormScale_0_3 <- 1
+  expect_error(
+    SomaDataIO:::.getNormGroups(x),
+    "Multiple normalization scale factor columns correspond to the same"
+  )
+  # regardless of column order
+  x <- x[, c(setdiff(names(x), "NormScale_0.3"), "NormScale_0.3")]
+  expect_error(SomaDataIO:::.getNormGroups(x), "NormScale_0_3, NormScale_0.3")
+})
