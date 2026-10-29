@@ -26,6 +26,12 @@
 #'   \item Intact header metadata with `ProcessSteps` field indicating the
 #'     normalization history
 #'   \item Median normalization must be the last processing step applied to study samples
+#'   \item A normalization scale factor column (`NormScale_<dilution>`, or
+#'     `NormScale_<dilution>_<NormGroup>` for matrices with normalization groups
+#'     such as urine and CSF) for every dilution/`NormGroup` of the analytes
+#'     in the ADAT. Dilutions may contain a decimal point in the column name
+#'     (e.g. `NormScale_0.3`). The function errors if none, or only some,
+#'     of these columns are present.
 #' }
 #'
 #' @param adat A `soma_adat` object with study samples that have been median normalized
@@ -158,25 +164,9 @@ reverseMedianNormalize <- function(adat, verbose = TRUE) {
 #' @noRd
 .reverseMedNormSMP <- function(adat, verbose) {
 
-  # Get existing scale factors
-  sf_cols <- grep("^NormScale_", names(adat), value = TRUE)
-
-  if (length(sf_cols) == 0) {
-    if (verbose) {
-      cat("No existing median normalization scale factors found to reverse.\n")
-    }
-    return(adat)
-  }
-
   if (verbose) {
     cat("Reversing existing median normalization for study samples...\n")
   }
-
-  # Get dilution groups
-  apt_data <- getAnalyteInfo(adat)
-  dil_groups <- split(apt_data$AptName, apt_data$Dilution)
-  names(dil_groups) <- gsub("\\.", "_", names(dil_groups))
-  names(dil_groups) <- gsub("[.]0$|%|^[.]", "", names(dil_groups))
 
   # Only reverse for study samples, leave QC/Calibrator/Buffer alone
   if (is.null(adat$SampleType)) {
@@ -191,9 +181,13 @@ reverseMedianNormalize <- function(adat, verbose = TRUE) {
     return(adat)
   }
 
+  # Get analyte groups and confirm their scale factor columns exist
+  dil_groups <- .getNormGroups(adat)
+  .checkScaleCols(dil_groups, adat)
+
   # For each dilution group, reverse normalization
   for (dil_name in names(dil_groups)) {
-    sf_col <- paste0("NormScale_", dil_name)
+    sf_col <- .getScaleCol(dil_groups, dil_name)
 
     if (sf_col %in% names(adat)) {
       dil_apts <- intersect(dil_groups[[dil_name]], getAnalytes(adat))
@@ -241,25 +235,9 @@ reverseMedianNormalize <- function(adat, verbose = TRUE) {
 #' @noRd
 .reverseANMLSMP <- function(adat, verbose) {
 
-  # Get existing scale factors
-  sf_cols <- grep("^NormScale_", names(adat), value = TRUE)
-
-  if (length(sf_cols) == 0) {
-    if (verbose) {
-      cat("No existing ANML normalization scale factors found to reverse.\n")
-    }
-    return(adat)
-  }
-
   if (verbose) {
     cat("Reversing existing ANML normalization for study samples...\n")
   }
-
-  # Get dilution groups
-  apt_data <- getAnalyteInfo(adat)
-  dil_groups <- split(apt_data$AptName, apt_data$Dilution)
-  names(dil_groups) <- gsub("\\.", "_", names(dil_groups))
-  names(dil_groups) <- gsub("[.]0$|%|^[.]", "", names(dil_groups))
 
   # Only reverse for study samples, leave QC/Calibrator/Buffer alone
   if (is.null(adat$SampleType)) {
@@ -274,9 +252,13 @@ reverseMedianNormalize <- function(adat, verbose = TRUE) {
     return(adat)
   }
 
+  # Get analyte groups and confirm their scale factor columns exist
+  dil_groups <- .getNormGroups(adat)
+  .checkScaleCols(dil_groups, adat)
+
   # For each dilution group, reverse ANML normalization using log space
   for (dil_name in names(dil_groups)) {
-    sf_col <- paste0("NormScale_", dil_name)
+    sf_col <- .getScaleCol(dil_groups, dil_name)
 
     if (sf_col %in% names(adat)) {
       dil_apts <- intersect(dil_groups[[dil_name]], getAnalytes(adat))
@@ -336,4 +318,36 @@ reverseMedianNormalize <- function(adat, verbose = TRUE) {
   }
 
   adat
+}
+
+
+#' Confirm Scale Factor Columns Exist for All Analyte Groups
+#' @noRd
+.checkScaleCols <- function(dil_groups, adat) {
+  sf_cols <- attr(dil_groups, "sf_cols")
+  found   <- sf_cols %in% names(adat)
+
+  if (!any(found)) {
+    stop(
+      "No normalization scale factor columns found to reverse. ",
+      "Expected columns such as: ",
+      paste(utils::head(sf_cols, 3L), collapse = ", "), ". ",
+      "Found: ", paste(grep("^NormScale", names(adat), value = TRUE), collapse = ", "),
+      call. = FALSE
+    )
+  }
+
+  # reversing only some groups would leave the rest normalized while the
+  # header would claim the reversal was done
+  if (!all(found)) {
+    stop(
+      "Normalization scale factor column(s) not found for group(s): ",
+      paste(names(sf_cols)[!found], collapse = ", "), ". ",
+      "Cannot reverse normalization for all analytes. Expected columns: ",
+      paste(sf_cols[!found], collapse = ", "), ".",
+      call. = FALSE
+    )
+  }
+
+  invisible(dil_groups)
 }

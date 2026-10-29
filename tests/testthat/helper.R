@@ -207,3 +207,60 @@ close_figure <- function(file) {
   }
   invisible(file)
 }
+
+# mock up a `soma_adat` that mimics matrices whose scale factors are not the
+# plasma-style 20/0.5/0.005 dilutions, e.g. urine and CSF (single dilution
+# with `NormGroup`s) or dilutions written with a decimal point in the column
+# names (e.g. "NormScale_0.3").
+# Built on-the-fly from `example_data`; scale factors are written to
+# `NormScale_<dilution>[_<NormGroup>]` columns (and `ANMLFractionUsed_*` if
+# `anml = TRUE`, with `anmlSMP` rather than `MedNormSMP` in `ProcessSteps`)
+mock_matrix_adat <- function(dilutions = "75",
+                             norm_groups = NULL,
+                             normalized = FALSE,
+                             anml = FALSE,
+                             n_apts = 60) {
+  data("example_data", package = "SomaDataIO", envir = environment())
+  info <- getAnalyteInfo(example_data)
+  is_hyb <- grepl("^Hybridization", info$Type)
+  samples <- which(example_data$SampleType == "Sample")[1:6]
+  qc      <- which(example_data$SampleType == "QC")[1:2]
+  apts    <- c(info$AptName[is_hyb], info$AptName[!is_hyb][seq_len(n_apts)])
+  keep    <- setdiff(names(example_data), setdiff(getAnalytes(example_data), apts))
+  keep    <- grep("^(NormScale|ANMLFractionUsed)_", keep, value = TRUE, invert = TRUE)
+  x       <- example_data[c(samples, qc), keep]
+
+  # single or multiple dilutions, optionally split into NormGroups
+  cm      <- attr(x, "Col.Meta")
+  hyb     <- grepl("^Hybridization", cm$Type)
+  n       <- sum(!hyb)
+  cm$Dilution[!hyb] <- rep_len(dilutions, n)
+  groups  <- cm$Dilution[!hyb]
+  if ( !is.null(norm_groups) ) {
+    cm$NormGroup       <- "S0"
+    cm$NormGroup[!hyb] <- rep_len(norm_groups, n)
+    groups <- paste(groups, cm$NormGroup[!hyb], sep = "_")
+  }
+  attr(x, "Col.Meta") <- cm
+
+  # scale factor columns, 1.0 until normalized
+  for ( g in unique(groups) ) {
+    sf <- rep(1, nrow(x))
+    if ( normalized ) {
+      sf <- withr::with_seed(match(g, unique(groups)), round(runif(nrow(x), 0.8, 1.2), 4))
+    }
+    x[[paste0("NormScale_", g)]] <- sf
+    if ( anml ) {
+      x[[paste0("ANMLFractionUsed_", g)]] <- rep(0.5, nrow(x))
+    }
+  }
+
+  steps <- "Raw RFU, Hyb Normalization, medNormInt (SampleId), plateScale, Calibration"
+  if ( normalized ) {
+    steps <- paste0(steps, if ( anml ) ", anmlSMP" else ", MedNormSMP")
+  }
+  hm <- attr(x, "Header.Meta")
+  hm$HEADER$ProcessSteps <- steps
+  attr(x, "Header.Meta") <- hm
+  x
+}
